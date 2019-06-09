@@ -13,7 +13,7 @@ import {
 import Card from "./Card";
 import Server from "../../ServerClient/ServerClient";
 import Signal from "../../Misc/Signal";
-import { ServerCardEffect } from "./ServerCardEffect";
+import { ServerEffect } from "./ServerCardEffect";
 import { resolve } from "url";
 import EffectTextPos from "../EffectTextPos";
 
@@ -46,6 +46,9 @@ export default class CardEffect extends cc.Component {
   @property
   cardPlayerId: number = 0;
 
+  @property
+  serverEffectStack: ServerEffect[] = [];
+
   testConditions(): boolean {
     let conditionsNotPassed = 0;
     for (let i = 0; i < this.conditions.length; i++) {
@@ -65,15 +68,23 @@ export default class CardEffect extends cc.Component {
    *
    * @param data {effect}
    */
-  doEffectByNum(numOfEffect) {
-    //cc.log('%cdoEffectByNum():', 'color:#4A3;');
+  @printMethodStarted(COLORS.RED)
+  async doEffectByNum(numOfEffect): Promise<ServerEffect[]> {
+    let serverEffectStack;
     for (let i = 0; i < this.effects.length; i++) {
       const effect = this.effects[i].getComponent(Effect);
-      if ((i = numOfEffect - 1)) {
-        effect.doEffect(this.effectData);
+      if (i == numOfEffect) {
+        serverEffectStack = await effect.doEffect(
+          this.serverEffectStack,
+          this.effectData
+        );
         break;
       }
     }
+
+    return new Promise<ServerEffect[]>((resolve, reject) => {
+      resolve(serverEffectStack);
+    });
   }
 
   sendServerCardEffect(oldData) {
@@ -84,25 +95,19 @@ export default class CardEffect extends cc.Component {
     Server.$.send(Signal.SERVERCARDEFFECT, data);
   }
 
-  @printMethodStarted(COLORS.GREEN)
-  @printMethodEnded(COLORS.GREEN)
   async collectEffectData(
     effect: Effect,
     oldData: { cardPlayerId: number; cardId: number }
   ) {
-    //cc.log('%cgetDataByEffect():', 'color:#4A3;');
     let data;
-    cc.log(effect.dataCollector.collectorName);
     data = await effect.dataCollector.collectData(oldData);
     return data;
   }
 
   getEffectByNum(numOfEffect) {
-    //cc.log('%cgetEffectByNum():', 'color:#4A3;');
     for (let i = 0; i < this.effects.length; i++) {
       const effect = this.effects[i];
       if (i == numOfEffect - 1) {
-        cc.log("return: " + effect.name);
         return effect.getComponent(Effect);
       }
     }
@@ -120,7 +125,6 @@ export default class CardEffect extends cc.Component {
   }
 
   async collectEffectFromNum(cardPlayed: cc.Node) {
-    //cc.log('%ccollectEffectFromNum():', 'color:#4A3;');
     const multiEffectCollector: MultiEffect = this.multiEffectCollector.getComponent(
       DataCollector
     );
@@ -128,12 +132,10 @@ export default class CardEffect extends cc.Component {
     return chosenEffect;
   }
 
-  @printMethodStarted(COLORS.GREEN)
   async getServerCardEffect(cardPlayedData: {
     cardPlayerId: number;
     cardId: number;
-  }): Promise<ServerCardEffect> {
-    //cc.log('%cstartCardEffect():', 'color:#4A3;');
+  }): Promise<ServerEffect> {
     let cardPlayed = CardManager.getCardById(cardPlayedData.cardId);
     let cardEffect: Effect;
     if (this.hasMultipleEffects) {
@@ -146,7 +148,7 @@ export default class CardEffect extends cc.Component {
     let effectIndex = this.getEffectIndex(cardEffect);
     return new Promise((resolve, reject) => {
       resolve(
-        new ServerCardEffect(
+        new ServerEffect(
           cardEffect.effectName,
           this.effectData,
           effectIndex,
@@ -157,13 +159,29 @@ export default class CardEffect extends cc.Component {
     });
   }
 
-  @printMethodStarted(COLORS.GREEN)
-  doEffectFromServerCardEffect(serverCardEffect: ServerCardEffect) {
-    //cc.log('%cdoEffectFromServerCardEffect():', 'color:#4A3;');
-    this.effectData = serverCardEffect.cardEffectData;
-    this.cardPlayerId = serverCardEffect.cardPlayerId;
-    cc.log(this.effectData);
-    this.doEffectByNum(serverCardEffect.cardEffectNum);
+  async doEffectFromServerEffect(
+    currentServerEffect: ServerEffect,
+    allServerEffects: ServerEffect[]
+  ): Promise<ServerEffect[]> {
+    cc.log(
+      "doing effect: " +
+        currentServerEffect.effectName +
+        " of card: " +
+        this.node.name
+    );
+
+    this.effectData = currentServerEffect.cardEffectData;
+
+    this.cardPlayerId = currentServerEffect.cardPlayerId;
+
+    this.serverEffectStack = allServerEffects;
+
+    let serverEffectStack = await this.doEffectByNum(
+      currentServerEffect.cardEffectNum
+    );
+    return new Promise<ServerEffect[]>((resolve, reject) => {
+      resolve(serverEffectStack);
+    });
   }
 
   // LIFE-CYCLE CALLBACKS:

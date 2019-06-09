@@ -89,8 +89,8 @@ export default class CardPreview extends cc.Component {
 
     let heightScale = effect.height / parentHeight;
     let widthScale = this.node.width / originalParent.width;
-    this.node.addChild(cc.instantiate(effect), 1, "effect");
-    let newEffect = this.node.getChildByName("effect");
+    this.node.addChild(cc.instantiate(effect), 1, effect.name);
+    let newEffect = this.node.getChildByName(effect.name);
     this.effectChildern.push(newEffect);
 
     newEffect.width = this.node.width;
@@ -114,10 +114,11 @@ export default class CardPreview extends cc.Component {
     //let effects be chosen on click
     for (let i = 0; i < cardEffects.length; i++) {
       const effect = cardEffects[i];
-      cc.log(effect.name);
+
       this.addEffectToPreview(effect);
     }
     let chosenEffect = await this.testForEffectChosen();
+    cc.log(chosenEffect);
     //disable effects be chosen on click
     for (let i = 0; i < cardEffects.length; i++) {
       const effect = cardEffects[i];
@@ -131,7 +132,6 @@ export default class CardPreview extends cc.Component {
 
   testForEffectChosen(): Promise<cc.Node> {
     return new Promise((resolve, reject) => {
-      cc.log("please choose a number");
       let check = () => {
         if (CardPreview.wasEffectChosen) {
           CardPreview.wasEffectChosen = false;
@@ -145,7 +145,6 @@ export default class CardPreview extends cc.Component {
   }
 
   chooseEffect() {
-    cc.log(this);
     CardPreview.effectChosen = this;
     CardPreview.wasEffectChosen = true;
   }

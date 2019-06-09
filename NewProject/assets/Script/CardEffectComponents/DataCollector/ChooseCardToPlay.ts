@@ -1,4 +1,4 @@
-import { PlayCardAction } from "./../../Entites/Action";
+import { MoveLootToPile } from "./../../Entites/Action";
 import {
   CHOOSE_TYPE,
   printMethodStarted,
@@ -11,17 +11,21 @@ import PlayerManager from "../../Managers/PlayerManager";
 import Player from "../../Entites/Player";
 
 import Card from "../../Entites/Card";
-import { ServerCardEffect } from "../../Entites/ServerCardEffect";
+import { ServerEffect } from "../../Entites/ServerCardEffect";
 import CardManager from "../../Managers/CardManager";
 import DataCollector from "./DataCollector";
 import Effect from "../CardEffects/Effect";
 import PlayLootCard from "../CardEffects/PlayLootCard";
+import ChooseCard from "./ChooseCard";
+import { override } from "kaop";
+import Signal from "../../../Misc/Signal";
+import ActionManager from "../../Managers/ActionManager";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class ChooseCardToPlay extends DataCollector {
-  collectorName = "ChooseCardToPlay";
+export default class SelectLootToPlay extends DataCollector {
+  collectorName = "SelectLootToPlay";
   isCardChosen: boolean = false;
   cardChosen: cc.Node;
   playerId: number;
@@ -31,21 +35,38 @@ export default class ChooseCardToPlay extends DataCollector {
    * @param data cardPlayerId:Player who played the card
    * @returns {target:cc.node of the player who played the card}
    */
-  @printMethodStarted(COLORS.LIGHTRED)
-  async collectData(data): Promise<{ cardPlayedId: number; playerId: number }> {
+
+  async collectData(data): Promise<Object> {
     let player = PlayerManager.getPlayerById(data.cardPlayerId).getComponent(
       Player
     );
     this.playerId = data.cardPlayerId;
     //what cards to choose from
+
     let chooseType = this.node.parent.getComponent(Effect).chooseType;
     let cardsToChooseFrom = this.getCardsToChoose(chooseType, player);
-    cc.log(cardsToChooseFrom);
     let cardPlayedData = await this.requireChoosingACard(cardsToChooseFrom);
-    return cardPlayedData;
+    let cardPlayed = CardManager.getCardById(cardPlayedData.cardPlayedId);
+    let cardPlayedServerEffect = await CardManager.getCardEffect(
+      cardPlayed,
+      this.playerId
+    );
+    let collectedData = {
+      serverEffect: cardPlayedServerEffect,
+      playerId: this.playerId
+    };
+    let playLootAction = new MoveLootToPile(
+      { lootCard: cardPlayed },
+      this.playerId
+    );
+    let serverData = {
+      signal: Signal.PLAYLOOTCARD,
+      srvData: { playerId: this.playerId, cardId: cardPlayedData.cardPlayedId }
+    };
+    ActionManager.showSingleAction(playLootAction, serverData);
+    return collectedData;
   }
 
-  @printMethodStarted(COLORS.LIGHTRED)
   getCardsToChoose(chooseType: CHOOSE_TYPE, player: Player) {
     switch (chooseType) {
       case CHOOSE_TYPE.PLAYER:
@@ -72,10 +93,9 @@ export default class ChooseCardToPlay extends DataCollector {
       CardManager.disableCardActions(card);
       CardManager.makeRequiredForDataCollector(this, card);
     }
-    cc.log("select a card!");
+    cc.log("select loot card!");
     let cardPlayed = await this.waitForCardPlay();
-    cc.log("card played " + cardPlayed.name);
-    //   let cardServerEffect = await CardManager.getCardEffect(cardPlayed,this.playerId)
+
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];
       CardManager.unRequiredForDataGather(card);

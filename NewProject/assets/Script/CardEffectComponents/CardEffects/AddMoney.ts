@@ -1,40 +1,38 @@
-import { COLORS } from './../../Constants';
+import { ServerEffect } from "./../../Entites/ServerCardEffect";
+import { COLORS } from "./../../Constants";
 
 import Player from "../../Entites/Player";
 
 import PlayerManager from "../../Managers/PlayerManager";
 import { printMethodStarted } from "../../Constants";
-import Card from '../../Entites/Card';
-import EffectInterface from './EffectInterface';
-import Effect from './Effect';
-import DataCollector from '../DataCollector/DataCollector';
+import Card from "../../Entites/Card";
+import EffectInterface from "./EffectInterface";
+import Effect from "./Effect";
+import DataCollector from "../DataCollector/DataCollector";
 
-
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class AddMoney extends Effect {
+  effectName = "addMoney";
 
+  @property(DataCollector)
+  dataCollector = null;
 
-   effectName="addMoney"
+  @property(Number)
+  numOfCoins: number = 0;
 
-   @property(DataCollector)
-   dataCollector = null;
+  /**
+   *
+   * @param data {target:PlayerId}
+   */
+  doEffect(serverEffectStack: ServerEffect[], data?: { target: number }) {
+    let targetPlayer = PlayerManager.getPlayerById(data.target);
+    let player: Player = targetPlayer.getComponent(Player);
+    player.changeMoney(this.numOfCoins);
 
-   @property(Number)
-   numOfCoins:number = 0;
-
-   /**
-    * 
-    * @param data {target:PlayerId}
-    */
-   @printMethodStarted(COLORS.BLUE)
-   doEffect(data?:{target:number}) {
-
-     let targetPlayer = PlayerManager.getPlayerById(data.target)
-     let player:Player = targetPlayer.getComponent(Player)
-     player.changeMoney(this.numOfCoins)
-
-      return new Promise((resolve,reject)=>{resolve(data)})
-   }
+    return new Promise<ServerEffect[]>((resolve, reject) => {
+      resolve(serverEffectStack);
+    });
+  }
 }

@@ -1,4 +1,4 @@
-import { PlayCardAction } from "./../Entites/Action";
+import { MoveLootToPile } from "./../Entites/Action";
 import { printMethodStarted, ITEM_TYPE } from "./../Constants";
 import { CARD_HEIGHT, CARD_WIDTH, TIMETODRAW } from "../Constants";
 import Player from "../Entites/Player";

@@ -57,8 +57,9 @@ export enum ITEM_TYPE {
 }
 
 export enum CHOOSE_TYPE {
-  PLAYER,
-  PLAYERHAND
+  PLAYER = "player",
+  PLAYERHAND = "playerHand",
+  DECKS = "decks"
 }
 
 export enum COLORS {
@@ -77,19 +78,23 @@ export const TIMETOPLAYLOOT = 0.7;
 export const TIMETOSHOWPREVIEW = 0.5;
 export const TIMETOHIDEPREVIEW = 0.5;
 export const TIMETOROTATEACTIVATION = 0.5;
+export const TIMETOREACTONACTION = 1.5;
 
 export const printMethodStarted = (color: COLORS) =>
   beforeMethod(meta => {
     let className;
     let classDesc = meta.target.toString().split(" ");
+    let argsString = "";
+
     if (meta.target instanceof cc.Component) {
       className = "Component";
     } else {
       className = classDesc[1];
     }
     cc.log(
-      "%c" + className + ":\n" + meta.key + " started:",
-      "color:rgb(" + color.toString() + ")"
+      "%c" + className + ": " + meta.key + " started: " + argsString,
+      "color:rgb(" + color.toString() + ")",
+      meta.args
     );
   });
 
@@ -98,7 +103,7 @@ export const printMethodEnded = (color: COLORS) =>
     let classDesc = meta.target.toString().split(" ");
     let className = classDesc[1];
     cc.log(
-      "%c" + className + ":\n" + meta.key + " ended:",
+      "%c" + className + ": " + meta.key + " ended:",
       "color:rgb(" + color.toString() + ")"
     );
   });

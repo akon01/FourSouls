@@ -5,7 +5,8 @@ import {
   CARD_TYPE,
   ITEM_TYPE,
   printMethodStarted,
-  COLORS
+  COLORS,
+  TIMETOREACTONACTION
 } from "../Constants";
 import Card from "./Card";
 import Item from "./CardTypes/Item";
@@ -17,11 +18,11 @@ import CardManager from "../Managers/CardManager";
 import Server from "../../ServerClient/ServerClient";
 import Signal from "../../Misc/Signal";
 import ActionManager from "../Managers/ActionManager";
-import { ServerCardEffect } from "./ServerCardEffect";
+import { ServerEffect } from "./ServerCardEffect";
 import {
   DrawCardAction,
   BuyItemAction,
-  PlayCardAction,
+  MoveLootToPile,
   ActivateItemAction
 } from "./Action";
 import PileManager from "../Managers/PileManager";
@@ -100,11 +101,10 @@ export default class Player extends cc.Component {
   @property
   timeToRespondTimeOut = null;
 
-  drawCard(deck: cc.Node) {
-    //cc.log('%cdrawCard():', 'color:#4A3;');
+  @printMethodStarted(COLORS.GREEN)
+  drawCard(deck: cc.Node, isFromServer: boolean) {
     let drawnCard = deck.getComponent(Deck).drawCard();
 
-    // drawnCard.runAction(cc.moveTo(2,0,0))
     let drawAction = new DrawCardAction({ drawnCard }, this.playerId);
     let serverData;
 
@@ -113,11 +113,25 @@ export default class Player extends cc.Component {
       srvData: { player: this.playerId, deck: CARD_TYPE.LOOT }
     };
 
-    ActionManager.doSingleAction(drawAction, serverData);
+    ActionManager.showSingleAction(drawAction, serverData, !isFromServer);
+  }
+
+  discardLoot(lootCard: cc.Node) {
+    let playerId = this.playerId;
+    let discardAction = new MoveLootToPile(
+      { lootCard: lootCard },
+      this.playerId
+    );
+    let cardId = lootCard.getComponent(Card).cardId;
+    let serverData = {
+      signal: Signal.DISCRADLOOT,
+      srvData: { playerId: playerId, cardId: cardId }
+    };
+    ActionManager.showSingleAction(discardAction, serverData);
   }
 
   buyItem(itemToBuy: cc.Node) {
-    let itemCardComp: Card = itemToBuy.getComponent("Card");
+    let itemCardComp: Card = itemToBuy.getComponent(Card);
     let playerDeskComp = this.desk;
     let playerId = this.playerId;
     let cardId = itemCardComp.cardId;
@@ -139,7 +153,7 @@ export default class Player extends cc.Component {
       signal: Signal.PLAYLOOTCARD,
       srvData: { playerId: playerId, cardId: cardId }
     };
-    let action = new PlayCardAction({ movedCard: lootCard }, playerId);
+    let action = new MoveLootToPile({ lootCard: lootCard }, playerId);
     if (isFromServer) {
       ActionManager.doSingleAction(action, serverData);
     } else {
@@ -167,7 +181,6 @@ export default class Player extends cc.Component {
     this.cardActivated = true;
   }
 
-  @printMethodStarted(COLORS.GREEN)
   changeMoney(numOfCoins: number) {
     this.coins += numOfCoins;
   }
@@ -190,13 +203,12 @@ export default class Player extends cc.Component {
     if (!this.character.getComponent(Character).activated) {
       this.reactCardNode.push(this.character);
     }
-    if (!this.characterItem.getComponent(Item).activated) {
-      this.reactCardNode.push(this.characterItem);
-    }
+    // if (!this.characterItem.getComponent(Item).activated) {
+    //   this.reactCardNode.push(this.characterItem);
+    // }
   }
 
   showAvailableReactions() {
-    //cc.log('%cshowAvailableReactions():', 'color:#4A3;');
     for (let i = 0; i < this.reactCardNode.length; i++) {
       const card = this.reactCardNode[i];
       let s = cc.sequence(
@@ -225,7 +237,7 @@ export default class Player extends cc.Component {
       originalPlayer: number;
       lastPlayerTakenAction: number;
       booleans: boolean[];
-      serverCardEffects: ServerCardEffect[];
+      serverCardEffects: ServerEffect[];
     },
     reactionNodes,
     playerId
@@ -270,9 +282,8 @@ export default class Player extends cc.Component {
     originalPlayer: number;
     lastPlayerTakenAction: number;
     booleans: boolean[];
-    serverCardEffects: ServerCardEffect[];
+    serverCardEffects: ServerEffect[];
   }) {
-    //cc.log('%cgetReaction():', 'color:#4A3;');
     this.calculateReactions();
     //if no actions are available, add toggle of actions
     if (this.reactCardNode.length == 0) {
@@ -284,16 +295,16 @@ export default class Player extends cc.Component {
     } else {
       this.timeToRespondTimeOut = setTimeout(
         this.blockAvailableReactionsTimeout,
-        3 * 1000,
+        TIMETOREACTONACTION * 1000,
         data,
         this.reactCardNode,
         this.playerId
       );
       this.showAvailableReactions();
-      cc.log(this.reactCardNode);
+
       for (let i = 0; i < this.reactCardNode.length; i++) {
         const card = this.reactCardNode[i];
-        cc.log(card.name);
+
         //card.getComponent(Card).disableMoveComps()
 
         CardManager.disableCardActions(card);
@@ -346,7 +357,7 @@ export default class Player extends cc.Component {
   }
 
   //currently return boolean , later change to return a promise with the card effect.
-  async chooseCardToActivate(card: cc.Node): Promise<ServerCardEffect> {
+  async chooseCardToActivate(card: cc.Node): Promise<ServerEffect> {
     let serverCardEffect = await CardManager.activateCard(card, this.playerId);
 
     cc.log("activated " + card.name);

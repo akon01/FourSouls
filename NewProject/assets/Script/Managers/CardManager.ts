@@ -1,4 +1,4 @@
-import ChooseCardToPlay from "../CardEffectComponents/DataCollector/ChooseCardToPlay";
+import SelectLootToPlay from "../CardEffectComponents/DataCollector/ChooseCardToPlay";
 import { CARD_TYPE, BLINKINGSPEED } from "../Constants";
 import Card from "../Entites/Card";
 import CardEffect from "../Entites/CardEffect";
@@ -9,9 +9,12 @@ import CharacterItem from "../Entites/CardTypes/CharacterItem";
 import Item from "../Entites/CardTypes/Item";
 import Deck from "../Entites/Deck";
 import Player from "../Entites/Player";
-import { ServerCardEffect } from "../Entites/ServerCardEffect";
+import { ServerEffect } from "../Entites/ServerCardEffect";
 import MonsterAttackable from "../Modules/MonsterAttackable";
 import { COLORS, printMethodEnded, printMethodStarted } from "./../Constants";
+import { Server } from "tls";
+import ChooseCard from "../CardEffectComponents/DataCollector/ChooseCard";
+import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
 
 const { ccclass, property } = cc._decorator;
 
@@ -159,7 +162,6 @@ export default class CardManager extends cc.Component {
   }
 
   static async waitForPrefabLoad(): Promise<boolean> {
-    //cc.log('%cwaitForPrefabLoad():', 'color:#4A3;');
     return new Promise((resolve, reject) => {
       let timesChecked = 0;
       let check = () => {
@@ -176,13 +178,17 @@ export default class CardManager extends cc.Component {
     });
   }
 
-  @printMethodStarted(COLORS.RED)
-  static doCardEffectFromServer(serverCardEffect: ServerCardEffect) {
-    cc.log(serverCardEffect);
-    let card = this.getCardById(serverCardEffect.cardId);
-    card
+  static async doCardEffectFromServer(
+    serverEffect: ServerEffect,
+    allServerEffects: ServerEffect[]
+  ): Promise<ServerEffect[]> {
+    let card = this.getCardById(serverEffect.cardId);
+    let serverEffectStack = await card
       .getComponent(CardEffect)
-      .doEffectFromServerCardEffect(serverCardEffect);
+      .doEffectFromServerEffect(serverEffect, allServerEffects);
+    return new Promise<ServerEffect[]>((resolve, reject) => {
+      resolve(serverEffectStack);
+    });
   }
 
   static getDeckByType(deckType) {
@@ -198,7 +204,7 @@ export default class CardManager extends cc.Component {
     }
   }
   /**
-   *
+   * Serch in allCards and Decks for a matching card/Deck
    * @param cardId a card id to get from all cards
    */
   static getCardById(cardId: number) {
@@ -208,10 +214,16 @@ export default class CardManager extends cc.Component {
         return card.node;
       }
     }
+    const decks = CardManager.getAllDecks();
+    for (let i = 0; i < decks.length; i++) {
+      const deck = decks[i].getComponent(Deck);
+      if (deck.cardId == cardId) {
+        return deck.node;
+      }
+    }
   }
 
   static makeDeckCards(deck: Deck) {
-    //cc.log('%cmakeDeckCards():', 'color:#4A3;');
     let cardsToBeMade: cc.Prefab[] = deck.cardsPrefab;
     for (let i = 0; i < cardsToBeMade.length; i++) {
       const newCard: cc.Node = cc.instantiate(cardsToBeMade[i]);
@@ -230,6 +242,7 @@ export default class CardManager extends cc.Component {
           break;
       }
       let CardComp: Card = newCard.getComponent("Card");
+      deck.cardId = ++CardManager.cardsId;
       CardComp.cardId = ++CardManager.cardsId;
       CardComp.frontSprite = newCard.getComponent(cc.Sprite).spriteFrame;
       deck.addToDeckOnTop(newCard);
@@ -237,7 +250,6 @@ export default class CardManager extends cc.Component {
   }
 
   static makeCharDeck() {
-    ////cc.log('make char deck')
     let characterNode: cc.Node;
     let characterItemNode: cc.Node;
 
@@ -327,7 +339,6 @@ export default class CardManager extends cc.Component {
     card.on(
       cc.Node.EventType.TOUCH_START,
       () => {
-        cc.log("card for preview " + card.name);
         cardPreview.showCardPreview(card, false);
       },
       this
@@ -339,7 +350,7 @@ export default class CardManager extends cc.Component {
   }
 
   static makeRequiredForDataCollector(
-    dataCollector: ChooseCardToPlay,
+    dataCollector: DataCollector,
     card: cc.Node
   ) {
     card.runAction(
@@ -363,8 +374,7 @@ export default class CardManager extends cc.Component {
   static async getCardEffect(
     card: cc.Node,
     playerId: number
-  ): Promise<ServerCardEffect> {
-    //cc.log('%cgetCardEffect():', 'color:#4A3;');
+  ): Promise<ServerEffect> {
     let serverCardEffect = await this.activateCard(card, playerId);
     //currently send card after card effect send only serverCardEffect object
     cc.log("activated " + card.name);
@@ -376,7 +386,7 @@ export default class CardManager extends cc.Component {
   static async activateCard(
     card: cc.Node,
     cardPlayerId: number
-  ): Promise<ServerCardEffect> {
+  ): Promise<ServerEffect> {
     let cardPlayedData = {
       cardPlayerId: cardPlayerId,
       cardId: card.getComponent(Card).cardId

@@ -1,4 +1,5 @@
-import { ServerCardEffect } from "./../Entites/ServerCardEffect";
+import { DrawCardAction } from "./../Entites/Action";
+import { ServerEffect } from "./../Entites/ServerCardEffect";
 import Signal from "../../Misc/Signal";
 import Server from "../../ServerClient/ServerClient";
 import { CARD_TYPE, ROLL_TYPE, TIMETOBUY } from "../Constants";
@@ -35,27 +36,16 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class ActionManager extends cc.Component {
   static currentPlayer: cc.Node = null;
-
   static allPlayers: cc.Node[] = [];
-
   static currentTurn: Turn = null;
-
   static turnsManager: cc.Node = null;
-
   static playersManager: cc.Node = null;
-
   static cardManager: cc.Node = null;
-
   static decks: cc.Node[] = [];
-
   static ButtonManager: cc.Node = null;
-
   static pileManager: cc.Node = null;
-
   static actionStack: Action[] = [];
-
-  static serverCardEffectStack: ServerCardEffect[] = [];
-
+  static serverCardEffectStack: ServerEffect[] = [];
   static noMoreActionsBool: boolean = false;
 
   static otherPlayerDrawCard(playerId: number, deckType: CARD_TYPE) {
@@ -64,16 +54,22 @@ export default class ActionManager extends cc.Component {
     let drawnCard: cc.Node = deckComp.drawCard();
     let player = PlayerManager.getPlayerById(playerId).getComponent(Player);
     drawnCard.getComponent(Card).flipCard();
-    drawnCard.setPosition(CardManager.lootDeck.getPosition());
-    let handPos = player.hand.node.getPosition();
-    drawnCard.parent = cc.find("Canvas");
-    drawnCard.runAction(cc.moveTo(TIMETODRAW, handPos));
-    setTimeout(() => {
-      addCardToCardLayout(drawnCard, player.hand, true);
-      TurnsManager.currentTurn.drawPlays -= 1;
-      ActionManager.updateActions();
-      CardManager.allCards.push(drawnCard);
-    }, (TIMETODRAW + 0.1) * 1000);
+    let drawAction = new DrawCardAction({ drawnCard }, playerId);
+    let serverData = {
+      signal: Signal.CARDDRAWED,
+      srvData: { player: playerId, deck: CARD_TYPE.LOOT }
+    };
+    ActionManager.showSingleAction(drawAction, serverData);
+    // drawnCard.setPosition(CardManager.lootDeck.getPosition());
+    // let handPos = player.hand.node.getPosition();
+    // drawnCard.parent = cc.find("Canvas");
+    // drawnCard.runAction(cc.moveTo(TIMETODRAW, handPos));
+    // setTimeout(() => {
+    //   addCardToCardLayout(drawnCard, player.hand, true);
+    //   //TurnsManager.currentTurn.drawPlays -= 1;
+    //   ActionManager.updateActions();
+    //   CardManager.allCards.push(drawnCard);
+    // }, (TIMETODRAW + 0.1) * 1000);
   }
 
   static otherPlayerPlayedLoot(playedId: number, cardId: number) {
@@ -105,6 +101,10 @@ export default class ActionManager extends cc.Component {
       playerNode.getComponent(Player).addItem(card.getComponent(Item), card);
       playerdesk.addToDesk(cardComp);
     }, (TIMETOBUY + 0.1) * 1000);
+  }
+
+  static lootPlayedInAction(playerId: any, cardId: any) {
+    let card: Card = CardManager.getCardById(cardId).getComponent(Card);
   }
 
   static updateActionsForTurnPlayer(player: cc.Node) {
@@ -191,12 +191,10 @@ export default class ActionManager extends cc.Component {
           CardManager.makeCardPreviewable(card);
         }
       }
-
       //if Items are charged make them playable
       let playerItems = player.getComponent(Player).activeItems;
       for (let i = 0; i < playerItems.length; i++) {
         const item = playerItems[i].getComponent(Item);
-        cc.log(item.name);
         if (item.activated == false) {
           CardManager.makeItemActivateable(item.node);
         } else {
@@ -220,19 +218,11 @@ export default class ActionManager extends cc.Component {
   }
 
   static updateActionsForNotTurnPlayer(player: cc.Node) {
-    var cardManagerComp: CardManager = ActionManager.cardManager.getComponent(
-      "CardManager"
-    );
-    let buttonManagerComp: ButtonManager = this.ButtonManager.getComponent(
-      "ButtonManager"
-    );
     this.decks = CardManager.getAllDecks();
     let lootDeck = CardManager.lootDeck.getComponent(Deck);
     lootDeck.interactive = false;
-
     //update player reactions:
     player.getComponent(Player).calculateReactions();
-
     //disable drawing loot
     CardManager.makeDeckNotDrawable(CardManager.lootDeck);
 
@@ -242,7 +232,6 @@ export default class ActionManager extends cc.Component {
       CardManager.disableCardActions(storeCard);
       CardManager.makeCardPreviewable(storeCard);
     }
-
     //make all table cards not moveable but available for preview
     if (CardManager.onTableCards.length != 0) {
       for (let i = 0; i < CardManager.onTableCards.length; i++) {
@@ -252,9 +241,7 @@ export default class ActionManager extends cc.Component {
         CardManager.makeCardPreviewable(card);
       }
     }
-
     //disable playing loot
-
     for (
       let i = 0;
       i < player.getComponent(Player).hand.layoutCards.length;
@@ -299,26 +286,17 @@ export default class ActionManager extends cc.Component {
       .find("Canvas")
       .getChildByName("current Turn")
       .getComponent(cc.Label);
-    let playerManagerComp: PlayerManager = ActionManager.playersManager.getComponent(
-      "PlayerManager"
-    );
-    let turnsManagerComp: TurnsManager = ActionManager.turnsManager.getComponent(
-      "TurnsManager"
-    );
-
     //setting current player of the turn.
     MainScript.currentPlayerNode = getCurrentPlayer(
       PlayerManager.players,
       TurnsManager.currentTurn
     );
     MainScript.currentPlayerComp = MainScript.currentPlayerNode.getComponent(
-      "Player"
+      Player
     );
-
     //setting turn lable to updated turn
     currentTurnLableComp.string =
       "current turn is:" + TurnsManager.getCurrentTurn().PlayerId;
-
     ActionManager.updateActions();
   }
 
@@ -328,17 +306,14 @@ export default class ActionManager extends cc.Component {
    * @param serverData {signal,srvData}
    */
   @printMethodStarted(COLORS.PURPLE)
-  @printMethodEnded(COLORS.PURPLE)
   static async doAction(action: Action, serverData: {}) {
     //show the action to current player
     action.showAction();
     //show the action to other players.
     action.serverBrodcast(serverData);
     //send to server to get reaction
-    cc.log(action);
     //if the action has a card effect that needs to be resolved
     if (action.hasCardEffect) {
-      cc.log("action has a card effect");
       let playerId = action.originPlayerId;
       let actionCardServerEffect = await CardManager.getCardEffect(
         action.playedCard.node,
@@ -349,13 +324,13 @@ export default class ActionManager extends cc.Component {
       ActionManager.sendFirstGetReactionToServer();
     }
     //wait for reaction to return a promise of a stack of actions.
-    let allServerCardEffects = await ActionManager.waitForAllEffects();
-    ActionManager.doServerCardEffects(allServerCardEffects);
+
+    let serverEffectStack: ServerEffect[] = await ActionManager.waitForAllEffects();
+    ActionManager.doServerCardEffects(serverEffectStack);
   }
 
   @printMethodStarted(COLORS.PURPLE)
   static async doSingleAction(action: Action, serverData: {}) {
-    //cc.log('%cdoSingleAction():', 'color:#4A3;');
     //show the action to current player
     action.showAction();
     //show the action to other players.
@@ -363,36 +338,59 @@ export default class ActionManager extends cc.Component {
     //if the action has a card effect that needs to be resolved
     if (action.hasCardEffect) {
       let playerId = action.originPlayerId;
-      let actionCardServerEffect: ServerCardEffect[] = [
+      let actionCardServerEffect: ServerEffect[] = [
         await CardManager.getCardEffect(action.playedCard.node, playerId)
       ];
       ActionManager.doServerCardEffects(actionCardServerEffect);
     }
   }
-
-  @printMethodStarted(COLORS.RED)
-  static doServerCardEffects(serverCardEffectStack: ServerCardEffect[]) {
-    cc.log(serverCardEffectStack);
-    for (let i = serverCardEffectStack.length; i > 0; i--) {
-      const serverCardEffect = serverCardEffectStack[i - 1];
-      cc.log(serverCardEffect);
-      serverCardEffect.currentServerCardEffectStack = serverCardEffectStack;
-      CardManager.doCardEffectFromServer(serverCardEffect);
+  /**
+   *
+   * @param action an action to show
+   * @param serverData data of which action to show in server.
+   * @param sendToServer true if original action.
+   */
+  @printMethodStarted(COLORS.PURPLE)
+  static async showSingleAction(
+    action: Action,
+    serverData: {},
+    sendToServer: boolean
+  ) {
+    //show the action to current player
+    action.showAction();
+    //show the action to other players.
+    if (sendToServer) {
+      action.serverBrodcast(serverData);
     }
+  }
+
+  static async doServerCardEffects(serverCardEffectStack: ServerEffect[]) {
+    if (
+      Array.isArray(serverCardEffectStack) &&
+      serverCardEffectStack.length > 0
+    ) {
+      let currentServerEffect: ServerEffect = serverCardEffectStack.pop();
+      let newServerEffectStack = await CardManager.doCardEffectFromServer(
+        currentServerEffect,
+        serverCardEffectStack
+      );
+
+      this.doServerCardEffects(newServerEffectStack);
+    } else {
+      cc.log("check after last effect");
+    }
+
     this.updateActions();
   }
 
   static sendGetReactionToNextPlayer(data) {
-    //cc.log('%csendGetReactionToNextPlayer():', 'color:#4A3;');
     Server.$.send(Signal.GETREACTION, data);
-    // }
   }
 
   static sendFirstGetReactionToServer(firstActionServerCardEffect?) {
-    //cc.log('%csendFirstGetReactionToServer():', 'color:#4A3;');
     let noMoreActionsBooleans: boolean[] = [];
-    let serverCardEffects: ServerCardEffect[] = [];
-    cc.log(firstActionServerCardEffect);
+    let serverCardEffects: ServerEffect[] = [];
+
     if (firstActionServerCardEffect) {
       serverCardEffects.push(firstActionServerCardEffect);
     }
@@ -408,13 +406,12 @@ export default class ActionManager extends cc.Component {
     Server.$.send(Signal.GETREACTION, firstReactionData);
   }
 
-  static async waitForAllEffects(): Promise<ServerCardEffect[]> {
+  static async waitForAllEffects(): Promise<ServerEffect[]> {
     //w8 for a server message with a while,after the message is recived (should be a stack of effects with booleans) resolve with stack of effects.
     return new Promise((resolve, reject) => {
       let check = () => {
         if (ActionManager.noMoreActionsBool == true) {
           ActionManager.noMoreActionsBool = false;
-          cc.log("wait for all reactions ended");
           resolve(ActionManager.serverCardEffectStack);
         } else {
           setTimeout(check, 50);
@@ -426,38 +423,44 @@ export default class ActionManager extends cc.Component {
 
   @printMethodSignal
   static getActionFromServer(signal, data) {
-    //cc.log('%cgetActionFromServer():', 'color:#4A3;', signal, data);
+    let player: Player;
+    let card;
+    let deck;
     switch (signal) {
-      case Signal.CARDDRAWED:
-        ActionManager.otherPlayerDrawCard(data.player, data.deck);
-        ActionManager.updateActions();
+      //Actions from a player,without reaction
+      case Signal.DISCRADLOOT:
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(
+          Player
+        );
+        card = CardManager.getCardById(data.cardId);
 
-        // PlayerManager.mePlayer.getComponent(Player).getReaction()
+        ActionManager.lootPlayedInAction(data.playerId, data.cardId);
+        ActionManager.updateActions();
+        break;
+      case Signal.CARDDRAWED:
+        player = PlayerManager.getPlayerById(data.player).getComponent(Player);
+        deck = CardManager.getDeckByType(data.deck);
+        player.drawCard(deck, true);
+        // ActionManager.otherPlayerDrawCard(data.player, data.deck);
+        ActionManager.updateActions();
+        break;
+      case Signal.PLAYLOOTCARD:
+        ActionManager.otherPlayerPlayedLoot(data.playerId, data.cardId);
+        ActionManager.updateActions();
+        break;
+      case Signal.ADDANITEM:
+        ActionManager.otherPlayerGotItem(data.playerId, data.cardId);
+        ActionManager.updateActions();
+        break;
+      case Signal.DECLAREATTACK:
+        ActionManager.updateActions();
         break;
       case Signal.NEXTTURN:
         if (MainScript.serverId != data.sentFromPlayerID) {
           TurnsManager.nextTurn(true);
         }
         break;
-      case Signal.PLAYLOOTCARD:
-        ActionManager.otherPlayerPlayedLoot(data.playerId, data.cardId);
-        ActionManager.updateActions();
-        //  PlayerManager.mePlayer.getComponent(Player).getReaction()
-        //    PlayerManager.mePlayer.getComponent(Player).showAvailableReactions()
-        break;
-      case Signal.ADDANITEM:
-        ActionManager.otherPlayerGotItem(data.playerId, data.cardId);
-        ActionManager.updateActions();
-        // PlayerManager.mePlayer.getComponent(Player).getReaction()
-        // PlayerManager.mePlayer.getComponent(Player).showAvailableReactions()
-        break;
-      case Signal.DECLAREATTACK:
-        //cc.log('other player declared attack on' + data.cardId)
-        // actionsManagerComp.otherPlayerGotItem(playerId, cardId)
-        ActionManager.updateActions();
-        //  PlayerManager.mePlayer.getComponent(Player).getReaction()
-        //  PlayerManager.mePlayer.getComponent(Player).showAvailableReactions()
-        break;
+      //Part of Reaction system. get reaction from a player
       case Signal.GETREACTION:
         if (ActionManager.checkForLastAction(data, false)) {
         } else {
@@ -482,7 +485,6 @@ export default class ActionManager extends cc.Component {
   }
 
   static resolveWaitingEffects(data) {
-    //cc.log('%cresolveAction():', 'color:#4A3;');
     ActionManager.serverCardEffectStack = data.serverCardEffects;
     ActionManager.noMoreActionsBool = true;
   }

@@ -1,3 +1,4 @@
+import { ServerEffect } from "./../../Entites/ServerCardEffect";
 import { CHOOSE_TYPE } from "./../../Constants";
 
 import Player from "../../Entites/Player";
@@ -24,13 +25,16 @@ export default class PlayLootCard extends Effect {
    *
    * @param data {lootPlayedId:number,playerId:number}
    */
-  @printMethodStarted(COLORS.BLUE)
-  async doEffect(data?: { cardPlayedId: number; playerId: number }) {
-    let cardPlayed = CardManager.getCardById(data.cardPlayedId);
-    let player = PlayerManager.getPlayerById(data.playerId);
-    player.getComponent(Player).playLootCard(cardPlayed, true);
-    return new Promise((resolve, reject) => {
-      resolve(data);
+  async doEffect(
+    serverEffectStack: ServerEffect[],
+    data?: { serverEffect: ServerEffect; playerId: number }
+  ) {
+    // let cardPlayed = CardManager.getCardById(data.cardPlayedId);
+    // let player = PlayerManager.getPlayerById(data.playerId);
+    // player.getComponent(Player).playLootCard(cardPlayed, true);
+    serverEffectStack.push(data.serverEffect);
+    return new Promise<ServerEffect[]>((resolve, reject) => {
+      resolve(serverEffectStack);
     });
   }
 }

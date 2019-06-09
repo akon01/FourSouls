@@ -71,23 +71,23 @@ export class DrawCardAction implements Action {
   }
 }
 
-export class PlayCardAction implements Action {
+export class MoveLootToPile implements Action {
   originPlayerId: number;
   actionTarget: cc.Node;
-  data: { movedCard: cc.Node };
+  data: { lootCard: cc.Node };
   playedCard: Card;
   actionType = ACTION_TYPE.ACTIVECARDEFFECT;
   hasCardEffect = true;
 
   showAction() {
-    let movedCardComp: Card = this.data.movedCard.getComponent(Card);
+    let movedCardComp: Card = this.data.lootCard.getComponent(Card);
     this.playedCard = movedCardComp;
     this.playedCard.node.runAction(
       cc.moveTo(TIMETOPLAYLOOT, PileManager.lootCardPileNode.position)
     );
     setTimeout(() => {
-      removeFromHand(this.data.movedCard, MainScript.currentPlayerComp.hand);
-      PileManager.addCardToPile(CARD_TYPE.LOOT, this.data.movedCard);
+      removeFromHand(this.data.lootCard, MainScript.currentPlayerComp.hand);
+      PileManager.addCardToPile(CARD_TYPE.LOOT, this.data.lootCard);
       TurnsManager.currentTurn.lootCardPlays -= 1;
       let playerId = MainScript.currentPlayerComp.playerId;
       let cardId = movedCardComp.cardId;
@@ -101,7 +101,7 @@ export class PlayCardAction implements Action {
     Server.$.send(signal, data);
   }
 
-  constructor(data, originPlayerId: number) {
+  constructor(data: { lootCard: cc.Node }, originPlayerId: number) {
     this.data = data;
     this.originPlayerId = originPlayerId;
   }

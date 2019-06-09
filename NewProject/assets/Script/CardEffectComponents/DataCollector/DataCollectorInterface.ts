@@ -1,10 +1,9 @@
 import { COLLECTORTYPE } from "../../Constants";
 
 export default interface DataCollectorInterface {
+  collectorName: string;
+  isCardChosen: boolean;
+  cardChosen: cc.Node;
 
-    collectorName:string;
-    
-
-   collectData(data?):Promise<{}>;
-
+  collectData(data?): Promise<{}>;
 }

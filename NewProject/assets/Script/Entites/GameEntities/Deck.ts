@@ -1,6 +1,5 @@
-import { cardPressed, dragDrawedCard } from "../Modules/CardModule";
-import { CARD_WIDTH, CARD_HEIGHT } from "../Constants";
-import { CARD_TYPE } from "../Constants";
+import { CARD_TYPE, CARD_WIDTH, CARD_HEIGHT } from "../../Constants";
+import CardManager from "../../Managers/CardManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,18 +31,27 @@ export default class Deck extends cc.Component {
   @property
   cardId: number = 0;
 
+  @property(cc.Node)
+  topCard: cc.Node = null;
+
   addToDeckOnTop(card: cc.Node) {
+    CardManager.monsterCardPool.put(card);
     this.cards.push(card);
+    CardManager.inDecksCards.push(card);
   }
 
   drawCard(): cc.Node {
     if (this.cards.length != 0) {
-      return this.cards.pop();
+      let newCard = this.cards.pop();
+
+      CardManager.removeFromInAllDecksCards(newCard);
+      return newCard;
     } else return null;
   }
 
   addToDeckOnBottom(card: cc.Node) {
     this.cards.unshift(card);
+    CardManager.inDecksCards.push(card);
   }
 
   shuffleDeck() {

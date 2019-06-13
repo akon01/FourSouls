@@ -1,8 +1,6 @@
 import { ServerEffect } from "./../../Entites/ServerCardEffect";
 import { CHOOSE_TYPE } from "./../../Constants";
 
-import Player from "../../Entites/Player";
-
 import CardManager from "../../Managers/CardManager";
 import PlayerManager from "../../Managers/PlayerManager";
 import { printMethodStarted, COLORS } from "../../Constants";

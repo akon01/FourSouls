@@ -1,9 +1,17 @@
-import { TIMETOHIDEPREVIEW } from "./../Constants";
-import CardEffect from "./CardEffect";
-import { printMethodStarted, COLORS, TIMETOSHOWPREVIEW } from "../Constants";
+import {
+  TIMETOSHOWPREVIEW,
+  printMethodSignal,
+  COLORS,
+  printMethodStarted
+} from "../Constants";
 import PlayerManager from "../Managers/PlayerManager";
 import TurnsManager from "../Managers/TurnsManager";
-import Player from "./Player";
+import { TIMETOHIDEPREVIEW } from "./../Constants";
+import CardEffect from "./CardEffect";
+import Player from "./GameEntities/Player";
+import Server from "../../ServerClient/ServerClient";
+import Signal from "../../Misc/Signal";
+import Card from "./GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
@@ -11,6 +19,8 @@ const { ccclass, property } = cc._decorator;
 export default class CardPreview extends cc.Component {
   @property()
   card: cc.Node = null;
+
+  static $: CardPreview = null;
 
   @property(cc.Button)
   exitButton: cc.Button = null;
@@ -22,11 +32,21 @@ export default class CardPreview extends cc.Component {
   @property
   effectChildern: cc.Node[] = [];
 
+  @property
+  hideThisTimeOut = null;
+
+  @printMethodStarted(COLORS.RED)
   showCardPreview(
     card: cc.Node,
     makeItemReadyToActivate: boolean,
-    makeLootPlayable?: boolean
+    makeLootPlayable?: boolean,
+    makeMonsterAttackable?: boolean,
+    makeItemBuyable?: boolean
   ) {
+    if (this.hideThisTimeOut != null) {
+      clearTimeout(this.hideThisTimeOut);
+      this.hideThisTimeOut = null;
+    }
     if (makeItemReadyToActivate) {
       this.node.once(cc.Node.EventType.TOUCH_START, () => {
         let cardPlayer = PlayerManager.getPlayerById(
@@ -35,7 +55,7 @@ export default class CardPreview extends cc.Component {
         if (!card.getComponent(CardEffect).hasMultipleEffects) {
           this.hideCardPreview();
         }
-        cardPlayer.activateItem(card, false);
+        cardPlayer.activateItem(card, true);
       });
     }
     if (makeLootPlayable) {
@@ -44,14 +64,34 @@ export default class CardPreview extends cc.Component {
           TurnsManager.currentTurn.PlayerId
         ).getComponent(Player);
         this.hideCardPreview();
-        cardPlayer.playLootCard(card, false);
+        cardPlayer.playLootCard(card, true);
       });
     }
+    if (makeMonsterAttackable) {
+      this.node.once(cc.Node.EventType.TOUCH_START, () => {
+        let cardPlayer = PlayerManager.getPlayerById(
+          TurnsManager.currentTurn.PlayerId
+        ).getComponent(Player);
+        this.hideCardPreview();
+        cardPlayer.declareAttack(card, true);
+      });
+    }
+
+    if (makeItemBuyable) {
+      this.node.once(cc.Node.EventType.TOUCH_START, () => {
+        let cardPlayer = PlayerManager.getPlayerById(
+          TurnsManager.currentTurn.PlayerId
+        ).getComponent(Player);
+        this.hideCardPreview();
+        cardPlayer.buyItem(card, true);
+      });
+    }
+
     this.node.active = true;
     this.card = card;
-    this.node.getComponent(cc.Sprite).spriteFrame = card.getComponent(
-      cc.Sprite
-    ).spriteFrame;
+
+    let newSprite = card.getComponent(Card).frontSprite;
+    this.node.getComponent(cc.Sprite).spriteFrame = newSprite;
     this.node.setSiblingIndex(this.node.parent.childrenCount - 1);
     if (this.node.getNumberOfRunningActions() == 0) {
       this.node.runAction(cc.fadeTo(TIMETOSHOWPREVIEW, 255));
@@ -71,11 +111,12 @@ export default class CardPreview extends cc.Component {
       this.node.removeChild(child);
     }
     this.node.runAction(cc.fadeTo(TIMETOHIDEPREVIEW, 0));
-    setTimeout(() => {
+    this.hideThisTimeOut = setTimeout(() => {
       this.node.setSiblingIndex(0);
       this.card = null;
       this.node.getComponent(cc.Sprite).spriteFrame = null;
       this.node.active = false;
+      this.hideThisTimeOut = null;
     }, TIMETOHIDEPREVIEW * 1000);
   }
 
@@ -144,6 +185,15 @@ export default class CardPreview extends cc.Component {
     });
   }
 
+  showToOtherPlayers(card: cc.Node) {
+    let currentPlayer = TurnsManager.currentTurn.PlayerId;
+    let srvData = {
+      cardToShowId: card.getComponent(Card).cardId,
+      playerId: currentPlayer
+    };
+    Server.$.send(Signal.SHOWCARDPREVIEW, srvData);
+  }
+
   chooseEffect() {
     CardPreview.effectChosen = this;
     CardPreview.wasEffectChosen = true;
@@ -153,9 +203,12 @@ export default class CardPreview extends cc.Component {
 
   onLoad() {
     this.node.opacity = 0;
+    CardPreview.$ = this;
   }
 
-  start() {}
+  start() {
+    // CardPreview.$ = this;
+  }
 
   // update (dt) {}
 }

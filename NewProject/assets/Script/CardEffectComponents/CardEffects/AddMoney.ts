@@ -1,14 +1,8 @@
-import { ServerEffect } from "./../../Entites/ServerCardEffect";
-import { COLORS } from "./../../Constants";
-
-import Player from "../../Entites/Player";
-
 import PlayerManager from "../../Managers/PlayerManager";
-import { printMethodStarted } from "../../Constants";
-import Card from "../../Entites/Card";
-import EffectInterface from "./EffectInterface";
-import Effect from "./Effect";
 import DataCollector from "../DataCollector/DataCollector";
+import { ServerEffect } from "./../../Entites/ServerCardEffect";
+import Effect from "./Effect";
+import Player from "../../Entites/GameEntities/Player";
 
 const { ccclass, property } = cc._decorator;
 

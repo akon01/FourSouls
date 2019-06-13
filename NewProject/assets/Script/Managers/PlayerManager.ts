@@ -1,16 +1,19 @@
 import { MoveLootToPile } from "./../Entites/Action";
-import { printMethodStarted, ITEM_TYPE } from "./../Constants";
-import { CARD_HEIGHT, CARD_WIDTH, TIMETODRAW } from "../Constants";
-import Player from "../Entites/Player";
-import { CardLayout } from "../Entites/CardLayout";
-import Server from "../../ServerClient/ServerClient";
-import PlayerDesk from "../Entites/PlayerDesk";
-import CardManager from "./CardManager";
-import Character from "../Entites/CardTypes/Character";
-import PileManager from "./PileManager";
-import Dice from "../Entites/Dice";
+import {
+  printMethodStarted,
+  ITEM_TYPE,
+  CARD_HEIGHT,
+  CARD_WIDTH
+} from "./../Constants";
+
 import MoneyLable from "../LableScripts/MoneyLable";
 import Item from "../Entites/CardTypes/Item";
+import Server from "../../ServerClient/ServerClient";
+import Player from "../Entites/GameEntities/Player";
+import { CardLayout } from "../Entites/CardLayout";
+import Dice from "../Entites/GameEntities/Dice";
+import PlayerDesk from "../Entites/PlayerDesk";
+import CardManager from "./CardManager";
 
 const { ccclass, property } = cc._decorator;
 

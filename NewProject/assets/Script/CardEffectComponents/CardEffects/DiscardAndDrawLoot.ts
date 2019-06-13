@@ -1,14 +1,10 @@
-import { ServerEffect } from "./../../Entites/ServerCardEffect";
-import { CHOOSE_TYPE } from "./../../Constants";
-
-import Player from "../../Entites/Player";
-
 import CardManager from "../../Managers/CardManager";
 import PlayerManager from "../../Managers/PlayerManager";
-import { printMethodStarted, COLORS } from "../../Constants";
-import EffectInterface from "./EffectInterface";
-import Effect from "./Effect";
 import DataCollector from "../DataCollector/DataCollector";
+import { CHOOSE_TYPE } from "./../../Constants";
+import { ServerEffect } from "./../../Entites/ServerCardEffect";
+import Effect from "./Effect";
+import Player from "../../Entites/GameEntities/Player";
 
 const { ccclass, property } = cc._decorator;
 
@@ -34,8 +30,8 @@ export default class DiscardAndDrawLoot extends Effect {
       Player
     );
     // player.getComponent(Player).playLootCard(cardPlayed, true);
-    player.discardLoot(cardChosen);
-    player.drawCard(CardManager.lootDeck);
+    player.discardLoot(cardChosen, false);
+    player.drawCard(CardManager.lootDeck, false);
     return new Promise<ServerEffect[]>((resolve, reject) => {
       resolve(serverEffectStack);
     });

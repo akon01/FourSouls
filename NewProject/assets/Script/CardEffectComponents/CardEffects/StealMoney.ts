@@ -1,14 +1,10 @@
-import { ServerEffect } from "./../../Entites/ServerCardEffect";
-import { COLORS, CHOOSE_TYPE } from "./../../Constants";
-
-import Player from "../../Entites/Player";
-
 import PlayerManager from "../../Managers/PlayerManager";
-import { printMethodStarted } from "../../Constants";
-import Card from "../../Entites/Card";
-import EffectInterface from "./EffectInterface";
-import Effect from "./Effect";
 import DataCollector from "../DataCollector/DataCollector";
+import { CHOOSE_TYPE } from "./../../Constants";
+import { ServerEffect } from "./../../Entites/ServerCardEffect";
+import Effect from "./Effect";
+import Player from "../../Entites/GameEntities/Player";
+import { override } from "kaop";
 
 const { ccclass, property } = cc._decorator;
 
@@ -18,8 +14,11 @@ export default class StealMoney extends Effect {
 
   effectName = "stealMoney";
 
-  @property(DataCollector)
-  dataCollector = null;
+  @property({
+    type: DataCollector,
+    override: true
+  })
+  dataCollector: DataCollector = null;
 
   @property(Number)
   numOfCoins: number = 0;
@@ -31,14 +30,14 @@ export default class StealMoney extends Effect {
 
   doEffect(
     serverEffectStack: ServerEffect[],
-    data?: { cardChosen: number; playerId: number }
+    data?: { cardChosenId: number; playerId: number }
   ) {
     let stealer = PlayerManager.getPlayerById(data.playerId).getComponent(
       Player
     );
-
+    cc.log(data);
     let targetPlayer = PlayerManager.getPlayerByCardId(
-      data.cardChosen
+      data.cardChosenId
     ).getComponent(Player);
 
     if (targetPlayer.coins >= this.numOfCoins) {

@@ -4,53 +4,53 @@
  * @author wheatup
  */
 exports.__esModule = true;
-var Player = /** @class */ (function () {
-    function Player(ws, uuid) {
+var ServerPlayer = /** @class */ (function () {
+    function ServerPlayer(ws, uuid) {
         this.ws = null;
         this.uuid = null;
         this.match = null;
         this.ws = ws;
         this.uuid = uuid;
     }
-    Player.getPlayer = function (ws) {
+    ServerPlayer.getPlayer = function (ws) {
         //@ts-ignore
-        if (Player.getPlayerByWs(ws) == null) {
-            var player = new Player(ws, ++Player.UUID);
-            Player.players.push(player);
+        if (ServerPlayer.getPlayerByWs(ws) == null) {
+            var player = new ServerPlayer(ws, ++ServerPlayer.UUID);
+            ServerPlayer.players.push(player);
             return player;
         }
         else {
-            return Player.getPlayerByWs(ws);
+            return ServerPlayer.getPlayerByWs(ws);
         }
     };
-    Player.getPlayerByWs = function (ws) {
-        for (var i = 0; i < Player.players.length; i++) {
-            var player = Player.players[i];
+    ServerPlayer.getPlayerByWs = function (ws) {
+        for (var i = 0; i < ServerPlayer.players.length; i++) {
+            var player = ServerPlayer.players[i];
             if (player.ws == ws) {
                 return player;
             }
         }
         return null;
     };
-    Player.prototype.send = function (signal, data) {
+    ServerPlayer.prototype.send = function (signal, data) {
         var pack = { signal: signal, data: data };
         try {
-            this.ws.send(Buffer.from(JSON.stringify(pack)).toString('base64'));
+            this.ws.send(Buffer.from(JSON.stringify(pack)).toString("base64"));
         }
         catch (ex) {
             // console.error(ex);
         }
     };
-    Player.prototype.remove = function () {
+    ServerPlayer.prototype.remove = function () {
         if (this.match) {
             this.match.leave(this);
             this.match = null;
         }
-        Player.players.splice(Player.players.indexOf(Player.players[this.uuid]), 1);
-        --Player.UUID;
+        ServerPlayer.players.splice(ServerPlayer.players.indexOf(ServerPlayer.players[this.uuid]), 1);
+        --ServerPlayer.UUID;
     };
-    Player.players = [];
-    Player.UUID = 0;
-    return Player;
+    ServerPlayer.players = [];
+    ServerPlayer.UUID = 0;
+    return ServerPlayer;
 }());
-exports["default"] = Player;
+exports["default"] = ServerPlayer;

@@ -1,25 +1,13 @@
-import { MoveLootToPile } from "./../../Entites/Action";
-import {
-  CHOOSE_TYPE,
-  printMethodStarted,
-  COLORS,
-  CARD_TYPE
-} from "./../../Constants";
-
-import { COLLECTORTYPE } from "../../Constants";
-import PlayerManager from "../../Managers/PlayerManager";
-import Player from "../../Entites/Player";
-
-import Card from "../../Entites/Card";
-import { ServerEffect } from "../../Entites/ServerCardEffect";
-import CardManager from "../../Managers/CardManager";
-import DataCollector from "./DataCollector";
-import Effect from "../CardEffects/Effect";
-import PlayLootCard from "../CardEffects/PlayLootCard";
-import ChooseCard from "./ChooseCard";
-import { override } from "kaop";
 import Signal from "../../../Misc/Signal";
+import Card from "../../Entites/GameEntities/Card";
+import Player from "../../Entites/GameEntities/Player";
 import ActionManager from "../../Managers/ActionManager";
+import CardManager from "../../Managers/CardManager";
+import PlayerManager from "../../Managers/PlayerManager";
+import Effect from "../CardEffects/Effect";
+import { CHOOSE_TYPE } from "./../../Constants";
+import { MoveLootToPile } from "./../../Entites/Action";
+import DataCollector from "./DataCollector";
 
 const { ccclass, property } = cc._decorator;
 
@@ -60,10 +48,10 @@ export default class SelectLootToPlay extends DataCollector {
       this.playerId
     );
     let serverData = {
-      signal: Signal.PLAYLOOTCARD,
+      signal: Signal.DISCRADLOOT,
       srvData: { playerId: this.playerId, cardId: cardPlayedData.cardPlayedId }
     };
-    ActionManager.showSingleAction(playLootAction, serverData);
+    ActionManager.showSingleAction(playLootAction, serverData, true);
     return collectedData;
   }
 

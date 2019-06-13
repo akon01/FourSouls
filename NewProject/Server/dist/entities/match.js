@@ -37,11 +37,9 @@ var Match = /** @class */ (function () {
         }
     };
     Match.prototype.getPlayerById = function (id) {
-        console.log('get Player by id');
-        console.log(id);
+        console.log("get Player by id");
         for (var i = 0; i < this.players.length; i++) {
             var player = this.players[i];
-            console.log(player.uuid);
             if (player.uuid == id) {
                 console.log(player.uuid);
                 return player;
@@ -57,7 +55,7 @@ var Match = /** @class */ (function () {
         }
         for (var i = totalPlayers - 1; i >= 0; i--) {
             var player = this.players[i];
-            console.log('chekcing for player ' + player.uuid);
+            console.log("chekcing for player " + player.uuid);
             if (player.uuid == currentPlayerUuid + 1) {
                 player.send(signal, data);
                 break;
@@ -78,7 +76,7 @@ var Match = /** @class */ (function () {
         if (this.running) {
             return;
         }
-        console.log('starting match');
+        console.log("starting match");
         this.running = true;
         this.broadcast(signal_1["default"].STARTGAME, {});
         setTimeout(function () {
@@ -89,7 +87,10 @@ var Match = /** @class */ (function () {
     Match.prototype.stop = function () {
         var _this = this;
         this.running = false;
-        this.broadcast(signal_1["default"].RESULT, { interrupted: this.players.length < 2, score: this.score });
+        this.broadcast(signal_1["default"].RESULT, {
+            interrupted: this.players.length < 2,
+            score: this.score
+        });
         this.close();
         this.players.forEach(function (player) {
             _this.leave(player, true);
@@ -111,20 +112,28 @@ var Match = /** @class */ (function () {
     };
     Match.prototype.validate = function (player, ids) {
         var _this = this;
-        var text = '';
+        var text = "";
         ids.forEach(function (id) {
             text += _this.letters[id];
         });
         if (utils_1["default"].isWord(text.toLowerCase())) {
             var letters_1 = utils_1["default"].generateLetters2(ids);
-            var lettersArr_1 = this.letters.split('');
-            var score = server_1["default"].$.config.scoreMap[text.length < server_1["default"].$.config.scoreMap.length ? text.length : server_1["default"].$.config.scoreMap.length - 1];
+            var lettersArr_1 = this.letters.split("");
+            var score = server_1["default"].$.config.scoreMap[text.length < server_1["default"].$.config.scoreMap.length
+                ? text.length
+                : server_1["default"].$.config.scoreMap.length - 1];
             ids.forEach(function (id, index) {
                 lettersArr_1[id] = letters_1[index];
             });
-            this.letters = lettersArr_1.join('');
+            this.letters = lettersArr_1.join("");
             this.score[player.uuid].score += score;
-            this.broadcast(signal_1["default"].CORRECT, { uuid: player.uuid, ids: ids, word: text, letters: letters_1, score: score });
+            this.broadcast(signal_1["default"].CORRECT, {
+                uuid: player.uuid,
+                ids: ids,
+                word: text,
+                letters: letters_1,
+                score: score
+            });
         }
         else {
             this.broadcast(signal_1["default"].WRONG, { uuid: player.uuid, ids: ids });

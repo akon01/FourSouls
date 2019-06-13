@@ -1,25 +1,13 @@
-import { Interface } from "readline";
-import { Script } from "vm";
-
-import Effect from "../CardEffectComponents/CardEffects/Effect";
-
-import Condition from "../CardEffectComponents/CardConditions/Condition";
-import {
-  COLLECTORTYPE,
-  printMethodStarted,
-  printMethodEnded,
-  COLORS
-} from "../Constants";
-import Card from "./Card";
-import Server from "../../ServerClient/ServerClient";
 import Signal from "../../Misc/Signal";
-import { ServerEffect } from "./ServerCardEffect";
-import { resolve } from "url";
-import EffectTextPos from "../EffectTextPos";
-
-import CardManager from "../Managers/CardManager";
-import MultiEffect from "../CardEffectComponents/DataCollector/MultiEffect";
+import Server from "../../ServerClient/ServerClient";
+import Condition from "../CardEffectComponents/CardConditions/Condition";
+import Effect from "../CardEffectComponents/CardEffects/Effect";
 import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
+import MultiEffect from "../CardEffectComponents/DataCollector/MultiEffect";
+import { COLORS, printMethodStarted } from "../Constants";
+import CardManager from "../Managers/CardManager";
+import Card from "./GameEntities/Card";
+import { ServerEffect } from "./ServerCardEffect";
 
 const { ccclass, property } = cc._decorator;
 

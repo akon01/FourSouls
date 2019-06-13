@@ -59,7 +59,9 @@ export enum ITEM_TYPE {
 export enum CHOOSE_TYPE {
   PLAYER = "player",
   PLAYERHAND = "playerHand",
-  DECKS = "decks"
+  DECKS = "decks",
+  MONSTERPLACES = "monsterplaces",
+  STOREPLACES = "storeplaces"
 }
 
 export enum COLORS {

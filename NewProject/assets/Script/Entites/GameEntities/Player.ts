@@ -1,37 +1,41 @@
-import { CardLayout } from "./CardLayout";
-import PlayerDesk from "./PlayerDesk";
-import {
-  CARD_WIDTH,
-  CARD_TYPE,
-  ITEM_TYPE,
-  printMethodStarted,
-  COLORS,
-  TIMETOREACTONACTION
-} from "../Constants";
-import Card from "./Card";
-import Item from "./CardTypes/Item";
+import { CardLayout } from "../CardLayout";
 import Dice from "./Dice";
-import Character from "./CardTypes/Character";
-import CharacterItem from "./CardTypes/CharacterItem";
-import PlayerManager from "../Managers/PlayerManager";
-import CardManager from "../Managers/CardManager";
-import Server from "../../ServerClient/ServerClient";
-import Signal from "../../Misc/Signal";
-import ActionManager from "../Managers/ActionManager";
-import { ServerEffect } from "./ServerCardEffect";
+import PlayerDesk from "../PlayerDesk";
+import Deck from "./Deck";
 import {
   DrawCardAction,
-  BuyItemAction,
+  DeclareAttackAction,
   MoveLootToPile,
+  BuyItemAction,
   ActivateItemAction
-} from "./Action";
-import PileManager from "../Managers/PileManager";
-import Deck from "./Deck";
+} from "../Action";
+import Signal from "../../../Misc/Signal";
+import {
+  CARD_TYPE,
+  TIMETOREACTONACTION,
+  ITEM_TYPE,
+  CARD_WIDTH
+} from "../../Constants";
+import ActionManager from "../../Managers/ActionManager";
+import MonsterField from "../MonsterField";
+import CardManager from "../../Managers/CardManager";
+import ChooseCard from "../../CardEffectComponents/DataCollector/ChooseCard";
+import Monster from "../CardTypes/Monster";
+import Card from "./Card";
+import Item from "../CardTypes/Item";
+import Character from "../CardTypes/Character";
+import { ServerEffect } from "../ServerCardEffect";
+import MonsterCardHolder from "../MonsterCardHolder";
+import CardPreview from "../CardPreview";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Player extends cc.Component {
+  toString() {
+    return "Player " + this.playerId;
+  }
+
   @property
   playerId: number = 0;
 
@@ -101,8 +105,7 @@ export default class Player extends cc.Component {
   @property
   timeToRespondTimeOut = null;
 
-  @printMethodStarted(COLORS.GREEN)
-  drawCard(deck: cc.Node, isFromServer: boolean) {
+  drawCard(deck: cc.Node, sendToServer: boolean) {
     let drawnCard = deck.getComponent(Deck).drawCard();
 
     let drawAction = new DrawCardAction({ drawnCard }, this.playerId);
@@ -110,13 +113,63 @@ export default class Player extends cc.Component {
 
     serverData = {
       signal: Signal.CARDDRAWED,
-      srvData: { player: this.playerId, deck: CARD_TYPE.LOOT }
+      srvData: { playerId: this.playerId, deckType: CARD_TYPE.LOOT }
     };
 
-    ActionManager.showSingleAction(drawAction, serverData, !isFromServer);
+    ActionManager.showSingleAction(drawAction, serverData, sendToServer);
   }
 
-  discardLoot(lootCard: cc.Node) {
+  async declareAttack(monsterCard: cc.Node, sendToServer: boolean) {
+    let monsterField = cc
+      .find("Canvas/MonsterDeck/MonsterField")
+      .getComponent(MonsterField);
+    let monsterId;
+    let monsterDeck = CardManager.monsterDeck.getComponent(Deck);
+    let monsterCardHolder: MonsterCardHolder;
+    let attackedMonster;
+    //occurs when selected card is top card of monster deck, will let player choose where to put the new monster
+    if (monsterCard == monsterDeck.topCard) {
+      let chooseCard = new ChooseCard();
+      let newMonster = monsterDeck.drawCard();
+      CardPreview.$.showCardPreview(newMonster, false, false, false);
+
+      CardPreview.$.showToOtherPlayers(newMonster);
+      let monsterInSpotChosen = await chooseCard.collectDataOfPlaces({
+        cardPlayerId: this.playerId,
+        deckType: CARD_TYPE.MONSTER
+      });
+
+      let activeMonsterSelected = CardManager.getCardById(
+        monsterInSpotChosen.cardChosenId
+      ).getComponent(Monster);
+      monsterCardHolder = MonsterField.getMonsterPlaceById(
+        activeMonsterSelected.monsterPlace.id
+      );
+      // monsterPlace = MonsterField.getMonsterPlaceByActiveMonsterId(
+      //   monsterInSpotChosen.cardChosenId
+      // );
+
+      monsterField.addMonsterToExsistingPlace(
+        monsterCardHolder.id,
+        newMonster,
+        true
+      );
+      monsterId = newMonster.getComponent(Card).cardId;
+      attackedMonster = newMonster;
+      //add get a monster from top deck , in server send
+    } else {
+      attackedMonster = monsterCard;
+      monsterId = monsterCard.getComponent(Card).cardId;
+    }
+    let action = new DeclareAttackAction({ attackedMonster: attackedMonster });
+    let serverData = {
+      signal: Signal.DECLAREATTACK,
+      srvData: { attackedMonsterId: monsterId }
+    };
+    ActionManager.doAction(action, serverData);
+  }
+
+  discardLoot(lootCard: cc.Node, sendToServer: boolean) {
     let playerId = this.playerId;
     let discardAction = new MoveLootToPile(
       { lootCard: lootCard },
@@ -127,10 +180,10 @@ export default class Player extends cc.Component {
       signal: Signal.DISCRADLOOT,
       srvData: { playerId: playerId, cardId: cardId }
     };
-    ActionManager.showSingleAction(discardAction, serverData);
+    ActionManager.showSingleAction(discardAction, serverData, sendToServer);
   }
 
-  buyItem(itemToBuy: cc.Node) {
+  buyItem(itemToBuy: cc.Node, sendToServer: boolean) {
     let itemCardComp: Card = itemToBuy.getComponent(Card);
     let playerDeskComp = this.desk;
     let playerId = this.playerId;
@@ -143,10 +196,14 @@ export default class Player extends cc.Component {
       movedCard: itemToBuy,
       playerDeskComp: playerDeskComp
     });
-    ActionManager.doAction(action, serverData);
+    if (sendToServer) {
+      ActionManager.doAction(action, serverData);
+    } else {
+      ActionManager.showSingleAction(action, serverData, sendToServer);
+    }
   }
 
-  playLootCard(lootCard: cc.Node, isFromServer: boolean) {
+  playLootCard(lootCard: cc.Node, sendToServer: boolean) {
     let playerId = this.playerId;
     let cardId = lootCard.getComponent("Card").cardId;
     let serverData = {
@@ -154,25 +211,33 @@ export default class Player extends cc.Component {
       srvData: { playerId: playerId, cardId: cardId }
     };
     let action = new MoveLootToPile({ lootCard: lootCard }, playerId);
-    if (isFromServer) {
-      ActionManager.doSingleAction(action, serverData);
-    } else {
+    if (sendToServer) {
       ActionManager.doAction(action, serverData);
+    } else {
+      if (lootCard.getComponent(Card).isFlipped) {
+        lootCard.getComponent(Card).flipCard();
+      } else {
+      }
+      ActionManager.showSingleAction(action, serverData, sendToServer);
     }
   }
 
-  activateItem(item: cc.Node, isFromServer: boolean) {
+  activateItem(item: cc.Node, sendToServer: boolean) {
     let playerId = this.playerId;
-    let cardId = item.getComponent("Card").cardId;
-    let serverData = {
-      signal: Signal.ACTIVATEITEM,
-      srvData: { playerId: playerId, cardId: cardId }
-    };
-    let action = new ActivateItemAction({ activatedCard: item }, playerId);
-    if (isFromServer) {
-      ActionManager.doSingleAction(action, serverData);
+    if (item != null) {
+      let cardId = item.getComponent("Card").cardId;
+      let serverData = {
+        signal: Signal.ACTIVATEITEM,
+        srvData: { playerId: playerId, cardId: cardId }
+      };
+      let action = new ActivateItemAction({ activatedCard: item }, playerId);
+      if (sendToServer) {
+        ActionManager.doAction(action, serverData);
+      } else {
+        ActionManager.showSingleAction(action, serverData, sendToServer);
+      }
     } else {
-      ActionManager.doAction(action, serverData);
+      throw "received item is null";
     }
   }
 

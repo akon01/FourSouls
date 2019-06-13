@@ -1,36 +1,32 @@
-import { MonsterPlace } from "../MonsterField";
+import MonsterCardHolder from "../MonsterCardHolder";
 
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Monster extends cc.Component {
+  @property
+  monsterPlace: MonsterCardHolder = null;
 
-    @property
-    monsterPlace: MonsterPlace = null;
+  @property
+  HP: number = 0;
 
-    @property
-    HP: number = 0;
+  @property
+  rollValue: number = 0;
 
-    @property
-    rollValue: number = 0;
+  @property
+  DMG: number = 0;
 
-    @property
-    DMG: number = 0;
+  @property
+  isAttacked: boolean = false;
 
-    @property
-    isAttacked:boolean = false;
+  @property
+  hasEffect: boolean = false;
 
-    @property
-    hasEffect: boolean =false;
-    
+  // LIFE-CYCLE CALLBACKS:
 
-    // LIFE-CYCLE CALLBACKS:
+  // onLoad () {}
 
-    // onLoad () {}
+  start() {}
 
-    start () {
-
-    }
-
-    // update (dt) {}
+  // update (dt) {}
 }

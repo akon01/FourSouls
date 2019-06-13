@@ -1,4 +1,3 @@
-import { CardLayout } from "./Entites/Hand";
 import TurnsManager from "./Managers/TurnsManager";
 import { MAX_PLAYERS } from "./Constants";
 import Server from "../ServerClient/ServerClient";
@@ -13,62 +12,58 @@ import Server from "../ServerClient/ServerClient";
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
-var id=1;
+var id = 1;
 
-var cardid=1
+var cardid = 1;
 
 @ccclass
 export default class buttonScript extends cc.Component {
+  @property(cc.Prefab)
+  cardPrefab: cc.Prefab = null;
 
-    @property(cc.Prefab)
-    cardPrefab:cc.Prefab= null;
+  // addToHand(){
 
-    // addToHand(){
+  //     let turns:Turns = cc.find('MainScript/Turns').getComponent('Turns')
+  //     let card = cc.find('Canvas/blue baby');
+  //     let hand = cc.find('player'+turns.currentTurn.turnId+'/Hand')
 
-    //     let turns:Turns = cc.find('MainScript/Turns').getComponent('Turns')
-    //     let card = cc.find('Canvas/blue baby');
-    //     let hand = cc.find('player'+turns.currentTurn.turnId+'/Hand')
-        
-    //     card.parent = hand;
-    //     let handComp:Hand = hand.getComponent("Hand");
-    //     handComp.addToHandCards(card)
-    // }
+  //     card.parent = hand;
+  //     let handComp:Hand = hand.getComponent("Hand");
+  //     handComp.addToHandCards(card)
+  // }
 
-    changePlayers(){
-        
-        id= (id+1)%Server.numOfPlayers
-        if(id==0){
-            id=2
-        }
-        return id;
+  changePlayers() {
+    id = (id + 1) % Server.numOfPlayers;
+    if (id == 0) {
+      id = 2;
     }
+    return id;
+  }
 
-   
+  nextTurnClick() {
+    var turnComp: TurnsManager = cc
+      .find("MainScript/TurnsManager")
+      .getComponent("TurnsManager");
+    TurnsManager.nextTurn(false);
+  }
 
-    nextTurnClick(){
-        var turnComp:TurnsManager = cc.find('MainScript/TurnsManager').getComponent('TurnsManager');
-        TurnsManager.nextTurn(false);
-    }
+  addNewCard() {
+    let newCard = cc.instantiate(this.cardPrefab);
+    newCard.name = "card" + cardid;
+    cardid++;
+    cc.director
+      .getScene()
+      .getChildByName("Canvas")
+      .addChild(newCard);
+  }
 
-    addNewCard(){
-        let newCard = cc.instantiate(this.cardPrefab)
-        newCard.name = "card"+cardid
-        cardid++;
-        cc.director.getScene().getChildByName('Canvas').addChild(newCard)
-       
-    }
+  // LIFE-CYCLE CALLBACKS:
 
-    // LIFE-CYCLE CALLBACKS:
+  onLoad() {}
 
-     onLoad () {
-         
-     }
+  start() {}
 
-    start () {
-
-    }
-
-    // update (dt) {}
+  // update (dt) {}
 }

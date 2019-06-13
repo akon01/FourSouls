@@ -1,35 +1,25 @@
-import { DrawCardAction } from "./../Entites/Action";
-import { ServerEffect } from "./../Entites/ServerCardEffect";
 import Signal from "../../Misc/Signal";
 import Server from "../../ServerClient/ServerClient";
-import { CARD_TYPE, ROLL_TYPE, TIMETOBUY } from "../Constants";
+import { ROLL_TYPE } from "../Constants";
 import { Action } from "../Entites/Action";
-import Card from "../Entites/Card";
 import { CardLayout } from "../Entites/CardLayout";
 import Item from "../Entites/CardTypes/Item";
-import Deck from "../Entites/Deck";
-import Dice from "../Entites/Dice";
+import Card from "../Entites/GameEntities/Card";
+import Deck from "../Entites/GameEntities/Deck";
+import Dice from "../Entites/GameEntities/Dice";
+import Player from "../Entites/GameEntities/Player";
+import Store from "../Entites/GameEntities/Store";
 import MonsterField from "../Entites/MonsterField";
-import Player from "../Entites/Player";
-import PlayerDesk from "../Entites/PlayerDesk";
-import Store from "../Entites/Store";
 import MainScript from "../MainScript";
-import { addCardToCardLayout, removeFromHand } from "../Modules/HandModule";
 import { getCurrentPlayer, Turn } from "../Modules/TurnsModule";
-import {
-  COLORS,
-  printMethodEnded,
-  printMethodSignal,
-  printMethodStarted,
-  TIMETODRAW,
-  TIMETOPLAYLOOT
-} from "./../Constants";
+import { COLORS, printMethodSignal, printMethodStarted } from "./../Constants";
+import { ServerEffect } from "./../Entites/ServerCardEffect";
 import BattleManager from "./BattleManager";
 import ButtonManager from "./ButtonManager";
 import CardManager from "./CardManager";
-import PileManager from "./PileManager";
 import PlayerManager from "./PlayerManager";
 import TurnsManager from "./TurnsManager";
+import CardPreview from "../Entites/CardPreview";
 
 const { ccclass, property } = cc._decorator;
 
@@ -48,60 +38,60 @@ export default class ActionManager extends cc.Component {
   static serverCardEffectStack: ServerEffect[] = [];
   static noMoreActionsBool: boolean = false;
 
-  static otherPlayerDrawCard(playerId: number, deckType: CARD_TYPE) {
-    let deck = CardManager.getDeckByType(deckType);
-    let deckComp: Deck = deck.getComponent(Deck);
-    let drawnCard: cc.Node = deckComp.drawCard();
-    let player = PlayerManager.getPlayerById(playerId).getComponent(Player);
-    drawnCard.getComponent(Card).flipCard();
-    let drawAction = new DrawCardAction({ drawnCard }, playerId);
-    let serverData = {
-      signal: Signal.CARDDRAWED,
-      srvData: { player: playerId, deck: CARD_TYPE.LOOT }
-    };
-    ActionManager.showSingleAction(drawAction, serverData);
-    // drawnCard.setPosition(CardManager.lootDeck.getPosition());
-    // let handPos = player.hand.node.getPosition();
-    // drawnCard.parent = cc.find("Canvas");
-    // drawnCard.runAction(cc.moveTo(TIMETODRAW, handPos));
-    // setTimeout(() => {
-    //   addCardToCardLayout(drawnCard, player.hand, true);
-    //   //TurnsManager.currentTurn.drawPlays -= 1;
-    //   ActionManager.updateActions();
-    //   CardManager.allCards.push(drawnCard);
-    // }, (TIMETODRAW + 0.1) * 1000);
-  }
+  // static otherPlayerDrawCard(playerId: number, deckType: CARD_TYPE) {
+  //   let deck = CardManager.getDeckByType(deckType);
+  //   let deckComp: Deck = deck.getComponent(Deck);
+  //   let drawnCard: cc.Node = deckComp.drawCard();
+  //   let player = PlayerManager.getPlayerById(playerId).getComponent(Player);
+  //   drawnCard.getComponent(Card).flipCard();
+  //   let drawAction = new DrawCardAction({ drawnCard }, playerId);
+  //   let serverData = {
+  //     signal: Signal.CARDDRAWED,
+  //     srvData: { player: playerId, deck: CARD_TYPE.LOOT }
+  //   };
+  //   ActionManager.showSingleAction(drawAction, serverData);
+  //   // drawnCard.setPosition(CardManager.lootDeck.getPosition());
+  //   // let handPos = player.hand.node.getPosition();
+  //   // drawnCard.parent = cc.find("Canvas");
+  //   // drawnCard.runAction(cc.moveTo(TIMETODRAW, handPos));
+  //   // setTimeout(() => {
+  //   //   addCardToCardLayout(drawnCard, player.hand, true);
+  //   //   //TurnsManager.currentTurn.drawPlays -= 1;
+  //   //   ActionManager.updateActions();
+  //   //   CardManager.allCards.push(drawnCard);
+  //   // }, (TIMETODRAW + 0.1) * 1000);
+  // }
 
-  static otherPlayerPlayedLoot(playedId: number, cardId: number) {
-    let card: cc.Node = CardManager.getCardById(cardId);
-    let cardComp: Card = card.getComponent(Card);
-    let playerNode: cc.Node = PlayerManager.getPlayerById(playedId);
-    let playerHand: CardLayout = playerNode.getComponent(Player).hand;
-    card.runAction(
-      cc.moveTo(TIMETOPLAYLOOT, PileManager.lootCardPileNode.position)
-    );
-    setTimeout(() => {
-      removeFromHand(card, playerHand);
-      PileManager.addCardToPile(CARD_TYPE.LOOT, card);
-      let cardSprite: cc.Sprite = card.getComponent(cc.Sprite);
-      cardSprite.spriteFrame = cardComp.frontSprite;
-      CardManager.onTableCards.push(card);
-    }, (TIMETOPLAYLOOT + 0.1) * 1000);
-  }
+  // static otherPlayerPlayedLoot(playedId: number, cardId: number) {
+  //   let card: cc.Node = CardManager.getCardById(cardId);
+  //   let cardComp: Card = card.getComponent(Card);
+  //   let playerNode: cc.Node = PlayerManager.getPlayerById(playedId);
+  //   let playerHand: CardLayout = playerNode.getComponent(Player).hand;
+  //   card.runAction(
+  //     cc.moveTo(TIMETOPLAYLOOT, PileManager.lootCardPileNode.position)
+  //   );
+  //   setTimeout(() => {
+  //     removeFromHand(card, playerHand);
+  //     PileManager.addCardToPile(CARD_TYPE.LOOT, card);
+  //     let cardSprite: cc.Sprite = card.getComponent(cc.Sprite);
+  //     cardSprite.spriteFrame = cardComp.frontSprite;
+  //     CardManager.onTableCards.push(card);
+  //   }, (TIMETOPLAYLOOT + 0.1) * 1000);
+  // }
 
-  static otherPlayerGotItem(playedId: number, cardId: number) {
-    let card: cc.Node = CardManager.getCardById(cardId);
-    let cardComp: Card = card.getComponent("Card");
-    let playerNode: cc.Node = PlayerManager.getPlayerById(playedId);
-    let playerdesk: PlayerDesk = playerNode.getComponent(Player).desk;
-    cardComp.node.runAction(
-      cc.moveTo(TIMETOBUY, playerdesk.node.getPosition())
-    );
-    setTimeout(() => {
-      playerNode.getComponent(Player).addItem(card.getComponent(Item), card);
-      playerdesk.addToDesk(cardComp);
-    }, (TIMETOBUY + 0.1) * 1000);
-  }
+  // static otherPlayerGotItem(playedId: number, cardId: number) {
+  //   let card: cc.Node = CardManager.getCardById(cardId);
+  //   let cardComp: Card = card.getComponent("Card");
+  //   let playerNode: cc.Node = PlayerManager.getPlayerById(playedId);
+  //   let playerdesk: PlayerDesk = playerNode.getComponent(Player).desk;
+  //   cardComp.node.runAction(
+  //     cc.moveTo(TIMETOBUY, playerdesk.node.getPosition())
+  //   );
+  //   setTimeout(() => {
+  //     playerNode.getComponent(Player).addItem(card.getComponent(Item), card);
+  //     playerdesk.addToDesk(cardComp);
+  //   }, (TIMETOBUY + 0.1) * 1000);
+  // }
 
   static lootPlayedInAction(playerId: any, cardId: any) {
     let card: Card = CardManager.getCardById(cardId).getComponent(Card);
@@ -113,7 +103,8 @@ export default class ActionManager extends cc.Component {
     lootDeck.interactive = true;
     let treasureDeck = CardManager.treasureDeck.getComponent(Deck);
     treasureDeck.interactive = true;
-
+    let monsterDeck = CardManager.monsterDeck.getComponent(Deck);
+    let monsterTopCard = monsterDeck.topCard;
     //set up components
     var currentPlayerComp: Player = player.getComponent(Player);
     var currentPlayerHand: cc.Node = player.getChildByName("Hand");
@@ -148,20 +139,19 @@ export default class ActionManager extends cc.Component {
       }
       //make store cards buyable (add check for money)
       if (
-        TurnsManager.currentTurn.buyPlays > 0 &&
-        player.getComponent(Player).coins >= 10
+        TurnsManager.currentTurn.buyPlays > 0
+        //&& player.getComponent(Player).coins >= 10
       ) {
         for (let i = 0; i < Store.storeCards.length; i++) {
           const storeCard = Store.storeCards[i];
           CardManager.makeItemBuyable(storeCard, currentPlayerComp);
         }
-      } else {
+      } else
         for (let i = 0; i < Store.storeCards.length; i++) {
           const storeCard = Store.storeCards[i];
           CardManager.disableCardActions(storeCard);
           CardManager.makeCardPreviewable(storeCard);
         }
-      }
       //make monster cards attackable
       if (TurnsManager.currentTurn.attackPlays > 0) {
         for (let i = 0; i < MonsterField.activeMonsters.length; i++) {
@@ -170,11 +160,13 @@ export default class ActionManager extends cc.Component {
           CardManager.disableCardActions(activeMonster);
           CardManager.makeMonsterAttackable(activeMonster);
         }
+        CardManager.makeMonsterAttackable(monsterTopCard);
       } else {
         for (let i = 0; i < MonsterField.activeMonsters.length; i++) {
           const activeMonster = MonsterField.activeMonsters[i];
-          CardManager.makeMonsterNotAttackable(activeMonster);
+          CardManager.disableCardActions(activeMonster);
         }
+        CardManager.disableCardActions(monsterTopCard);
       }
       //make currnet player loot card playable
       if (TurnsManager.currentTurn.lootCardPlays > 0) {
@@ -217,6 +209,7 @@ export default class ActionManager extends cc.Component {
     }
   }
 
+  @printMethodStarted(COLORS.LIGHTBLUE)
   static updateActionsForNotTurnPlayer(player: cc.Node) {
     this.decks = CardManager.getAllDecks();
     let lootDeck = CardManager.lootDeck.getComponent(Deck);
@@ -253,14 +246,21 @@ export default class ActionManager extends cc.Component {
     }
 
     //make other players cards invisible and not moveable
-    let OtherPlayersHandCards: cc.Node[] = CardManager.getOtherPlayersHandCards(
+    let otherPlayersHandCards: cc.Node[] = CardManager.getOtherPlayersHandCards(
       player
     );
-    if (OtherPlayersHandCards.length != 0) {
-      for (let i = 0; i < OtherPlayersHandCards.length; i++) {
-        const card = OtherPlayersHandCards[i];
-        CardManager.disableCardActions(card);
-        card.getComponent(cc.Sprite).spriteFrame = CardManager.lootCardBack;
+    cc.log(otherPlayersHandCards);
+    if (otherPlayersHandCards.length != 0) {
+      for (let i = 0; i < otherPlayersHandCards.length; i++) {
+        const card = otherPlayersHandCards[i].getComponent(Card);
+        CardManager.disableCardActions(card.node);
+        cc.log(card + " " + card.isFlipped);
+        // if (!card.isFlipped) {
+        //   card.getComponent(Card).flipCard();
+        // } else {
+        // }
+
+        // card.getComponent(cc.Sprite).spriteFrame = CardManager.lootCardBack;
       }
     }
 
@@ -274,6 +274,7 @@ export default class ActionManager extends cc.Component {
   }
 
   static updateActions() {
+    CardManager.checkForEmptyFields();
     if (MainScript.currentPlayerNode == PlayerManager.mePlayer) {
       this.updateActionsForTurnPlayer(MainScript.currentPlayerNode);
     } else {
@@ -329,12 +330,24 @@ export default class ActionManager extends cc.Component {
     ActionManager.doServerCardEffects(serverEffectStack);
   }
 
+  /**
+   * Same as do action just without getting reactions of players.
+   * @param action
+   * @param serverData
+   * @param sendToServer
+   */
   @printMethodStarted(COLORS.PURPLE)
-  static async doSingleAction(action: Action, serverData: {}) {
+  static async doSingleAction(
+    action: Action,
+    serverData: {},
+    sendToServer: boolean
+  ) {
     //show the action to current player
     action.showAction();
-    //show the action to other players.
-    action.serverBrodcast(serverData);
+    if (sendToServer) {
+      //show the action to other players.
+      action.serverBrodcast(serverData);
+    }
     //if the action has a card effect that needs to be resolved
     if (action.hasCardEffect) {
       let playerId = action.originPlayerId;
@@ -433,23 +446,62 @@ export default class ActionManager extends cc.Component {
           Player
         );
         card = CardManager.getCardById(data.cardId);
-
-        ActionManager.lootPlayedInAction(data.playerId, data.cardId);
+        player.discardLoot(card, false);
+        ActionManager.updateActions();
+        break;
+      case Signal.NEWMONSTERONPLACE:
+        let monsterField = cc
+          .find("Canvas/MonsterDeck/MonsterField")
+          .getComponent(MonsterField);
+        let newMonster = CardManager.getCardById(data.newMonsterId, true);
+        let monsterDeck = CardManager.monsterDeck.getComponent(Deck);
+        monsterDeck.cards.splice(monsterDeck.cards.indexOf(newMonster), 1);
+        monsterField.addMonsterToExsistingPlace(
+          data.monsterPlaceId,
+          newMonster,
+          false
+        );
+        break;
+      case Signal.SHOWCARDPREVIEW:
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(
+          Player
+        );
+        card = CardManager.getCardById(data.cardToShowId, true);
+        //add a lable with who is selecting.
+        cc.log(card);
+        CardPreview.$.showCardPreview(card, false, false, false);
+        ActionManager.updateActions();
+        break;
+      case Signal.ACTIVATEITEM:
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(
+          Player
+        );
+        card = CardManager.getCardById(data.cardId);
+        player.activateItem(card, false);
         ActionManager.updateActions();
         break;
       case Signal.CARDDRAWED:
-        player = PlayerManager.getPlayerById(data.player).getComponent(Player);
-        deck = CardManager.getDeckByType(data.deck);
-        player.drawCard(deck, true);
-        // ActionManager.otherPlayerDrawCard(data.player, data.deck);
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(
+          Player
+        );
+        deck = CardManager.getDeckByType(data.deckType);
+        player.drawCard(deck, false);
         ActionManager.updateActions();
         break;
       case Signal.PLAYLOOTCARD:
-        ActionManager.otherPlayerPlayedLoot(data.playerId, data.cardId);
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(
+          Player
+        );
+        card = CardManager.getCardById(data.cardId);
+        player.playLootCard(card, false);
         ActionManager.updateActions();
         break;
       case Signal.ADDANITEM:
-        ActionManager.otherPlayerGotItem(data.playerId, data.cardId);
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(
+          Player
+        );
+        card = CardManager.getCardById(data.cardId);
+        player.buyItem(card, false);
         ActionManager.updateActions();
         break;
       case Signal.DECLAREATTACK:

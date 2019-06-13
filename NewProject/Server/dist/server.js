@@ -59,17 +59,17 @@ var Server = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        console.log('Loading config...');
+                        console.log("Loading config...");
                         _a = this;
                         return [4 /*yield*/, this.loadConfig()];
                     case 1:
                         _a.config = _c.sent();
-                        console.log('Loading dictionary...');
+                        console.log("Loading dictionary...");
                         _b = this;
                         return [4 /*yield*/, this.loadWords()];
                     case 2:
                         _b.words = _c.sent();
-                        console.log('Setting up server...');
+                        console.log("Setting up server...");
                         this.setupWebSocket();
                         this.bindEvents();
                         return [2 /*return*/];
@@ -90,6 +90,10 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].GETREACTION, this.onGetReaction, this);
         whevent.on(signal_1["default"].FIRSTGETREACTION, this.onGetReaction, this);
         whevent.on(signal_1["default"].RESOLVEACTIONS, this.onResolveActions, this);
+        whevent.on(signal_2["default"].DISCRADLOOT, this.onDiscardLoot, this);
+        whevent.on(signal_2["default"].ACTIVATEITEM, this.onActivateItem, this);
+        whevent.on(signal_2["default"].NEWMONSTERONPLACE, this.onNewActiveMonster, this);
+        whevent.on(signal_2["default"].SHOWCARDPREVIEW, this.onShowCardPreview, this);
     };
     Server.prototype.onRequestMatch = function (_a) {
         var player = _a.player, data = _a.data;
@@ -101,14 +105,17 @@ var Server = /** @class */ (function () {
     Server.prototype.onStartGame = function (_a) {
         var player = _a.player, data = _a.data;
         if (player_1["default"].players.length >= 2) {
-            console.log('Starting match with ' + player.match.players.length + ' Players');
+            console.log("Starting match with " + player.match.players.length + " Players");
             player.match.start();
         }
     };
     Server.prototype.moveToTable = function (_a) {
         var player = _a.player, data = _a.data;
-        console.log('Move to table request from players');
-        player.send(signal_2["default"].MOVETOTABLE, { playerID: player.uuid, numOfPlayers: player_1["default"].players.length });
+        console.log("Move to table request from players");
+        player.send(signal_2["default"].MOVETOTABLE, {
+            playerID: player.uuid,
+            numOfPlayers: player_1["default"].players.length
+        });
     };
     Server.prototype.onGetReaction = function (_a) {
         var player = _a.player, data = _a.data;
@@ -116,9 +123,7 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.onResolveActions = function (_a) {
         var player = _a.player, data = _a.data;
-        console.log('onResolveActions');
         var firstPlayer = player.match.getPlayerById(data.data.originalPlayer);
-        console.log(firstPlayer);
         firstPlayer.send(signal_2["default"].RESOLVEACTIONS, data);
         player.match.broadcastExept(firstPlayer, signal_2["default"].OTHERPLAYERRESOLVEREACTION, data);
         //add broadcast to other players with diffrent signal to exceute "other side action stack"
@@ -127,6 +132,18 @@ var Server = /** @class */ (function () {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_2["default"].CARDDRAWED, data);
     };
+    Server.prototype.onShowCardPreview = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].SHOWCARDPREVIEW, data);
+    };
+    Server.prototype.onNewActiveMonster = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].NEWMONSTERONPLACE, data);
+    };
+    Server.prototype.onActivateItem = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].ACTIVATEITEM, data);
+    };
     Server.prototype.onDeclareAttack = function (_a) {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_2["default"].DECLAREATTACK, data);
@@ -134,6 +151,10 @@ var Server = /** @class */ (function () {
     Server.prototype.onLootCardPlayed = function (_a) {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_2["default"].PLAYLOOTCARD, data);
+    };
+    Server.prototype.onDiscardLoot = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].DISCRADLOOT, data);
     };
     Server.prototype.onAddItem = function (_a) {
         var player = _a.player, data = _a.data;
@@ -152,16 +173,16 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.setupWebSocket = function () {
         var _this = this;
-        //@ts-ignore 
+        //@ts-ignore
         this.wss = new ws_1.Server({ port: this.config.port }, function () {
-            console.log('\x1b[33m%s\x1b[0m', "Websocket server listening on port " + _this.config.port + "...");
-            _this.wss.on('connection', function (ws) {
+            console.log("\x1b[33m%s\x1b[0m", "Websocket server listening on port " + _this.config.port + "...");
+            _this.wss.on("connection", function (ws) {
                 var player = player_1["default"].getPlayer(ws);
                 _this.onConnection(player);
-                ws.on('message', function (message) {
+                ws.on("message", function (message) {
                     _this.onMessage(player, message);
                 });
-                ws.on('close', function (ws) {
+                ws.on("close", function (ws) {
                     _this.onClose(player);
                 });
             });
@@ -169,7 +190,7 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.loadConfig = function () {
         return new Promise(function (resolve, reject) {
-            fs.readFile('./resources/config.json', function (err, data) {
+            fs.readFile("./resources/config.json", function (err, data) {
                 if (err) {
                     reject(err);
                 }
@@ -181,7 +202,7 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.loadWords = function () {
         return new Promise(function (resolve, reject) {
-            fs.readFile('./resources/words.json', function (err, data) {
+            fs.readFile("./resources/words.json", function (err, data) {
                 if (err) {
                     reject(err);
                 }
@@ -204,7 +225,7 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.onMessage = function (player, message) {
         try {
-            var data = JSON.parse(Buffer.from(message, 'base64').toString());
+            var data = JSON.parse(Buffer.from(message, "base64").toString());
             console.log("Player " + player.uuid + ": ", data);
             whevent.emit(data.signal, { player: player, data: data });
         }

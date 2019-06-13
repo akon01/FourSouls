@@ -1,16 +1,11 @@
-import { ServerEffect } from "./../../Entites/ServerCardEffect";
-import { COLORS, CHOOSE_TYPE } from "./../../Constants";
-
-import Player from "../../Entites/Player";
-
-import PlayerManager from "../../Managers/PlayerManager";
 import { printMethodStarted } from "../../Constants";
-import Card from "../../Entites/Card";
-import EffectInterface from "./EffectInterface";
-import Effect from "./Effect";
-import DataCollector from "../DataCollector/DataCollector";
+
 import CardManager from "../../Managers/CardManager";
-import Deck from "../../Entites/Deck";
+import DataCollector from "../DataCollector/DataCollector";
+import { CHOOSE_TYPE, COLORS } from "./../../Constants";
+import { ServerEffect } from "./../../Entites/ServerCardEffect";
+import Effect from "./Effect";
+import Deck from "../../Entites/GameEntities/Deck";
 
 const { ccclass, property } = cc._decorator;
 
@@ -40,7 +35,9 @@ export default class LookAtTopDeck extends Effect {
     //   data.playerId
     // ).getComponent(Player);
 
-    let deck = CardManager.getCardById(data.cardChosenId).getComponent(Deck);
+    let deck: Deck = CardManager.getCardById(data.cardChosenId).getComponent(
+      Deck
+    );
 
     for (let i = 0; i < this.numOfCards; i++) {
       if (deck.cards.length > i) {

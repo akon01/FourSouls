@@ -1,6 +1,5 @@
 import { ServerEffect } from "./../../Entites/ServerCardEffect";
 
-import Player from "../../Entites/Player";
 import EffectInterface from "./EffectInterface";
 import DataCollector from "../DataCollector/DataCollector";
 import { CHOOSE_TYPE } from "../../Constants";

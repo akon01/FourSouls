@@ -1,23 +1,21 @@
-import { TIMETOPLAYLOOT, TIMETOROTATEACTIVATION } from "./../Constants";
-import { getCurrentPlayer } from "../Modules/TurnsModule";
-import CardManager from "../Managers/CardManager";
-import { addCardToCardLayout, removeFromHand } from "../Modules/HandModule";
-import { ACTION_TYPE, CARD_TYPE, TIMETODRAW, TIMETOBUY } from "../Constants";
-import PileManager from "../Managers/PileManager";
-import Card from "./Card";
+import Server from "../../ServerClient/ServerClient";
+import { ACTION_TYPE, CARD_TYPE, TIMETOBUY, TIMETODRAW } from "../Constants";
 import MainScript from "../MainScript";
 import ActionManager from "../Managers/ActionManager";
-
-import Signal from "../../Misc/Signal";
-import Server from "../../ServerClient/ServerClient";
-import PlayerDesk from "./PlayerDesk";
-import Item from "./CardTypes/Item";
-import MonsterAttackable from "../Modules/MonsterAttackable";
+import BattleManager from "../Managers/BattleManager";
+import CardManager from "../Managers/CardManager";
+import PileManager from "../Managers/PileManager";
 import PlayerManager from "../Managers/PlayerManager";
-import Player from "./Player";
 import TurnsManager from "../Managers/TurnsManager";
+import { addCardToCardLayout, removeFromHand } from "../Modules/HandModule";
+import { TIMETOPLAYLOOT, TIMETOROTATEACTIVATION } from "./../Constants";
 import Character from "./CardTypes/Character";
 import CharacterItem from "./CardTypes/CharacterItem";
+import Item from "./CardTypes/Item";
+import Card from "./GameEntities/Card";
+import Player from "./GameEntities/Player";
+import PlayerDesk from "./PlayerDesk";
+import Store from "./GameEntities/Store";
 
 export interface Action {
   originPlayerId: number;
@@ -117,8 +115,18 @@ export class BuyItemAction implements Action {
 
   showAction() {
     let movedCardComp: Card = this.data.movedCard.getComponent("Card");
-    cc.log(movedCardComp.node.parent);
     let canvas = cc.find("Canvas");
+    Store.storeCards = Store.storeCards.filter(
+      card => card != movedCardComp.node
+    );
+    let itemPosInCanvasTrans = canvas.convertToNodeSpaceAR(
+      movedCardComp.node.convertToWorldSpaceAR(movedCardComp.node.getPosition())
+    );
+    // canvas.convertToNodeSpaceAR(
+    // );
+    cc.log(itemPosInCanvasTrans);
+    movedCardComp.node.parent = canvas;
+    movedCardComp.node.setPosition(itemPosInCanvasTrans);
     movedCardComp.node.runAction(
       cc.moveTo(TIMETOBUY, this.data.playerDeskComp.node.getPosition())
     );
@@ -129,7 +137,7 @@ export class BuyItemAction implements Action {
         movedCardItemComp,
         this.data.movedCard
       );
-      MainScript.currentPlayerComp.buyPlays -= 1;
+      TurnsManager.currentTurn.buyPlays -= 1;
       this.data.playerDeskComp.addToDesk(movedCardComp);
     }, (TIMETOBUY + 0.1) * 1000);
   }
@@ -149,12 +157,13 @@ export class DeclareAttackAction implements Action {
   playedCard: Card;
   originPlayerId: number;
   actionTarget: cc.Node;
-  data: { attackedMonster: MonsterAttackable };
+  data: { attackedMonster: cc.Node };
   actionType = ACTION_TYPE.PLAYERACTION;
   hasCardEffect = false;
 
   showAction() {
-    this.data.attackedMonster.attackAMonster();
+    let monster = this.data.attackedMonster;
+    BattleManager.declareAttackOnMonster(monster);
   }
 
   serverBrodcast(serverData) {

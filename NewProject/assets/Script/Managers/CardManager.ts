@@ -207,7 +207,6 @@ export default class CardManager extends cc.Component {
     }
   }
 
-  @printMethodStarted(COLORS.PURPLE)
   static checkForEmptyFields() {
     let monsterField = this.monsterDeck.getComponentInChildren(MonsterField);
     monsterField.updateActiveMonsters();

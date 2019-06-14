@@ -1,4 +1,10 @@
-import { ROLL_TYPE } from "../../Constants";
+import {
+  ROLL_TYPE,
+  TIMEFORDICEROLL,
+  printMethodStarted,
+  COLORS
+} from "../../Constants";
+import Player from "./Player";
 
 const { ccclass, property } = cc._decorator;
 
@@ -22,38 +28,102 @@ export default class Dice extends cc.Component {
   @property
   rollType: ROLL_TYPE = null;
 
-  rollDice() {
+  @property
+  rollOver: boolean = false;
+
+  @printMethodStarted(COLORS.RED)
+  async rollDice(rollType: ROLL_TYPE) {
+    this.rollType = rollType;
     if (this.currentRolledNumber == -1) {
       this.lastRolledNumber = this.currentRolledNumber;
     }
+    let timesToRoll = Math.floor(Math.random() * 5) + 4;
+    this.doRoll();
+    let rollOver = await this.waitForDiceRoll();
+    // await this.schedule(
+    //   () => {
+    //     this.currentRolledNumber = Math.floor(Math.random() * 6) + 1;
+    //     this.node.getComponent(
+    //       cc.Sprite
+    //     ).spriteFrame = this.getSpriteByNumber();
+    //   },
+    //   TIMEFORDICEROLL,
+    //   Math.floor(Math.random() * 5) + 4
+    // );
+    let eventName = "" + this.rollType;
+    cc.log("rolled " + this.currentRolledNumber);
+    return new Promise<number>((resolve, reject) => {
+      resolve(this.currentRolledNumber);
+    });
+  }
+
+  async waitForDiceRoll(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      let check = () => {
+        if (this.rollOver == true) {
+          this.rollOver = false;
+
+          resolve(true);
+        } else {
+          setTimeout(check, 50);
+        }
+      };
+      setTimeout(check, 50);
+    });
+  }
+
+  diceChange() {
+    let newNumber = Math.floor(Math.random() * 6) + 1;
+    while (newNumber == this.currentRolledNumber) {
+      newNumber = Math.floor(Math.random() * 6) + 1;
+    }
+    this.currentRolledNumber = newNumber;
+    // this.node.getComponent(cc.Sprite).spriteFrame = this.getSpriteByNumber();
+  }
+
+  doRoll() {
+    let timesToRoll = Math.floor(Math.random() * 5) + 4;
+    let rolledTimes = 0;
     this.schedule(
       () => {
-        this.currentRolledNumber = Math.floor(Math.random() * 6) + 1;
-        this.node.getComponent(
-          cc.Sprite
-        ).spriteFrame = this.getSpriteByNumber();
+        if (rolledTimes == timesToRoll) {
+          this.rollOver = true;
+        } else {
+          this.diceChange();
+          rolledTimes++;
+        }
       },
-      0.2,
-      Math.floor(Math.random() * 5) + 4
+      TIMEFORDICEROLL,
+      timesToRoll
     );
-    let eventName = "" + this.rollType;
-    //cc.log('rolled '+this.currentRolledNumber)
-    this.node.dispatchEvent(new cc.Event.EventCustom(eventName, true));
   }
 
-  setRoll(diceNum: number) {
+  disableRoll() {
+    this.node.off(cc.Node.EventType.TOUCH_START);
+  }
+
+  async setRoll(diceNum: number) {
     this.lastRolledNumber = this.currentRolledNumber;
     this.currentRolledNumber = diceNum;
+    return new Promise<number>((resolve, reject) => {
+      resolve(this.currentRolledNumber);
+    });
   }
 
-  increaseRollBy(increaseBy: number) {
+  async increaseRollBy(increaseBy: number) {
     this.lastRolledNumber = this.currentRolledNumber;
     this.currentRolledNumber += increaseBy;
+    return new Promise<number>((resolve, reject) => {
+      resolve(this.currentRolledNumber);
+    });
   }
 
-  decreaseRollBy(decreaseBy) {
+  async decreaseRollBy(decreaseBy) {
     this.lastRolledNumber = this.currentRolledNumber;
     this.currentRolledNumber -= decreaseBy;
+    return new Promise<number>((resolve, reject) => {
+      resolve(this.currentRolledNumber);
+    });
   }
 
   getSpriteByNumber() {
@@ -65,11 +135,15 @@ export default class Dice extends cc.Component {
     }
   }
 
-  addRollAction(rollType: ROLL_TYPE) {
+  @printMethodStarted(COLORS.RED)
+  async addRollAction(rollType: ROLL_TYPE) {
     this.availableRolls++;
     this.rollType = rollType;
-    this.node.on(cc.Node.EventType.TOUCH_START, () => {
-      this.rollDice();
+    this.node.off(cc.Node.EventType.TOUCH_START);
+    this.node.once(cc.Node.EventType.TOUCH_START, async () => {
+      let player = this.node.parent.getComponent(Player);
+      cc.log("player clicked on dice");
+      player.rollDice(rollType, true);
     });
   }
 
@@ -77,9 +151,14 @@ export default class Dice extends cc.Component {
 
   onLoad() {
     this.node.off(cc.Node.EventType.TOUCH_START);
+    this.currentRolledNumber = 1;
   }
 
   start() {}
 
-  update(dt) {}
+  update(dt) {
+    this.node.getComponent(cc.Sprite).spriteFrame = this.diceSprites[
+      this.currentRolledNumber - 1
+    ];
+  }
 }

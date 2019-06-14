@@ -15,7 +15,7 @@ export default class LookAtTopDeck extends Effect {
 
   effectName = "LookAtTopDeck";
 
-  @property(DataCollector)
+  @property({ type: DataCollector, override: true })
   dataCollector = null;
 
   @property(Number)

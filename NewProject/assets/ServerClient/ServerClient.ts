@@ -5,9 +5,9 @@
 import Events from "../Misc/Events";
 import Config from "./Config";
 
-import Player from "../Script/Entites/Player";
 import Signal from "../Misc/Signal";
 import ActionManager from "../Script/Managers/ActionManager";
+import Player from "../Script/Entites/GameEntities/Player";
 
 const { ccclass, property } = cc._decorator;
 
@@ -47,6 +47,7 @@ export default class Server extends cc.Component {
     whevent.on(Signal.ACTIVATEITEM, this.onPlayerActionFromServer, this);
     whevent.on(Signal.NEWMONSTERONPLACE, this.onPlayerActionFromServer, this);
     whevent.on(Signal.SHOWCARDPREVIEW, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.ROLLDICE, this.onPlayerActionFromServer, this);
   }
 
   onPlayerActionFromServer({ signal, data }) {
@@ -114,7 +115,7 @@ export default class Server extends cc.Component {
     if (signal == Signal.REACTION || signal == Signal.FIRSTGETREACTION) {
       //cc.log(this.reactionCounter);
     }
-    //cc.log('%cSENDING:', 'color:#36F;', signal, data);
+    cc.log("%cSENDING:", "color:#36F;", signal, data);
     this.ws.send(btoa(JSON.stringify({ signal, data })));
   }
 

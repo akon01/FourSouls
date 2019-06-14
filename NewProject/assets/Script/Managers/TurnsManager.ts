@@ -2,6 +2,10 @@ import Signal from "../../Misc/Signal";
 import Server from "../../ServerClient/ServerClient";
 import { getNextTurn, Turn } from "../Modules/TurnsModule";
 import PlayerManager from "./PlayerManager";
+import Player from "../Entites/GameEntities/Player";
+import Character from "../Entites/CardTypes/Character";
+import MonsterField from "../Entites/MonsterField";
+import Monster from "../Entites/CardTypes/Monster";
 
 const { ccclass, property } = cc._decorator;
 
@@ -36,11 +40,11 @@ export default class TurnsManager extends cc.Component {
 
   /**
    *
-   * @param recivedEvent true if recived from the server and should not send an event.
+   * @param isFromServer true if recived from the server and should not send an event.
    */
-  static nextTurn(recivedEvent: boolean) {
+  static nextTurn(isFromServer: boolean) {
     //cc.log(recivedEvent)
-    if (recivedEvent) {
+    if (isFromServer) {
       this.endTurn();
       this.setCurrentTurn(getNextTurn(TurnsManager.currentTurn, this.turns));
     } else {
@@ -68,8 +72,17 @@ export default class TurnsManager extends cc.Component {
       getNextTurn(TurnsManager.currentTurn, TurnsManager.turns).PlayerId != 0
     ) {
       //for each player heal to max hp
-      for (let i = 0; i < PlayerManager.players.length; i++) {}
+      for (let playerNode of PlayerManager.players) {
+        let player = playerNode.getComponent(Player);
+        player.getComponent(Player).Hp = player.character.getComponent(
+          Character
+        ).Hp;
+      }
       //for each monster heal to max hp
+      for (const monsterNode of MonsterField.activeMonsters) {
+        let monster = monsterNode.getComponent(Monster);
+        monster.currentHp = monster.HP;
+      }
     }
   }
 

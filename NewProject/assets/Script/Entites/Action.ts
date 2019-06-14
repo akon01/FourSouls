@@ -1,5 +1,15 @@
 import Server from "../../ServerClient/ServerClient";
-import { ACTION_TYPE, CARD_TYPE, TIMETOBUY, TIMETODRAW } from "../Constants";
+import {
+  ACTION_TYPE,
+  CARD_TYPE,
+  TIMETOBUY,
+  TIMETODRAW,
+  ROLL_TYPE,
+  printMethodEnded,
+  printMethodSignal,
+  printMethodStarted,
+  COLORS
+} from "../Constants";
 import MainScript from "../MainScript";
 import ActionManager from "../Managers/ActionManager";
 import BattleManager from "../Managers/BattleManager";
@@ -16,6 +26,8 @@ import Card from "./GameEntities/Card";
 import Player from "./GameEntities/Player";
 import PlayerDesk from "./PlayerDesk";
 import Store from "./GameEntities/Store";
+import Dice from "./GameEntities/Dice";
+import Signal from "../../Misc/Signal";
 
 export interface Action {
   originPlayerId: number;
@@ -213,6 +225,85 @@ export class ActivateItemAction implements Action {
 
   constructor(data, originPlayerId: number) {
     this.data = data;
+    this.originPlayerId = originPlayerId;
+  }
+}
+
+export class RollDiceAction implements Action {
+  playedCard: Card;
+  originPlayerId: number;
+  actionTarget: cc.Node;
+  data: {
+    numberRolled: number;
+    rollType: ROLL_TYPE;
+    sendToServer: boolean;
+  } = null;
+  actionType: ACTION_TYPE = ACTION_TYPE.ROLL;
+  hasCardEffect: boolean = true;
+  rollType: ROLL_TYPE = null;
+  sendToServer: boolean;
+  serverNumberRolled: number;
+
+  @printMethodStarted(COLORS.RED)
+  async showAction(data?) {
+    let playerDice = PlayerManager.getPlayerById(
+      this.originPlayerId
+    ).getComponentInChildren(Dice);
+    let numberRolled;
+    let newData;
+    // this.data.rollType = this.rollType;
+    if (this.sendToServer) {
+      numberRolled = await playerDice.rollDice(this.rollType);
+      newData = {
+        numberRolled: numberRolled,
+        rollType: this.rollType,
+        sendToServer: this.sendToServer
+      };
+      let serverData = {
+        signal: Signal.ROLLDICE,
+        srvData: {
+          playerId: this.originPlayerId,
+          numberRolled: newData.numberRolled,
+          rollType: this.rollType
+        }
+      };
+      cc.log(serverData);
+      this.data = newData;
+      //  Server.$.send(serverData.signal, serverData.srvData);
+      return new Promise((resolve, reject) => {
+        resolve(serverData);
+      });
+    } else {
+      playerDice.doRoll();
+      let rollOver = await playerDice.waitForDiceRoll();
+      playerDice.setRoll(this.serverNumberRolled);
+      numberRolled = this.serverNumberRolled;
+      newData = {
+        numberRolled: numberRolled,
+        rollType: this.rollType,
+        sendToServer: this.sendToServer
+      };
+    }
+    cc.log(numberRolled);
+    this.data = newData;
+    return new Promise((resolve, reject) => {
+      resolve(true);
+    });
+  }
+  serverBrodcast(serverData?: any) {
+    let signal = serverData.signal;
+    let data = serverData.srvData;
+    Server.$.send(signal, data);
+  }
+
+  constructor(
+    data: { rollType: ROLL_TYPE; sendToServer: boolean },
+    originPlayerId: number,
+    serverNumberRolled?: number
+  ) {
+    this.serverNumberRolled = serverNumberRolled;
+    this.rollType = data.rollType;
+    this.sendToServer = data.sendToServer;
     this.originPlayerId = originPlayerId;
   }
 }

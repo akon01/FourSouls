@@ -14,7 +14,7 @@ export default class DiscardAndDrawLoot extends Effect {
 
   effectName = "DiscardAndDrawLoot";
 
-  @property(DataCollector)
+  @property({ type: DataCollector, override: true })
   dataCollector = null;
 
   /**

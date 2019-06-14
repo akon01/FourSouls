@@ -5,6 +5,7 @@
  */
 exports.__esModule = true;
 exports["default"] = {
+    ROLLDICE: "$ROLLDICE",
     SHOWCARDPREVIEW: "$SHOWCARDPREVIEW",
     NEWMONSTERONPLACE: "$NEWMONSTERONPLACE",
     DISCRADLOOT: "$DISCARDLOOT",

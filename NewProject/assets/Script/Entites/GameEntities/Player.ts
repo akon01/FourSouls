@@ -7,14 +7,18 @@ import {
   DeclareAttackAction,
   MoveLootToPile,
   BuyItemAction,
-  ActivateItemAction
+  ActivateItemAction,
+  RollDiceAction
 } from "../Action";
 import Signal from "../../../Misc/Signal";
 import {
   CARD_TYPE,
   TIMETOREACTONACTION,
   ITEM_TYPE,
-  CARD_WIDTH
+  CARD_WIDTH,
+  ROLL_TYPE,
+  printMethodStarted,
+  COLORS
 } from "../../Constants";
 import ActionManager from "../../Managers/ActionManager";
 import MonsterField from "../MonsterField";
@@ -85,6 +89,15 @@ export default class Player extends cc.Component {
   coins: number = 0;
 
   @property
+  Hp: number = 0;
+
+  @property
+  damage: number = 0;
+
+  @property
+  baseDamage: number = 0;
+
+  @property
   reactCardNode: cc.Node[] = [];
 
   @property
@@ -145,10 +158,6 @@ export default class Player extends cc.Component {
       monsterCardHolder = MonsterField.getMonsterPlaceById(
         activeMonsterSelected.monsterPlace.id
       );
-      // monsterPlace = MonsterField.getMonsterPlaceByActiveMonsterId(
-      //   monsterInSpotChosen.cardChosenId
-      // );
-
       monsterField.addMonsterToExsistingPlace(
         monsterCardHolder.id,
         newMonster,
@@ -164,9 +173,50 @@ export default class Player extends cc.Component {
     let action = new DeclareAttackAction({ attackedMonster: attackedMonster });
     let serverData = {
       signal: Signal.DECLAREATTACK,
-      srvData: { attackedMonsterId: monsterId }
+      srvData: { attackedMonsterId: monsterId, playerId: this.playerId }
     };
-    ActionManager.doAction(action, serverData);
+    if (sendToServer) {
+      ActionManager.doAction(action, serverData);
+    } else {
+      ActionManager.showSingleAction(action, serverData, sendToServer);
+    }
+  }
+
+  calculateDamage() {
+    let damage = 0;
+    damage += this.baseDamage;
+    damage += this.character.getComponent(Character).damage;
+    // items that increase damage should increase baseDamage
+    return damage;
+  }
+
+  @printMethodStarted(COLORS.RED)
+  rollDice(rollType: ROLL_TYPE, sendToServer: boolean, numberRolled?: number) {
+    let playerId = this.playerId;
+
+    // let serverData = {
+    //   signal: Signal.ROLLDICE
+    //   srvData: { playerId: playerId, cardId: cardId }
+    // };
+    let action;
+    if (sendToServer) {
+      action = new RollDiceAction(
+        { rollType: rollType, sendToServer: sendToServer },
+        playerId
+      );
+      ActionManager.doAction(action, {});
+    } else {
+      action = new RollDiceAction(
+        { rollType: rollType, sendToServer: false },
+        playerId,
+        numberRolled
+      );
+      ActionManager.showSingleAction(action, {}, false);
+    }
+    // } else {
+    //change to when reciveing a roll from server to new action of a already knowen rolled dice to only show as if rolling but set the rolled number the same as that was rolled by original player
+    //   ActionManager.showSingleAction(action, {}, sendToServer);
+    //  }
   }
 
   discardLoot(lootCard: cc.Node, sendToServer: boolean) {
@@ -239,6 +289,18 @@ export default class Player extends cc.Component {
     } else {
       throw "received item is null";
     }
+  }
+
+  getHit(damage: number) {
+    this.Hp -= damage;
+    //add a function in action manager to check if any player is dead.
+  }
+
+  getMonsterRewards(monsterKilled: cc.Node) {
+    let monster = monsterKilled.getComponent(Monster);
+    let monsterReward = monster.reward;
+
+    monsterReward.rewardPlayer(this.node);
   }
 
   activateCard(card: cc.Node) {

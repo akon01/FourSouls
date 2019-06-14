@@ -10,7 +10,7 @@ const { ccclass, property } = cc._decorator;
 export default class AddMoney extends Effect {
   effectName = "addMoney";
 
-  @property(DataCollector)
+  @property({ type: DataCollector, override: true })
   dataCollector = null;
 
   @property(Number)

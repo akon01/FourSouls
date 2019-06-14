@@ -1,29 +1,27 @@
-
-
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Character extends cc.Component {
+  @property(cc.Prefab)
+  charItemPrefab: cc.Prefab = null;
 
-    @property(cc.Prefab)
-    charItemPrefab: cc.Prefab = null;
+  @property
+  charItemCard: cc.Node = null;
 
-    @property
-    charItemCard:cc.Node = null;
+  @property
+  activated: boolean = false;
 
-    @property  
-    activated:boolean = false;
+  @property
+  Hp: number = 0;
 
-  
+  @property
+  damage: number = 0;
 
-   
-    // LIFE-CYCLE CALLBACKS:
+  // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {}
+  // onLoad () {}
 
-    start () {
+  start() {}
 
-    }
-
-    // update (dt) {}
+  // update (dt) {}
 }

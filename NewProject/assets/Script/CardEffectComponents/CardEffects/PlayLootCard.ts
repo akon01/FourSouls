@@ -16,7 +16,7 @@ export default class PlayLootCard extends Effect {
 
   effectName = "playLootCard";
 
-  @property(DataCollector)
+  @property({ type: DataCollector, override: true })
   dataCollector = null;
 
   /**

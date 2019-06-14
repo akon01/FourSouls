@@ -41,7 +41,8 @@ export enum ROLL_TYPE {
 export enum ACTION_TYPE {
   PLAYERACTION = 1,
   ACTIVECARDEFFECT = 2,
-  EFFECT = 3
+  EFFECT = 3,
+  ROLL = 4
 }
 
 export enum COLLECTORTYPE {
@@ -81,6 +82,8 @@ export const TIMETOSHOWPREVIEW = 0.5;
 export const TIMETOHIDEPREVIEW = 0.5;
 export const TIMETOROTATEACTIVATION = 0.5;
 export const TIMETOREACTONACTION = 1.5;
+export const TIMEFORDICEROLL = 0.3;
+export const TIMEFORMONSTERDISCARD = 1;
 
 export const printMethodStarted = (color: COLORS) =>
   beforeMethod(meta => {
@@ -115,7 +118,13 @@ export const printMethodSignal = beforeMethod(meta => {
   let className = classDesc[1];
 
   cc.log(
-    "%c" + className + ":\n" + meta.key + " Signal is :" + meta.args[0],
+    "%c" +
+      meta.key +
+      " Signal :" +
+      meta.args[0] +
+      "\n" +
+      " Data :" +
+      meta.args[1],
     "color:rgb(10%, 0%, 60%)"
   );
 });

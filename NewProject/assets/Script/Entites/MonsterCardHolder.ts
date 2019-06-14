@@ -21,12 +21,16 @@ export default class MonsterCardHolder extends cc.Component {
   spriteFrame: cc.SpriteFrame = null;
 
   getNextMonster() {
+    cc.log(this.monsters.length);
     if (this.monsters.length > 0) {
       this.activeMonster = this.monsters.pop();
       this.spriteFrame = this.activeMonster.getComponent(cc.Sprite).spriteFrame;
       return this.activeMonster;
     } else {
       let drawnMonster = CardManager.monsterDeck.getComponent(Deck).drawCard();
+      if (drawnMonster.getComponent(Card).isFlipped) {
+        drawnMonster.getComponent(Card).flipCard();
+      }
       this.addToMonsters(drawnMonster);
     }
   }
@@ -47,6 +51,11 @@ export default class MonsterCardHolder extends cc.Component {
 
     this.node.width = monsterCard.width;
     this.node.height = monsterCard.height;
+  }
+
+  removeMonster(monster: cc.Node) {
+    this.monsters.splice(this.monsters.indexOf(monster));
+    this.getNextMonster();
   }
 
   toString() {

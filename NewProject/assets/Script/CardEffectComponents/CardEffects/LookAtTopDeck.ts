@@ -26,7 +26,7 @@ export default class LookAtTopDeck extends Effect {
    * @param data {target:PlayerId}
    */
 
-  @printMethodStarted(COLORS.RED)
+  //@printMethodStarted(COLORS.RED)
   doEffect(
     serverEffectStack: ServerEffect[],
     data?: { cardChosenId: number; playerId: number }

@@ -20,6 +20,12 @@ export default class MonsterCardHolder extends cc.Component {
   @property
   spriteFrame: cc.SpriteFrame = null;
 
+  @property
+  hpLable: cc.Label = null;
+
+  @property
+  dmgLable: cc.Label = null;
+
   getNextMonster() {
     cc.log(this.monsters.length);
     if (this.monsters.length > 0) {
@@ -74,10 +80,27 @@ export default class MonsterCardHolder extends cc.Component {
   // LIFE-CYCLE CALLBACKS:
 
   onLoad() {
+    this.hpLable = this.node.getChildByName("hp").getComponent(cc.Label);
+    this.dmgLable = this.node.getChildByName("dmg").getComponent(cc.Label);
     this.spriteFrame = this.getComponent(cc.Sprite).spriteFrame;
   }
 
   start() {}
 
-  // update (dt) {}
+  update(dt) {
+    if (this.activeMonster != null) {
+      this.hpLable.string =
+        "hp: " + this.activeMonster.getComponent(Monster).currentHp;
+      if (this.activeMonster.getComponent(Monster).baseDamage != 0) {
+        this.dmgLable.string =
+          "dmg: " + this.activeMonster.getComponent(Monster).calculateDamage();
+      } else {
+        this.dmgLable.enabled = false;
+      }
+    } else {
+      this.hpLable.string = "hp:" + 0;
+      this.dmgLable.enabled = false;
+      // this.dmgLable.string = "dmg:" + 0;
+    }
+  }
 }

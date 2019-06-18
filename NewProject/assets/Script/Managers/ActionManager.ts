@@ -1,7 +1,7 @@
 import Signal from "../../Misc/Signal";
 import Server from "../../ServerClient/ServerClient";
 import { ROLL_TYPE, ACTION_TYPE } from "../Constants";
-import { Action } from "../Entites/Action";
+import { Action, ActivatePassiveAction } from "../Entites/Action";
 import { CardLayout } from "../Entites/CardLayout";
 import Item from "../Entites/CardTypes/Item";
 import Card from "../Entites/GameEntities/Card";
@@ -20,6 +20,7 @@ import CardManager from "./CardManager";
 import PlayerManager from "./PlayerManager";
 import TurnsManager from "./TurnsManager";
 import CardPreview from "../Entites/CardPreview";
+import PassiveManager from "./PassiveManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -37,61 +38,7 @@ export default class ActionManager extends cc.Component {
   static actionStack: Action[] = [];
   static serverCardEffectStack: ServerEffect[] = [];
   static noMoreActionsBool: boolean = false;
-
-  // static otherPlayerDrawCard(playerId: number, deckType: CARD_TYPE) {
-  //   let deck = CardManager.getDeckByType(deckType);
-  //   let deckComp: Deck = deck.getComponent(Deck);
-  //   let drawnCard: cc.Node = deckComp.drawCard();
-  //   let player = PlayerManager.getPlayerById(playerId).getComponent(Player);
-  //   drawnCard.getComponent(Card).flipCard();
-  //   let drawAction = new DrawCardAction({ drawnCard }, playerId);
-  //   let serverData = {
-  //     signal: Signal.CARDDRAWED,
-  //     srvData: { player: playerId, deck: CARD_TYPE.LOOT }
-  //   };
-  //   ActionManager.showSingleAction(drawAction, serverData);
-  //   // drawnCard.setPosition(CardManager.lootDeck.getPosition());
-  //   // let handPos = player.hand.node.getPosition();
-  //   // drawnCard.parent = cc.find("Canvas");
-  //   // drawnCard.runAction(cc.moveTo(TIMETODRAW, handPos));
-  //   // setTimeout(() => {
-  //   //   addCardToCardLayout(drawnCard, player.hand, true);
-  //   //   //TurnsManager.currentTurn.drawPlays -= 1;
-  //   //   ActionManager.updateActions();
-  //   //   CardManager.allCards.push(drawnCard);
-  //   // }, (TIMETODRAW + 0.1) * 1000);
-  // }
-
-  // static otherPlayerPlayedLoot(playedId: number, cardId: number) {
-  //   let card: cc.Node = CardManager.getCardById(cardId);
-  //   let cardComp: Card = card.getComponent(Card);
-  //   let playerNode: cc.Node = PlayerManager.getPlayerById(playedId);
-  //   let playerHand: CardLayout = playerNode.getComponent(Player).hand;
-  //   card.runAction(
-  //     cc.moveTo(TIMETOPLAYLOOT, PileManager.lootCardPileNode.position)
-  //   );
-  //   setTimeout(() => {
-  //     removeFromHand(card, playerHand);
-  //     PileManager.addCardToPile(CARD_TYPE.LOOT, card);
-  //     let cardSprite: cc.Sprite = card.getComponent(cc.Sprite);
-  //     cardSprite.spriteFrame = cardComp.frontSprite;
-  //     CardManager.onTableCards.push(card);
-  //   }, (TIMETOPLAYLOOT + 0.1) * 1000);
-  // }
-
-  // static otherPlayerGotItem(playedId: number, cardId: number) {
-  //   let card: cc.Node = CardManager.getCardById(cardId);
-  //   let cardComp: Card = card.getComponent("Card");
-  //   let playerNode: cc.Node = PlayerManager.getPlayerById(playedId);
-  //   let playerdesk: PlayerDesk = playerNode.getComponent(Player).desk;
-  //   cardComp.node.runAction(
-  //     cc.moveTo(TIMETOBUY, playerdesk.node.getPosition())
-  //   );
-  //   setTimeout(() => {
-  //     playerNode.getComponent(Player).addItem(card.getComponent(Item), card);
-  //     playerdesk.addToDesk(cardComp);
-  //   }, (TIMETOBUY + 0.1) * 1000);
-  // }
+  static inReactionPhase: boolean = false;
 
   static lootPlayedInAction(playerId: any, cardId: any) {
     let card: Card = CardManager.getCardById(cardId).getComponent(Card);
@@ -146,12 +93,23 @@ export default class ActionManager extends cc.Component {
           const storeCard = Store.storeCards[i];
           CardManager.makeItemBuyable(storeCard, currentPlayerComp);
         }
-      } else
+
+        if (treasureDeck.drawnCard != null) {
+          let treasureDeckTopCard = treasureDeck.drawnCard;
+          CardManager.makeItemBuyable(treasureDeckTopCard, currentPlayerComp);
+        }
+      } else {
         for (let i = 0; i < Store.storeCards.length; i++) {
           const storeCard = Store.storeCards[i];
           CardManager.disableCardActions(storeCard);
           CardManager.makeCardPreviewable(storeCard);
         }
+        if (treasureDeck.drawnCard != null) {
+          let treasureDeckTopCard = treasureDeck.drawnCard;
+          CardManager.disableCardActions(treasureDeckTopCard);
+          //  CardManager.makeCardPreviewable(treasureDeckTopCard);
+        }
+      }
       //make monster cards attackable
       if (TurnsManager.currentTurn.attackPlays > 0) {
         for (let i = 0; i < MonsterField.activeMonsters.length; i++) {
@@ -200,6 +158,7 @@ export default class ActionManager extends cc.Component {
     } else {
       //if the monster is not dead
       cc.log("In battle");
+      //enable activating items
       if (BattleManager.currentlyAttackedMonster.currentHp > 0) {
         let playerItems = player.getComponent(Player).activeItems;
         for (let i = 0; i < playerItems.length; i++) {
@@ -210,9 +169,24 @@ export default class ActionManager extends cc.Component {
             CardManager.disableCardActions(item.node);
           }
         }
+        //enable playing loot if you havnet already
+        if (TurnsManager.currentTurn.lootCardPlays > 0) {
+          for (let i = 0; i < currentPlayerComp.handCards.length; i++) {
+            const card = currentPlayerComp.handCards[i];
+            CardManager.disableCardActions(card);
+            CardManager.makeLootPlayable(card, currentPlayerComp);
+            CardManager.setOriginalSprites(currentPlayerHandComp.layoutCards);
+          }
+        } else {
+          for (let i = 0; i < currentPlayerComp.handCards.length; i++) {
+            const card = currentPlayerComp.handCards[i];
+            CardManager.disableCardActions(card);
+            CardManager.makeCardPreviewable(card);
+          }
+        }
         //if its a first attack
         if (BattleManager.firstAttack) {
-          //allow rolling of a dice and activating items;
+          //allow rolling of a dice
           player
             .getComponentInChildren(Dice)
             .addRollAction(ROLL_TYPE.FIRSTATTACK);
@@ -265,6 +239,7 @@ export default class ActionManager extends cc.Component {
     if (otherPlayersHandCards.length != 0) {
       for (let i = 0; i < otherPlayersHandCards.length; i++) {
         const card = otherPlayersHandCards[i].getComponent(Card);
+        card.node.getComponent(cc.Sprite).spriteFrame = card.backSprite;
         CardManager.disableCardActions(card.node);
       }
     }
@@ -274,12 +249,15 @@ export default class ActionManager extends cc.Component {
     ButtonManager.nextTurnButton.getComponent(cc.Button).interactable = false;
 
     //Set up listener to card selected
-
-    cc.director.getScene().off("cardMoved");
   }
 
   static updateActions() {
+    cc.log("update actions");
     CardManager.checkForEmptyFields();
+    CardManager.updatePlayerCards();
+    CardManager.updateOnTableCards();
+    CardManager.updatePassiveListeners();
+
     if (MainScript.currentPlayerNode == PlayerManager.mePlayer) {
       this.updateActionsForTurnPlayer(MainScript.currentPlayerNode);
     } else {
@@ -311,47 +289,46 @@ export default class ActionManager extends cc.Component {
    * @param action an action object.
    * @param serverData {signal,srvData}
    */
-  @printMethodStarted(COLORS.PURPLE)
+  //@printMethodStarted(COLORS.PURPLE)
   static async doAction(action: Action, serverData: {}) {
     //show the action to current player
-    if (action.actionType == ACTION_TYPE.ROLL) {
-      cc.log("action type is roll");
-      let srvData = await action.showAction();
-      action.serverBrodcast(srvData);
-    } else {
-      action.showAction();
-      //show the action to other players.
-      action.serverBrodcast(serverData);
-    }
+    this.inReactionPhase = true;
+    let bool = await action.showAction();
+    //show the action to other players.
+    action.serverBrodcast(serverData);
 
     //send to server to get reaction
     //if the action has a card effect that needs to be resolved
     if (action.hasCardEffect) {
       let actionCardServerEffect;
-      if (action.actionType == ACTION_TYPE.ROLL) {
-        cc.log(action.data);
-        actionCardServerEffect = new ServerEffect(
-          "roll",
-          action.data,
-          0,
-          action.originPlayerId,
-          0
+      let passiveIndex;
+      let playerId = action.originPlayerId;
+      if (action instanceof ActivatePassiveAction) {
+        passiveIndex = action.passiveIndex;
+        actionCardServerEffect = await CardManager.getCardEffect(
+          action.playedCard,
+          playerId,
+          passiveIndex
         );
       } else {
-        let playerId = action.originPlayerId;
         actionCardServerEffect = await CardManager.getCardEffect(
-          action.playedCard.node,
+          action.playedCard,
           playerId
         );
       }
-      ActionManager.sendFirstGetReactionToServer(actionCardServerEffect);
+      //  let playerId = action.originPlayerId;
+      this.serverCardEffectStack.push(actionCardServerEffect);
+      ActionManager.sendFirstGetReactionToServer(this.serverCardEffectStack);
     } else {
       ActionManager.sendFirstGetReactionToServer();
     }
     //wait for reaction to return a promise of a stack of actions.
-
+    this.updateActions();
     let serverEffectStack: ServerEffect[] = await ActionManager.waitForAllEffects();
-    ActionManager.doServerCardEffects(serverEffectStack);
+    ActionManager.doServerEffects(serverEffectStack);
+    return new Promise((resolve, reject) => {
+      resolve(true);
+    });
   }
 
   /**
@@ -366,7 +343,7 @@ export default class ActionManager extends cc.Component {
     sendToServer: boolean
   ) {
     //show the action to current player
-    action.showAction();
+    let bool = await action.showAction();
     if (sendToServer) {
       //show the action to other players.
       action.serverBrodcast(serverData);
@@ -375,10 +352,14 @@ export default class ActionManager extends cc.Component {
     if (action.hasCardEffect) {
       let playerId = action.originPlayerId;
       let actionCardServerEffect: ServerEffect[] = [
-        await CardManager.getCardEffect(action.playedCard.node, playerId)
+        await CardManager.getCardEffect(action.playedCard, playerId)
       ];
-      ActionManager.doServerCardEffects(actionCardServerEffect);
+      this.updateActions();
+      ActionManager.doServerEffects(actionCardServerEffect);
     }
+    return new Promise((resolve, reject) => {
+      resolve(true);
+    });
   }
   /**
    *
@@ -393,40 +374,55 @@ export default class ActionManager extends cc.Component {
     sendToServer: boolean
   ) {
     //show the action to current player
-    action.showAction();
+    let bool = await action.showAction();
     //show the action to other players.
     if (sendToServer) {
       action.serverBrodcast(serverData);
     }
+    this.updateActions();
+    return new Promise((resolve, reject) => {
+      resolve(true);
+    });
   }
 
-  static async doServerCardEffects(serverCardEffectStack: ServerEffect[]) {
+  static async doServerEffects(serverCardEffectStack: ServerEffect[]) {
     if (
       Array.isArray(serverCardEffectStack) &&
       serverCardEffectStack.length > 0
     ) {
       let currentServerEffect: ServerEffect = serverCardEffectStack.pop();
       let newServerEffectStack = null;
-      if (currentServerEffect.effectName == "roll") {
-        //  let rollType = currentServerEffect.cardEffectData.rollType;
-        cc.log(currentServerEffect.cardEffectData);
-        let numberRolled = currentServerEffect.cardEffectData.numberRolled;
-        let sendToServer = currentServerEffect.cardEffectData.sendToServer;
-        cc.log(numberRolled);
-        BattleManager.rollOnMonster(numberRolled, sendToServer);
-      } else {
-        newServerEffectStack = await CardManager.doCardEffectFromServer(
-          currentServerEffect,
-          serverCardEffectStack
-        );
-      }
 
-      this.doServerCardEffects(newServerEffectStack);
+      newServerEffectStack = await CardManager.doCardEffectFromServer(
+        currentServerEffect,
+        serverCardEffectStack
+      );
+
+      if (PassiveManager.inPassivePhase) {
+        let passivesOver = await this.waitForPassives();
+      }
+      this.doServerEffects(newServerEffectStack);
     } else {
       cc.log("check after last effect");
+      this.inReactionPhase = false;
     }
 
     this.updateActions();
+  }
+
+  static async waitForPassives(): Promise<boolean> {
+    //w8 for a server message with a while,after the message is recived (should be a stack of effects with booleans) resolve with stack of effects.
+    return new Promise((resolve, reject) => {
+      let check = () => {
+        if (PassiveManager.inPassivePhase == false) {
+          //  ActionManager.noMoreActionsBool = false;
+          resolve(true);
+        } else {
+          setTimeout(check, 50);
+        }
+      };
+      setTimeout(check, 50);
+    });
   }
 
   static sendGetReactionToNextPlayer(data) {
@@ -437,8 +433,18 @@ export default class ActionManager extends cc.Component {
     let noMoreActionsBooleans: boolean[] = [];
     let serverCardEffects: ServerEffect[] = [];
 
-    if (firstActionServerCardEffect) {
-      serverCardEffects.push(firstActionServerCardEffect);
+    if (
+      firstActionServerCardEffect != null &&
+      Array.isArray(firstActionServerCardEffect)
+    ) {
+      serverCardEffects = serverCardEffects.concat(firstActionServerCardEffect);
+    } else {
+      if (
+        firstActionServerCardEffect != null &&
+        !Array.isArray(firstActionServerCardEffect)
+      ) {
+        serverCardEffects.push(firstActionServerCardEffect);
+      }
     }
     for (let i = 0; i < PlayerManager.players.length; i++) {
       noMoreActionsBooleans.push(false);
@@ -467,7 +473,7 @@ export default class ActionManager extends cc.Component {
     });
   }
 
-  @printMethodSignal
+  //@printMethodSignal
   static getActionFromServer(signal, data) {
     let player: Player;
     let card;
@@ -522,14 +528,27 @@ export default class ActionManager extends cc.Component {
         ActionManager.updateActions();
         break;
       case Signal.ROLLDICE:
-        cc.log("roll dice");
+        cc.log("begin roll dice animaion");
         player = PlayerManager.getPlayerById(data.playerId).getComponent(
           Player
         );
-        let numberRolled = data.numberRolled;
-        let rollType = data.rollType;
-        player.rollDice(rollType, false, numberRolled);
+        // let numberRolled = data.numberRolled;
+        // let rollType = data.rollType;
+        player.dice.activateRollAnimation();
+        //  player.rollDice(rollType, false, numberRolled);
         break;
+      case Signal.ROLLDICEENDED:
+        cc.log(" roll dice ended on other side");
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(
+          Player
+        );
+        // let numberRolled = data.numberRolled;
+        // let rollType = data.rollType;
+        player.dice.endRollAnimation();
+        player.dice.setRoll(data.numberRolled);
+        //  player.rollDice(rollType, false, numberRolled);
+        break;
+
       case Signal.PLAYLOOTCARD:
         player = PlayerManager.getPlayerById(data.playerId).getComponent(
           Player
@@ -542,7 +561,7 @@ export default class ActionManager extends cc.Component {
         player = PlayerManager.getPlayerById(data.playerId).getComponent(
           Player
         );
-        card = CardManager.getCardById(data.cardId);
+        card = CardManager.getCardById(data.cardId, true);
         player.buyItem(card, false);
         ActionManager.updateActions();
         break;
@@ -562,6 +581,7 @@ export default class ActionManager extends cc.Component {
 
       //Part of Reaction system. get reaction from a player
       case Signal.GETREACTION:
+        this.serverCardEffectStack = data.serverCardEffects;
         if (ActionManager.checkForLastAction(data, false)) {
         } else {
           PlayerManager.mePlayer.getComponent(Player).getReaction(data);
@@ -590,7 +610,7 @@ export default class ActionManager extends cc.Component {
   }
 
   static resolveOtherPlayerAction(data) {
-    this.doServerCardEffects(data.serverCardEffects);
+    this.doServerEffects(data.serverCardEffects);
   }
 
   /**

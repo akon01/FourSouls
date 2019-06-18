@@ -6,6 +6,7 @@ import { CARD_HEIGHT, CARD_WIDTH, COLORS } from "./../Constants";
 import { CardLayout } from "./CardLayout";
 import Card from "./GameEntities/Card";
 import MonsterCardHolder from "./MonsterCardHolder";
+import Monster from "./CardTypes/Monster";
 
 const { ccclass, property } = cc._decorator;
 
@@ -45,17 +46,13 @@ export default class MonsterField extends cc.Component {
     }
     let monsterHolder = MonsterField.getMonsterPlaceById(monsterPlaceId);
     let monsterId = monsterCardComp.cardId;
-    //monsterCard.parent = cc.find("Canvas");
-    //monsterPlace.node.active = false;
-    // monsterCard.parent = monsterHolder.node;
-    // monsterCard.setPosition(0, 0);
-
+    monsterCard.getComponent(Monster).currentHp = monsterCard.getComponent(
+      Monster
+    ).HP;
     monsterHolder.addToMonsters(monsterCard);
     CardManager.allCards.push(monsterCard);
     CardManager.onTableCards.push(monsterCard);
-    // let layout = this.node.getComponent(CardLayout);
-    // layout.addCardToLayout(monsterCard);
-    this.updateActiveMonsters();
+    MonsterField.updateActiveMonsters();
     let signal = Signal.NEWMONSTERONPLACE;
     let srvData = { newMonsterId: monsterId, monsterPlaceId: monsterPlaceId };
     if (sendToServer) {
@@ -127,7 +124,7 @@ export default class MonsterField extends cc.Component {
     }
   }
 
-  updateActiveMonsters() {
+  static updateActiveMonsters() {
     MonsterField.activeMonsters = [];
     for (let i = 0; i < MonsterField.monsterCardHolders.length; i++) {
       const monsterPlace = MonsterField.monsterCardHolders[i];
@@ -135,32 +132,14 @@ export default class MonsterField extends cc.Component {
     }
   }
 
-
-
   // LIFE-CYCLE CALLBACKS:
 
   onLoad() {
     this.layout = this.getComponent(cc.Layout);
-    // cc.log(layout);
-    // cc.log(this.node);
+
     //make first two monster places
     for (let i = 0; i < 2; i++) {
-      // let monsterHolder = cc.instantiate(this.MonsterCardHolderPrefab);
-      // monsterHolder.name =
-      //   "holder" + monsterHolder.getComponent(MonsterCardHolder).id;
-      // monsterHolder.parent = this.node;
-      // monsterHolder.width = CARD_WIDTH;
-      // monsterHolder.height = CARD_HEIGHT;
-      // cc.log("add holder to layout");
-      // // this.node.addChild(monsterHolder);
-      // cc.log("after add holder to layout");
-      // MonsterField.monsterCardHolders.push(
-      //   monsterHolder.getComponent(MonsterCardHolder)
-      // );
       this.getNewMonsterHolder();
-      // this.node.parent.dispatchEvent(
-      //   new cc.Event.EventCustom("monsterFieldRdy", true)
-      // );
     }
     // MonsterField.monsterCardHolders.push(new MonsterPlace(++MonsterField.placesIds));
     // MonsterField.monsterCardHolders.push(new MonsterPlace(++MonsterField.placesIds));
@@ -170,38 +149,3 @@ export default class MonsterField extends cc.Component {
 
   update(dt) {}
 }
-
-// export class MonsterPlace  {
-
-//     placeForCards:cc.Node
-//   activeMonster: cc.Node = null;
-//   monsters: cc.Node[] = [];
-//   id: number = 0;
-//   attackButton: cc.Button;
-
-//   constructor(id) {
-//     this.id = id;
-
-//   }
-
-//   getNextMonster() {
-//     return (this.activeMonster = this.monsters.pop());
-//   }
-//   /**
-//    * add a monster to the place and set it as active
-//    * @param monsterCard
-//    */
-//   addToMonsters(monsterCard: cc.Node) {
-//     this.monsters.push(monsterCard);
-//     this.activeMonster = monsterCard;
-//     this.activeMonster.getComponent(Monster).monsterPlace = this;
-//     cc.log(this);
-//   }
-
-//   //   toString() {
-//   //     "monsterPlace " +
-//   //       this.id +
-//   //       " \nactive Monster :" +
-//   //       this.activeMonster.getComponent(Card);
-//   //   }
-// }

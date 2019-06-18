@@ -4,10 +4,11 @@ import Condition from "../CardEffectComponents/CardConditions/Condition";
 import Effect from "../CardEffectComponents/CardEffects/Effect";
 import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
 import MultiEffect from "../CardEffectComponents/DataCollector/MultiEffect";
-import { COLORS, printMethodStarted } from "../Constants";
+import { COLORS, printMethodStarted, CARD_TYPE, ITEM_TYPE } from "../Constants";
 import CardManager from "../Managers/CardManager";
 import Card from "./GameEntities/Card";
 import { ServerEffect } from "./ServerCardEffect";
+import PassiveEffect from "../PassiveEffects/PassiveEffect";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,7 +18,10 @@ export default class CardEffect extends cc.Component {
   conditions: cc.Node[] = [];
 
   @property(cc.Node)
-  effects: cc.Node[] = [];
+  activeEffects: cc.Node[] = [];
+
+  @property(cc.Node)
+  passiveEffects: cc.Node[] = [];
 
   @property(DataCollector)
   multiEffectCollector: DataCollector = null;
@@ -37,39 +41,54 @@ export default class CardEffect extends cc.Component {
   @property
   serverEffectStack: ServerEffect[] = [];
 
-  testConditions(): boolean {
-    let conditionsNotPassed = 0;
-    for (let i = 0; i < this.conditions.length; i++) {
-      const condition = this.conditions[i].getComponent(Condition);
-      if (!condition.testCondition()) {
-        conditionsNotPassed++;
-      }
-    }
-    if (conditionsNotPassed > 0) {
-      return false;
-    } else {
-      return true;
-    }
-  }
+  // testConditions(): boolean {
+  //   let conditionsNotPassed = 0;
+  //   for (let i = 0; i < this.conditions.length; i++) {
+  //     const condition = this.conditions[i].getComponent(Condition);
+  //     if (!condition.testCondition()) {
+  //       conditionsNotPassed++;
+  //     }
+  //   }
+  //   if (conditionsNotPassed > 0) {
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
 
   /**
    *
    * @param data {effect}
    */
-  @printMethodStarted(COLORS.RED)
-  async doEffectByNum(numOfEffect): Promise<ServerEffect[]> {
+  //@printMethodStarted(COLORS.RED)
+  async doEffectByNum(
+    numOfEffect,
+    isPassiveEffect?: boolean
+  ): Promise<ServerEffect[]> {
     let serverEffectStack;
-    for (let i = 0; i < this.effects.length; i++) {
-      const effect = this.effects[i].getComponent(Effect);
-      if (i == numOfEffect) {
-        serverEffectStack = await effect.doEffect(
-          this.serverEffectStack,
-          this.effectData
-        );
-        break;
+    if (isPassiveEffect) {
+      for (let i = 0; i < this.passiveEffects.length; i++) {
+        const effect = this.passiveEffects[i].getComponent(Effect);
+        if (i == numOfEffect) {
+          serverEffectStack = await effect.doEffect(
+            this.serverEffectStack,
+            this.effectData
+          );
+          break;
+        }
+      }
+    } else {
+      for (let i = 0; i < this.activeEffects.length; i++) {
+        const effect = this.activeEffects[i].getComponent(Effect);
+        if (i == numOfEffect) {
+          serverEffectStack = await effect.doEffect(
+            this.serverEffectStack,
+            this.effectData
+          );
+          break;
+        }
       }
     }
-
     return new Promise<ServerEffect[]>((resolve, reject) => {
       resolve(serverEffectStack);
     });
@@ -93,8 +112,8 @@ export default class CardEffect extends cc.Component {
   }
 
   getEffectByNum(numOfEffect) {
-    for (let i = 0; i < this.effects.length; i++) {
-      const effect = this.effects[i];
+    for (let i = 0; i < this.activeEffects.length; i++) {
+      const effect = this.activeEffects[i];
       if (i == numOfEffect - 1) {
         return effect.getComponent(Effect);
       }
@@ -103,9 +122,17 @@ export default class CardEffect extends cc.Component {
 
   getEffectIndex(effect: Effect) {
     let splitName = effect.name.split("<");
-    for (let i = 0; i < this.effects.length; i++) {
-      const testedEffect = this.effects[i].getComponent(Effect);
+    for (let i = 0; i < this.activeEffects.length; i++) {
+      const testedEffect = this.activeEffects[i].getComponent(Effect);
       let splitTestedName = testedEffect.name.split("<");
+      if (splitName[1] == splitTestedName[1]) {
+        return i;
+      }
+    }
+    for (let i = 0; i < this.passiveEffects.length; i++) {
+      const passiveEffect = this.passiveEffects[i].getComponent(Effect);
+
+      let splitTestedName = passiveEffect.name.split("<");
       if (splitName[1] == splitTestedName[1]) {
         return i;
       }
@@ -120,17 +147,32 @@ export default class CardEffect extends cc.Component {
     return chosenEffect;
   }
 
-  async getServerCardEffect(cardPlayedData: {
-    cardPlayerId: number;
-    cardId: number;
-  }): Promise<ServerEffect> {
+  async getServerEffect(
+    cardPlayedData: {
+      cardPlayerId: number;
+      cardId: number;
+    },
+    cardEffectIndex?: number
+  ): Promise<ServerEffect> {
+    cc.log(cardPlayedData.cardPlayerId);
     let cardPlayed = CardManager.getCardById(cardPlayedData.cardId);
     let cardEffect: Effect;
-    if (this.hasMultipleEffects) {
-      cardEffect = await this.collectEffectFromNum(cardPlayed);
+    let effectType;
+    cc.log(cardEffectIndex);
+    if (cardEffectIndex != null) {
+      cc.log(cardEffectIndex);
+      effectType = ITEM_TYPE.PASSIVE;
+      cardEffect = this.passiveEffects[cardEffectIndex].getComponent(Effect);
     } else {
-      cardEffect = this.effects[0].getComponent(Effect);
+      effectType = ITEM_TYPE.ACTIVE;
+
+      if (this.hasMultipleEffects) {
+        cardEffect = await this.collectEffectFromNum(cardPlayed);
+      } else {
+        cardEffect = this.activeEffects[0].getComponent(Effect);
+      }
     }
+    cc.log(cardEffect);
     this.effectData = await this.collectEffectData(cardEffect, cardPlayedData);
 
     let effectIndex = this.getEffectIndex(cardEffect);
@@ -141,7 +183,8 @@ export default class CardEffect extends cc.Component {
           this.effectData,
           effectIndex,
           cardPlayedData.cardPlayerId,
-          cardPlayedData.cardId
+          cardPlayedData.cardId,
+          effectType
         )
       );
     });
@@ -163,10 +206,17 @@ export default class CardEffect extends cc.Component {
     this.cardPlayerId = currentServerEffect.cardPlayerId;
 
     this.serverEffectStack = allServerEffects;
-
-    let serverEffectStack = await this.doEffectByNum(
-      currentServerEffect.cardEffectNum
-    );
+    let serverEffectStack;
+    if (currentServerEffect.effctType == ITEM_TYPE.ACTIVE) {
+      serverEffectStack = await this.doEffectByNum(
+        currentServerEffect.cardEffectNum
+      );
+    } else {
+      serverEffectStack = await this.doEffectByNum(
+        currentServerEffect.cardEffectNum,
+        true
+      );
+    }
     return new Promise<ServerEffect[]>((resolve, reject) => {
       resolve(serverEffectStack);
     });

@@ -28,6 +28,8 @@ import PlayerDesk from "./PlayerDesk";
 import Store from "./GameEntities/Store";
 import Dice from "./GameEntities/Dice";
 import Signal from "../../Misc/Signal";
+import CardEffect from "./CardEffect";
+import { rejects } from "assert";
 
 export interface Action {
   originPlayerId: number;
@@ -35,7 +37,7 @@ export interface Action {
   data: {};
   actionType: ACTION_TYPE;
   hasCardEffect: boolean;
-  playedCard: Card;
+  playedCard: cc.Node;
 
   showAction(data?: {});
 
@@ -43,7 +45,7 @@ export interface Action {
 }
 
 export class DrawCardAction implements Action {
-  playedCard: Card;
+  playedCard: cc.Node;
 
   originPlayerId: number;
   actionTarget: cc.Node;
@@ -71,6 +73,9 @@ export class DrawCardAction implements Action {
       drawnCard.getComponent(Card).ownedBy = player;
       TurnsManager.currentTurn.drawPlays -= 1;
       ActionManager.updateActions();
+      return new Promise((resolve, reject) => {
+        resolve(true);
+      });
     }, (TIMETODRAW + 0.1) * 1000);
   }
 
@@ -85,14 +90,14 @@ export class MoveLootToPile implements Action {
   originPlayerId: number;
   actionTarget: cc.Node;
   data: { lootCard: cc.Node };
-  playedCard: Card;
+  playedCard: cc.Node;
   actionType = ACTION_TYPE.ACTIVECARDEFFECT;
   hasCardEffect = true;
 
   showAction() {
     let movedCardComp: Card = this.data.lootCard.getComponent(Card);
-    this.playedCard = movedCardComp;
-    this.playedCard.node.runAction(
+    this.playedCard = movedCardComp.node;
+    this.playedCard.runAction(
       cc.moveTo(TIMETOPLAYLOOT, PileManager.lootCardPileNode.position)
     );
     setTimeout(() => {
@@ -102,6 +107,9 @@ export class MoveLootToPile implements Action {
       let playerId = MainScript.currentPlayerComp.playerId;
       let cardId = movedCardComp.cardId;
       let data = { playerId, cardId };
+      return new Promise((resolve, reject) => {
+        resolve(true);
+      });
     }, (TIMETOPLAYLOOT + 0.1) * 1000);
   }
 
@@ -118,7 +126,7 @@ export class MoveLootToPile implements Action {
 }
 
 export class BuyItemAction implements Action {
-  playedCard: Card;
+  playedCard: cc.Node;
   originPlayerId: number;
   actionTarget: cc.Node;
   data: { movedCard: cc.Node; playerDeskComp: PlayerDesk };
@@ -151,6 +159,9 @@ export class BuyItemAction implements Action {
       );
       TurnsManager.currentTurn.buyPlays -= 1;
       this.data.playerDeskComp.addToDesk(movedCardComp);
+      return new Promise((resolve, reject) => {
+        resolve(true);
+      });
     }, (TIMETOBUY + 0.1) * 1000);
   }
 
@@ -166,7 +177,7 @@ export class BuyItemAction implements Action {
 }
 
 export class DeclareAttackAction implements Action {
-  playedCard: Card;
+  playedCard: cc.Node;
   originPlayerId: number;
   actionTarget: cc.Node;
   data: { attackedMonster: cc.Node };
@@ -176,6 +187,9 @@ export class DeclareAttackAction implements Action {
   showAction() {
     let monster = this.data.attackedMonster;
     BattleManager.declareAttackOnMonster(monster);
+    return new Promise((resolve, reject) => {
+      resolve(true);
+    });
   }
 
   serverBrodcast(serverData) {
@@ -195,27 +209,31 @@ export class ActivateItemAction implements Action {
   data: { activatedCard: cc.Node };
   actionType: ACTION_TYPE;
   hasCardEffect: boolean = true;
-  playedCard: Card;
+  playedCard: cc.Node;
   showAction(data?: { activatedCard: cc.Node }) {
     let card = this.data.activatedCard;
-    this.playedCard = card.getComponent(Card);
+    this.playedCard = card;
     card.stopAllActions();
+
     switch (card.getComponent(Card).type) {
       case CARD_TYPE.CHAR:
-        card.getComponent(Character).activated = true;
-        card.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
+        card.getComponent(Item).useItem();
+        //card.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
         break;
       case CARD_TYPE.CHARITEM:
-        card.getComponent(CharacterItem).activated = true;
-        card.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
+        card.getComponent(CharacterItem).useItem();
+        //  card.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
         break;
       case CARD_TYPE.LOOT:
         break;
       default:
-        card.getComponent(Item).activated = true;
-        card.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
+        card.getComponent(Item).useItem();
+        //card.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
         break;
     }
+    return new Promise((resolve, reject) => {
+      resolve(true);
+    });
   }
   serverBrodcast(serverData?: any) {
     let signal = serverData.signal;
@@ -229,8 +247,42 @@ export class ActivateItemAction implements Action {
   }
 }
 
+export class ActivatePassiveAction implements Action {
+  originPlayerId: number;
+  actionTarget: cc.Node;
+  data: { activatedCard: cc.Node; passiveIndex: number };
+  actionType: ACTION_TYPE;
+  hasCardEffect: boolean = true;
+  playedCard: cc.Node;
+  passiveIndex: number;
+  showAction(data?: { activatedCard: cc.Node }) {
+    let card = this.data.activatedCard;
+    this.playedCard = card;
+    card.stopAllActions();
+    cc.log("activate passive effect");
+    this.passiveIndex;
+    return new Promise((resolve, reject) => {
+      resolve(true);
+    });
+  }
+  serverBrodcast(serverData?: any) {
+    let signal = serverData.signal;
+    let data = serverData.srvData;
+    Server.$.send(signal, data);
+  }
+
+  constructor(
+    data: { activatedCard: cc.Node; passiveIndex: number },
+    originPlayerId: number
+  ) {
+    this.passiveIndex = data.passiveIndex;
+    this.data = data;
+    this.originPlayerId = originPlayerId;
+  }
+}
+
 export class RollDiceAction implements Action {
-  playedCard: Card;
+  playedCard: cc.Node;
   originPlayerId: number;
   actionTarget: cc.Node;
   data: {
@@ -244,48 +296,10 @@ export class RollDiceAction implements Action {
   sendToServer: boolean;
   serverNumberRolled: number;
 
-  @printMethodStarted(COLORS.RED)
+  //@printMethodStarted(COLORS.RED)
   async showAction(data?) {
-    let playerDice = PlayerManager.getPlayerById(
-      this.originPlayerId
-    ).getComponentInChildren(Dice);
-    let numberRolled;
-    let newData;
-    // this.data.rollType = this.rollType;
-    if (this.sendToServer) {
-      numberRolled = await playerDice.rollDice(this.rollType);
-      newData = {
-        numberRolled: numberRolled,
-        rollType: this.rollType,
-        sendToServer: this.sendToServer
-      };
-      let serverData = {
-        signal: Signal.ROLLDICE,
-        srvData: {
-          playerId: this.originPlayerId,
-          numberRolled: newData.numberRolled,
-          rollType: this.rollType
-        }
-      };
-      cc.log(serverData);
-      this.data = newData;
-      //  Server.$.send(serverData.signal, serverData.srvData);
-      return new Promise((resolve, reject) => {
-        resolve(serverData);
-      });
-    } else {
-      playerDice.doRoll();
-      let rollOver = await playerDice.waitForDiceRoll();
-      playerDice.setRoll(this.serverNumberRolled);
-      numberRolled = this.serverNumberRolled;
-      newData = {
-        numberRolled: numberRolled,
-        rollType: this.rollType,
-        sendToServer: this.sendToServer
-      };
-    }
-    cc.log(numberRolled);
-    this.data = newData;
+    cc.log("show action on roll dice");
+
     return new Promise((resolve, reject) => {
       resolve(true);
     });
@@ -299,8 +313,10 @@ export class RollDiceAction implements Action {
   constructor(
     data: { rollType: ROLL_TYPE; sendToServer: boolean },
     originPlayerId: number,
+    playedCard: cc.Node,
     serverNumberRolled?: number
   ) {
+    this.playedCard = playedCard;
     this.serverNumberRolled = serverNumberRolled;
     this.rollType = data.rollType;
     this.sendToServer = data.sendToServer;

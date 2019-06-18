@@ -1,6 +1,10 @@
 import { CARD_HEIGHT, CARD_TYPE, CARD_WIDTH } from "../../Constants";
 import { CardLayout } from "../CardLayout";
 import Player from "./Player";
+import Signal from "../../../Misc/Signal";
+import { ActivatePassiveAction } from "../Action";
+import ActionManager from "../../Managers/ActionManager";
+import CardManager from "../../Managers/CardManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -72,6 +76,47 @@ export default class Card extends cc.Component {
     } else {
       this.node.getComponent(cc.Sprite).spriteFrame = this.frontSprite;
     }
+  }
+
+  async activatePassive(
+    cardActivatorId: number,
+    passiveIndex: number,
+    sendToServer: boolean
+  ) {
+    let serverData = {
+      signal: Signal.ACTIVATEPASSIVE,
+      srvData: { cardId: this.cardId, passiveIndex: passiveIndex }
+    };
+    let action = new ActivatePassiveAction(
+      { activatedCard: this.node, passiveIndex: passiveIndex },
+      cardActivatorId
+    );
+    if (ActionManager.inReactionPhase) {
+      cc.log("in reaction phase");
+      action.showAction();
+      if (sendToServer) {
+        action.serverBrodcast(serverData);
+      }
+      let serverEffect = await CardManager.activateCard(
+        this.node,
+        cardActivatorId,
+        passiveIndex
+      );
+      cc.log("pushed " + serverEffect.effectName);
+      ActionManager.serverCardEffectStack.push(serverEffect);
+    } else {
+      cc.log("not in reaction phase");
+      if (sendToServer) {
+        cc.log("send activate passive to server");
+        ActionManager.doAction(action, serverData);
+      } else {
+        cc.log(" dont send activate passive to server");
+        ActionManager.showSingleAction(action, serverData, sendToServer);
+      }
+    }
+    return new Promise((resolve, reject) => {
+      resolve(true);
+    });
   }
 
   // LIFE-CYCLE CALLBACKS:

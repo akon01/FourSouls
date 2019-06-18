@@ -12,6 +12,7 @@ import Player from "./GameEntities/Player";
 import Server from "../../ServerClient/ServerClient";
 import Signal from "../../Misc/Signal";
 import Card from "./GameEntities/Card";
+import ActionManager from "../Managers/ActionManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -35,7 +36,7 @@ export default class CardPreview extends cc.Component {
   @property
   hideThisTimeOut = null;
 
-  @printMethodStarted(COLORS.RED)
+  //@printMethodStarted(COLORS.RED)
   showCardPreview(
     card: cc.Node,
     makeItemReadyToActivate: boolean,
@@ -43,6 +44,9 @@ export default class CardPreview extends cc.Component {
     makeMonsterAttackable?: boolean,
     makeItemBuyable?: boolean
   ) {
+    this.node.on(cc.Node.EventType.TOUCH_START, event => {
+      event.stopPropagation();
+    });
     if (this.hideThisTimeOut != null) {
       clearTimeout(this.hideThisTimeOut);
       this.hideThisTimeOut = null;
@@ -118,6 +122,7 @@ export default class CardPreview extends cc.Component {
       this.node.active = false;
       this.hideThisTimeOut = null;
     }, TIMETOHIDEPREVIEW * 1000);
+    ActionManager.updateActions();
   }
 
   addEffectToPreview(effect: cc.Node) {
@@ -151,7 +156,7 @@ export default class CardPreview extends cc.Component {
   async chooseEffectFromCard(card: cc.Node): Promise<cc.Node> {
     this.showCardPreview(card, false);
     this.exitButton.getComponent(cc.Button).interactable = false;
-    let cardEffects = card.getComponent(CardEffect).effects;
+    let cardEffects = card.getComponent(CardEffect).activeEffects;
     //let effects be chosen on click
     for (let i = 0; i < cardEffects.length; i++) {
       const effect = cardEffects[i];

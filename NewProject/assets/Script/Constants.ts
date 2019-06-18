@@ -57,6 +57,12 @@ export enum ITEM_TYPE {
   BOTH
 }
 
+export enum CONDITION_TYPE {
+  PASSIVE,
+  ACTIVE,
+  BOTH
+}
+
 export enum CHOOSE_TYPE {
   PLAYER = "player",
   PLAYERHAND = "playerHand",
@@ -81,7 +87,7 @@ export const TIMETOPLAYLOOT = 0.7;
 export const TIMETOSHOWPREVIEW = 0.5;
 export const TIMETOHIDEPREVIEW = 0.5;
 export const TIMETOROTATEACTIVATION = 0.5;
-export const TIMETOREACTONACTION = 1.5;
+export const TIMETOREACTONACTION = 1;
 export const TIMEFORDICEROLL = 0.3;
 export const TIMEFORMONSTERDISCARD = 1;
 

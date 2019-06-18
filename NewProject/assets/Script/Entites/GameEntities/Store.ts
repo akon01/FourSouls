@@ -17,7 +17,7 @@ export default class Store extends cc.Component {
   @property
   layout: cc.Layout = null;
 
-  @printMethodStarted(COLORS.PURPLE)
+  //@printMethodStarted(COLORS.PURPLE)
   addStoreCard() {
     if (Store.maxNumOfItems > Store.storeCards.length) {
       let newTreasure = CardManager.treasureDeck.getComponent(Deck).drawCard();

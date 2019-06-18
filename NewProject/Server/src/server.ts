@@ -51,6 +51,7 @@ export default class Server {
     whevent.on(signal.NEWMONSTERONPLACE, this.onNewActiveMonster, this);
     whevent.on(signal.SHOWCARDPREVIEW, this.onShowCardPreview, this);
     whevent.on(signal.ROLLDICE, this.onRollDice, this);
+    whevent.on(signal.ROLLDICEENDED, this.onRollDiceEnded, this);
   }
 
   onRequestMatch({ player, data }) {
@@ -95,6 +96,10 @@ export default class Server {
 
   onCardDrawed({ player, data }) {
     player.match.broadcastExept(player, signal.CARDDRAWED, data);
+  }
+
+  onRollDiceEnded({ player, data }) {
+    player.match.broadcastExept(player, signal.ROLLDICEENDED, data);
   }
 
   onRollDice({ player, data }) {

@@ -31,7 +31,10 @@ export default class Dice extends cc.Component {
   @property
   rollOver: boolean = false;
 
-  @printMethodStarted(COLORS.RED)
+  @property
+  diceId: number = 0;
+
+  //@printMethodStarted(COLORS.RED)
   async rollDice(rollType: ROLL_TYPE) {
     this.rollType = rollType;
     if (this.currentRolledNumber == -1) {
@@ -70,6 +73,14 @@ export default class Dice extends cc.Component {
       };
       setTimeout(check, 50);
     });
+  }
+
+  activateRollAnimation() {
+    this.schedule(this.diceChange, TIMEFORDICEROLL, cc.macro.REPEAT_FOREVER);
+  }
+
+  endRollAnimation() {
+    this.unschedule(this.diceChange);
   }
 
   diceChange() {
@@ -135,7 +146,7 @@ export default class Dice extends cc.Component {
     }
   }
 
-  @printMethodStarted(COLORS.RED)
+  //@printMethodStarted(COLORS.RED)
   async addRollAction(rollType: ROLL_TYPE) {
     this.availableRolls++;
     this.rollType = rollType;

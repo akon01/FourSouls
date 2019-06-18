@@ -145,22 +145,7 @@ export default class MainScript extends cc.Component {
     this.scheduleOnce(() => {
       storeComp.addStoreCard();
       storeComp.addStoreCard();
-      // let monsterLayout = cc
-      //   .find("Canvas/MonsterDeck/MonsterField")
-      //   .getComponent(cc.Layout);
-      // for (let i = 0; i < 1; i++) {
-      //   let monsterCard = CardManager.monsterCardPool.get();
-      //   monsterCard.parent = monsterLayout.node;
-      //   setTimeout(() => {
-      //     for (let i = 0; i < 2; i++) {
-      //       let monsterCard = CardManager.monsterCardPool.get();
-      //       monsterCard.parent = monsterLayout.node;
-      //       setTimeout(() => {}, 200);
-      //     }
-      //   }, 200);
-      // }
 
-      cc.log(MonsterField.monsterCardHolders);
       monsterComp.addMonsterToExsistingPlace(
         1,
         CardManager.monsterDeck.getComponent(Deck).drawCard(),
@@ -174,11 +159,6 @@ export default class MainScript extends cc.Component {
 
       ActionManager.updateActions();
     }, 2);
-
-    this.node.once("monsterFieldRdy", () => {
-      cc.log("rdy");
-      ActionManager.updateActions();
-    });
 
     //Set up turn lable
     var currentTurnLableComp = cc

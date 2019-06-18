@@ -19,20 +19,16 @@ export default class BattleManager extends cc.Component {
   static firstAttack: boolean = true;
 
   static declareAttackOnMonster(monsterCard: cc.Node) {
-    cc.log("declare attack");
+    // cc.log("declare attack");
     BattleManager.currentlyAttackedMonsterNode = monsterCard;
     BattleManager.currentlyAttackedMonster = monsterCard.getComponent(Monster);
-    cc.log(BattleManager.currentlyAttackedMonster);
+    // cc.log(BattleManager.currentlyAttackedMonster);
     TurnsManager.currentTurn.battlePhase = true;
     //cc.log(MainScript.currentPlayerComp)
     let turnPlayer = PlayerManager.getPlayerById(
       TurnsManager.currentTurn.PlayerId
     );
-    //currently only add one roll
-    // turnPlayer
-    //   .getComponent(Player)
-    //   .dice.getComponent(Dice)
-    //   .addRollAction(ROLL_TYPE.FIRSTATTACK);
+
     ActionManager.updateActions();
   }
 
@@ -40,7 +36,7 @@ export default class BattleManager extends cc.Component {
    * @returns true if hit, false if miss
    * @param rollValue dice roll
    */
-  @printMethodStarted(COLORS.RED)
+  //@printMethodStarted(COLORS.RED)
   static rollOnMonster(rollValue: number, sendToServer?: boolean) {
     let turnPlayer = PlayerManager.getPlayerById(
       TurnsManager.currentTurn.PlayerId
@@ -50,16 +46,16 @@ export default class BattleManager extends cc.Component {
     }
     if (rollValue >= this.currentlyAttackedMonster.rollValue) {
       let damage = turnPlayer.calculateDamage();
-      cc.log("monster was hit with  " + damage + " damage");
-      cc.log("monster HP " + this.currentlyAttackedMonster.currentHp);
+      // cc.log("monster was hit with  " + damage + " damage");
+      // cc.log("monster HP " + this.currentlyAttackedMonster.currentHp);
       this.currentlyAttackedMonster.getDamaged(damage);
-      cc.log("monster HP " + this.currentlyAttackedMonster.currentHp);
+      // cc.log("monster HP " + this.currentlyAttackedMonster.currentHp);
     } else {
       let damage = this.currentlyAttackedMonster.calculateDamage();
-      cc.log("player was hit with  " + damage + " damage");
-      cc.log("player HP " + turnPlayer.Hp);
+      // cc.log("player was hit with  " + damage + " damage");
+      // cc.log("player HP " + turnPlayer.Hp);
       turnPlayer.getHit(damage);
-      cc.log("player HP " + turnPlayer.Hp);
+      // cc.log("player HP " + turnPlayer.Hp);
     }
     this.checkIfMonsterIsDead(this.currentlyAttackedMonster.node, sendToServer);
   }

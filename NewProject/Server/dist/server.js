@@ -95,6 +95,7 @@ var Server = /** @class */ (function () {
         whevent.on(signal_2["default"].NEWMONSTERONPLACE, this.onNewActiveMonster, this);
         whevent.on(signal_2["default"].SHOWCARDPREVIEW, this.onShowCardPreview, this);
         whevent.on(signal_2["default"].ROLLDICE, this.onRollDice, this);
+        whevent.on(signal_2["default"].ROLLDICEENDED, this.onRollDiceEnded, this);
     };
     Server.prototype.onRequestMatch = function (_a) {
         var player = _a.player, data = _a.data;
@@ -132,6 +133,10 @@ var Server = /** @class */ (function () {
     Server.prototype.onCardDrawed = function (_a) {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_2["default"].CARDDRAWED, data);
+    };
+    Server.prototype.onRollDiceEnded = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].ROLLDICEENDED, data);
     };
     Server.prototype.onRollDice = function (_a) {
         var player = _a.player, data = _a.data;

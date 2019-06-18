@@ -1,13 +1,11 @@
 import ConditionInterface from "./ConditionInterface";
 
-
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class Condition extends cc.Component implements ConditionInterface {
-
-    testCondition(data?):boolean{
-        return true;
-    }
-
+export default class Condition extends cc.Component
+  implements ConditionInterface {
+  testCondition(data?: any): boolean {
+    return null;
+  }
 }

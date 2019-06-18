@@ -1,10 +1,6 @@
-
-
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default interface ConditionInterface  {
-
-    testCondition(data?):boolean;
-
+export default interface ConditionInterface {
+  testCondition(data?);
 }

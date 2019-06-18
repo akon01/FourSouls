@@ -16,6 +16,12 @@ import { ServerEffect } from "../Entites/ServerCardEffect";
 import MonsterField from "../Entites/MonsterField";
 import MonsterCardHolder from "../Entites/MonsterCardHolder";
 import Store from "../Entites/GameEntities/Store";
+import PlayerManager from "./PlayerManager";
+import Dice from "../Entites/GameEntities/Dice";
+import PileManager from "./PileManager";
+import Item from "../Entites/CardTypes/Item";
+import PassiveManager from "./PassiveManager";
+import TurnsManager from "./TurnsManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -209,7 +215,7 @@ export default class CardManager extends cc.Component {
 
   static checkForEmptyFields() {
     let monsterField = this.monsterDeck.getComponentInChildren(MonsterField);
-    monsterField.updateActiveMonsters();
+    MonsterField.updateActiveMonsters();
     if (monsterField.maxNumOfMonsters > MonsterField.activeMonsters.length) {
       let emptyHolders = MonsterField.monsterCardHolders.filter(
         holder => holder.getComponent(MonsterCardHolder).monsters.length == 0
@@ -240,9 +246,14 @@ export default class CardManager extends cc.Component {
     const decks = CardManager.getAllDecks();
     for (let i = 0; i < decks.length; i++) {
       const deck = decks[i].getComponent(Deck);
-
       if (deck.cardId == cardId) {
         return deck.node;
+      }
+    }
+    for (let i = 0; i < PlayerManager.dice.length; i++) {
+      const dice = PlayerManager.dice[i].getComponent(Dice);
+      if (dice.diceId == cardId) {
+        return dice.node;
       }
     }
     if (includeInDecksCards) {
@@ -410,11 +421,23 @@ export default class CardManager extends cc.Component {
 
   static requireLootPlay(cards: cc.Node[]) {}
 
+  @printMethodStarted(COLORS.RED)
   static async getCardEffect(
     card: cc.Node,
-    playerId: number
+    playerId: number,
+    cardEffectIndex?: number
   ): Promise<ServerEffect> {
-    let serverCardEffect = await this.activateCard(card, playerId);
+    let serverCardEffect;
+    cc.log(cardEffectIndex);
+    if (cardEffectIndex != null) {
+      serverCardEffect = await this.activateCard(
+        card,
+        playerId,
+        cardEffectIndex
+      );
+    } else {
+      serverCardEffect = await this.activateCard(card, playerId);
+    }
     //currently send card after card effect send only serverCardEffect object
     cc.log("activated " + card.name);
     return new Promise((resolve, reject) => {
@@ -424,18 +447,98 @@ export default class CardManager extends cc.Component {
 
   static async activateCard(
     card: cc.Node,
-    cardPlayerId: number
+    cardPlayerId: number,
+    cardEffectIndex?: number
   ): Promise<ServerEffect> {
+    let cardId;
+    cc.log("activate card");
+    if (card.getComponent(Card) != null) {
+      cardId = card.getComponent(Card).cardId;
+    } else {
+      cardId = card.getComponent(Dice).diceId;
+    }
     let cardPlayedData = {
       cardPlayerId: cardPlayerId,
-      cardId: card.getComponent(Card).cardId
+      cardId: cardId
     };
-    let serverCardEffect = await card
-      .getComponent(CardEffect)
-      .getServerCardEffect(cardPlayedData);
+    let serverCardEffect;
+    if (cardEffectIndex != null) {
+      serverCardEffect = await card
+        .getComponent(CardEffect)
+        .getServerEffect(cardPlayedData, cardEffectIndex);
+    } else {
+      serverCardEffect = await card
+        .getComponent(CardEffect)
+        .getServerEffect(cardPlayedData);
+    }
     return new Promise((resolve, reject) => {
       resolve(serverCardEffect);
     });
+  }
+
+  static updatePlayerCards() {
+    let players = PlayerManager.players;
+    for (let i = 0; i < players.length; i++) {
+      const player = players[i].getComponent(Player);
+      player.handCards = [];
+      player.deskCards = [];
+
+      player.handCards = player.handCards.concat(player.hand.layoutCards);
+
+      player.deskCards = player.deskCards.concat(
+        player.desk.activeItemLayout.getComponent(CardLayout).layoutCards,
+        player.desk.passiveItemLayout.getComponent(CardLayout).layoutCards
+      );
+      // player.deskCards = player.deskCards.concat(
+      //   player.desk.passiveItemLayout.getComponent(CardLayout).layoutCards
+      // );
+      player.deskCards.push(player.characterItem);
+      player.deskCards.push(player.character);
+      if (PlayerManager.mePlayer == player.node) {
+        for (const handCard of player.handCards) {
+          if (handCard.getComponent(Card).isFlipped) {
+            handCard.getComponent(Card).flipCard();
+          }
+        }
+      }
+    }
+  }
+
+  static updateOnTableCards() {
+    this.onTableCards = [];
+    this.onTableCards = this.onTableCards.concat(
+      Store.storeCards,
+      MonsterField.activeMonsters,
+      PileManager.lootCardPile,
+      PileManager.treasureCardPile,
+      PileManager.monsterCardPile
+    );
+    // this.onTableCards.concat(MonsterField.activeMonsters);
+    // this.onTableCards.concat(PileManager.lootCardPile);
+    // this.onTableCards.concat(PileManager.treasureCardPile);
+    // this.onTableCards.concat(PileManager.monsterCardPile);
+    for (let i = 0; i < PlayerManager.players.length; i++) {
+      const player = PlayerManager.players[i].getComponent(Player);
+      this.onTableCards = this.onTableCards.concat(player.deskCards);
+    }
+    for (const tableCard of this.onTableCards) {
+      if (tableCard.getComponent(Card).isFlipped) {
+        tableCard.getComponent(Card).flipCard();
+      }
+    }
+  }
+
+  static updatePassiveListeners() {
+    PassiveManager.clearAllListeners();
+    for (let i = 0; i < PlayerManager.players.length; i++) {
+      const player = PlayerManager.players[i].getComponent(Player);
+      for (let j = 0; j < player.deskCards.length; j++) {
+        const item = player.deskCards[j];
+        PassiveManager.registerPassiveItem(item);
+      }
+      //PassiveManager.registerPassiveItem(player.characterItem);
+    }
+    //add register of active monster effects
   }
 
   static getAllDecks() {
@@ -469,19 +572,23 @@ export default class CardManager extends cc.Component {
     let playerHandComp: CardLayout = player.getComponentInChildren(
       "CardLayout"
     );
-    otherPlayersHandCards = CardManager.allCards.filter(
-      (card, index, cards) => {
-        //if not in the given players hand or on the table
+    for (let i = 0; i < PlayerManager.players.length; i++) {
+      const player = PlayerManager.players[i].getComponent(Player);
+      otherPlayersHandCards.concat(player.handCards);
+    }
+    // otherPlayersHandCards = CardManager.allCards.filter(
+    //   (card, index, cards) => {
+    //     //if not in the given players hand or on the table
 
-        if (
-          playerHandComp.layoutCards.indexOf(card) == -1 &&
-          CardManager.onTableCards.indexOf(card) == -1
-        ) {
-          return true;
-        }
-      },
-      this
-    );
+    //     if (
+    //       playerHandComp.layoutCards.indexOf(card) == -1 &&
+    //       CardManager.onTableCards.indexOf(card) == -1
+    //     ) {
+    //       return true;
+    //     }
+    //   },
+    //   this
+    // );
 
     return otherPlayersHandCards;
   }

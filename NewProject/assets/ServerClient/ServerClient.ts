@@ -48,6 +48,7 @@ export default class Server extends cc.Component {
     whevent.on(Signal.NEWMONSTERONPLACE, this.onPlayerActionFromServer, this);
     whevent.on(Signal.SHOWCARDPREVIEW, this.onPlayerActionFromServer, this);
     whevent.on(Signal.ROLLDICE, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.ROLLDICEENDED, this.onPlayerActionFromServer, this);
   }
 
   onPlayerActionFromServer({ signal, data }) {

@@ -14,6 +14,7 @@ import { CardLayout } from "../Entites/CardLayout";
 import Dice from "../Entites/GameEntities/Dice";
 import PlayerDesk from "../Entites/PlayerDesk";
 import CardManager from "./CardManager";
+import Card from "../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
@@ -123,9 +124,30 @@ export default class PlayerManager extends cc.Component {
   static createDice() {
     for (let i = 1; i <= PlayerManager.players.length; i++) {
       var newNode: cc.Node = cc.instantiate(PlayerManager.dicePrefab);
-      let diceComp: Dice = newNode.getComponent(Dice);
+      newNode.getComponent(Dice).diceId = ++CardManager.cardsId;
       newNode.name = "Dice";
       PlayerManager.dice.push(newNode);
+    }
+  }
+
+  static getPlayerByCard(card: cc.Node) {
+    for (let i = 0; i < this.players.length; i++) {
+      const player = this.players[i].getComponent(Player);
+
+      for (let j = 0; j < player.handCards.length; j++) {
+        const testedCard = player.handCards[j];
+
+        if (card == testedCard) {
+          return player;
+        }
+      }
+      for (let j = 0; j < player.deskCards.length; j++) {
+        const testedCard = player.deskCards[j];
+
+        if (card == testedCard) {
+          return player;
+        }
+      }
     }
   }
 
@@ -210,11 +232,11 @@ export default class PlayerManager extends cc.Component {
       let handWidget: cc.Widget = handNode.getComponent(cc.Widget);
       let deskWidget: cc.Widget = deskNode.getComponent(cc.Widget);
       handWidget.alignMode = cc.Widget.AlignMode.ONCE;
-      let deskComp: PlayerDesk = deskNode.getComponent("PlayerDesk");
+      let deskComp: PlayerDesk = deskNode.getComponent(PlayerDesk);
       switch (i) {
         case 0:
           playerNode = PlayerManager.mePlayer;
-          playerComp = PlayerManager.mePlayer.getComponent("Player");
+          playerComp = PlayerManager.mePlayer.getComponent(Player);
 
           //position hand
 
@@ -255,7 +277,7 @@ export default class PlayerManager extends cc.Component {
           break;
         case 1:
           playerNode = PlayerManager.getPlayerById(meId + 1);
-          playerComp = playerNode.getComponent("Player");
+          playerComp = playerNode.getComponent(Player);
           //set hand pos
           handWidget.target = canvas;
           handWidget.isAlignLeft = true;
@@ -343,13 +365,14 @@ export default class PlayerManager extends cc.Component {
 
       //setting hand of player
 
-      playerNode.addChild(handNode);
-      handWidget.updateAlignment();
+      playerComp.setHand(handNode);
+      // playerNode.addChild(handNode);
+      // handWidget.updateAlignment();
 
-      playerNode.getComponent("Player").landingZones.push(handNode);
-      handComp.boundingBoxWithoutChildren = handComp.node.getBoundingBoxToWorld();
+      // playerNode.getComponent(Player).landingZones.push(handNode);
+      // handComp.boundingBoxWithoutChildren = handComp.node.getBoundingBoxToWorld();
 
-      playerComp.hand = handComp;
+      // playerComp.hand = handComp;
 
       //setting desk of player
 

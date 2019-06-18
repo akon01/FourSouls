@@ -28,6 +28,15 @@ export default class PileManager extends cc.Component {
     }
   }
 
+  static getTopCardOfPiles() {
+    let topCards: cc.Node[] = [
+      this.lootCardPile[this.lootCardPile.length - 1],
+      this.monsterCardPile[this.monsterCardPile.length - 1],
+      this.treasureCardPile[this.treasureCardPile.length - 1]
+    ];
+    return topCards;
+  }
+
   static addCardToPile(type: CARD_TYPE, card: cc.Node) {
     switch (type) {
       case CARD_TYPE.LOOT:

@@ -1,18 +1,17 @@
-import { CHOOSE_TYPE } from './../../Constants';
+import { CHOOSE_TYPE } from "./../../Constants";
 import DataCollector from "../DataCollector/DataCollector";
+import Condition from "../CardConditions/Condition";
 
+const { ccclass, property } = cc._decorator;
 
-const {ccclass, property} = cc._decorator;
+export default interface EffectInterface {
+  effectName: string;
 
+  chooseType: CHOOSE_TYPE;
 
-export default interface EffectInterface  {
+  dataCollector: DataCollector;
 
-   effectName:string;
+  condition: Condition;
 
-   chooseType:CHOOSE_TYPE;
-
-   dataCollector:DataCollector;
-
-   doEffect(data?):Promise<{}>;
-
+  doEffect(data?): Promise<{}>;
 }

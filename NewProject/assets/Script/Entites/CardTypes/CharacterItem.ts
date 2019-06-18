@@ -1,25 +1,20 @@
+import Item from "./Item";
 
-
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class CharacterItem extends cc.Component {
+export default class CharacterItem extends Item {
+  @property(cc.Node)
+  character: cc.Node = null;
 
-    @property(cc.Node)
-    character: cc.Node = null;
+  @property({ override: true })
+  activated: boolean = false;
 
-    @property  
-    activated:boolean = false;
+  // LIFE-CYCLE CALLBACKS:
 
+  // onLoad () {}
 
+  start() {}
 
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {}
-
-    start () {
-
-    }
-
-    // update (dt) {}
+  // update (dt) {}
 }

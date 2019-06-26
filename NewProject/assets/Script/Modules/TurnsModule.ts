@@ -64,6 +64,7 @@ export class Turn {
     this.drawPlays = player.drawPlays;
     this.buyPlays = player.buyPlays;
     this.attackPlays = player.attackPlays;
+    this.battlePhase = false;
   }
 
   startTurn() {

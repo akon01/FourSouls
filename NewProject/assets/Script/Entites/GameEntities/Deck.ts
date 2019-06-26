@@ -1,5 +1,8 @@
-import { CARD_TYPE, CARD_WIDTH, CARD_HEIGHT } from "../../Constants";
+import { CARD_TYPE, CARD_WIDTH, CARD_HEIGHT, printMethodStarted, COLORS } from "../../Constants";
 import CardManager from "../../Managers/CardManager";
+import DataCollector from "../../CardEffectComponents/DataCollector/DataCollector";
+import Server from "../../../ServerClient/ServerClient";
+import Signal from "../../../Misc/Signal";
 
 const { ccclass, property } = cc._decorator;
 
@@ -31,6 +34,12 @@ export default class Deck extends cc.Component {
   @property
   cardId: number = 0;
 
+  @property
+  isRequired: boolean = false;
+
+  @property
+  requiredFor: DataCollector = null;
+
   @property(cc.Node)
   topCard: cc.Node = null;
 
@@ -40,13 +49,21 @@ export default class Deck extends cc.Component {
     CardManager.inDecksCards.push(card);
   }
 
-  drawCard(): cc.Node {
+  //@printMethodStarted(COLORS.LIGHTBLUE)
+  drawCard(sendToServer: boolean): cc.Node {
+    cc.log(this.cards.map(card => card.name))
     if (this.cards.length != 0) {
       let newCard = this.cards.pop();
 
       CardManager.removeFromInAllDecksCards(newCard);
+      if (sendToServer) {
+        Server.$.send(Signal.DRAWCARD, { deckType: this.deckType })
+      }
       return newCard;
-    } else return null;
+    } else {
+      return null;
+    }
+
   }
 
   addToDeckOnBottom(card: cc.Node) {
@@ -64,7 +81,7 @@ export default class Deck extends cc.Component {
     this.cards = newDeckArrangment;
   }
 
-  createNewTopBlank() {}
+  createNewTopBlank() { }
 
   // LIFE-CYCLE CALLBACKS:
 
@@ -79,9 +96,9 @@ export default class Deck extends cc.Component {
     sprite.enabled = false;
 
     // this.drawnCard.on('touchstart', (event) => {
-    //     //cc.log(this.interactive)
+    //     ////cc.log(this.interactive)
     //     if (this.interactive && this.cards.length != 0) {
-    //      //   //cc.log(this.drawnCard.parent)
+    //      //   ////cc.log(this.drawnCard.parent)
     //         this.drawingCard = true;
     //         //  this.drawnCard = this.drawCard();
 
@@ -111,7 +128,7 @@ export default class Deck extends cc.Component {
     // })
   }
 
-  start() {}
+  start() { }
 
   // update (dt) {}
 }

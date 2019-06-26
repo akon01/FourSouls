@@ -18,6 +18,7 @@ import Player from "./Entites/GameEntities/Player";
 import Monster from "./Entites/CardTypes/Monster";
 import Deck from "./Entites/GameEntities/Deck";
 import CardPreview from "./Entites/CardPreview";
+import Signal from "../Misc/Signal";
 
 //( id represents a human player and it coresponds with playerID)
 let id = 1;
@@ -130,7 +131,7 @@ export default class MainScript extends cc.Component {
 
     //set up card manager
 
-    await CardManager.init();
+    let cardManagerFinished = await CardManager.init();
 
     let charDeckComplete = false;
 
@@ -142,23 +143,24 @@ export default class MainScript extends cc.Component {
     PlayerManager.assingCharacters();
 
     //deal two treasures and  two monsters
-    this.scheduleOnce(() => {
-      storeComp.addStoreCard();
-      storeComp.addStoreCard();
+    //this.node.on("decksDone", () => {
+    //   //cc.log("decks done");
+    storeComp.addStoreCard(false);
+    storeComp.addStoreCard(false);
 
-      monsterComp.addMonsterToExsistingPlace(
-        1,
-        CardManager.monsterDeck.getComponent(Deck).drawCard(),
-        false
-      );
-      monsterComp.addMonsterToExsistingPlace(
-        2,
-        CardManager.monsterDeck.getComponent(Deck).drawCard(),
-        false
-      );
+    // monsterComp.addMonsterToExsistingPlace(
+    //   1,
+    //   CardManager.monsterDeck.getComponent(Deck).drawCard(),
+    //   false
+    // );
+    // monsterComp.addMonsterToExsistingPlace(
+    //   2,
+    //   CardManager.monsterDeck.getComponent(Deck).drawCard(),
+    //   false
+    // );
 
-      ActionManager.updateActions();
-    }, 2);
+
+    // });
 
     //Set up turn lable
     var currentTurnLableComp = cc
@@ -189,7 +191,7 @@ export default class MainScript extends cc.Component {
     // })
 
     cc.director.getScene().on("monsterAttacked", () => {
-      //cc.log('monster attacked')
+      ////cc.log('monster attacked')
       PlayerManager.mePlayer.getComponent(Player).showAvailableReactions();
     });
 
@@ -200,7 +202,24 @@ export default class MainScript extends cc.Component {
     MainScript.currentPlayerComp = MainScript.currentPlayerNode.getComponent(
       Player
     );
+    //ActionManager.updateActions();
+    let playerId = PlayerManager.mePlayer.getComponent(Player).playerId
+    let turnPlayerId = TurnsManager.currentTurn.PlayerId
+    Server.$.send(Signal.FINISHLOAD, { id: playerId, turnPlayerId: turnPlayerId })
+    //cc.log('finished loading')
     // ActionManager.updateActions()
+  }
+
+  static async makeFirstUpdateActions(playerId) {
+    //cc.log('makeFirstUpdateActions')
+    //cc.log(playerId)
+    //cc.log(PlayerManager.mePlayer.getComponent(Player).playerId)
+    if (PlayerManager.mePlayer.getComponent(Player).playerId == playerId) {
+      //cc.log('first update actions of turn player')
+      let over = await ActionManager.updateActions();
+      //cc.log('after first update actions')
+      Server.$.send(Signal.UPDATEACTIONS)
+    }
   }
 
   updateActions() {
@@ -217,7 +236,7 @@ export default class MainScript extends cc.Component {
     }
   }
 
-  start() {}
+  start() { }
 
   // update (dt) {}
 }

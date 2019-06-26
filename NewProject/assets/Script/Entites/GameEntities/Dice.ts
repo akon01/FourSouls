@@ -36,6 +36,7 @@ export default class Dice extends cc.Component {
 
   //@printMethodStarted(COLORS.RED)
   async rollDice(rollType: ROLL_TYPE) {
+    let player = this.node.parent.getComponent(Player)
     this.rollType = rollType;
     if (this.currentRolledNumber == -1) {
       this.lastRolledNumber = this.currentRolledNumber;
@@ -54,7 +55,37 @@ export default class Dice extends cc.Component {
     //   Math.floor(Math.random() * 5) + 4
     // );
     let eventName = "" + this.rollType;
-    cc.log("rolled " + this.currentRolledNumber);
+    //cc.log("rolled " + this.currentRolledNumber);
+    switch (this.rollType) {
+      case ROLL_TYPE.ATTACK:
+        if ((this.currentRolledNumber + player.attackRollBonus) <= 6) {
+          this.currentRolledNumber += player.attackRollBonus;
+        } else {
+          this.currentRolledNumber = 6
+        }
+        break;
+      case ROLL_TYPE.FIRSTATTACK:
+        //add the bonus of all attacks plus the bonuses of only first attack
+        if ((this.currentRolledNumber + player.attackRollBonus + player.firstAttackRollBonus) <= 6) {
+          this.currentRolledNumber += player.attackRollBonus;
+          this.currentRolledNumber += player.firstAttackRollBonus;
+        } else {
+          this.currentRolledNumber = 6
+        }
+        break;
+      case ROLL_TYPE.EFFECT:
+      case ROLL_TYPE.EFFECTROLL:
+        if ((this.currentRolledNumber + player.nonAttackRollBonus) <= 6) {
+          //add the bonus of all attacks plus the bonuses of only first attack
+          this.currentRolledNumber += player.nonAttackRollBonus;
+        } else {
+          this.currentRolledNumber = 6;
+        }
+        break;
+      default:
+        break;
+    }
+    //cc.log('after adding to the dice ' + this.currentRolledNumber)
     return new Promise<number>((resolve, reject) => {
       resolve(this.currentRolledNumber);
     });
@@ -71,6 +102,7 @@ export default class Dice extends cc.Component {
           setTimeout(check, 50);
         }
       };
+      check.bind(this);
       setTimeout(check, 50);
     });
   }
@@ -93,6 +125,7 @@ export default class Dice extends cc.Component {
   }
 
   doRoll() {
+    //cc.log("do roll");
     let timesToRoll = Math.floor(Math.random() * 5) + 4;
     let rolledTimes = 0;
     this.schedule(
@@ -153,8 +186,8 @@ export default class Dice extends cc.Component {
     this.node.off(cc.Node.EventType.TOUCH_START);
     this.node.once(cc.Node.EventType.TOUCH_START, async () => {
       let player = this.node.parent.getComponent(Player);
-      cc.log("player clicked on dice");
-      player.rollDice(rollType, true);
+      //cc.log("player clicked on dice");
+      player.rollAttackDice(true);
     });
   }
 
@@ -165,7 +198,7 @@ export default class Dice extends cc.Component {
     this.currentRolledNumber = 1;
   }
 
-  start() {}
+  start() { }
 
   update(dt) {
     this.node.getComponent(cc.Sprite).spriteFrame = this.diceSprites[

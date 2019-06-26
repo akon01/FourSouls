@@ -50,7 +50,7 @@ export default class PlayerManager extends cc.Component {
   }
 
   static async preLoadPrefabs() {
-    cc.loader.loadResDir("Prefabs/Entities/", function(err, rsc, urls) {
+    cc.loader.loadResDir("Prefabs/Entities/", function (err, rsc, urls) {
       for (let i = 0; i < rsc.length; i++) {
         const prefab: cc.Prefab = rsc[i];
         switch (prefab.name) {
@@ -82,6 +82,7 @@ export default class PlayerManager extends cc.Component {
           resolve(true);
         } else setTimeout(check, 50);
       };
+      check.bind(this);
       setTimeout(check, 50);
     });
   }
@@ -149,6 +150,7 @@ export default class PlayerManager extends cc.Component {
         }
       }
     }
+    return null
   }
 
   static createPlayerDesks() {
@@ -206,9 +208,9 @@ export default class PlayerManager extends cc.Component {
         }
         break;
       case "The Lost":
-        //////cc.log('character the lost')
+        ////////cc.log('character the lost')
         if (item.name == "HolyMantle") {
-          //////cc.log('item Holy Mantle')
+          ////////cc.log('item Holy Mantle')
           return item;
         }
         break;
@@ -262,7 +264,7 @@ export default class PlayerManager extends cc.Component {
 
           //show hand and then hide on touch
           handNode.on("touchstart", event => {
-            //////cc.log('show hand ')
+            ////////cc.log('show hand ')
             handComp.showHandLayout();
             handNode.getComponent(CardLayout).scheduleOnce(() => {
               handComp.hideHandLayout();
@@ -423,7 +425,7 @@ export default class PlayerManager extends cc.Component {
 
   // onLoad () {}
 
-  start() {}
+  start() { }
 
   // update (dt) {}
 }

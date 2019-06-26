@@ -5,6 +5,7 @@ import Signal from "../../../Misc/Signal";
 import { ActivatePassiveAction } from "../Action";
 import ActionManager from "../../Managers/ActionManager";
 import CardManager from "../../Managers/CardManager";
+import DataCollector from "../../CardEffectComponents/DataCollector/DataCollector";
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,18 +17,6 @@ export default class Card extends cc.Component {
   @property
   cardId: number = 0;
 
-  @property(cc.Boolean)
-  moving: boolean = false;
-
-  @property(cc.Vec2)
-  dragStartPos: cc.Vec2 = null;
-
-  @property
-  xDiff: number = null;
-
-  @property
-  yDiff: number = null;
-
   @property
   isInHand: boolean = false;
 
@@ -37,14 +26,11 @@ export default class Card extends cc.Component {
   @property
   originalParent: cc.Node = null;
 
-  @property
-  newPos: cc.Vec2 = null;
-
   @property(cc.Node)
   topDeckof: cc.Node = null;
 
   @property
-  wasDragged: boolean = false;
+  souls: number = 0;
 
   @property({
     type: cc.Enum(CARD_TYPE)
@@ -55,7 +41,25 @@ export default class Card extends cc.Component {
   //currentCardLayout: CardLayout = null;
 
   @property
-  hasDraggableComp: boolean = false;
+  isAttackable: boolean = false;
+
+  @property
+  isBuyable: boolean = false;
+
+  @property
+  isPlayable: boolean = false;
+
+  @property
+  isActivateable: boolean = false;
+
+  @property
+  isReactable: boolean = false;
+
+  @property
+  isRequired: boolean = false;
+
+  @property
+  requiredFor: DataCollector = null;
 
   @property
   frontSprite: cc.SpriteFrame = null;
@@ -85,14 +89,18 @@ export default class Card extends cc.Component {
   ) {
     let serverData = {
       signal: Signal.ACTIVATEPASSIVE,
-      srvData: { cardId: this.cardId, passiveIndex: passiveIndex }
+      srvData: {
+        cardId: this.cardId,
+        passiveIndex: passiveIndex,
+        cardActivatorId: cardActivatorId
+      }
     };
     let action = new ActivatePassiveAction(
       { activatedCard: this.node, passiveIndex: passiveIndex },
       cardActivatorId
     );
     if (ActionManager.inReactionPhase) {
-      cc.log("in reaction phase");
+      //cc.log("in reaction phase");
       action.showAction();
       if (sendToServer) {
         action.serverBrodcast(serverData);
@@ -102,16 +110,15 @@ export default class Card extends cc.Component {
         cardActivatorId,
         passiveIndex
       );
-      cc.log("pushed " + serverEffect.effectName);
-      ActionManager.serverCardEffectStack.push(serverEffect);
+      //cc.log("pushed " + serverEffect.effectName);
+      //cc.log(ActionManager.serverEffectStack);
+      ActionManager.serverEffectStack.push(serverEffect);
     } else {
-      cc.log("not in reaction phase");
+      //cc.log("not in reaction phase");
       if (sendToServer) {
-        cc.log("send activate passive to server");
         ActionManager.doAction(action, serverData);
       } else {
-        cc.log(" dont send activate passive to server");
-        ActionManager.showSingleAction(action, serverData, sendToServer);
+        ActionManager.doSingleAction(action, serverData, sendToServer);
       }
     }
     return new Promise((resolve, reject) => {
@@ -127,13 +134,9 @@ export default class Card extends cc.Component {
     this.frontSprite = this.node.getComponent(cc.Sprite).spriteFrame;
   }
 
-  start() {}
+  start() { }
 
-  update(dt) {
-    if (this.moving) {
-      this.node.setPosition(this.newPos);
-    }
-  }
+  update(dt) { }
 
   toString() {
     return this.cardName + " ID: " + this.cardId;

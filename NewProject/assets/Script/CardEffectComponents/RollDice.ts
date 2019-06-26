@@ -20,6 +20,7 @@ export default class RollDice extends DataCollector {
   cardChosen: cc.Node;
   playerId: number;
   rollType: ROLL_TYPE;
+  hasSubAction = true;
 
   /**
    *
@@ -29,137 +30,30 @@ export default class RollDice extends DataCollector {
 
   async collectData(data: {
     cardPlayerId;
+    cardId;
   }): Promise<{
-    cardChosenId: number;
-    playerId: number;
-  }> {
-    let playerDice = PlayerManager.getPlayerById(
-      data.cardPlayerId
-    ).getComponentInChildren(Dice);
-    let numberRolled;
-    numberRolled = await playerDice.rollDice(this.rollType);
-    Server.$.send(Signal.ROLLDICEENDED, {
-      playerId: data.cardPlayerId,
-      numberRolled: numberRolled
-    });
-    return new Promise((resolve, reject) => {
-      resolve(numberRolled);
-    });
-    // this.playerId = data.cardPlayerId;
-    // //what cards to choose from
-
-    // let chooseType = this.node.parent.getComponent(Effect).chooseType;
-    // let cardsToChooseFrom = this.getCardsToChoose(chooseType, player);
-    // let cardChosenData: {
-    //   cardChosenId: number;
-    //   playerId: number;
-    // } = await this.requireChoosingACard(cardsToChooseFrom);
-    // return cardChosenData;
-  }
-
-  async collectDataOfPlaces(data: {
-    cardPlayerId;
-    deckType;
-  }): Promise<{
-    cardChosenId: number;
-    playerId: number;
+    numberRolled: number;
   }> {
     let player = PlayerManager.getPlayerById(data.cardPlayerId).getComponent(
       Player
     );
-    this.playerId = data.cardPlayerId;
-    //what cards to choose from
-    let cardsToChooseFrom;
-    switch (data.deckType) {
-      case CARD_TYPE.MONSTER:
-        cardsToChooseFrom = this.getCardsToChoose(
-          CHOOSE_TYPE.MONSTERPLACES,
-          player
-        );
-        break;
-      case CARD_TYPE.TREASURE:
-        cardsToChooseFrom = this.getCardsToChoose(
-          CHOOSE_TYPE.STOREPLACES,
-          player
-        );
-        break;
-      default:
-        break;
-    }
-    let cardChosenData: {
-      cardChosenId: number;
-      playerId: number;
-    } = await this.requireChoosingACard(cardsToChooseFrom);
-    return cardChosenData;
-  }
+    let numberRolled;
 
-  getCardsToChoose(chooseType: CHOOSE_TYPE, player?: Player) {
-    switch (chooseType) {
-      //Get all available player char cards
-      case CHOOSE_TYPE.PLAYER:
-        let playerCards: cc.Node[] = [];
-        for (let index = 0; index < PlayerManager.players.length; index++) {
-          const player = PlayerManager.players[index].getComponent(Player);
-          playerCards.push(player.character);
-        }
-        return playerCards;
-        break;
-      // Get all of the chosen player hand cards
-      case CHOOSE_TYPE.PLAYERHAND:
-        return player.hand.layoutCards;
-        break;
-      case CHOOSE_TYPE.DECKS:
-        let allDecks = CardManager.getAllDecks();
-        return allDecks;
-      case CHOOSE_TYPE.MONSTERPLACES:
-        let monsterPlaces = MonsterField.activeMonsters;
-        return monsterPlaces;
-        break;
-      default:
-        break;
-    }
-  }
+    let cardPlayed = CardManager.getCardById(data.cardId, true);
 
-  async requireChoosingACard(
-    cards: cc.Node[]
-  ): Promise<{ cardChosenId: number; playerId: number }> {
-    for (let i = 0; i < cards.length; i++) {
-      const card = cards[i];
-      CardManager.disableCardActions(card);
-      CardManager.makeRequiredForDataCollector(this, card);
-    }
-    cc.log("select a card!");
-    let cardPlayed = await this.waitForCardPlay();
-    cc.log("card selected " + cardPlayed.name);
-    //   let cardServerEffect = await CardManager.getCardEffect(cardPlayed,this.playerId)
-    for (let i = 0; i < cards.length; i++) {
-      const card = cards[i];
-      CardManager.unRequiredForDataGather(card);
-    }
-    let cardId;
-    if (cardPlayed.getComponent(Deck) == null) {
-      cardId = cardPlayed.getComponent(Card).cardId;
+    if (cardPlayed.getComponent(Dice) != null) {
+      numberRolled = await player.rollDice(ROLL_TYPE.ATTACK);
     } else {
-      cardId = cardPlayed.getComponent(Deck).cardId;
+      numberRolled = await player.rollDice(ROLL_TYPE.EFFECTROLL);
     }
-
+    let collectedData = {
+      numberRolled: numberRolled,
+      cardPlayerId: data.cardPlayerId
+    };
     return new Promise((resolve, reject) => {
-      resolve({ cardChosenId: cardId, playerId: this.playerId });
+      resolve(collectedData);
     });
   }
 
-  async waitForCardPlay(): Promise<cc.Node> {
-    return new Promise((resolve, reject) => {
-      let timesChecked = 0;
-      let check = () => {
-        if (this.isCardChosen == true) {
-          this.isCardChosen = false;
-          resolve(this.cardChosen);
-        } else {
-          setTimeout(check, 50);
-        }
-      };
-      setTimeout(check, 50);
-    });
-  }
+
 }

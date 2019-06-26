@@ -10,7 +10,9 @@ var server_1 = require("../server");
 var MIID = 0;
 var Match = /** @class */ (function () {
     function Match() {
+        this.loadedPlayers = 0;
         this.level = 0;
+        this.firstPlayerId = 0;
         this.players = [];
         this.time = 120;
         this.letters = null;
@@ -19,7 +21,7 @@ var Match = /** @class */ (function () {
     }
     Match.getMatch = function () {
         if (Match.pendingMatches.length > 0) {
-            return Match.pendingMatches.pop();
+            return Match.pendingMatches[0];
         }
         else {
             var match = new Match();
@@ -106,8 +108,13 @@ var Match = /** @class */ (function () {
         if (this.players.length >= 4 || this.players.indexOf(player) >= 0) {
             return;
         }
+        console.log(this.players.length);
         this.players.push(player);
-        player.match = this;
+        for (var _i = 0, _a = this.players; _i < _a.length; _i++) {
+            var player_1 = _a[_i];
+            player_1.match = this;
+        }
+        console.log("player " + player + " joined");
         this.broadcast(signal_1["default"].JOIN, { uuid: player.uuid });
     };
     Match.prototype.validate = function (player, ids) {

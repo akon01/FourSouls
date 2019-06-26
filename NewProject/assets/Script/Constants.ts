@@ -1,4 +1,6 @@
 import { beforeInstance, beforeMethod, afterMethod } from "kaop-ts";
+import Signal from "../Misc/Signal";
+import PlayerManager from "./Managers/PlayerManager";
 
 export const MAX_PLAYERS = 2;
 
@@ -35,7 +37,19 @@ export enum CARD_TYPE {
 export enum ROLL_TYPE {
   ATTACK = 1,
   FIRSTATTACK = 2,
-  EFFECT = 3
+  EFFECT = 3,
+  EFFECTROLL = 4
+}
+
+export enum STATS {
+  HP = 1,
+  DMG = 2,
+  ROLLBONUS = 3,
+}
+
+export enum PASSIVE_TYPE {
+  BEFORE = 1,
+  AFTER = 2
 }
 
 export enum ACTION_TYPE {
@@ -68,7 +82,8 @@ export enum CHOOSE_TYPE {
   PLAYERHAND = "playerHand",
   DECKS = "decks",
   MONSTERPLACES = "monsterplaces",
-  STOREPLACES = "storeplaces"
+  STOREPLACES = "storeplaces",
+  PLAYERNONETERNALS = "playernoneternals"
 }
 
 export enum COLORS {
@@ -87,9 +102,12 @@ export const TIMETOPLAYLOOT = 0.7;
 export const TIMETOSHOWPREVIEW = 0.5;
 export const TIMETOHIDEPREVIEW = 0.5;
 export const TIMETOROTATEACTIVATION = 0.5;
-export const TIMETOREACTONACTION = 1;
+export const TIMETOREACTONACTION = 5;
 export const TIMEFORDICEROLL = 0.3;
 export const TIMEFORMONSTERDISCARD = 1;
+export const TIMEFORTREASUREDISCARD = 2;
+
+export let ServerIp = "localhost:7456/"
 
 export const printMethodStarted = (color: COLORS) =>
   beforeMethod(meta => {
@@ -123,14 +141,30 @@ export const printMethodSignal = beforeMethod(meta => {
   let classDesc = meta.target.toString().split(" ");
   let className = classDesc[1];
 
+  // if(meta.args[0] == Signal.GETREACTION){
+  //   //cc.log(
+  //     "%c" +
+  //     " Signal :" +
+  //     meta.args[0] +
+  //     "\n" +
+  //     " Data :" +
+  //     meta.args[1],
+  //     "color:rgb(10%, 0%, 60%)"
+  //   );
+  // }
+
   cc.log(
-    "%c" +
-      meta.key +
-      " Signal :" +
-      meta.args[0] +
-      "\n" +
-      " Data :" +
-      meta.args[1],
+    "%c" + " Signal :" + meta.args[0],
     "color:rgb(10%, 0%, 60%)"
   );
+  cc.log(
+    meta.args[1],
+  );
+});
+
+export const checkIfPlayerIsDead = afterMethod(async meta => {
+  let player = meta.scope;
+  let isDead = await player.checkIfDead();
+
+  meta.commit();
 });

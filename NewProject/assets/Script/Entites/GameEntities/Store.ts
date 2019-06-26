@@ -3,6 +3,8 @@ import { CardLayout } from "../CardLayout";
 import CardManager from "../../Managers/CardManager";
 import Deck from "./Deck";
 import { printMethodStarted, COLORS } from "../../Constants";
+import Server from "../../../ServerClient/ServerClient";
+import Signal from "../../../Misc/Signal";
 
 const { ccclass, property } = cc._decorator;
 
@@ -18,9 +20,15 @@ export default class Store extends cc.Component {
   layout: cc.Layout = null;
 
   //@printMethodStarted(COLORS.PURPLE)
-  addStoreCard() {
+  addStoreCard(sendToserver: boolean, cardToAdd?: cc.Node) {
     if (Store.maxNumOfItems > Store.storeCards.length) {
-      let newTreasure = CardManager.treasureDeck.getComponent(Deck).drawCard();
+      let newTreasure
+      if (cardToAdd != null) {
+        newTreasure = cardToAdd
+      } else {
+
+        newTreasure = CardManager.treasureDeck.getComponent(Deck).drawCard(sendToserver);
+      }
 
       if (newTreasure.getComponent(Card).isFlipped) {
         newTreasure.getComponent(Card).flipCard();
@@ -29,16 +37,19 @@ export default class Store extends cc.Component {
       CardManager.onTableCards.push(newTreasure);
       Store.storeCards.push(newTreasure);
       this.node.addChild(newTreasure);
+      if (sendToserver) {
+        Server.$.send(Signal.ADDSTORECARD, { cardId: newTreasure.getComponent(Card).cardId })
+      }
     }
   }
 
-  discardStoreCard(storeItem: cc.Node) {
+  discardStoreCard(storeItem: cc.Node, sendToserver: boolean) {
     let cardIndex;
     if (
       (cardIndex = Store.storeCards.findIndex(card => card == storeItem) != -1)
     ) {
       Store.storeCards.splice(cardIndex, 1);
-      this.addStoreCard();
+      this.addStoreCard(sendToserver);
     } else throw "o Store item received wasn't found to discard";
   }
 
@@ -50,7 +61,7 @@ export default class Store extends cc.Component {
     this.node.dispatchEvent(new cc.Event.EventCustom("StoreInit", true));
   }
 
-  start() {}
+  start() { }
 
-  update(dt) {}
+  update(dt) { }
 }

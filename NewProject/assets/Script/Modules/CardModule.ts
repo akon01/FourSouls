@@ -130,7 +130,7 @@ export async function cardClickedToActivate(
 }
 
 export function chargeCard(card: cc.Node) {
-  cc.log("charge itme");
+  //cc.log("charge itme");
   card.stopAllActions();
   card.runAction(cc.rotateTo(0.5, 0));
   switch (card.getComponent(Card).type) {

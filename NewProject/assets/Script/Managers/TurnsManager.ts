@@ -18,7 +18,7 @@ export default class TurnsManager extends cc.Component {
   static currentTurn: Turn = null;
 
   static init() {
-    ////cc.log('init turns')
+    //////cc.log('init turns')
     this.makeTurns();
     TurnsManager.currentTurn = TurnsManager.turns[1];
 
@@ -40,19 +40,21 @@ export default class TurnsManager extends cc.Component {
 
   /**
    *
-   * @param isFromServer true if recived from the server and should not send an event.
+   * @param sendToServer false if should not send an event.
    */
-  static nextTurn(isFromServer: boolean) {
-    //cc.log(recivedEvent)
-    if (isFromServer) {
-      this.endTurn();
-      this.setCurrentTurn(getNextTurn(TurnsManager.currentTurn, this.turns));
-    } else {
-      let data = TurnsManager.currentTurn.PlayerId;
-      Server.$.send(Signal.NEXTTURN, data);
-      this.endTurn();
-      this.setCurrentTurn(getNextTurn(TurnsManager.currentTurn, this.turns));
-    }
+  static nextTurn(sendToServer?: boolean) {
+    ////cc.log(recivedEvent)
+    // if (!sendToServer) {
+    this.endTurn();
+    //cc.log(this.currentTurn.PlayerId);
+    this.setCurrentTurn(getNextTurn(TurnsManager.currentTurn, this.turns));
+    //cc.log(this.currentTurn.PlayerId);
+    // } else {
+    //   let data = TurnsManager.currentTurn.PlayerId;
+    //   Server.$.send(Signal.NEXTTURN, data);
+    //   this.endTurn();
+    //   this.setCurrentTurn(getNextTurn(TurnsManager.currentTurn, this.turns));
+    // }
     cc.find("MainScript").dispatchEvent(
       new cc.Event.EventCustom("turnChanged", true)
     );
@@ -83,6 +85,7 @@ export default class TurnsManager extends cc.Component {
         let monster = monsterNode.getComponent(Monster);
         monster.currentHp = monster.HP;
       }
+
     }
   }
 
@@ -99,9 +102,9 @@ export default class TurnsManager extends cc.Component {
 
   // LIFE-CYCLE CALLBACKS:
 
-  onLoad() {}
+  onLoad() { }
 
-  start() {}
+  start() { }
 
   // update (dt) {}
 }

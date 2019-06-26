@@ -35,17 +35,17 @@ export default class StealMoney extends Effect {
     let stealer = PlayerManager.getPlayerById(data.playerId).getComponent(
       Player
     );
-    cc.log(data);
+    //cc.log(data);
     let targetPlayer = PlayerManager.getPlayerByCardId(
       data.cardChosenId
     ).getComponent(Player);
 
     if (targetPlayer.coins >= this.numOfCoins) {
-      targetPlayer.changeMoney(-this.numOfCoins);
-      stealer.changeMoney(this.numOfCoins);
+      targetPlayer.changeMoney(-this.numOfCoins, false);
+      stealer.changeMoney(this.numOfCoins, false);
     } else {
-      stealer.changeMoney(targetPlayer.coins);
-      targetPlayer.changeMoney(-targetPlayer.coins);
+      stealer.changeMoney(targetPlayer.coins, false);
+      targetPlayer.changeMoney(-targetPlayer.coins, false);
     }
 
     return new Promise<ServerEffect[]>((resolve, reject) => {

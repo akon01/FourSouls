@@ -81,12 +81,12 @@ export default class SelectLootToPlay extends DataCollector {
       CardManager.disableCardActions(card);
       CardManager.makeRequiredForDataCollector(this, card);
     }
-    cc.log("select loot card!");
+    //cc.log("select loot card!");
     let cardPlayed = await this.waitForCardPlay();
 
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];
-      CardManager.unRequiredForDataGather(card);
+      CardManager.unRequiredForDataCollector(card);
     }
     let cardId = cardPlayed.getComponent(Card).cardId;
 
@@ -106,6 +106,7 @@ export default class SelectLootToPlay extends DataCollector {
           setTimeout(check, 50);
         }
       };
+      check.bind(this);
       setTimeout(check, 50);
     });
   }

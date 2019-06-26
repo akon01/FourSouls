@@ -1,4 +1,5 @@
 import Card from "./GameEntities/Card";
+import ActionManager from "../Managers/ActionManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -101,8 +102,11 @@ export class CardLayout extends cc.Component {
   addCardToLayout(newCard: cc.Node) {
     let newCardComp = newCard.getComponent(Card);
     // newCardComp.currentCardLayout = this;
+
     this.layoutCards.push(newCard);
+
     this.node.emit("HandCardAdded", newCard);
+    ActionManager.updateActions();
   }
 
   removeCardFromLayout(cardToRemove: cc.Node) {
@@ -139,7 +143,7 @@ export class CardLayout extends cc.Component {
 
   _doLayoutDirty(func: string) {
     this._layoutDirty = true;
-    ////cc.log('do layoutDirty' + ' '+ func)
+    //////cc.log('do layoutDirty' + ' '+ func)
   }
 
   _doLayout() {
@@ -245,8 +249,8 @@ export class CardLayout extends cc.Component {
         if (applyChildren) {
           // child.runAction(cc.moveTo(0.5,nextX, 0))
           let newPos = cc.v2(nextX, 0);
-          ////cc.log('card pos: '+child.getPosition())
-          ////cc.log('new card pos:'+newPos)
+          //////cc.log('card pos: '+child.getPosition())
+          //////cc.log('new card pos:'+newPos)
           child.setPosition(cc.v2(nextX, layoutY));
         }
       }
@@ -265,7 +269,7 @@ export class CardLayout extends cc.Component {
         cc.Node.EventType.SIZE_CHANGED,
         event => {
           this._doLayoutDirty("_addChildrenEventListeners");
-          ////cc.log('event from: ' +'SIZE_CHANGED1')
+          //////cc.log('event from: ' +'SIZE_CHANGED1')
         },
         this
       );
@@ -379,7 +383,7 @@ export class CardLayout extends cc.Component {
     });
     child.width = this.originalChildWidth;
     this._doLayoutDirty("_childRemoved");
-    ////cc.log('childRemoved')
+    //////cc.log('childRemoved')
   }
 
   _addEventListeners() {
@@ -401,7 +405,7 @@ export class CardLayout extends cc.Component {
       },
       this
     );
-    //this.node.on(cc.Node.EventType.CHILD_REORDER, (event) => { this._doLayoutDirty(); ////cc.log('event from: ' +'CHILD_REORDER1')}, this);
+    //this.node.on(cc.Node.EventType.CHILD_REORDER, (event) => { this._doLayoutDirty(); //////cc.log('event from: ' +'CHILD_REORDER1')}, this);
     this._addChildrenEventListeners();
   }
 
@@ -439,7 +443,7 @@ export class CardLayout extends cc.Component {
       },
       this
     );
-    //  this.node.off(cc.Node.EventType.CHILD_REORDER, (event) => { this._doLayoutDirty('_removeEventListeners CHILD_REORDER'); ////cc.log('event from: ' +'CHILD_REORDER2')}, this);
+    //  this.node.off(cc.Node.EventType.CHILD_REORDER, (event) => { this._doLayoutDirty('_removeEventListeners CHILD_REORDER'); //////cc.log('event from: ' +'CHILD_REORDER2')}, this);
     this._removeChildrenEventListeners();
   }
 
@@ -487,7 +491,7 @@ export class CardLayout extends cc.Component {
     //     this.boundingBoxWithoutChildren = this.node.getBoundingBoxToWorld();
   }
 
-  start() {}
+  start() { }
 
-  update(dt) {}
+  update(dt) { }
 }

@@ -19,23 +19,29 @@
     "_children": [
       {
         "__id__": 2
+      },
+      {
+        "__id__": 5
       }
     ],
     "_active": true,
     "_level": 1,
     "_components": [
       {
-        "__id__": 5
+        "__id__": 14
       },
       {
-        "__id__": 6
+        "__id__": 15
       },
       {
-        "__id__": 7
+        "__id__": 16
+      },
+      {
+        "__id__": 17
       }
     ],
     "_prefab": {
-      "__id__": 8
+      "__id__": 18
     },
     "_opacity": 255,
     "_color": {
@@ -169,6 +175,283 @@
     "sync": false
   },
   {
+    "__type__": "cc.Node",
+    "_name": "GainStats",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [
+      {
+        "__id__": 6
+      },
+      {
+        "__id__": 10
+      }
+    ],
+    "_active": true,
+    "_level": 2,
+    "_components": [
+      {
+        "__id__": 8
+      }
+    ],
+    "_prefab": {
+      "__id__": 13
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_position": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_scale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_quat": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_zIndex": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "AtSpecificHP",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 5
+    },
+    "_children": [],
+    "_active": true,
+    "_level": 3,
+    "_components": [
+      {
+        "__id__": 7
+      }
+    ],
+    "_prefab": {
+      "__id__": 12
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_position": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_scale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_quat": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_zIndex": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "6e01dbHWX1HF7g/TxMKN6d0",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 6
+    },
+    "_enabled": true,
+    "specificHp": 1,
+    "myEffect": {
+      "__id__": 8
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "1251ehOdU9IcaUBBusBC3Mv",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 5
+    },
+    "_enabled": true,
+    "condition": {
+      "__id__": 7
+    },
+    "passiveType": 2,
+    "dataCollector": {
+      "__id__": 9
+    },
+    "gainHp": false,
+    "hpToGain": 0,
+    "gainDMG": true,
+    "DMGToGain": 1,
+    "gainRollBonus": false,
+    "rollBonusToGain": 0,
+    "gainAttackRollBonus": false,
+    "attackRollBonusToGain": 0,
+    "gainFirstAttackRollBonus": false,
+    "firstAttackRollBonusToGain": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "0175bFUYExPf5FCIvNA1zX2",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 10
+    },
+    "_enabled": true,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "CardActivated",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 5
+    },
+    "_children": [],
+    "_active": true,
+    "_level": 3,
+    "_components": [
+      {
+        "__id__": 9
+      }
+    ],
+    "_prefab": {
+      "__id__": 11
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_position": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_scale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_quat": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_zIndex": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "4a330e74-ae56-4cb3-b182-8a7ae71586ab"
+    },
+    "fileId": "036BaaBR1IjJQlvWmf6N1o",
+    "sync": false
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "4a330e74-ae56-4cb3-b182-8a7ae71586ab"
+    },
+    "fileId": "17UG5AWJ9HQKJwW4siKJH7",
+    "sync": false
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "4a330e74-ae56-4cb3-b182-8a7ae71586ab"
+    },
+    "fileId": "d3WsuVQ3xI346Qcit2Gfyy",
+    "sync": false
+  },
+  {
     "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
@@ -206,18 +489,18 @@
     "_enabled": true,
     "cardName": "Begotten",
     "cardId": 0,
-    "moving": false,
-    "dragStartPos": null,
-    "xDiff": null,
-    "yDiff": null,
     "isInHand": false,
     "isOnDesk": false,
     "originalParent": null,
-    "newPos": null,
     "topDeckof": null,
-    "wasDragged": false,
     "type": 2,
-    "hasDraggableComp": false,
+    "isAttackable": false,
+    "isBuyable": false,
+    "isPlayable": false,
+    "isActivateable": false,
+    "isReactable": false,
+    "isRequired": false,
+    "requiredFor": null,
     "frontSprite": null,
     "backSprite": null,
     "isFlipped": false,
@@ -235,14 +518,41 @@
     "monsterPlace": null,
     "HP": 3,
     "currentHp": 0,
-    "rollValue": 7,
+    "rollValue": 1,
+    "rollBonus": 0,
     "DMG": 1,
     "baseDamage": 0,
     "isAttacked": false,
     "hasEffect": true,
+    "isNonMonster": false,
     "reward": {
       "__id__": 3
     },
+    "_id": ""
+  },
+  {
+    "__type__": "bd535UKRTNDu7iLPx8/+FlC",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "conditions": [
+      null
+    ],
+    "activeEffects": [],
+    "passiveEffects": [
+      {
+        "__id__": 5
+      }
+    ],
+    "multiEffectCollector": null,
+    "effectData": null,
+    "data": {},
+    "hasMultipleEffects": false,
+    "cardPlayerId": 0,
+    "serverEffectStack": [],
     "_id": ""
   },
   {

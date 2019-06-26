@@ -82,6 +82,8 @@ var Server = /** @class */ (function () {
         whevent.on(signal_2["default"].MOVETOTABLE, this.moveToTable, this);
         whevent.on(signal_2["default"].NEXTTURN, this.nextTurn, this);
         whevent.on(signal_2["default"].STARTGAME, this.onStartGame, this);
+        whevent.on(signal_2["default"].FINISHLOAD, this.onFinishLoad, this);
+        whevent.on(signal_2["default"].UPDATEACTIONS, this.onUpdateActions, this);
         whevent.on(signal_2["default"].VALIDATE, this.onValidate, this);
         whevent.on(signal_2["default"].CARDDRAWED, this.onCardDrawed, this);
         whevent.on(signal_2["default"].ADDANITEM, this.onAddItem, this);
@@ -96,6 +98,14 @@ var Server = /** @class */ (function () {
         whevent.on(signal_2["default"].SHOWCARDPREVIEW, this.onShowCardPreview, this);
         whevent.on(signal_2["default"].ROLLDICE, this.onRollDice, this);
         whevent.on(signal_2["default"].ROLLDICEENDED, this.onRollDiceEnded, this);
+        whevent.on(signal_2["default"].GETNEXTMONSTER, this.onGetNextMonster, this);
+        whevent.on(signal_2["default"].MOVECARDTOPILE, this.onMoveCardToPile, this);
+        whevent.on(signal_2["default"].GETSOUL, this.onGetSoul, this);
+        whevent.on(signal_2["default"].ADDMONSTER, this.onAddMonster, this);
+        whevent.on(signal_2["default"].REMOVEMONSTER, this.onRemoveMonster, this);
+        whevent.on(signal_2["default"].DRAWCARD, this.onDrawCard, this);
+        whevent.on(signal_2["default"].CHANGEMONEY, this.onChangeMoney, this);
+        whevent.on(signal_2["default"].ADDSTORECARD, this.onAddToStoreCard, this);
     };
     Server.prototype.onRequestMatch = function (_a) {
         var player = _a.player, data = _a.data;
@@ -110,6 +120,18 @@ var Server = /** @class */ (function () {
             console.log("Starting match with " + player.match.players.length + " Players");
             player.match.start();
         }
+    };
+    Server.prototype.onFinishLoad = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.loadedPlayers += 1;
+        player.match.firstPlayerId = data.data.turnPlayerId;
+        if (player.match.loadedPlayers == player.match.players.length) {
+            player.match.broadcast(signal_2["default"].FINISHLOAD, { id: player.match.firstPlayerId });
+        }
+    };
+    Server.prototype.onUpdateActions = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.send(signal_2["default"].UPDATEACTIONS);
     };
     Server.prototype.moveToTable = function (_a) {
         var player = _a.player, data = _a.data;
@@ -134,9 +156,41 @@ var Server = /** @class */ (function () {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_2["default"].CARDDRAWED, data);
     };
+    Server.prototype.onAddToStoreCard = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].ADDSTORECARD, data);
+    };
+    Server.prototype.onChangeMoney = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].CHANGEMONEY, data);
+    };
+    Server.prototype.onDrawCard = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].DRAWCARD, data);
+    };
+    Server.prototype.onGetSoul = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].GETSOUL, data);
+    };
+    Server.prototype.onRemoveMonster = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].REMOVEMONSTER, data);
+    };
+    Server.prototype.onAddMonster = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].ADDMONSTER, data);
+    };
     Server.prototype.onRollDiceEnded = function (_a) {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_2["default"].ROLLDICEENDED, data);
+    };
+    Server.prototype.onGetNextMonster = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].GETNEXTMONSTER, data);
+    };
+    Server.prototype.onMoveCardToPile = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].MOVECARDTOPILE, data);
     };
     Server.prototype.onRollDice = function (_a) {
         var player = _a.player, data = _a.data;

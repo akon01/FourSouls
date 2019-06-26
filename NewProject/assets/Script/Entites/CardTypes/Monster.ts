@@ -1,5 +1,6 @@
 import MonsterCardHolder from "../MonsterCardHolder";
 import MonsterReward from "../../CardEffectComponents/MonsterRewards/MonsterReward";
+import { testForPassiveAfter } from "../../Managers/PassiveManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -18,6 +19,9 @@ export default class Monster extends cc.Component {
   rollValue: number = 0;
 
   @property
+  rollBonus: number = 0;
+
+  @property
   DMG: number = 0;
 
   @property
@@ -29,9 +33,16 @@ export default class Monster extends cc.Component {
   @property
   hasEffect: boolean = false;
 
+  @property
+  isNonMonster: boolean = false;
+
+  @property
+  souls: number = 0;
+
   @property(MonsterReward)
   reward: MonsterReward = null;
 
+  @testForPassiveAfter('getDamaged')
   getDamaged(damage: number) {
     this.currentHp -= damage;
   }
@@ -48,7 +59,7 @@ export default class Monster extends cc.Component {
 
   // onLoad () {}
 
-  start() {}
+  start() { }
 
   // update (dt) {}
 }

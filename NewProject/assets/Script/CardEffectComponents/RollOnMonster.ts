@@ -19,7 +19,10 @@ export default class RollOnMonster extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  doEffect(serverEffectStack: ServerEffect[], data?) {
+  doEffect(
+    serverEffectStack: ServerEffect[],
+    data?: { numberRolled: number; cardPlayerId: number }
+  ) {
     let numberRolled = data;
     let sendToServer;
     if (
@@ -30,10 +33,7 @@ export default class RollOnMonster extends Effect {
     } else {
       sendToServer = false;
     }
-    BattleManager.rollOnMonster(numberRolled, sendToServer);
-    // let targetPlayer = PlayerManager.getPlayerById(data.target);
-    // let player: Player = targetPlayer.getComponent(Player);
-    // player.changeMoney(this.numOfCoins);
+    BattleManager.rollOnMonster(data.numberRolled, sendToServer);
 
     return new Promise<ServerEffect[]>((resolve, reject) => {
       resolve(serverEffectStack);

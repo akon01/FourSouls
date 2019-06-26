@@ -16,22 +16,29 @@
     "_name": "Angel Room",
     "_objFlags": 0,
     "_parent": null,
-    "_children": [],
+    "_children": [
+      {
+        "__id__": 2
+      }
+    ],
     "_active": true,
     "_level": 1,
     "_components": [
       {
-        "__id__": 2
+        "__id__": 8
       },
       {
-        "__id__": 3
+        "__id__": 9
       },
       {
-        "__id__": 4
+        "__id__": 10
+      },
+      {
+        "__id__": 11
       }
     ],
     "_prefab": {
-      "__id__": 5
+      "__id__": 12
     },
     "_opacity": 255,
     "_color": {
@@ -80,6 +87,182 @@
     "_id": ""
   },
   {
+    "__type__": "cc.Node",
+    "_name": "Angel Room Effect",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [
+      {
+        "__id__": 3
+      }
+    ],
+    "_active": true,
+    "_level": 2,
+    "_components": [
+      {
+        "__id__": 6
+      }
+    ],
+    "_prefab": {
+      "__id__": 7
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_position": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_scale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_quat": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_zIndex": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "RollDice",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 2
+    },
+    "_children": [],
+    "_active": true,
+    "_level": 3,
+    "_components": [
+      {
+        "__id__": 4
+      }
+    ],
+    "_prefab": {
+      "__id__": 5
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_position": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_scale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_quat": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_zIndex": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "9ae575ZLxJMr6RPkj5It9i/",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 3
+    },
+    "_enabled": true,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "fc213ae3-c6f8-44f7-8b82-644708ca4b3d"
+    },
+    "fileId": "dd5DvTybBIJqW32reAPVon",
+    "sync": false
+  },
+  {
+    "__type__": "e4a28Oj+nxGCa6KxTjYtNhE",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "condition": null,
+    "passiveType": 1,
+    "dataCollector": {
+      "__id__": 4
+    },
+    "numOfCoins": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "fc213ae3-c6f8-44f7-8b82-644708ca4b3d"
+    },
+    "fileId": "f0NASMxtFE95w+o06mKd7q",
+    "sync": false
+  },
+  {
     "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
@@ -90,7 +273,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "d49d2ae5-e670-4af5-9b4f-0498b15f8398"
+      "__uuid__": "79991a60-b8b9-4005-9a52-2828c8ff54dc"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -104,7 +287,9 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_state": 0,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "e728376a-50c1-4a1b-967c-acbd4c477c21"
+    },
     "_id": ""
   },
   {
@@ -128,7 +313,6 @@
     "topDeckof": null,
     "wasDragged": false,
     "type": 2,
-    "currentCardLayout": null,
     "hasDraggableComp": false,
     "frontSprite": null,
     "backSprite": null,
@@ -146,10 +330,37 @@
     "_enabled": true,
     "monsterPlace": null,
     "HP": null,
+    "currentHp": 0,
     "rollValue": "",
     "DMG": null,
+    "baseDamage": 0,
     "isAttacked": false,
     "hasEffect": true,
+    "isNonMonster": true,
+    "reward": null,
+    "_id": ""
+  },
+  {
+    "__type__": "bd535UKRTNDu7iLPx8/+FlC",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "conditions": [],
+    "activeEffects": [
+      {
+        "__id__": 2
+      }
+    ],
+    "passiveEffects": [],
+    "multiEffectCollector": null,
+    "effectData": null,
+    "data": {},
+    "hasMultipleEffects": false,
+    "cardPlayerId": 0,
+    "serverEffectStack": [],
     "_id": ""
   },
   {

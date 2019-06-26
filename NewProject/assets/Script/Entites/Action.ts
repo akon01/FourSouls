@@ -30,6 +30,12 @@ import Dice from "./GameEntities/Dice";
 import Signal from "../../Misc/Signal";
 import CardEffect from "./CardEffect";
 import { rejects } from "assert";
+import Deck from "./GameEntities/Deck";
+import ChooseCard from "../CardEffectComponents/DataCollector/ChooseCard";
+import CardPreview from "./CardPreview";
+import Monster from "./CardTypes/Monster";
+import MonsterField from "./MonsterField";
+import MonsterCardHolder from "./MonsterCardHolder";
 
 export interface Action {
   originPlayerId: number;
@@ -63,20 +69,54 @@ export class DrawCardAction implements Action {
     let player = PlayerManager.getPlayerById(this.originPlayerId).getComponent(
       Player
     );
+    if (TurnsManager.currentTurn.PlayerId == this.originPlayerId) {
+      cc.log('am player turn reduce 1 in draw plays')
+      TurnsManager.currentTurn.drawPlays -= 1;
+    }
+    TurnsManager.currentTurn.drawPlays -= 1;
     drawnCard.setPosition(CardManager.lootDeck.getPosition());
     drawnCard.parent = cc.find("Canvas");
     let handPos = player.hand.node.getPosition();
     CardManager.allCards.push(drawnCard);
-    drawnCard.runAction(cc.moveTo(TIMETODRAW, handPos));
-    setTimeout(() => {
+    let action = cc.moveTo(TIMETODRAW, handPos)
+    let timeOutToDraw = () => {
       addCardToCardLayout(drawnCard, player.hand, true);
       drawnCard.getComponent(Card).ownedBy = player;
-      TurnsManager.currentTurn.drawPlays -= 1;
+
       ActionManager.updateActions();
       return new Promise((resolve, reject) => {
         resolve(true);
       });
-    }, (TIMETODRAW + 0.1) * 1000);
+    };
+    timeOutToDraw.bind(this);
+    drawnCard.runAction(cc.sequence(action, cc.callFunc(timeOutToDraw, this)));
+    //setTimeout(timeOutToDraw, (TIMETODRAW + 0.1) * 1000);
+  }
+
+  serverBrodcast(serverData) {
+    let signal = serverData.signal;
+    let data = serverData.srvData;
+    Server.$.send(signal, data);
+  }
+}
+
+export class EndTurnAction implements Action {
+  playedCard: cc.Node;
+
+  originPlayerId: number;
+  actionTarget: cc.Node;
+  data: {};
+  actionType = ACTION_TYPE.PLAYERACTION;
+  hasCardEffect = false;
+
+  constructor(data: {}, originPlayerId: number) {
+    this.data = data;
+    this.originPlayerId = originPlayerId;
+  }
+
+  showAction() {
+    //cc.log("end turn action");
+    TurnsManager.nextTurn();
   }
 
   serverBrodcast(serverData) {
@@ -100,9 +140,9 @@ export class MoveLootToPile implements Action {
     this.playedCard.runAction(
       cc.moveTo(TIMETOPLAYLOOT, PileManager.lootCardPileNode.position)
     );
-    setTimeout(() => {
+    let timeOutToPlay = () => {
       removeFromHand(this.data.lootCard, MainScript.currentPlayerComp.hand);
-      PileManager.addCardToPile(CARD_TYPE.LOOT, this.data.lootCard);
+      PileManager.addCardToPile(CARD_TYPE.LOOT, this.data.lootCard, false);
       TurnsManager.currentTurn.lootCardPlays -= 1;
       let playerId = MainScript.currentPlayerComp.playerId;
       let cardId = movedCardComp.cardId;
@@ -110,7 +150,9 @@ export class MoveLootToPile implements Action {
       return new Promise((resolve, reject) => {
         resolve(true);
       });
-    }, (TIMETOPLAYLOOT + 0.1) * 1000);
+    };
+    timeOutToPlay.bind(this);
+    setTimeout(timeOutToPlay, (TIMETOPLAYLOOT + 0.1) * 1000);
   }
 
   serverBrodcast(serverData) {
@@ -125,7 +167,7 @@ export class MoveLootToPile implements Action {
   }
 }
 
-export class BuyItemAction implements Action {
+export class AddItemAction implements Action {
   playedCard: cc.Node;
   originPlayerId: number;
   actionTarget: cc.Node;
@@ -133,37 +175,40 @@ export class BuyItemAction implements Action {
   actionType = ACTION_TYPE.PLAYERACTION;
   hasCardEffect = false;
 
-  showAction() {
+
+  async showAction() {
     let movedCardComp: Card = this.data.movedCard.getComponent("Card");
     let canvas = cc.find("Canvas");
+    if (TurnsManager.currentTurn.PlayerId == this.originPlayerId) {
+      cc.log('am player turn reduce 1 in buy plays')
+      TurnsManager.currentTurn.buyPlays -= 1;
+    }
+    TurnsManager.currentTurn.buyPlays -= 1;
     Store.storeCards = Store.storeCards.filter(
       card => card != movedCardComp.node
     );
     let itemPosInCanvasTrans = canvas.convertToNodeSpaceAR(
       movedCardComp.node.convertToWorldSpaceAR(movedCardComp.node.getPosition())
     );
-    // canvas.convertToNodeSpaceAR(
-    // );
-    cc.log(itemPosInCanvasTrans);
     movedCardComp.node.parent = canvas;
     movedCardComp.node.setPosition(itemPosInCanvasTrans);
-    movedCardComp.node.runAction(
-      cc.moveTo(TIMETOBUY, this.data.playerDeskComp.node.getPosition())
-    );
-    let movedCardItemComp: Item = this.data.movedCard.getComponent(Item);
-    setTimeout(() => {
+    let moveAction = cc.moveTo(TIMETOBUY, this.data.playerDeskComp.node.getPosition());
+    let timeOutToBuy = () => {
       movedCardComp.ownedBy = MainScript.currentPlayerComp;
-      MainScript.currentPlayerComp.addItem(
-        movedCardItemComp,
-        this.data.movedCard
-      );
-      TurnsManager.currentTurn.buyPlays -= 1;
       this.data.playerDeskComp.addToDesk(movedCardComp);
       return new Promise((resolve, reject) => {
         resolve(true);
       });
-    }, (TIMETOBUY + 0.1) * 1000);
+    };
+    timeOutToBuy.bind(this);
+    movedCardComp.node.runAction(
+      cc.sequence(moveAction, cc.callFunc(timeOutToBuy, this))
+    );
+
+
+
   }
+
 
   serverBrodcast(serverData) {
     let signal = serverData.signal;
@@ -180,13 +225,43 @@ export class DeclareAttackAction implements Action {
   playedCard: cc.Node;
   originPlayerId: number;
   actionTarget: cc.Node;
-  data: { attackedMonster: cc.Node };
+  data: {
+    attackedMonster: cc.Node;
+    playerId: number;
+    isFromServer?: boolean;
+    cardHolderId: number;
+  };
   actionType = ACTION_TYPE.PLAYERACTION;
   hasCardEffect = false;
 
-  showAction() {
-    let monster = this.data.attackedMonster;
-    BattleManager.declareAttackOnMonster(monster);
+  async showAction() {
+    let monsterCard = this.data.attackedMonster;
+    let monsterDeck = CardManager.monsterDeck.getComponent(Deck);
+    let monsterCardHolder: MonsterCardHolder = MonsterField.getMonsterPlaceById(
+      this.data.cardHolderId
+    );
+    if (TurnsManager.currentTurn.PlayerId == this.originPlayerId) {
+      cc.log('am player turn reduce 1 in attack plays')
+      TurnsManager.currentTurn.attackPlays -= 1;
+    }
+    TurnsManager.currentTurn.attackPlays -= 1;
+    let monsterField = cc
+      .find("Canvas/MonsterDeck/MonsterField")
+      .getComponent(MonsterField);
+    let monsterId;
+    let attackedMonster;
+    if (this.data.isFromServer) {
+    } else {
+      if (monsterCard.getComponent(Monster).monsterPlace == null) {
+        monsterField.addMonsterToExsistingPlace(
+          monsterCardHolder.id,
+          monsterCard,
+          true
+        );
+      }
+    }
+
+    BattleManager.declareAttackOnMonster(monsterCard);
     return new Promise((resolve, reject) => {
       resolve(true);
     });
@@ -200,6 +275,34 @@ export class DeclareAttackAction implements Action {
 
   constructor(data) {
     this.data = data;
+  }
+}
+
+export class AttackMonster implements Action {
+  originPlayerId: number;
+  actionTarget: cc.Node;
+  data: {};
+  actionType: ACTION_TYPE;
+  hasCardEffect: boolean = true;
+  playedCard: cc.Node;
+
+  showAction(data?: {}) {
+    TurnsManager.currentTurn.attackPlays -= 1;
+    //cc.log("attack monster action");
+  }
+  serverBrodcast(serverData?: any) {
+    // let signal = serverData.signal;
+    // let data = serverData.srvData;
+    // Server.$.send(signal, data);
+  }
+
+  constructor(
+    data: { rollType: ROLL_TYPE; sendToServer: boolean },
+    originPlayerId: number,
+    diceNode: cc.Node
+  ) {
+    this.playedCard = diceNode;
+    this.originPlayerId = originPlayerId;
   }
 }
 
@@ -225,6 +328,8 @@ export class ActivateItemAction implements Action {
         //  card.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
         break;
       case CARD_TYPE.LOOT:
+        break;
+      case CARD_TYPE.MONSTER:
         break;
       default:
         card.getComponent(Item).useItem();
@@ -259,7 +364,7 @@ export class ActivatePassiveAction implements Action {
     let card = this.data.activatedCard;
     this.playedCard = card;
     card.stopAllActions();
-    cc.log("activate passive effect");
+    //cc.log("activate passive effect");
     this.passiveIndex;
     return new Promise((resolve, reject) => {
       resolve(true);
@@ -291,33 +396,44 @@ export class RollDiceAction implements Action {
     sendToServer: boolean;
   } = null;
   actionType: ACTION_TYPE = ACTION_TYPE.ROLL;
-  hasCardEffect: boolean = true;
+  hasCardEffect: boolean = false;
   rollType: ROLL_TYPE = null;
   sendToServer: boolean;
-  serverNumberRolled: number;
+  serverNumberRolled: number = -1;
 
   //@printMethodStarted(COLORS.RED)
   async showAction(data?) {
-    cc.log("show action on roll dice");
-
+    if (this.serverNumberRolled == -1) {
+      let dice = this.playedCard.getComponent(Dice);
+      let numberRolled;
+      Server.$.send(Signal.ROLLDICE, { playerId: data.cardPlayerId });
+      numberRolled = await dice.rollDice(this.rollType);
+      Server.$.send(Signal.ROLLDICEENDED, {
+        playerId: data.cardPlayerId,
+        numberRolled: numberRolled
+      });
+      this.serverNumberRolled = numberRolled;
+    }
     return new Promise((resolve, reject) => {
-      resolve(true);
+      resolve(this.serverNumberRolled);
     });
   }
   serverBrodcast(serverData?: any) {
-    let signal = serverData.signal;
-    let data = serverData.srvData;
-    Server.$.send(signal, data);
+    // let signal = serverData.signal;
+    // let data = serverData.srvData;
+    // Server.$.send(signal, data);
   }
 
   constructor(
     data: { rollType: ROLL_TYPE; sendToServer: boolean },
     originPlayerId: number,
-    playedCard: cc.Node,
+    diceNode: cc.Node,
     serverNumberRolled?: number
   ) {
-    this.playedCard = playedCard;
-    this.serverNumberRolled = serverNumberRolled;
+    this.playedCard = diceNode;
+    if (serverNumberRolled) {
+      this.serverNumberRolled = serverNumberRolled;
+    }
     this.rollType = data.rollType;
     this.sendToServer = data.sendToServer;
     this.originPlayerId = originPlayerId;

@@ -246,6 +246,8 @@
       "__id__": 2
     },
     "_enabled": true,
+    "condition": null,
+    "passiveType": 1,
     "dataCollector": {
       "__id__": 4
     },
@@ -300,18 +302,18 @@
     "_enabled": true,
     "cardName": "Blue Baby",
     "cardId": 0,
-    "moving": false,
-    "dragStartPos": null,
-    "xDiff": null,
-    "yDiff": null,
     "isInHand": false,
     "isOnDesk": false,
     "originalParent": null,
-    "newPos": null,
     "topDeckof": null,
-    "wasDragged": false,
     "type": 3,
-    "hasDraggableComp": false,
+    "isAttackable": false,
+    "isBuyable": false,
+    "isPlayable": false,
+    "isActivateable": false,
+    "isReactable": false,
+    "isRequired": false,
+    "requiredFor": null,
     "frontSprite": null,
     "backSprite": null,
     "isFlipped": false,
@@ -345,6 +347,7 @@
     "_enabled": true,
     "type": 1,
     "activated": false,
+    "eternal": true,
     "_id": ""
   },
   {

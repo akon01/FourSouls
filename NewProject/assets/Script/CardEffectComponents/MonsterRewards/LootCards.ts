@@ -3,6 +3,7 @@ import Player from "../../Entites/GameEntities/Player";
 import MonsterReward from "./MonsterReward";
 import CardManager from "../../Managers/CardManager";
 
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -16,18 +17,19 @@ export default class LootCards extends MonsterReward {
   @property
   numOfCardsToLoot: number = 0;
 
-  rewardPlayer(playerToReward: cc.Node) {
+  async rewardPlayer(playerToReward: cc.Node, sendToServer: boolean) {
     let lootDeck = CardManager.lootDeck;
     for (let i = 0; i < this.numOfCardsToLoot; i++) {
-      playerToReward.getComponent(Player).drawCard(lootDeck, true);
+      let over = await playerToReward.getComponent(Player).drawCard(lootDeck, sendToServer);
     }
+    return new Promise((resolve, reject) => resolve(true))
   }
 
   // LIFE-CYCLE CALLBACKS:
 
   // onLoad () {}
 
-  start() {}
+  start() { }
 
   // update (dt) {}
 }

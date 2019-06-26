@@ -38,6 +38,8 @@ export default class Server {
     whevent.on(signal.MOVETOTABLE, this.moveToTable, this);
     whevent.on(signal.NEXTTURN, this.nextTurn, this);
     whevent.on(signal.STARTGAME, this.onStartGame, this);
+    whevent.on(signal.FINISHLOAD, this.onFinishLoad, this);
+    whevent.on(signal.UPDATEACTIONS, this.onUpdateActions, this);
     whevent.on(signal.VALIDATE, this.onValidate, this);
     whevent.on(signal.CARDDRAWED, this.onCardDrawed, this);
     whevent.on(signal.ADDANITEM, this.onAddItem, this);
@@ -52,7 +54,16 @@ export default class Server {
     whevent.on(signal.SHOWCARDPREVIEW, this.onShowCardPreview, this);
     whevent.on(signal.ROLLDICE, this.onRollDice, this);
     whevent.on(signal.ROLLDICEENDED, this.onRollDiceEnded, this);
+    whevent.on(signal.GETNEXTMONSTER, this.onGetNextMonster, this);
+    whevent.on(signal.MOVECARDTOPILE, this.onMoveCardToPile, this);
+    whevent.on(signal.GETSOUL, this.onGetSoul, this);
+    whevent.on(signal.ADDMONSTER, this.onAddMonster, this);
+    whevent.on(signal.REMOVEMONSTER, this.onRemoveMonster, this);
+    whevent.on(signal.DRAWCARD, this.onDrawCard, this);
+    whevent.on(signal.CHANGEMONEY, this.onChangeMoney, this);
+    whevent.on(signal.ADDSTORECARD, this.onAddToStoreCard, this);
   }
+
 
   onRequestMatch({ player, data }) {
     if (ServerPlayer.players.length >= 2) {
@@ -68,6 +79,20 @@ export default class Server {
       );
       player.match.start();
     }
+  }
+
+  onFinishLoad({ player, data }) {
+
+    player.match.loadedPlayers += 1;
+    player.match.firstPlayerId = data.data.turnPlayerId
+
+    if (player.match.loadedPlayers == player.match.players.length) {
+      player.match.broadcast(signal.FINISHLOAD, { id: player.match.firstPlayerId })
+    }
+  }
+
+  onUpdateActions({ player, data }) {
+    player.send(signal.UPDATEACTIONS)
   }
 
   moveToTable({ player, data }) {
@@ -98,8 +123,42 @@ export default class Server {
     player.match.broadcastExept(player, signal.CARDDRAWED, data);
   }
 
+  onAddToStoreCard({ player, data }) {
+    player.match.broadcastExept(player, signal.ADDSTORECARD, data);
+  }
+
+
+  onChangeMoney({ player, data }) {
+    player.match.broadcastExept(player, signal.CHANGEMONEY, data);
+  }
+
+
+  onDrawCard({ player, data }) {
+    player.match.broadcastExept(player, signal.DRAWCARD, data);
+  }
+
+
+  onGetSoul({ player, data }) {
+    player.match.broadcastExept(player, signal.GETSOUL, data);
+  }
+
+  onRemoveMonster({ player, data }) {
+    player.match.broadcastExept(player, signal.REMOVEMONSTER, data);
+  }
+  onAddMonster({ player, data }) {
+    player.match.broadcastExept(player, signal.ADDMONSTER, data);
+  }
+
+
   onRollDiceEnded({ player, data }) {
     player.match.broadcastExept(player, signal.ROLLDICEENDED, data);
+  }
+
+  onGetNextMonster({ player, data }) {
+    player.match.broadcastExept(player, signal.GETNEXTMONSTER, data);
+  }
+  onMoveCardToPile({ player, data }) {
+    player.match.broadcastExept(player, signal.MOVECARDTOPILE, data);
   }
 
   onRollDice({ player, data }) {

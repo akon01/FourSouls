@@ -7,6 +7,8 @@ import { CardLayout } from "./CardLayout";
 import Card from "./GameEntities/Card";
 import MonsterCardHolder from "./MonsterCardHolder";
 import Monster from "./CardTypes/Monster";
+import CardEffect from "./CardEffect";
+import PassiveManager from "../Managers/PassiveManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -49,7 +51,8 @@ export default class MonsterField extends cc.Component {
     monsterCard.getComponent(Monster).currentHp = monsterCard.getComponent(
       Monster
     ).HP;
-    monsterHolder.addToMonsters(monsterCard);
+    //cc.log('addMonsterToExsistingPlace ')
+    monsterHolder.addToMonsters(monsterCard, sendToServer);
     CardManager.allCards.push(monsterCard);
     CardManager.onTableCards.push(monsterCard);
     MonsterField.updateActiveMonsters();
@@ -128,7 +131,14 @@ export default class MonsterField extends cc.Component {
     MonsterField.activeMonsters = [];
     for (let i = 0; i < MonsterField.monsterCardHolders.length; i++) {
       const monsterPlace = MonsterField.monsterCardHolders[i];
-      MonsterField.activeMonsters.push(monsterPlace.activeMonster);
+      if (monsterPlace.activeMonster != null) {
+        MonsterField.activeMonsters.push(monsterPlace.activeMonster);
+        let monsterEffect = monsterPlace.activeMonster.getComponent(CardEffect)
+        if (monsterEffect != null && monsterEffect.passiveEffects.length > 0 && !PassiveManager.isCardRegistered(monsterPlace.activeMonster)) {
+          //cc.log('register monster with passive ' + monsterPlace.activeMonster.name)
+          PassiveManager.registerPassiveItem(monsterPlace.activeMonster)
+        }
+      }
     }
   }
 
@@ -145,7 +155,7 @@ export default class MonsterField extends cc.Component {
     // MonsterField.monsterCardHolders.push(new MonsterPlace(++MonsterField.placesIds));
   }
 
-  start() {}
+  start() { }
 
-  update(dt) {}
+  update(dt) { }
 }

@@ -12,6 +12,9 @@ export default class Item extends cc.Component {
   @property
   activated: boolean = false;
 
+  @property
+  eternal: boolean = false;
+
   rechargeItem() {
     this.node.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, 0));
     this.activated = false;

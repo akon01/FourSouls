@@ -13,5 +13,9 @@ export default interface EffectInterface {
 
   condition: Condition;
 
+  hasSubAction: boolean;
+
+  reverseEffect();
+
   doEffect(data?): Promise<{}>;
 }

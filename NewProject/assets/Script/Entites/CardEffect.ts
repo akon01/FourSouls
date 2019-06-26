@@ -3,7 +3,7 @@ import Server from "../../ServerClient/ServerClient";
 import Condition from "../CardEffectComponents/CardConditions/Condition";
 import Effect from "../CardEffectComponents/CardEffects/Effect";
 import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
-import MultiEffect from "../CardEffectComponents/DataCollector/MultiEffect";
+import MultiEffectChoose from "../CardEffectComponents/DataCollector/MultiEffectChoose";
 import { COLORS, printMethodStarted, CARD_TYPE, ITEM_TYPE } from "../Constants";
 import CardManager from "../Managers/CardManager";
 import Card from "./GameEntities/Card";
@@ -114,9 +114,10 @@ export default class CardEffect extends cc.Component {
   getEffectByNum(numOfEffect) {
     for (let i = 0; i < this.activeEffects.length; i++) {
       const effect = this.activeEffects[i];
-      if (i == numOfEffect - 1) {
-        return effect.getComponent(Effect);
-      }
+      if (numOfEffect == 0 && i == 0)
+        if (i == numOfEffect - 1) {
+          return effect.getComponent(Effect);
+        }
     }
   }
 
@@ -139,11 +140,14 @@ export default class CardEffect extends cc.Component {
     }
   }
 
-  async collectEffectFromNum(cardPlayed: cc.Node) {
-    const multiEffectCollector: MultiEffect = this.multiEffectCollector.getComponent(
+  async collectEffectFromNum(cardPlayed: cc.Node, cardPlayerId: number) {
+    const multiEffectCollector: DataCollector = this.multiEffectCollector.getComponent(
       DataCollector
     );
-    let chosenEffect = await multiEffectCollector.collectData(cardPlayed);
+    let chosenEffect = await multiEffectCollector.collectData({
+      cardPlayed: cardPlayed,
+      cardPlayerId: cardPlayerId
+    });
     return chosenEffect;
   }
 
@@ -154,51 +158,64 @@ export default class CardEffect extends cc.Component {
     },
     cardEffectIndex?: number
   ): Promise<ServerEffect> {
-    cc.log(cardPlayedData.cardPlayerId);
     let cardPlayed = CardManager.getCardById(cardPlayedData.cardId);
     let cardEffect: Effect;
     let effectType;
-    cc.log(cardEffectIndex);
+
     if (cardEffectIndex != null) {
-      cc.log(cardEffectIndex);
       effectType = ITEM_TYPE.PASSIVE;
       cardEffect = this.passiveEffects[cardEffectIndex].getComponent(Effect);
     } else {
       effectType = ITEM_TYPE.ACTIVE;
 
       if (this.hasMultipleEffects) {
-        cardEffect = await this.collectEffectFromNum(cardPlayed);
+        cardEffect = await this.collectEffectFromNum(
+          cardPlayed,
+          cardPlayedData.cardPlayerId
+        );
       } else {
         cardEffect = this.activeEffects[0].getComponent(Effect);
       }
     }
-    cc.log(cardEffect);
-    this.effectData = await this.collectEffectData(cardEffect, cardPlayedData);
 
     let effectIndex = this.getEffectIndex(cardEffect);
+
+    let serverEffect = new ServerEffect(
+      cardEffect.effectName,
+      effectIndex,
+      cardPlayedData.cardPlayerId,
+      cardPlayedData.cardId,
+      effectType
+    );
+    this.effectData = await this.collectEffectData(cardEffect, cardPlayedData);
+    serverEffect.hasSubAction = false;
+    serverEffect.cardEffectData = this.effectData;
+    //add check if the effect collector has a sub-action (like rolling a dice) and if yes do not collect the data yet and put a flag inside the server effect
+
+    // let serverEffect = new ServerEffect(
+    //   cardEffect.effectName,
+    //   this.effectData,
+    //   effectIndex,
+    //   cardPlayedData.cardPlayerId,
+    //   cardPlayedData.cardId,
+    //   effectType
+    //add a hasSubAction flag.
+    // );
     return new Promise((resolve, reject) => {
-      resolve(
-        new ServerEffect(
-          cardEffect.effectName,
-          this.effectData,
-          effectIndex,
-          cardPlayedData.cardPlayerId,
-          cardPlayedData.cardId,
-          effectType
-        )
-      );
+      resolve(serverEffect);
     });
   }
 
-  async doEffectFromServerEffect(
+  //@printMethodStarted(COLORS.RED)
+  async doServerEffect(
     currentServerEffect: ServerEffect,
     allServerEffects: ServerEffect[]
   ): Promise<ServerEffect[]> {
     cc.log(
       "doing effect: " +
-        currentServerEffect.effectName +
-        " of card: " +
-        this.node.name
+      currentServerEffect.effectName +
+      " of card: " +
+      this.node.name
     );
 
     this.effectData = currentServerEffect.cardEffectData;
@@ -228,7 +245,7 @@ export default class CardEffect extends cc.Component {
 
   //  }
 
-  start() {}
+  start() { }
 
   // update (dt) {}
 }

@@ -28,6 +28,7 @@ export default class PlayerDesk extends cc.Component {
   characterItemCard: cc.Node = null;
 
   addToDesk(card: Card) {
+
     let deskComp: PlayerDesk = this.node.getComponent("PlayerDesk");
     card.isOnDesk = true;
     let itemComp = card.getComponent(Item);
@@ -77,7 +78,7 @@ export default class PlayerDesk extends cc.Component {
 
   // onLoad () {}
 
-  start() {}
+  start() { }
 
   // update (dt) {}
 }

@@ -52,7 +52,7 @@ export default class ButtonManager extends cc.Component {
       let buttonNode = playersComp.node.getChildByName("addToHandButton");
       if (buttonNode != null) {
         this.addToHandButtonPool.put(buttonNode);
-        ////cc.log('removed a button')
+        //////cc.log('removed a button')
       }
     }
   }

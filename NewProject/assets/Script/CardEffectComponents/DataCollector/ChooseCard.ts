@@ -18,6 +18,8 @@ import PlayLootCard from "../CardEffects/PlayLootCard";
 import Player from "../../Entites/GameEntities/Player";
 import Deck from "../../Entites/GameEntities/Deck";
 import Card from "../../Entites/GameEntities/Card";
+import Item from "../../Entites/CardTypes/Item";
+import ActionManager from "../../Managers/ActionManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -103,7 +105,7 @@ export default class ChooseCard extends DataCollector {
         break;
       // Get all of the chosen player hand cards
       case CHOOSE_TYPE.PLAYERHAND:
-        return player.hand.layoutCards;
+        return player.handCards;
         break;
       case CHOOSE_TYPE.DECKS:
         let allDecks = CardManager.getAllDecks();
@@ -112,6 +114,11 @@ export default class ChooseCard extends DataCollector {
         let monsterPlaces = MonsterField.activeMonsters;
         return monsterPlaces;
         break;
+      case CHOOSE_TYPE.PLAYERNONETERNALS:
+        let nonEternals = player.deskCards.filter(
+          card => !card.getComponent(Item).eternal
+        );
+        return nonEternals;
       default:
         break;
     }
@@ -120,18 +127,18 @@ export default class ChooseCard extends DataCollector {
   async requireChoosingACard(
     cards: cc.Node[]
   ): Promise<{ cardChosenId: number; playerId: number }> {
+    ActionManager.inReactionPhase = true;
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];
+      //cc.log(card.name);
       CardManager.disableCardActions(card);
       CardManager.makeRequiredForDataCollector(this, card);
     }
-    cc.log("select a card!");
     let cardPlayed = await this.waitForCardPlay();
-    cc.log("card selected " + cardPlayed.name);
     //   let cardServerEffect = await CardManager.getCardEffect(cardPlayed,this.playerId)
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];
-      CardManager.unRequiredForDataGather(card);
+      CardManager.unRequiredForDataCollector(card);
     }
     let cardId;
     if (cardPlayed.getComponent(Deck) == null) {
@@ -139,7 +146,7 @@ export default class ChooseCard extends DataCollector {
     } else {
       cardId = cardPlayed.getComponent(Deck).cardId;
     }
-
+    ActionManager.inReactionPhase = false;
     return new Promise((resolve, reject) => {
       resolve({ cardChosenId: cardId, playerId: this.playerId });
     });
@@ -156,6 +163,7 @@ export default class ChooseCard extends DataCollector {
           setTimeout(check, 50);
         }
       };
+      check.bind(this);
       setTimeout(check, 50);
     });
   }

@@ -1,6 +1,9 @@
 import TurnsManager from "./Managers/TurnsManager";
 import { MAX_PLAYERS } from "./Constants";
 import Server from "../ServerClient/ServerClient";
+import PlayLootCard from "./CardEffectComponents/CardEffects/PlayLootCard";
+import PlayerManager from "./Managers/PlayerManager";
+import Player from "./Entites/GameEntities/Player";
 
 // Learn TypeScript:
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/typescript.html
@@ -46,7 +49,10 @@ export default class buttonScript extends cc.Component {
     var turnComp: TurnsManager = cc
       .find("MainScript/TurnsManager")
       .getComponent("TurnsManager");
-    TurnsManager.nextTurn(false);
+    let turnPlayer = PlayerManager.getPlayerById(
+      TurnsManager.currentTurn.PlayerId
+    );
+    turnPlayer.getComponent(Player).endTurn(true);
   }
 
   addNewCard() {

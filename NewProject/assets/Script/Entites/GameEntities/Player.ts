@@ -6,9 +6,11 @@ import {
   DrawCardAction,
   DeclareAttackAction,
   MoveLootToPile,
-  BuyItemAction,
+  AddItemAction,
   ActivateItemAction,
-  RollDiceAction
+  RollDiceAction,
+  AttackMonster,
+  EndTurnAction
 } from "../Action";
 import Signal from "../../../Misc/Signal";
 import {
@@ -18,7 +20,9 @@ import {
   CARD_WIDTH,
   ROLL_TYPE,
   printMethodStarted,
-  COLORS
+  COLORS,
+  checkIfPlayerIsDead,
+  CHOOSE_TYPE
 } from "../../Constants";
 import ActionManager from "../../Managers/ActionManager";
 import MonsterField from "../MonsterField";
@@ -32,8 +36,16 @@ import { ServerEffect } from "../ServerCardEffect";
 import MonsterCardHolder from "../MonsterCardHolder";
 import CardPreview from "../CardPreview";
 import RollDice from "../../CardEffectComponents/RollDice";
-import { testForPassiveBefore } from "../../Managers/PassiveManager";
+import {
+  testForPassiveBefore,
+  testForPassiveAfter
+} from "../../Managers/PassiveManager";
 import TurnsManager from "../../Managers/TurnsManager";
+import Server from "../../../ServerClient/ServerClient";
+import PlayerManager from "../../Managers/PlayerManager";
+import { rejects } from "assert";
+import { afterMethod, beforeMethod } from "kaop-ts";
+import PileManager from "../../Managers/PileManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -78,6 +90,12 @@ export default class Player extends cc.Component {
   @property
   desk: PlayerDesk = null;
 
+  @property
+  soulsLayout: cc.Node = null;
+
+  @property
+  souls: number = 0;
+
   deskCards: cc.Node[] = [];
 
   @property
@@ -105,6 +123,15 @@ export default class Player extends cc.Component {
   baseDamage: number = 0;
 
   @property
+  nonAttackRollBonus: number = 0;
+
+  @property
+  attackRollBonus: number = 0;
+
+  @property
+  firstAttackRollBonus: number = 0;
+
+  @property
   reactCardNode: cc.Node[] = [];
 
   @property
@@ -125,15 +152,22 @@ export default class Player extends cc.Component {
   @property
   timeToRespondTimeOut = null;
 
-  async drawCard(deck: cc.Node, sendToServer: boolean) {
-    let drawnCard = deck.getComponent(Deck).drawCard();
+  async drawCard(deck: cc.Node, sendToServer: boolean, alreadyDrawnCard?: cc.Node) {
+    let drawnCard
+    cc.log(alreadyDrawnCard)
+    if (alreadyDrawnCard != null) {
+      cc.log('test')
+      drawnCard = alreadyDrawnCard
+    } else {
+      drawnCard = deck.getComponent(Deck).drawCard(sendToServer);
+    }
 
     let drawAction = new DrawCardAction({ drawnCard }, this.playerId);
     let serverData;
-
+    let cardId = drawnCard.getComponent(Card).cardId
     serverData = {
       signal: Signal.CARDDRAWED,
-      srvData: { playerId: this.playerId, deckType: CARD_TYPE.LOOT }
+      srvData: { playerId: this.playerId, deckType: CARD_TYPE.LOOT, drawnCardId: cardId }
     };
 
     let bool = await ActionManager.showSingleAction(
@@ -143,57 +177,83 @@ export default class Player extends cc.Component {
     );
   }
 
-  async declareAttack(monsterCard: cc.Node, sendToServer: boolean) {
-    let monsterField = cc
-      .find("Canvas/MonsterDeck/MonsterField")
-      .getComponent(MonsterField);
-    let monsterId;
-    let monsterDeck = CardManager.monsterDeck.getComponent(Deck);
-    let monsterCardHolder: MonsterCardHolder;
-    let attackedMonster;
-    //occurs when selected card is top card of monster deck, will let player choose where to put the new monster
-    if (monsterCard == monsterDeck.topCard) {
-      let chooseCard = new ChooseCard();
-      let newMonster = monsterDeck.drawCard();
-      CardPreview.$.showCardPreview(newMonster, false, false, false);
+  async declareAttack(
+    monsterCard: cc.Node,
+    sendToServer: boolean,
+    cardHolderId?: number
+  ) {
+    if (TurnsManager.currentTurn.attackPlays > 0) {
+      if (sendToServer) {
+        let monsterField = cc
+          .find("Canvas/MonsterDeck/MonsterField")
+          .getComponent(MonsterField);
+        let monsterId;
+        let monsterDeck = CardManager.monsterDeck.getComponent(Deck);
+        let monsterCardHolder: MonsterCardHolder;
+        let attackedMonster;
+        let newMonster = monsterCard;
+        //occurs when selected card is top card of monster deck, will let player choose where to put the new monster
+        if (monsterCard == monsterDeck.drawnCard) {
+          let chooseCard = new ChooseCard();
+          newMonster = monsterDeck.drawCard(sendToServer);
+          CardPreview.$.showCardPreview(newMonster, false, false, false);
 
-      CardPreview.$.showToOtherPlayers(newMonster);
-      let monsterInSpotChosen = await chooseCard.collectDataOfPlaces({
-        cardPlayerId: this.playerId,
-        deckType: CARD_TYPE.MONSTER
-      });
-
-      let activeMonsterSelected = CardManager.getCardById(
-        monsterInSpotChosen.cardChosenId
-      ).getComponent(Monster);
-      monsterCardHolder = MonsterField.getMonsterPlaceById(
-        activeMonsterSelected.monsterPlace.id
-      );
-      monsterField.addMonsterToExsistingPlace(
-        monsterCardHolder.id,
-        newMonster,
-        true
-      );
-      monsterId = newMonster.getComponent(Card).cardId;
-      attackedMonster = newMonster;
-      //add get a monster from top deck , in server send
-    } else {
-      attackedMonster = monsterCard;
-      monsterId = monsterCard.getComponent(Card).cardId;
-    }
-    let action = new DeclareAttackAction({ attackedMonster: attackedMonster });
-    let serverData = {
-      signal: Signal.DECLAREATTACK,
-      srvData: { attackedMonsterId: monsterId, playerId: this.playerId }
-    };
-    if (sendToServer) {
-      let bool = await ActionManager.doAction(action, serverData);
-    } else {
-      let bool = await ActionManager.showSingleAction(
-        action,
-        serverData,
-        sendToServer
-      );
+          CardPreview.$.showToOtherPlayers(newMonster);
+          let monsterInSpotChosen = await chooseCard.collectDataOfPlaces({
+            cardPlayerId: this.playerId,
+            deckType: CARD_TYPE.MONSTER
+          });
+          cc.log(monsterInSpotChosen)
+          let activeMonsterSelected = CardManager.getCardById(
+            monsterInSpotChosen.cardChosenId, true
+          ).getComponent(Monster);
+          //cc.log(activeMonsterSelected.monsterPlace);
+          //cc.log(activeMonsterSelected.name);
+          monsterCardHolder = MonsterField.getMonsterPlaceById(
+            activeMonsterSelected.monsterPlace.id
+          );
+        } else {
+          monsterCardHolder = MonsterField.getMonsterPlaceById(
+            monsterCard.getComponent(Monster).monsterPlace.id
+          );
+        }
+        cc.log(newMonster.name)
+        let action = new DeclareAttackAction({
+          attackedMonster: newMonster,
+          playerId: this.playerId,
+          isFromServer: false,
+          cardHolderId: monsterCardHolder.id
+        });
+        let serverData = {
+          signal: Signal.DECLAREATTACK,
+          srvData: {
+            attackedMonsterId: newMonster.getComponent(Card).cardId,
+            playerId: this.playerId,
+            cardHolderId: monsterCardHolder.id
+          }
+        };
+        let bool = await ActionManager.doAction(action, serverData);
+      } else {
+        cc.log(monsterCard.name)
+        let action = new DeclareAttackAction({
+          attackedMonster: monsterCard,
+          playerId: this.playerId,
+          isFromServer: true,
+          cardHolderId: cardHolderId
+        });
+        let serverData = {
+          signal: Signal.DECLAREATTACK,
+          srvData: {
+            attackedMonsterId: monsterCard.getComponent(Card).cardId,
+            playerId: this.playerId
+          }
+        };
+        let bool = await ActionManager.showSingleAction(
+          action,
+          serverData,
+          sendToServer
+        );
+      }
     }
   }
 
@@ -205,44 +265,45 @@ export default class Player extends cc.Component {
     return damage;
   }
 
-  async rollDice(
-    rollType: ROLL_TYPE,
-    sendToServer: boolean,
-    numberRolled?: number
-  ) {
-    let playerId = this.playerId;
+  async rollDice(rollType: ROLL_TYPE, numberRolled?: number) {
+    let playerDice = this.node.getComponentInChildren(Dice);
     this.dice.getComponentInChildren(RollDice).rollType = rollType;
+    Server.$.send(Signal.ROLLDICE, { playerId: this.playerId });
+    numberRolled = await playerDice.rollDice(rollType);
+    Server.$.send(Signal.ROLLDICEENDED, {
+      playerId: this.playerId,
+      numberRolled: numberRolled
+    });
+    return new Promise((resolve, reject) => {
+      resolve(numberRolled);
+    });
+  }
 
-    let action;
-    let serverData = {
-      signal: Signal.ROLLDICE,
-      srvData: { playerId: this.playerId }
-    };
+  async rollAttackDice(sendToServer: boolean, numberRolled?: number) {
+    let playerId = this.playerId;
+    this.dice.getComponentInChildren(RollDice).rollType = ROLL_TYPE.ATTACK;
+
+    let action = new AttackMonster(
+      { rollType: ROLL_TYPE.ATTACK, sendToServer: sendToServer },
+      playerId,
+      this.dice.node
+    );
+    let serverData = null;
+    //  {
+    //   signal: Signal.ROLLDICE,
+    //   srvData: { playerId: this.playerId }
+    // };
     if (sendToServer) {
-      action = new RollDiceAction(
-        { rollType: rollType, sendToServer: sendToServer },
-        playerId,
-        this.dice.node
-      );
       let bool = await ActionManager.doAction(action, serverData);
     } else {
-      action = new RollDiceAction(
-        { rollType: rollType, sendToServer: false },
-        playerId,
-        this.dice.node,
-        numberRolled
-      );
       let bool = await ActionManager.showSingleAction(
         action,
         serverData,
         false
       );
     }
-    // } else {
-    //change to when reciveing a roll from server to new action of a already knowen rolled dice to only show as if rolling but set the rolled number the same as that was rolled by original player
-    //   ActionManager.showSingleAction(action, {}, sendToServer);
-    //  }
   }
+
 
   async discardLoot(lootCard: cc.Node, sendToServer: boolean) {
     let playerId = this.playerId;
@@ -263,34 +324,78 @@ export default class Player extends cc.Component {
   }
 
   buyItem(itemToBuy: cc.Node, sendToServer: boolean) {
-    let itemCardComp: Card = itemToBuy.getComponent(Card);
+    // if (TurnsManager.currentTurn.PlayerId == this.playerId) {
+    //   cc.log('am player turn reduce 1 in buy plays')
+    //   TurnsManager.currentTurn.buyPlays -= 1;
+    // }
+    //cc.log("check if item is in shop or is top of deck for money ");
+    if (TurnsManager.currentTurn.buyPlays > 0) {
+      this.addItem(itemToBuy, sendToServer, false);
+    }
+  }
+
+  async addItem(itemToAdd: cc.Node, sendToServer: boolean, isReward: boolean) {
+
+    let chainNum
+    let itemCardComp: Card = itemToAdd.getComponent(Card);
     let treasureDeck = CardManager.treasureDeck;
     //if selected card to buy is top deck of treasure buy him!
+
     if (itemCardComp.topDeckof == treasureDeck) {
-      itemToBuy = treasureDeck.getComponent(Deck).drawCard();
-      itemCardComp = itemToBuy.getComponent(Card);
+
+      itemToAdd = treasureDeck.getComponent(Deck).drawCard(sendToServer);
+      itemCardComp = itemToAdd.getComponent(Card);
+
     }
     let playerDeskComp = this.desk;
     let playerId = this.playerId;
     let cardId = itemCardComp.cardId;
-    cc.log(cardId);
+    let cardItemComp = itemToAdd.getComponent(Item);
+    switch (cardItemComp.type) {
+      case ITEM_TYPE.ACTIVE:
+        this.activeItems.push(itemToAdd);
+        break;
+      case ITEM_TYPE.PASSIVE:
+        this.passiveItems.push(itemToAdd);
+        //      PassiveManager.registerPassiveItem(card);
+        break;
+      case ITEM_TYPE.BOTH:
+        this.activeItems.push(itemToAdd);
+        this.passiveItems.push(itemToAdd);
+        // PassiveManager.registerPassiveItem(card);
+        break;
+      default:
+        break;
+    }
+    this.cards.push(itemToAdd);
     let serverData = {
       signal: Signal.ADDANITEM,
       srvData: { playerId, cardId }
     };
-    let action = new BuyItemAction({
-      movedCard: itemToBuy,
+    let action = new AddItemAction({
+      movedCard: itemToAdd,
       playerDeskComp: playerDeskComp
     });
-    if (sendToServer) {
-      ActionManager.doAction(action, serverData);
+    if (isReward) {
+      cc.log('is reward')
+      chainNum = await ActionManager.showSingleAction(action, serverData, sendToServer);
+      //cc.log(chainNum)
     } else {
-      ActionManager.showSingleAction(action, serverData, sendToServer);
+      if (sendToServer) {
+        chainNum = await ActionManager.doAction(action, serverData);
+      } else if (!isReward) {
+        chainNum = await ActionManager.showSingleAction(action, serverData, sendToServer);
+      }
     }
+    //cc.log('start wait for chain over')
+    let chainOver = await this.waitForActionChain(chainNum)
+    //cc.log('add item is over')
+    return new Promise((resolve, reject) => {
+      resolve(true)
+    })
   }
 
   async playLootCard(lootCard: cc.Node, sendToServer: boolean) {
-    cc.log(TurnsManager.currentTurn.lootCardPlays);
     let playerId = this.playerId;
     let cardId = lootCard.getComponent("Card").cardId;
     let serverData = {
@@ -310,11 +415,12 @@ export default class Player extends cc.Component {
         serverData,
         sendToServer
       );
-      cc.log(TurnsManager.currentTurn.lootCardPlays);
     }
   }
 
+  //@printMethodStarted(COLORS.RED)
   async activateItem(item: cc.Node, sendToServer: boolean) {
+    let chainNum;
     let playerId = this.playerId;
     if (item != null) {
       let cardId = item.getComponent(Card).cardId;
@@ -324,17 +430,111 @@ export default class Player extends cc.Component {
       };
       let action = new ActivateItemAction({ activatedCard: item }, playerId);
       if (sendToServer) {
-        let bool = await ActionManager.doAction(action, serverData);
+        chainNum = await ActionManager.doAction(action, serverData);
       } else {
-        let bool = await ActionManager.showSingleAction(
+        chainNum = await ActionManager.showSingleAction(
           action,
           serverData,
           sendToServer
         );
       }
+      let isChainOver = this.waitForActionChain(chainNum);
+      return new Promise((resolve, reject) => {
+        resolve(true);
+      });
     } else {
       throw "received item is null";
     }
+  }
+
+  async killPlayer(sendToServer: boolean) {
+    if (sendToServer) {
+      let penaltiesPaied = await this.payPenalties(sendToServer);
+    }
+    if (ActionManager.inReactionPhase) {
+      let effectStack = ActionManager.serverEffectStack;
+      let newStack: ServerEffect[] = [];
+      for (const effect of effectStack) {
+        if (effect.cardPlayerId != this.playerId) {
+          newStack.push(effect);
+        }
+      }
+      ActionManager.serverEffectStack = newStack;
+    }
+    this.endTurn(sendToServer);
+  }
+
+  async payPenalties(sendToServer: boolean) {
+    //cc.log("pay panielties");
+    if (this.coins > 0) {
+      this.coins -= 1;
+    }
+    if (this.handCards.length > 0) {
+      let chooseCard = new ChooseCard();
+      let cardToChooseFrom = chooseCard.getCardsToChoose(
+        CHOOSE_TYPE.PLAYERHAND,
+        this
+      );
+      let chosenData = await chooseCard.requireChoosingACard(cardToChooseFrom);
+      let chosenCard = CardManager.getCardById(chosenData.cardChosenId);
+      let over = this.discardLoot(chosenCard, sendToServer);
+    }
+    let nonEternalItems = this.deskCards.filter(
+      card => !card.getComponent(Item).eternal
+    );
+    if (nonEternalItems.length > 0) {
+      let chooseCard = new ChooseCard();
+      let cardToChooseFrom = chooseCard.getCardsToChoose(
+        CHOOSE_TYPE.PLAYERNONETERNALS,
+        this
+      );
+      let chosenData = await chooseCard.requireChoosingACard(cardToChooseFrom);
+
+      let chosenCard = CardManager.getCardById(chosenData.cardChosenId);
+      //cc.log(chosenCard.name)
+      let over = this.destroyItem(chosenCard, sendToServer);
+    }
+    return new Promise((resolve, reject) => {
+      resolve(true);
+    });
+  }
+
+  destroyItem(itemToDestroy: cc.Node, sendToServer: boolean) {
+    //cc.log('destroy item')
+    PileManager.addCardToPile(CARD_TYPE.TREASURE, itemToDestroy, sendToServer);
+  }
+
+  endTurn(sendToServer: boolean) {
+    //cc.log("player.end turn");
+    let action = new EndTurnAction({}, this.playerId);
+    //   let data = TurnsManager.currentTurn.PlayerId;
+    //   Server.$.send(Signal.NEXTTURN, data);
+    let serverData = {
+      signal: Signal.NEXTTURN
+      //  srvData: { playerId: playerId, cardId: cardId }
+    };
+    /// add a check if you have more than 10 cards discard to 10.
+    let over = ActionManager.showSingleAction(action, serverData, sendToServer);
+    return new Promise((resolve, reject) => {
+      resolve(true);
+    });
+  }
+
+  async waitForActionChain(chainNumber: number): Promise<boolean> {
+    //w8 for a server message with a while,after the message is recived (should be a stack of effects with booleans) resolve with stack of effects.
+    return new Promise((resolve, reject) => {
+      let check = () => {
+        if (!ActionManager.isReactionChainActive(chainNumber)) {
+          //cc.log('reaction chain is over , wait is over')
+          //  ActionManager.noMoreActionsBool = false;
+          resolve(true);
+        } else {
+          setTimeout(check, 50);
+        }
+      };
+      check.bind(this);
+      setTimeout(check, 50);
+    });
   }
 
   async activatePassive(
@@ -360,11 +560,30 @@ export default class Player extends cc.Component {
     });
   }
 
-  @testForPassiveBefore("getHit")
+  async checkIfDead() {
+    if (ActionManager.inReactionPhase) {
+      let over = await ActionManager.waitForReqctionsOver();
+    }
+    if (this.Hp <= 0) {
+      if (PlayerManager.mePlayer == this.node) {
+        this.killPlayer(true);
+      }
+    } else {
+      return false;
+    }
+  }
+
+
+
+  @testForPassiveAfter("getHit")
+  @checkIfPlayerIsDead
   getHit(damage: number) {
-    cc.log("start player get hit hp " + this.Hp);
+    //cc.log("start player get hit hp " + this.Hp);
     this.Hp -= damage;
-    cc.log("after player get hit hp " + this.Hp);
+    //cc.log("after player get hit hp " + this.Hp);
+    return new Promise((resolve, reject) => {
+      resolve(true);
+    });
     //add a function in action manager to check if any player is dead.
   }
 
@@ -373,11 +592,12 @@ export default class Player extends cc.Component {
     item.rechargeItem();
   }
 
-  getMonsterRewards(monsterKilled: cc.Node) {
+  async getMonsterRewards(monsterKilled: cc.Node, sendToServer: boolean) {
     let monster = monsterKilled.getComponent(Monster);
     let monsterReward = monster.reward;
 
-    monsterReward.rewardPlayer(this.node);
+    let over = await monsterReward.rewardPlayer(this.node, sendToServer);
+    return new Promise((resolve, reject) => resolve(true))
   }
 
   activateCard(card: cc.Node) {
@@ -385,8 +605,35 @@ export default class Player extends cc.Component {
     this.cardActivated = true;
   }
 
-  changeMoney(numOfCoins: number) {
+  async getSoulCard(cardWithSoul: cc.Node, sendToServer: boolean) {
+    let over = await CardManager.moveCardToSoulsSpot(cardWithSoul, this.soulsLayout, sendToServer)
+    this.souls += cardWithSoul.getComponent(Card).souls;
+    if (this.souls >= 4) {
+      //cc.log('you have won the game!')
+    }
+    let id = this.playerId;
+
+    let serverData = {
+      signal: Signal.GETSOUL,
+      srvData: { playerId: id, cardId: cardWithSoul.getComponent(Card).cardId }
+    };
+    if (sendToServer) {
+      Server.$.send(serverData.signal, serverData.srvData)
+      if (cardWithSoul.getComponent(Monster).monsterPlace != null) {
+        cardWithSoul.getComponent(Monster).monsterPlace.removeMonster(cardWithSoul, sendToServer);
+        cardWithSoul.getComponent(Monster).monsterPlace.getNextMonster(sendToServer);
+      };
+    }
+
+  }
+
+  changeMoney(numOfCoins: number, sendToServer: boolean) {
     this.coins += numOfCoins;
+    if (sendToServer) {
+      cc.log('send to server')
+      Server.$.send(Signal.CHANGEMONEY, { playerId: this.playerId, numOfCoins: numOfCoins })
+    }
+
   }
 
   setDesk(desk: cc.Node) {
@@ -461,12 +708,13 @@ export default class Player extends cc.Component {
     for (let i = 0; i < reactionNodes.length; i++) {
       const card: cc.Node = reactionNodes[i];
       CardManager.disableCardActions(card);
-      let s = cc.sequence(
-        cc.fadeTo(0.5, 255 / 2),
-        cc.fadeTo(0.5, 255),
-        cc.fadeTo(0.5, 255 / 2),
-        cc.fadeTo(0.5, 255)
-      );
+      // let s = cc.sequence(
+      //   cc.fadeTo(0.5, 255 / 2),
+      //   cc.fadeTo(0.5, 255),
+      //   cc.fadeTo(0.5, 255 / 2),
+      //   cc.fadeTo(0.5, 255)
+      // );
+      card.runAction(cc.fadeTo(0.5, 255));
       card.stopAllActions();
     }
     //change this player bool to true.
@@ -508,15 +756,16 @@ export default class Player extends cc.Component {
         this.playerId
       );
     } else {
+      let blockReactions = this.blockAvailableReactionsTimeout.bind(this);
       this.timeToRespondTimeOut = setTimeout(
-        this.blockAvailableReactionsTimeout,
+        blockReactions,
         TIMETOREACTONACTION * 1000,
         data,
         this.reactCardNode,
         this.playerId
       );
       this.showAvailableReactions();
-
+      cc.log(this.reactCardNode.map(card => card.name))
       for (let i = 0; i < this.reactCardNode.length; i++) {
         const card = this.reactCardNode[i];
 
@@ -545,11 +794,6 @@ export default class Player extends cc.Component {
         //set last player id which made a reaction
         data.lastPlayerTakenAction = this.playerId;
         ActionManager.sendGetReactionToNextPlayer(data);
-        //   this.reactionData = data
-        // for (let j = 0; j < this.reactCardNode.length; j++) {
-        //     const card = this.reactCardNode[j];
-        //     card.getComponent(Card).enableMoveComps()
-        // }
       }
     }
   }
@@ -567,6 +811,7 @@ export default class Player extends cc.Component {
           setTimeout(check, 50);
         }
       };
+      check.bind(this);
       setTimeout(check, 50);
     });
   }
@@ -575,7 +820,7 @@ export default class Player extends cc.Component {
   async chooseCardToActivate(card: cc.Node): Promise<ServerEffect> {
     let serverCardEffect = await CardManager.activateCard(card, this.playerId);
 
-    cc.log("activated " + card.name);
+    //cc.log("activated " + card.name);
 
     return new Promise((resolve, reject) => {
       resolve(serverCardEffect);
@@ -587,42 +832,34 @@ export default class Player extends cc.Component {
     this.dice = dice.getComponent(Dice);
   }
 
-  addItem(cardItemComp: Item, card: cc.Node) {
-    switch (cardItemComp.type) {
-      case ITEM_TYPE.ACTIVE:
-        this.activeItems.push(card);
-        break;
-      case ITEM_TYPE.PASSIVE:
-        this.passiveItems.push(card);
-        //      PassiveManager.registerPassiveItem(card);
-        break;
-      case ITEM_TYPE.BOTH:
-        this.activeItems.push(card);
-        this.passiveItems.push(card);
-        // PassiveManager.registerPassiveItem(card);
-        break;
-      default:
-        break;
-    }
-    this.cards.push(card);
-  }
+
 
   setCharacter(character: cc.Node, characterItem: cc.Node) {
-    //cc.log('set character')
+    ////cc.log('set character')
+    let characterLayout = this.desk.node.getChildByName('CharacterLayout');
+    this.soulsLayout = characterLayout;
+    let characterLayoutWidget = characterLayout.getComponent(cc.Widget)
     character.setParent(this.desk.node);
     characterItem.setParent(this.desk.node);
     let charWidget = character.addComponent(cc.Widget);
     let charItemWidget = characterItem.addComponent(cc.Widget);
-    charWidget.target = character.parent;
+    // charWidget.target = character.parent;
+    charWidget.target = this.desk.node;
     charItemWidget.target = characterItem.parent;
+    characterLayoutWidget.target = characterItem.parent;
     charWidget.isAlignRight = true;
     charItemWidget.isAlignRight = true;
+    characterLayoutWidget.isAlignRight = true;
     charWidget.right = 180 + CARD_WIDTH * (1 / 3);
     charItemWidget.right = 180 + CARD_WIDTH * (1 / 3);
+    characterLayoutWidget.right = 180 + CARD_WIDTH * (1 / 3);
     charWidget.isAlignTop = true;
-    charItemWidget.isAlignTop = true;
-    charWidget.top = -75;
-    charItemWidget.top = 5;
+    charItemWidget.isAlignBottom = true;
+    characterLayoutWidget.isAlignTop = true;
+    // charWidget.top = -75;
+    charWidget.top = 5;
+    characterLayoutWidget.top = 0 + 15;
+    charItemWidget.bottom = 5;
     this.Hp = character.getComponent(Character).Hp;
     this.damage = character.getComponent(Character).damage;
     this.character = character;
@@ -643,7 +880,7 @@ export default class Player extends cc.Component {
 
   // onLoad () {}
 
-  start() {}
+  start() { }
 
   // update (dt) {}
 }

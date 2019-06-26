@@ -14,7 +14,7 @@ export default class Match {
 
   static getMatch(): Match {
     if (Match.pendingMatches.length > 0) {
-      return Match.pendingMatches.pop();
+      return Match.pendingMatches[0];
     } else {
       let match = new Match();
       Match.pendingMatches.push(match);
@@ -22,7 +22,9 @@ export default class Match {
     }
   }
 
+  loadedPlayers: number = 0;
   level: number = 0;
+  firstPlayerId: number = 0;
   players: ServerPlayer[] = [];
   time: number = 120;
   letters: string = null;
@@ -30,7 +32,7 @@ export default class Match {
 
   score = {};
 
-  constructor() {}
+  constructor() { }
 
   broadcast(signal: string, data?: any) {
     let totalPlayers = this.players.length;
@@ -120,9 +122,14 @@ export default class Match {
     if (this.players.length >= 4 || this.players.indexOf(player) >= 0) {
       return;
     }
+    console.log(this.players.length);
 
     this.players.push(player);
-    player.match = this;
+    for (const player of this.players) {
+      player.match = this;
+    }
+    console.log("player " + player + " joined");
+
     this.broadcast(signal.JOIN, { uuid: player.uuid });
   }
 
@@ -136,9 +143,9 @@ export default class Match {
       let lettersArr = this.letters.split("");
       let score =
         Server.$.config.scoreMap[
-          text.length < Server.$.config.scoreMap.length
-            ? text.length
-            : Server.$.config.scoreMap.length - 1
+        text.length < Server.$.config.scoreMap.length
+          ? text.length
+          : Server.$.config.scoreMap.length - 1
         ];
       ids.forEach((id, index) => {
         lettersArr[id] = letters[index];

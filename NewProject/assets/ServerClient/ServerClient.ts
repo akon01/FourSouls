@@ -8,6 +8,7 @@ import Config from "./Config";
 import Signal from "../Misc/Signal";
 import ActionManager from "../Script/Managers/ActionManager";
 import Player from "../Script/Entites/GameEntities/Player";
+import MainScript from "../Script/MainScript";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,6 +33,8 @@ export default class Server extends cc.Component {
     whevent.on(Signal.JOIN, this.onJoin, this);
     whevent.on(Signal.STARTGAME, this.onStartGame, this);
     whevent.on(Signal.LEAVE, this.onLeave, this);
+    whevent.on(Signal.FINISHLOAD, this.onFinishLoad, this);
+    whevent.on(Signal.UPDATEACTIONS, this.onUpdateActions, this);
     whevent.on(Signal.PLAYLOOTCARD, this.onPlayerActionFromServer, this);
     whevent.on(Signal.DECLAREATTACK, this.onPlayerActionFromServer, this);
     whevent.on(Signal.ADDANITEM, this.onPlayerActionFromServer, this);
@@ -49,7 +52,18 @@ export default class Server extends cc.Component {
     whevent.on(Signal.SHOWCARDPREVIEW, this.onPlayerActionFromServer, this);
     whevent.on(Signal.ROLLDICE, this.onPlayerActionFromServer, this);
     whevent.on(Signal.ROLLDICEENDED, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.GETNEXTMONSTER, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.MOVECARDTOPILE, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.GETSOUL, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.REMOVEMONSTER, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.ADDMONSTER, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.DRAWCARD, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.FIRSTGETREACTION, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.CHANGEMONEY, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.ADDSTORECARD, this.onPlayerActionFromServer, this);
   }
+
+
 
   onPlayerActionFromServer({ signal, data }) {
     ActionManager.getActionFromServer(signal, data);
@@ -59,6 +73,14 @@ export default class Server extends cc.Component {
     this.pid = playerID;
     Server.numOfPlayers = numOfPlayers;
     cc.log("Server num of players is " + Server.numOfPlayers);
+  }
+
+  onFinishLoad({ id }) {
+    MainScript.makeFirstUpdateActions(id)
+  }
+
+  onUpdateActions() {
+    ActionManager.updateActions()
   }
 
   onDestroy() {
@@ -71,7 +93,10 @@ export default class Server extends cc.Component {
   connect() {
     //	whevent.emit(Events.TIP, {message: 'Connecting...', time: 0});
     if (this.ws == null) {
-      this.ws = new WebSocket("ws://localhost:2333");
+      let serverLable = cc.find('Canvas/ServerIP').getComponent(cc.EditBox)
+      let serverIp = "ws://" + serverLable.string;
+
+      this.ws = new WebSocket(serverIp);
     }
 
     let onOpen = this.onOpen.bind(this);
@@ -116,7 +141,8 @@ export default class Server extends cc.Component {
     if (signal == Signal.REACTION || signal == Signal.FIRSTGETREACTION) {
       //cc.log(this.reactionCounter);
     }
-    cc.log("%cSENDING:", "color:#36F;", signal, data);
+    cc.log("%cSENDING:", "color:#36F;", signal);
+    cc.log(data)
     this.ws.send(btoa(JSON.stringify({ signal, data })));
   }
 
@@ -129,7 +155,7 @@ export default class Server extends cc.Component {
     cc.log(uuid);
   }
 
-  onStartGame({}) {
+  onStartGame({ }) {
     cc.game.addPersistRootNode(this.node);
 
     Server.$.send(Signal.MOVETOTABLE);

@@ -9,6 +9,7 @@ export default class DataCollector extends cc.Component
   isCardChosen: boolean = false;
   cardChosen: cc.Node;
   collectorName = "CardPlayer";
+  hasSubAction: boolean = false;
 
   /**
    *

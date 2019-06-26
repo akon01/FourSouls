@@ -8,13 +8,13 @@ export default class MonsterReward extends cc.Component {
   @property(DataCollector)
   dataCollector: DataCollector = null;
 
-  rewardPlayer(playerToReward: cc.Node) {}
+  rewardPlayer(playerToReward: cc.Node, sendToServer: boolean) { }
 
   // LIFE-CYCLE CALLBACKS:
 
   // onLoad () {}
 
-  start() {}
+  start() { }
 
   // update (dt) {}
 }

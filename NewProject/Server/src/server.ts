@@ -62,7 +62,12 @@ export default class Server {
     whevent.on(signal.DRAWCARD, this.onDrawCard, this);
     whevent.on(signal.CHANGEMONEY, this.onChangeMoney, this);
     whevent.on(signal.ADDSTORECARD, this.onAddToStoreCard, this);
+    whevent.on(signal.REGISTERPASSIVEITEM, this.onRegisterPassive, this);
+    whevent.on(signal.UPDATEPASSIVESOVER, this.onUpdatePassiveOver, this);
+    whevent.on(signal.REGISTERONETURNPASSIVEEFFECT, this.onRegisterOneTurnPassive, this);
+    whevent.on(signal.ENDROLLACTION, this.onEndRollAction, this);
   }
+
 
 
   onRequestMatch({ player, data }) {
@@ -123,9 +128,26 @@ export default class Server {
     player.match.broadcastExept(player, signal.CARDDRAWED, data);
   }
 
+  onRegisterPassive({ player, data }) {
+    player.match.broadcastExept(player, signal.REGISTERPASSIVEITEM, data);
+  }
+  onUpdatePassiveOver({ player, data }) {
+    player.match.broadcastExept(player, signal.UPDATEPASSIVESOVER, data);
+  }
+
+  onEndRollAction({ player, data }) {
+    player.match.broadcastExept(player, signal.ENDROLLACTION, data);
+  }
+
+
   onAddToStoreCard({ player, data }) {
     player.match.broadcastExept(player, signal.ADDSTORECARD, data);
   }
+
+  onRegisterOneTurnPassive({ player, data }) {
+    player.match.broadcastExept(player, signal.REGISTERONETURNPASSIVEEFFECT, data);
+  }
+
 
 
   onChangeMoney({ player, data }) {

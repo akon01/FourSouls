@@ -106,6 +106,10 @@ var Server = /** @class */ (function () {
         whevent.on(signal_2["default"].DRAWCARD, this.onDrawCard, this);
         whevent.on(signal_2["default"].CHANGEMONEY, this.onChangeMoney, this);
         whevent.on(signal_2["default"].ADDSTORECARD, this.onAddToStoreCard, this);
+        whevent.on(signal_2["default"].REGISTERPASSIVEITEM, this.onRegisterPassive, this);
+        whevent.on(signal_2["default"].UPDATEPASSIVESOVER, this.onUpdatePassiveOver, this);
+        whevent.on(signal_2["default"].REGISTERONETURNPASSIVEEFFECT, this.onRegisterOneTurnPassive, this);
+        whevent.on(signal_2["default"].ENDROLLACTION, this.onEndRollAction, this);
     };
     Server.prototype.onRequestMatch = function (_a) {
         var player = _a.player, data = _a.data;
@@ -156,9 +160,25 @@ var Server = /** @class */ (function () {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_2["default"].CARDDRAWED, data);
     };
+    Server.prototype.onRegisterPassive = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].REGISTERPASSIVEITEM, data);
+    };
+    Server.prototype.onUpdatePassiveOver = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].UPDATEPASSIVESOVER, data);
+    };
+    Server.prototype.onEndRollAction = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].ENDROLLACTION, data);
+    };
     Server.prototype.onAddToStoreCard = function (_a) {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_2["default"].ADDSTORECARD, data);
+    };
+    Server.prototype.onRegisterOneTurnPassive = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].REGISTERONETURNPASSIVEEFFECT, data);
     };
     Server.prototype.onChangeMoney = function (_a) {
         var player = _a.player, data = _a.data;

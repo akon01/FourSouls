@@ -101,6 +101,7 @@ export default class BattleManager extends cc.Component {
       }
     }
     if (monsterCard == this.currentlyAttackedMonster.node) {
+      cc.log('end battle phase')
       this.currentlyAttackedMonster = null;
       TurnsManager.currentTurn.battlePhase = false;
     }

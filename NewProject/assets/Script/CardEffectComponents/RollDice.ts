@@ -34,6 +34,7 @@ export default class RollDice extends DataCollector {
   }): Promise<{
     numberRolled: number;
   }> {
+    cc.log('roll dice collect data start')
     let player = PlayerManager.getPlayerById(data.cardPlayerId).getComponent(
       Player
     );
@@ -50,6 +51,7 @@ export default class RollDice extends DataCollector {
       numberRolled: numberRolled,
       cardPlayerId: data.cardPlayerId
     };
+    cc.log(`roll dice collect data end with ${collectedData.numberRolled}`)
     return new Promise((resolve, reject) => {
       resolve(collectedData);
     });

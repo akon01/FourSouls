@@ -133,26 +133,51 @@ export class MoveLootToPile implements Action {
   playedCard: cc.Node;
   actionType = ACTION_TYPE.ACTIVECARDEFFECT;
   hasCardEffect = true;
+  isOver = false;
 
-  showAction() {
+  async showAction() {
     let movedCardComp: Card = this.data.lootCard.getComponent(Card);
     this.playedCard = movedCardComp.node;
-    this.playedCard.runAction(
-      cc.moveTo(TIMETOPLAYLOOT, PileManager.lootCardPileNode.position)
-    );
-    let timeOutToPlay = () => {
-      removeFromHand(this.data.lootCard, MainScript.currentPlayerComp.hand);
-      PileManager.addCardToPile(CARD_TYPE.LOOT, this.data.lootCard, false);
+    let player = PlayerManager.getPlayerById(this.originPlayerId).getComponent(Player);
+    // let moveAction = cc.moveTo(TIMETOPLAYLOOT, PileManager.lootCardPileNode.position);
+    let timeOutToPlay = cc.callFunc(async () => {
+      removeFromHand(this.data.lootCard, player.hand);
+      await PileManager.addCardToPile(CARD_TYPE.LOOT, this.data.lootCard, false);
       TurnsManager.currentTurn.lootCardPlays -= 1;
-      let playerId = MainScript.currentPlayerComp.playerId;
+      let playerId = player.playerId;
       let cardId = movedCardComp.cardId;
       let data = { playerId, cardId };
-      return new Promise((resolve, reject) => {
-        resolve(true);
-      });
-    };
-    timeOutToPlay.bind(this);
-    setTimeout(timeOutToPlay, (TIMETOPLAYLOOT + 0.1) * 1000);
+      this.isOver = true;
+
+    });
+
+    this.playedCard.runAction(
+      //cc.sequence(moveAction, timeOutToPlay)
+      timeOutToPlay
+    );
+    await this.waitForAction();
+    cc.log("after is over")
+    return new Promise((resolve, reject) => {
+      resolve(true);
+    });
+    //   timeOutToPlay.bind(this);
+    //  setTimeout(timeOutToPlay, (TIMETOPLAYLOOT + 0.1) * 1000);
+  }
+
+  async waitForAction(): Promise<boolean> {
+    //w8 for a server message with a while,after the message is recived (should be a stack of effects with booleans) resolve with stack of effects.
+    return new Promise((resolve, reject) => {
+      let check = () => {
+        if (this.isOver) {
+          cc.log('is over')
+          resolve(true);
+        } else {
+          setTimeout(check, 50);
+        }
+      };
+      check.bind(this);
+      setTimeout(check, 50);
+    });
   }
 
   serverBrodcast(serverData) {
@@ -179,11 +204,11 @@ export class AddItemAction implements Action {
   async showAction() {
     let movedCardComp: Card = this.data.movedCard.getComponent("Card");
     let canvas = cc.find("Canvas");
-    if (TurnsManager.currentTurn.PlayerId == this.originPlayerId) {
-      cc.log('am player turn reduce 1 in buy plays')
-      TurnsManager.currentTurn.buyPlays -= 1;
-    }
-    TurnsManager.currentTurn.buyPlays -= 1;
+    // if (TurnsManager.currentTurn.PlayerId == this.originPlayerId) {
+    //   cc.log('am player turn reduce 1 in buy plays')
+    //   TurnsManager.currentTurn.buyPlays -= 1;
+    // }
+    // TurnsManager.currentTurn.buyPlays -= 1;
     Store.storeCards = Store.storeCards.filter(
       card => card != movedCardComp.node
     );
@@ -204,11 +229,7 @@ export class AddItemAction implements Action {
     movedCardComp.node.runAction(
       cc.sequence(moveAction, cc.callFunc(timeOutToBuy, this))
     );
-
-
-
   }
-
 
   serverBrodcast(serverData) {
     let signal = serverData.signal;
@@ -317,6 +338,7 @@ export class ActivateItemAction implements Action {
     let card = this.data.activatedCard;
     this.playedCard = card;
     card.stopAllActions();
+    card.runAction(cc.fadeTo(2, 255))
 
     switch (card.getComponent(Card).type) {
       case CARD_TYPE.CHAR:
@@ -406,10 +428,10 @@ export class RollDiceAction implements Action {
     if (this.serverNumberRolled == -1) {
       let dice = this.playedCard.getComponent(Dice);
       let numberRolled;
-      Server.$.send(Signal.ROLLDICE, { playerId: data.cardPlayerId });
+      Server.$.send(Signal.ROLLDICE, { playerId: this.originPlayerId });
       numberRolled = await dice.rollDice(this.rollType);
       Server.$.send(Signal.ROLLDICEENDED, {
-        playerId: data.cardPlayerId,
+        playerId: this.originPlayerId,
         numberRolled: numberRolled
       });
       this.serverNumberRolled = numberRolled;

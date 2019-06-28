@@ -20,6 +20,7 @@ import Deck from "../../Entites/GameEntities/Deck";
 import Card from "../../Entites/GameEntities/Card";
 import Item from "../../Entites/CardTypes/Item";
 import ActionManager from "../../Managers/ActionManager";
+import Condition from "../CardConditions/Condition";
 
 const { ccclass, property } = cc._decorator;
 
@@ -42,12 +43,18 @@ export default class ChooseCard extends DataCollector {
     cardChosenId: number;
     playerId: number;
   }> {
+    cc.log('test')
     let player = PlayerManager.getPlayerById(data.cardPlayerId).getComponent(
       Player
     );
     this.playerId = data.cardPlayerId;
     //what cards to choose from
-    let chooseType = this.node.parent.getComponent(Effect).chooseType;
+    let cardComp;
+    cardComp = this.node.parent.getComponent(Effect)
+    if (cardComp == null) {
+      cardComp = this.node.parent.getComponent(Condition)
+    }
+    let chooseType = cardComp.chooseType;
     let cardsToChooseFrom = this.getCardsToChoose(chooseType, player);
     let cardChosenData: {
       cardChosenId: number;
@@ -119,6 +126,9 @@ export default class ChooseCard extends DataCollector {
           card => !card.getComponent(Item).eternal
         );
         return nonEternals;
+
+        return nonEternals;
+
       default:
         break;
     }
@@ -131,6 +141,7 @@ export default class ChooseCard extends DataCollector {
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];
       //cc.log(card.name);
+
       CardManager.disableCardActions(card);
       CardManager.makeRequiredForDataCollector(this, card);
     }

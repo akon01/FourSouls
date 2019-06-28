@@ -78,6 +78,7 @@ export default class SelectLootToPlay extends DataCollector {
   ): Promise<{ cardPlayedId: number; playerId: number }> {
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];
+
       CardManager.disableCardActions(card);
       CardManager.makeRequiredForDataCollector(this, card);
     }

@@ -78,12 +78,12 @@ export enum CONDITION_TYPE {
 }
 
 export enum CHOOSE_TYPE {
-  PLAYER = "player",
-  PLAYERHAND = "playerHand",
-  DECKS = "decks",
-  MONSTERPLACES = "monsterplaces",
-  STOREPLACES = "storeplaces",
-  PLAYERNONETERNALS = "playernoneternals"
+  PLAYER = 1,
+  PLAYERHAND = 2,
+  DECKS = 3,
+  MONSTERPLACES = 4,
+  STOREPLACES = 5,
+  PLAYERNONETERNALS = 6
 }
 
 export enum COLORS {
@@ -102,7 +102,7 @@ export const TIMETOPLAYLOOT = 0.7;
 export const TIMETOSHOWPREVIEW = 0.5;
 export const TIMETOHIDEPREVIEW = 0.5;
 export const TIMETOROTATEACTIVATION = 0.5;
-export const TIMETOREACTONACTION = 5;
+export const TIMETOREACTONACTION = 1;
 export const TIMEFORDICEROLL = 0.3;
 export const TIMEFORMONSTERDISCARD = 1;
 export const TIMEFORTREASUREDISCARD = 2;
@@ -155,7 +155,7 @@ export const printMethodSignal = beforeMethod(meta => {
 
   cc.log(
     "%c" + " Signal :" + meta.args[0],
-    "color:rgb(10%, 0%, 60%)"
+    "color:rgb(60%, 0%, 10%)"
   );
   cc.log(
     meta.args[1],

@@ -43,18 +43,11 @@ export default class TurnsManager extends cc.Component {
    * @param sendToServer false if should not send an event.
    */
   static nextTurn(sendToServer?: boolean) {
-    ////cc.log(recivedEvent)
-    // if (!sendToServer) {
+
     this.endTurn();
-    //cc.log(this.currentTurn.PlayerId);
+
     this.setCurrentTurn(getNextTurn(TurnsManager.currentTurn, this.turns));
-    //cc.log(this.currentTurn.PlayerId);
-    // } else {
-    //   let data = TurnsManager.currentTurn.PlayerId;
-    //   Server.$.send(Signal.NEXTTURN, data);
-    //   this.endTurn();
-    //   this.setCurrentTurn(getNextTurn(TurnsManager.currentTurn, this.turns));
-    // }
+
     cc.find("MainScript").dispatchEvent(
       new cc.Event.EventCustom("turnChanged", true)
     );
@@ -93,7 +86,8 @@ export default class TurnsManager extends cc.Component {
     TurnsManager.turns = turns2;
   }
 
-  static isCurrentPlayer(playerId: number): boolean {
+  static isCurrentPlayer(player: cc.Node): boolean {
+    let playerId = player.getComponent(Player).playerId
     if (TurnsManager.currentTurn.PlayerId == playerId) {
       return true;
     }

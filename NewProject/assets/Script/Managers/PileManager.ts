@@ -22,6 +22,7 @@ export default class PileManager extends cc.Component {
   static monsterCardPile: cc.Node[] = [];
 
   static treasureCardPile: cc.Node[] = [];
+  static isOver: boolean = false;
 
   static init() {
     for (let i = 0; i < PlayerManager.players.length; i++) {
@@ -38,16 +39,49 @@ export default class PileManager extends cc.Component {
       this.treasureCardPile[this.treasureCardPile.length - 1]
     ];
     return topCards;
+
   }
 
-  static addCardToPile(type: CARD_TYPE, card: cc.Node, sendToServer: boolean) {
+  static async waitForCardMovement(): Promise<boolean> {
+    //w8 for a server message with a while,after the message is recived (should be a stack of effects with booleans) resolve with stack of effects.
+    return new Promise((resolve, reject) => {
+      let check = () => {
+        if (this.isOver) {
+          this.isOver = false;
+          resolve(true);
+        } else {
+          setTimeout(check, 50);
+        }
+      };
+      check.bind(this);
+      setTimeout(check, 50);
+    });
+  }
+
+  static async addCardToPile(type: CARD_TYPE, card: cc.Node, sendToServer: boolean) {
     let originalPos
+    let moveAction
     cc.log(card.name + ' add to pile , send to server ' + sendToServer)
+    if (card.getComponent(Card).isFlipped) {
+      card.getComponent(Card).flipCard();
+    }
     switch (type) {
       case CARD_TYPE.LOOT:
+        originalPos = card.convertToWorldSpaceAR(card.position);
+        card.parent = cc.find("Canvas");
+        card.setPosition(card.parent.convertToNodeSpaceAR(originalPos));
         CardManager.onTableCards.push(card);
         PileManager.lootCardPile.push(card);
-        card.setPosition(PileManager.lootCardPileNode.position);
+        let lootCardPilePos = this.lootCardPileNode.convertToWorldSpaceAR(this.lootCardPileNode.getPosition())
+        let goTo = card.parent.convertToNodeSpaceAR(lootCardPilePos)
+        moveAction = cc.moveTo(
+          TIMEFORMONSTERDISCARD,
+          this.lootCardPileNode.getPosition()
+        )
+        card.runAction(
+          cc.sequence(moveAction, cc.callFunc(() => { card.parent = this.lootCardPileNode; card.setPosition(0, 0); this.isOver = true }))
+        );
+        //    card.setPosition(PileManager.lootCardPileNode.position);
         CardManager.disableCardActions(card);
         CardManager.makeCardPreviewable(card);
         break;
@@ -57,23 +91,23 @@ export default class PileManager extends cc.Component {
         card.setPosition(card.parent.convertToNodeSpaceAR(originalPos));
         CardManager.onTableCards.push(card);
         PileManager.monsterCardPile.push(card);
+
+        moveAction = cc.moveTo(
+          TIMEFORMONSTERDISCARD,
+          PileManager.monsterCardPileNode.position
+        )
         card.runAction(
-          cc.moveTo(
-            TIMEFORMONSTERDISCARD,
-            PileManager.monsterCardPileNode.position
-          )
+          cc.sequence(moveAction, cc.callFunc(() => {
+            if (card.getComponent(Monster).monsterPlace != null) {
+              if (sendToServer) {
+                card.getComponent(Monster).monsterPlace.removeMonster(card, sendToServer);
+                card.getComponent(Monster).monsterPlace.getNextMonster(sendToServer);
+                this.isOver = true;
+              }
+            }
+          }))
         );
-        if (card.getComponent(Monster).monsterPlace != null) {
-          let monsterToPileTimeOut = () => {
-            card.getComponent(Monster).monsterPlace.removeMonster(card, sendToServer);
-            card.getComponent(Monster).monsterPlace.getNextMonster(sendToServer);
-          };
-          monsterToPileTimeOut.bind(this);
-          if (sendToServer) {
-            cc.log('')
-            setTimeout(monsterToPileTimeOut, TIMEFORMONSTERDISCARD * 1000);
-          }
-        }
+
         //    card.setPosition();
         CardManager.disableCardActions(card);
         CardManager.makeCardPreviewable(card);
@@ -93,6 +127,7 @@ export default class PileManager extends cc.Component {
       default:
         break;
     }
+    await this.waitForCardMovement()
     if (sendToServer) {
       let srvData = { type: type, cardId: card.getComponent(Card).cardId };
       Server.$.send(Signal.MOVECARDTOPILE, srvData);

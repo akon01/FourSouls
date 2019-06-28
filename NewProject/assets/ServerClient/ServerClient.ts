@@ -40,6 +40,7 @@ export default class Server extends cc.Component {
     whevent.on(Signal.ADDANITEM, this.onPlayerActionFromServer, this);
     whevent.on(Signal.GETREACTION, this.onPlayerActionFromServer, this);
     whevent.on(Signal.FIRSTGETREACTION, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.ENDROLLACTION, this.onPlayerActionFromServer, this);
     whevent.on(Signal.RESOLVEACTIONS, this.onPlayerActionFromServer, this);
     whevent.on(
       Signal.OTHERPLAYERRESOLVEREACTION,
@@ -61,6 +62,9 @@ export default class Server extends cc.Component {
     whevent.on(Signal.FIRSTGETREACTION, this.onPlayerActionFromServer, this);
     whevent.on(Signal.CHANGEMONEY, this.onPlayerActionFromServer, this);
     whevent.on(Signal.ADDSTORECARD, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.UPDATEPASSIVESOVER, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.REGISTERPASSIVEITEM, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.REGISTERONETURNPASSIVEEFFECT, this.onPlayerActionFromServer, this);
   }
 
 

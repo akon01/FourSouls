@@ -9,6 +9,8 @@ import MonsterCardHolder from "./MonsterCardHolder";
 import Monster from "./CardTypes/Monster";
 import CardEffect from "./CardEffect";
 import PassiveManager from "../Managers/PassiveManager";
+import PlayerManager from "../Managers/PlayerManager";
+import TurnsManager from "../Managers/TurnsManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -136,7 +138,9 @@ export default class MonsterField extends cc.Component {
         let monsterEffect = monsterPlace.activeMonster.getComponent(CardEffect)
         if (monsterEffect != null && monsterEffect.passiveEffects.length > 0 && !PassiveManager.isCardRegistered(monsterPlace.activeMonster)) {
           //cc.log('register monster with passive ' + monsterPlace.activeMonster.name)
-          PassiveManager.registerPassiveItem(monsterPlace.activeMonster)
+          if (TurnsManager.isCurrentPlayer(PlayerManager.mePlayer)) {
+            PassiveManager.registerPassiveItem(monsterPlace.activeMonster, true)
+          }
         }
       }
     }

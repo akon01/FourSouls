@@ -142,6 +142,7 @@ export default class PlayerManager extends cc.Component {
           return player;
         }
       }
+      cc.log(player.deskCards.map(card => card.name))
       for (let j = 0; j < player.deskCards.length; j++) {
         const testedCard = player.deskCards[j];
 
@@ -150,7 +151,8 @@ export default class PlayerManager extends cc.Component {
         }
       }
     }
-    return null
+    throw "No player was found!";
+
   }
 
   static createPlayerDesks() {

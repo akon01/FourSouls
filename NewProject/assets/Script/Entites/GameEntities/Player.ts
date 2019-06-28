@@ -38,7 +38,8 @@ import CardPreview from "../CardPreview";
 import RollDice from "../../CardEffectComponents/RollDice";
 import {
   testForPassiveBefore,
-  testForPassiveAfter
+  testForPassiveAfter,
+  activatePassiveB4
 } from "../../Managers/PassiveManager";
 import TurnsManager from "../../Managers/TurnsManager";
 import Server from "../../../ServerClient/ServerClient";
@@ -154,9 +155,8 @@ export default class Player extends cc.Component {
 
   async drawCard(deck: cc.Node, sendToServer: boolean, alreadyDrawnCard?: cc.Node) {
     let drawnCard
-    cc.log(alreadyDrawnCard)
     if (alreadyDrawnCard != null) {
-      cc.log('test')
+
       drawnCard = alreadyDrawnCard
     } else {
       drawnCard = deck.getComponent(Deck).drawCard(sendToServer);
@@ -267,15 +267,25 @@ export default class Player extends cc.Component {
 
   async rollDice(rollType: ROLL_TYPE, numberRolled?: number) {
     let playerDice = this.node.getComponentInChildren(Dice);
-    this.dice.getComponentInChildren(RollDice).rollType = rollType;
-    Server.$.send(Signal.ROLLDICE, { playerId: this.playerId });
-    numberRolled = await playerDice.rollDice(rollType);
-    Server.$.send(Signal.ROLLDICEENDED, {
-      playerId: this.playerId,
-      numberRolled: numberRolled
-    });
+    // this.dice.getComponentInChildren(RollDice).rollType = rollType;
+    // Server.$.send(Signal.ROLLDICE, { playerId: this.playerId });
+    // numberRolled = await playerDice.rollDice(rollType); 
+    // Server.$.send(Signal.ROLLDICEENDED, {
+    //   playerId: this.playerId,
+    //   numberRolled: numberRolled
+    // });
+    let newNumberRolled
+    if (numberRolled == null) {
+      let action = new RollDiceAction({ rollType: rollType, sendToServer: false }, this.playerId, this.dice.node)
+      newNumberRolled = await ActionManager.doAction(action, {})
+      cc.log(`roll dice do action ended , rolled ${newNumberRolled}`)
+    } else {
+      let action = new RollDiceAction({ rollType: rollType, sendToServer: false }, this.playerId, this.dice.node, numberRolled)
+      let over = await ActionManager.showSingleAction(action, {}, false);
+      newNumberRolled = numberRolled;
+    }
     return new Promise((resolve, reject) => {
-      resolve(numberRolled);
+      resolve(newNumberRolled);
     });
   }
 
@@ -330,12 +340,14 @@ export default class Player extends cc.Component {
     // }
     //cc.log("check if item is in shop or is top of deck for money ");
     if (TurnsManager.currentTurn.buyPlays > 0) {
+      cc.log('am player turn reduce 1 in buy plays')
+      TurnsManager.currentTurn.buyPlays -= 1;
       this.addItem(itemToBuy, sendToServer, false);
     }
   }
 
   async addItem(itemToAdd: cc.Node, sendToServer: boolean, isReward: boolean) {
-
+    cc.log('add item start')
     let chainNum
     let itemCardComp: Card = itemToAdd.getComponent(Card);
     let treasureDeck = CardManager.treasureDeck;
@@ -370,7 +382,7 @@ export default class Player extends cc.Component {
     this.cards.push(itemToAdd);
     let serverData = {
       signal: Signal.ADDANITEM,
-      srvData: { playerId, cardId }
+      srvData: { playerId, cardId, isReward }
     };
     let action = new AddItemAction({
       movedCard: itemToAdd,
@@ -388,8 +400,12 @@ export default class Player extends cc.Component {
       }
     }
     //cc.log('start wait for chain over')
+    cc.log('waitForActionChain start')
+    cc.log(chainNum)
+    cc.log(ActionManager.reactionChainsActive)
     let chainOver = await this.waitForActionChain(chainNum)
-    //cc.log('add item is over')
+    cc.log('waitForActionChain end')
+    cc.log('add item is over')
     return new Promise((resolve, reject) => {
       resolve(true)
     })
@@ -464,6 +480,8 @@ export default class Player extends cc.Component {
     this.endTurn(sendToServer);
   }
 
+  @testForPassiveBefore('payPenalties')
+  @activatePassiveB4
   async payPenalties(sendToServer: boolean) {
     //cc.log("pay panielties");
     if (this.coins > 0) {
@@ -502,6 +520,30 @@ export default class Player extends cc.Component {
   destroyItem(itemToDestroy: cc.Node, sendToServer: boolean) {
     //cc.log('destroy item')
     PileManager.addCardToPile(CARD_TYPE.TREASURE, itemToDestroy, sendToServer);
+  }
+
+  async startTurn(numOfCardToDraw: number, numberOfItemsToCharge: number, sendToServer: boolean) {
+    cc.log('start turn')
+    for (let i = 0; i < numOfCardToDraw; i++) {
+      await this.drawCard(CardManager.lootDeck, sendToServer)
+    }
+    if (numberOfItemsToCharge == this.activeItems.length) {
+      for (const item of this.activeItems) {
+        if (item.getComponent(Item).activated) {
+          this.rechargeItem(item)
+        }
+      }
+    } else {
+      for (let i = 0; i < numberOfItemsToCharge; i++) {
+        let chooseCard = new ChooseCard();
+        let cardChosenData = await chooseCard.requireChoosingACard(this.activeItems)
+        let item = CardManager.getCardById(cardChosenData.cardChosenId, true).getComponent(Item)
+        if (item.activated) {
+          this.rechargeItem(item.node)
+        }
+      }
+    }
+
   }
 
   endTurn(sendToServer: boolean) {
@@ -603,6 +645,14 @@ export default class Player extends cc.Component {
   activateCard(card: cc.Node) {
     this.activatedCard = card;
     this.cardActivated = true;
+    let cardId = card.getComponent(Card).cardId;
+    let serverData = {
+      signal: Signal.ACTIVATEITEM,
+      srvData: { playerId: this.playerId, cardId: cardId }
+    };
+    let action = new ActivateItemAction({ activatedCard: card }, this.playerId);
+    action.showAction()
+    action.serverBrodcast(serverData)
   }
 
   async getSoulCard(cardWithSoul: cc.Node, sendToServer: boolean) {
@@ -704,16 +754,12 @@ export default class Player extends cc.Component {
     reactionNodes,
     playerId
   ) {
+
     this.cardNotActivated = true;
     for (let i = 0; i < reactionNodes.length; i++) {
       const card: cc.Node = reactionNodes[i];
+
       CardManager.disableCardActions(card);
-      // let s = cc.sequence(
-      //   cc.fadeTo(0.5, 255 / 2),
-      //   cc.fadeTo(0.5, 255),
-      //   cc.fadeTo(0.5, 255 / 2),
-      //   cc.fadeTo(0.5, 255)
-      // );
       card.runAction(cc.fadeTo(0.5, 255));
       card.stopAllActions();
     }
@@ -735,10 +781,19 @@ export default class Player extends cc.Component {
     };
 
     //  this.reactionData = newData;
-    if (ActionManager.checkForLastAction(newData, true)) {
-    } else {
-      ActionManager.sendGetReactionToNextPlayer(newData);
-    }
+    if (newData.serverCardEffects.length > 0 && newData.serverCardEffects[newData.serverCardEffects.length - 1].effectName == 'roll' && newData.serverCardEffects[newData.serverCardEffects.length - 1].cardPlayerId == this.playerId) {
+      cc.log('check for last action after reaction in roll action')
+      if (ActionManager.checkForLastAction(newData, true, true)) {
+      }
+      else {
+        ActionManager.sendGetReactionToNextPlayer(newData);
+      }
+    } else
+      if (ActionManager.checkForLastAction(newData, true)) {
+      } else {
+        cc.log('send next get reaction')
+        ActionManager.sendGetReactionToNextPlayer(newData);
+      }
   }
 
   async getReaction(data: {
@@ -747,9 +802,11 @@ export default class Player extends cc.Component {
     booleans: boolean[];
     serverCardEffects: ServerEffect[];
   }) {
+    cc.log('get reaction')
     this.calculateReactions();
     //if no actions are available, add toggle of actions
     if (this.reactCardNode.length == 0) {
+
       this.blockAvailableReactionsTimeout(
         data,
         this.reactCardNode,
@@ -765,7 +822,7 @@ export default class Player extends cc.Component {
         this.playerId
       );
       this.showAvailableReactions();
-      cc.log(this.reactCardNode.map(card => card.name))
+
       for (let i = 0; i < this.reactCardNode.length; i++) {
         const card = this.reactCardNode[i];
 
@@ -773,24 +830,24 @@ export default class Player extends cc.Component {
 
         CardManager.disableCardActions(card);
         CardManager.makeCardReactable(card, this.node);
+
       }
+
       //if time is out send a no reaction taken message
       let activatedCard = await this.waitForCardActivation();
       if (activatedCard != null) {
+
         clearTimeout(this.timeToRespondTimeOut);
         this.hideAvailableReactions();
-        let serverCardEffect = await CardManager.getCardEffect(
-          activatedCard,
-          this.playerId
-        );
+
+        ActionManager.actionHasCardEffect = true;
+        ActionManager.cardEffectToDo = { playedCard: activatedCard, playerId: this.playerId }
         //after each reaction all players get a new reaction chance so all of the booleans turn to false.
         let newBooleans: boolean[] = [];
         for (let i = 0; i < data.booleans.length; i++) {
           newBooleans.push(false);
         }
         data.booleans = newBooleans;
-        //push the card effect to the new data
-        data.serverCardEffects.push(serverCardEffect);
         //set last player id which made a reaction
         data.lastPlayerTakenAction = this.playerId;
         ActionManager.sendGetReactionToNextPlayer(data);

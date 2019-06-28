@@ -6,6 +6,7 @@ import { ActivatePassiveAction } from "../Action";
 import ActionManager from "../../Managers/ActionManager";
 import CardManager from "../../Managers/CardManager";
 import DataCollector from "../../CardEffectComponents/DataCollector/DataCollector";
+import CardEffect from "../CardEffect";
 
 const { ccclass, property } = cc._decorator;
 
@@ -31,6 +32,8 @@ export default class Card extends cc.Component {
 
   @property
   souls: number = 0;
+
+  _cardHolderId: number = -1;
 
   @property({
     type: cc.Enum(CARD_TYPE)

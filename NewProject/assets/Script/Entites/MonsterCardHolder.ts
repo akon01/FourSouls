@@ -110,8 +110,12 @@ export default class MonsterCardHolder extends cc.Component {
         //   .getComponent(Player)
         //   .activateItem(this.activeMonster, true);
         let serverEffect = await CardManager.getCardEffect(this.activeMonster, currentTurnPlayer.getComponent(Player).playerId)
+        cc.log('before server effect')
         let over = await this.activeMonster.getComponent(CardEffect).doServerEffect(serverEffect, [])
+        cc.log('after server effect')
+        cc.log('before add to pile')
         PileManager.addCardToPile(CARD_TYPE.MONSTER, this.activeMonster, true);
+        cc.log('after add to pile')
         BattleManager.currentlyAttackedMonster = null;
         TurnsManager.currentTurn.battlePhase = false;
         ActionManager.updateActions()

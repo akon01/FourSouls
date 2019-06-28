@@ -146,7 +146,7 @@ export default class CardPreview extends cc.Component {
         cc.log("isReactable");
         this.node.once(cc.Node.EventType.TOUCH_START, () => {
           let cardPlayer = PlayerManager.getPlayerById(
-            TurnsManager.currentTurn.PlayerId
+            cardComp._cardHolderId
           ).getComponent(Player);
           if (!card.getComponent(CardEffect).hasMultipleEffects) {
             this.hideCardPreview();

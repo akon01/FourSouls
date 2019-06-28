@@ -17,6 +17,9 @@ export default class Effect extends cc.Component implements EffectInterface {
   @property({ type: cc.Enum(PASSIVE_TYPE) })
   passiveType: PASSIVE_TYPE = 1;
 
+  @property(Effect)
+  passiveEffectToAdd: Effect = null;
+
   effectName: string = null;
 
   chooseType: CHOOSE_TYPE = null;
@@ -29,10 +32,14 @@ export default class Effect extends cc.Component implements EffectInterface {
    * @param data {target:Player}
    */
   doEffect(serverEffectStack: ServerEffect[], data?) {
-    return new Promise<ServerEffect[]>((resolve, reject) => { });
+    return new Promise((resolve, reject) => { });
   }
 
   reverseEffect() {
 
   }
+
+  // toString() {
+  //   return `${this.hasSubAction},${this.passiveType},${this.passiveEffectToAdd.toString()},${this.effectName}.${this.chooseType}`
+  // }
 }

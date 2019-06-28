@@ -23,6 +23,9 @@ export default class CardEffect extends cc.Component {
   @property(cc.Node)
   passiveEffects: cc.Node[] = [];
 
+  @property(cc.Node)
+  toAddPassiveEffects: cc.Node[] = [];
+
   @property(DataCollector)
   multiEffectCollector: DataCollector = null;
 
@@ -64,8 +67,8 @@ export default class CardEffect extends cc.Component {
   async doEffectByNum(
     numOfEffect,
     isPassiveEffect?: boolean
-  ): Promise<ServerEffect[]> {
-    let serverEffectStack;
+  ) {
+    let serverEffectStack = null;
     if (isPassiveEffect) {
       for (let i = 0; i < this.passiveEffects.length; i++) {
         const effect = this.passiveEffects[i].getComponent(Effect);
@@ -80,6 +83,18 @@ export default class CardEffect extends cc.Component {
     } else {
       for (let i = 0; i < this.activeEffects.length; i++) {
         const effect = this.activeEffects[i].getComponent(Effect);
+        if (i == numOfEffect) {
+          serverEffectStack = await effect.doEffect(
+            this.serverEffectStack,
+            this.effectData
+          );
+          break;
+        }
+      }
+    }
+    if (serverEffectStack == null) {
+      for (let i = 0; i < this.toAddPassiveEffects.length; i++) {
+        const effect = this.toAddPassiveEffects[i].getComponent(Effect);
         if (i == numOfEffect) {
           serverEffectStack = await effect.doEffect(
             this.serverEffectStack,
@@ -111,15 +126,15 @@ export default class CardEffect extends cc.Component {
     return data;
   }
 
-  getEffectByNum(numOfEffect) {
-    for (let i = 0; i < this.activeEffects.length; i++) {
-      const effect = this.activeEffects[i];
-      if (numOfEffect == 0 && i == 0)
-        if (i == numOfEffect - 1) {
-          return effect.getComponent(Effect);
-        }
-    }
-  }
+  // getEffectByNum(numOfEffect,lookInToAddPassives?:boolean) {
+  //   for (let i = 0; i < this.activeEffects.length; i++) {
+  //     const effect = this.activeEffects[i];
+  //     if (numOfEffect == 0 && i == 0)
+  //       if (i == numOfEffect - 1) {
+  //         return effect.getComponent(Effect);
+  //       }
+  //   }
+  // }
 
   getEffectIndex(effect: Effect) {
     let splitName = effect.name.split("<");
@@ -132,6 +147,14 @@ export default class CardEffect extends cc.Component {
     }
     for (let i = 0; i < this.passiveEffects.length; i++) {
       const passiveEffect = this.passiveEffects[i].getComponent(Effect);
+
+      let splitTestedName = passiveEffect.name.split("<");
+      if (splitName[1] == splitTestedName[1]) {
+        return i;
+      }
+    }
+    for (let i = 0; i < this.toAddPassiveEffects.length; i++) {
+      const passiveEffect = this.toAddPassiveEffects[i].getComponent(Effect);
 
       let splitTestedName = passiveEffect.name.split("<");
       if (splitName[1] == splitTestedName[1]) {
@@ -158,13 +181,18 @@ export default class CardEffect extends cc.Component {
     },
     cardEffectIndex?: number
   ): Promise<ServerEffect> {
-    let cardPlayed = CardManager.getCardById(cardPlayedData.cardId);
+
+    let cardPlayed = CardManager.getCardById(cardPlayedData.cardId, true);
     let cardEffect: Effect;
     let effectType;
 
     if (cardEffectIndex != null) {
       effectType = ITEM_TYPE.PASSIVE;
-      cardEffect = this.passiveEffects[cardEffectIndex].getComponent(Effect);
+      let effect = this.passiveEffects[cardEffectIndex];
+      if (effect == null) {
+        effect = this.toAddPassiveEffects[cardEffectIndex]
+      }
+      cardEffect = effect.getComponent(Effect);
     } else {
       effectType = ITEM_TYPE.ACTIVE;
 
@@ -187,7 +215,9 @@ export default class CardEffect extends cc.Component {
       cardPlayedData.cardId,
       effectType
     );
-    this.effectData = await this.collectEffectData(cardEffect, cardPlayedData);
+    if (cardEffect.dataCollector != null) {
+      this.effectData = await this.collectEffectData(cardEffect, cardPlayedData);
+    }
     serverEffect.hasSubAction = false;
     serverEffect.cardEffectData = this.effectData;
     //add check if the effect collector has a sub-action (like rolling a dice) and if yes do not collect the data yet and put a flag inside the server effect
@@ -210,7 +240,7 @@ export default class CardEffect extends cc.Component {
   async doServerEffect(
     currentServerEffect: ServerEffect,
     allServerEffects: ServerEffect[]
-  ): Promise<ServerEffect[]> {
+  ) {
     cc.log(
       "doing effect: " +
       currentServerEffect.effectName +
@@ -234,7 +264,7 @@ export default class CardEffect extends cc.Component {
         true
       );
     }
-    return new Promise<ServerEffect[]>((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       resolve(serverEffectStack);
     });
   }

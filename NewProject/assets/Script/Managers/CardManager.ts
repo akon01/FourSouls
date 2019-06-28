@@ -24,6 +24,9 @@ import Item from "../Entites/CardTypes/Item";
 import PassiveManager from "./PassiveManager";
 import TurnsManager from "./TurnsManager";
 import Monster from "../Entites/CardTypes/Monster";
+import Server from "../../ServerClient/ServerClient";
+import Signal from "../../Misc/Signal";
+
 
 const { ccclass, property } = cc._decorator;
 
@@ -197,12 +200,12 @@ export default class CardManager extends cc.Component {
   static async doEffectFromServer(
     serverEffect: ServerEffect,
     allServerEffects: ServerEffect[]
-  ): Promise<ServerEffect[]> {
+  ) {
     let card = this.getCardById(serverEffect.cardId, true);
     let serverEffectStack = await card
       .getComponent(CardEffect)
       .doServerEffect(serverEffect, allServerEffects);
-    return new Promise<ServerEffect[]>((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       resolve(serverEffectStack);
     });
   }
@@ -310,7 +313,8 @@ export default class CardManager extends cc.Component {
         }
       }
     }
-    return null;
+    throw "No card was found";
+
   }
 
   static makeDeckCards(deck: Deck) {
@@ -423,10 +427,9 @@ export default class CardManager extends cc.Component {
 
   static makeCardReactable(card: cc.Node, reactablePlayer: cc.Node) {
     let cardComp = card.getComponent(Card);
-    this.disableCardActions(card);
 
     cardComp.isReactable = true;
-
+    cardComp._cardHolderId = reactablePlayer.getComponent(Player).playerId
     //change to show card preview.
     this.makeCardPreviewable(card);
 
@@ -457,6 +460,7 @@ export default class CardManager extends cc.Component {
     deck.off(cc.Node.EventType.TOUCH_START);
   }
 
+
   static disableCardActions(card: cc.Node) {
     card.off(cc.Node.EventType.TOUCH_START);
     if (card.getComponent(Deck) == null) {
@@ -480,6 +484,7 @@ export default class CardManager extends cc.Component {
         .sequence(cc.fadeTo(BLINKINGSPEED, 50), cc.fadeTo(BLINKINGSPEED, 255))
         .repeatForever()
     );
+
     this.disableCardActions(card);
     let cardComp;
     if (card.getComponent(Deck) == null) {
@@ -498,6 +503,7 @@ export default class CardManager extends cc.Component {
   static unRequiredForDataCollector(card: cc.Node) {
     card.stopAllActions();
     card.runAction(cc.fadeTo(BLINKINGSPEED, 255));
+
     this.disableCardActions(card)
     card.off(cc.Node.EventType.TOUCH_START);
   }
@@ -511,7 +517,7 @@ export default class CardManager extends cc.Component {
     cardEffectIndex?: number
   ): Promise<ServerEffect> {
     let serverCardEffect;
-
+    cc.log('get Card effect')
     if (cardEffectIndex != null) {
       serverCardEffect = await this.activateCard(
         card,
@@ -619,12 +625,16 @@ export default class CardManager extends cc.Component {
       const player = PlayerManager.players[i].getComponent(Player);
       for (let j = 0; j < player.deskCards.length; j++) {
         const item = player.deskCards[j];
-        PassiveManager.registerPassiveItem(item);
+        PassiveManager.registerPassiveItem(item, true);
       }
       //PassiveManager.registerPassiveItem(player.characterItem);
     }
     MonsterField.updateActiveMonsters()
     //add register of active monster effects
+
+    // let srvData = PassiveManager.getPassivesinfo()
+
+    // Server.$.send(Signal.UPDATEPASSIVESOVER, srvData)
   }
 
   static moveCardToSoulsSpot(cardToMove: cc.Node, soulsLayout: cc.Node, sendToServer: boolean) {

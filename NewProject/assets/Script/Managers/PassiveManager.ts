@@ -12,6 +12,9 @@ import PlayerManager from "./PlayerManager";
 import Monster from "../Entites/CardTypes/Monster";
 import Effect from "../CardEffectComponents/CardEffects/Effect";
 import Card from "../Entites/GameEntities/Card";
+import CardManager from "./CardManager";
+import Server from "../../ServerClient/ServerClient";
+import Signal from "../../Misc/Signal";
 
 const { ccclass, property } = cc._decorator;
 
@@ -21,17 +24,38 @@ export default class PassiveManager extends cc.Component {
 
   static allBeforeEffects: Effect[] = [];
   static allAfterEffects: Effect[] = [];
+  static oneTurnBeforeEffects: Effect[] = [];
+  static oneTurnAfterEffects: Effect[] = [];
   static inPassivePhase: boolean = false;
 
   static inRegisterPhase: boolean = false
 
-  static async registerPassiveItem(itemToRegister: cc.Node) {
+  static getPassivesinfo() {
+    let passiveItemsCardIds = this.passiveItems.map(card => card.getComponent(Card).cardId)
+    return {
+      allBeforeEffects: this.allBeforeEffects,
+      allAfterEffects: this.allAfterEffects,
+      oneTurnBeforeEffects: this.oneTurnBeforeEffects,
+      oneTurnAfterEffects: this.oneTurnAfterEffects,
+      passiveItemsCardIds: passiveItemsCardIds
+    }
+  }
+
+  static updateInfo(info) {
+    this.allAfterEffects = info.allAfterEffects;
+    this.allBeforeEffects = info.allBeforeEffects;
+    this.oneTurnAfterEffects = info.oneTurnAfterEffects;
+    this.oneTurnBeforeEffects = info.oneTurnBeforeEffects;
+    this.passiveItems = info.passiveItemsCardIds.map(id => { CardManager.getCardById(id, true) })
+  }
+
+  static async registerPassiveItem(itemToRegister: cc.Node, sendToServer: boolean) {
     if (this.inRegisterPhase) {
       let phaseOver = await this.waitForRegister()
     }
     this.inRegisterPhase = true;
+    let cardEffect = itemToRegister.getComponent(CardEffect)
     if (itemToRegister.getComponent(CardEffect) != null) {
-      let cardEffect = itemToRegister.getComponent(CardEffect);
 
       if (cardEffect.passiveEffects.length > 0) {
         if (this.passiveItems.find(passiveItem => passiveItem == itemToRegister) == undefined) {
@@ -51,9 +75,39 @@ export default class PassiveManager extends cc.Component {
               this.allBeforeEffects.push(passive);
             }
           }
+          if (sendToServer) {
+            let cardId = itemToRegister.getComponent(Card).cardId
+            Server.$.send(Signal.REGISTERPASSIVEITEM, { cardId: cardId })
+          }
         }
+
       }
     }
+    this.inRegisterPhase = false;
+
+  }
+
+  static async registerOneTurnPassiveEffect(effect: Effect, sendToServer: boolean) {
+    if (this.inRegisterPhase) {
+      let phaseOver = await this.waitForRegister()
+    }
+    this.inRegisterPhase = true;
+    if (effect.passiveType == PASSIVE_TYPE.AFTER) {
+      //cc.log('added ' + itemToRegister.name + ' effect to afterEffects')
+      this.oneTurnAfterEffects.push(effect);
+      //cc.log(this.allAfterEffects)
+    } else {
+      //cc.log('added ' + itemToRegister.name + ' effect to beforeEffect')
+      this.oneTurnBeforeEffects.push(effect);
+    }
+
+    if (sendToServer) {
+      let card = effect.node.parent.getComponent(Card)
+      let effectIndex = card.node.getComponent(CardEffect).getEffectIndex(effect)
+      let srvData = { cardId: card.cardId, effectIndex: effectIndex, conditionData: effect.condition.conditionData }
+      Server.$.send(Signal.REGISTERONETURNPASSIVEEFFECT, srvData)
+    }
+
     this.inRegisterPhase = false;
   }
 
@@ -97,44 +151,112 @@ export const testForPassiveBefore = (methodCallerName: string) =>
     //cc.log(methodCallerName);
     PassiveManager.inPassivePhase = true;
     let allPassiveEffects = PassiveManager.allBeforeEffects;
+    allPassiveEffects = allPassiveEffects.concat(PassiveManager.oneTurnBeforeEffects)
     let className = meta.scope;
     let activated;
+    let allPassivesToActivate: Effect[] = [];
 
-    for (const passiveEffect of allPassiveEffects) {
+    for (let i = 0; i < allPassiveEffects.length; i++) {
+
+      const passiveEffect = allPassiveEffects[i];
       //cc.log(passiveEffect);
       let isConditionTrue = passiveEffect.condition.testCondition(meta);
       if (isConditionTrue) {
-        let cardActivated = passiveEffect.node.parent;
-        let passiveIndex = cardActivated
-          .getComponent(CardEffect)
-          .getEffectIndex(passiveEffect);
+        cc.log(passiveEffect.name)
+        allPassivesToActivate.push(passiveEffect)
+        //   cc.log(`pushed ${passiveEffect.name}`)
+        // let cardActivated = passiveEffect.node.parent;
+        // let passiveIndex = cardActivated
+        //   .getComponent(CardEffect)
+        //   .getEffectIndex(passiveEffect);
 
-        if (cardActivated.getComponent(Monster) == null) {
-          let player = PlayerManager.getPlayerByCard(cardActivated);
+        // if (cardActivated.getComponent(Monster) == null) {
+        //   let player = PlayerManager.getPlayerByCard(cardActivated);
 
-          if (player.node == PlayerManager.mePlayer) {
-            activated = await player.activatePassive(
-              cardActivated,
-              true,
-              passiveIndex
-            );
-          } else {
-            activated = await player.activatePassive(
-              cardActivated,
-              false,
-              passiveIndex
-            );
-          }
-        } else {
-          //cc.log("do when monster effect is activated");
-        }
+        //   if (player.node == PlayerManager.mePlayer) {
+        //     activated = await player.activatePassive(
+        //       cardActivated,
+        //       true,
+        //       passiveIndex
+        //     );
+        //   } else {
+        //     activated = await player.activatePassive(
+        //       cardActivated,
+        //       false,
+        //       passiveIndex
+        //     );
+        //   }
+        // } else {
+        //   //cc.log("do when monster effect is activated");
+        //   let monster = cardActivated.getComponent(Card)
+        //   monster.activatePassive(monster.cardId, passiveIndex, false)
+        // }
       } else {
+
       }
+
     }
 
     PassiveManager.inPassivePhase = false;
-    meta.commit();
+    meta.commit(allPassivesToActivate);
   });
+
+export const activatePassiveB4 = beforeMethod(async meta => {
+  cc.log('activte passive b4')
+  let effectsToActivate: Effect[] = meta.args.pop();
+  if (effectsToActivate.length > 0) {
+    let cardToActivate: cc.Node;
+    let passiveIndex
+    let cardActivatorId;
+    let newArgs;
+    for (const effect of effectsToActivate) {
+      cc.log(effect.name)
+      cardToActivate = effect.node.parent;
+      passiveIndex = cardToActivate
+        .getComponent(CardEffect)
+        .getEffectIndex(effect);
+      if (cardToActivate.getComponent(Monster) == null) {
+        let player = PlayerManager.getPlayerByCard(cardToActivate);
+        cardActivatorId = player.playerId;
+      } else {
+        //cc.log("do when monster effect is activated");
+        let monster = cardToActivate.getComponent(Card)
+        cardActivatorId = monster.cardId;
+        //  monster.activatePassive(monster.cardId, passiveIndex, false)
+      }
+      let serverEffect = await CardManager.activateCard(
+        cardToActivate,
+        cardActivatorId,
+        passiveIndex
+      );
+      let passiveData
+      if (newArgs == null) {
+
+        passiveData = { terminateOriginal: false, newArgs: meta.args }
+      } else {
+        passiveData = { terminateOriginal: newArgs.terminateOriginal, newArgs: newArgs.newArgs }
+      }
+      serverEffect.cardEffectData = passiveData;
+      cc.log(cardToActivate.name)
+      //all of the effect should return an object {terminateOriginal:boolean,args:altered function args}
+      newArgs = await cardToActivate
+        .getComponent(CardEffect)
+        .doServerEffect(serverEffect, []);
+
+    }
+    if (newArgs.terminateOriginal) {
+      cc.log('terminate original function')
+      meta.prevent()
+    } else {
+      cc.log(meta.args)
+      meta.args = newArgs.newArgs;
+      cc.log(meta.args)
+    }
+
+  }
+  meta.commit()
+
+})
 
 //cc.log("test for passives before");
 export const testForPassiveAfter = (methodCallerName: string) =>

@@ -71,6 +71,9 @@ export class Turn {
     let player: Player = PlayerManager.getPlayerById(
       this.PlayerId
     ).getComponent(Player);
+    if (player.node.name == PlayerManager.mePlayer.name) {
+      player.startTurn(this.drawPlays, player.activeItems.length, true)
+    }
     // //draw cards
     //  for (let i = 0; i < this.drawPlays; i++) {
     //     player.drawCard(CardManager.);

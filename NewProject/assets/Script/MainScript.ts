@@ -76,7 +76,7 @@ export default class MainScript extends cc.Component {
     if (cc.find("ServerClient") != null) {
       let ServerClient: Server = cc
         .find("ServerClient")
-        .getComponent("ServerClient");
+        .getComponent(Server);
       MainScript.serverId = ServerClient.pid;
     } else {
       MainScript.serverId = 1;
@@ -144,7 +144,7 @@ export default class MainScript extends cc.Component {
 
     //deal two treasures and  two monsters
     //this.node.on("decksDone", () => {
-    //   //cc.log("decks done");
+    //   
     storeComp.addStoreCard(false);
     storeComp.addStoreCard(false);
 
@@ -191,7 +191,7 @@ export default class MainScript extends cc.Component {
     // })
 
     cc.director.getScene().on("monsterAttacked", () => {
-      ////cc.log('monster attacked')
+
       PlayerManager.mePlayer.getComponent(Player).showAvailableReactions();
     });
 
@@ -206,18 +206,18 @@ export default class MainScript extends cc.Component {
     let playerId = PlayerManager.mePlayer.getComponent(Player).playerId
     let turnPlayerId = TurnsManager.currentTurn.PlayerId
     Server.$.send(Signal.FINISHLOAD, { id: playerId, turnPlayerId: turnPlayerId })
-    //cc.log('finished loading')
+
     // ActionManager.updateActions()
   }
 
   static async makeFirstUpdateActions(playerId) {
-    //cc.log('makeFirstUpdateActions')
-    //cc.log(playerId)
-    //cc.log(PlayerManager.mePlayer.getComponent(Player).playerId)
+
+
+
     if (PlayerManager.mePlayer.getComponent(Player).playerId == playerId) {
-      //cc.log('first update actions of turn player')
+
       let over = await ActionManager.updateActions();
-      //cc.log('after first update actions')
+
       Server.$.send(Signal.UPDATEACTIONS)
     }
   }

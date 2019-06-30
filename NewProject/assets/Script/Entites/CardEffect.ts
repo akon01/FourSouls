@@ -111,7 +111,7 @@ export default class CardEffect extends cc.Component {
 
   sendServerCardEffect(oldData) {
     let data = {
-      cardId: this.node.getComponent(Card).cardId,
+      cardId: this.node.getComponent(Card)._cardId,
       effectData: oldData
     };
     Server.$.send(Signal.SERVERCARDEFFECT, data);
@@ -216,7 +216,10 @@ export default class CardEffect extends cc.Component {
       effectType
     );
     if (cardEffect.dataCollector != null) {
+
       this.effectData = await this.collectEffectData(cardEffect, cardPlayedData);
+
+
     }
     serverEffect.hasSubAction = false;
     serverEffect.cardEffectData = this.effectData;

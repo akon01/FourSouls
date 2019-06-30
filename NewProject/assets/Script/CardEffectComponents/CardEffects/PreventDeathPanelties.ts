@@ -22,7 +22,7 @@ export default class PreventDeathPenalties extends Effect {
     let terminateOriginal = args.terminateOriginal;
     terminateOriginal = true;
     let args2 = args.newArgs;
-    cc.log('terminate pay penalties')
+
     return new Promise<{ terminateOriginal: boolean, newArgs: any }>((resolve, reject) => {
       resolve({ terminateOriginal: terminateOriginal, newArgs: args2 });
     });

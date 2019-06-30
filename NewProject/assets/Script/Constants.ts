@@ -83,7 +83,8 @@ export enum CHOOSE_TYPE {
   DECKS = 3,
   MONSTERPLACES = 4,
   STOREPLACES = 5,
-  PLAYERNONETERNALS = 6
+  PLAYERNONETERNALS = 6,
+  ALLPLAYERITEMS = 7
 }
 
 export enum COLORS {
@@ -142,7 +143,7 @@ export const printMethodSignal = beforeMethod(meta => {
   let className = classDesc[1];
 
   // if(meta.args[0] == Signal.GETREACTION){
-  //   //cc.log(
+  //   
   //     "%c" +
   //     " Signal :" +
   //     meta.args[0] +

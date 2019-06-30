@@ -23,17 +23,17 @@ export function addCardToCardLayout(card: cc.Node, layout: CardLayout, inHand: b
 
 }
 
-export function removeFromHand(card: cc.Node, hand: CardLayout) {
+// export function removeFromHand(card: cc.Node, hand: CardLayout) {
 
-    for (let i = 0; i < hand.layoutCards.length; i++) {
-        const handCard: cc.Node = hand.layoutCards[i];
-        if (card == handCard) {
-            hand.removeCardFromLayout(card)
-            let handCardComp: Card = handCard.getComponent('Card')
-            handCardComp.isInHand = false;
-        }
-    }
-}
+//     for (let i = 0; i < hand.layoutCards.length; i++) {
+//         const handCard: cc.Node = hand.layoutCards[i];
+//         if (card == handCard) {
+//             hand.removeCardFromLayout(card) 
+//             let handCardComp: Card = handCard.getComponent('Card')
+//             handCardComp._isInHand = false;
+//         }
+//     }
+// }
 
 export function isInHand(card: cc.Node, hand: CardLayout): boolean {
 

@@ -2,7 +2,7 @@ import { MAX_PLAYERS, MAX_TURNID } from "../Constants";
 
 import Server from "../../ServerClient/ServerClient";
 import PlayerManager from "../Managers/PlayerManager";
-import { chargeCard } from "./CardModule";
+
 import CardManager from "../Managers/CardManager";
 import Player from "../Entites/GameEntities/Player";
 
@@ -19,7 +19,7 @@ export function makeNextTurn(currentTurn: Turn): Turn[] {
 export function getCurrentPlayer(players: cc.Node[], turn: Turn) {
   for (let i = 0; i < players.length; i++) {
     let player = players[i];
-    let playerComp: Player = player.getComponent("Player");
+    let playerComp: Player = player.getComponent(Player);
     if (playerComp.playerId == turn.PlayerId) {
       return player;
     }

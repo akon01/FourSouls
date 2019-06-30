@@ -42,9 +42,9 @@ export default class MonsterCardHolder extends cc.Component {
 
 
     if (this.monsters.length > 0) {
-      cc.log('monster place is not empty. putting last on top')
 
-      //cc.log('more than one mosnter')
+
+
       this.activeMonster = this.monsters[this.monsters.length - 1]
       this.activeMonster.active = true
       this.spriteFrame = this.activeMonster.getComponent(cc.Sprite).spriteFrame;
@@ -54,12 +54,12 @@ export default class MonsterCardHolder extends cc.Component {
       }
       //return this.activeMonster;
     } else {
-      cc.log('monster place is  empty. putting new card from deck')
+
       let drawnMonster = CardManager.monsterDeck.getComponent(Deck).drawCard(sendToServer);
       if (drawnMonster.getComponent(Card).isFlipped) {
         drawnMonster.getComponent(Card).flipCard();
       }
-      //cc.log('getNextMonster ')
+
       this.addToMonsters(drawnMonster, sendToServer);
     }
     MonsterField.updateActiveMonsters();
@@ -71,17 +71,17 @@ export default class MonsterCardHolder extends cc.Component {
    */
   @printMethodStarted(COLORS.LIGHTBLUE)
   async addToMonsters(monsterCard: cc.Node, sendToServer: boolean) {
-    cc.log('add to monsters ' + monsterCard.name + ', send to server' + sendToServer)
+
     if (monsterCard.getComponent(Card).isFlipped) {
       monsterCard.getComponent(Card).flipCard();
     }
     for (const monster of this.monsters) {
       monster.active = false;
     }
-    cc.log(this.monsters.map(monster => monster.name))
+
 
     this.monsters.push(monsterCard);
-    cc.log(this.monsters.map(monster => monster.name))
+
     this.activeMonster = monsterCard;
     let monster = this.activeMonster.getComponent(Monster);
     monster.currentHp = monster.HP;
@@ -98,7 +98,7 @@ export default class MonsterCardHolder extends cc.Component {
     this.node.width = monsterCard.width;
     this.node.height = monsterCard.height;
     if (sendToServer) {
-      Server.$.send(Signal.ADDMONSTER, { holderId: this.id, monsterId: monsterCard.getComponent(Card).cardId });
+      Server.$.send(Signal.ADDMONSTER, { holderId: this.id, monsterId: monsterCard.getComponent(Card)._cardId });
     }
     if (monster.isNonMonster) {
       let waitForAllReactionsOver = await ActionManager.waitForReqctionsOver();
@@ -110,12 +110,12 @@ export default class MonsterCardHolder extends cc.Component {
         //   .getComponent(Player)
         //   .activateItem(this.activeMonster, true);
         let serverEffect = await CardManager.getCardEffect(this.activeMonster, currentTurnPlayer.getComponent(Player).playerId)
-        cc.log('before server effect')
+
         let over = await this.activeMonster.getComponent(CardEffect).doServerEffect(serverEffect, [])
-        cc.log('after server effect')
-        cc.log('before add to pile')
+
+
         PileManager.addCardToPile(CARD_TYPE.MONSTER, this.activeMonster, true);
-        cc.log('after add to pile')
+
         BattleManager.currentlyAttackedMonster = null;
         TurnsManager.currentTurn.battlePhase = false;
         ActionManager.updateActions()
@@ -131,7 +131,7 @@ export default class MonsterCardHolder extends cc.Component {
 
     this.monsters.splice(this.monsters.indexOf(monster));
     if (sendToServer) {
-      Server.$.send(Signal.REMOVEMONSTER, { holderId: this.id, monsterId: monster.getComponent(Card).cardId });
+      Server.$.send(Signal.REMOVEMONSTER, { holderId: this.id, monsterId: monster.getComponent(Card)._cardId });
     }
     // this.getNextMonster(sendToServer);
   }

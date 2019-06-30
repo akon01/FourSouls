@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "HolyMantle",
+    "_name": "Counterfiet Penny",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -21,7 +21,7 @@
         "__id__": 2
       },
       {
-        "__id__": 8
+        "__id__": 7
       }
     ],
     "_active": true,
@@ -91,7 +91,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "AddPassiveEffect",
+    "_name": "AddTrinket",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -157,7 +157,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "ChooseCard",
+    "_name": "CardPlayer",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -218,7 +218,7 @@
     "_id": ""
   },
   {
-    "__type__": "b4dd13gjjJIk556pQaiqi12",
+    "__type__": "1d1ecf8dolI9JOwSEDLfemj",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -233,13 +233,13 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c1c5941b-2676-4746-9d64-81fd72397f2e"
+      "__uuid__": "596c13d6-1abc-4a9d-adb0-d8d28416a699"
     },
-    "fileId": "c6Hg9373dJ6beCQplvmupq",
+    "fileId": "a4aKgGcr9EyrknSe3hBslw",
     "sync": false
   },
   {
-    "__type__": "4e4a4QLZq1JLrgv24NUG4xX",
+    "__type__": "14c08BFzyhOxqINw7BkOwhA",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -248,47 +248,35 @@
     "_enabled": true,
     "condition": null,
     "passiveType": 1,
-    "passiveEffectToAdd": {
+    "passiveEffectToAdd": null,
+    "dataCollector": {
+      "__id__": 4
+    },
+    "itemEffectToAdd": {
       "__id__": 7
     },
-    "dataCollector": {
-      "__id__": 11
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "9c21ecmq35DmL3w1bzeuT9c",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 8
-    },
-    "_enabled": true,
-    "condition": {
-      "__id__": 13
-    },
-    "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "dataCollector": null,
     "_id": ""
   },
   {
     "__type__": "cc.Node",
-    "_name": "PreventDeathPanelties",
+    "_name": "AddMoneyToRecive",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
     },
     "_children": [
       {
-        "__id__": 9
+        "__id__": 8
+      },
+      {
+        "__id__": 11
       }
     ],
     "_active": true,
     "_level": 2,
     "_components": [
       {
-        "__id__": 7
+        "__id__": 14
       }
     ],
     "_prefab": {
@@ -340,25 +328,21 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "PlayerPayPenalties",
+    "_name": "CardPlayer",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 8
+      "__id__": 7
     },
-    "_children": [
-      {
-        "__id__": 10
-      }
-    ],
+    "_children": [],
     "_active": true,
     "_level": 3,
     "_components": [
       {
-        "__id__": 13
+        "__id__": 9
       }
     ],
     "_prefab": {
-      "__id__": 14
+      "__id__": 10
     },
     "_opacity": 255,
     "_color": {
@@ -403,24 +387,45 @@
     "_is3DNode": false,
     "groupIndex": 0,
     "_id": ""
+  },
+  {
+    "__type__": "1d1ecf8dolI9JOwSEDLfemj",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 8
+    },
+    "_enabled": true,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "596c13d6-1abc-4a9d-adb0-d8d28416a699"
+    },
+    "fileId": "e90e17cPdM6K1AitTL+4p1",
+    "sync": false
   },
   {
     "__type__": "cc.Node",
-    "_name": "ChooseCard",
+    "_name": "CardOwnerGainCoins",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 9
+      "__id__": 7
     },
     "_children": [],
     "_active": true,
-    "_level": 4,
+    "_level": 3,
     "_components": [
       {
-        "__id__": 11
+        "__id__": 12
       }
     ],
     "_prefab": {
-      "__id__": 12
+      "__id__": 13
     },
     "_opacity": 255,
     "_color": {
@@ -443,7 +448,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 0,
+      "y": -29.4,
       "z": 0
     },
     "_scale": {
@@ -467,38 +472,13 @@
     "_id": ""
   },
   {
-    "__type__": "b4dd13gjjJIk556pQaiqi12",
+    "__type__": "99a0c5BSCJB4JIxyQUIoBKw",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 10
-    },
-    "_enabled": true,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "c1c5941b-2676-4746-9d64-81fd72397f2e"
-    },
-    "fileId": "aeNA7s90NE3qJxLdIksdSl",
-    "sync": false
-  },
-  {
-    "__type__": "815f9lX+ARDvbDuOG2jUQzq",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 9
-    },
-    "_enabled": true,
-    "chooseType": 1,
-    "dataCollector": {
       "__id__": 11
     },
+    "_enabled": true,
     "_id": ""
   },
   {
@@ -507,9 +487,39 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c1c5941b-2676-4746-9d64-81fd72397f2e"
+      "__uuid__": "596c13d6-1abc-4a9d-adb0-d8d28416a699"
     },
-    "fileId": "cfyYrH2shFeZNsebCjMYtX",
+    "fileId": "d3UjelRjJHtoNaaVdP8tSp",
+    "sync": false
+  },
+  {
+    "__type__": "71653TR0kNPGKo6bDkduIBI",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 7
+    },
+    "_enabled": true,
+    "condition": {
+      "__id__": 12
+    },
+    "passiveType": 1,
+    "passiveEffectToAdd": null,
+    "dataCollector": {
+      "__id__": 9
+    },
+    "numOfCoins": 1,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "596c13d6-1abc-4a9d-adb0-d8d28416a699"
+    },
+    "fileId": "ee7r8RwOpClahgTsi8X8ZL",
     "sync": false
   },
   {
@@ -518,20 +528,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c1c5941b-2676-4746-9d64-81fd72397f2e"
+      "__uuid__": "596c13d6-1abc-4a9d-adb0-d8d28416a699"
     },
-    "fileId": "07nEoXfa9K+ZKYg0/Hxv/T",
-    "sync": false
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "c1c5941b-2676-4746-9d64-81fd72397f2e"
-    },
-    "fileId": "16oBsEzdZFmp9LSo+PF97o",
+    "fileId": "95XBeaA1JJBJodDrlNCxSQ",
     "sync": false
   },
   {
@@ -545,7 +544,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "b29e70ae-7582-4bc2-bc3c-65e338b8398f"
+      "__uuid__": "74ab3bbd-8456-4bcc-9c1d-53047f04ae84"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -560,7 +559,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": {
-      "__uuid__": "b0c5ff5a-711a-465b-bf02-f38829a21a27"
+      "__uuid__": "cb12d33e-c169-4660-ad1c-ef20ef0d17df"
     },
     "_id": ""
   },
@@ -572,14 +571,14 @@
       "__id__": 1
     },
     "_enabled": true,
-    "cardName": "Holy Mantle",
+    "cardName": "Counterfiet Penny",
     "cardId": 0,
-    "isInHand": false,
+    "_isInHand": false,
     "isOnDesk": false,
     "originalParent": null,
     "topDeckof": null,
     "souls": 0,
-    "type": null,
+    "type": 1,
     "isAttackable": false,
     "isBuyable": false,
     "isPlayable": false,
@@ -591,19 +590,6 @@
     "backSprite": null,
     "isFlipped": false,
     "ownedBy": null,
-    "_id": ""
-  },
-  {
-    "__type__": "b5e97fLQIJGGq1XOyBEfLay",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "type": 1,
-    "activated": false,
-    "eternal": true,
     "_id": ""
   },
   {
@@ -621,11 +607,7 @@
       }
     ],
     "passiveEffects": [],
-    "toAddPassiveEffects": [
-      {
-        "__id__": 8
-      }
-    ],
+    "toAddPassiveEffects": [],
     "multiEffectCollector": null,
     "effectData": null,
     "data": {},
@@ -635,12 +617,25 @@
     "_id": ""
   },
   {
+    "__type__": "b5e97fLQIJGGq1XOyBEfLay",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "type": 0,
+    "activated": false,
+    "eternal": false,
+    "_id": ""
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "c1c5941b-2676-4746-9d64-81fd72397f2e"
+      "__uuid__": "596c13d6-1abc-4a9d-adb0-d8d28416a699"
     },
     "fileId": "74xrl7Ss9GNLi7htp7h56D",
     "sync": false

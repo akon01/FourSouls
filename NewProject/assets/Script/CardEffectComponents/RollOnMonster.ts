@@ -19,6 +19,7 @@ export default class RollOnMonster extends Effect {
    *
    * @param data {target:PlayerId}
    */
+
   doEffect(
     serverEffectStack: ServerEffect[],
     data?: { numberRolled: number; cardPlayerId: number }

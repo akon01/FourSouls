@@ -5,21 +5,13 @@ import PlayLootCard from "./CardEffectComponents/CardEffects/PlayLootCard";
 import PlayerManager from "./Managers/PlayerManager";
 import Player from "./Entites/GameEntities/Player";
 
-// Learn TypeScript:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/typescript.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/typescript.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
+
 
 const { ccclass, property } = cc._decorator;
 
 var id = 1;
 
-var cardid = 1;
+var cardId = 1;
 
 @ccclass
 export default class buttonScript extends cc.Component {
@@ -33,7 +25,7 @@ export default class buttonScript extends cc.Component {
   //     let hand = cc.find('player'+turns.currentTurn.turnId+'/Hand')
 
   //     card.parent = hand;
-  //     let handComp:Hand = hand.getComponent("Hand");
+  //     let handComp:Hand = hand.getComponent(Hand);
   //     handComp.addToHandCards(card)
   // }
 
@@ -48,7 +40,7 @@ export default class buttonScript extends cc.Component {
   nextTurnClick() {
     var turnComp: TurnsManager = cc
       .find("MainScript/TurnsManager")
-      .getComponent("TurnsManager");
+      .getComponent(TurnsManager);
     let turnPlayer = PlayerManager.getPlayerById(
       TurnsManager.currentTurn.PlayerId
     );
@@ -57,8 +49,8 @@ export default class buttonScript extends cc.Component {
 
   addNewCard() {
     let newCard = cc.instantiate(this.cardPrefab);
-    newCard.name = "card" + cardid;
-    cardid++;
+    newCard.name = "card" + cardId;
+    cardId++;
     cc.director
       .getScene()
       .getChildByName("Canvas")
@@ -67,9 +59,9 @@ export default class buttonScript extends cc.Component {
 
   // LIFE-CYCLE CALLBACKS:
 
-  onLoad() {}
+  onLoad() { }
 
-  start() {}
+  start() { }
 
   // update (dt) {}
 }

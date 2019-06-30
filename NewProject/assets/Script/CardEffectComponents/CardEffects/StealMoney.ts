@@ -35,7 +35,7 @@ export default class StealMoney extends Effect {
     let stealer = PlayerManager.getPlayerById(data.playerId).getComponent(
       Player
     );
-    //cc.log(data);
+    ;
     let targetPlayer = PlayerManager.getPlayerByCardId(
       data.cardChosenId
     ).getComponent(Player);

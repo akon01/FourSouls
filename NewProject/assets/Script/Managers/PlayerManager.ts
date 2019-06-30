@@ -93,7 +93,7 @@ export default class PlayerManager extends cc.Component {
     for (let i = 1; i <= Server.numOfPlayers; i++) {
       var newNode: cc.Node = cc.instantiate(PlayerManager.playerPrefab);
       newNode.name = "player" + i;
-      let playerComp: Player = newNode.getComponent("Player");
+      let playerComp: Player = newNode.getComponent(Player);
       playerComp.playerId = i;
       if (i == serverId) {
         playerComp.me = true;
@@ -142,7 +142,7 @@ export default class PlayerManager extends cc.Component {
           return player;
         }
       }
-      cc.log(player.deskCards.map(card => card.name))
+
       for (let j = 0; j < player.deskCards.length; j++) {
         const testedCard = player.deskCards[j];
 
@@ -158,7 +158,7 @@ export default class PlayerManager extends cc.Component {
   static createPlayerDesks() {
     for (let i = 1; i <= PlayerManager.players.length; i++) {
       var newNode: cc.Node = cc.instantiate(PlayerManager.playerDeskPrefab);
-      let deskComp: PlayerDesk = newNode.getComponent("PlayerDesk");
+      let deskComp: PlayerDesk = newNode.getComponent(PlayerDesk);
 
       let playerItems: cc.Node = newNode.getChildByName("PlayerItems");
       let activeItemsLayout: CardLayout = deskComp.activeItemLayout.getComponent(
@@ -210,9 +210,9 @@ export default class PlayerManager extends cc.Component {
         }
         break;
       case "The Lost":
-        ////////cc.log('character the lost')
+
         if (item.name == "HolyMantle") {
-          ////////cc.log('item Holy Mantle')
+
           return item;
         }
         break;
@@ -222,7 +222,7 @@ export default class PlayerManager extends cc.Component {
   }
 
   static assingHands() {
-    let meId: number = PlayerManager.mePlayer.getComponent("Player").playerId;
+    let meId: number = PlayerManager.mePlayer.getComponent(Player).playerId;
     let playerNode: cc.Node;
     let canvas: cc.Node = cc.find("Canvas");
     let playerComp: Player;
@@ -266,7 +266,7 @@ export default class PlayerManager extends cc.Component {
 
           //show hand and then hide on touch
           handNode.on("touchstart", event => {
-            ////////cc.log('show hand ')
+
             handComp.showHandLayout();
             handNode.getComponent(CardLayout).scheduleOnce(() => {
               handComp.hideHandLayout();
@@ -310,7 +310,7 @@ export default class PlayerManager extends cc.Component {
           break;
         case 2:
           playerNode = PlayerManager.getPlayerById(meId + 2);
-          playerComp = playerNode.getComponent("Player");
+          playerComp = playerNode.getComponent(Player);
           //set hand pos
           handWidget.target = canvas;
           handWidget.isAlignLeft = true;
@@ -338,7 +338,7 @@ export default class PlayerManager extends cc.Component {
           break;
         case 3:
           playerNode = PlayerManager.getPlayerById(meId + 3);
-          playerComp = playerNode.getComponent("Player");
+          playerComp = playerNode.getComponent(Player);
           //set hand pos
           handWidget.target = canvas;
           handWidget.isAlignRight = true;
@@ -395,11 +395,13 @@ export default class PlayerManager extends cc.Component {
     }
     for (let i = 0; i < PlayerManager.players.length; i++) {
       const player = PlayerManager.players[i];
-      let playerComp: Player = player.getComponent("Player");
+      let playerComp: Player = player.getComponent(Player);
       if (playerComp.playerId == id) {
         return player;
       }
     }
+    cc.log('no player found')
+    throw 'no player found'
   }
 
   static getPlayerByCardId(cardId: number) {
@@ -417,7 +419,7 @@ export default class PlayerManager extends cc.Component {
     let otherPlayerNodes: Player[] = [];
     for (let i = 0; i < PlayerManager.players.length; i++) {
       if (PlayerManager.players[i] != player) {
-        otherPlayerNodes.push(PlayerManager.players[i].getComponent("Player"));
+        otherPlayerNodes.push(PlayerManager.players[i].getComponent(Player));
       }
     }
     return otherPlayerNodes;

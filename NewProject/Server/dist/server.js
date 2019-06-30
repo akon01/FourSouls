@@ -110,6 +110,7 @@ var Server = /** @class */ (function () {
         whevent.on(signal_2["default"].UPDATEPASSIVESOVER, this.onUpdatePassiveOver, this);
         whevent.on(signal_2["default"].REGISTERONETURNPASSIVEEFFECT, this.onRegisterOneTurnPassive, this);
         whevent.on(signal_2["default"].ENDROLLACTION, this.onEndRollAction, this);
+        whevent.on(signal_2["default"].SETMONEY, this.onSetMoney, this);
     };
     Server.prototype.onRequestMatch = function (_a) {
         var player = _a.player, data = _a.data;
@@ -148,6 +149,10 @@ var Server = /** @class */ (function () {
     Server.prototype.onGetReaction = function (_a) {
         var player = _a.player, data = _a.data;
         player.match.broadcastToNextPlayer(player, signal_2["default"].GETREACTION, data);
+    };
+    Server.prototype.onSetMoney = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].SETMONEY, data);
     };
     Server.prototype.onResolveActions = function (_a) {
         var player = _a.player, data = _a.data;

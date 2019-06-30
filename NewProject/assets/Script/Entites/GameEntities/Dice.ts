@@ -55,7 +55,7 @@ export default class Dice extends cc.Component {
     //   Math.floor(Math.random() * 5) + 4
     // );
     let eventName = "" + this.rollType;
-    //cc.log("rolled " + this.currentRolledNumber);
+
     switch (this.rollType) {
       case ROLL_TYPE.ATTACK:
         if ((this.currentRolledNumber + player.attackRollBonus) <= 6) {
@@ -85,7 +85,7 @@ export default class Dice extends cc.Component {
       default:
         break;
     }
-    //cc.log('after adding to the dice ' + this.currentRolledNumber)
+
     return new Promise<number>((resolve, reject) => {
       resolve(this.currentRolledNumber);
     });
@@ -125,7 +125,7 @@ export default class Dice extends cc.Component {
   }
 
   doRoll() {
-    //cc.log("do roll");
+
     let timesToRoll = Math.floor(Math.random() * 5) + 4;
     let rolledTimes = 0;
     this.schedule(
@@ -186,7 +186,7 @@ export default class Dice extends cc.Component {
     this.node.off(cc.Node.EventType.TOUCH_START);
     this.node.once(cc.Node.EventType.TOUCH_START, async () => {
       let player = this.node.parent.getComponent(Player);
-      //cc.log("player clicked on dice");
+
       player.rollAttackDice(true);
     });
   }

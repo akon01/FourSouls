@@ -18,7 +18,7 @@ export default class TurnsManager extends cc.Component {
   static currentTurn: Turn = null;
 
   static init() {
-    //////cc.log('init turns')
+    
     this.makeTurns();
     TurnsManager.currentTurn = TurnsManager.turns[1];
 

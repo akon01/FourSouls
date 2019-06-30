@@ -16,10 +16,10 @@ export default class Card extends cc.Component {
   cardName: string = "";
 
   @property
-  cardId: number = 0;
+  _cardId: number = 0;
 
   @property
-  isInHand: boolean = false;
+  _isInHand: boolean = false;
 
   @property
   isOnDesk: boolean = false;
@@ -93,7 +93,7 @@ export default class Card extends cc.Component {
     let serverData = {
       signal: Signal.ACTIVATEPASSIVE,
       srvData: {
-        cardId: this.cardId,
+        cardId: this._cardId,
         passiveIndex: passiveIndex,
         cardActivatorId: cardActivatorId
       }
@@ -103,7 +103,7 @@ export default class Card extends cc.Component {
       cardActivatorId
     );
     if (ActionManager.inReactionPhase) {
-      //cc.log("in reaction phase");
+
       action.showAction();
       if (sendToServer) {
         action.serverBrodcast(serverData);
@@ -113,11 +113,11 @@ export default class Card extends cc.Component {
         cardActivatorId,
         passiveIndex
       );
-      //cc.log("pushed " + serverEffect.effectName);
-      //cc.log(ActionManager.serverEffectStack);
+
+      ;
       ActionManager.serverEffectStack.push(serverEffect);
     } else {
-      //cc.log("not in reaction phase");
+
       if (sendToServer) {
         ActionManager.doAction(action, serverData);
       } else {
@@ -142,6 +142,6 @@ export default class Card extends cc.Component {
   update(dt) { }
 
   toString() {
-    return this.cardName + " ID: " + this.cardId;
+    return this.cardName + " ID: " + this._cardId;
   }
 }

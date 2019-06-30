@@ -29,33 +29,33 @@ export default class AngelRoomEffect extends Effect {
     let activatingPlayer = PlayerManager.getPlayerById(
       data.cardPlayerId
     ).getComponent(Player);
-    let trasureTopCard = CardManager.treasureDeck.getComponent(Deck).drawnCard;
+    let trasureTopCard = CardManager.treasureDeck.getComponent(Deck).topBlankCard;
     let lootDeck = CardManager.lootDeck;
 
     switch (data.numberRolled) {
-      // case 1:
-      //   for (let i = 0; i < 2; i++) {
-      //     cc.log('add item ' + (i + 1))
-      //     let over = await activatingPlayer.addItem(trasureTopCard, true, true);
-      //     cc.log('add item ' + (i + 1) + ' finished')
-      //   }
-      //   break;
-      // case 2:
-      // case 3:
-      //   activatingPlayer.addItem(trasureTopCard, true, true);
-      //   break;
-      // case 4:
-      // case 5:
-      // case 6:
-      //   let over = await activatingPlayer.drawCard(lootDeck, true);
-      //   over = await activatingPlayer.drawCard(lootDeck, true);
-      //   break;
-      default:
+      case 1:
         for (let i = 0; i < 2; i++) {
-          cc.log('add item ' + (i + 1))
+
           let over = await activatingPlayer.addItem(trasureTopCard, true, true);
-          cc.log('add item ' + (i + 1) + ' finished')
+
         }
+        break;
+      case 2:
+      case 3:
+        activatingPlayer.addItem(trasureTopCard, true, true);
+        break;
+      case 4:
+      case 5:
+      case 6:
+        let over = await activatingPlayer.drawCard(lootDeck, true);
+        over = await activatingPlayer.drawCard(lootDeck, true);
+        break;
+      default:
+        // for (let i = 0; i < 2; i++) {
+
+        //   let over = await activatingPlayer.addItem(trasureTopCard, true, true);
+
+        // }
         break;
     }
 

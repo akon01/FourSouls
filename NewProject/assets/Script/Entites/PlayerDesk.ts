@@ -1,7 +1,7 @@
 import { CardLayout } from "./CardLayout";
 
 import { ITEM_TYPE } from "../Constants";
-import { addCardToCardLayout, removeFromHand } from "../Modules/HandModule";
+import { addCardToCardLayout } from "../Modules/HandModule";
 import Item from "./CardTypes/Item";
 import Card from "./GameEntities/Card";
 
@@ -29,7 +29,7 @@ export default class PlayerDesk extends cc.Component {
 
   addToDesk(card: Card) {
 
-    let deskComp: PlayerDesk = this.node.getComponent("PlayerDesk");
+    let deskComp: PlayerDesk = this.node.getComponent(PlayerDesk);
     card.isOnDesk = true;
     let itemComp = card.getComponent(Item);
     switch (itemComp.type) {
@@ -53,21 +53,23 @@ export default class PlayerDesk extends cc.Component {
   }
 
   removeFromDesk(card: Card) {
-    let deskComp: PlayerDesk = this.node.getComponent("PlayerDesk");
+    let deskComp: PlayerDesk = this.node.getComponent(PlayerDesk);
     card.isOnDesk = false;
     let itemComp = card.getComponent(Item);
     switch (itemComp.type) {
       case ITEM_TYPE.ACTIVE:
-        removeFromHand(
-          card.node,
-          deskComp.activeItemLayout.getComponent(CardLayout)
-        );
+        deskComp.activeItemLayout.getComponent(CardLayout).removeCardFromLayout(card.node)
+        // removeFromHand(
+        //   card.node,
+        //   deskComp.activeItemLayout.getComponent(CardLayout)
+        // );
         break;
       case ITEM_TYPE.PASSIVE:
-        removeFromHand(
-          card.node,
-          deskComp.passiveItemLayout.getComponent(CardLayout)
-        );
+        deskComp.passiveItemLayout.getComponent(CardLayout).removeCardFromLayout(card.node)
+        // removeFromHand(
+        //   card.node,
+        //   deskComp.passiveItemLayout.getComponent(CardLayout)
+        // );
         break;
       default:
         break;

@@ -49,11 +49,11 @@ export default class MonsterField extends cc.Component {
       monsterCardComp.flipCard();
     }
     let monsterHolder = MonsterField.getMonsterPlaceById(monsterPlaceId);
-    let monsterId = monsterCardComp.cardId;
+    let monsterId = monsterCardComp._cardId;
     monsterCard.getComponent(Monster).currentHp = monsterCard.getComponent(
       Monster
     ).HP;
-    //cc.log('addMonsterToExsistingPlace ')
+
     monsterHolder.addToMonsters(monsterCard, sendToServer);
     CardManager.allCards.push(monsterCard);
     CardManager.onTableCards.push(monsterCard);
@@ -72,7 +72,7 @@ export default class MonsterField extends cc.Component {
       const monsterPlace = this.monsterCardHolders[i];
       const testedActiveMonsterId = monsterPlace.activeMonster.getComponent(
         Card
-      ).cardId;
+      )._cardId;
       if (activeMonsterId == testedActiveMonsterId) {
         return monsterPlace;
       }
@@ -137,7 +137,7 @@ export default class MonsterField extends cc.Component {
         MonsterField.activeMonsters.push(monsterPlace.activeMonster);
         let monsterEffect = monsterPlace.activeMonster.getComponent(CardEffect)
         if (monsterEffect != null && monsterEffect.passiveEffects.length > 0 && !PassiveManager.isCardRegistered(monsterPlace.activeMonster)) {
-          //cc.log('register monster with passive ' + monsterPlace.activeMonster.name)
+
           if (TurnsManager.isCurrentPlayer(PlayerManager.mePlayer)) {
             PassiveManager.registerPassiveItem(monsterPlace.activeMonster, true)
           }

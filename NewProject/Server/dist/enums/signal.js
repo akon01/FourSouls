@@ -16,6 +16,7 @@ exports["default"] = {
     //Player signals
     ENDROLLACTION: "$ENDROLLACTION",
     CHANGEMONEY: '$CHANGEMONEY',
+    SETMONEY: "$SETMONEY",
     //
     UPDATEACTIONS: "$UPDATEACTIONS",
     FINISHLOAD: "$FINISHLOAD",

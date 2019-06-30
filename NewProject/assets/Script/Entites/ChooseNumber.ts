@@ -39,7 +39,7 @@ export default class ChooseNumber extends cc.Component {
 
   testForOk(): Promise<number> {
     return new Promise((resolve, reject) => {
-      //cc.log("please choose a number");
+
       let check = () => {
         if (this.isOk) {
           this.isOk = false;
@@ -59,9 +59,9 @@ export default class ChooseNumber extends cc.Component {
   }
   // LIFE-CYCLE CALLBACKS:
 
-  onLoad() {}
+  onLoad() { }
 
-  start() {}
+  start() { }
 
   update(dt) {
     this.numberLable.string = this.currentNumber.toString();

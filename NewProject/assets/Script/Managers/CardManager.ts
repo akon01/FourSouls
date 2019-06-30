@@ -112,9 +112,9 @@ export default class CardManager extends cc.Component {
     CardManager.monsterCardPool = new cc.NodePool();
     CardManager.treasureCardPool = new cc.NodePool();
 
-    var lootDeckComp: Deck = CardManager.lootDeck.getComponent("Deck");
-    var treasureDeckComp: Deck = CardManager.treasureDeck.getComponent("Deck");
-    var monsterDeckComp: Deck = CardManager.monsterDeck.getComponent("Deck");
+    var lootDeckComp: Deck = CardManager.lootDeck.getComponent(Deck);
+    var treasureDeckComp: Deck = CardManager.treasureDeck.getComponent(Deck);
+    var monsterDeckComp: Deck = CardManager.monsterDeck.getComponent(Deck);
 
     let decks: Deck[] = [lootDeckComp, treasureDeckComp, monsterDeckComp];
 
@@ -279,21 +279,21 @@ export default class CardManager extends cc.Component {
    * @param cardId a card id to get from all cards
    */
   static getCardById(cardId: number, includeInDecksCards?: boolean): cc.Node {
-
+    cc.log(cardId)
     for (let i = 0; i < CardManager.allCards.length; i++) {
-      const card: Card = CardManager.allCards[i].getComponent("Card");
-      if (card.cardId == cardId) {
+      const card: Card = CardManager.allCards[i].getComponent(Card);
+      if (card._cardId == cardId) {
         return card.node;
       }
     }
     const decks = CardManager.getAllDecks();
     for (let i = 0; i < decks.length; i++) {
       const deck = decks[i].getComponent(Deck);
-      if (deck.cardId == cardId) {
+      if (deck._cardId == cardId) {
         return deck.node;
       } else {
-        if (deck.drawnCard.getComponent(Card).cardId == cardId) {
-          return deck.drawnCard;
+        if (deck.topBlankCard.getComponent(Card)._cardId == cardId) {
+          return deck.topBlankCard;
         }
       }
     }
@@ -303,12 +303,33 @@ export default class CardManager extends cc.Component {
         return dice.node;
       }
     }
+    for (let i = 0; i < PlayerManager.players.map(player => player.getComponent(Player)).length; i++) {
+      const player = PlayerManager.players.map(player => player.getComponent(Player))[i];
+      for (let j = 0; j < player.deskCards.length; j++) {
+        const card = player.deskCards[j].getComponent(Card);
+        if (card._cardId == cardId) {
+          return card.node;
+        }
+      }
+      for (let j = 0; j < player.handCards.length; j++) {
+        const card = player.handCards[j].getComponent(Card);
+        if (card._cardId == cardId) {
+          return card.node;
+        }
+      }
+      for (let j = 0; j < player.activeItems.length; j++) {
+        const card = player.activeItems[j].getComponent(Card);
+        if (card._cardId == cardId) {
+          return card.node;
+        }
+      }
+    }
 
     if (includeInDecksCards) {
       for (let i = 0; i < this.inDecksCards.length; i++) {
         const inDeckCard = this.inDecksCards[i].getComponent(Card);
 
-        if (inDeckCard.cardId == cardId) {
+        if (inDeckCard._cardId == cardId) {
           return inDeckCard.node;
         }
       }
@@ -322,7 +343,7 @@ export default class CardManager extends cc.Component {
     for (let i = 0; i < cardsToBeMade.length; i++) {
       const newCard: cc.Node = cc.instantiate(cardsToBeMade[i]);
       newCard.parent = cc.director.getScene();
-      let cardComp: Card = newCard.getComponent("Card");
+      let cardComp: Card = newCard.getComponent(Card);
       switch (deck.deckType) {
         case CARD_TYPE.LOOT:
           cardComp.backSprite = CardManager.lootCardBack;
@@ -339,8 +360,8 @@ export default class CardManager extends cc.Component {
         default:
           break;
       }
-      deck.cardId = ++CardManager.cardsId;
-      cardComp.cardId = ++CardManager.cardsId;
+      deck._cardId = ++CardManager.cardsId;
+      cardComp._cardId = ++CardManager.cardsId;
       cardComp.frontSprite = newCard.getComponent(cc.Sprite).spriteFrame;
       this.inDecksCards.push(newCard);
       cardComp.flipCard();
@@ -358,8 +379,8 @@ export default class CardManager extends cc.Component {
       characterItemNode = cc.instantiate(
         characterNode.getComponent(Character).charItemPrefab
       );
-      characterNode.getComponent(Card).cardId = ++CardManager.cardsId;
-      characterItemNode.getComponent(Card).cardId = ++CardManager.cardsId;
+      characterNode.getComponent(Card)._cardId = ++CardManager.cardsId;
+      characterItemNode.getComponent(Card)._cardId = ++CardManager.cardsId;
       let fullCharCards: { char: cc.Node; item: cc.Node } = {
         char: characterNode,
         item: characterItemNode
@@ -517,7 +538,7 @@ export default class CardManager extends cc.Component {
     cardEffectIndex?: number
   ): Promise<ServerEffect> {
     let serverCardEffect;
-    cc.log('get Card effect')
+
     if (cardEffectIndex != null) {
       serverCardEffect = await this.activateCard(
         card,
@@ -528,7 +549,7 @@ export default class CardManager extends cc.Component {
       serverCardEffect = await this.activateCard(card, playerId);
     }
     //currently send card after card effect send only serverCardEffect object
-    //cc.log("activated " + card.name);
+
     return new Promise((resolve, reject) => {
       resolve(serverCardEffect);
     });
@@ -542,7 +563,7 @@ export default class CardManager extends cc.Component {
     let cardId;
 
     if (card.getComponent(Card) != null) {
-      cardId = card.getComponent(Card).cardId;
+      cardId = card.getComponent(Card)._cardId;
     } else {
       cardId = card.getComponent(Dice).diceId;
     }
@@ -675,7 +696,7 @@ export default class CardManager extends cc.Component {
   static setOriginalSprites(cards: cc.Node[]) {
     for (let i = 0; i < cards.length; i++) {
       const cardNode = cards[i];
-      let cardComp: Card = cardNode.getComponent("Card");
+      let cardComp: Card = cardNode.getComponent(Card);
       let cardSprite: cc.Sprite = cardNode.getComponent(cc.Sprite);
       cardSprite.spriteFrame = cardComp.frontSprite;
     }

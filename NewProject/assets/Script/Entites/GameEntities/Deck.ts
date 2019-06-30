@@ -14,46 +14,35 @@ export default class Deck extends cc.Component {
   deckType: CARD_TYPE = CARD_TYPE.LOOT;
 
   @property(cc.Node)
-  drawnCard: cc.Node = null;
-
-  @property(cc.Prefab)
-  blankTopPrefab: cc.Prefab = null;
+  topBlankCard: cc.Node = null;
 
   @property([cc.Node])
-  cards: cc.Node[] = [];
+  _cards: cc.Node[] = [];
 
   @property([cc.Prefab])
   cardsPrefab: cc.Prefab[] = [];
 
-  @property(cc.Boolean)
-  interactive: boolean = false;
+  @property
+  _cardId: number = 0;
 
   @property
-  drawingCard: boolean = false;
+  _isRequired: boolean = false;
 
   @property
-  cardId: number = 0;
+  _requiredFor: DataCollector = null;
 
-  @property
-  isRequired: boolean = false;
-
-  @property
-  requiredFor: DataCollector = null;
-
-  @property(cc.Node)
-  topCard: cc.Node = null;
 
   addToDeckOnTop(card: cc.Node) {
     CardManager.monsterCardPool.put(card);
-    this.cards.push(card);
+    this._cards.push(card);
     CardManager.inDecksCards.push(card);
   }
 
   //@printMethodStarted(COLORS.LIGHTBLUE)
   drawCard(sendToServer: boolean): cc.Node {
-    cc.log(this.cards.map(card => card.name))
-    if (this.cards.length != 0) {
-      let newCard = this.cards.pop();
+
+    if (this._cards.length != 0) {
+      let newCard = this._cards.pop();
 
       CardManager.removeFromInAllDecksCards(newCard);
       if (sendToServer) {
@@ -67,18 +56,18 @@ export default class Deck extends cc.Component {
   }
 
   addToDeckOnBottom(card: cc.Node) {
-    this.cards.unshift(card);
+    this._cards.unshift(card);
     CardManager.inDecksCards.push(card);
   }
 
   shuffleDeck() {
     let newDeckArrangment: cc.Node[];
-    for (let i = 0; i < this.cards.length; i++) {
+    for (let i = 0; i < this._cards.length; i++) {
       newDeckArrangment.push(
-        this.cards[Math.floor(Math.random() * this.cards.length)]
+        this._cards[Math.floor(Math.random() * this._cards.length)]
       );
     }
-    this.cards = newDeckArrangment;
+    this._cards = newDeckArrangment;
   }
 
   createNewTopBlank() { }
@@ -86,19 +75,17 @@ export default class Deck extends cc.Component {
   // LIFE-CYCLE CALLBACKS:
 
   onLoad() {
-    if (this.deckType != CARD_TYPE.LOOT) {
-      this.interactive = false;
-    }
+
     this.node.width = CARD_WIDTH;
     this.node.height = CARD_HEIGHT;
 
-    let sprite = this.drawnCard.getComponent(cc.Sprite);
+    let sprite = this.topBlankCard.getComponent(cc.Sprite);
     sprite.enabled = false;
 
     // this.drawnCard.on('touchstart', (event) => {
-    //     ////cc.log(this.interactive)
+    //     
     //     if (this.interactive && this.cards.length != 0) {
-    //      //   ////cc.log(this.drawnCard.parent)
+    //      //   
     //         this.drawingCard = true;
     //         //  this.drawnCard = this.drawCard();
 

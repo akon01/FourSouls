@@ -43,7 +43,7 @@ export default class ChooseCard extends DataCollector {
     cardChosenId: number;
     playerId: number;
   }> {
-    cc.log('test')
+
     let player = PlayerManager.getPlayerById(data.cardPlayerId).getComponent(
       Player
     );
@@ -126,9 +126,15 @@ export default class ChooseCard extends DataCollector {
           card => !card.getComponent(Item).eternal
         );
         return nonEternals;
-
-        return nonEternals;
-
+      case CHOOSE_TYPE.ALLPLAYERITEMS:
+        let allPlayerItems: cc.Node[] = [];
+        let players = PlayerManager.players.map(player => player.getComponent(Player))
+        for (const player of players) {
+          //    let activeItems = player.activeItems.map(activeItem => { if (activeItem.getComponent(Item).activated) return activeItem })
+          //  
+          allPlayerItems = allPlayerItems.concat(player.activeItems)
+        }
+        return allPlayerItems;
       default:
         break;
     }
@@ -140,7 +146,6 @@ export default class ChooseCard extends DataCollector {
     ActionManager.inReactionPhase = true;
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];
-      //cc.log(card.name);
 
       CardManager.disableCardActions(card);
       CardManager.makeRequiredForDataCollector(this, card);
@@ -153,9 +158,9 @@ export default class ChooseCard extends DataCollector {
     }
     let cardId;
     if (cardPlayed.getComponent(Deck) == null) {
-      cardId = cardPlayed.getComponent(Card).cardId;
+      cardId = cardPlayed.getComponent(Card)._cardId;
     } else {
-      cardId = cardPlayed.getComponent(Deck).cardId;
+      cardId = cardPlayed.getComponent(Deck)._cardId;
     }
     ActionManager.inReactionPhase = false;
     return new Promise((resolve, reject) => {

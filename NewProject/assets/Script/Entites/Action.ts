@@ -17,7 +17,7 @@ import CardManager from "../Managers/CardManager";
 import PileManager from "../Managers/PileManager";
 import PlayerManager from "../Managers/PlayerManager";
 import TurnsManager from "../Managers/TurnsManager";
-import { addCardToCardLayout, removeFromHand } from "../Modules/HandModule";
+import { addCardToCardLayout } from "../Modules/HandModule";
 import { TIMETOPLAYLOOT, TIMETOROTATEACTIVATION } from "./../Constants";
 import Character from "./CardTypes/Character";
 import CharacterItem from "./CardTypes/CharacterItem";
@@ -70,7 +70,7 @@ export class DrawCardAction implements Action {
       Player
     );
     if (TurnsManager.currentTurn.PlayerId == this.originPlayerId) {
-      cc.log('am player turn reduce 1 in draw plays')
+
       TurnsManager.currentTurn.drawPlays -= 1;
     }
     TurnsManager.currentTurn.drawPlays -= 1;
@@ -115,7 +115,7 @@ export class EndTurnAction implements Action {
   }
 
   showAction() {
-    //cc.log("end turn action");
+
     TurnsManager.nextTurn();
   }
 
@@ -141,11 +141,11 @@ export class MoveLootToPile implements Action {
     let player = PlayerManager.getPlayerById(this.originPlayerId).getComponent(Player);
     // let moveAction = cc.moveTo(TIMETOPLAYLOOT, PileManager.lootCardPileNode.position);
     let timeOutToPlay = cc.callFunc(async () => {
-      removeFromHand(this.data.lootCard, player.hand);
+      player.hand.removeCardFromLayout(movedCardComp.node)
       await PileManager.addCardToPile(CARD_TYPE.LOOT, this.data.lootCard, false);
       TurnsManager.currentTurn.lootCardPlays -= 1;
       let playerId = player.playerId;
-      let cardId = movedCardComp.cardId;
+      let cardId = movedCardComp._cardId;
       let data = { playerId, cardId };
       this.isOver = true;
 
@@ -156,7 +156,7 @@ export class MoveLootToPile implements Action {
       timeOutToPlay
     );
     await this.waitForAction();
-    cc.log("after is over")
+
     return new Promise((resolve, reject) => {
       resolve(true);
     });
@@ -169,7 +169,7 @@ export class MoveLootToPile implements Action {
     return new Promise((resolve, reject) => {
       let check = () => {
         if (this.isOver) {
-          cc.log('is over')
+
           resolve(true);
         } else {
           setTimeout(check, 50);
@@ -202,10 +202,10 @@ export class AddItemAction implements Action {
 
 
   async showAction() {
-    let movedCardComp: Card = this.data.movedCard.getComponent("Card");
+    let movedCardComp: Card = this.data.movedCard.getComponent(Card);
     let canvas = cc.find("Canvas");
     // if (TurnsManager.currentTurn.PlayerId == this.originPlayerId) {
-    //   cc.log('am player turn reduce 1 in buy plays')
+
     //   TurnsManager.currentTurn.buyPlays -= 1;
     // }
     // TurnsManager.currentTurn.buyPlays -= 1;
@@ -262,7 +262,7 @@ export class DeclareAttackAction implements Action {
       this.data.cardHolderId
     );
     if (TurnsManager.currentTurn.PlayerId == this.originPlayerId) {
-      cc.log('am player turn reduce 1 in attack plays')
+
       TurnsManager.currentTurn.attackPlays -= 1;
     }
     TurnsManager.currentTurn.attackPlays -= 1;
@@ -309,7 +309,7 @@ export class AttackMonster implements Action {
 
   showAction(data?: {}) {
     TurnsManager.currentTurn.attackPlays -= 1;
-    //cc.log("attack monster action");
+
   }
   serverBrodcast(serverData?: any) {
     // let signal = serverData.signal;
@@ -386,7 +386,7 @@ export class ActivatePassiveAction implements Action {
     let card = this.data.activatedCard;
     this.playedCard = card;
     card.stopAllActions();
-    //cc.log("activate passive effect");
+
     this.passiveIndex;
     return new Promise((resolve, reject) => {
       resolve(true);

@@ -61,7 +61,7 @@ export default class GainStats extends Effect {
     //case target is a player
     if (target != null) {
       let player: Player = target.getComponent(Player);
-      //cc.log('target is ' + player.name)
+
       if (this.gainHp) {
         player.Hp += this.hpToGain;
       }
@@ -80,21 +80,21 @@ export default class GainStats extends Effect {
     } else {
       target = CardManager.getCardById(data.target, true)
       let monster: Monster = target.getComponent(Monster)
-      //cc.log('target is ' + monster.name)
+
       if (this.gainHp) {
-        //cc.log(monster.currentHp)
+
         monster.currentHp += this.hpToGain;
-        //cc.log(monster.currentHp)
+
       }
       if (this.gainDMG) {
-        //cc.log(monster.baseDamage)
+
         monster.baseDamage += this.DMGToGain;
-        //cc.log(monster.baseDamage)
+
       }
       if (this.gainRollBonus) {
-        //cc.log(monster.rollBonus)
+
         monster.rollBonus += this.rollBonusToGain;
-        //cc.log(monster.rollBonus)
+
       }
       this.activatedTarget = target
     }
@@ -111,7 +111,7 @@ export default class GainStats extends Effect {
     //case target is a player
     if (target instanceof Player) {
       let player: Player = target.getComponent(Player);
-      //cc.log('target is ' + player.name)
+
       if (this.gainHp) {
         player.Hp -= this.hpToGain;
       }
@@ -130,21 +130,21 @@ export default class GainStats extends Effect {
     } else {
       //target is a monster
       let monster: Monster = target.getComponent(Monster)
-      //cc.log('target is ' + monster.name)
+
       if (this.gainHp) {
-        //cc.log(monster.currentHp)
+
         monster.currentHp -= this.hpToGain;
-        //cc.log(monster.currentHp)
+
       }
       if (this.gainDMG) {
-        //cc.log(monster.baseDamage)
+
         monster.baseDamage -= this.DMGToGain;
-        //cc.log(monster.baseDamage)
+
       }
       if (this.gainRollBonus) {
-        //cc.log(monster.rollBonus)
+
         monster.rollBonus -= this.rollBonusToGain;
-        //cc.log(monster.rollBonus)
+
       }
       this.activatedTarget = target
     }

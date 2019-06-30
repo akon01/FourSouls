@@ -13,6 +13,7 @@ export default {
   //Deck siganls
   ADDSTORECARD: '$ADDSTORECARD',
   DRAWCARD: '$DRAWCARD',
+  SETMONEY: "$SETMONEY",
   //
 
   //Player signals

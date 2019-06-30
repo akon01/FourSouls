@@ -29,7 +29,7 @@ export default class ButtonManager extends cc.Component {
   static addNewAddToHandButton(playerNode: cc.Node) {
     let buttonNode = this.addToHandButtonPool.get();
     playerNode.addChild(buttonNode);
-    let playerComp: Player = playerNode.getComponent("Player");
+    let playerComp: Player = playerNode.getComponent(Player);
     switch (playerComp.playerId) {
       case 1:
         buttonNode.setPosition(
@@ -52,14 +52,14 @@ export default class ButtonManager extends cc.Component {
       let buttonNode = playersComp.node.getChildByName("addToHandButton");
       if (buttonNode != null) {
         this.addToHandButtonPool.put(buttonNode);
-        //////cc.log('removed a button')
+
       }
     }
   }
 
-  onLoad() {}
+  onLoad() { }
 
-  start() {}
+  start() { }
 
   // update (dt) {}
 }

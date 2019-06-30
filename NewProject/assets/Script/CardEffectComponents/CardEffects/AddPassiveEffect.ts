@@ -24,16 +24,16 @@ export default class AddPassiveEffect extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(serverEffectStack: ServerEffect[], data?: { target: number }) {
-    cc.log(data.target)
-    let thisCard = CardManager.getCardById(data.target, true);
-    cc.log(thisCard.name)
-    let player = PlayerManager.getPlayerByCard(thisCard)
-    cc.log('b4 collect data')
-    let conditionData = await this.passiveEffectToAdd.condition.dataCollector.collectData({ cardPlayerId: player.playerId });
-    cc.log('after collect data')
+  async doEffect(serverEffectStack: ServerEffect[], data?) {
+
+    // let thisCard = CardManager.getCardById(data.target, true);
+    // 
+    // let player = PlayerManager.getPlayerByCard(this.node.parent)
+
+    // let conditionData = await this.passiveEffectToAdd.condition.dataCollector.collectData({ cardPlayerId: player.playerId });
+
     // let playerName = PlayerManager.getPlayerByCardId(conditionData.cardChosenId).name
-    this.passiveEffectToAdd.condition.conditionData = conditionData;
+    this.passiveEffectToAdd.condition.conditionData = data;
     PassiveManager.registerOneTurnPassiveEffect(this.passiveEffectToAdd, true)
     // let cardPlayer = PlayerManager.getPlayerByCard(targetItem);
     //cardPlayer.rechargeItem(targetItem);

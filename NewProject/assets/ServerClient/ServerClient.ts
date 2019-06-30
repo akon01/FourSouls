@@ -65,6 +65,7 @@ export default class Server extends cc.Component {
     whevent.on(Signal.UPDATEPASSIVESOVER, this.onPlayerActionFromServer, this);
     whevent.on(Signal.REGISTERPASSIVEITEM, this.onPlayerActionFromServer, this);
     whevent.on(Signal.REGISTERONETURNPASSIVEEFFECT, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.SETMONEY, this.onPlayerActionFromServer, this);
   }
 
 

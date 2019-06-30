@@ -59,24 +59,24 @@ export default class ActionManager extends cc.Component {
   }
 
   static updateActionsForTurnPlayer(player: cc.Node) {
-    cc.log('update actions for turn player')
+
     this.decks = CardManager.getAllDecks();
     let lootDeck = CardManager.lootDeck.getComponent(Deck);
-    lootDeck.interactive = true;
+
     let treasureDeck = CardManager.treasureDeck.getComponent(Deck);
-    treasureDeck.interactive = true;
+
     let monsterDeck = CardManager.monsterDeck.getComponent(Deck);
-    let monsterTopCard = monsterDeck.drawnCard;
+    let monsterTopCard = monsterDeck.topBlankCard;
     //set up components
     var currentPlayerComp: Player = player.getComponent(Player);
     var currentPlayerHand: cc.Node = player.getChildByName("Hand");
     var currentPlayerHandComp: CardLayout = currentPlayerHand.getComponent(
       CardLayout
     );
-    cc.log(ActionManager.inReactionPhase)
-    cc.log(currentPlayerComp.Hp)
+
+
     if (!ActionManager.inReactionPhase && currentPlayerComp.Hp > 0) {
-      cc.log('update actions in normal state')
+
       //make next turn btn available
       ButtonManager.nextTurnButton.getComponent(cc.Button).interactable = true;
 
@@ -112,8 +112,8 @@ export default class ActionManager extends cc.Component {
             CardManager.makeItemBuyable(storeCard, currentPlayerComp);
           }
 
-          if (treasureDeck.drawnCard != null) {
-            let treasureDeckTopCard = treasureDeck.drawnCard;
+          if (treasureDeck.topBlankCard != null) {
+            let treasureDeckTopCard = treasureDeck.topBlankCard;
             CardManager.makeItemBuyable(treasureDeckTopCard, currentPlayerComp);
           }
         } else {
@@ -122,8 +122,8 @@ export default class ActionManager extends cc.Component {
             CardManager.disableCardActions(storeCard);
             CardManager.makeCardPreviewable(storeCard);
           }
-          if (treasureDeck.drawnCard != null) {
-            let treasureDeckTopCard = treasureDeck.drawnCard;
+          if (treasureDeck.topBlankCard != null) {
+            let treasureDeckTopCard = treasureDeck.topBlankCard;
             CardManager.disableCardActions(treasureDeckTopCard);
             //  CardManager.makeCardPreviewable(treasureDeckTopCard);
           }
@@ -176,9 +176,9 @@ export default class ActionManager extends cc.Component {
 
         //if in battle phase do battle
       } else {
-        cc.log('in battle update actions')
+
         //if the monster is not dead
-        // //cc.log("In battle");
+        // 
         //enable activating items
         ButtonManager.nextTurnButton.getComponent(cc.Button).interactable = false;
         if (BattleManager.currentlyAttackedMonster.currentHp > 0) {
@@ -220,8 +220,8 @@ export default class ActionManager extends cc.Component {
         }
       }
     } else {
-      cc.log('hp : ' + currentPlayerComp.Hp)
-      cc.log(ActionManager.inReactionPhase)
+
+
       ActionManager.inReactionPhase
       ButtonManager.nextTurnButton.getComponent(cc.Button).interactable = false;
     }
@@ -234,7 +234,7 @@ export default class ActionManager extends cc.Component {
   static updateActionsForNotTurnPlayer(player: cc.Node) {
     this.decks = CardManager.getAllDecks();
     let lootDeck = CardManager.lootDeck.getComponent(Deck);
-    lootDeck.interactive = false;
+
     //update player reactions:
     player.getComponent(Player).calculateReactions();
     //disable drawing loot
@@ -246,7 +246,7 @@ export default class ActionManager extends cc.Component {
       CardManager.makeCardPreviewable(storeCard);
     }
     if (!ActionManager.inReactionPhase) {
-      cc.log('not in reaction phase')
+
       //make all table cards not moveable but available for preview
       if (CardManager.onTableCards.length != 0) {
         for (let i = 0; i < CardManager.onTableCards.length; i++) {
@@ -306,30 +306,30 @@ export default class ActionManager extends cc.Component {
   }
 
   static async updateActions() {
-    cc.log('update actions')
+
     if (this.isUpdateActionsRunning) {
-      //cc.log('isUpdateActionsRunning true')
+
       let over = await this.waitForUpdateActions()
     }
     this.isUpdateActionsRunning = true
     await CardManager.checkForEmptyFields();
-    //cc.log('checkForEmptyFields true')
+
     await CardManager.updatePlayerCards();
-    //cc.log('updatePlayerCards true')
+
     await CardManager.updateOnTableCards();
-    //cc.log('updateOnTableCards true')
-    //cc.log('updatePassiveListeners true')
+
+
     if (MainScript.currentPlayerNode == PlayerManager.mePlayer) {
       await CardManager.updatePassiveListeners();
       await this.updateActionsForTurnPlayer(MainScript.currentPlayerNode);
-      //cc.log('updateActionsForTurnPlayer true')
+
     } else {
       await this.updateActionsForNotTurnPlayer(PlayerManager.mePlayer);
-      //cc.log('updateActionsForNotTurnPlayer true')
+
     }
 
     this.isUpdateActionsRunning = false
-    //cc.log('finished update actions')
+
   }
 
   updateAfterTurnChange() {
@@ -366,7 +366,7 @@ export default class ActionManager extends cc.Component {
     if (this.inReactionPhase && !(action instanceof RollDiceAction)) {
       let bool = await this.waitForReqctionsOver();
     }
-    //cc.log("Reaction Chain " + ++this.reactionChainNum + " Beginning");
+
     let chainNum = ++this.reactionChainNum
     this.reactionChainsActive.push(chainNum);
     this.inReactionPhase = true;
@@ -379,32 +379,54 @@ export default class ActionManager extends cc.Component {
     //send to server to get reaction
     //if the action has a card effect that needs to be resolved
     if (action.hasCardEffect) {
-      cc.log('card has effect, put flag on an save the action, send empty reaction!')
-      this.actionHasCardEffect = true;
-      if (action instanceof ActivatePassiveAction) {
-        //if the action is a passive action
-        this.actionIsPassiveActivate = true;
-        this.cardEffectToDo = {
-          playedCard: action.playedCard,
-          playerId: action.originPlayerId,
-          passiveIndex: action.passiveIndex
-        }
-      } else {
-        //if its not a passive
-        this.cardEffectToDo = {
-          playedCard: action.playedCard,
-          playerId: action.originPlayerId,
-        }
-      }
 
-    }
-    if (action instanceof RollDiceAction) {
-      let rollServerEffect = new ServerEffect('roll', bool, action.originPlayerId, 0, ITEM_TYPE.ACTIVE)
-      ActionManager.sendFirstGetReactionToServer(rollServerEffect);
-      let serverEffectStack: ServerEffect[] = await ActionManager.waitForRollActionEnd();
-      cc.log('after wait for roll action ended')
+      // this.actionHasCardEffect = true;
+      // if (action instanceof ActivatePassiveAction) {
+      //   //if the action is a passive action
+      //   this.actionIsPassiveActivate = true;
+      //   this.cardEffectToDo = {
+      //     playedCard: action.playedCard,
+      //     playerId: action.originPlayerId,
+      //     passiveIndex: action.passiveIndex
+      //   }
+      // } else {
+      //   //if its not a passive
+      //   this.cardEffectToDo = {
+      //     playedCard: action.playedCard,
+      //     playerId: action.originPlayerId,
+      //   }
+      // }
+      ActionManager.sendFirstGetReactionToServer();
+      ActionManager.noMoreActionsBool = false;
+      //  this.updateActions();
+      //wait for reaction to return a promise of a stack of actions.
+
+
+      let serverEffectStack: ServerEffect[] = await ActionManager.waitForAllEffects();
+
+
       //  this.serverEffectStack = this.serverEffectStack.concat(serverEffectStack);
       this.serverEffectStack = serverEffectStack;
+      let actionCardServerEffect
+      if (action instanceof ActivatePassiveAction) {
+        actionCardServerEffect = await CardManager.getCardEffect(
+          action.playedCard,
+          action.originPlayerId,
+          action.passiveIndex
+        );
+      } else {
+        actionCardServerEffect = await CardManager.getCardEffect(
+          action.playedCard,
+          action.originPlayerId
+        );
+      }
+      this.serverEffectStack.push(actionCardServerEffect);
+      this.sendFirstGetReactionToServer(this.serverEffectStack)
+      serverEffectStack = await ActionManager.waitForAllEffects();
+      this.serverEffectStack = serverEffectStack;
+      let data2 = { originalPlayer: action.originPlayerId, serverCardEffects: this.serverEffectStack }
+      Server.$.send(Signal.RESOLVEACTIONS, data2);
+      cc.log('do server effects from do action with card effect')
       let serverEffectsOver = await ActionManager.doServerEffects();
       if (this.isReactionChainActive(chainNum)) {
 
@@ -412,19 +434,39 @@ export default class ActionManager extends cc.Component {
           this.reactionChainsActive.indexOf(this.reactionChainNum)
         );
       }
+      return new Promise((resolve, reject) => {
+        resolve(chainNum);
+      });
+    }
+    // if (action instanceof RollDiceAction) {
+    //   throw 'should not exist roll dice action!'
+    //   let rollServerEffect = new ServerEffect('roll', bool, action.originPlayerId, 0, ITEM_TYPE.ACTIVE)
+    //   ActionManager.sendFirstGetReactionToServer(rollServerEffect);
+    //   let serverEffectStack: ServerEffect[] = await ActionManager.waitForRollActionEnd();
 
-      return new Promise((resolve, reject) => { resolve(serverEffectsOver) })
-    } else {
+    //   //  this.serverEffectStack = this.serverEffectStack.concat(serverEffectStack);
+    //   this.serverEffectStack = serverEffectStack;
+    //   let serverEffectsOver = await ActionManager.doServerEffects();
+    //   if (this.isReactionChainActive(chainNum)) {
+
+    //     this.reactionChainsActive.splice(
+    //       this.reactionChainsActive.indexOf(this.reactionChainNum)
+    //     );
+    //   }
+
+    //   return new Promise((resolve, reject) => { resolve(serverEffectsOver) })
+    else {
 
       ActionManager.sendFirstGetReactionToServer();
 
 
       this.updateActions();
-      //wait for reaction to return a promise of a stack of actions.
+      //wait for reaction to return a promise of a stack of actions. 
       let serverEffectStack: ServerEffect[] = await ActionManager.waitForAllEffects();
-      cc.log('after wait for all effects ended')
+
       //  this.serverEffectStack = this.serverEffectStack.concat(serverEffectStack);
       this.serverEffectStack = serverEffectStack;
+      cc.log('do server effects from do action with-out card effect')
       let serverEffectsOver = await ActionManager.doServerEffects();
       if (this.isReactionChainActive(chainNum)) {
 
@@ -456,7 +498,7 @@ export default class ActionManager extends cc.Component {
     if (this.inReactionPhase) {
       let bool = await this.waitForReqctionsOver();
     }
-    //cc.log("Reaction Chain " + ++this.reactionChainNum + " Beginning");
+
     let chainNum = ++this.reactionChainNum
     this.reactionChainsActive.push(chainNum);
     this.inReactionPhase = true;
@@ -489,6 +531,7 @@ export default class ActionManager extends cc.Component {
       this.updateActions();
 
       //  this.serverCardEffectStack = actionCardServerEffect;
+      cc.log('do server effects from do signle action with card effect')
       let serverEffectsOver = await ActionManager.doServerEffects();
       if (this.isReactionChainActive(chainNum)) {
         this.reactionChainsActive.splice(
@@ -547,6 +590,7 @@ export default class ActionManager extends cc.Component {
 
       let currentServerEffect: ServerEffect = serverCardEffectStack.pop();
       let newServerEffectStack = null;
+      //TODO test if gone!
       if (currentServerEffect.effectName == 'roll') {
 
         if (serverCardEffectStack.length != 0) throw "imposible state, cant be a roll action not as last action";
@@ -585,17 +629,19 @@ export default class ActionManager extends cc.Component {
         let passivesOver = await this.waitForPassives();
 
       }
-      //cc.log('doServerEffects calles doServerEffect')
+      cc.log('do server effects from do server effects')
       this.doServerEffects();
     } else {
 
-      //cc.log("Reaction Chain " + this.reactionChainNum + " is Over");
+
       this.reactionChainsActive.splice(
         this.reactionChainsActive.indexOf(this.reactionChainNum)
       );
       this.inReactionPhase = false;
     }
-
+    this.serverEffectStack = [];
+    cc.log('set no more actions bool to false')
+    ActionManager.noMoreActionsBool = false;
     this.updateActions();
     return new Promise((resolve, reject) => {
       resolve(this.reactionChainNum);
@@ -605,11 +651,11 @@ export default class ActionManager extends cc.Component {
   static isReactionChainActive(chainNumber: number): boolean {
     for (const chain of this.reactionChainsActive) {
       if (chain == chainNumber) {
-        //cc.log('in reaction chain return true')
+
         return true;
       }
     }
-    //cc.log('not in reaction chain return false')
+
     return false;
   }
 
@@ -695,12 +741,18 @@ export default class ActionManager extends cc.Component {
     Server.$.send(Signal.GETREACTION, firstReactionData);
   }
 
+  static waitForAllEffectsOn: boolean = false;
+
   static async waitForAllEffects(): Promise<ServerEffect[]> {
+    cc.log(`wait for all effects -> ${ActionManager.noMoreActionsBool}`)
+    this.waitForAllEffectsOn = true;
     //w8 for a server message with a while,after the message is recived (should be a stack of effects with booleans) resolve with stack of effects.
     return new Promise((resolve, reject) => {
       let check = () => {
         if (ActionManager.noMoreActionsBool == true) {
           ActionManager.noMoreActionsBool = false;
+          this.waitForAllEffectsOn = false;
+          cc.log('no more action bool was true, end wait for all effects: ' + ActionManager.noMoreActionsBool)
           resolve(ActionManager.serverEffectStack);
         } else {
           setTimeout(check, 50);
@@ -751,7 +803,7 @@ export default class ActionManager extends cc.Component {
           .getComponent(MonsterField);
         let newMonster = CardManager.getCardById(data.newMonsterId, true);
         let monsterDeck = CardManager.monsterDeck.getComponent(Deck);
-        monsterDeck.cards.splice(monsterDeck.cards.indexOf(newMonster), 1);
+        monsterDeck._cards.splice(monsterDeck._cards.indexOf(newMonster), 1);
         monsterField.addMonsterToExsistingPlace(
           data.monsterPlaceId,
           newMonster,
@@ -779,7 +831,7 @@ export default class ActionManager extends cc.Component {
         break;
 
       case Signal.ROLLDICE:
-        //cc.log("begin roll dice animaion");
+
         player = PlayerManager.getPlayerById(data.playerId).getComponent(
           Player
         );
@@ -789,7 +841,7 @@ export default class ActionManager extends cc.Component {
         //  player.rollDice(rollType, false, numberRolled);
         break;
       case Signal.ROLLDICEENDED:
-        //cc.log(" roll dice ended on other side");
+
         player = PlayerManager.getPlayerById(data.playerId).getComponent(
           Player
         );
@@ -826,12 +878,12 @@ export default class ActionManager extends cc.Component {
           data.attackedMonsterId,
           true
         );
-        //cc.log(attackedMonster);
+        ;
         player.declareAttack(attackedMonster, false, data.cardHolderId);
         ActionManager.updateActions();
         break;
       case Signal.NEXTTURN:
-        //cc.log("next turn signal");
+
         let currentTurnPlayer = PlayerManager.getPlayerById(
           TurnsManager.getCurrentTurn().PlayerId
         );
@@ -862,7 +914,7 @@ export default class ActionManager extends cc.Component {
       case Signal.REMOVEMONSTER:
         monsterHolder = MonsterField.getMonsterPlaceById(data.holderId);
         card = CardManager.getCardById(data.monsterId, true)
-        cc.log('remove monster from action manager')
+
         monsterHolder.removeMonster(card, false);
         break;
 
@@ -871,6 +923,7 @@ export default class ActionManager extends cc.Component {
         player = PlayerManager.getPlayerById(data.playerId).getComponent(
           Player
         );
+        cc.log(data)
         card = CardManager.getCardById(data.drawnCardId, true)
         deck = CardManager.getDeckByType(data.deckType);
         player.drawCard(deck, false, card);
@@ -897,6 +950,11 @@ export default class ActionManager extends cc.Component {
 
 
 
+      case Signal.SETMONEY:
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        player.setMoney(data.numOfCoins, false)
+        break;
+
       //PassiveManager actions.
       case Signal.REGISTERPASSIVEITEM:
         card = CardManager.getCardById(data.cardId)
@@ -914,65 +972,67 @@ export default class ActionManager extends cc.Component {
       case Signal.ENDROLLACTION:
         ActionManager.inReactionPhase = false;
         break;
+
+
       case Signal.GETREACTION:
         this.serverEffectStack = data.serverCardEffects;
         if (this.inShowAction) {
           await this.isShowActionOver()
         }
+        // if (this.serverEffectStack.length > 0 && this.serverEffectStack[this.serverEffectStack.length - 1].effectName == 'roll' && this.serverEffectStack[this.serverEffectStack.length - 1].cardPlayerId == PlayerManager.mePlayer.getComponent(Player).playerId) {
+        //   throw 'should not occur , no action named roll'
 
-        if (this.serverEffectStack.length > 0 && this.serverEffectStack[this.serverEffectStack.length - 1].effectName == 'roll') {
-          cc.log(this.serverEffectStack[this.serverEffectStack.length - 1].cardPlayerId)
-          cc.log('check for last action in roll action')
-          if (ActionManager.checkForLastAction(data, false, true)) {
-            cc.log('was last action in roll action')
-          } else {
-            cc.log('was not last action in roll action')
-            //cc.log("Reaction Chain " + ++this.reactionChainNum + " Beginning");
-            this.inReactionPhase = true;
-            PlayerManager.mePlayer.getComponent(Player).getReaction(data);
-          }
-        } else
-          if (this.actionHasCardEffect) {
-            cc.log('in second part of action with card effect')
-            let actionCardServerEffect: ServerEffect;
-            let playedCard = this.cardEffectToDo.playedCard;
-            let passiveIndex: number;
-            let playerId = this.cardEffectToDo.playerId;
-            if (this.actionIsPassiveActivate) {
-              this.actionIsPassiveActivate = false;
-              passiveIndex = this.cardEffectToDo.passiveIndex;
-              actionCardServerEffect = await CardManager.getCardEffect(
-                playedCard,
-                playerId,
-                passiveIndex
-              );
-            } else {
-              actionCardServerEffect = await CardManager.getCardEffect(
-                playedCard,
-                playerId
-              );
-            }
-            cc.log(actionCardServerEffect)
-            data.serverCardEffects.push(actionCardServerEffect)
-            this.serverEffectStack.push(actionCardServerEffect);
-            data.lastPlayerTakenAction = playerId
-            let newBooleans: boolean[] = [];
-            for (let i = 0; i < data.booleans.length; i++) {
-              newBooleans.push(false);
-            }
-            data.booleans = newBooleans;
-            ActionManager.sendGetReactionToNextPlayer(data);
-            // ActionManager.sendFirstGetReactionToServer(this.serverEffectStack);
-            this.actionHasCardEffect = false;
-            this.cardEffectToDo = null;
-          } else if (ActionManager.checkForLastAction(data, false)) {
 
-          } else {
+        //   if (ActionManager.checkForLastAction(data, false, true)) {
 
-            //cc.log("Reaction Chain " + ++this.reactionChainNum + " Beginning");
-            this.inReactionPhase = true;
-            PlayerManager.mePlayer.getComponent(Player).getReaction(data);
-          }
+        //   } else {
+
+        //     
+        //     this.inReactionPhase = true;
+        //     PlayerManager.mePlayer.getComponent(Player).getReaction(data);
+        //   }
+        // } else
+        //   if (this.actionHasCardEffect && ) {
+
+        //     let actionCardServerEffect: ServerEffect;
+        //     let playedCard = this.cardEffectToDo.playedCard;
+        //     let passiveIndex: number;
+        //     let playerId = this.cardEffectToDo.playerId;
+        //     if (this.actionIsPassiveActivate) {
+        //       this.actionIsPassiveActivate = false;
+        //       passiveIndex = this.cardEffectToDo.passiveIndex;
+        //       actionCardServerEffect = await CardManager.getCardEffect(
+        //         playedCard,
+        //         playerId,
+        //         passiveIndex
+        //       );
+        //     } else {
+        //       actionCardServerEffect = await CardManager.getCardEffect(
+        //         playedCard,
+        //         playerId
+        //       );
+        //     }
+        //     
+        //     data.serverCardEffects.push(actionCardServerEffect)
+        //     this.serverEffectStack.push(actionCardServerEffect);
+        //     data.lastPlayerTakenAction = playerId
+        //     let newBooleans: boolean[] = [];
+        //     for (let i = 0; i < data.booleans.length; i++) {
+        //       newBooleans.push(false);
+        //     }
+        //     data.booleans = newBooleans;
+        //     ActionManager.sendGetReactionToNextPlayer(data);
+        //     // ActionManager.sendFirstGetReactionToServer(this.serverEffectStack);
+        //     this.actionHasCardEffect = false;
+        //     this.cardEffectToDo = null;
+        //   } else 
+        if (ActionManager.checkForLastAction(data, false)) {
+        } else {
+
+
+          this.inReactionPhase = true;
+          PlayerManager.mePlayer.getComponent(Player).getReaction(data);
+        }
         //}
         //add a check for if your! card effect collector has a subAction and if they do, do it and dont do this!
         break;
@@ -981,10 +1041,10 @@ export default class ActionManager extends cc.Component {
           PlayerManager.mePlayer.getComponent(Player).playerId ==
           TurnsManager.currentTurn.PlayerId
         ) {
-          cc.log('resolve waiting effects')
+
           ActionManager.resolveWaitingEffects(data);
         } else {
-          cc.log('resolveOtherPlayerAction')
+
           ActionManager.resolveOtherPlayerAction(data);
         }
         break;
@@ -998,7 +1058,7 @@ export default class ActionManager extends cc.Component {
           );
           playerActivator.activatePassive(cardActivated, false, passiveIndex);
         } else {
-          //cc.log("add when the effect is of monster!");
+
         }
 
         break;
@@ -1011,7 +1071,9 @@ export default class ActionManager extends cc.Component {
 
   static resolveWaitingEffects(data) {
     ActionManager.serverEffectStack = data.serverCardEffects;
-    ActionManager.noMoreActionsBool = true;
+    if (this.waitForAllEffectsOn) {
+      ActionManager.noMoreActionsBool = true;
+    }
   }
 
 
@@ -1036,7 +1098,7 @@ export default class ActionManager extends cc.Component {
       data.lastPlayerTakenAction ==
       PlayerManager.mePlayer.getComponent(Player).playerId
     ) {
-      cc.log('player is last taken action')
+
       //check if all booleans of no more actions are true.
       let actionsBooleans: boolean[] = data.booleans;
       let boolCounter: number = actionsBooleans.length;
@@ -1048,17 +1110,18 @@ export default class ActionManager extends cc.Component {
       }
       //if all players does no more actions:
       if (boolCounter == 0) {
-        cc.log('no more actions to take')
+
+
         //  ActionManager.serverCardEffectStack = data.serverCardEffects;
         let data2 = {
           originalPlayer: data.originalPlayer,
           serverCardEffects: data.serverCardEffects
         };
-        cc.log(isRollAction)
+
         if (isRollAction == undefined) {
 
-          Server.$.send(Signal.RESOLVEACTIONS, data2);
-          cc.log('send resolve')
+          // Server.$.send(Signal.RESOLVEACTIONS, data2);
+
           ActionManager.resolveWaitingEffects(data2);
         } else {
           ActionManager.resolveWaitingRollAction(data2);
@@ -1066,9 +1129,9 @@ export default class ActionManager extends cc.Component {
         }
         // ActionManager.noMoreActionsBool = true;
       } else {
-        cc.log('more actions to take')
+
         if (isAfterReactionCheck == false) {
-          cc.log('get player reaction')
+
           //get player reaction
           PlayerManager.mePlayer.getComponent(Player).getReaction(data);
         }
@@ -1088,7 +1151,7 @@ export default class ActionManager extends cc.Component {
 
     ActionManager.cardManager = cc.find("MainScript/CardManager");
 
-    ////cc.log(ActionManager.cardManager)
+
 
     ActionManager.decks = CardManager.getAllDecks();
 

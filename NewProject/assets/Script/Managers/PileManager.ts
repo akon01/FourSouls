@@ -28,7 +28,7 @@ export default class PileManager extends cc.Component {
     for (let i = 0; i < PlayerManager.players.length; i++) {
       const playerComp = PlayerManager.players[i].getComponent(Player);
       playerComp.landingZones.push(PileManager.lootCardPileNode);
-      ////cc.log(playerComp.landingZones)
+
     }
   }
 
@@ -61,7 +61,7 @@ export default class PileManager extends cc.Component {
   static async addCardToPile(type: CARD_TYPE, card: cc.Node, sendToServer: boolean) {
     let originalPos
     let moveAction
-    cc.log(card.name + ' add to pile , send to server ' + sendToServer)
+
     if (card.getComponent(Card).isFlipped) {
       card.getComponent(Card).flipCard();
     }
@@ -129,7 +129,7 @@ export default class PileManager extends cc.Component {
     }
     await this.waitForCardMovement()
     if (sendToServer) {
-      let srvData = { type: type, cardId: card.getComponent(Card).cardId };
+      let srvData = { type: type, cardId: card.getComponent(Card)._cardId };
       Server.$.send(Signal.MOVECARDTOPILE, srvData);
     }
   }

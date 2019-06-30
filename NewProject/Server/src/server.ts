@@ -66,6 +66,7 @@ export default class Server {
     whevent.on(signal.UPDATEPASSIVESOVER, this.onUpdatePassiveOver, this);
     whevent.on(signal.REGISTERONETURNPASSIVEEFFECT, this.onRegisterOneTurnPassive, this);
     whevent.on(signal.ENDROLLACTION, this.onEndRollAction, this);
+    whevent.on(signal.SETMONEY, this.onSetMoney, this);
   }
 
 
@@ -110,6 +111,9 @@ export default class Server {
 
   onGetReaction({ player, data }) {
     player.match.broadcastToNextPlayer(player, signal.GETREACTION, data);
+  }
+  onSetMoney({ player, data }) {
+    player.match.broadcastExept(player, signal.SETMONEY, data);
   }
 
   onResolveActions({ player, data }) {

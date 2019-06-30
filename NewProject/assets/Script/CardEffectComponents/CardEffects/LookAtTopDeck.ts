@@ -40,10 +40,10 @@ export default class LookAtTopDeck extends Effect {
     );
 
     for (let i = 0; i < this.numOfCards; i++) {
-      if (deck.cards.length > i) {
-        const card = deck.cards[i];
+      if (deck._cards.length > i) {
+        const card = deck._cards[i];
         //now only log, do multiple card previews!
-        //cc.log("card in place " + i + 1 + " is " + card.name);
+
       }
     }
 

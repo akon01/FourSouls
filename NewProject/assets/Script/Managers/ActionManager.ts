@@ -32,6 +32,7 @@ import RollDice from "../CardEffectComponents/RollDice";
 import MonsterCardHolder from "../Entites/MonsterCardHolder";
 import PlayLootCard from "../CardEffectComponents/CardEffects/PlayLootCard";
 import Effect from "../CardEffectComponents/CardEffects/Effect";
+import CardPreviewManager from "./CardPreviewManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -58,13 +59,11 @@ export default class ActionManager extends cc.Component {
     let card: Card = CardManager.getCardById(cardId).getComponent(Card);
   }
 
-  static updateActionsForTurnPlayer(player: cc.Node) {
 
+  static updateActionsForTurnPlayer(player: cc.Node) {
     this.decks = CardManager.getAllDecks();
     let lootDeck = CardManager.lootDeck.getComponent(Deck);
-
     let treasureDeck = CardManager.treasureDeck.getComponent(Deck);
-
     let monsterDeck = CardManager.monsterDeck.getComponent(Deck);
     let monsterTopCard = monsterDeck.topBlankCard;
     //set up components
@@ -74,6 +73,10 @@ export default class ActionManager extends cc.Component {
       CardLayout
     );
 
+
+    cc.log(ActionManager.inReactionPhase)
+    cc.log(currentPlayerComp.Hp)
+    cc.log(TurnsManager.currentTurn.battlePhase)
 
     if (!ActionManager.inReactionPhase && currentPlayerComp.Hp > 0) {
 
@@ -125,7 +128,6 @@ export default class ActionManager extends cc.Component {
           if (treasureDeck.topBlankCard != null) {
             let treasureDeckTopCard = treasureDeck.topBlankCard;
             CardManager.disableCardActions(treasureDeckTopCard);
-            //  CardManager.makeCardPreviewable(treasureDeckTopCard);
           }
         }
         //make monster cards attackable
@@ -163,15 +165,16 @@ export default class ActionManager extends cc.Component {
         let playerItems = player.getComponent(Player).activeItems;
         for (let i = 0; i < playerItems.length; i++) {
           const item = playerItems[i].getComponent(Item);
-          if (item.activated == false) {
+          if (item.getComponent(CardEffect).testEffectsPreConditions()) {
+            cc.log(`${item.name} is activatble`)
 
             CardManager.makeItemActivateable(item.node);
           } else {
+            cc.log(`${item.name} is not activatble`)
             CardManager.disableCardActions(item.node);
 
           }
         }
-
         player.getComponentInChildren(Dice).disableRoll();
 
         //if in battle phase do battle
@@ -380,32 +383,10 @@ export default class ActionManager extends cc.Component {
     //if the action has a card effect that needs to be resolved
     if (action.hasCardEffect) {
 
-      // this.actionHasCardEffect = true;
-      // if (action instanceof ActivatePassiveAction) {
-      //   //if the action is a passive action
-      //   this.actionIsPassiveActivate = true;
-      //   this.cardEffectToDo = {
-      //     playedCard: action.playedCard,
-      //     playerId: action.originPlayerId,
-      //     passiveIndex: action.passiveIndex
-      //   }
-      // } else {
-      //   //if its not a passive
-      //   this.cardEffectToDo = {
-      //     playedCard: action.playedCard,
-      //     playerId: action.originPlayerId,
-      //   }
-      // }
       ActionManager.sendFirstGetReactionToServer();
       ActionManager.noMoreActionsBool = false;
-      //  this.updateActions();
       //wait for reaction to return a promise of a stack of actions.
-
-
       let serverEffectStack: ServerEffect[] = await ActionManager.waitForAllEffects();
-
-
-      //  this.serverEffectStack = this.serverEffectStack.concat(serverEffectStack);
       this.serverEffectStack = serverEffectStack;
       let actionCardServerEffect
       if (action instanceof ActivatePassiveAction) {
@@ -787,6 +768,7 @@ export default class ActionManager extends cc.Component {
     let card: cc.Node;
     let deck;
     let monsterHolder: MonsterCardHolder
+    let monster: Monster
     switch (signal) {
       //Actions from a player,without reaction
       case Signal.DISCRADLOOT:
@@ -817,7 +799,7 @@ export default class ActionManager extends cc.Component {
         card = CardManager.getCardById(data.cardToShowId, true);
         //add a lable with who is selecting.
 
-        CardPreview.$.showCardPreview(card, false, false, false);
+        CardPreviewManager.getPreviews(Array.of(card));
         ActionManager.updateActions();
         break;
       case Signal.ACTIVATEITEM:
@@ -849,41 +831,9 @@ export default class ActionManager extends cc.Component {
         player.dice.setRoll(data.numberRolled);
 
         break;
-      case Signal.PLAYLOOTCARD:
 
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(
-          Player
-        );
-        card = CardManager.getCardById(data.cardId, true);
-        player.playLootCard(card, false);
-        // ActionManager.updateActions();
-        break;
-      case Signal.ADDANITEM:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(
-          Player
-        );
-        card = CardManager.getCardById(data.cardId, true);
-        if (data.isReward) {
-          player.addItem(card, false, true);
-        } else {
-          player.buyItem(card, false);
-        }
-        //ActionManager.updateActions();
-        break;
-      case Signal.DECLAREATTACK:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(
-          Player
-        );
-        let attackedMonster = CardManager.getCardById(
-          data.attackedMonsterId,
-          true
-        );
-        ;
-        player.declareAttack(attackedMonster, false, data.cardHolderId);
-        ActionManager.updateActions();
-        break;
       case Signal.NEXTTURN:
-
+        ActionManager.inReactionPhase = false;
         let currentTurnPlayer = PlayerManager.getPlayerById(
           TurnsManager.getCurrentTurn().PlayerId
         );
@@ -897,6 +847,25 @@ export default class ActionManager extends cc.Component {
         card = CardManager.getCardById(data.cardId, true);
         player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
         player.getSoulCard(card, false)
+        break;
+
+      //On Monster Events
+      case Signal.MONSTERGETDAMAGED:
+        monster = CardManager.getCardById(data.cardId, true).getComponent(Monster);
+        await monster.getDamaged(data.damage, false)
+        break;
+      case Signal.MONSTERGAINHP:
+        monster = CardManager.getCardById(data.cardId, true).getComponent(Monster);
+        await monster.gainHp(data.hpToGain, false)
+        break;
+
+      case Signal.MONSTERGAINDMG:
+        monster = CardManager.getCardById(data.cardId, true).getComponent(Monster);
+        await monster.gainDMG(data.DMGToGain, false)
+        break;
+      case Signal.MONSTERGAINROLLBONUS:
+        monster = CardManager.getCardById(data.cardId, true).getComponent(Monster);
+        await monster.gainRollBonus(data.bonusToGain, false)
         break;
 
       //Monster holder actions
@@ -914,7 +883,6 @@ export default class ActionManager extends cc.Component {
       case Signal.REMOVEMONSTER:
         monsterHolder = MonsterField.getMonsterPlaceById(data.holderId);
         card = CardManager.getCardById(data.monsterId, true)
-
         monsterHolder.removeMonster(card, false);
         break;
 
@@ -923,7 +891,6 @@ export default class ActionManager extends cc.Component {
         player = PlayerManager.getPlayerById(data.playerId).getComponent(
           Player
         );
-        cc.log(data)
         card = CardManager.getCardById(data.drawnCardId, true)
         deck = CardManager.getDeckByType(data.deckType);
         player.drawCard(deck, false, card);
@@ -942,6 +909,46 @@ export default class ActionManager extends cc.Component {
 
       // OnPlayer actions
 
+      case Signal.PLAYLOOTCARD:
+
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(
+          Player
+        );
+        card = CardManager.getCardById(data.cardId, true);
+        player.playLootCard(card, false);
+        break;
+      case Signal.ADDANITEM:
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(
+          Player
+        );
+        card = CardManager.getCardById(data.cardId, true);
+        if (data.isReward) {
+          player.addItem(card, false, true);
+        } else {
+          player.buyItem(card, false);
+          break;
+        }
+      case Signal.PLAYERRECHARGEITEM:
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(
+          Player
+        );
+        card = CardManager.getCardById(data.cardId, true);
+        player.rechargeItem(card, false);
+        break;
+
+      case Signal.DECLAREATTACK:
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(
+          Player
+        );
+        let attackedMonster = CardManager.getCardById(
+          data.attackedMonsterId,
+          true
+        );
+        ;
+        player.declareAttack(attackedMonster, false, data.cardHolderId);
+        ActionManager.updateActions();
+        break;
+
 
       case Signal.CHANGEMONEY:
         player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
@@ -949,11 +956,42 @@ export default class ActionManager extends cc.Component {
         break;
 
 
-
       case Signal.SETMONEY:
         player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
         player.setMoney(data.numOfCoins, false)
         break;
+
+
+      case Signal.PLAYERGAINHP:
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        await player.gainHp(data.hpToGain, false)
+        break;
+
+      case Signal.PLAYERGAINDMG:
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        await player.gainDMG(data.DMGToGain, false)
+        break;
+
+      case Signal.PLAYERGAINROLLBONUS:
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        await player.gainRollBonus(data.bonusToGain, false)
+        break;
+
+      case Signal.PLAYERGAINATTACKROLLBONUS:
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        await player.gainAttackRollBonus(data.bonusToGain, false)
+        break;
+
+      case Signal.PLAYERGAINFIRSTATTACKROLLBONUS:
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        await player.gainFirstAttackRollBonus(data.bonusToGain, false)
+        break;
+
+      case Signal.PLAYERGETHIT:
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        await player.getHit(data.damage, false)
+        break;
+
 
       //PassiveManager actions.
       case Signal.REGISTERPASSIVEITEM:
@@ -979,53 +1017,6 @@ export default class ActionManager extends cc.Component {
         if (this.inShowAction) {
           await this.isShowActionOver()
         }
-        // if (this.serverEffectStack.length > 0 && this.serverEffectStack[this.serverEffectStack.length - 1].effectName == 'roll' && this.serverEffectStack[this.serverEffectStack.length - 1].cardPlayerId == PlayerManager.mePlayer.getComponent(Player).playerId) {
-        //   throw 'should not occur , no action named roll'
-
-
-        //   if (ActionManager.checkForLastAction(data, false, true)) {
-
-        //   } else {
-
-        //     
-        //     this.inReactionPhase = true;
-        //     PlayerManager.mePlayer.getComponent(Player).getReaction(data);
-        //   }
-        // } else
-        //   if (this.actionHasCardEffect && ) {
-
-        //     let actionCardServerEffect: ServerEffect;
-        //     let playedCard = this.cardEffectToDo.playedCard;
-        //     let passiveIndex: number;
-        //     let playerId = this.cardEffectToDo.playerId;
-        //     if (this.actionIsPassiveActivate) {
-        //       this.actionIsPassiveActivate = false;
-        //       passiveIndex = this.cardEffectToDo.passiveIndex;
-        //       actionCardServerEffect = await CardManager.getCardEffect(
-        //         playedCard,
-        //         playerId,
-        //         passiveIndex
-        //       );
-        //     } else {
-        //       actionCardServerEffect = await CardManager.getCardEffect(
-        //         playedCard,
-        //         playerId
-        //       );
-        //     }
-        //     
-        //     data.serverCardEffects.push(actionCardServerEffect)
-        //     this.serverEffectStack.push(actionCardServerEffect);
-        //     data.lastPlayerTakenAction = playerId
-        //     let newBooleans: boolean[] = [];
-        //     for (let i = 0; i < data.booleans.length; i++) {
-        //       newBooleans.push(false);
-        //     }
-        //     data.booleans = newBooleans;
-        //     ActionManager.sendGetReactionToNextPlayer(data);
-        //     // ActionManager.sendFirstGetReactionToServer(this.serverEffectStack);
-        //     this.actionHasCardEffect = false;
-        //     this.cardEffectToDo = null;
-        //   } else 
         if (ActionManager.checkForLastAction(data, false)) {
         } else {
 
@@ -1045,6 +1036,7 @@ export default class ActionManager extends cc.Component {
           ActionManager.resolveWaitingEffects(data);
         } else {
 
+          this.inReactionPhase = false;
           ActionManager.resolveOtherPlayerAction(data);
         }
         break;
@@ -1072,8 +1064,9 @@ export default class ActionManager extends cc.Component {
   static resolveWaitingEffects(data) {
     ActionManager.serverEffectStack = data.serverCardEffects;
     if (this.waitForAllEffectsOn) {
+      cc.log('end wait for all effects')
       ActionManager.noMoreActionsBool = true;
-    }
+    } else cc.log('no wait for effect is on.')
   }
 
 
@@ -1085,7 +1078,7 @@ export default class ActionManager extends cc.Component {
   //@printMethodStarted(COLORS.RED)
   static async resolveOtherPlayerAction(data) {
     this.serverEffectStack = data.serverCardEffects;
-    let serverEffectsOver = await ActionManager.doServerEffects();
+    // let serverEffectsOver = await ActionManager.doServerEffects();
   }
 
   /**

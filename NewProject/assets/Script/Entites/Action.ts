@@ -81,7 +81,7 @@ export class DrawCardAction implements Action {
     let action = cc.moveTo(TIMETODRAW, handPos)
     let timeOutToDraw = () => {
       addCardToCardLayout(drawnCard, player.hand, true);
-      drawnCard.getComponent(Card).ownedBy = player;
+      drawnCard.getComponent(Card)._ownedBy = player;
 
       ActionManager.updateActions();
       return new Promise((resolve, reject) => {
@@ -219,7 +219,7 @@ export class AddItemAction implements Action {
     movedCardComp.node.setPosition(itemPosInCanvasTrans);
     let moveAction = cc.moveTo(TIMETOBUY, this.data.playerDeskComp.node.getPosition());
     let timeOutToBuy = () => {
-      movedCardComp.ownedBy = MainScript.currentPlayerComp;
+      movedCardComp._ownedBy = MainScript.currentPlayerComp;
       this.data.playerDeskComp.addToDesk(movedCardComp);
       return new Promise((resolve, reject) => {
         resolve(true);
@@ -340,24 +340,24 @@ export class ActivateItemAction implements Action {
     card.stopAllActions();
     card.runAction(cc.fadeTo(2, 255))
 
-    switch (card.getComponent(Card).type) {
-      case CARD_TYPE.CHAR:
-        card.getComponent(Item).useItem();
-        //card.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
-        break;
-      case CARD_TYPE.CHARITEM:
-        card.getComponent(CharacterItem).useItem();
-        //  card.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
-        break;
-      case CARD_TYPE.LOOT:
-        break;
-      case CARD_TYPE.MONSTER:
-        break;
-      default:
-        card.getComponent(Item).useItem();
-        //card.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
-        break;
-    }
+    // switch (card.getComponent(Card).type) {
+    //   case CARD_TYPE.CHAR:
+    //     card.getComponent(Item).useItem();
+    //     //card.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
+    //     break;
+    //   case CARD_TYPE.CHARITEM:
+    //     card.getComponent(CharacterItem).useItem();
+    //     //  card.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
+    //     break;
+    //   case CARD_TYPE.LOOT:
+    //     break;
+    //   case CARD_TYPE.MONSTER:
+    //     break;
+    //   default:
+    //     card.getComponent(Item).useItem();
+    //     //card.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
+    //     break;
+    // }
     return new Promise((resolve, reject) => {
       resolve(true);
     });

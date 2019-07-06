@@ -83,9 +83,9 @@ export default class MainScript extends cc.Component {
     }
 
     //make cardPreview not active at the start
-    let cardPreview = cc.find("Canvas/CardPreview").getComponent(CardPreview);
-    cardPreview.onLoad();
-    cardPreview.node.active = false;
+    // let cardPreview = cc.find("Canvas/CardPreview").getComponent(CardPreview);
+    // cardPreview.onLoad();
+    // cardPreview.node.active = false;
 
     //set up screen size
     var canvas = this.canvasNode.getComponent(cc.Canvas);

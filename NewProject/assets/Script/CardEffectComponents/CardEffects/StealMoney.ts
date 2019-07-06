@@ -10,7 +10,7 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class StealMoney extends Effect {
-  chooseType = CHOOSE_TYPE.PLAYER;
+  chooseType = CHOOSE_TYPE.PLAYERS;
 
   effectName = "stealMoney";
 

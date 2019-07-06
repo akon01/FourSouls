@@ -15,9 +15,10 @@ export default class Item extends cc.Component {
   @property
   eternal: boolean = false;
 
-  rechargeItem() {
+  async rechargeItem() {
     this.node.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, 0));
     this.activated = false;
+    return true;
   }
 
   useItem() {
@@ -31,7 +32,7 @@ export default class Item extends cc.Component {
 
   // onLoad () {}
 
-  start() {}
+  start() { }
 
   // update (dt) {}
 }

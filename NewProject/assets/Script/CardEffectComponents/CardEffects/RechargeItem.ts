@@ -16,7 +16,7 @@ export default class RechargeItem extends Effect {
   @property({ type: DataCollector, override: true })
   dataCollector = null;
 
-  chooseType: CHOOSE_TYPE = CHOOSE_TYPE.ALLPLAYERITEMS;
+  chooseType: CHOOSE_TYPE = CHOOSE_TYPE.ALLPLAYERSITEMS;
 
   /**
    *
@@ -31,7 +31,7 @@ export default class RechargeItem extends Effect {
       targetItem = CardManager.getCardById(data.target, true);
     }
     let cardPlayer = PlayerManager.getPlayerByCard(targetItem);
-    cardPlayer.rechargeItem(targetItem);
+    cardPlayer.rechargeItem(targetItem, true);
 
     return new Promise<ServerEffect[]>((resolve, reject) => {
       resolve(serverEffectStack);

@@ -103,7 +103,7 @@ export default class PassiveManager extends cc.Component {
 
     if (sendToServer) {
       let card = effect.node.parent.getComponent(Card)
-      let effectIndex = card.node.getComponent(CardEffect).getEffectIndex(effect)
+      let effectIndex = card.node.getComponent(CardEffect).getEffectIndexAndType(effect)
       let srvData = { cardId: card._cardId, effectIndex: effectIndex, conditionData: effect.condition.conditionData }
       Server.$.send(Signal.REGISTERONETURNPASSIVEEFFECT, srvData)
     }
@@ -214,7 +214,7 @@ export const activatePassiveB4 = beforeMethod(async meta => {
       cardToActivate = effect.node.parent;
       passiveIndex = cardToActivate
         .getComponent(CardEffect)
-        .getEffectIndex(effect);
+        .getEffectIndexAndType(effect);
       if (cardToActivate.getComponent(Monster) == null) {
         let player = PlayerManager.getPlayerByCard(cardToActivate);
         cardActivatorId = player.playerId;
@@ -275,7 +275,7 @@ export const testForPassiveAfter = (methodCallerName: string) =>
         let cardActivated = passiveEffect.node.parent;
         let passiveIndex = cardActivated
           .getComponent(CardEffect)
-          .getEffectIndex(passiveEffect);
+          .getEffectIndexAndType(passiveEffect);
 
         if (cardActivated.getComponent(Monster) == null) {
           let player = PlayerManager.getPlayerByCard(cardActivated);

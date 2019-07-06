@@ -24,7 +24,7 @@ export default class AddTrinket extends Effect {
   doEffect(serverEffectStack: ServerEffect[], data?: { target: number }) {
     let targetPlayer = PlayerManager.getPlayerById(data.target);
     let player: Player = targetPlayer.getComponent(Player);
-    player.addItem(this.node.parent, false, true);
+    player.addItem(this.node.parent, true, true);
     let thisCardEffect = this.node.parent.getComponent(CardEffect)
     thisCardEffect.passiveEffects.push(this.itemEffectToAdd)
     thisCardEffect.activeEffects.pop();

@@ -327,13 +327,17 @@
       "__id__": 5
     },
     "_enabled": true,
+    "cost": null,
+    "preCondition": null,
     "condition": {
       "__id__": 7
     },
     "passiveType": 2,
+    "passiveEffectToAdd": null,
     "dataCollector": {
       "__id__": 9
     },
+    "_effectCard": null,
     "gainHp": false,
     "hpToGain": 0,
     "gainDMG": true,
@@ -462,7 +466,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "30f05edb-53af-4b61-b298-504cd006173f"
+      "__uuid__": "07026e89-851a-4a7f-8e58-c2f5d49cd3e7"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -476,7 +480,9 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_state": 0,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "5c7ddd78-5886-4a1e-b444-c5c3657906bc"
+    },
     "_id": ""
   },
   {
@@ -488,23 +494,27 @@
     },
     "_enabled": true,
     "cardName": "Begotten",
-    "cardId": 0,
-    "isInHand": false,
-    "isOnDesk": false,
-    "originalParent": null,
+    "_cardId": 0,
+    "_isInHand": false,
+    "_isOnDesk": false,
+    "_originalParent": null,
     "topDeckof": null,
+    "souls": 0,
     "type": 2,
-    "isAttackable": false,
-    "isBuyable": false,
-    "isPlayable": false,
-    "isActivateable": false,
-    "isReactable": false,
-    "isRequired": false,
-    "requiredFor": null,
+    "_isAttackable": false,
+    "_isBuyable": false,
+    "_isPlayable": false,
+    "_isActivateable": false,
+    "_isReactable": false,
+    "_isRequired": false,
+    "_requiredFor": null,
     "frontSprite": null,
     "backSprite": null,
-    "isFlipped": false,
-    "ownedBy": null,
+    "_isFlipped": false,
+    "_ownedBy": null,
+    "hasCounter": false,
+    "_effectCounterLable": null,
+    "_counters": 0,
     "_id": ""
   },
   {
@@ -525,6 +535,7 @@
     "isAttacked": false,
     "hasEffect": true,
     "isNonMonster": false,
+    "souls": 0,
     "reward": {
       "__id__": 3
     },
@@ -547,6 +558,8 @@
         "__id__": 5
       }
     ],
+    "toAddPassiveEffects": [],
+    "paidEffects": [],
     "multiEffectCollector": null,
     "effectData": null,
     "data": {},

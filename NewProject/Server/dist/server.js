@@ -111,6 +111,17 @@ var Server = /** @class */ (function () {
         whevent.on(signal_2["default"].REGISTERONETURNPASSIVEEFFECT, this.onRegisterOneTurnPassive, this);
         whevent.on(signal_2["default"].ENDROLLACTION, this.onEndRollAction, this);
         whevent.on(signal_2["default"].SETMONEY, this.onSetMoney, this);
+        whevent.on(signal_1["default"].PLAYERGAINATTACKROLLBONUS, this.onPlayerGainAttackRollBonus, this);
+        whevent.on(signal_1["default"].PLAYERGAINDMG, this.onPlayerGainDMG, this);
+        whevent.on(signal_1["default"].PLAYERGAINFIRSTATTACKROLLBONUS, this.onPlayerGainFirstAttackRollBonus, this);
+        whevent.on(signal_1["default"].PLAYERGAINHP, this.onPlayerGainHp, this);
+        whevent.on(signal_1["default"].PLAYERGAINROLLBONUS, this.onPlayerGainRollBonus, this);
+        whevent.on(signal_1["default"].PLAYERGETHIT, this.onPlayerGetHit, this);
+        whevent.on(signal_1["default"].PLAYERRECHARGEITEM, this.onPlayerRechargeItem, this);
+        whevent.on(signal_1["default"].MONSTERGAINDMG, this.onMonsterGainDMG, this);
+        whevent.on(signal_1["default"].MONSTERGAINHP, this.onMonsterGainHp, this);
+        whevent.on(signal_1["default"].MONSTERGAINROLLBONUS, this.onMonsterGainRollBonus, this);
+        whevent.on(signal_1["default"].MONSTERGETDAMAGED, this.onMonsterGetDamaged, this);
     };
     Server.prototype.onRequestMatch = function (_a) {
         var player = _a.player, data = _a.data;
@@ -177,6 +188,54 @@ var Server = /** @class */ (function () {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_2["default"].ENDROLLACTION, data);
     };
+    //monster events
+    Server.prototype.onMonsterGainDMG = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].MONSTERGAINDMG, data);
+    };
+    Server.prototype.onMonsterGainHp = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].MONSTERGAINHP, data);
+    };
+    Server.prototype.onMonsterGainRollBonus = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].MONSTERGAINROLLBONUS, data);
+    };
+    Server.prototype.onMonsterGetDamaged = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].MONSTERGETDAMAGED, data);
+    };
+    //monster events end
+    //player events
+    Server.prototype.onPlayerGainAttackRollBonus = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].PLAYERGAINATTACKROLLBONUS, data);
+    };
+    Server.prototype.onPlayerGainDMG = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].PLAYERGAINDMG, data);
+    };
+    Server.prototype.onPlayerGainFirstAttackRollBonus = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].PLAYERGAINFIRSTATTACKROLLBONUS, data);
+    };
+    Server.prototype.onPlayerGainHp = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].PLAYERGAINHP, data);
+    };
+    Server.prototype.onPlayerGainRollBonus = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].PLAYERGAINROLLBONUS, data);
+    };
+    Server.prototype.onPlayerGetHit = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].PLAYERGETHIT, data);
+    };
+    Server.prototype.onPlayerRechargeItem = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].PLAYERRECHARGEITEM, data);
+    };
+    //player events end
     Server.prototype.onAddToStoreCard = function (_a) {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_2["default"].ADDSTORECARD, data);

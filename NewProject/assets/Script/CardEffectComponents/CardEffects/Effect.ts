@@ -4,11 +4,19 @@ import EffectInterface from "./EffectInterface";
 import DataCollector from "../DataCollector/DataCollector";
 import { CHOOSE_TYPE, PASSIVE_TYPE } from "../../Constants";
 import Condition from "../CardConditions/Condition";
+import PreCondition from "../PreConditions/PreCondition";
+import Cost from "../Costs/Cost";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Effect extends cc.Component implements EffectInterface {
+
+  @property(Cost)
+  cost: Cost = null;
+
+  @property(PreCondition)
+  preCondition: PreCondition = null;
 
   hasSubAction: boolean = false;
   @property(Condition)
@@ -27,6 +35,9 @@ export default class Effect extends cc.Component implements EffectInterface {
   @property(DataCollector)
   dataCollector: DataCollector = null;
 
+  @property
+  _effectCard: cc.Node = null;
+
   /**
    *
    * @param data {target:Player}
@@ -37,6 +48,10 @@ export default class Effect extends cc.Component implements EffectInterface {
 
   reverseEffect() {
 
+  }
+
+  onLoad() {
+    this._effectCard = this.node.parent;
   }
 
   // toString() {

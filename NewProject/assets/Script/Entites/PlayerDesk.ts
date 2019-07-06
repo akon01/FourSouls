@@ -30,7 +30,7 @@ export default class PlayerDesk extends cc.Component {
   addToDesk(card: Card) {
 
     let deskComp: PlayerDesk = this.node.getComponent(PlayerDesk);
-    card.isOnDesk = true;
+    card._isOnDesk = true;
     let itemComp = card.getComponent(Item);
     switch (itemComp.type) {
       case ITEM_TYPE.ACTIVE:
@@ -54,7 +54,7 @@ export default class PlayerDesk extends cc.Component {
 
   removeFromDesk(card: Card) {
     let deskComp: PlayerDesk = this.node.getComponent(PlayerDesk);
-    card.isOnDesk = false;
+    card._isOnDesk = false;
     let itemComp = card.getComponent(Item);
     switch (itemComp.type) {
       case ITEM_TYPE.ACTIVE:

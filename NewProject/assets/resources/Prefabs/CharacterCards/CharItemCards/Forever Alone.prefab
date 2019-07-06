@@ -317,6 +317,7 @@
       "__id__": 6
     },
     "_enabled": true,
+    "chooseType": 1,
     "_id": ""
   },
   {
@@ -340,6 +341,7 @@
     "_enabled": true,
     "condition": null,
     "passiveType": 1,
+    "passiveEffectToAdd": null,
     "dataCollector": {
       "__id__": 7
     },
@@ -493,6 +495,7 @@
       "__id__": 12
     },
     "_enabled": true,
+    "chooseType": 3,
     "_id": ""
   },
   {
@@ -516,10 +519,11 @@
     "_enabled": true,
     "condition": null,
     "passiveType": 1,
+    "passiveEffectToAdd": null,
     "dataCollector": {
       "__id__": 13
     },
-    "numOfCards": 10,
+    "numOfCards": 1,
     "_id": ""
   },
   {
@@ -669,6 +673,7 @@
       "__id__": 18
     },
     "_enabled": true,
+    "chooseType": 2,
     "_id": ""
   },
   {
@@ -692,6 +697,7 @@
     "_enabled": true,
     "condition": null,
     "passiveType": 1,
+    "passiveEffectToAdd": null,
     "dataCollector": {
       "__id__": 19
     },
@@ -955,6 +961,7 @@
       "__id__": 28
     },
     "passiveType": 2,
+    "passiveEffectToAdd": null,
     "dataCollector": {
       "__id__": 25
     },
@@ -1008,11 +1015,12 @@
     },
     "_enabled": true,
     "cardName": "Forever Alone",
-    "cardId": 0,
-    "isInHand": false,
+    "_cardId": 0,
+    "_isInHand": false,
     "isOnDesk": false,
     "originalParent": null,
     "topDeckof": null,
+    "souls": 0,
     "type": null,
     "isAttackable": false,
     "isBuyable": false,
@@ -1065,6 +1073,7 @@
         "__id__": 23
       }
     ],
+    "toAddPassiveEffects": [],
     "multiEffectCollector": {
       "__id__": 3
     },

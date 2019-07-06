@@ -25,17 +25,17 @@
     "_level": 1,
     "_components": [
       {
-        "__id__": 8
+        "__id__": 5
       },
       {
-        "__id__": 9
+        "__id__": 6
       },
       {
-        "__id__": 10
+        "__id__": 7
       }
     ],
     "_prefab": {
-      "__id__": 11
+      "__id__": 8
     },
     "_opacity": 255,
     "_color": {
@@ -85,87 +85,21 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "AddMoney",
+    "_name": "LookAtTopDeckAndPutOnTop",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
     },
-    "_children": [
-      {
-        "__id__": 3
-      }
-    ],
+    "_children": [],
     "_active": true,
     "_level": 2,
     "_components": [
       {
-        "__id__": 6
+        "__id__": 3
       }
     ],
     "_prefab": {
-      "__id__": 7
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 70,
-      "height": 35
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": -29.4,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_quat": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_zIndex": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "CardPlayer",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_level": 3,
-    "_components": [
-      {
-        "__id__": 4
-      }
-    ],
-    "_prefab": {
-      "__id__": 5
+      "__id__": 4
     },
     "_opacity": 255,
     "_color": {
@@ -188,7 +122,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 29.4,
+      "y": 0,
       "z": 0
     },
     "_scale": {
@@ -212,28 +146,7 @@
     "_id": ""
   },
   {
-    "__type__": "1d1ecf8dolI9JOwSEDLfemj",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 3
-    },
-    "_enabled": true,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "1357872f-9554-493f-9bcc-49730f8e321c"
-    },
-    "fileId": "985N9nTYdOBpbeZtcZ/SrJ",
-    "sync": false
-  },
-  {
-    "__type__": "da7a1yhh65BupAGQR/L5ZZc",
+    "__type__": "04486UjdN1GU7Ky21MNkxD4",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -242,10 +155,12 @@
     "_enabled": true,
     "condition": null,
     "passiveType": 1,
-    "dataCollector": {
-      "__id__": 4
-    },
-    "numOfCoins": 1,
+    "passiveEffectToAdd": null,
+    "dataCollector": null,
+    "numOfCardsToSee": 5,
+    "numOfCardsToPut": 1,
+    "reorderCards": false,
+    "deckType": 5,
     "_id": ""
   },
   {
@@ -256,7 +171,7 @@
     "asset": {
       "__uuid__": "1357872f-9554-493f-9bcc-49730f8e321c"
     },
-    "fileId": "b9aj7VXGtD2Iv9S6x4J9se",
+    "fileId": "b0N31ZGk5PNqkXUl8rWV+S",
     "sync": false
   },
   {
@@ -298,8 +213,8 @@
     },
     "_enabled": true,
     "cardName": "The Hermit",
-    "cardId": 0,
-    "isInHand": false,
+    "_cardId": 0,
+    "_isInHand": false,
     "isOnDesk": false,
     "originalParent": null,
     "topDeckof": null,
@@ -333,6 +248,7 @@
       }
     ],
     "passiveEffects": [],
+    "toAddPassiveEffects": [],
     "multiEffectCollector": null,
     "effectData": null,
     "data": {},

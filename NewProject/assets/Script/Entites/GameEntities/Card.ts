@@ -22,10 +22,10 @@ export default class Card extends cc.Component {
   _isInHand: boolean = false;
 
   @property
-  isOnDesk: boolean = false;
+  _isOnDesk: boolean = false;
 
   @property
-  originalParent: cc.Node = null;
+  _originalParent: cc.Node = null;
 
   @property(cc.Node)
   topDeckof: cc.Node = null;
@@ -44,25 +44,25 @@ export default class Card extends cc.Component {
   //currentCardLayout: CardLayout = null;
 
   @property
-  isAttackable: boolean = false;
+  _isAttackable: boolean = false;
 
   @property
-  isBuyable: boolean = false;
+  _isBuyable: boolean = false;
 
   @property
-  isPlayable: boolean = false;
+  _isPlayable: boolean = false;
 
   @property
-  isActivateable: boolean = false;
+  _isActivateable: boolean = false;
 
   @property
-  isReactable: boolean = false;
+  _isReactable: boolean = false;
 
   @property
-  isRequired: boolean = false;
+  _isRequired: boolean = false;
 
   @property
-  requiredFor: DataCollector = null;
+  _requiredFor: DataCollector = null;
 
   @property
   frontSprite: cc.SpriteFrame = null;
@@ -71,14 +71,24 @@ export default class Card extends cc.Component {
   backSprite: cc.SpriteFrame = null;
 
   @property
-  isFlipped: boolean = false;
+  _isFlipped: boolean = false;
 
   @property
-  ownedBy: Player = null;
+  _ownedBy: Player = null;
+
+  @property
+  hasCounter: boolean = false;
+
+  @property
+  _effectCounterLable: cc.Label = null;
+
+  @property
+  _counters: number = 0;
+
 
   flipCard() {
-    this.isFlipped = !this.isFlipped;
-    if (this.isFlipped) {
+    this._isFlipped = !this._isFlipped;
+    if (this._isFlipped) {
       this.node.getComponent(cc.Sprite).spriteFrame = this.backSprite;
     } else {
       this.node.getComponent(cc.Sprite).spriteFrame = this.frontSprite;
@@ -135,11 +145,18 @@ export default class Card extends cc.Component {
     this.node.height = CARD_HEIGHT;
     this.node.width = CARD_WIDTH;
     this.frontSprite = this.node.getComponent(cc.Sprite).spriteFrame;
+    if (!this.hasCounter) {
+      //   this._effectCounterLable.node.destroy()
+    } else this._effectCounterLable = this.node.getChildByName('EffectCounter').getComponent(cc.Label)
   }
 
   start() { }
 
-  update(dt) { }
+  update(dt) {
+    if (this._effectCounterLable != null) {
+      this._effectCounterLable.string = this._counters.toString();
+    }
+  }
 
   toString() {
     return this.cardName + " ID: " + this._cardId;

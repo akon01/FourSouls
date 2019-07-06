@@ -9,6 +9,7 @@ import CardManager from "../Managers/CardManager";
 import Card from "./GameEntities/Card";
 import { ServerEffect } from "./ServerCardEffect";
 import PassiveEffect from "../PassiveEffects/PassiveEffect";
+import Item from "./CardTypes/Item";
 
 const { ccclass, property } = cc._decorator;
 
@@ -25,6 +26,9 @@ export default class CardEffect extends cc.Component {
 
   @property(cc.Node)
   toAddPassiveEffects: cc.Node[] = [];
+
+  @property(cc.Node)
+  paidEffects: cc.Node[] = [];
 
   @property(DataCollector)
   multiEffectCollector: DataCollector = null;
@@ -44,66 +48,163 @@ export default class CardEffect extends cc.Component {
   @property
   serverEffectStack: ServerEffect[] = [];
 
-  // testConditions(): boolean {
-  //   let conditionsNotPassed = 0;
-  //   for (let i = 0; i < this.conditions.length; i++) {
-  //     const condition = this.conditions[i].getComponent(Condition);
-  //     if (!condition.testCondition()) {
-  //       conditionsNotPassed++;
-  //     }
-  //   }
-  //   if (conditionsNotPassed > 0) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // }
+  /**
+   * @returns true if any one of the effects can be activated, false otherwise
+   */
+  testEffectsPreConditions() {
+    let boolPool: boolean[] = []
+    let itemComp = this.node.getComponent(Item)
+    let itemIsActivated: boolean
+    if (itemComp != null) {
+      itemIsActivated = itemComp.activated
+    } else {
+      itemIsActivated = false;
+    }
+    let innerBoolPool = []
+
+    if (!itemIsActivated) {
+
+      for (const activeEffect of this.activeEffects) {
+        let preCondition = activeEffect.getComponent(Effect).preCondition
+        if (preCondition != null && preCondition.testCondition()) {
+
+          return true;
+        } else if (preCondition == null) {
+          innerBoolPool.push(true)
+        }
+      }
+
+
+      if (innerBoolPool.length >= this.activeEffects.filter(effect => { if (effect.getComponent(Effect).preCondition == null) return true }).length) {
+        boolPool.push(true)
+      }
+    } else {
+      //  boolPool.push(true)
+    }
+    innerBoolPool = []
+    for (const passiveEffect of this.passiveEffects) {
+      let preCondition = passiveEffect.getComponent(Effect).preCondition
+      if (preCondition != null && preCondition.testCondition()) {
+
+        return true;
+      } else if (preCondition == null) {
+        innerBoolPool.push(true)
+      }
+    }
+
+
+    if (innerBoolPool.length >= this.passiveEffects.filter(effect => { if (effect.getComponent(Effect).preCondition == null) return true }).length) {
+      boolPool.push(true)
+    }
+    innerBoolPool = []
+    for (const paidEffect of this.paidEffects) {
+      let preCondition = paidEffect.getComponent(Effect).preCondition
+      if (preCondition != null && preCondition.testCondition()) {
+
+        return true;
+      } else if (preCondition == null) {
+        innerBoolPool.push(true)
+      }
+    }
+
+
+    if (innerBoolPool.length >= this.paidEffects.filter(effect => { if (effect.getComponent(Effect).preCondition == null) return true }).length) {
+      boolPool.push(true)
+    }
+    innerBoolPool = []
+    for (const toAddPassiveEffect of this.toAddPassiveEffects) {
+      let preCondition = toAddPassiveEffect.getComponent(Effect).preCondition
+      if (preCondition != null && preCondition.testCondition()) {
+
+        return true;
+      } else if (preCondition == null) {
+        innerBoolPool.push(true)
+      }
+    }
+
+
+    if (innerBoolPool.length >= this.toAddPassiveEffects.filter(effect => { if (effect.getComponent(Effect).preCondition == null) return true }).length) {
+      boolPool.push(true)
+    }
+
+    if (boolPool.length == 4) {
+
+      return true;
+    }
+    return false;
+  }
+
+
 
   /**
    *
    * @param data {effect}
    */
   //@printMethodStarted(COLORS.RED)
-  async doEffectByNum(
-    numOfEffect,
+  async doEffectByNumAndType(
+    numOfEffect: number,
+    type: ITEM_TYPE,
     isPassiveEffect?: boolean
   ) {
     let serverEffectStack = null;
-    if (isPassiveEffect) {
-      for (let i = 0; i < this.passiveEffects.length; i++) {
-        const effect = this.passiveEffects[i].getComponent(Effect);
-        if (i == numOfEffect) {
-          serverEffectStack = await effect.doEffect(
-            this.serverEffectStack,
-            this.effectData
-          );
-          break;
+
+
+    switch (type) {
+      case ITEM_TYPE.ACTIVE:
+        for (let i = 0; i < this.activeEffects.length; i++) {
+          const effect = this.activeEffects[i].getComponent(Effect);
+          if (i == numOfEffect) {
+            serverEffectStack = await effect.doEffect(
+              this.serverEffectStack,
+              this.effectData
+            );
+            break;
+          }
         }
-      }
-    } else {
-      for (let i = 0; i < this.activeEffects.length; i++) {
-        const effect = this.activeEffects[i].getComponent(Effect);
-        if (i == numOfEffect) {
-          serverEffectStack = await effect.doEffect(
-            this.serverEffectStack,
-            this.effectData
-          );
-          break;
+        break;
+      case ITEM_TYPE.PASSIVE:
+        for (let i = 0; i < this.passiveEffects.length; i++) {
+          const effect = this.passiveEffects[i].getComponent(Effect);
+          if (i == numOfEffect) {
+            serverEffectStack = await effect.doEffect(
+              this.serverEffectStack,
+              this.effectData
+            );
+            break;
+          }
         }
-      }
+        break;
+      case ITEM_TYPE.TOADDPASSIVE:
+        for (let i = 0; i < this.toAddPassiveEffects.length; i++) {
+          const effect = this.toAddPassiveEffects[i].getComponent(Effect);
+          if (i == numOfEffect) {
+            serverEffectStack = await effect.doEffect(
+              this.serverEffectStack,
+              this.effectData
+            );
+            break;
+          }
+        }
+        break;
+      case ITEM_TYPE.PAID:
+        for (let i = 0; i < this.paidEffects.length; i++) {
+          const effect = this.paidEffects[i].getComponent(Effect);
+          if (i == numOfEffect) {
+            serverEffectStack = await effect.doEffect(
+              this.serverEffectStack,
+              this.effectData
+            );
+            break;
+          }
+        }
+      default:
+        break;
     }
-    if (serverEffectStack == null) {
-      for (let i = 0; i < this.toAddPassiveEffects.length; i++) {
-        const effect = this.toAddPassiveEffects[i].getComponent(Effect);
-        if (i == numOfEffect) {
-          serverEffectStack = await effect.doEffect(
-            this.serverEffectStack,
-            this.effectData
-          );
-          break;
-        }
-      }
-    }
+    // if (isPassiveEffect) {
+    // } else {
+    // }
+    // if (serverEffectStack == null) {
+    // }
     return new Promise<ServerEffect[]>((resolve, reject) => {
       resolve(serverEffectStack);
     });
@@ -126,39 +227,35 @@ export default class CardEffect extends cc.Component {
     return data;
   }
 
-  // getEffectByNum(numOfEffect,lookInToAddPassives?:boolean) {
-  //   for (let i = 0; i < this.activeEffects.length; i++) {
-  //     const effect = this.activeEffects[i];
-  //     if (numOfEffect == 0 && i == 0)
-  //       if (i == numOfEffect - 1) {
-  //         return effect.getComponent(Effect);
-  //       }
-  //   }
-  // }
 
-  getEffectIndex(effect: Effect) {
+  getEffectIndexAndType(effect: Effect) {
     let splitName = effect.name.split("<");
     for (let i = 0; i < this.activeEffects.length; i++) {
       const testedEffect = this.activeEffects[i].getComponent(Effect);
       let splitTestedName = testedEffect.name.split("<");
       if (splitName[1] == splitTestedName[1]) {
-        return i;
+        return { type: ITEM_TYPE.ACTIVE, index: i };
       }
     }
     for (let i = 0; i < this.passiveEffects.length; i++) {
       const passiveEffect = this.passiveEffects[i].getComponent(Effect);
-
       let splitTestedName = passiveEffect.name.split("<");
       if (splitName[1] == splitTestedName[1]) {
-        return i;
+        return { type: ITEM_TYPE.PASSIVE, index: i };
       }
     }
     for (let i = 0; i < this.toAddPassiveEffects.length; i++) {
-      const passiveEffect = this.toAddPassiveEffects[i].getComponent(Effect);
-
-      let splitTestedName = passiveEffect.name.split("<");
+      const toAddPassiveEffect = this.toAddPassiveEffects[i].getComponent(Effect);
+      let splitTestedName = toAddPassiveEffect.name.split("<");
       if (splitName[1] == splitTestedName[1]) {
-        return i;
+        return { type: ITEM_TYPE.TOADDPASSIVE, index: i };
+      }
+    }
+    for (let i = 0; i < this.paidEffects.length; i++) {
+      const paidEffect = this.paidEffects[i].getComponent(Effect);
+      let splitTestedName = paidEffect.name.split("<");
+      if (splitName[1] == splitTestedName[1]) {
+        return { type: ITEM_TYPE.PAID, index: i };
       }
     }
   }
@@ -184,7 +281,7 @@ export default class CardEffect extends cc.Component {
 
     let cardPlayed = CardManager.getCardById(cardPlayedData.cardId, true);
     let cardEffect: Effect;
-    let effectType;
+    let effectType: ITEM_TYPE;
 
     if (cardEffectIndex != null) {
       effectType = ITEM_TYPE.PASSIVE;
@@ -195,7 +292,6 @@ export default class CardEffect extends cc.Component {
       cardEffect = effect.getComponent(Effect);
     } else {
       effectType = ITEM_TYPE.ACTIVE;
-
       if (this.hasMultipleEffects) {
         cardEffect = await this.collectEffectFromNum(
           cardPlayed,
@@ -205,35 +301,24 @@ export default class CardEffect extends cc.Component {
         cardEffect = this.activeEffects[0].getComponent(Effect);
       }
     }
-
-    let effectIndex = this.getEffectIndex(cardEffect);
-
+    let effectData = this.getEffectIndexAndType(cardEffect);
     let serverEffect = new ServerEffect(
       cardEffect.effectName,
-      effectIndex,
+      effectData.index,
       cardPlayedData.cardPlayerId,
       cardPlayedData.cardId,
-      effectType
+      effectData.type
     );
+    //pay costs like counters/destroing items and so on
+    if (cardEffect.cost != null) {
+      cardEffect.cost.takeCost()
+    }
     if (cardEffect.dataCollector != null) {
-
       this.effectData = await this.collectEffectData(cardEffect, cardPlayedData);
-
-
     }
     serverEffect.hasSubAction = false;
     serverEffect.cardEffectData = this.effectData;
-    //add check if the effect collector has a sub-action (like rolling a dice) and if yes do not collect the data yet and put a flag inside the server effect
 
-    // let serverEffect = new ServerEffect(
-    //   cardEffect.effectName,
-    //   this.effectData,
-    //   effectIndex,
-    //   cardPlayedData.cardPlayerId,
-    //   cardPlayedData.cardId,
-    //   effectType
-    //add a hasSubAction flag.
-    // );
     return new Promise((resolve, reject) => {
       resolve(serverEffect);
     });
@@ -257,16 +342,17 @@ export default class CardEffect extends cc.Component {
 
     this.serverEffectStack = allServerEffects;
     let serverEffectStack;
-    if (currentServerEffect.effctType == ITEM_TYPE.ACTIVE) {
-      serverEffectStack = await this.doEffectByNum(
-        currentServerEffect.cardEffectNum
-      );
-    } else {
-      serverEffectStack = await this.doEffectByNum(
-        currentServerEffect.cardEffectNum,
-        true
-      );
-    }
+    // if (currentServerEffect.effctType == ITEM_TYPE.ACTIVE) {
+    serverEffectStack = await this.doEffectByNumAndType(
+      currentServerEffect.cardEffectNum,
+      currentServerEffect.effctType
+    );
+    // } else {
+    // serverEffectStack = await this.doEffectByNumAndType(
+    //   currentServerEffect.cardEffectNum,
+    //   true
+    // );
+    //}
     return new Promise((resolve, reject) => {
       resolve(serverEffectStack);
     });

@@ -39,7 +39,7 @@ export default class AddMoney extends Effect {
     let targetPlayer = PlayerManager.getPlayerById(data.target);
 
     let player: Player = targetPlayer.getComponent(Player);
-    player.changeMoney(this.numOfCoins, false);
+    player.changeMoney(this.numOfCoins, true);
 
     return new Promise<ServerEffect[]>((resolve, reject) => {
       resolve(serverEffectStack);

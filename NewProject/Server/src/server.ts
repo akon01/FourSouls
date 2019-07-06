@@ -67,7 +67,22 @@ export default class Server {
     whevent.on(signal.REGISTERONETURNPASSIVEEFFECT, this.onRegisterOneTurnPassive, this);
     whevent.on(signal.ENDROLLACTION, this.onEndRollAction, this);
     whevent.on(signal.SETMONEY, this.onSetMoney, this);
+    whevent.on(Signal.PLAYERGAINATTACKROLLBONUS, this.onPlayerGainAttackRollBonus, this);
+    whevent.on(Signal.PLAYERGAINDMG, this.onPlayerGainDMG, this);
+    whevent.on(Signal.PLAYERGAINFIRSTATTACKROLLBONUS, this.onPlayerGainFirstAttackRollBonus, this);
+    whevent.on(Signal.PLAYERGAINHP, this.onPlayerGainHp, this);
+    whevent.on(Signal.PLAYERGAINROLLBONUS, this.onPlayerGainRollBonus, this);
+    whevent.on(Signal.PLAYERGETHIT, this.onPlayerGetHit, this);
+    whevent.on(Signal.PLAYERRECHARGEITEM, this.onPlayerRechargeItem, this);
+
+    whevent.on(Signal.MONSTERGAINDMG, this.onMonsterGainDMG, this);
+    whevent.on(Signal.MONSTERGAINHP, this.onMonsterGainHp, this);
+    whevent.on(Signal.MONSTERGAINROLLBONUS, this.onMonsterGainRollBonus, this);
+    whevent.on(Signal.MONSTERGETDAMAGED, this.onMonsterGetDamaged, this);
+
   }
+
+
 
 
 
@@ -142,6 +157,52 @@ export default class Server {
   onEndRollAction({ player, data }) {
     player.match.broadcastExept(player, signal.ENDROLLACTION, data);
   }
+
+
+
+  //monster events
+  onMonsterGainDMG({ player, data }) {
+    player.match.broadcastExept(player, signal.MONSTERGAINDMG, data);
+  }
+  onMonsterGainHp({ player, data }) {
+    player.match.broadcastExept(player, signal.MONSTERGAINHP, data);
+  }
+  onMonsterGainRollBonus({ player, data }) {
+    player.match.broadcastExept(player, signal.MONSTERGAINROLLBONUS, data);
+  }
+  onMonsterGetDamaged({ player, data }) {
+    player.match.broadcastExept(player, signal.MONSTERGETDAMAGED, data);
+  }
+
+
+  //monster events end
+
+
+  //player events
+
+  onPlayerGainAttackRollBonus({ player, data }) {
+    player.match.broadcastExept(player, signal.PLAYERGAINATTACKROLLBONUS, data);
+  }
+  onPlayerGainDMG({ player, data }) {
+    player.match.broadcastExept(player, signal.PLAYERGAINDMG, data);
+  }
+  onPlayerGainFirstAttackRollBonus({ player, data }) {
+    player.match.broadcastExept(player, signal.PLAYERGAINFIRSTATTACKROLLBONUS, data);
+  }
+  onPlayerGainHp({ player, data }) {
+    player.match.broadcastExept(player, signal.PLAYERGAINHP, data);
+  }
+  onPlayerGainRollBonus({ player, data }) {
+    player.match.broadcastExept(player, signal.PLAYERGAINROLLBONUS, data);
+  }
+  onPlayerGetHit({ player, data }) {
+    player.match.broadcastExept(player, signal.PLAYERGETHIT, data);
+  }
+  onPlayerRechargeItem({ player, data }) {
+    player.match.broadcastExept(player, signal.PLAYERRECHARGEITEM, data);
+  }
+
+  //player events end
 
 
   onAddToStoreCard({ player, data }) {

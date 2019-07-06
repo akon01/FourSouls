@@ -45,7 +45,7 @@ export default class MonsterField extends cc.Component {
     sendToServer: boolean
   ) {
     let monsterCardComp = monsterCard.getComponent(Card);
-    if (monsterCardComp.isFlipped) {
+    if (monsterCardComp._isFlipped) {
       monsterCardComp.flipCard();
     }
     let monsterHolder = MonsterField.getMonsterPlaceById(monsterPlaceId);

@@ -1,6 +1,9 @@
 import MonsterCardHolder from "../MonsterCardHolder";
 import MonsterReward from "../../CardEffectComponents/MonsterRewards/MonsterReward";
 import { testForPassiveAfter } from "../../Managers/PassiveManager";
+import Signal from "../../../Misc/Signal";
+import Card from "../GameEntities/Card";
+import Server from "../../../ServerClient/ServerClient";
 
 const { ccclass, property } = cc._decorator;
 
@@ -43,9 +46,60 @@ export default class Monster extends cc.Component {
   reward: MonsterReward = null;
 
   @testForPassiveAfter('getDamaged')
-  getDamaged(damage: number) {
+  async getDamaged(damage: number, sendToServer: boolean) {
     this.currentHp -= damage;
+    let cardId = this.node.getComponent(Card)._cardId
+    let serverData = {
+      signal: Signal.MONSTERGETDAMAGED,
+      srvData: { cardId: cardId, damage: damage }
+    };
+    if (sendToServer) {
+      Server.$.send(serverData.signal, serverData.srvData)
+    }
+    return true;
   }
+
+  async gainHp(hpToGain: number, sendToServer: boolean) {
+    this.currentHp += hpToGain;
+    let cardId = this.node.getComponent(Card)._cardId
+    let serverData = {
+      signal: Signal.MONSTERGAINHP,
+      srvData: { cardId: cardId, damage: hpToGain }
+    };
+    if (sendToServer) {
+      Server.$.send(serverData.signal, serverData.srvData)
+    }
+    return true;
+  }
+
+
+  async gainDMG(DMGToGain: number, sendToServer: boolean) {
+    this.baseDamage += DMGToGain;
+    let cardId = this.node.getComponent(Card)._cardId
+    let serverData = {
+      signal: Signal.MONSTERGAINDMG,
+      srvData: { cardId: cardId, DMGToGain: DMGToGain }
+    };
+    if (sendToServer) {
+      Server.$.send(serverData.signal, serverData.srvData)
+    }
+    return true;
+  }
+
+
+  async gainRollBonus(bonusToGain: number, sendToServer: boolean) {
+    this.rollBonus += bonusToGain;
+    let cardId = this.node.getComponent(Card)._cardId
+    let serverData = {
+      signal: Signal.MONSTERGAINROLLBONUS,
+      srvData: { cardId: cardId, bonusToGain: bonusToGain }
+    };
+    if (sendToServer) {
+      Server.$.send(serverData.signal, serverData.srvData)
+    }
+    return true;
+  }
+
 
   calculateDamage() {
     let damage = 0;

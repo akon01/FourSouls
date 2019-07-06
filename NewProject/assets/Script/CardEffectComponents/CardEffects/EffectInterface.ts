@@ -1,6 +1,8 @@
 import { CHOOSE_TYPE } from "./../../Constants";
 import DataCollector from "../DataCollector/DataCollector";
 import Condition from "../CardConditions/Condition";
+import PreCondition from "../PreConditions/PreCondition";
+import Cost from "../Costs/Cost";
 
 const { ccclass, property } = cc._decorator;
 
@@ -11,7 +13,11 @@ export default interface EffectInterface {
 
   dataCollector: DataCollector;
 
+  cost: Cost;
+
   condition: Condition;
+
+  preCondition: PreCondition;
 
   hasSubAction: boolean;
 

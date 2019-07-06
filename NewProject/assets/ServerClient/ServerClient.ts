@@ -66,6 +66,23 @@ export default class Server extends cc.Component {
     whevent.on(Signal.REGISTERPASSIVEITEM, this.onPlayerActionFromServer, this);
     whevent.on(Signal.REGISTERONETURNPASSIVEEFFECT, this.onPlayerActionFromServer, this);
     whevent.on(Signal.SETMONEY, this.onPlayerActionFromServer, this);
+
+    //player events
+    whevent.on(Signal.PLAYERGAINATTACKROLLBONUS, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYERGAINDMG, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYERGAINFIRSTATTACKROLLBONUS, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYERGAINHP, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYERGAINROLLBONUS, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYERGETHIT, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYERRECHARGEITEM, this.onPlayerActionFromServer, this);
+
+
+    //monster events
+    whevent.on(Signal.MONSTERGAINDMG, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.MONSTERGAINHP, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.MONSTERGAINROLLBONUS, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.MONSTERGETDAMAGED, this.onPlayerActionFromServer, this);
+
   }
 
 

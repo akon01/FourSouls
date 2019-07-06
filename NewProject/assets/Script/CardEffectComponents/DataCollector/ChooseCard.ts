@@ -31,6 +31,9 @@ export default class ChooseCard extends DataCollector {
   cardChosen: cc.Node;
   playerId: number;
 
+  @property({ type: cc.Enum(CHOOSE_TYPE) })
+  chooseType: CHOOSE_TYPE = CHOOSE_TYPE.ALLPLAYERSITEMS;
+
   /**
    *
    * @param data cardPlayerId:Player who played the card
@@ -55,7 +58,7 @@ export default class ChooseCard extends DataCollector {
       cardComp = this.node.parent.getComponent(Condition)
     }
     let chooseType = cardComp.chooseType;
-    let cardsToChooseFrom = this.getCardsToChoose(chooseType, player);
+    let cardsToChooseFrom = this.getCardsToChoose(this.chooseType, player);
     let cardChosenData: {
       cardChosenId: number;
       playerId: number;
@@ -100,12 +103,14 @@ export default class ChooseCard extends DataCollector {
   }
 
   getCardsToChoose(chooseType: CHOOSE_TYPE, player?: Player) {
+    let cardsToReturn = [];
+    let players
     switch (chooseType) {
       //Get all available player char cards
-      case CHOOSE_TYPE.PLAYER:
+      case CHOOSE_TYPE.PLAYERS:
         let playerCards: cc.Node[] = [];
         for (let index = 0; index < PlayerManager.players.length; index++) {
-          const player = PlayerManager.players[index].getComponent(Player);
+          player = PlayerManager.players[index].getComponent(Player);
           playerCards.push(player.character);
         }
         return playerCards;
@@ -115,26 +120,79 @@ export default class ChooseCard extends DataCollector {
         return player.handCards;
         break;
       case CHOOSE_TYPE.DECKS:
-        let allDecks = CardManager.getAllDecks();
-        return allDecks;
+        cardsToReturn = CardManager.getAllDecks();
+        return cardsToReturn;
       case CHOOSE_TYPE.MONSTERPLACES:
         let monsterPlaces = MonsterField.activeMonsters;
         return monsterPlaces;
-        break;
       case CHOOSE_TYPE.PLAYERNONETERNALS:
-        let nonEternals = player.deskCards.filter(
+        cardsToReturn = player.deskCards.filter(
           card => !card.getComponent(Item).eternal
         );
-        return nonEternals;
-      case CHOOSE_TYPE.ALLPLAYERITEMS:
-        let allPlayerItems: cc.Node[] = [];
-        let players = PlayerManager.players.map(player => player.getComponent(Player))
+        return cardsToReturn;
+      case CHOOSE_TYPE.ALLPLAYERSITEMS:
+        cardsToReturn
+
+        players = PlayerManager.players.map(player => player.getComponent(Player))
         for (const player of players) {
           //    let activeItems = player.activeItems.map(activeItem => { if (activeItem.getComponent(Item).activated) return activeItem })
           //  
-          allPlayerItems = allPlayerItems.concat(player.activeItems)
+          cardsToReturn = cardsToReturn.concat(player.activeItems)
         }
-        return allPlayerItems;
+        return cardsToReturn;
+      case CHOOSE_TYPE.ALLPLAYERSACTIVATEDITEMS:
+        cardsToReturn
+
+        players = PlayerManager.players.map(player => player.getComponent(Player))
+        for (const player of players) {
+          //    let activeItems = player.activeItems.map(activeItem => { if (activeItem.getComponent(Item).activated) return activeItem })
+          //  
+          cardsToReturn = cardsToReturn.concat(player.activeItems.filter(item => {
+            if (item.getComponent(Item).activated) {
+              return true
+            }
+
+          }))
+        }
+        return cardsToReturn;
+      case CHOOSE_TYPE.ALLPLAYERSNONACTIVATEDITEMS:
+        cardsToReturn
+        players = PlayerManager.players.map(player => player.getComponent(Player))
+        for (const player of players) {
+          //    let activeItems = player.activeItems.map(activeItem => { if (activeItem.getComponent(Item).activated) return activeItem })
+          //  
+          cardsToReturn = cardsToReturn.concat(player.activeItems.filter(item => {
+            if (!item.getComponent(Item).activated) {
+              return true
+            }
+
+          }))
+        }
+        return cardsToReturn;
+      case CHOOSE_TYPE.PLAYERITEMS:
+        cardsToReturn = player.deskCards.filter(
+          card => !card.getComponent(Item).eternal
+        );
+        return cardsToReturn;
+      case CHOOSE_TYPE.PLAYERACTIVATEDITEMS:
+        cardsToReturn = player.deskCards.filter(
+          card => card.getComponent(Item).activated
+        );
+        return cardsToReturn;
+      case CHOOSE_TYPE.PLAYERNONACTIVATEDITEMS:
+        cardsToReturn = player.deskCards.filter(
+          card => !card.getComponent(Item).activated
+        );
+        return cardsToReturn;
+      case CHOOSE_TYPE.PLAYERSANDACTIVEMONSTERS:
+        playerCards = [];
+        for (let index = 0; index < PlayerManager.players.length; index++) {
+          player = PlayerManager.players[index].getComponent(Player);
+          playerCards.push(player.character);
+        }
+        cardsToReturn = MonsterField.activeMonsters.concat(playerCards);
+
+        return cardsToReturn;
       default:
         break;
     }
@@ -144,6 +202,7 @@ export default class ChooseCard extends DataCollector {
     cards: cc.Node[]
   ): Promise<{ cardChosenId: number; playerId: number }> {
     ActionManager.inReactionPhase = true;
+    cc.log(cards)
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];
 

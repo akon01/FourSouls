@@ -4,7 +4,8 @@ import {
   CARD_TYPE,
   printMethodStarted,
   COLORS,
-  TIMETOBUY
+  TIMETOBUY,
+  ITEM_TYPE
 } from "../Constants";
 import CardEffect from "../Entites/CardEffect";
 import { CardLayout } from "../Entites/CardLayout";
@@ -26,6 +27,8 @@ import TurnsManager from "./TurnsManager";
 import Monster from "../Entites/CardTypes/Monster";
 import Server from "../../ServerClient/ServerClient";
 import Signal from "../../Misc/Signal";
+import CardPreviewManager from "./CardPreviewManager";
+import CharacterItem from "../Entites/CardTypes/CharacterItem";
 
 
 const { ccclass, property } = cc._decorator;
@@ -394,75 +397,57 @@ export default class CardManager extends cc.Component {
 
   static makeMonsterAttackable(monsterCard: cc.Node) {
     let cardComp = monsterCard.getComponent(Card);
-    cardComp.isAttackable = true;
-    // let cardPreview = cc.find("Canvas/CardPreview").getComponent(CardPreview);
-    // monsterCard.once(
-    //   cc.Node.EventType.TOUCH_START,
-    //   () => {
-    //     cardPreview.showCardPreview(monsterCard, false, false, true);
-    //   },
-    //   this
-    // );
+    cardComp._isAttackable = true;
     this.makeCardPreviewable(monsterCard);
   }
 
   static makeItemBuyable(itemCard: cc.Node, player: Player) {
     let cardComp = itemCard.getComponent(Card);
-    cardComp.isBuyable = true;
-    let cardPreview = cc.find("Canvas/CardPreview").getComponent(CardPreview);
+    cardComp._isBuyable = true;
+
     itemCard.off(cc.Node.EventType.TOUCH_START);
-    // itemCard.once(
-    //   cc.Node.EventType.TOUCH_START,
-    //   () => {
-    //     cardPreview.showCardPreview(itemCard, false, false, false, true);
-    //   },
-    //   this
-    // );
     this.makeCardPreviewable(itemCard);
   }
 
   static makeLootPlayable(lootCard: cc.Node, player: Player) {
     let cardComp = lootCard.getComponent(Card);
-    cardComp.isPlayable = true;
-    let cardPreview = cc.find("Canvas/CardPreview").getComponent(CardPreview);
-    // lootCard.once(cc.Node.EventType.TOUCH_START, () => {
-    //   cardPreview.showCardPreview(lootCard, false, true);
-    // });
+    cardComp._isPlayable = true;
+
     this.makeCardPreviewable(lootCard);
   }
 
   static makeItemActivateable(item: cc.Node) {
     let cardComp = item.getComponent(Card);
-    cardComp.isActivateable = true;
-
-    let cardPreview = cc.find("Canvas/CardPreview").getComponent(CardPreview);
+    let cardEffectComp = item.getComponent(CardEffect);
+    // if (cardEffectComp.testEffectsPreConditions()) { 
+    //   cc.log(`${item.name} is activatble`)
+    cardComp._isActivateable = true;
+    // } else {
+    //   cc.log(`${item.name} is not activatble`)
+    // }
     this.makeCardPreviewable(item);
-    // item.once(
-    //   cc.Node.EventType.TOUCH_START,
-    //   () => {
-    //     cardPreview.showCardPreview(item, true);
-    //   },
-    //   this
-    // );
   }
 
   static makeCardReactable(card: cc.Node, reactablePlayer: cc.Node) {
     let cardComp = card.getComponent(Card);
-
-    cardComp.isReactable = true;
-    cardComp._cardHolderId = reactablePlayer.getComponent(Player).playerId
+    let cardEffectComp = card.getComponent(CardEffect);
+    if (cardEffectComp.testEffectsPreConditions()) {
+      cardComp._isReactable = true;
+      cardComp._cardHolderId = reactablePlayer.getComponent(Player).playerId
+    }
     //change to show card preview.
     this.makeCardPreviewable(card);
 
   }
 
   static makeCardPreviewable(card: cc.Node) {
-    let cardPreview = cc.find("Canvas/CardPreview").getComponent(CardPreview);
+
     card.off(cc.Node.EventType.TOUCH_START);
     card.on(
       cc.Node.EventType.TOUCH_START,
       () => {
-        cardPreview.showCardPreview2(card);
+        CardPreviewManager.getPreviews(Array.of(card))
+        //cardPreview.showCardPreview2(card);
       },
       this
     );
@@ -486,12 +471,12 @@ export default class CardManager extends cc.Component {
     card.off(cc.Node.EventType.TOUCH_START);
     if (card.getComponent(Deck) == null) {
       let cardComp = card.getComponent(Card);
-      cardComp.isActivateable = false;
-      cardComp.isAttackable = false;
-      cardComp.isBuyable = false;
-      cardComp.isPlayable = false;
-      cardComp.isReactable = false;
-      cardComp.isRequired = false;
+      cardComp._isActivateable = false;
+      cardComp._isAttackable = false;
+      cardComp._isBuyable = false;
+      cardComp._isPlayable = false;
+      cardComp._isReactable = false;
+      cardComp._isRequired = false;
       this.makeCardPreviewable(card);
     }
   }
@@ -515,6 +500,7 @@ export default class CardManager extends cc.Component {
     }
     cardComp.isRequired = true;
     cardComp.requiredFor = dataCollector;
+
 
     ///change to show preview for comfirmation!
     this.makeCardPreviewable(card);
@@ -571,7 +557,7 @@ export default class CardManager extends cc.Component {
       cardPlayerId: cardPlayerId,
       cardId: cardId
     };
-    let serverCardEffect;
+    let serverCardEffect: ServerEffect;
 
     if (cardEffectIndex != null) {
       serverCardEffect = await card
@@ -582,7 +568,44 @@ export default class CardManager extends cc.Component {
         .getComponent(CardEffect)
         .getServerEffect(cardPlayedData);
     }
-
+    let isDice = false;
+    if (card.getComponent(Dice) != null) {
+      isDice = true;
+    }
+    if (isDice) {
+      cc.log('isDice')
+    } else {
+      switch (serverCardEffect.effctType) {
+        case ITEM_TYPE.ACTIVE:
+          switch (card.getComponent(Card).type) {
+            case CARD_TYPE.CHAR:
+              card.getComponent(Item).useItem();
+              //card.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
+              break;
+            case CARD_TYPE.CHARITEM:
+              card.getComponent(CharacterItem).useItem();
+              //  card.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
+              break;
+            case CARD_TYPE.LOOT:
+              break;
+            case CARD_TYPE.MONSTER:
+              break;
+            default:
+              card.getComponent(Item).useItem();
+              //card.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
+              break;
+          }
+          break;
+        case ITEM_TYPE.PASSIVE:
+          cc.log('dont rotate for passive effect')
+          break;
+        case ITEM_TYPE.PAID:
+          cc.log('dont rotate for paid effect')
+          break;
+        default:
+          break;
+      }
+    }
     return new Promise((resolve, reject) => {
       resolve(serverCardEffect);
     });
@@ -608,7 +631,7 @@ export default class CardManager extends cc.Component {
       player.deskCards.push(player.character);
       if (PlayerManager.mePlayer == player.node) {
         for (const handCard of player.handCards) {
-          if (handCard.getComponent(Card).isFlipped) {
+          if (handCard.getComponent(Card)._isFlipped) {
             handCard.getComponent(Card).flipCard();
           }
         }
@@ -634,7 +657,7 @@ export default class CardManager extends cc.Component {
       this.onTableCards = this.onTableCards.concat(player.deskCards);
     }
     for (const tableCard of this.onTableCards) {
-      if (tableCard.getComponent(Card).isFlipped) {
+      if (tableCard.getComponent(Card)._isFlipped) {
         tableCard.getComponent(Card).flipCard();
       }
     }

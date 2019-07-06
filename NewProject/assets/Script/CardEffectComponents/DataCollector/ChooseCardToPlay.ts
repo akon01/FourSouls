@@ -57,7 +57,7 @@ export default class SelectLootToPlay extends DataCollector {
 
   getCardsToChoose(chooseType: CHOOSE_TYPE, player: Player) {
     switch (chooseType) {
-      case CHOOSE_TYPE.PLAYER:
+      case CHOOSE_TYPE.PLAYERS:
         let playerCards: cc.Node[] = [];
         for (let index = 0; index < PlayerManager.players.length; index++) {
           const player = PlayerManager.players[index].getComponent(Player);

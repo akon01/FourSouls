@@ -30,8 +30,8 @@ export default class DiscardAndDrawLoot extends Effect {
       Player
     );
     // player.getComponent(Player).playLootCard(cardPlayed, true);
-    player.discardLoot(cardChosen, false);
-    player.drawCard(CardManager.lootDeck, false);
+    await player.discardLoot(cardChosen, true);
+    await player.drawCard(CardManager.lootDeck, true);
     return new Promise<ServerEffect[]>((resolve, reject) => {
       resolve(serverEffectStack);
     });

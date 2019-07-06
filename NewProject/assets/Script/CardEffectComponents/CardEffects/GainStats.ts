@@ -55,7 +55,7 @@ export default class GainStats extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  doEffect(serverEffectStack: ServerEffect[], data?: { target: number }) {
+  async doEffect(serverEffectStack: ServerEffect[], data?: { target: number }) {
     let target;
     target = PlayerManager.getPlayerById(data.target);
     //case target is a player
@@ -63,19 +63,19 @@ export default class GainStats extends Effect {
       let player: Player = target.getComponent(Player);
 
       if (this.gainHp) {
-        player.Hp += this.hpToGain;
+        await player.gainHp(this.hpToGain, true)
       }
       if (this.gainDMG) {
-        player.baseDamage += this.DMGToGain;
+        await player.gainDMG(this.DMGToGain, true)
       }
       if (this.gainRollBonus) {
-        player.nonAttackRollBonus += this.rollBonusToGain;
+        await player.gainRollBonus(this.rollBonusToGain, true)
       }
       if (this.gainAttackRollBonus) {
-        player.attackRollBonus += this.attackRollBonusToGain;
+        await player.gainAttackRollBonus(this.attackRollBonusToGain, true)
       }
       if (this.gainFirstAttackRollBonus) {
-        player.firstAttackRollBonus += this.firstAttackRollBonusToGain;
+        await player.gainFirstAttackRollBonus(this.firstAttackRollBonusToGain, true)
       }
     } else {
       target = CardManager.getCardById(data.target, true)
@@ -83,29 +83,27 @@ export default class GainStats extends Effect {
 
       if (this.gainHp) {
 
-        monster.currentHp += this.hpToGain;
+        await monster.gainHp(this.hpToGain, true)
 
       }
       if (this.gainDMG) {
 
-        monster.baseDamage += this.DMGToGain;
+        await monster.gainDMG(this.DMGToGain, true)
 
       }
       if (this.gainRollBonus) {
 
-        monster.rollBonus += this.rollBonusToGain;
+        await monster.gainRollBonus(this.rollBonusToGain, true)
 
       }
       this.activatedTarget = target
     }
     //   let targetPlayer = PlayerManager.getPlayerById(data.target);
 
-    return new Promise<ServerEffect[]>((resolve, reject) => {
-      resolve(serverEffectStack);
-    });
+    return serverEffectStack
   }
 
-  reverseEffect() {
+  async reverseEffect() {
     let target = this.activatedTarget;
 
     //case target is a player
@@ -113,19 +111,19 @@ export default class GainStats extends Effect {
       let player: Player = target.getComponent(Player);
 
       if (this.gainHp) {
-        player.Hp -= this.hpToGain;
+        await player.gainHp(-this.hpToGain, true)
       }
       if (this.gainDMG) {
-        player.baseDamage -= this.DMGToGain;
+        await player.gainDMG(-this.DMGToGain, true)
       }
       if (this.gainRollBonus) {
-        player.nonAttackRollBonus -= this.rollBonusToGain;
+        await player.gainRollBonus(-this.rollBonusToGain, true)
       }
       if (this.gainAttackRollBonus) {
-        player.attackRollBonus -= this.attackRollBonusToGain;
+        await player.gainAttackRollBonus(-this.attackRollBonusToGain, true)
       }
       if (this.gainFirstAttackRollBonus) {
-        player.firstAttackRollBonus -= this.firstAttackRollBonusToGain;
+        await player.gainFirstAttackRollBonus(-this.firstAttackRollBonusToGain, true)
       }
     } else {
       //target is a monster
@@ -133,20 +131,21 @@ export default class GainStats extends Effect {
 
       if (this.gainHp) {
 
-        monster.currentHp -= this.hpToGain;
+        await monster.gainHp(-this.hpToGain, true)
 
       }
       if (this.gainDMG) {
 
-        monster.baseDamage -= this.DMGToGain;
+        await monster.gainDMG(-this.DMGToGain, true)
 
       }
       if (this.gainRollBonus) {
 
-        monster.rollBonus -= this.rollBonusToGain;
+        await monster.gainRollBonus(-this.rollBonusToGain, true)
 
       }
       this.activatedTarget = target
     }
+
   }
 }

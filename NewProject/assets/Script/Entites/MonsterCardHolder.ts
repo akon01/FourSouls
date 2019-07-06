@@ -56,7 +56,7 @@ export default class MonsterCardHolder extends cc.Component {
     } else {
 
       let drawnMonster = CardManager.monsterDeck.getComponent(Deck).drawCard(sendToServer);
-      if (drawnMonster.getComponent(Card).isFlipped) {
+      if (drawnMonster.getComponent(Card)._isFlipped) {
         drawnMonster.getComponent(Card).flipCard();
       }
 
@@ -72,7 +72,7 @@ export default class MonsterCardHolder extends cc.Component {
   @printMethodStarted(COLORS.LIGHTBLUE)
   async addToMonsters(monsterCard: cc.Node, sendToServer: boolean) {
 
-    if (monsterCard.getComponent(Card).isFlipped) {
+    if (monsterCard.getComponent(Card)._isFlipped) {
       monsterCard.getComponent(Card).flipCard();
     }
     for (const monster of this.monsters) {

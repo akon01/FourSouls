@@ -62,18 +62,18 @@ export default class PileManager extends cc.Component {
     let originalPos
     let moveAction
 
-    if (card.getComponent(Card).isFlipped) {
+    if (card.getComponent(Card)._isFlipped) {
       card.getComponent(Card).flipCard();
     }
+    originalPos = card.convertToWorldSpaceAR(card.position);
+    card.parent = cc.find("Canvas");
+    card.setPosition(card.parent.convertToNodeSpaceAR(originalPos));
+    let goTo
     switch (type) {
+
       case CARD_TYPE.LOOT:
-        originalPos = card.convertToWorldSpaceAR(card.position);
-        card.parent = cc.find("Canvas");
-        card.setPosition(card.parent.convertToNodeSpaceAR(originalPos));
         CardManager.onTableCards.push(card);
         PileManager.lootCardPile.push(card);
-        let lootCardPilePos = this.lootCardPileNode.convertToWorldSpaceAR(this.lootCardPileNode.getPosition())
-        let goTo = card.parent.convertToNodeSpaceAR(lootCardPilePos)
         moveAction = cc.moveTo(
           TIMEFORMONSTERDISCARD,
           this.lootCardPileNode.getPosition()
@@ -81,20 +81,13 @@ export default class PileManager extends cc.Component {
         card.runAction(
           cc.sequence(moveAction, cc.callFunc(() => { card.parent = this.lootCardPileNode; card.setPosition(0, 0); this.isOver = true }))
         );
-        //    card.setPosition(PileManager.lootCardPileNode.position);
-        CardManager.disableCardActions(card);
-        CardManager.makeCardPreviewable(card);
         break;
       case CARD_TYPE.MONSTER:
-        originalPos = card.convertToWorldSpaceAR(card.position);
-        card.parent = cc.find("Canvas");
-        card.setPosition(card.parent.convertToNodeSpaceAR(originalPos));
         CardManager.onTableCards.push(card);
         PileManager.monsterCardPile.push(card);
-
         moveAction = cc.moveTo(
           TIMEFORMONSTERDISCARD,
-          PileManager.monsterCardPileNode.position
+          this.monsterCardPileNode.getPosition()
         )
         card.runAction(
           cc.sequence(moveAction, cc.callFunc(() => {
@@ -107,26 +100,26 @@ export default class PileManager extends cc.Component {
             }
           }))
         );
-
-        //    card.setPosition();
-        CardManager.disableCardActions(card);
-        CardManager.makeCardPreviewable(card);
         break;
       case CARD_TYPE.TREASURE:
-        originalPos = card.convertToWorldSpaceAR(card.position);
-        card.parent = cc.find("Canvas");
-        card.setPosition(card.parent.convertToNodeSpaceAR(originalPos));
         if (CardManager.onTableCards.find(tableCard => tableCard.uuid == card.uuid) == undefined) {
           CardManager.onTableCards.push(card);
         }
         PileManager.treasureCardPile.push(card);
-        card.runAction(cc.moveTo(TIMEFORMONSTERDISCARD, (PileManager.treasureCardPileNode.position)));
-        CardManager.disableCardActions(card);
-        CardManager.makeCardPreviewable(card);
+        moveAction = cc.moveTo(
+          TIMEFORMONSTERDISCARD,
+          this.treasureCardPileNode.getPosition()
+        )
+        card.runAction(
+          cc.sequence(moveAction, cc.callFunc(() => { card.parent = this.treasureCardPileNode; card.setPosition(0, 0); this.isOver = true }))
+        );
         break;
       default:
         break;
+
     }
+    CardManager.disableCardActions(card);
+    CardManager.makeCardPreviewable(card);
     await this.waitForCardMovement()
     if (sendToServer) {
       let srvData = { type: type, cardId: card.getComponent(Card)._cardId };

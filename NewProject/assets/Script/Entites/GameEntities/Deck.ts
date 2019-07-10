@@ -1,8 +1,9 @@
-import { CARD_TYPE, CARD_WIDTH, CARD_HEIGHT, printMethodStarted, COLORS } from "../../Constants";
+import { CARD_TYPE, CARD_WIDTH, CARD_HEIGHT, printMethodStarted, COLORS, TIMEFORMONSTERDISCARD } from "../../Constants";
 import CardManager from "../../Managers/CardManager";
 import DataCollector from "../../CardEffectComponents/DataCollector/DataCollector";
 import Server from "../../../ServerClient/ServerClient";
 import Signal from "../../../Misc/Signal";
+import Card from "./Card";
 
 const { ccclass, property } = cc._decorator;
 
@@ -19,6 +20,7 @@ export default class Deck extends cc.Component {
   @property([cc.Node])
   _cards: cc.Node[] = [];
 
+
   @property([cc.Prefab])
   cardsPrefab: cc.Prefab[] = [];
 
@@ -32,13 +34,19 @@ export default class Deck extends cc.Component {
   _requiredFor: DataCollector = null;
 
 
-  addToDeckOnTop(card: cc.Node) {
-    CardManager.monsterCardPool.put(card);
+  addToDeckOnTop(card: cc.Node, sendToServer: boolean) {
     this._cards.push(card);
     CardManager.inDecksCards.push(card);
+    CardManager.monsterCardPool.put(card);
+    card.setParent(null)
+    let serverData = {
+      signal: Signal.DECKADDTOTOP,
+      srvData: { deckType: this.deckType, cardId: card.getComponent(Card)._cardId }
+    };
+    if (sendToServer) {
+      Server.$.send(serverData.signal, serverData.srvData)
+    }
   }
-
-  //@printMethodStarted(COLORS.LIGHTBLUE)
   drawCard(sendToServer: boolean): cc.Node {
 
     if (this._cards.length != 0) {
@@ -82,37 +90,6 @@ export default class Deck extends cc.Component {
     let sprite = this.topBlankCard.getComponent(cc.Sprite);
     sprite.enabled = false;
 
-    // this.drawnCard.on('touchstart', (event) => {
-    //     
-    //     if (this.interactive && this.cards.length != 0) {
-    //      //   
-    //         this.drawingCard = true;
-    //         //  this.drawnCard = this.drawCard();
-
-    //         sprite.enabled = true;
-    //         startDrag(event)
-    //     }
-    // }, this)
-
-    // this.drawnCard.on('touchmove', (event: cc.Event.EventTouch) => {
-    //     if (this.drawingCard) {
-
-    //         Drag(event)
-    //     }
-    // })
-
-    // this.drawnCard.on('touchend', (event) => {
-    //     if (this.drawingCard) {
-
-    //         endTopCardDrag(event)
-    //         if (this.cards.length == 0) {
-    //             sprite.enabled = false;
-    //             this.node.runAction(cc.rotateBy(0.5, 90, 0, 0))
-    //         }
-    //     }
-    //     this.drawingCard = false;
-
-    // })
   }
 
   start() { }

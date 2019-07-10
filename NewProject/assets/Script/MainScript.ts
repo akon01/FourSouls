@@ -145,17 +145,17 @@ export default class MainScript extends cc.Component {
     //deal two treasures and  two monsters
     //this.node.on("decksDone", () => {
     //   
-    storeComp.addStoreCard(false);
-    storeComp.addStoreCard(false);
+    //storeComp.addStoreCard(false);
+    //storeComp.addStoreCard(false);
 
     // monsterComp.addMonsterToExsistingPlace(
     //   1,
-    //   CardManager.monsterDeck.getComponent(Deck).drawCard(),
+    //   CardManager.monsterDeck.getComponent(Deck).drawCard(false),
     //   false
     // );
     // monsterComp.addMonsterToExsistingPlace(
     //   2,
-    //   CardManager.monsterDeck.getComponent(Deck).drawCard(),
+    //   CardManager.monsterDeck.getComponent(Deck).drawCard(false),
     //   false
     // );
 
@@ -178,17 +178,6 @@ export default class MainScript extends cc.Component {
       .getComponent(cc.Label);
 
     currentPlayerLableComp.string = "current player is:" + MainScript.serverId;
-
-    //     //set up card preview node.
-    //    this.cardPreview.active = false;
-
-    //set up server action listeners(another player did an action):
-
-    // this.node.on('addItem', ({ playerId, cardId }) => {
-    //     actionsManagerComp.otherPlayerGotItem(playerId, cardId)
-    //     ActionManager.updateActions()
-    //     PlayerManager.mePlayer.getComponent(Player).showAvailableReactions()
-    // })
 
     cc.director.getScene().on("monsterAttacked", () => {
 
@@ -215,7 +204,7 @@ export default class MainScript extends cc.Component {
 
 
     if (PlayerManager.mePlayer.getComponent(Player).playerId == playerId) {
-
+      cc.log('first update actions')
       let over = await ActionManager.updateActions();
 
       Server.$.send(Signal.UPDATEACTIONS)

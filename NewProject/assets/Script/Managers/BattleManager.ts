@@ -50,13 +50,13 @@ export default class BattleManager extends cc.Component {
       let damage = turnPlayer.calculateDamage();
       // 
       // 
-      this.currentlyAttackedMonster.getDamaged(damage);
+      this.currentlyAttackedMonster.getDamaged(damage, true);
       // 
     } else {
       let damage = this.currentlyAttackedMonster.calculateDamage();
       // 
       // 
-      let gotHit = await turnPlayer.getHit(damage);
+      let gotHit = await turnPlayer.getHit(damage, true);
       // 
     }
     //  this.checkIfPlayerIsDead(sendToServer);

@@ -27,6 +27,9 @@ export default class PlayerDesk extends cc.Component {
   @property(cc.Node)
   characterItemCard: cc.Node = null;
 
+  @property
+  _playerId: number = 0;
+
   addToDesk(card: Card) {
 
     let deskComp: PlayerDesk = this.node.getComponent(PlayerDesk);

@@ -13,32 +13,35 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "The Relic",
+    "_name": "Incubus",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
       {
         "__id__": 2
+      },
+      {
+        "__id__": 5
       }
     ],
     "_active": true,
     "_level": 1,
     "_components": [
       {
+        "__id__": 11
+      },
+      {
+        "__id__": 12
+      },
+      {
+        "__id__": 13
+      },
+      {
         "__id__": 14
-      },
-      {
-        "__id__": 15
-      },
-      {
-        "__id__": 16
-      },
-      {
-        "__id__": 17
       }
     ],
     "_prefab": {
-      "__id__": 18
+      "__id__": 15
     },
     "_opacity": 255,
     "_color": {
@@ -50,8 +53,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 70,
-      "height": 100
+      "width": 50,
+      "height": 70
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -88,31 +91,21 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "GainLoot",
+    "_name": "MultiEffectChoose",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
     },
-    "_children": [
-      {
-        "__id__": 3
-      },
-      {
-        "__id__": 6
-      },
-      {
-        "__id__": 9
-      }
-    ],
+    "_children": [],
     "_active": true,
     "_level": 2,
     "_components": [
       {
-        "__id__": 12
+        "__id__": 3
       }
     ],
     "_prefab": {
-      "__id__": 13
+      "__id__": 4
     },
     "_opacity": 255,
     "_color": {
@@ -159,76 +152,13 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Node",
-    "_name": "PlayerRollNumber",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_level": 3,
-    "_components": [
-      {
-        "__id__": 4
-      }
-    ],
-    "_prefab": {
-      "__id__": 5
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_quat": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_zIndex": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "2b6f7RR055Ca6GWp/EHKd0X",
+    "__type__": "ce95faJnNBDHKS8n+Mrz8OK",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 3
+      "__id__": 2
     },
     "_enabled": true,
-    "numberRoll": 5,
     "_id": ""
   },
   {
@@ -237,17 +167,83 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "570b82de-ace1-4293-abaf-6cc063c7cea8"
+      "__uuid__": "c329a523-0c34-497c-8410-400f060640e2"
     },
-    "fileId": "damrhnCddLm4v8xumP1QFw",
+    "fileId": "a0I5bF6ThMG5bdrhVbdXQ9",
     "sync": false
   },
   {
     "__type__": "cc.Node",
-    "_name": "CardPlayer",
+    "_name": "LootThanPutOnTop",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 2
+      "__id__": 1
+    },
+    "_children": [
+      {
+        "__id__": 6
+      }
+    ],
+    "_active": true,
+    "_level": 2,
+    "_components": [
+      {
+        "__id__": 9
+      }
+    ],
+    "_prefab": {
+      "__id__": 10
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 50,
+      "height": 11
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_position": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": -26.2,
+      "z": 0
+    },
+    "_scale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_quat": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_zIndex": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "CardOwner",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 5
     },
     "_children": [],
     "_active": true,
@@ -305,7 +301,7 @@
     "_id": ""
   },
   {
-    "__type__": "1d1ecf8dolI9JOwSEDLfemj",
+    "__type__": "7dab8c90ZJG8Zh8owOKS3GI",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -320,114 +316,28 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "570b82de-ace1-4293-abaf-6cc063c7cea8"
+      "__uuid__": "c329a523-0c34-497c-8410-400f060640e2"
     },
-    "fileId": "d9ATSfRhlHFpQS33A9ZbGu",
+    "fileId": "36Q6ar7uNMG6r9qG1//C60",
     "sync": false
   },
   {
-    "__type__": "cc.Node",
-    "_name": "CardOwner",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_level": 3,
-    "_components": [
-      {
-        "__id__": 10
-      }
-    ],
-    "_prefab": {
-      "__id__": 11
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": 178,
-      "y": 0,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_quat": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_zIndex": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "7dab8c90ZJG8Zh8owOKS3GI",
+    "__type__": "7c57aLB9KJAT5ADK0kuNsvA",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
-    },
-    "_enabled": true,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "570b82de-ace1-4293-abaf-6cc063c7cea8"
-    },
-    "fileId": "cecYdqLmNGfIBgT/Mn93AD",
-    "sync": false
-  },
-  {
-    "__type__": "a96d7Yye0ZFo6njiCE50Wn8",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
+      "__id__": 5
     },
     "_enabled": true,
     "cost": null,
     "preCondition": null,
-    "condition": {
-      "__id__": 4
-    },
-    "passiveType": 2,
+    "condition": null,
+    "passiveType": 1,
     "passiveEffectToAdd": null,
     "dataCollector": {
-      "__id__": 10
+      "__id__": 7
     },
     "_effectCard": null,
-    "numOfLoot": 1,
     "_id": ""
   },
   {
@@ -436,9 +346,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "570b82de-ace1-4293-abaf-6cc063c7cea8"
+      "__uuid__": "c329a523-0c34-497c-8410-400f060640e2"
     },
-    "fileId": "2dtVmcvBdMsbjQnjpCOMhX",
+    "fileId": "1aBNZdTZFB6YrFncL3vzj0",
     "sync": false
   },
   {
@@ -452,7 +362,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "3b49aec6-bb08-4040-b599-0f7ddf6e7564"
+      "__uuid__": "1cea2ae0-87f3-45a0-a4e4-03187e1aa099"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -467,7 +377,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": {
-      "__uuid__": "d08a24d6-aaae-4dbf-a893-08aab773fb5b"
+      "__uuid__": "370056d9-5b92-4472-a9c8-a83746573a9e"
     },
     "_id": ""
   },
@@ -479,14 +389,14 @@
       "__id__": 1
     },
     "_enabled": true,
-    "cardName": "The Relic",
+    "cardName": "Incubus",
     "_cardId": 0,
     "_isInHand": false,
     "_isOnDesk": false,
     "_originalParent": null,
     "topDeckof": null,
     "souls": 0,
-    "type": 5,
+    "type": null,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -511,9 +421,9 @@
       "__id__": 1
     },
     "_enabled": true,
-    "type": 0,
+    "type": 1,
     "activated": false,
-    "eternal": false,
+    "eternal": true,
     "_id": ""
   },
   {
@@ -525,18 +435,20 @@
     },
     "_enabled": true,
     "conditions": [],
-    "activeEffects": [],
-    "passiveEffects": [
+    "activeEffects": [
       {
-        "__id__": 2
+        "__id__": 5
       }
     ],
+    "passiveEffects": [],
     "toAddPassiveEffects": [],
     "paidEffects": [],
-    "multiEffectCollector": null,
+    "multiEffectCollector": {
+      "__id__": 3
+    },
     "effectData": null,
     "data": {},
-    "hasMultipleEffects": false,
+    "hasMultipleEffects": true,
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
@@ -547,7 +459,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "570b82de-ace1-4293-abaf-6cc063c7cea8"
+      "__uuid__": "c329a523-0c34-497c-8410-400f060640e2"
     },
     "fileId": "74xrl7Ss9GNLi7htp7h56D",
     "sync": false

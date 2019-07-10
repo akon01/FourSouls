@@ -160,7 +160,7 @@ export const testForPassiveBefore = (methodCallerName: string) =>
 
       const passiveEffect = allPassiveEffects[i];
       ;
-      let isConditionTrue = passiveEffect.condition.testCondition(meta);
+      let isConditionTrue = await passiveEffect.condition.testCondition(meta);
       if (isConditionTrue) {
 
         allPassivesToActivate.push(passiveEffect)
@@ -270,7 +270,7 @@ export const testForPassiveAfter = (methodCallerName: string) =>
 
 
     for (const passiveEffect of allPassiveEffects) {
-      let isConditionTrue = passiveEffect.condition.testCondition(meta);
+      let isConditionTrue = await passiveEffect.condition.testCondition(meta);
       if (isConditionTrue) {
         let cardActivated = passiveEffect.node.parent;
         let passiveIndex = cardActivated
@@ -284,19 +284,19 @@ export const testForPassiveAfter = (methodCallerName: string) =>
             activated = await player.activatePassive(
               cardActivated,
               true,
-              passiveIndex
+              passiveIndex.index
             );
           } else {
             activated = await player.activatePassive(
               cardActivated,
               false,
-              passiveIndex
+              passiveIndex.index
             );
           }
         } else {
 
           let monster = cardActivated.getComponent(Card)
-          monster.activatePassive(monster._cardId, passiveIndex, false)
+          monster.activatePassive(monster._cardId, passiveIndex.index, false)
         }
       } else {
       }

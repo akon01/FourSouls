@@ -22,16 +22,16 @@ export default class Store extends cc.Component {
   //@printMethodStarted(COLORS.PURPLE)
   addStoreCard(sendToserver: boolean, cardToAdd?: cc.Node) {
     if (Store.maxNumOfItems > Store.storeCards.length) {
-      let newTreasure
+      let newTreasure: cc.Node
       if (cardToAdd != null) {
         newTreasure = cardToAdd
       } else {
 
         newTreasure = CardManager.treasureDeck.getComponent(Deck).drawCard(sendToserver);
       }
-
-      if (newTreasure.getComponent(Card).isFlipped) {
+      if (newTreasure.getComponent(Card)._isFlipped) {
         newTreasure.getComponent(Card).flipCard();
+      } else {
       }
       CardManager.allCards.push(newTreasure);
       CardManager.onTableCards.push(newTreasure);

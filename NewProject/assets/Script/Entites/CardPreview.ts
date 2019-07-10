@@ -33,7 +33,7 @@ export default class CardPreview extends cc.Component {
 
   static wasEffectChosen: boolean = false;
 
-  static effectChosen = null;
+  static effectChosen: cc.Node = null;
 
   isSelected: boolean = false;
 
@@ -46,173 +46,7 @@ export default class CardPreview extends cc.Component {
   @property
   hideThisTimeOut = null;
 
-  //@printMethodStarted(COLORS.RED)
-  // showCardPreview(
-  //   card: cc.Node,
-  //   makeItemReadyToActivate: boolean,
-  //   makeLootPlayable?: boolean,
-  //   makeMonsterAttackable?: boolean,
-  //   makeItemBuyable?: boolean
-  // ) {
-  //   this.node.on(cc.Node.EventType.TOUCH_START, event => {
-  //     event.stopPropagation();
-  //   });
-  //   if (this.hideThisTimeOut != null) {
-  //     clearTimeout(this.hideThisTimeOut);
-  //     this.hideThisTimeOut = null;
-  //   }
-  //   if (makeItemReadyToActivate) {
-  //     this.node.once(cc.Node.EventType.TOUCH_START, () => {
-  //       let cardPlayer = PlayerManager.getPlayerById(
-  //         TurnsManager.currentTurn.PlayerId
-  //       ).getComponent(Player);
-  //       if (!card.getComponent(CardEffect).hasMultipleEffects) {
-  //         this.hideCardPreview();
-  //       }
-  //       cardPlayer.activateItem(card, true);
-  //     });
-  //   }
-  //   if (makeLootPlayable) {
-  //     this.node.once(cc.Node.EventType.TOUCH_START, () => {
-  //       let cardPlayer = PlayerManager.getPlayerById(
-  //         TurnsManager.currentTurn.PlayerId
-  //       ).getComponent(Player);
-  //       this.hideCardPreview();
-  //       cardPlayer.playLootCard(card, true);
-  //     });
-  //   }
-  //   if (makeMonsterAttackable) {
-  //     this.node.once(cc.Node.EventType.TOUCH_START, () => {
-  //       let cardPlayer = PlayerManager.getPlayerById(
-  //         TurnsManager.currentTurn.PlayerId
-  //       ).getComponent(Player);
-  //       this.hideCardPreview();
-  //       cardPlayer.declareAttack(card, true);
-  //     });
-  //   }
 
-  //   if (makeItemBuyable) {
-  //     this.node.once(cc.Node.EventType.TOUCH_START, () => {
-  //       let cardPlayer = PlayerManager.getPlayerById(
-  //         TurnsManager.currentTurn.PlayerId
-  //       ).getComponent(Player);
-  //       this.hideCardPreview();
-  //       cardPlayer.buyItem(card, true);
-  //     });
-  //   }
-
-  //   this.node.active = true;
-  //   this.card = card;
-
-  //   let newSprite = card.getComponent(Card).frontSprite;
-  //   this.node.getComponent(cc.Sprite).spriteFrame = newSprite;
-  //   this.node.setSiblingIndex(this.node.parent.childrenCount - 1);
-  //   if (this.node.getNumberOfRunningActions() == 0) {
-  //     this.node.runAction(cc.fadeTo(TIMETOSHOWPREVIEW, 255));
-  //   } else {
-  //     this.node.stopAllActions();
-  //     this.node.runAction(cc.fadeTo(TIMETOSHOWPREVIEW, 255));
-  //   }
-  // }
-
-  // async showCardPreview2(card: cc.Node) {
-
-  //   let cardComp;
-  //   let newSprite;
-  //   if (card.getComponent(Deck) == null) {
-
-  //     cardComp = card.getComponent(Card);
-  //   } else {
-
-  //     cardComp = card.getComponent(Deck);
-  //     newSprite = card.getComponent(cc.Sprite).spriteFrame;
-  //   }
-  //   this.node.on(cc.Node.EventType.TOUCH_START, event => {
-  //     event.stopPropagation();
-  //   });
-
-  //   if (cardComp.isRequired) {
-  //     if (card.getComponent(Deck) == null) {
-  //       newSprite = card.getComponent(Card).frontSprite;
-  //     }
-  //     this.node.once(cc.Node.EventType.TOUCH_START, () => {
-  //       let cardPlayer = PlayerManager.getPlayerById(
-  //         TurnsManager.currentTurn.PlayerId
-  //       ).getComponent(Player);
-  //       this.hideCardPreview();
-  //       cardComp.requiredFor.cardChosen = card;
-  //       cardComp.requiredFor.isCardChosen = true;
-  //     });
-  //   } else if (cardComp instanceof Card) {
-
-
-  //     newSprite = card.getComponent(Card).frontSprite;
-  //     if (cardComp._isReactable) {
-  //       ;
-  //       this.node.once(cc.Node.EventType.TOUCH_START, () => {
-  //         let cardPlayer = PlayerManager.getPlayerById(
-  //           cardComp._cardHolderId
-  //         ).getComponent(Player);
-  //         if (!card.getComponent(CardEffect).hasMultipleEffects) {
-  //           this.hideCardPreview();
-  //         }
-  //         cardPlayer.activateCard(card);
-  //       });
-  //     } else if (cardComp._isActivateable) {
-  //       ;
-  //       this.node.once(cc.Node.EventType.TOUCH_START, () => {
-  //         let cardPlayer = PlayerManager.getPlayerById(
-  //           TurnsManager.currentTurn.PlayerId
-  //         ).getComponent(Player);
-  //         if (!card.getComponent(CardEffect).hasMultipleEffects) {
-  //           this.hideCardPreview();
-  //         }
-  //         cardPlayer.activateItem(card, true);
-  //       });
-  //     } else if (cardComp._isPlayable) {
-  //       ;
-  //       this.node.once(cc.Node.EventType.TOUCH_START, () => {
-  //         let cardPlayer = PlayerManager.getPlayerById(
-  //           TurnsManager.currentTurn.PlayerId
-  //         ).getComponent(Player);
-  //         this.hideCardPreview();
-  //         cardPlayer.playLootCard(card, true);
-  //       });
-  //     }
-  //     if (cardComp._isAttackable) {
-  //       ;
-  //       this.node.once(cc.Node.EventType.TOUCH_START, () => {
-  //         let cardPlayer = PlayerManager.getPlayerById(
-  //           TurnsManager.currentTurn.PlayerId
-  //         ).getComponent(Player);
-  //         this.hideCardPreview();
-  //         cardPlayer.declareAttack(card, true);
-  //       });
-  //     } else if (cardComp._isBuyable) {
-  //       ;
-  //       this.node.once(cc.Node.EventType.TOUCH_START, () => {
-  //         let cardPlayer = PlayerManager.getPlayerById(
-  //           TurnsManager.currentTurn.PlayerId
-  //         ).getComponent(Player);
-  //         this.hideCardPreview();
-  //         cardPlayer.buyItem(card, true);
-  //       });
-  //     }
-  //   }
-
-  //   // this.node.active = true;
-  //   this.card = card;
-
-  //   this.node.getComponent(cc.Sprite).spriteFrame = newSprite;
-  //   this.node.setSiblingIndex(this.node.parent.childrenCount - 1);
-  //   if (this.node.getNumberOfRunningActions() == 0) {
-  //     this.node.runAction(cc.fadeTo(TIMETOSHOWPREVIEW, 255));
-  //   } else {
-  //     this.node.stopAllActions();
-  //     this.node.runAction(cc.fadeTo(TIMETOSHOWPREVIEW, 255));
-  //   }
-  //   return true;
-  // }
 
   hideCardPreview(event?) {
     if (event) {
@@ -261,8 +95,9 @@ export default class CardPreview extends cc.Component {
     newEffect.setPosition(0, newY);
 
     newEffect.once(cc.Node.EventType.TOUCH_START, () => {
+
       this.hideCardPreview();
-      CardPreview.effectChosen = newEffect;
+      CardPreview.effectChosen = effect;
       CardPreview.wasEffectChosen = true;
     });
   }

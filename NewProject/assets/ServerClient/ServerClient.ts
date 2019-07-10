@@ -75,6 +75,8 @@ export default class Server extends cc.Component {
     whevent.on(Signal.PLAYERGAINROLLBONUS, this.onPlayerActionFromServer, this);
     whevent.on(Signal.PLAYERGETHIT, this.onPlayerActionFromServer, this);
     whevent.on(Signal.PLAYERRECHARGEITEM, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYLOOTCARD, this.onPlayerActionFromServer, this);
+
 
 
     //monster events
@@ -82,6 +84,12 @@ export default class Server extends cc.Component {
     whevent.on(Signal.MONSTERGAINHP, this.onPlayerActionFromServer, this);
     whevent.on(Signal.MONSTERGAINROLLBONUS, this.onPlayerActionFromServer, this);
     whevent.on(Signal.MONSTERGETDAMAGED, this.onPlayerActionFromServer, this);
+
+
+    //board events
+    whevent.on(Signal.MOVECARD, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.MOVECARDEND, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.DECKADDTOTOP, this.onPlayerActionFromServer, this);
 
   }
 

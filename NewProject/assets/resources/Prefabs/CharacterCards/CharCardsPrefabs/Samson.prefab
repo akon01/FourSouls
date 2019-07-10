@@ -246,11 +246,15 @@
       "__id__": 2
     },
     "_enabled": true,
+    "cost": null,
+    "preCondition": null,
     "condition": null,
     "passiveType": 1,
+    "passiveEffectToAdd": null,
     "dataCollector": {
       "__id__": 4
     },
+    "_effectCard": null,
     "_id": ""
   },
   {
@@ -303,23 +307,27 @@
     },
     "_enabled": true,
     "cardName": "Samson",
-    "cardId": 0,
-    "isInHand": false,
-    "isOnDesk": false,
-    "originalParent": null,
+    "_cardId": 0,
+    "_isInHand": false,
+    "_isOnDesk": false,
+    "_originalParent": null,
     "topDeckof": null,
+    "souls": 0,
     "type": 3,
-    "isAttackable": false,
-    "isBuyable": false,
-    "isPlayable": false,
-    "isActivateable": false,
-    "isReactable": false,
-    "isRequired": false,
-    "requiredFor": null,
+    "_isAttackable": false,
+    "_isBuyable": false,
+    "_isPlayable": false,
+    "_isActivateable": false,
+    "_isReactable": false,
+    "_isRequired": false,
+    "_requiredFor": null,
     "frontSprite": null,
     "backSprite": null,
-    "isFlipped": false,
-    "ownedBy": null,
+    "_isFlipped": false,
+    "_ownedBy": null,
+    "hasCounter": false,
+    "_effectCounterLable": null,
+    "_counters": 0,
     "_id": ""
   },
   {
@@ -331,7 +339,7 @@
     },
     "_enabled": true,
     "charItemPrefab": {
-      "__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"
+      "__uuid__": "c329a523-0c34-497c-8410-400f060640e2"
     },
     "charItemCard": null,
     "activated": false,
@@ -367,6 +375,8 @@
       }
     ],
     "passiveEffects": [],
+    "toAddPassiveEffects": [],
+    "paidEffects": [],
     "multiEffectCollector": null,
     "effectData": null,
     "data": {},

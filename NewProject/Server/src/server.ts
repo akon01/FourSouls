@@ -58,14 +58,22 @@ export default class Server {
     whevent.on(signal.MOVECARDTOPILE, this.onMoveCardToPile, this);
     whevent.on(signal.GETSOUL, this.onGetSoul, this);
     whevent.on(signal.ADDMONSTER, this.onAddMonster, this);
+
+
     whevent.on(signal.REMOVEMONSTER, this.onRemoveMonster, this);
     whevent.on(signal.DRAWCARD, this.onDrawCard, this);
+    whevent.on(signal.DECKADDTOTOP, this.onDeckAddToTop, this);
+
+
     whevent.on(signal.CHANGEMONEY, this.onChangeMoney, this);
     whevent.on(signal.ADDSTORECARD, this.onAddToStoreCard, this);
     whevent.on(signal.REGISTERPASSIVEITEM, this.onRegisterPassive, this);
     whevent.on(signal.UPDATEPASSIVESOVER, this.onUpdatePassiveOver, this);
     whevent.on(signal.REGISTERONETURNPASSIVEEFFECT, this.onRegisterOneTurnPassive, this);
     whevent.on(signal.ENDROLLACTION, this.onEndRollAction, this);
+
+
+
     whevent.on(signal.SETMONEY, this.onSetMoney, this);
     whevent.on(Signal.PLAYERGAINATTACKROLLBONUS, this.onPlayerGainAttackRollBonus, this);
     whevent.on(Signal.PLAYERGAINDMG, this.onPlayerGainDMG, this);
@@ -74,12 +82,16 @@ export default class Server {
     whevent.on(Signal.PLAYERGAINROLLBONUS, this.onPlayerGainRollBonus, this);
     whevent.on(Signal.PLAYERGETHIT, this.onPlayerGetHit, this);
     whevent.on(Signal.PLAYERRECHARGEITEM, this.onPlayerRechargeItem, this);
+    whevent.on(Signal.PLAYLOOTCARD, this.onPlayerLoseCard, this);
 
     whevent.on(Signal.MONSTERGAINDMG, this.onMonsterGainDMG, this);
     whevent.on(Signal.MONSTERGAINHP, this.onMonsterGainHp, this);
     whevent.on(Signal.MONSTERGAINROLLBONUS, this.onMonsterGainRollBonus, this);
     whevent.on(Signal.MONSTERGETDAMAGED, this.onMonsterGetDamaged, this);
 
+
+    whevent.on(Signal.MOVECARD, this.onCardMove, this);
+    whevent.on(Signal.MOVECARDEND, this.onCardMoveEnd, this);
   }
 
 
@@ -154,10 +166,17 @@ export default class Server {
     player.match.broadcastExept(player, signal.UPDATEPASSIVESOVER, data);
   }
 
+  //board events
+
   onEndRollAction({ player, data }) {
     player.match.broadcastExept(player, signal.ENDROLLACTION, data);
   }
-
+  onCardMove({ player, data }) {
+    player.match.broadcastExept(player, signal.MOVECARD, data);
+  }
+  onCardMoveEnd({ player, data }) {
+    player.match.broadcastExept(player, signal.MOVECARDEND, data);
+  }
 
 
   //monster events
@@ -202,8 +221,14 @@ export default class Server {
     player.match.broadcastExept(player, signal.PLAYERRECHARGEITEM, data);
   }
 
+  onPlayerLoseCard({ player, data }) {
+    player.match.broadcastExept(player, signal.PLAYLOOTCARD, data);
+  }
+
+
   //player events end
 
+  //deck events start
 
   onAddToStoreCard({ player, data }) {
     player.match.broadcastExept(player, signal.ADDSTORECARD, data);
@@ -211,6 +236,10 @@ export default class Server {
 
   onRegisterOneTurnPassive({ player, data }) {
     player.match.broadcastExept(player, signal.REGISTERONETURNPASSIVEEFFECT, data);
+  }
+
+  onDeckAddToTop({ player, data }) {
+    player.match.broadcastExept(player, signal.DECKADDTOTOP, data);
   }
 
 

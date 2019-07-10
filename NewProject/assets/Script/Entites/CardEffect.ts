@@ -66,9 +66,12 @@ export default class CardEffect extends cc.Component {
 
       for (const activeEffect of this.activeEffects) {
         let preCondition = activeEffect.getComponent(Effect).preCondition
-        if (preCondition != null && preCondition.testCondition()) {
+        if (preCondition != null) {
+          if (preCondition.testCondition()) {
 
-          return true;
+            return true;
+          }
+
         } else if (preCondition == null) {
           innerBoolPool.push(true)
         }
@@ -276,14 +279,17 @@ export default class CardEffect extends cc.Component {
       cardPlayerId: number;
       cardId: number;
     },
-    cardEffectIndex?: number
+    cardEffectIndex?
   ): Promise<ServerEffect> {
 
     let cardPlayed = CardManager.getCardById(cardPlayedData.cardId, true);
     let cardEffect: Effect;
     let effectType: ITEM_TYPE;
 
+
+    cc.log(this.passiveEffects)
     if (cardEffectIndex != null) {
+      cc.log(cardEffectIndex)
       effectType = ITEM_TYPE.PASSIVE;
       let effect = this.passiveEffects[cardEffectIndex];
       if (effect == null) {

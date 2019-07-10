@@ -30,6 +30,10 @@ export default class PileManager extends cc.Component {
       playerComp.landingZones.push(PileManager.lootCardPileNode);
 
     }
+    PileManager.lootCardPileNode.getComponent(Card)._cardId = ++CardManager.cardsId
+    PileManager.treasureCardPileNode.getComponent(Card)._cardId = ++CardManager.cardsId
+    PileManager.monsterCardPileNode.getComponent(Card)._cardId = ++CardManager.cardsId
+    CardManager.allCards.push(PileManager.lootCardPileNode, PileManager.treasureCardPileNode, PileManager.monsterCardPileNode)
   }
 
   static getTopCardOfPiles() {
@@ -65,54 +69,44 @@ export default class PileManager extends cc.Component {
     if (card.getComponent(Card)._isFlipped) {
       card.getComponent(Card).flipCard();
     }
-    originalPos = card.convertToWorldSpaceAR(card.position);
-    card.parent = cc.find("Canvas");
-    card.setPosition(card.parent.convertToNodeSpaceAR(originalPos));
+    // originalPos = card.convertToWorldSpaceAR(card.position);
+    // card.parent = cc.find("Canvas");
+    // card.setPosition(card.parent.convertToNodeSpaceAR(originalPos));
     let goTo
     switch (type) {
 
       case CARD_TYPE.LOOT:
         CardManager.onTableCards.push(card);
         PileManager.lootCardPile.push(card);
-        moveAction = cc.moveTo(
-          TIMEFORMONSTERDISCARD,
-          this.lootCardPileNode.getPosition()
-        )
-        card.runAction(
-          cc.sequence(moveAction, cc.callFunc(() => { card.parent = this.lootCardPileNode; card.setPosition(0, 0); this.isOver = true }))
-        );
+
+        await CardManager.moveCardTo(card, PileManager.lootCardPileNode, sendToServer)
+        card.parent = this.lootCardPileNode;
+        //card.setPosition(0, 0);
+        this.isOver = true
         break;
       case CARD_TYPE.MONSTER:
         CardManager.onTableCards.push(card);
         PileManager.monsterCardPile.push(card);
-        moveAction = cc.moveTo(
-          TIMEFORMONSTERDISCARD,
-          this.monsterCardPileNode.getPosition()
-        )
-        card.runAction(
-          cc.sequence(moveAction, cc.callFunc(() => {
-            if (card.getComponent(Monster).monsterPlace != null) {
-              if (sendToServer) {
-                card.getComponent(Monster).monsterPlace.removeMonster(card, sendToServer);
-                card.getComponent(Monster).monsterPlace.getNextMonster(sendToServer);
-                this.isOver = true;
-              }
-            }
-          }))
-        );
+        await CardManager.moveCardTo(card, PileManager.monsterCardPileNode, sendToServer)
+        card.parent = this.monsterCardPileNode;
+        if (card.getComponent(Monster).monsterPlace != null) {
+          if (sendToServer) {
+            card.getComponent(Monster).monsterPlace.removeMonster(card, sendToServer);
+            card.getComponent(Monster).monsterPlace.getNextMonster(sendToServer);
+            this.isOver = true;
+          }
+        }
+
         break;
       case CARD_TYPE.TREASURE:
         if (CardManager.onTableCards.find(tableCard => tableCard.uuid == card.uuid) == undefined) {
           CardManager.onTableCards.push(card);
         }
         PileManager.treasureCardPile.push(card);
-        moveAction = cc.moveTo(
-          TIMEFORMONSTERDISCARD,
-          this.treasureCardPileNode.getPosition()
-        )
-        card.runAction(
-          cc.sequence(moveAction, cc.callFunc(() => { card.parent = this.treasureCardPileNode; card.setPosition(0, 0); this.isOver = true }))
-        );
+        await CardManager.moveCardTo(card, PileManager.monsterCardPileNode, sendToServer)
+        card.parent = this.treasureCardPileNode;
+        card.setPosition(0, 0);
+        this.isOver = true
         break;
       default:
         break;
@@ -132,6 +126,7 @@ export default class PileManager extends cc.Component {
     PileManager.lootCardPileNode = cc.find("Canvas/LootCardPile");
     PileManager.treasureCardPileNode = cc.find("Canvas/TreasureCardPile");
     PileManager.monsterCardPileNode = cc.find("Canvas/MonsterCardPile");
+
   }
 
   start() { }

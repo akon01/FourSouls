@@ -400,8 +400,8 @@ export default class PlayerManager extends cc.Component {
         return player;
       }
     }
-    cc.log('no player found')
-    throw 'no player found'
+    cc.log('no player was found')
+    return null;
   }
 
   static getPlayerByCardId(cardId: number) {

@@ -313,7 +313,7 @@ export default class CardPreviewManager extends cc.Component {
     }
 
 
-    static test() {
+    static makeCardsOpaqe() {
         this.currentPreviews.forEach(preview => preview.runAction(cc.fadeTo(0, 255)))
         cc.log(this.currentPreviews.map(preview => preview.opacity))
     }
@@ -324,7 +324,7 @@ export default class CardPreviewManager extends cc.Component {
         CardPreviewManager.scrollView.node.setSiblingIndex(CardPreviewManager.$.node.parent.childrenCount - 1);
         CardPreviewManager.scrollView.node.active = true;
         CardPreviewManager.scrollView.node.runAction(cc.sequence(action, cc.callFunc(() => {
-            this.test();
+            this.makeCardsOpaqe();
         }, this)))
         this.updatePreviewsEvents()
     }
@@ -336,7 +336,7 @@ export default class CardPreviewManager extends cc.Component {
         }
         CardPreviewManager.scrollView.node.active = false
         let action = cc.fadeTo(TIMETOSHOWPREVIEW, 0)
-        CardPreviewManager.scrollView.node.runAction(cc.sequence(action, cc.callFunc(() => { cc.log('tets'); CardPreviewManager.scrollView.node.active = false, this })))
+        CardPreviewManager.scrollView.node.runAction(cc.sequence(action, cc.callFunc(() => { CardPreviewManager.scrollView.node.active = false, this })))
         // this.node.active = false;
     }
 

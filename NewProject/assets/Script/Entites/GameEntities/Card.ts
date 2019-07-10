@@ -144,7 +144,9 @@ export default class Card extends cc.Component {
   onLoad() {
     this.node.height = CARD_HEIGHT;
     this.node.width = CARD_WIDTH;
-    this.frontSprite = this.node.getComponent(cc.Sprite).spriteFrame;
+    if (this.topDeckof != null) {
+      this.frontSprite = this.node.getComponent(cc.Sprite).spriteFrame;
+    }
     if (!this.hasCounter) {
       //   this._effectCounterLable.node.destroy()
     } else this._effectCounterLable = this.node.getChildByName('EffectCounter').getComponent(cc.Label)
@@ -158,7 +160,5 @@ export default class Card extends cc.Component {
     }
   }
 
-  toString() {
-    return this.cardName + " ID: " + this._cardId;
-  }
+
 }

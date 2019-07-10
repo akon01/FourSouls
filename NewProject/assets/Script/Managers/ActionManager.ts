@@ -409,6 +409,7 @@ export default class ActionManager extends cc.Component {
       Server.$.send(Signal.RESOLVEACTIONS, data2);
       cc.log('do server effects from do action with card effect')
       let serverEffectsOver = await ActionManager.doServerEffects();
+      this.updateActions();
       if (this.isReactionChainActive(chainNum)) {
 
         this.reactionChainsActive.splice(
@@ -419,29 +420,12 @@ export default class ActionManager extends cc.Component {
         resolve(chainNum);
       });
     }
-    // if (action instanceof RollDiceAction) {
-    //   throw 'should not exist roll dice action!'
-    //   let rollServerEffect = new ServerEffect('roll', bool, action.originPlayerId, 0, ITEM_TYPE.ACTIVE)
-    //   ActionManager.sendFirstGetReactionToServer(rollServerEffect);
-    //   let serverEffectStack: ServerEffect[] = await ActionManager.waitForRollActionEnd();
-
-    //   //  this.serverEffectStack = this.serverEffectStack.concat(serverEffectStack);
-    //   this.serverEffectStack = serverEffectStack;
-    //   let serverEffectsOver = await ActionManager.doServerEffects();
-    //   if (this.isReactionChainActive(chainNum)) {
-
-    //     this.reactionChainsActive.splice(
-    //       this.reactionChainsActive.indexOf(this.reactionChainNum)
-    //     );
-    //   }
-
-    //   return new Promise((resolve, reject) => { resolve(serverEffectsOver) })
     else {
 
       ActionManager.sendFirstGetReactionToServer();
 
 
-      this.updateActions();
+      // this.updateActions();
       //wait for reaction to return a promise of a stack of actions. 
       let serverEffectStack: ServerEffect[] = await ActionManager.waitForAllEffects();
 
@@ -449,6 +433,7 @@ export default class ActionManager extends cc.Component {
       this.serverEffectStack = serverEffectStack;
       cc.log('do server effects from do action with-out card effect')
       let serverEffectsOver = await ActionManager.doServerEffects();
+      this.updateActions();
       if (this.isReactionChainActive(chainNum)) {
 
         this.reactionChainsActive.splice(
@@ -509,11 +494,12 @@ export default class ActionManager extends cc.Component {
       }
 
       this.serverEffectStack.push(actionCardServerEffect);
-      this.updateActions();
+      //this.updateActions();
 
       //  this.serverCardEffectStack = actionCardServerEffect;
       cc.log('do server effects from do signle action with card effect')
       let serverEffectsOver = await ActionManager.doServerEffects();
+      this.updateActions();
       if (this.isReactionChainActive(chainNum)) {
         this.reactionChainsActive.splice(
           this.reactionChainsActive.indexOf(this.reactionChainNum)
@@ -554,7 +540,7 @@ export default class ActionManager extends cc.Component {
         this.reactionChainsActive.indexOf(this.reactionChainNum)
       );
     }
-    this.updateActions();
+    // this.updateActions();
     return new Promise((resolve, reject) => {
       resolve(chainNum);
     });
@@ -623,7 +609,7 @@ export default class ActionManager extends cc.Component {
     this.serverEffectStack = [];
     cc.log('set no more actions bool to false')
     ActionManager.noMoreActionsBool = false;
-    this.updateActions();
+    // this.updateActions();
     return new Promise((resolve, reject) => {
       resolve(this.reactionChainNum);
     });
@@ -766,9 +752,10 @@ export default class ActionManager extends cc.Component {
   static async getActionFromServer(signal, data) {
     let player: Player;
     let card: cc.Node;
-    let deck;
+    let deck: Deck;
     let monsterHolder: MonsterCardHolder
     let monster: Monster
+    let place: cc.Node;
     switch (signal) {
       //Actions from a player,without reaction
       case Signal.DISCRADLOOT:
@@ -800,7 +787,7 @@ export default class ActionManager extends cc.Component {
         //add a lable with who is selecting.
 
         CardPreviewManager.getPreviews(Array.of(card));
-        ActionManager.updateActions();
+        //  ActionManager.updateActions();
         break;
       case Signal.ACTIVATEITEM:
         player = PlayerManager.getPlayerById(data.playerId).getComponent(
@@ -809,7 +796,7 @@ export default class ActionManager extends cc.Component {
         card = CardManager.getCardById(data.cardId);
         let itemActivated = await player.activateItem(card, false);
 
-        ActionManager.updateActions();
+        //  ActionManager.updateActions();
         break;
 
       case Signal.ROLLDICE:
@@ -830,6 +817,21 @@ export default class ActionManager extends cc.Component {
         player.dice.endRollAnimation();
         player.dice.setRoll(data.numberRolled);
 
+        break;
+
+      case Signal.MOVECARD:
+        card = CardManager.getCardById(data.cardId, true)
+        place = PlayerManager.getPlayerById(data.placeID)
+        if (place != null) {
+          place = place.getComponent(Player).hand.node;
+        }
+        if (place == null) {
+          place = CardManager.getCardById(data.placeID, true)
+        }
+        CardManager.moveCardTo(card, place, false, data.moveIndex, data.firstPos)
+        break;
+      case Signal.MOVECARDEND:
+        CardManager.reciveMoveCardEnd(data.moveIndex)
         break;
 
       case Signal.NEXTTURN:
@@ -892,9 +894,14 @@ export default class ActionManager extends cc.Component {
           Player
         );
         card = CardManager.getCardById(data.drawnCardId, true)
-        deck = CardManager.getDeckByType(data.deckType);
-        player.drawCard(deck, false, card);
-        ActionManager.updateActions();
+        deck = CardManager.getDeckByType(data.deckType).getComponent(Deck);
+        player.drawCard(deck.node, false, card);
+        //  ActionManager.updateActions();
+        break;
+      case Signal.DECKADDTOTOP:
+        deck = CardManager.getDeckByType(data.deckType).getComponent(Deck)
+        card = CardManager.getCardById(data.cardId, true)
+        deck.addToDeckOnTop(card, false)
         break;
       case Signal.DRAWCARD:
         deck = CardManager.getDeckByType(data.deckType).getComponent(Deck)
@@ -916,6 +923,14 @@ export default class ActionManager extends cc.Component {
         );
         card = CardManager.getCardById(data.cardId, true);
         player.playLootCard(card, false);
+        break;
+      case Signal.PLAYLOOTCARD:
+
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(
+          Player
+        );
+        card = CardManager.getCardById(data.cardId, true);
+        player.loseLoot(card, false);
         break;
       case Signal.ADDANITEM:
         player = PlayerManager.getPlayerById(data.playerId).getComponent(
@@ -946,7 +961,7 @@ export default class ActionManager extends cc.Component {
         );
         ;
         player.declareAttack(attackedMonster, false, data.cardHolderId);
-        ActionManager.updateActions();
+        // ActionManager.updateActions();
         break;
 
 

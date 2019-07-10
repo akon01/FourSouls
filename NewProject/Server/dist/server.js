@@ -104,6 +104,7 @@ var Server = /** @class */ (function () {
         whevent.on(signal_2["default"].ADDMONSTER, this.onAddMonster, this);
         whevent.on(signal_2["default"].REMOVEMONSTER, this.onRemoveMonster, this);
         whevent.on(signal_2["default"].DRAWCARD, this.onDrawCard, this);
+        whevent.on(signal_2["default"].DECKADDTOTOP, this.onDeckAddToTop, this);
         whevent.on(signal_2["default"].CHANGEMONEY, this.onChangeMoney, this);
         whevent.on(signal_2["default"].ADDSTORECARD, this.onAddToStoreCard, this);
         whevent.on(signal_2["default"].REGISTERPASSIVEITEM, this.onRegisterPassive, this);
@@ -118,10 +119,13 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].PLAYERGAINROLLBONUS, this.onPlayerGainRollBonus, this);
         whevent.on(signal_1["default"].PLAYERGETHIT, this.onPlayerGetHit, this);
         whevent.on(signal_1["default"].PLAYERRECHARGEITEM, this.onPlayerRechargeItem, this);
+        whevent.on(signal_1["default"].PLAYLOOTCARD, this.onPlayerLoseCard, this);
         whevent.on(signal_1["default"].MONSTERGAINDMG, this.onMonsterGainDMG, this);
         whevent.on(signal_1["default"].MONSTERGAINHP, this.onMonsterGainHp, this);
         whevent.on(signal_1["default"].MONSTERGAINROLLBONUS, this.onMonsterGainRollBonus, this);
         whevent.on(signal_1["default"].MONSTERGETDAMAGED, this.onMonsterGetDamaged, this);
+        whevent.on(signal_1["default"].MOVECARD, this.onCardMove, this);
+        whevent.on(signal_1["default"].MOVECARDEND, this.onCardMoveEnd, this);
     };
     Server.prototype.onRequestMatch = function (_a) {
         var player = _a.player, data = _a.data;
@@ -184,9 +188,18 @@ var Server = /** @class */ (function () {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_2["default"].UPDATEPASSIVESOVER, data);
     };
+    //board events
     Server.prototype.onEndRollAction = function (_a) {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_2["default"].ENDROLLACTION, data);
+    };
+    Server.prototype.onCardMove = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].MOVECARD, data);
+    };
+    Server.prototype.onCardMoveEnd = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].MOVECARDEND, data);
     };
     //monster events
     Server.prototype.onMonsterGainDMG = function (_a) {
@@ -235,7 +248,12 @@ var Server = /** @class */ (function () {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_2["default"].PLAYERRECHARGEITEM, data);
     };
+    Server.prototype.onPlayerLoseCard = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].PLAYLOOTCARD, data);
+    };
     //player events end
+    //deck events start
     Server.prototype.onAddToStoreCard = function (_a) {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_2["default"].ADDSTORECARD, data);
@@ -243,6 +261,10 @@ var Server = /** @class */ (function () {
     Server.prototype.onRegisterOneTurnPassive = function (_a) {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_2["default"].REGISTERONETURNPASSIVEEFFECT, data);
+    };
+    Server.prototype.onDeckAddToTop = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].DECKADDTOTOP, data);
     };
     Server.prototype.onChangeMoney = function (_a) {
         var player = _a.player, data = _a.data;

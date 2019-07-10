@@ -52,12 +52,12 @@ export default class ChooseCard extends DataCollector {
     );
     this.playerId = data.cardPlayerId;
     //what cards to choose from
-    let cardComp;
-    cardComp = this.node.parent.getComponent(Effect)
-    if (cardComp == null) {
-      cardComp = this.node.parent.getComponent(Condition)
-    }
-    let chooseType = cardComp.chooseType;
+    // let cardComp;
+    // cardComp = this.node.parent.getComponent(Effect)
+    // if (cardComp == null) {
+    //   cardComp = this.node.parent.getComponent(Condition)
+    // }
+    // let chooseType = cardComp.chooseType;
     let cardsToChooseFrom = this.getCardsToChoose(this.chooseType, player);
     let cardChosenData: {
       cardChosenId: number;

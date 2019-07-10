@@ -38,17 +38,10 @@ export default class MonsterCardHolder extends cc.Component {
 
   @printMethodStarted(COLORS.LIGHTBLUE)
   getNextMonster(sendToServer: boolean) {
-
-
-
     if (this.monsters.length > 0) {
-
-
-
       this.activeMonster = this.monsters[this.monsters.length - 1]
       this.activeMonster.active = true
       this.spriteFrame = this.activeMonster.getComponent(cc.Sprite).spriteFrame;
-      //MonsterField.updateActiveMonsters();
       if (sendToServer) {
         Server.$.send(Signal.GETNEXTMONSTER, { holderId: this.id });
       }
@@ -63,7 +56,6 @@ export default class MonsterCardHolder extends cc.Component {
       this.addToMonsters(drawnMonster, sendToServer);
     }
     MonsterField.updateActiveMonsters();
-
   }
   /**
    * add a monster to the place and set it as active
@@ -78,8 +70,6 @@ export default class MonsterCardHolder extends cc.Component {
     for (const monster of this.monsters) {
       monster.active = false;
     }
-
-
     this.monsters.push(monsterCard);
 
     this.activeMonster = monsterCard;
@@ -118,7 +108,7 @@ export default class MonsterCardHolder extends cc.Component {
 
         BattleManager.currentlyAttackedMonster = null;
         TurnsManager.currentTurn.battlePhase = false;
-        ActionManager.updateActions()
+        //  ActionManager.updateActions()
         //  this.getNextMonster(true);
       }
     }

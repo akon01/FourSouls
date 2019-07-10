@@ -64,7 +64,7 @@ export class DrawCardAction implements Action {
     this.originPlayerId = originPlayerId;
   }
 
-  showAction() {
+  async showAction() {
     let drawnCard = this.data.drawnCard;
     let player = PlayerManager.getPlayerById(this.originPlayerId).getComponent(
       Player
@@ -74,23 +74,13 @@ export class DrawCardAction implements Action {
       TurnsManager.currentTurn.drawPlays -= 1;
     }
     TurnsManager.currentTurn.drawPlays -= 1;
-    drawnCard.setPosition(CardManager.lootDeck.getPosition());
-    drawnCard.parent = cc.find("Canvas");
-    let handPos = player.hand.node.getPosition();
     CardManager.allCards.push(drawnCard);
-    let action = cc.moveTo(TIMETODRAW, handPos)
-    let timeOutToDraw = () => {
-      addCardToCardLayout(drawnCard, player.hand, true);
-      drawnCard.getComponent(Card)._ownedBy = player;
 
-      ActionManager.updateActions();
-      return new Promise((resolve, reject) => {
-        resolve(true);
-      });
-    };
-    timeOutToDraw.bind(this);
-    drawnCard.runAction(cc.sequence(action, cc.callFunc(timeOutToDraw, this)));
-    //setTimeout(timeOutToDraw, (TIMETODRAW + 0.1) * 1000);
+    let comp = drawnCard.getComponent(Card)
+    addCardToCardLayout(drawnCard, player.hand, true);
+    comp._ownedBy = player;
+    return true
+
   }
 
   serverBrodcast(serverData) {
@@ -139,33 +129,23 @@ export class MoveLootToPile implements Action {
     let movedCardComp: Card = this.data.lootCard.getComponent(Card);
     this.playedCard = movedCardComp.node;
     let player = PlayerManager.getPlayerById(this.originPlayerId).getComponent(Player);
-    // let moveAction = cc.moveTo(TIMETOPLAYLOOT, PileManager.lootCardPileNode.position);
-    let timeOutToPlay = cc.callFunc(async () => {
-      player.hand.removeCardFromLayout(movedCardComp.node)
-      await PileManager.addCardToPile(CARD_TYPE.LOOT, this.data.lootCard, false);
-      TurnsManager.currentTurn.lootCardPlays -= 1;
-      let playerId = player.playerId;
-      let cardId = movedCardComp._cardId;
-      let data = { playerId, cardId };
-      this.isOver = true;
+    //   let timeOutToPlay = cc.callFunc(async () => {
 
-    });
 
-    this.playedCard.runAction(
-      //cc.sequence(moveAction, timeOutToPlay)
-      timeOutToPlay
-    );
-    await this.waitForAction();
+    player.hand.removeCardFromLayout(movedCardComp.node)
+    TurnsManager.currentTurn.lootCardPlays -= 1;
+    let playerId = player.playerId;
+    let cardId = movedCardComp._cardId;
+    let data = { playerId, cardId };
+    this.isOver = true;
 
-    return new Promise((resolve, reject) => {
-      resolve(true);
-    });
-    //   timeOutToPlay.bind(this);
-    //  setTimeout(timeOutToPlay, (TIMETOPLAYLOOT + 0.1) * 1000);
+
+
+    return true
+
   }
 
   async waitForAction(): Promise<boolean> {
-    //w8 for a server message with a while,after the message is recived (should be a stack of effects with booleans) resolve with stack of effects.
     return new Promise((resolve, reject) => {
       let check = () => {
         if (this.isOver) {
@@ -340,24 +320,7 @@ export class ActivateItemAction implements Action {
     card.stopAllActions();
     card.runAction(cc.fadeTo(2, 255))
 
-    // switch (card.getComponent(Card).type) {
-    //   case CARD_TYPE.CHAR:
-    //     card.getComponent(Item).useItem();
-    //     //card.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
-    //     break;
-    //   case CARD_TYPE.CHARITEM:
-    //     card.getComponent(CharacterItem).useItem();
-    //     //  card.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
-    //     break;
-    //   case CARD_TYPE.LOOT:
-    //     break;
-    //   case CARD_TYPE.MONSTER:
-    //     break;
-    //   default:
-    //     card.getComponent(Item).useItem();
-    //     //card.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
-    //     break;
-    // }
+
     return new Promise((resolve, reject) => {
       resolve(true);
     });

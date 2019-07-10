@@ -164,7 +164,11 @@ export default class Player extends cc.Component {
     } else {
       drawnCard = deck.getComponent(Deck).drawCard(sendToServer);
     }
-
+    drawnCard.setPosition(CardManager.lootDeck.getPosition());
+    drawnCard.parent = cc.find("Canvas");
+    if (sendToServer) {
+      await CardManager.moveCardTo(drawnCard, this.hand.node, sendToServer, -1, CardManager.lootDeck.getPosition())
+    }
     let drawAction = new DrawCardAction({ drawnCard }, this.playerId);
     let serverData;
     let cardId = drawnCard.getComponent(Card)._cardId
@@ -269,12 +273,14 @@ export default class Player extends cc.Component {
     return damage;
   }
 
+  @testForPassiveBefore('rollDice')
+  @testForPassiveAfter('rollDice')
+  @activatePassiveB4
   async rollDice(rollType: ROLL_TYPE, numberRolled?: number) {
     let playerDice = this.node.getComponentInChildren(Dice);
 
     let newNumberRolled
     if (numberRolled == null) {
-
       Server.$.send(Signal.ROLLDICE, { playerId: this.playerId });
       numberRolled = await playerDice.rollDice(rollType);
       Server.$.send(Signal.ROLLDICEENDED, {
@@ -292,17 +298,12 @@ export default class Player extends cc.Component {
   async rollAttackDice(sendToServer: boolean, numberRolled?: number) {
     let playerId = this.playerId;
     this.dice.getComponentInChildren(RollDice).rollType = ROLL_TYPE.ATTACK;
-
     let action = new AttackMonster(
       { rollType: ROLL_TYPE.ATTACK, sendToServer: sendToServer },
       playerId,
       this.dice.node
     );
     let serverData = null;
-    //  {
-    //   signal: Signal.ROLLDICE,
-    //   srvData: { playerId: this.playerId }
-    // };
     if (sendToServer) {
       let bool = await ActionManager.doAction(action, serverData);
     } else {
@@ -311,6 +312,17 @@ export default class Player extends cc.Component {
         serverData,
         false
       );
+    }
+  }
+
+  async loseLoot(loot: cc.Node, sendToServer: boolean) {
+    this.hand.removeCardFromLayout(loot)
+    let serverData = {
+      signal: Signal.PLAYERLOSELOOT,
+      srvData: { playerId: this.playerId, cardId: loot.getComponent(Card)._cardId }
+    };
+    if (sendToServer) {
+      Server.$.send(serverData.signal, serverData.srvData)
     }
   }
 
@@ -420,6 +432,7 @@ export default class Player extends cc.Component {
     };
     let action = new MoveLootToPile({ lootCard: lootCard }, playerId);
     if (sendToServer) {
+      await CardManager.moveCardTo(lootCard, PileManager.lootCardPileNode, sendToServer)
       let bool = await ActionManager.doAction(action, serverData);
     } else {
       if (lootCard.getComponent(Card)._isFlipped) {
@@ -775,6 +788,7 @@ export default class Player extends cc.Component {
     this.node.addChild(desk);
     this.landingZones.push(desk);
     this.desk = desk.getComponent(PlayerDesk);
+    this.desk._playerId = this.playerId
   }
 
   setHand(hand: cc.Node) {
@@ -786,6 +800,7 @@ export default class Player extends cc.Component {
     ).boundingBoxWithoutChildren = hand.getBoundingBoxToWorld();
 
     this.hand = hand.getComponent(CardLayout);
+    this.hand.playerId = this.playerId;
   }
 
   calculateReactions() {

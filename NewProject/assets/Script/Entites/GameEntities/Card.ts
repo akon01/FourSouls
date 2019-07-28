@@ -124,7 +124,8 @@ export default class Card extends cc.Component {
         passiveIndex
       );
 
-      ;
+      cc.log(`activate after passive effect ${serverEffect.effectName}`)
+        ;
       ActionManager.serverEffectStack.push(serverEffect);
     } else {
 
@@ -134,9 +135,7 @@ export default class Card extends cc.Component {
         ActionManager.doSingleAction(action, serverData, sendToServer);
       }
     }
-    return new Promise((resolve, reject) => {
-      resolve(true);
-    });
+    return true
   }
 
   // LIFE-CYCLE CALLBACKS:

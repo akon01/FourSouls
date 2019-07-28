@@ -1,21 +1,19 @@
 import CardManager from "../../Managers/CardManager";
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_TYPE } from "./../../Constants";
+import { CHOOSE_TYPE, TARGETTYPE } from "./../../Constants";
 import { ServerEffect } from "./../../Entites/ServerCardEffect";
 import Effect from "./Effect";
 import Player from "../../Entites/GameEntities/Player";
+import { ActiveEffectData } from "../../Managers/NewScript";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class DiscardAndDrawLoot extends Effect {
-  chooseType = CHOOSE_TYPE.PLAYERHAND;
+  chooseType = CHOOSE_TYPE.MYHAND;
 
   effectName = "DiscardAndDrawLoot";
-
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
 
   /**
    *
@@ -23,17 +21,15 @@ export default class DiscardAndDrawLoot extends Effect {
    */
   async doEffect(
     serverEffectStack: ServerEffect[],
-    data?: { cardChosenId: number; playerId: number }
+    data?: ActiveEffectData
   ) {
-    let cardChosen = CardManager.getCardById(data.cardChosenId);
-    let player = PlayerManager.getPlayerById(data.playerId).getComponent(
-      Player
-    );
+
+    let cardChosen = data.getTarget(TARGETTYPE.CARD)
+
+    let player = PlayerManager.getPlayerByCard(cardChosen)
     // player.getComponent(Player).playLootCard(cardPlayed, true);
     await player.discardLoot(cardChosen, true);
     await player.drawCard(CardManager.lootDeck, true);
-    return new Promise<ServerEffect[]>((resolve, reject) => {
-      resolve(serverEffectStack);
-    });
+    return serverEffectStack
   }
 }

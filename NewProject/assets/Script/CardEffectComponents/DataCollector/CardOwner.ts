@@ -1,6 +1,8 @@
 import { COLLECTORTYPE } from "../../Constants";
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "./DataCollector";
+import { EffectTarget } from "../../Managers/DataInterpreter";
+
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,8 +18,9 @@ export default class CardOwner extends DataCollector {
    */
   collectData(data) {
 
-    let player = PlayerManager.getPlayerByCard(this.node.parent.parent)
-    let data2 = { target: player.playerId };
-    return data2;
+    let player = PlayerManager.getPlayerByCard(this.node.parent.parent).character
+    let target = new EffectTarget(player)
+    //let data2 = { cardOwner: player.playerId };
+    return target;
   }
 }

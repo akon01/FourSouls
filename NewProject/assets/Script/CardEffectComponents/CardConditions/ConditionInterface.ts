@@ -1,11 +1,8 @@
 import DataCollector from "../DataCollector/DataCollector";
 import { CHOOSE_TYPE } from "../../Constants";
 
-const { ccclass, property } = cc._decorator;
-
-@ccclass
 export default interface ConditionInterface {
-  testCondition(data?);
+  testCondition(data?): Promise<Object>;
   dataCollector: DataCollector;
   chooseType: CHOOSE_TYPE;
   conditionData: any;

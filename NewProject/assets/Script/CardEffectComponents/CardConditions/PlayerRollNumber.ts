@@ -4,6 +4,7 @@ import Player from "../../Entites/GameEntities/Player";
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "../DataCollector/DataCollector";
 import { CHOOSE_TYPE } from "../../Constants";
+import { PassiveMeta } from "../../Managers/PassiveManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -18,9 +19,9 @@ export default class PlayerRollNumber extends Condition {
   // playerId: number;
   conditionData = null;
 
-  async testCondition(meta: any) {
+  async testCondition(meta: PassiveMeta) {
 
-    let player: Player = meta.scope;
+    let player: Player = meta.methodScope.getComponent(Player);
     let thisCard = this.node.parent.parent;
 
     let c = await meta.result
@@ -28,7 +29,7 @@ export default class PlayerRollNumber extends Condition {
     //  let playerName = PlayerManager.getPlayerByCardId(this.conditionData.cardChosenId).name;
     if (
       player instanceof Player &&
-      meta.key == "rollDice" &&
+      meta.methodName == "rollDice" &&
       this.numberRoll == c
     ) {
       return true;

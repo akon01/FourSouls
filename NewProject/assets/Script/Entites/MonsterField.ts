@@ -1,6 +1,5 @@
 import Signal from "../../Misc/Signal";
 import Server from "../../ServerClient/ServerClient";
-import { printMethodStarted } from "../Constants";
 import CardManager from "../Managers/CardManager";
 import { CARD_HEIGHT, CARD_WIDTH, COLORS } from "./../Constants";
 import { CardLayout } from "./CardLayout";

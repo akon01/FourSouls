@@ -14,7 +14,7 @@ export default class CharacterItem extends Item {
 
   // onLoad () {}
 
-  start() {}
+  start() { }
 
   // update (dt) {}
 }

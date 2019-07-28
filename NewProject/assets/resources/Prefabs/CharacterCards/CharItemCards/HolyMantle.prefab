@@ -53,8 +53,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 70,
-      "height": 100
+      "width": 200,
+      "height": 280
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -73,21 +73,19 @@
       "y": 1,
       "z": 1
     },
-    "_quat": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
     "_skewX": 0,
     "_skewY": 0,
-    "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
     "_rotationX": 0,
     "_rotationY": 0,
-    "_id": ""
+    "_id": "",
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
   },
   {
     "__type__": "cc.Node",
@@ -141,19 +139,17 @@
       "y": 1,
       "z": 1
     },
-    "_quat": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
     "_skewX": 0,
     "_skewY": 0,
-    "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
-    "_id": ""
+    "_id": "",
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
   },
   {
     "__type__": "cc.Node",
@@ -203,19 +199,17 @@
       "y": 1,
       "z": 1
     },
-    "_quat": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
     "_skewX": 0,
     "_skewY": 0,
-    "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
-    "_id": ""
+    "_id": "",
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
   },
   {
     "__type__": "b4dd13gjjJIk556pQaiqi12",
@@ -247,14 +241,19 @@
       "__id__": 2
     },
     "_enabled": true,
+    "cost": null,
+    "preCondition": null,
     "condition": null,
     "passiveType": 1,
     "passiveEffectToAdd": {
       "__id__": 7
     },
-    "dataCollector": {
-      "__id__": 4
-    },
+    "dataCollector": [
+      {
+        "__id__": 4
+      }
+    ],
+    "_effectCard": null,
     "_id": ""
   },
   {
@@ -265,12 +264,15 @@
       "__id__": 8
     },
     "_enabled": true,
+    "cost": null,
+    "preCondition": null,
     "condition": {
       "__id__": 10
     },
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "dataCollector": null,
+    "_effectCard": null,
     "_id": ""
   },
   {
@@ -325,19 +327,17 @@
       "y": 1,
       "z": 1
     },
-    "_quat": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
     "_skewX": 0,
     "_skewY": 0,
-    "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
-    "_id": ""
+    "_id": "",
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
   },
   {
     "__type__": "cc.Node",
@@ -387,19 +387,17 @@
       "y": 1,
       "z": 1
     },
-    "_quat": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
     "_skewX": 0,
     "_skewY": 0,
-    "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
-    "_id": ""
+    "_id": "",
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
   },
   {
     "__type__": "815f9lX+ARDvbDuOG2jUQzq",
@@ -452,6 +450,7 @@
       "__id__": 1
     },
     "_enabled": true,
+    "_materials": [],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
@@ -468,7 +467,6 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_state": 0,
     "_atlas": {
       "__uuid__": "b0c5ff5a-711a-465b-bf02-f38829a21a27"
     },
@@ -485,22 +483,25 @@
     "cardName": "Holy Mantle",
     "_cardId": 0,
     "_isInHand": false,
-    "isOnDesk": false,
-    "originalParent": null,
+    "_isOnDesk": false,
+    "_originalParent": null,
     "topDeckof": null,
     "souls": 0,
     "type": null,
-    "isAttackable": false,
-    "isBuyable": false,
-    "isPlayable": false,
-    "isActivateable": false,
-    "isReactable": false,
-    "isRequired": false,
-    "requiredFor": null,
+    "_isAttackable": false,
+    "_isBuyable": false,
+    "_isPlayable": false,
+    "_isActivateable": false,
+    "_isReactable": false,
+    "_isRequired": false,
+    "_requiredFor": null,
     "frontSprite": null,
     "backSprite": null,
-    "isFlipped": false,
-    "ownedBy": null,
+    "_isFlipped": false,
+    "_ownedBy": null,
+    "hasCounter": false,
+    "_effectCounterLable": null,
+    "_counters": 0,
     "_id": ""
   },
   {
@@ -536,6 +537,7 @@
         "__id__": 8
       }
     ],
+    "paidEffects": [],
     "multiEffectCollector": null,
     "effectData": null,
     "data": {},

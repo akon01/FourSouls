@@ -8,7 +8,7 @@ import TurnsManager from "../Managers/TurnsManager";
 import Player from "./GameEntities/Player";
 import ActionManager from "../Managers/ActionManager";
 import PileManager from "../Managers/PileManager";
-import { CARD_TYPE, printMethodStarted, COLORS } from "../Constants";
+import { CARD_TYPE, COLORS } from "../Constants";
 import Server from "../../ServerClient/ServerClient";
 import Signal from "../../Misc/Signal";
 import CardEffect from "./CardEffect";
@@ -36,7 +36,7 @@ export default class MonsterCardHolder extends cc.Component {
   @property
   dmgLable: cc.Label = null;
 
-  @printMethodStarted(COLORS.LIGHTBLUE)
+
   getNextMonster(sendToServer: boolean) {
     if (this.monsters.length > 0) {
       this.activeMonster = this.monsters[this.monsters.length - 1]
@@ -61,7 +61,7 @@ export default class MonsterCardHolder extends cc.Component {
    * add a monster to the place and set it as active
    * @param monsterCard
    */
-  @printMethodStarted(COLORS.LIGHTBLUE)
+
   async addToMonsters(monsterCard: cc.Node, sendToServer: boolean) {
 
     if (monsterCard.getComponent(Card)._isFlipped) {
@@ -96,27 +96,21 @@ export default class MonsterCardHolder extends cc.Component {
         TurnsManager.currentTurn.PlayerId
       );
       if (currentTurnPlayer == PlayerManager.mePlayer) {
-        // let activateItemOver = await currentTurnPlayer
-        //   .getComponent(Player)
-        //   .activateItem(this.activeMonster, true);
+
         let serverEffect = await CardManager.getCardEffect(this.activeMonster, currentTurnPlayer.getComponent(Player).playerId)
 
         let over = await this.activeMonster.getComponent(CardEffect).doServerEffect(serverEffect, [])
-
-
         PileManager.addCardToPile(CARD_TYPE.MONSTER, this.activeMonster, true);
 
         BattleManager.currentlyAttackedMonster = null;
         TurnsManager.currentTurn.battlePhase = false;
-        //  ActionManager.updateActions()
-        //  this.getNextMonster(true);
       }
     }
     MonsterField.updateActiveMonsters();
     ActionManager.updateActions();
   }
 
-  @printMethodStarted(COLORS.LIGHTBLUE)
+
   removeMonster(monster: cc.Node, sendToServer: boolean) {
 
     this.monsters.splice(this.monsters.indexOf(monster));

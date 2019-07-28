@@ -1,10 +1,11 @@
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_TYPE } from "./../../Constants";
+import { CHOOSE_TYPE, TARGETTYPE } from "./../../Constants";
 import { ServerEffect } from "./../../Entites/ServerCardEffect";
 import Effect from "./Effect";
 import Player from "../../Entites/GameEntities/Player";
 import { override } from "kaop";
+import { ActiveEffectData } from "../../Managers/NewScript";
 
 const { ccclass, property } = cc._decorator;
 
@@ -14,12 +15,6 @@ export default class StealMoney extends Effect {
 
   effectName = "stealMoney";
 
-  @property({
-    type: DataCollector,
-    override: true
-  })
-  dataCollector: DataCollector = null;
-
   @property(Number)
   numOfCoins: number = 0;
 
@@ -28,28 +23,22 @@ export default class StealMoney extends Effect {
    * @param data {target:PlayerId}
    */
 
-  doEffect(
+  async doEffect(
     serverEffectStack: ServerEffect[],
-    data?: { cardChosenId: number; playerId: number }
+    data?: ActiveEffectData
   ) {
-    let stealer = PlayerManager.getPlayerById(data.playerId).getComponent(
-      Player
-    );
-    ;
-    let targetPlayer = PlayerManager.getPlayerByCardId(
-      data.cardChosenId
-    ).getComponent(Player);
+    let stealer = data.effectCardPlayer.getComponent(Player)
+      ;
+    let targetPlayer = PlayerManager.getPlayerByCard(data.getTarget(TARGETTYPE.PLAYER))
 
     if (targetPlayer.coins >= this.numOfCoins) {
-      targetPlayer.changeMoney(-this.numOfCoins, false);
-      stealer.changeMoney(this.numOfCoins, false);
+      await targetPlayer.changeMoney(-this.numOfCoins, false);
+      await stealer.changeMoney(this.numOfCoins, false);
     } else {
-      stealer.changeMoney(targetPlayer.coins, false);
-      targetPlayer.changeMoney(-targetPlayer.coins, false);
+      await stealer.changeMoney(targetPlayer.coins, false);
+      await targetPlayer.changeMoney(-targetPlayer.coins, false);
     }
 
-    return new Promise<ServerEffect[]>((resolve, reject) => {
-      resolve(serverEffectStack);
-    });
+    return serverEffectStack;
   }
 }

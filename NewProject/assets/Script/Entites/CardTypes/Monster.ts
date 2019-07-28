@@ -1,9 +1,10 @@
 import MonsterCardHolder from "../MonsterCardHolder";
 import MonsterReward from "../../CardEffectComponents/MonsterRewards/MonsterReward";
-import { testForPassiveAfter } from "../../Managers/PassiveManager";
 import Signal from "../../../Misc/Signal";
 import Card from "../GameEntities/Card";
 import Server from "../../../ServerClient/ServerClient";
+import BattleManager from "../../Managers/BattleManager";
+import PassiveManager, { PassiveMeta } from "../../Managers/PassiveManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -45,18 +46,34 @@ export default class Monster extends cc.Component {
   @property(MonsterReward)
   reward: MonsterReward = null;
 
-  @testForPassiveAfter('getDamaged')
+  /**
+   * 
+   * @param damage 
+   * @param sendToServer
+   * @returns true if the monster was killed 
+   */
+  // @testForPassiveAfter('getDamaged')
   async getDamaged(damage: number, sendToServer: boolean) {
-    this.currentHp -= damage;
-    let cardId = this.node.getComponent(Card)._cardId
-    let serverData = {
-      signal: Signal.MONSTERGETDAMAGED,
-      srvData: { cardId: cardId, damage: damage }
-    };
-    if (sendToServer) {
-      Server.$.send(serverData.signal, serverData.srvData)
+    let passiveMeta = new PassiveMeta('getDamaged', Array.of(damage), null, this.node)
+    let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+    passiveMeta.args = afterPassiveMeta.args;
+    let wasKilled
+    if (afterPassiveMeta.continue) {
+
+      this.currentHp -= damage;
+      let cardId = this.node.getComponent(Card)._cardId
+      let serverData = {
+        signal: Signal.MONSTERGETDAMAGED,
+        srvData: { cardId: cardId, damage: damage }
+      };
+      if (sendToServer) {
+        Server.$.send(serverData.signal, serverData.srvData)
+      }
+      wasKilled = await BattleManager.checkIfMonsterIsDead(this.node, sendToServer);
     }
-    return true;
+    passiveMeta.result = wasKilled
+    let thisResult = await PassiveManager.testForPassiveAfter(passiveMeta)
+    return thisResult;
   }
 
   async gainHp(hpToGain: number, sendToServer: boolean) {

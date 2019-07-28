@@ -5,15 +5,14 @@ import Effect from "./Effect";
 import Player from "../../Entites/GameEntities/Player";
 import CardPlayer from "../DataCollector/CardPlayer";
 import CardManager from "../../Managers/CardManager";
+import { ActiveEffectData } from "../../Managers/NewScript";
+import { TARGETTYPE } from "../../Constants";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class GainLoot extends Effect {
   effectName = "GainLoot";
-
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
 
   @property(Number)
   numOfLoot: number = 0;
@@ -22,31 +21,18 @@ export default class GainLoot extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(serverEffectStack: ServerEffect[], data?) {
+  async doEffect(serverEffectStack: ServerEffect[], data?: ActiveEffectData) {
 
-    // let card = CardManager.getCardById(data.cardPlayerId)
 
-    // let targetPlayer
-    // if (card.name == 'Samson') {
-    //   targetPlayer = PlayerManager.getPlayerByCardId(data.target)
-    //   let player: Player = targetPlayer.getComponent(Player);
-    //   player.setMoney(player.coins + 1, false)
-    // } else {
-    // if (this.dataCollector instanceof CardPlayer) {
 
-    //   targetPlayer = PlayerManager.getPlayerByCardId(data.target);
-    // } else
-    cc.log(data)
-    let targetPlayer = PlayerManager.getPlayerById(data.target);
+    let targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER);
 
-    let player: Player = targetPlayer.getComponent(Player);
+    let player: Player = PlayerManager.getPlayerByCard(targetPlayerCard)
     for (let i = 0; i < this.numOfLoot; i++) {
 
       await player.drawCard(CardManager.lootDeck, true)
     }
 
-    return new Promise<ServerEffect[]>((resolve, reject) => {
-      resolve(serverEffectStack);
-    });
+    return serverEffectStack
   }
 }

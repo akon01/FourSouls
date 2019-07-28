@@ -13,9 +13,6 @@ const { ccclass, property } = cc._decorator;
 export default class AddPassiveEffect extends Effect {
   effectName = "AddPassiveEffect";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
-
   @property({ type: Effect, override: true })
   passiveEffectToAdd: Effect = null;
 
@@ -26,20 +23,11 @@ export default class AddPassiveEffect extends Effect {
    */
   async doEffect(serverEffectStack: ServerEffect[], data?) {
 
-    // let thisCard = CardManager.getCardById(data.target, true);
-    // 
-    // let player = PlayerManager.getPlayerByCard(this.node.parent)
-
-    // let conditionData = await this.passiveEffectToAdd.condition.dataCollector.collectData({ cardPlayerId: player.playerId });
-
-    // let playerName = PlayerManager.getPlayerByCardId(conditionData.cardChosenId).name
     this.passiveEffectToAdd.condition.conditionData = data;
-    PassiveManager.registerOneTurnPassiveEffect(this.passiveEffectToAdd, true)
+    await PassiveManager.registerOneTurnPassiveEffect(this.passiveEffectToAdd, true)
     // let cardPlayer = PlayerManager.getPlayerByCard(targetItem);
     //cardPlayer.rechargeItem(targetItem);
     cc.log(`registered one turn passive ${this.passiveEffectToAdd.name}`)
-    return new Promise<ServerEffect[]>((resolve, reject) => {
-      resolve(serverEffectStack);
-    });
+    return serverEffectStack
   }
 }

@@ -3,18 +3,16 @@ import DataCollector from "../DataCollector/DataCollector";
 import { ServerEffect } from "./../../Entites/ServerCardEffect";
 import Effect from "./Effect";
 import Player from "../../Entites/GameEntities/Player";
-import { STATS } from "../../Constants";
+import { STATS, TARGETTYPE } from "../../Constants";
 import CardManager from "../../Managers/CardManager";
 import Monster from "../../Entites/CardTypes/Monster";
+import { ActiveEffectData } from "../../Managers/DataInterpreter";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class GainStats extends Effect {
   effectName = "GainStats";
-
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
 
   @property()
   gainHp: boolean = false;
@@ -55,11 +53,16 @@ export default class GainStats extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(serverEffectStack: ServerEffect[], data?: { target: number }) {
+  async doEffect(serverEffectStack: ServerEffect[], data?: ActiveEffectData) {
     let target;
-    target = PlayerManager.getPlayerById(data.target);
+    target = data.getTarget(TARGETTYPE.PLAYER)
+    if (target == null) {
+      target = data.getTarget(TARGETTYPE.MONSTER)
+    } else {
+      target = PlayerManager.getPlayerByCard(target)
+    }
     //case target is a player
-    if (target != null) {
+    if (target.getComponent(Player) != null) {
       let player: Player = target.getComponent(Player);
 
       if (this.gainHp) {
@@ -78,28 +81,20 @@ export default class GainStats extends Effect {
         await player.gainFirstAttackRollBonus(this.firstAttackRollBonusToGain, true)
       }
     } else {
-      target = CardManager.getCardById(data.target, true)
+      //    target = CardManager.getCardById(data.target, true)
       let monster: Monster = target.getComponent(Monster)
-
       if (this.gainHp) {
-
         await monster.gainHp(this.hpToGain, true)
-
       }
       if (this.gainDMG) {
-
         await monster.gainDMG(this.DMGToGain, true)
-
       }
       if (this.gainRollBonus) {
-
         await monster.gainRollBonus(this.rollBonusToGain, true)
-
       }
       this.activatedTarget = target
     }
     //   let targetPlayer = PlayerManager.getPlayerById(data.target);
-
     return serverEffectStack
   }
 

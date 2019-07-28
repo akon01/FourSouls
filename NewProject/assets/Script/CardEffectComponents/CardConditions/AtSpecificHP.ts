@@ -5,6 +5,7 @@ import PlayerManager from "../../Managers/PlayerManager";
 import Monster from "../../Entites/CardTypes/Monster";
 import CardManager from "../../Managers/CardManager";
 import Effect from "../CardEffects/Effect";
+import { PassiveMeta } from "../../Managers/PassiveManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -19,36 +20,31 @@ export default class AtSpecificHp extends Condition {
 
   isActive: boolean = false;
 
-  testCondition(meta: any) {
-
-    let subject = meta.scope;;
+  async testCondition(meta: PassiveMeta) {
+    let subject = meta.methodScope;;
+    cc.log(`subject is ${subject.name}`)
     let thisCard = this.node.parent.parent;
+    cc.log(`this card is ${thisCard.name}`)
     let cardOwner: any = PlayerManager.getPlayerByCard(thisCard);
     if (cardOwner == null) {
       cardOwner = thisCard;
     }
+    cc.log(`card owner is ${cardOwner.name}`)
     let subjectName: string = subject.name
     let nameArray = subjectName.split('<')
-
-
-
-
-    if (subject instanceof Monster && nameArray[0] == cardOwner.name && meta.key == 'getDamaged') {
-      if (subject.currentHp == this.specificHp) {
-
+    if (subject.getComponent(Monster) != null && nameArray[0] == cardOwner.name && meta.methodName == 'getDamaged') {
+      if (subject.getComponent(Monster).currentHp == this.specificHp) {
         this.isActive = true
         return true;
       } else if (this.isActive) {
         this.myEffect.reverseEffect()
       }
-
     } else if (
-      subject instanceof Player &&
+      subject.getComponent(Player) != null &&
       subject.name == cardOwner.name &&
-      meta.key == "getHit"
+      meta.methodName == "getHit"
     ) {
-      if (subject.Hp == this.specificHp) {
-
+      if (subject.getComponent(Player).Hp == this.specificHp) {
         this.isActive = true
         return true;
       } else if (this.isActive) {

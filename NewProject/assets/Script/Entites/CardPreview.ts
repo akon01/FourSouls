@@ -2,7 +2,6 @@ import {
   TIMETOSHOWPREVIEW,
   printMethodSignal,
   COLORS,
-  printMethodStarted
 } from "../Constants";
 import PlayerManager from "../Managers/PlayerManager";
 import TurnsManager from "../Managers/TurnsManager";
@@ -114,11 +113,11 @@ export default class CardPreview extends cc.Component {
       const effect = cardEffects[i];
       let preCondition = effect.getComponent(Effect).preCondition
       if (preCondition != null && preCondition.testCondition()) {
-        cc.log(`added${effect.name} , precondition passed`)
+
         this.addEffectToPreview(effect);
       }
       else if (preCondition == null) {
-        cc.log(`added${effect.name},no precondition`)
+
         this.addEffectToPreview(effect)
       }
     }
@@ -127,13 +126,13 @@ export default class CardPreview extends cc.Component {
       const effect = cardEffects[i];
       let preCondition = effect.getComponent(Effect).preCondition
       if (!card.getComponent(Item).activated) {
-        cc.log('card is not activated')
+
         if (preCondition != null && preCondition.testCondition()) {
-          cc.log(`added${effect.name} , precondition passed`)
+
           this.addEffectToPreview(effect);
         }
         else if (preCondition == null) {
-          cc.log(`added${effect.name},no precondition`)
+
           this.addEffectToPreview(effect)
         }
       }

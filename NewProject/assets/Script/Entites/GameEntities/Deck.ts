@@ -1,4 +1,4 @@
-import { CARD_TYPE, CARD_WIDTH, CARD_HEIGHT, printMethodStarted, COLORS, TIMEFORMONSTERDISCARD } from "../../Constants";
+import { CARD_TYPE, CARD_WIDTH, CARD_HEIGHT } from "../../Constants";
 import CardManager from "../../Managers/CardManager";
 import DataCollector from "../../CardEffectComponents/DataCollector/DataCollector";
 import Server from "../../../ServerClient/ServerClient";
@@ -37,7 +37,7 @@ export default class Deck extends cc.Component {
   addToDeckOnTop(card: cc.Node, sendToServer: boolean) {
     this._cards.push(card);
     CardManager.inDecksCards.push(card);
-    CardManager.monsterCardPool.put(card);
+    //CardManager.monsterCardPool.put(card);
     card.setParent(null)
     let serverData = {
       signal: Signal.DECKADDTOTOP,
@@ -52,6 +52,10 @@ export default class Deck extends cc.Component {
     if (this._cards.length != 0) {
       let newCard = this._cards.pop();
 
+      if (newCard.parent == null) {
+        newCard.parent = cc.find('Canvas')
+        newCard.setPosition(this.node.getPosition())
+      }
       CardManager.removeFromInAllDecksCards(newCard);
       if (sendToServer) {
         Server.$.send(Signal.DRAWCARD, { deckType: this.deckType })
@@ -63,9 +67,17 @@ export default class Deck extends cc.Component {
 
   }
 
-  addToDeckOnBottom(card: cc.Node) {
+  addToDeckOnBottom(card: cc.Node, sendToServer: boolean) {
     this._cards.unshift(card);
     CardManager.inDecksCards.push(card);
+    card.setParent(null)
+    let serverData = {
+      signal: Signal.DECKADDTOBOTTOM,
+      srvData: { deckType: this.deckType, cardId: card.getComponent(Card)._cardId }
+    };
+    if (sendToServer) {
+      Server.$.send(serverData.signal, serverData.srvData)
+    }
   }
 
   shuffleDeck() {

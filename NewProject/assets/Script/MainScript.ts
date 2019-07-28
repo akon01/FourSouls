@@ -19,6 +19,8 @@ import Monster from "./Entites/CardTypes/Monster";
 import Deck from "./Entites/GameEntities/Deck";
 import CardPreview from "./Entites/CardPreview";
 import Signal from "../Misc/Signal";
+import { ContainerBuilder } from "@ts-ioc/core";
+import { AopModule } from "@ts-ioc/aop";
 
 //( id represents a human player and it coresponds with playerID)
 let id = 1;
@@ -82,10 +84,7 @@ export default class MainScript extends cc.Component {
       MainScript.serverId = 1;
     }
 
-    //make cardPreview not active at the start
-    // let cardPreview = cc.find("Canvas/CardPreview").getComponent(CardPreview);
-    // cardPreview.onLoad();
-    // cardPreview.node.active = false;
+    cc.log('111')
 
     //set up screen size
     var canvas = this.canvasNode.getComponent(cc.Canvas);
@@ -204,7 +203,7 @@ export default class MainScript extends cc.Component {
 
 
     if (PlayerManager.mePlayer.getComponent(Player).playerId == playerId) {
-      cc.log('first update actions')
+
       let over = await ActionManager.updateActions();
 
       Server.$.send(Signal.UPDATEACTIONS)

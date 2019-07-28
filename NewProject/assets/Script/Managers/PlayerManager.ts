@@ -1,6 +1,5 @@
 import { MoveLootToPile } from "./../Entites/Action";
 import {
-  printMethodStarted,
   ITEM_TYPE,
   CARD_HEIGHT,
   CARD_WIDTH
@@ -20,6 +19,7 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class PlayerManager extends cc.Component {
+
   static players: cc.Node[] = [];
 
   static hands: cc.Node[] = [];
@@ -111,8 +111,10 @@ export default class PlayerManager extends cc.Component {
 
   //create hands and place them on canvas
   static createHands() {
-    for (let i = 1; i <= PlayerManager.players.length; i++) {
-      var newNode: cc.Node = cc.instantiate(PlayerManager.handPrefab);
+    //for (let i = 1; i <= PlayerManager.players.length; i++) {
+    for (let i = 1; i <= 4; i++) {
+      //  var newNode: cc.Node = cc.instantiate(PlayerManager.handPrefab);
+      let newNode = cc.find('Canvas/Hand' + i)
       let handComp: CardLayout = newNode.getComponent("CardLayout");
       handComp.handId = i;
       newNode.height = CARD_HEIGHT;
@@ -123,41 +125,26 @@ export default class PlayerManager extends cc.Component {
   }
 
   static createDice() {
-    for (let i = 1; i <= PlayerManager.players.length; i++) {
-      var newNode: cc.Node = cc.instantiate(PlayerManager.dicePrefab);
+    //    for (let i = 1; i <= PlayerManager.players.length; i++) {
+    for (let i = 1; i <= 4; i++) {
+      //   var newNode: cc.Node = cc.instantiate(PlayerManager.dicePrefab);
+      let newNode = cc.find('Canvas/Dice' + i)
+
       newNode.getComponent(Dice).diceId = ++CardManager.cardsId;
       newNode.name = "Dice";
+
       PlayerManager.dice.push(newNode);
     }
   }
 
-  static getPlayerByCard(card: cc.Node) {
-    for (let i = 0; i < this.players.length; i++) {
-      const player = this.players[i].getComponent(Player);
-
-      for (let j = 0; j < player.handCards.length; j++) {
-        const testedCard = player.handCards[j];
-
-        if (card == testedCard) {
-          return player;
-        }
-      }
-
-      for (let j = 0; j < player.deskCards.length; j++) {
-        const testedCard = player.deskCards[j];
-
-        if (card == testedCard) {
-          return player;
-        }
-      }
-    }
-    throw "No player was found!";
-
-  }
-
   static createPlayerDesks() {
-    for (let i = 1; i <= PlayerManager.players.length; i++) {
-      var newNode: cc.Node = cc.instantiate(PlayerManager.playerDeskPrefab);
+
+    //  for (let i = 1; i <= PlayerManager.players.length; i++) {
+    for (let i = 1; i <= 4; i++) {
+      //    var newNode: cc.Node = cc.instantiate(PlayerManager.playerDeskPrefab);
+      let deskName = 'Desk' + i
+
+      let newNode = cc.find("Canvas/" + deskName)
       let deskComp: PlayerDesk = newNode.getComponent(PlayerDesk);
 
       let playerItems: cc.Node = newNode.getChildByName("PlayerItems");
@@ -167,10 +154,10 @@ export default class PlayerManager extends cc.Component {
       let passiveItemsLayout: CardLayout = deskComp.passiveItemLayout.getComponent(
         CardLayout
       );
-      activeItemsLayout.node.height = CARD_HEIGHT;
-      passiveItemsLayout.node.height = CARD_HEIGHT;
-      activeItemsLayout.node.width = CARD_WIDTH * 7;
-      passiveItemsLayout.node.width = CARD_WIDTH * 7;
+      // activeItemsLayout.node.height = CARD_HEIGHT;
+      // passiveItemsLayout.node.height = CARD_HEIGHT;
+      // activeItemsLayout.node.width = CARD_WIDTH * 7;
+      // passiveItemsLayout.node.width = CARD_WIDTH * 7;
 
       deskComp.deskId = i;
       newNode.name = "Desk";
@@ -228,9 +215,10 @@ export default class PlayerManager extends cc.Component {
     let playerComp: Player;
 
     for (let i = 0; i < PlayerManager.players.length; i++) {
-      const handNode = PlayerManager.hands[i];
-      const deskNode = PlayerManager.desks[i];
-      const diceNode = PlayerManager.dice[i];
+      const handNode = PlayerManager.hands[i]
+      const deskNode = PlayerManager.desks[i]
+      const diceNode = PlayerManager.dice[i]
+
       let handComp: CardLayout = handNode.getComponent("CardLayout");
       let diceWidget: cc.Widget = diceNode.getComponent(cc.Widget);
       let handWidget: cc.Widget = handNode.getComponent(cc.Widget);
@@ -241,37 +229,10 @@ export default class PlayerManager extends cc.Component {
         case 0:
           playerNode = PlayerManager.mePlayer;
           playerComp = PlayerManager.mePlayer.getComponent(Player);
+          playerComp._putCharLeft = true
+          // //position hand
 
-          //position hand
-
-          handWidget.target = canvas;
-          handWidget.isAlignRight = true;
-          handWidget.isAlignBottom = true;
-          handWidget.right = 65;
-          handWidget.bottom = -38;
-
-          //position desk
-          deskWidget.target = canvas;
-          deskWidget.isAlignRight = true;
-          deskWidget.isAlignBottom = true;
-          deskWidget.right = 230;
-          deskWidget.bottom = 110;
-
-          //position dice
-          diceWidget.target = canvas;
-          diceWidget.isAlignRight = true;
-          diceWidget.isAlignBottom = true;
-          diceWidget.right = 250;
-          diceWidget.bottom = 160;
-
-          //show hand and then hide on touch
-          handNode.on("touchstart", event => {
-
-            handComp.showHandLayout();
-            handNode.getComponent(CardLayout).scheduleOnce(() => {
-              handComp.hideHandLayout();
-            }, 2);
-          });
+          playerComp._reactionToggle = cc.find('Canvas/Reaction Toggle').getComponent(cc.Toggle)
 
           //attach money lable to player
           cc
@@ -282,25 +243,7 @@ export default class PlayerManager extends cc.Component {
         case 1:
           playerNode = PlayerManager.getPlayerById(meId + 1);
           playerComp = playerNode.getComponent(Player);
-          //set hand pos
-          handWidget.target = canvas;
-          handWidget.isAlignLeft = true;
-          handWidget.isAlignBottom = true;
-          handWidget.left = 65;
-          handWidget.bottom = -38;
-          // set desk pos
-          deskWidget.target = canvas;
-          deskWidget.isAlignLeft = true;
-          deskWidget.isAlignBottom = true;
-          deskWidget.left = 230;
-          deskWidget.bottom = 110;
 
-          //position dice
-          diceWidget.target = canvas;
-          diceWidget.isAlignLeft = true;
-          diceWidget.isAlignBottom = true;
-          diceWidget.left = 250;
-          diceWidget.bottom = 160;
 
           //attach money lable to player
           cc
@@ -311,24 +254,7 @@ export default class PlayerManager extends cc.Component {
         case 2:
           playerNode = PlayerManager.getPlayerById(meId + 2);
           playerComp = playerNode.getComponent(Player);
-          //set hand pos
-          handWidget.target = canvas;
-          handWidget.isAlignLeft = true;
-          handWidget.isAlignTop = true;
-          handWidget.left = 65;
-          handWidget.top = -38;
-          //set desk pos
-          deskWidget.target = canvas;
-          deskWidget.isAlignLeft = true;
-          deskWidget.isAlignTop = true;
-          deskWidget.left = 230;
-          deskWidget.top = 110;
-          //position dice
-          diceWidget.target = canvas;
-          diceWidget.isAlignLeft = true;
-          diceWidget.isAlignTop = true;
-          diceWidget.left = 250;
-          diceWidget.top = 160;
+
 
           //attach money lable to player
           cc
@@ -339,24 +265,8 @@ export default class PlayerManager extends cc.Component {
         case 3:
           playerNode = PlayerManager.getPlayerById(meId + 3);
           playerComp = playerNode.getComponent(Player);
-          //set hand pos
-          handWidget.target = canvas;
-          handWidget.isAlignRight = true;
-          handWidget.isAlignTop = true;
-          handWidget.right = 65;
-          handWidget.bottom = -38;
-          // set desk pos
-          deskWidget.target = canvas;
-          deskWidget.isAlignRight = true;
-          deskWidget.isAlignTop = true;
-          deskWidget.left = 230;
-          deskWidget.top = 110;
-          //position dice
-          diceWidget.target = canvas;
-          diceWidget.isAlignRight = true;
-          diceWidget.isAlignTop = true;
-          diceWidget.left = 250;
-          diceWidget.top = 160;
+          playerComp._putCharLeft = true;
+
 
           //attach money lable to player
           cc
@@ -386,6 +296,18 @@ export default class PlayerManager extends cc.Component {
       //setting dice of player
       playerComp.setDice(diceNode);
     }
+
+    for (let i = 1; i <= this.players.length; i++) {
+      const desk = this.desks[this.desks.length - 1];
+      desk.destroy();
+      this.desks.splice(this.desks.indexOf(desk))
+      const hand = this.hands[this.hands.length - 1]
+      hand.destroy();
+      this.hands.splice(this.hands.indexOf(hand))
+      const dice = this.dice[this.dice.length - 1]
+      dice.destroy();
+      this.dice.splice(this.dice.indexOf(dice))
+    }
   }
 
   static getPlayerById(id: number): cc.Node {
@@ -404,12 +326,55 @@ export default class PlayerManager extends cc.Component {
     return null;
   }
 
+
+  static getPlayerByCard(card: cc.Node) {
+    for (let i = 0; i < this.players.length; i++) {
+      const player = this.players[i].getComponent(Player);
+
+      for (let j = 0; j < player.handCards.length; j++) {
+        const testedCard = player.handCards[j];
+
+        if (card == testedCard) {
+          return player;
+        }
+      }
+
+      for (let j = 0; j < player.deskCards.length; j++) {
+        const testedCard = player.deskCards[j];
+
+        if (card == testedCard) {
+          return player;
+        }
+      }
+    }
+    cc.log('no player was found')
+    return null;
+
+  }
+
   static getPlayerByCardId(cardId: number) {
     let playerCard = CardManager.getCardById(cardId);
     for (let i = 0; i < this.players.length; i++) {
       const player = this.players[i].getComponent(Player);
       if (player.character == playerCard) {
         return player;
+      }
+    }
+  }
+
+  static getPlayerByDice(diceId: number) {
+    for (const player of this.players) {
+      if (player.getComponent(Player).dice.diceId == diceId) {
+        return player.getComponent(Player);
+      }
+    }
+    cc.log('no player found')
+  }
+
+  static getPriorityPlayer() {
+    for (const player of this.players) {
+      if (player.getComponent(Player)._hasPriority) {
+        return player.getComponent(Player)
       }
     }
   }

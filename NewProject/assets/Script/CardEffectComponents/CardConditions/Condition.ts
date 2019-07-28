@@ -9,6 +9,6 @@ export default class Condition extends cc.Component
   chooseType: import("../../Constants").CHOOSE_TYPE;
   dataCollector: import("../DataCollector/DataCollector").default;
   async testCondition(data?: any): Promise<boolean> {
-    return null;
+    return true;
   }
 }

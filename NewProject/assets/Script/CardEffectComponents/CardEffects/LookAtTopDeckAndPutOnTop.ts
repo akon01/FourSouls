@@ -1,4 +1,4 @@
-import { printMethodStarted, CARD_TYPE } from "../../Constants";
+import { CARD_TYPE } from "../../Constants";
 
 import CardManager from "../../Managers/CardManager";
 import DataCollector from "../DataCollector/DataCollector";
@@ -8,6 +8,7 @@ import Effect from "./Effect";
 import Deck from "../../Entites/GameEntities/Deck";
 import CardPreviewManager from "../../Managers/CardPreviewManager";
 import PileManager from "../../Managers/PileManager";
+import { ActiveEffectData } from "../../Managers/NewScript";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,8 +18,7 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
 
   effectName = "LookAtTopDeckAndPutOnTop";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
+
 
   @property(Number)
   numOfCardsToSee: number = 0;
@@ -39,7 +39,7 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
   //@printMethodStarted(COLORS.RED)
   async doEffect(
     serverEffectStack: ServerEffect[],
-    data?: { cardChosenId: number; playerId: number }
+    data?: ActiveEffectData
   ) {
     let deck: Deck;
     switch (this.deckType) {
@@ -58,25 +58,21 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
     for (let i = 0; i < this.numOfCardsToSee; i++) {
       if (deck._cards.length > i) {
         cardsToSee.push(deck._cards[i]);
-        //now only log, do multiple card previews!
-
       }
     }
     let selectedQueue = await CardPreviewManager.selectFromCards(cardsToSee, this.numOfCardsToPut)
     for (let i = 0; i < selectedQueue.length; i++) {
       const selectedCard = selectedQueue[i];
-      deck.addToDeckOnTop(selectedCard)
+      deck.addToDeckOnTop(selectedCard, true)
     }
     let notSelectedCards: cc.Node[] = [];
     notSelectedCards = cardsToSee.filter(card => !selectedQueue.includes(card))
     for (let i = 0; i < notSelectedCards.length; i++) {
       const card = notSelectedCards[i];
-      deck.addToDeckOnBottom(card)
+      deck.addToDeckOnBottom(card, true)
       // await PileManager.addCardToPile(this.deckType, card, true)
     }
 
-    return new Promise<ServerEffect[]>((resolve, reject) => {
-      resolve(serverEffectStack);
-    });
+    return serverEffectStack
   }
 }

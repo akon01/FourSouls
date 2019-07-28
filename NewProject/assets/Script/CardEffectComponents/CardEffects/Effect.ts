@@ -6,11 +6,16 @@ import { CHOOSE_TYPE, PASSIVE_TYPE } from "../../Constants";
 import Condition from "../CardConditions/Condition";
 import PreCondition from "../PreConditions/PreCondition";
 import Cost from "../Costs/Cost";
+import { ActiveEffectData } from "../../Managers/DataInterpreter";
+
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Effect extends cc.Component implements EffectInterface {
+
+
+  effectData: ActiveEffectData = null;
 
   @property(Cost)
   cost: Cost = null;
@@ -32,8 +37,8 @@ export default class Effect extends cc.Component implements EffectInterface {
 
   chooseType: CHOOSE_TYPE = null;
 
-  @property(DataCollector)
-  dataCollector: DataCollector = null;
+  @property([DataCollector])
+  dataCollector: DataCollector[] = [];
 
   @property
   _effectCard: cc.Node = null;
@@ -42,8 +47,8 @@ export default class Effect extends cc.Component implements EffectInterface {
    *
    * @param data {target:Player}
    */
-  doEffect(serverEffectStack: ServerEffect[], data?) {
-    return new Promise((resolve, reject) => { });
+  async doEffect(serverEffectStack: ServerEffect[], data?) {
+    return null;
   }
 
   reverseEffect() {

@@ -105,8 +105,9 @@ export class CardLayout extends cc.Component {
 
     this.layoutCards.push(newCard);
 
+
     this.node.emit("HandCardAdded", newCard);
-    ActionManager.updateActions();
+    //  ActionManager.updateActions();
   }
 
   removeCardFromLayout(cardToRemove: cc.Node) {
@@ -193,12 +194,13 @@ export class CardLayout extends cc.Component {
       if (this.node.name == "ActiveItems") {
         layoutY =
           this.node.convertToNodeSpaceAR(this.node.getPosition()).y -
-          cardHeight +
+          cardHeight * 0.25 +
           layout.spacingY;
       } else {
         layoutY =
-          this.node.convertToNodeSpaceAR(this.node.getPosition()).y -
-          cardHeight * 2;
+          this.node.convertToNodeSpaceAR(this.node.getPosition()).y
+          -
+          cardHeight * 1.25;
       }
     } else {
       nodeX = this.node.x;

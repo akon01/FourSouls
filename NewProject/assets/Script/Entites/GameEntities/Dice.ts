@@ -1,8 +1,6 @@
 import {
   ROLL_TYPE,
-  TIMEFORDICEROLL,
-  printMethodStarted,
-  COLORS
+  TIMEFORDICEROLL
 } from "../../Constants";
 import Player from "./Player";
 
@@ -34,28 +32,20 @@ export default class Dice extends cc.Component {
   @property
   diceId: number = 0;
 
+  @property
+  player: Player = null;
+
   //@printMethodStarted(COLORS.RED)
   async rollDice(rollType: ROLL_TYPE) {
-    let player = this.node.parent.getComponent(Player)
+    let player = this.player
     this.rollType = rollType;
     if (this.currentRolledNumber == -1) {
       this.lastRolledNumber = this.currentRolledNumber;
     }
-    let timesToRoll = Math.floor(Math.random() * 5) + 4;
-    this.doRoll();
-    let rollOver = await this.waitForDiceRoll();
-    // await this.schedule(
-    //   () => {
-    //     this.currentRolledNumber = Math.floor(Math.random() * 6) + 1;
-    //     this.node.getComponent(
-    //       cc.Sprite
-    //     ).spriteFrame = this.getSpriteByNumber();
-    //   },
-    //   TIMEFORDICEROLL,
-    //   Math.floor(Math.random() * 5) + 4
-    // );
-    let eventName = "" + this.rollType;
+    this.rollOver = false;
 
+    this.doRoll();
+    await this.waitForDiceRoll()
     switch (this.rollType) {
       case ROLL_TYPE.ATTACK:
         if ((this.currentRolledNumber + player.attackRollBonus) <= 6) {
@@ -86,17 +76,14 @@ export default class Dice extends cc.Component {
         break;
     }
 
-    return new Promise<number>((resolve, reject) => {
-      resolve(this.currentRolledNumber);
-    });
+    return this.currentRolledNumber;
   }
 
   async waitForDiceRoll(): Promise<boolean> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       let check = () => {
         if (this.rollOver == true) {
           this.rollOver = false;
-
           resolve(true);
         } else {
           setTimeout(check, 50);
@@ -127,19 +114,33 @@ export default class Dice extends cc.Component {
   doRoll() {
 
     let timesToRoll = Math.floor(Math.random() * 5) + 4;
-    let rolledTimes = 0;
-    this.schedule(
-      () => {
-        if (rolledTimes == timesToRoll) {
-          this.rollOver = true;
-        } else {
+    let i = 0;
+    let check = () => {
+      if (i < timesToRoll) {
+        setTimeout(() => {
           this.diceChange();
-          rolledTimes++;
-        }
-      },
-      TIMEFORDICEROLL,
-      timesToRoll
-    );
+          i++;
+          check();
+        }, TIMEFORDICEROLL * 1000);
+      } else {
+        this.rollOver = true;
+      }
+    }
+    check()
+    // this.schedule(
+    //   () => {
+    //     if (rolledTimes == timesToRoll) {
+    //       
+    //       this.rollOver = true;
+    //     } else {
+    //       this.diceChange();
+    //       rolledTimes++;
+    //     }
+    //   },
+    //   TIMEFORDICEROLL,
+    //   timesToRoll
+    // );
+
   }
 
   disableRoll() {
@@ -149,7 +150,7 @@ export default class Dice extends cc.Component {
   async setRoll(diceNum: number) {
     this.lastRolledNumber = this.currentRolledNumber;
     this.currentRolledNumber = diceNum;
-    return new Promise<number>((resolve, reject) => {
+    return new Promise<number>((resolve) => {
       resolve(this.currentRolledNumber);
     });
   }
@@ -157,7 +158,7 @@ export default class Dice extends cc.Component {
   async increaseRollBy(increaseBy: number) {
     this.lastRolledNumber = this.currentRolledNumber;
     this.currentRolledNumber += increaseBy;
-    return new Promise<number>((resolve, reject) => {
+    return new Promise<number>((resolve) => {
       resolve(this.currentRolledNumber);
     });
   }
@@ -165,7 +166,7 @@ export default class Dice extends cc.Component {
   async decreaseRollBy(decreaseBy) {
     this.lastRolledNumber = this.currentRolledNumber;
     this.currentRolledNumber -= decreaseBy;
-    return new Promise<number>((resolve, reject) => {
+    return new Promise<number>((resolve) => {
       resolve(this.currentRolledNumber);
     });
   }
@@ -185,9 +186,7 @@ export default class Dice extends cc.Component {
     this.rollType = rollType;
     this.node.off(cc.Node.EventType.TOUCH_START);
     this.node.once(cc.Node.EventType.TOUCH_START, async () => {
-      let player = this.node.parent.getComponent(Player);
-
-      player.rollAttackDice(true);
+      this.player.rollAttackDice(true);
     });
   }
 

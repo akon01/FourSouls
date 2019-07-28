@@ -1,5 +1,11 @@
 import { ITEM_TYPE, TIMETOROTATEACTIVATION } from "../../Constants";
 
+import Signal from "../../../Misc/Signal";
+
+import Server from "../../../ServerClient/ServerClient";
+import Card from "../GameEntities/Card";
+
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -15,14 +21,22 @@ export default class Item extends cc.Component {
   @property
   eternal: boolean = false;
 
-  async rechargeItem() {
+  async rechargeItem(sendToServer: boolean) {
+    if (sendToServer) {
+      //   cc.log(this.node.getComponent("Card"))
+      let id = this.node.getComponent("Card")._cardId
+      Server.$.send(Signal.RECHARGEITEM, { cardId: id })
+      cc.log(Signal.RECHARGEITEM)
+    }
     this.node.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, 0));
     this.activated = false;
     return true;
   }
 
-  useItem() {
-    // if (this.type == ITEM_TYPE.ACTIVE) {
+  useItem(sendToServer: boolean) {
+    if (sendToServer) {
+      Server.$.send(Signal.USEITEM, { cardId: this.node.getComponent("Card")._cardId })
+    }
     this.node.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
     // }
     this.activated = true;

@@ -5,6 +5,7 @@ import PlayerManager from "../Managers/PlayerManager";
 import Player from "../Entites/GameEntities/Player";
 import BattleManager from "../Managers/BattleManager";
 import TurnsManager from "../Managers/TurnsManager";
+import { ActiveEffectData } from "../Managers/NewScript";
 
 const { ccclass, property } = cc._decorator;
 
@@ -12,32 +13,38 @@ const { ccclass, property } = cc._decorator;
 export default class RollOnMonster extends Effect {
   effectName = "RollOnMonster";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
 
   /**
    *
    * @param data {target:PlayerId}
    */
 
-  doEffect(
+  async doEffect(
     serverEffectStack: ServerEffect[],
-    data?: { numberRolled: number; cardPlayerId: number }
+    data?: ActiveEffectData
   ) {
-    let numberRolled = data;
-    let sendToServer;
-    if (
-      PlayerManager.mePlayer.getComponent(Player).playerId ==
+    let numberRolled = data.numberRolled;
+    let turnPlayer = PlayerManager.getPlayerById(
       TurnsManager.currentTurn.PlayerId
-    ) {
-      sendToServer = true;
+    ).getComponent(Player);
+    let playerHitMonster = await BattleManager.rollOnMonster(numberRolled, true);
+    if (playerHitMonster == true) {
+      let damage = turnPlayer.calculateDamage();
+      // 
+      // 
+      await BattleManager.currentlyAttackedMonster.getDamaged(damage, true);
+      // 
     } else {
-      sendToServer = false;
-    }
-    BattleManager.rollOnMonster(data.numberRolled, sendToServer);
+      let damage = BattleManager.currentlyAttackedMonster.calculateDamage();
+      // 
+      // 
 
-    return new Promise<ServerEffect[]>((resolve, reject) => {
-      resolve(serverEffectStack);
-    });
+      let o = await turnPlayer.getHit(damage, true);
+
+      // 
+    }
+
+
+    return serverEffectStack
   }
 }

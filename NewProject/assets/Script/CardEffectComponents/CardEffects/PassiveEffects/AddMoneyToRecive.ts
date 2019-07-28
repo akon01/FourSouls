@@ -4,31 +4,29 @@ import { ServerEffect } from "../../../Entites/ServerCardEffect";
 import CardManager from "../../../Managers/CardManager";
 import PlayerManager from "../../../Managers/PlayerManager";
 import Player from "../../../Entites/GameEntities/Player";
+import PassiveEffect from "../PassiveEffect";
+import { PassiveEffectData } from "../../../Managers/NewScript";
 
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class AddMoneyToReceive extends Effect {
+export default class AddMoneyToReceive extends PassiveEffect {
   effectName = "AddMoneyToReceive";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
 
   @property(Number)
   numOfCoins: number = 0;
 
   /**
    *
-   * @param args {target:PlayerId}
+   * @param data {target:PlayerId}
    */
-  doEffect(serverEffectStack: ServerEffect[], args?) {
-    let terminateOriginal = args.terminateOriginal;
-    let args2 = args.newArgs;
+  async doEffect(serverEffectStack: ServerEffect[], data?: PassiveEffectData) {
+    let terminateOriginal = data.terminateOriginal;
+    let args = data.methodArgs;
     //should be money count
-    args2[0] = args2[0] + 1
-    return new Promise<{ terminateOriginal: boolean, newArgs: any }>((resolve, reject) => {
-      resolve({ terminateOriginal: terminateOriginal, newArgs: args2 });
-    });
+    args[0] = args[0] + 1
+    return data
   }
 }

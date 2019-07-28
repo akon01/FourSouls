@@ -2,7 +2,6 @@ import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
 import {
   BLINKINGSPEED,
   CARD_TYPE,
-  printMethodStarted,
   COLORS,
   TIMETOBUY,
   ITEM_TYPE,
@@ -29,6 +28,8 @@ import Monster from "../Entites/CardTypes/Monster";
 import Server from "../../ServerClient/ServerClient";
 import Signal from "../../Misc/Signal";
 import CardPreviewManager from "./CardPreviewManager";
+
+import Pile from "../Entites/Pile";
 import CharacterItem from "../Entites/CardTypes/CharacterItem";
 
 
@@ -55,6 +56,10 @@ export default class CardManager extends cc.Component {
   static lootDeck: cc.Node = null;
 
   static monsterDeck: cc.Node = null;
+
+  static monsterField: cc.Node = null
+
+  static store: cc.Node = null;
 
   static treasureDeck: cc.Node = null;
 
@@ -209,9 +214,7 @@ export default class CardManager extends cc.Component {
     let serverEffectStack = await card
       .getComponent(CardEffect)
       .doServerEffect(serverEffect, allServerEffects);
-    return new Promise((resolve, reject) => {
-      resolve(serverEffectStack);
-    });
+    return serverEffectStack
   }
 
   static getDeckByType(deckType: CARD_TYPE) {
@@ -239,7 +242,7 @@ export default class CardManager extends cc.Component {
       }
       this.isCheckingForEmptyFields = true;
 
-      let monsterField = this.monsterDeck.getComponentInChildren(MonsterField);
+      let monsterField = this.monsterField.getComponent(MonsterField)
       MonsterField.updateActiveMonsters();
       if (monsterField.maxNumOfMonsters > MonsterField.activeMonsters.length) {
         let emptyHolders = MonsterField.monsterCardHolders.filter(
@@ -250,7 +253,6 @@ export default class CardManager extends cc.Component {
           let newMonster = this.monsterDeck.getComponent(Deck).drawCard(true)
           let over = await holder.getComponent(MonsterCardHolder).addToMonsters(newMonster, true)
         }
-        cc.log('after add to empty fields')
       }
 
       if (Store.storeCards.length < Store.maxNumOfItems) {
@@ -304,9 +306,9 @@ export default class CardManager extends cc.Component {
       }
     }
     for (let i = 0; i < PlayerManager.dice.length; i++) {
-      const dice = PlayerManager.dice[i].getComponent(Dice);
-      if (dice.diceId == cardId) {
-        return dice.node;
+      const dice = PlayerManager.dice[i]
+      if (dice.getComponent(Dice).diceId == cardId) {
+        return dice;
       }
     }
     for (let i = 0; i < PlayerManager.players.map(player => player.getComponent(Player)).length; i++) {
@@ -345,14 +347,14 @@ export default class CardManager extends cc.Component {
   }
 
   static makeDeckCards(deck: Deck) {
+    deck._cardId = ++this.cardsId
     deck.node.getComponent(Card)._cardId = ++this.cardsId
     let cardsToBeMade: cc.Prefab[] = deck.cardsPrefab;
     for (let i = 0; i < cardsToBeMade.length; i++) {
       let newCard: cc.Node = cc.instantiate(cardsToBeMade[i]);
-      //newCard.parent = cc.director.getScene();
+
       let cardComp: Card = newCard.getComponent(Card);
       newCard.getComponent(Card).frontSprite = newCard.getComponent(cc.Sprite).spriteFrame;
-      //cc.log(newCard.getComponent(Card).frontSprite)
       switch (deck.deckType) {
         case CARD_TYPE.LOOT:
           cardComp.backSprite = CardManager.lootCardBack;
@@ -379,7 +381,7 @@ export default class CardManager extends cc.Component {
       cardComp.flipCard();
       deck.addToDeckOnTop(newCard, false);
     }
-    cc.log(deck._cards.map(card => card.getComponent(Card)))
+
 
   }
 
@@ -454,6 +456,7 @@ export default class CardManager extends cc.Component {
     card.on(
       cc.Node.EventType.TOUCH_START,
       () => {
+        cc.log(`${card.name} was pressed, get previews`)
         CardPreviewManager.getPreviews(Array.of(card))
         //cardPreview.showCardPreview2(card);
       },
@@ -476,6 +479,7 @@ export default class CardManager extends cc.Component {
 
 
   static disableCardActions(card: cc.Node) {
+    cc.log(`disable card actions for ${card.name}`)
     card.off(cc.Node.EventType.TOUCH_START);
     if (card.getComponent(Deck) == null) {
       let cardComp = card.getComponent(Card);
@@ -485,6 +489,15 @@ export default class CardManager extends cc.Component {
       cardComp._isPlayable = false;
       cardComp._isReactable = false;
       cardComp._isRequired = false;
+      this.makeCardPreviewable(card);
+    } else {
+      let comp = card.getComponent(Deck).topBlankCard.getComponent(Card)
+      comp._isActivateable = false;
+      comp._isAttackable = false;
+      comp._isBuyable = false;
+      comp._isPlayable = false;
+      comp._isReactable = false;
+      comp._isRequired = false;
       this.makeCardPreviewable(card);
     }
   }
@@ -505,17 +518,19 @@ export default class CardManager extends cc.Component {
       cardComp = card.getComponent(Card);
     } else {
       cardComp = card.getComponent(Deck);
+      cardComp.topBlankCard.off(cc.Node.EventType.TOUCH_START)
     }
     cardComp.isRequired = true;
     cardComp.requiredFor = dataCollector;
 
-
+    cc.log(`make ${card.name} previewable`)
     ///change to show preview for comfirmation!
     this.makeCardPreviewable(card);
 
   }
 
   static unRequiredForDataCollector(card: cc.Node) {
+    cc.log(`un require for ${card.name}`)
     card.stopAllActions();
     card.runAction(cc.fadeTo(BLINKINGSPEED, 255));
 
@@ -525,7 +540,6 @@ export default class CardManager extends cc.Component {
 
   static requireLootPlay(cards: cc.Node[]) { }
 
-  @printMethodStarted(COLORS.RED)
   static async getCardEffect(
     card: cc.Node,
     playerId: number,
@@ -544,9 +558,7 @@ export default class CardManager extends cc.Component {
     }
     //currently send card after card effect send only serverCardEffect object
 
-    return new Promise((resolve, reject) => {
-      resolve(serverCardEffect);
-    });
+    return serverCardEffect
   }
 
   static async activateCard(
@@ -555,7 +567,7 @@ export default class CardManager extends cc.Component {
     cardEffectIndex?: number
   ): Promise<ServerEffect> {
     let cardId;
-
+    cc.log(card.name)
     if (card.getComponent(Card) != null) {
       cardId = card.getComponent(Card)._cardId;
     } else {
@@ -581,39 +593,34 @@ export default class CardManager extends cc.Component {
       isDice = true;
     }
     if (isDice) {
-      cc.log('card activated is Dice')
     } else {
       switch (serverCardEffect.effctType) {
         case ITEM_TYPE.ACTIVE:
           switch (card.getComponent(Card).type) {
             case CARD_TYPE.CHAR:
-              card.getComponent(Item).useItem();
+              card.getComponent(Item).useItem(true);
               break;
             case CARD_TYPE.CHARITEM:
-              card.getComponent(CharacterItem).useItem();
+              card.getComponent(CharacterItem).useItem(true);
               break;
             case CARD_TYPE.LOOT:
               break;
             case CARD_TYPE.MONSTER:
               break;
             default:
-              card.getComponent(Item).useItem();
+              card.getComponent(Item).useItem(true);
               break;
           }
           break;
         case ITEM_TYPE.PASSIVE:
-          cc.log('dont rotate for passive effect')
           break;
         case ITEM_TYPE.PAID:
-          cc.log('dont rotate for paid effect')
           break;
         default:
           break;
       }
     }
-    return new Promise((resolve, reject) => {
-      resolve(serverCardEffect);
-    });
+    return serverCardEffect
   }
 
   static updatePlayerCards() {
@@ -632,12 +639,8 @@ export default class CardManager extends cc.Component {
       if (PlayerManager.mePlayer == player.node) {
         for (const handCard of player.handCards) {
           if (handCard.getComponent(Card)._isFlipped) {
-            cc.log(`${handCard.name} is fliiped, flip it!`)
-            cc.log(handCard.getComponent(Card))
             handCard.getComponent(Card).flipCard();
-            cc.log(`${handCard.name} after flip`)
-            cc.log(handCard.getComponent(Card))
-          } else cc.log(`${handCard.name} is not flipped`)
+          }
         }
       }
     }
@@ -647,9 +650,9 @@ export default class CardManager extends cc.Component {
   static moveAnimationIndex: number = 0;
 
   static async moveCardTo(card: cc.Node, placeToMove: cc.Node, sendToServer: boolean, moveIndex?: number, firstPos?) {
+
     let canvas = cc.find('Canvas')
     if (firstPos != null && sendToServer == false) {
-      cc.log('test')
       card.setParent(canvas)
       card.setPosition(firstPos)
     }
@@ -667,13 +670,15 @@ export default class CardManager extends cc.Component {
     }
     let bools: boolean[] = []
     let moveAnimation = { index: animationIndex, endBools: bools }
-    cc.log(`added ${moveAnimation.index}`)
+
     this.activeMoveAnimations.push(moveAnimation)
 
     let placeId: number
-    if (sendToServer) {
+    if (sendToServer == true) {
       if (placeToMove.name.includes('Hand')) {
         placeId = placeToMove.getComponent(CardLayout).playerId;
+      } else if (placeToMove.name.includes('Desk')) {
+        placeId = placeToMove.getComponentInChildren(CardLayout).playerId
       } else {
         placeId = placeToMove.getComponent(Card)._cardId
       }
@@ -684,9 +689,9 @@ export default class CardManager extends cc.Component {
       card.runAction(cc.spawn(moveAction, cc.callFunc(() => {
         Server.$.send(serverData.signal, serverData.srvData)
       }, this)))
-      cc.log('b4 end of animation')
+
       await this.waitForMoveAnimationEnd(animationIndex)
-      cc.log('after end of animation')
+
       return true
     } else {
       let serverData = {
@@ -707,14 +712,14 @@ export default class CardManager extends cc.Component {
 
 
   static reciveMoveCardEnd(moveIndex: number) {
-    cc.log(moveIndex)
+
     let moveAnim = this.activeMoveAnimations.find(moveAnim => {
-      cc.log(moveAnim)
+
       if (moveAnim.index == moveIndex) {
         return true;
       }
     })
-    cc.log(moveAnim)
+
     moveAnim.endBools.push(true)
     if (moveAnim.endBools.length == PlayerManager.players.length - 1) {
       this.removeMoveAnimation(moveIndex)
@@ -725,7 +730,7 @@ export default class CardManager extends cc.Component {
     this.activeMoveAnimations = this.activeMoveAnimations.filter((moveAnim) => {
       moveAnim.index != moveIndex
     })
-    cc.log(`removed ${moveIndex}`)
+
   }
 
   static isMoveAnimationOver(moveIndex: number) {
@@ -756,13 +761,28 @@ export default class CardManager extends cc.Component {
 
   static updateOnTableCards() {
     this.onTableCards = [];
-    this.onTableCards = this.onTableCards.concat(
-      Store.storeCards,
-      MonsterField.activeMonsters,
-      PileManager.lootCardPile,
-      PileManager.treasureCardPile,
-      PileManager.monsterCardPile
-    );
+    if (PileManager.lootCardPile != null) {
+      this.onTableCards = this.onTableCards.concat(
+        Store.storeCards,
+        MonsterField.activeMonsters,
+        PileManager.lootCardPile.getCards(),
+        PileManager.treasureCardPile.getCards(),
+        PileManager.monsterCardPile.getCards()
+      );
+    } else {
+      let lootPile = cc.find("Canvas/LootCardPile").getComponent(Pile)
+      let treasurePile = cc.find("Canvas/TreasureCardPile").getComponent(Pile)
+      let monsterPile = cc.find("Canvas/MonsterCardPile").getComponent(Pile)
+
+      this.onTableCards = this.onTableCards.concat(
+        Store.storeCards,
+        MonsterField.activeMonsters,
+        lootPile.getCards(),
+        treasurePile.getCards(),
+        monsterPile.getCards()
+      );
+    }
+
     for (let i = 0; i < PlayerManager.players.length; i++) {
       const player = PlayerManager.players[i].getComponent(Player);
       this.onTableCards = this.onTableCards.concat(player.deskCards);
@@ -854,6 +874,8 @@ export default class CardManager extends cc.Component {
     CardManager.lootDeck = cc.find("Canvas/LootDeck");
     CardManager.monsterDeck = cc.find("Canvas/MonsterDeck");
     CardManager.treasureDeck = cc.find("Canvas/TreasureDeck");
+    CardManager.store = cc.find("Canvas/Store");
+    CardManager.monsterField = cc.find("Canvas/MonsterField");
   }
 
   start() { }

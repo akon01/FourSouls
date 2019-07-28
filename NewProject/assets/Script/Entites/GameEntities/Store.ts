@@ -36,7 +36,10 @@ export default class Store extends cc.Component {
       CardManager.allCards.push(newTreasure);
       CardManager.onTableCards.push(newTreasure);
       Store.storeCards.push(newTreasure);
-      this.node.addChild(newTreasure);
+      newTreasure.parent = this.node
+      newTreasure.setPosition(0, 0)
+      this.layout.updateLayout();
+      //this.node.addChild(newTreasure);
       let cardId = newTreasure.getComponent(Card)._cardId
 
       if (sendToserver) {

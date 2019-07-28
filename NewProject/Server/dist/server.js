@@ -88,7 +88,6 @@ var Server = /** @class */ (function () {
         whevent.on(signal_2["default"].CARDDRAWED, this.onCardDrawed, this);
         whevent.on(signal_2["default"].ADDANITEM, this.onAddItem, this);
         whevent.on(signal_2["default"].DECLAREATTACK, this.onDeclareAttack, this);
-        whevent.on(signal_2["default"].PLAYLOOTCARD, this.onLootCardPlayed, this);
         whevent.on(signal_1["default"].GETREACTION, this.onGetReaction, this);
         whevent.on(signal_1["default"].FIRSTGETREACTION, this.onGetReaction, this);
         whevent.on(signal_1["default"].RESOLVEACTIONS, this.onResolveActions, this);
@@ -102,15 +101,20 @@ var Server = /** @class */ (function () {
         whevent.on(signal_2["default"].MOVECARDTOPILE, this.onMoveCardToPile, this);
         whevent.on(signal_2["default"].GETSOUL, this.onGetSoul, this);
         whevent.on(signal_2["default"].ADDMONSTER, this.onAddMonster, this);
+        //BOARD SIGANL
         whevent.on(signal_2["default"].REMOVEMONSTER, this.onRemoveMonster, this);
         whevent.on(signal_2["default"].DRAWCARD, this.onDrawCard, this);
         whevent.on(signal_2["default"].DECKADDTOTOP, this.onDeckAddToTop, this);
+        whevent.on(signal_2["default"].DECKADDTOBOTTOM, this.onDeckAddToBottom, this);
+        whevent.on(signal_2["default"].RECHARGEITEM, this.onRechargeItem, this);
+        whevent.on(signal_2["default"].ROTATEITEM, this.onRotateItem, this);
         whevent.on(signal_2["default"].CHANGEMONEY, this.onChangeMoney, this);
         whevent.on(signal_2["default"].ADDSTORECARD, this.onAddToStoreCard, this);
         whevent.on(signal_2["default"].REGISTERPASSIVEITEM, this.onRegisterPassive, this);
         whevent.on(signal_2["default"].UPDATEPASSIVESOVER, this.onUpdatePassiveOver, this);
         whevent.on(signal_2["default"].REGISTERONETURNPASSIVEEFFECT, this.onRegisterOneTurnPassive, this);
         whevent.on(signal_2["default"].ENDROLLACTION, this.onEndRollAction, this);
+        //player events
         whevent.on(signal_2["default"].SETMONEY, this.onSetMoney, this);
         whevent.on(signal_1["default"].PLAYERGAINATTACKROLLBONUS, this.onPlayerGainAttackRollBonus, this);
         whevent.on(signal_1["default"].PLAYERGAINDMG, this.onPlayerGainDMG, this);
@@ -119,7 +123,9 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].PLAYERGAINROLLBONUS, this.onPlayerGainRollBonus, this);
         whevent.on(signal_1["default"].PLAYERGETHIT, this.onPlayerGetHit, this);
         whevent.on(signal_1["default"].PLAYERRECHARGEITEM, this.onPlayerRechargeItem, this);
-        whevent.on(signal_1["default"].PLAYLOOTCARD, this.onPlayerLoseCard, this);
+        whevent.on(signal_1["default"].PLAYLOOTCARD, this.onLootCardPlayed, this);
+        whevent.on(signal_1["default"].PLAYERGETLOOT, this.onPlayerGainLoot, this);
+        whevent.on(signal_1["default"].PLAYERLOSELOOT, this.onPlayerLoseCard, this);
         whevent.on(signal_1["default"].MONSTERGAINDMG, this.onMonsterGainDMG, this);
         whevent.on(signal_1["default"].MONSTERGAINHP, this.onMonsterGainHp, this);
         whevent.on(signal_1["default"].MONSTERGAINROLLBONUS, this.onMonsterGainRollBonus, this);
@@ -201,6 +207,14 @@ var Server = /** @class */ (function () {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_2["default"].MOVECARDEND, data);
     };
+    Server.prototype.onRechargeItem = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].RECHARGEITEM, data);
+    };
+    Server.prototype.onRotateItem = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].ROTATEITEM, data);
+    };
     //monster events
     Server.prototype.onMonsterGainDMG = function (_a) {
         var player = _a.player, data = _a.data;
@@ -220,6 +234,10 @@ var Server = /** @class */ (function () {
     };
     //monster events end
     //player events
+    Server.prototype.onPlayerGainLoot = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].PLAYERGETLOOT, data);
+    };
     Server.prototype.onPlayerGainAttackRollBonus = function (_a) {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_2["default"].PLAYERGAINATTACKROLLBONUS, data);
@@ -250,7 +268,7 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.onPlayerLoseCard = function (_a) {
         var player = _a.player, data = _a.data;
-        player.match.broadcastExept(player, signal_2["default"].PLAYLOOTCARD, data);
+        player.match.broadcastExept(player, signal_2["default"].PLAYERLOSELOOT, data);
     };
     //player events end
     //deck events start
@@ -265,6 +283,10 @@ var Server = /** @class */ (function () {
     Server.prototype.onDeckAddToTop = function (_a) {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_2["default"].DECKADDTOTOP, data);
+    };
+    Server.prototype.onDeckAddToBottom = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_2["default"].DECKADDTOBOTTOM, data);
     };
     Server.prototype.onChangeMoney = function (_a) {
         var player = _a.player, data = _a.data;

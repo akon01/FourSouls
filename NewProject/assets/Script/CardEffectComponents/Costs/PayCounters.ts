@@ -15,7 +15,6 @@ export default class PayCounters extends Cost {
     takeCost() {
         let thisEffect = this.node.parent;
         let thisCard = thisEffect.getComponent(Effect)._effectCard
-        cc.log(thisCard)
         let cardComp = thisCard.getComponent(Card)
         cardComp._counters -= this.numOfCounters;
     }

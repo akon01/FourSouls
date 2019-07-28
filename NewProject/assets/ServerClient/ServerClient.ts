@@ -26,7 +26,7 @@ export default class Server extends cc.Component {
     Server.$ = this;
 
     whevent.on(Events.MULTIPLAYER, this.connect, this);
-    whevent.on(Signal.CARDDRAWED, this.onPlayerActionFromServer, this);
+
     whevent.on(Signal.MOVETOTABLE, this.onMoveToTable, this);
     whevent.on(Signal.NEXTTURN, this.onPlayerActionFromServer, this);
     whevent.on(Signal.UUID, this.onUUID, this);
@@ -49,11 +49,11 @@ export default class Server extends cc.Component {
     );
     whevent.on(Signal.DISCRADLOOT, this.onPlayerActionFromServer, this);
     whevent.on(Signal.ACTIVATEITEM, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.NEWMONSTERONPLACE, this.onPlayerActionFromServer, this);
+
     whevent.on(Signal.SHOWCARDPREVIEW, this.onPlayerActionFromServer, this);
     whevent.on(Signal.ROLLDICE, this.onPlayerActionFromServer, this);
     whevent.on(Signal.ROLLDICEENDED, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.GETNEXTMONSTER, this.onPlayerActionFromServer, this);
+
     whevent.on(Signal.MOVECARDTOPILE, this.onPlayerActionFromServer, this);
     whevent.on(Signal.GETSOUL, this.onPlayerActionFromServer, this);
     whevent.on(Signal.REMOVEMONSTER, this.onPlayerActionFromServer, this);
@@ -76,6 +76,8 @@ export default class Server extends cc.Component {
     whevent.on(Signal.PLAYERGETHIT, this.onPlayerActionFromServer, this);
     whevent.on(Signal.PLAYERRECHARGEITEM, this.onPlayerActionFromServer, this);
     whevent.on(Signal.PLAYLOOTCARD, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYERGETLOOT, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYERLOSELOOT, this.onPlayerActionFromServer, this);
 
 
 
@@ -89,8 +91,15 @@ export default class Server extends cc.Component {
     //board events
     whevent.on(Signal.MOVECARD, this.onPlayerActionFromServer, this);
     whevent.on(Signal.MOVECARDEND, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.DECKADDTOTOP, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.NEWMONSTERONPLACE, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.GETNEXTMONSTER, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.RECHARGEITEM, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.USEITEM, this.onPlayerActionFromServer, this);
 
+    //deck event
+    whevent.on(Signal.DECKADDTOTOP, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.DECKADDTOBOTTOM, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.CARDDRAWED, this.onPlayerActionFromServer, this);
   }
 
 

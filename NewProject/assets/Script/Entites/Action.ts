@@ -5,9 +5,8 @@ import {
   TIMETOBUY,
   TIMETODRAW,
   ROLL_TYPE,
-  printMethodEnded,
   printMethodSignal,
-  printMethodStarted,
+
   COLORS
 } from "../Constants";
 import MainScript from "../MainScript";
@@ -70,14 +69,15 @@ export class DrawCardAction implements Action {
       Player
     );
     if (TurnsManager.currentTurn.PlayerId == this.originPlayerId) {
-
       TurnsManager.currentTurn.drawPlays -= 1;
     }
-    TurnsManager.currentTurn.drawPlays -= 1;
     CardManager.allCards.push(drawnCard);
 
     let comp = drawnCard.getComponent(Card)
-    addCardToCardLayout(drawnCard, player.hand, true);
+    if (comp._isFlipped && this.originPlayerId == PlayerManager.mePlayer.getComponent(Player).playerId) {
+      comp.flipCard()
+    }
+    await player.gainLoot(drawnCard, false)
     comp._ownedBy = player;
     return true
 
@@ -130,10 +130,7 @@ export class MoveLootToPile implements Action {
     this.playedCard = movedCardComp.node;
     let player = PlayerManager.getPlayerById(this.originPlayerId).getComponent(Player);
     //   let timeOutToPlay = cc.callFunc(async () => {
-
-
     player.hand.removeCardFromLayout(movedCardComp.node)
-    TurnsManager.currentTurn.lootCardPlays -= 1;
     let playerId = player.playerId;
     let cardId = movedCardComp._cardId;
     let data = { playerId, cardId };
@@ -192,23 +189,16 @@ export class AddItemAction implements Action {
     Store.storeCards = Store.storeCards.filter(
       card => card != movedCardComp.node
     );
-    let itemPosInCanvasTrans = canvas.convertToNodeSpaceAR(
-      movedCardComp.node.convertToWorldSpaceAR(movedCardComp.node.getPosition())
-    );
-    movedCardComp.node.parent = canvas;
-    movedCardComp.node.setPosition(itemPosInCanvasTrans);
-    let moveAction = cc.moveTo(TIMETOBUY, this.data.playerDeskComp.node.getPosition());
-    let timeOutToBuy = () => {
-      movedCardComp._ownedBy = MainScript.currentPlayerComp;
-      this.data.playerDeskComp.addToDesk(movedCardComp);
-      return new Promise((resolve, reject) => {
-        resolve(true);
-      });
-    };
-    timeOutToBuy.bind(this);
-    movedCardComp.node.runAction(
-      cc.sequence(moveAction, cc.callFunc(timeOutToBuy, this))
-    );
+    // let itemPosInCanvasTrans = canvas.convertToNodeSpaceAR(
+    //   movedCardComp.node.convertToWorldSpaceAR(movedCardComp.node.getPosition())
+    // );
+    // movedCardComp.node.parent = canvas;
+    // movedCardComp.node.setPosition(itemPosInCanvasTrans);
+    // let moveAction = cc.moveTo(TIMETOBUY, this.data.playerDeskComp.node.getPosition());
+
+    movedCardComp._ownedBy = MainScript.currentPlayerComp;
+    this.data.playerDeskComp.addToDesk(movedCardComp);
+    return true;
   }
 
   serverBrodcast(serverData) {
@@ -241,13 +231,8 @@ export class DeclareAttackAction implements Action {
     let monsterCardHolder: MonsterCardHolder = MonsterField.getMonsterPlaceById(
       this.data.cardHolderId
     );
-    if (TurnsManager.currentTurn.PlayerId == this.originPlayerId) {
-
-      TurnsManager.currentTurn.attackPlays -= 1;
-    }
-    TurnsManager.currentTurn.attackPlays -= 1;
     let monsterField = cc
-      .find("Canvas/MonsterDeck/MonsterField")
+      .find("Canvas/MonsterField")
       .getComponent(MonsterField);
     let monsterId;
     let attackedMonster;
@@ -288,7 +273,7 @@ export class AttackMonster implements Action {
   playedCard: cc.Node;
 
   showAction(data?: {}) {
-    TurnsManager.currentTurn.attackPlays -= 1;
+
 
   }
   serverBrodcast(serverData?: any) {

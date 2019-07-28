@@ -4,6 +4,7 @@ import Player from "../../Entites/GameEntities/Player";
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "../DataCollector/DataCollector";
 import { CHOOSE_TYPE } from "../../Constants";
+import { PassiveMeta } from "../../Managers/PassiveManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -11,19 +12,16 @@ const { ccclass, property } = cc._decorator;
 export default class PlayerPayPenalties extends Condition {
 
 
-
-  // cardChosenId: number;
-  // playerId: number;
   conditionData = null;
 
-  testCondition(meta: any) {
-    let player: Player = meta.scope;
+  async testCondition(meta: PassiveMeta) {
+    let player: Player = meta.methodScope.getComponent(Player);
     let thisCard = this.node.parent.parent;
     let playerName = PlayerManager.getPlayerByCardId(this.conditionData.cardChosenId).name;
     if (
       player instanceof Player &&
       player.name == playerName &&
-      meta.key == "payPenalties"
+      meta.methodName == "payPenalties"
     ) {
       return true;
     } else {

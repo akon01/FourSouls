@@ -1,4 +1,4 @@
-import { COLLECTORTYPE, printMethodStarted, COLORS } from "../../Constants";
+import { COLLECTORTYPE,  COLORS } from "../../Constants";
 import DataCollectorInterface from "./DataCollectorInterface";
 
 const { ccclass, property } = cc._decorator;

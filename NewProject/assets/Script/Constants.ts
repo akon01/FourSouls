@@ -6,10 +6,10 @@ export const MAX_PLAYERS = 2;
 
 export const MAX_TURNID = MAX_PLAYERS;
 
-export const CARD_WIDTH = 50;
-export const CARD_HEIGHT = 70;
-export const SCREEN_WIDTH = 1920;
-export const SCREEN_HEIGHT = 1080;
+export const CARD_WIDTH = 200;
+export const CARD_HEIGHT = 280;
+export const SCREEN_WIDTH = 3840;
+export const SCREEN_HEIGHT = 2160;
 
 export enum HAND_POSITIONS {
   FIRST_X = SCREEN_WIDTH / 2,
@@ -79,9 +79,10 @@ export enum CONDITION_TYPE {
   BOTH
 }
 
+
 export enum CHOOSE_TYPE {
   PLAYERS = 1,
-  PLAYERHAND = 2,
+  MYHAND = 2,
   DECKS = 3,
   MONSTERPLACES = 4,
   STOREPLACES = 5,
@@ -93,8 +94,16 @@ export enum CHOOSE_TYPE {
   ALLPLAYERSACTIVATEDITEMS = 11,
   ALLPLAYERSNONACTIVATEDITEMS = 12,
   PLAYERSANDACTIVEMONSTERS = 13,
+  SPECIPICPLAYERHAND = 14
 
 }
+
+export enum TARGETTYPE {
+
+  PLAYER, MONSTER, ITEM, PILE, DECK, CARD
+}
+
+
 
 export enum COLORS {
   GREEN = "35%, 75%, 10%",
@@ -112,40 +121,40 @@ export const TIMETOPLAYLOOT = 0.7;
 export const TIMETOSHOWPREVIEW = 0.5;
 export const TIMETOHIDEPREVIEW = 0.5;
 export const TIMETOROTATEACTIVATION = 0.5;
-export const TIMETOREACTONACTION = 1;
+export const TIMETOREACTONACTION = 5;
 export const TIMEFORDICEROLL = 0.3;
 export const TIMEFORMONSTERDISCARD = 1;
 export const TIMEFORTREASUREDISCARD = 2;
 
 export let ServerIp = "localhost:7456/"
 
-export const printMethodStarted = (color: COLORS) =>
-  beforeMethod(meta => {
-    let className;
-    let classDesc = meta.target.toString().split(" ");
-    let argsString = "";
+// export const printMethodStarted = (color: COLORS) =>
+//   beforeMethod(meta => {
+//     let className;
+//     let classDesc = meta.target.toString().split(" ");
+//     let argsString = "";
 
-    if (meta.target instanceof cc.Component) {
-      className = "Component";
-    } else {
-      className = classDesc[1];
-    }
-    cc.log(
-      "%c" + className + ": " + meta.key + " started: " + argsString,
-      "color:rgb(" + color.toString() + ")",
-      meta.args
-    );
-  });
+//     if (meta.target instanceof cc.Component) {
+//       className = "Component";
+//     } else {
+//       className = classDesc[1];
+//     }
 
-export const printMethodEnded = (color: COLORS) =>
-  afterMethod(meta => {
-    let classDesc = meta.target.toString().split(" ");
-    let className = classDesc[1];
-    cc.log(
-      "%c" + className + ": " + meta.key + " ended:",
-      "color:rgb(" + color.toString() + ")"
-    );
-  });
+//     "%c" + className + ": " + meta.key + " started: " + argsString,
+//       "color:rgb(" + color.toString() + ")",
+//       meta.args
+//     );
+//   });
+
+// export const printMethodEnded = (color: COLORS) =>
+//   afterMethod(meta => {
+//     let classDesc = meta.target.toString().split(" ");
+//     let className = classDesc[1];
+//     cc.log(
+//       "%c" + className + ": " + meta.key + " ended:",
+//       "color:rgb(" + color.toString() + ")"
+//     );
+//   });
 
 export const printMethodSignal = beforeMethod(meta => {
   let classDesc = meta.target.toString().split(" ");

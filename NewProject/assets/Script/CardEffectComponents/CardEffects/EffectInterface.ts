@@ -3,6 +3,7 @@ import DataCollector from "../DataCollector/DataCollector";
 import Condition from "../CardConditions/Condition";
 import PreCondition from "../PreConditions/PreCondition";
 import Cost from "../Costs/Cost";
+import { ActiveEffectData } from "../../Managers/NewScript";
 
 const { ccclass, property } = cc._decorator;
 
@@ -11,7 +12,7 @@ export default interface EffectInterface {
 
   chooseType: CHOOSE_TYPE;
 
-  dataCollector: DataCollector;
+  dataCollector: DataCollector[];
 
   cost: Cost;
 
@@ -21,7 +22,9 @@ export default interface EffectInterface {
 
   hasSubAction: boolean;
 
+  effectData: ActiveEffectData;
+
   reverseEffect();
 
-  doEffect(data?): Promise<{}>;
+  doEffect(data?): Promise<Object>;
 }

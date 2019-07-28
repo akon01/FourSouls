@@ -1,4 +1,4 @@
-import { printMethodStarted } from "../../Constants";
+import { TARGETTYPE } from "../../Constants";
 
 import CardManager from "../../Managers/CardManager";
 import DataCollector from "../DataCollector/DataCollector";
@@ -7,6 +7,7 @@ import { ServerEffect } from "./../../Entites/ServerCardEffect";
 import Effect from "./Effect";
 import Deck from "../../Entites/GameEntities/Deck";
 import CardPreviewManager from "../../Managers/CardPreviewManager";
+import { ActiveEffectData } from "../../Managers/DataInterpreter";
 
 const { ccclass, property } = cc._decorator;
 
@@ -15,9 +16,6 @@ export default class LookAtTopDeck extends Effect {
   chooseType = CHOOSE_TYPE.DECKS;
 
   effectName = "LookAtTopDeck";
-
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
 
   @property(Number)
   numOfCards: number = 0;
@@ -28,27 +26,26 @@ export default class LookAtTopDeck extends Effect {
    */
 
   //@printMethodStarted(COLORS.RED)
-  doEffect(
+  async doEffect(
     serverEffectStack: ServerEffect[],
-    data?: { cardChosenId: number; playerId: number }
+    data?: ActiveEffectData
   ) {
 
 
-    let deck: Deck = CardManager.getCardById(data.cardChosenId).getComponent(
+    let deck: Deck = data.getTarget(TARGETTYPE.DECK).getComponent(
       Deck
     );
-    let cardsToSee = [];
-    for (let i = 0; i < this.numOfCards; i++) {
+    cc.log(deck)
+    let cardsToSee: cc.Node[] = [];
+    for (let i = 1; i <= this.numOfCards; i++) {
       if (deck._cards.length > i) {
-        cardsToSee.push(deck._cards[i]);
+        cardsToSee.push(deck._cards[deck._cards.length - i]);
         //now only log, do multiple card previews!
-
       }
     }
+    cc.log(cardsToSee.map(card => card.name))
     CardPreviewManager.getPreviews(cardsToSee)
 
-    return new Promise<ServerEffect[]>((resolve, reject) => {
-      resolve(serverEffectStack);
-    });
+    return serverEffectStack
   }
 }

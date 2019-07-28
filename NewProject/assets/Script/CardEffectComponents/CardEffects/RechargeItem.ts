@@ -4,8 +4,9 @@ import { ServerEffect } from "./../../Entites/ServerCardEffect";
 import Effect from "./Effect";
 import Player from "../../Entites/GameEntities/Player";
 import CardManager from "../../Managers/CardManager";
-import { CHOOSE_TYPE } from "../../Constants";
+import { CHOOSE_TYPE, TARGETTYPE } from "../../Constants";
 import ChooseCard from "../DataCollector/ChooseCard";
+import { ActiveEffectData } from "../../Managers/NewScript";
 
 const { ccclass, property } = cc._decorator;
 
@@ -13,28 +14,23 @@ const { ccclass, property } = cc._decorator;
 export default class RechargeItem extends Effect {
   effectName = "RechargeItem";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
-
   chooseType: CHOOSE_TYPE = CHOOSE_TYPE.ALLPLAYERSITEMS;
 
   /**
    *
    * @param data {target:PlayerId}
    */
-  doEffect(serverEffectStack: ServerEffect[], data?) {
+  async doEffect(serverEffectStack: ServerEffect[], data?: ActiveEffectData) {
     let targetItem
-    if (this.dataCollector instanceof ChooseCard) {
-      targetItem = CardManager.getCardById(data.cardChosenId, true);
-    } else {
+    // if (this.dataCollector instanceof ChooseCard) {
+    //   targetItem = CardManager.getCardById(data.cardChosenId, true);
+    // } else {
 
-      targetItem = CardManager.getCardById(data.target, true);
-    }
+    targetItem = data.getTarget(TARGETTYPE.ITEM);
+    // }
     let cardPlayer = PlayerManager.getPlayerByCard(targetItem);
-    cardPlayer.rechargeItem(targetItem, true);
+    await cardPlayer.rechargeItem(targetItem, true);
 
-    return new Promise<ServerEffect[]>((resolve, reject) => {
-      resolve(serverEffectStack);
-    });
+    return serverEffectStack
   }
 }

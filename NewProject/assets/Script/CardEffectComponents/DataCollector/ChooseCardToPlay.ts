@@ -8,6 +8,7 @@ import Effect from "../CardEffects/Effect";
 import { CHOOSE_TYPE } from "./../../Constants";
 import { MoveLootToPile } from "./../../Entites/Action";
 import DataCollector from "./DataCollector";
+import PileManager from "../../Managers/PileManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -30,19 +31,10 @@ export default class SelectLootToPlay extends DataCollector {
     );
     this.playerId = data.cardPlayerId;
     //what cards to choose from
-
     let chooseType = this.node.parent.getComponent(Effect).chooseType;
     let cardsToChooseFrom = this.getCardsToChoose(chooseType, player);
     let cardPlayedData = await this.requireChoosingACard(cardsToChooseFrom);
     let cardPlayed = CardManager.getCardById(cardPlayedData.cardPlayedId);
-    let cardPlayedServerEffect = await CardManager.getCardEffect(
-      cardPlayed,
-      this.playerId
-    );
-    let collectedData = {
-      serverEffect: cardPlayedServerEffect,
-      playerId: this.playerId
-    };
     let playLootAction = new MoveLootToPile(
       { lootCard: cardPlayed },
       this.playerId
@@ -51,8 +43,20 @@ export default class SelectLootToPlay extends DataCollector {
       signal: Signal.DISCRADLOOT,
       srvData: { playerId: this.playerId, cardId: cardPlayedData.cardPlayedId }
     };
-    ActionManager.showSingleAction(playLootAction, serverData, true);
-    return collectedData;
+    await CardManager.moveCardTo(cardPlayed, PileManager.lootCardPileNode, true)
+    await ActionManager.showSingleAction(playLootAction, serverData, true);
+    cc.log(cardPlayed)
+    let cardPlayedServerEffect = await CardManager.getCardEffect(
+      cardPlayed,
+      this.playerId
+    );
+    cc.log(cardPlayedServerEffect)
+    let collectedData = {
+      serverEffect: cardPlayedServerEffect,
+      playerId: this.playerId
+    };
+    cc.log('b4 return the server effect')
+    return collectedData.serverEffect;
   }
 
   getCardsToChoose(chooseType: CHOOSE_TYPE, player: Player) {
@@ -65,7 +69,7 @@ export default class SelectLootToPlay extends DataCollector {
         }
         return playerCards;
         break;
-      case CHOOSE_TYPE.PLAYERHAND:
+      case CHOOSE_TYPE.MYHAND:
         return player.hand.layoutCards;
         break;
       default:

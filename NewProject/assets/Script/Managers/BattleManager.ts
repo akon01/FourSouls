@@ -1,4 +1,4 @@
-import { ROLL_TYPE, printMethodStarted, COLORS, CARD_TYPE } from "../Constants";
+import { ROLL_TYPE, COLORS, CARD_TYPE } from "../Constants";
 import Monster from "../Entites/CardTypes/Monster";
 import Dice from "../Entites/GameEntities/Dice";
 import Player from "../Entites/GameEntities/Player";
@@ -47,20 +47,23 @@ export default class BattleManager extends cc.Component {
       this.firstAttack = false;
     }
     if (rollValue >= monsterRollValue) {
-      let damage = turnPlayer.calculateDamage();
-      // 
-      // 
-      this.currentlyAttackedMonster.getDamaged(damage, true);
-      // 
+      // let damage = turnPlayer.calculateDamage();
+      // // 
+      // // 
+      // await this.currentlyAttackedMonster.getDamaged(damage, true);
+      // // 
+      return true;
     } else {
-      let damage = this.currentlyAttackedMonster.calculateDamage();
-      // 
-      // 
-      let gotHit = await turnPlayer.getHit(damage, true);
-      // 
+      // let damage = this.currentlyAttackedMonster.calculateDamage();
+      // // 
+      // // 
+      // let gotHit = await turnPlayer.getHit(damage, true);
+      // // 
+      return false;
     }
     //  this.checkIfPlayerIsDead(sendToServer);
-    this.checkIfMonsterIsDead(this.currentlyAttackedMonster.node, sendToServer);
+    let monsterIsDead = await this.checkIfMonsterIsDead(this.currentlyAttackedMonster.node, sendToServer);
+    return monsterIsDead;
   }
 
   static checkIfPlayerIsDead(sendToServer: boolean) {
@@ -72,11 +75,11 @@ export default class BattleManager extends cc.Component {
     }
   }
 
-  static checkIfMonsterIsDead(monsterCard: cc.Node, sendToServer?: boolean) {
+  static async checkIfMonsterIsDead(monsterCard: cc.Node, sendToServer?: boolean) {
     let monster = monsterCard.getComponent(Monster);
     if (monster.currentHp <= 0) {
 
-      this.killMonster(monsterCard, sendToServer);
+      await this.killMonster(monsterCard, sendToServer);
 
       return true;
     }
@@ -90,17 +93,19 @@ export default class BattleManager extends cc.Component {
       TurnsManager.currentTurn.PlayerId
     ).getComponent(Player);
     if (PlayerManager.mePlayer == turnPlayer.node) {
+
       let over = await turnPlayer.getMonsterRewards(monsterCard, sendToServer);
+
 
       let cardComp = monsterCard.getComponent(Card)
       if (cardComp.souls == 0) {
-        PileManager.addCardToPile(CARD_TYPE.MONSTER, monsterCard, true);
+        await PileManager.addCardToPile(CARD_TYPE.MONSTER, monsterCard, true);
       } else {
 
         turnPlayer.getSoulCard(monsterCard, sendToServer)
       }
     }
-    if (monsterCard == this.currentlyAttackedMonster.node) {
+    if (this.currentlyAttackedMonster != null && monsterCard == this.currentlyAttackedMonster.node) {
 
       this.currentlyAttackedMonster = null;
       TurnsManager.currentTurn.battlePhase = false;

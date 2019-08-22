@@ -1,6 +1,6 @@
 import { MAX_PLAYERS, MAX_TURNID } from "../Constants";
 
-import Server from "../../ServerClient/ServerClient";
+import ServerClient from "../../ServerClient/ServerClient";
 import PlayerManager from "../Managers/PlayerManager";
 
 import CardManager from "../Managers/CardManager";
@@ -10,7 +10,7 @@ import Player from "../Entites/GameEntities/Player";
 export function makeNextTurn(currentTurn: Turn): Turn[] {
   var turns: Turn[] = [];
 
-  for (let i = 1; i < Server.numOfPlayers + 1; i++) {
+  for (let i = 1; i < ServerClient.numOfPlayers + 1; i++) {
     turns.push(new Turn(i));
   }
   return turns;
@@ -65,6 +65,10 @@ export class Turn {
     this.buyPlays = player.buyPlays;
     this.attackPlays = player.attackPlays;
     this.battlePhase = false;
+  }
+
+  getTurnPlayer() {
+    return PlayerManager.getPlayerById(this.PlayerId).getComponent(Player)
   }
 
   startTurn() {

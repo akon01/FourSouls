@@ -1,15 +1,10 @@
-import PlayerManager from "../../Managers/PlayerManager";
-import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_TYPE, TARGETTYPE } from "./../../Constants";
-import { ServerEffect } from "./../../Entites/ServerCardEffect";
-import Effect from "./Effect";
-import Player from "../../Entites/GameEntities/Player";
-import { override } from "kaop";
-import CardManager from "../../Managers/CardManager";
-import Monster from "../../Entites/CardTypes/Monster";
-import BattleManager from "../../Managers/BattleManager";
 import Character from "../../Entites/CardTypes/Character";
-import { ActiveEffectData } from "../../Managers/NewScript";
+import Monster from "../../Entites/CardTypes/Monster";
+import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import PlayerManager from "../../Managers/PlayerManager";
+import StackEffectInterface from "../../StackEffects/StackEffectInterface";
+import { TARGETTYPE } from "./../../Constants";
+import Effect from "./Effect";
 
 const { ccclass, property } = cc._decorator;
 
@@ -27,29 +22,33 @@ export default class DealDamage extends Effect {
    */
 
   async doEffect(
-    serverEffectStack: ServerEffect[],
+    stack: StackEffectInterface[],
     data?: ActiveEffectData
   ) {
 
     let targetEntity = data.getTarget(TARGETTYPE.PLAYER)
     if (targetEntity == null) targetEntity = data.getTarget(TARGETTYPE.MONSTER);
-
-    let entityComp;
-    entityComp = targetEntity.getComponent(Character);
-    //Entity is Monster
-    if (entityComp == null) {
-      entityComp = targetEntity.getComponent(Monster)
-      if (entityComp instanceof Monster) {
-        await entityComp.getDamaged(this.damageToDeal, true)
-      }
+    if (targetEntity == null) {
+      cc.log(`target is null`)
     } else {
-      //Entity is Player
-      if (entityComp instanceof Character) {
-        await PlayerManager.getPlayerByCard(entityComp.node).getHit(this.damageToDeal, true)
+      let entityComp;
+      entityComp = targetEntity.getComponent(Character);
+      //Entity is Monster
+      if (entityComp == null) {
+        entityComp = targetEntity.getComponent(Monster)
+        if (entityComp instanceof Monster) {
+          await entityComp.getDamaged(this.damageToDeal, true)
+        }
+      } else {
+        //Entity is Player
+        if (entityComp instanceof Character) {
+          await PlayerManager.getPlayerByCard(entityComp.node).getHit(this.damageToDeal, true)
+        }
       }
     }
 
 
-    return serverEffectStack
+
+    return stack
   }
 }

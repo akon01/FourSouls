@@ -1,19 +1,17 @@
 import { TARGETTYPE } from "../../Constants";
-
-import CardManager from "../../Managers/CardManager";
-import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_TYPE, COLORS } from "./../../Constants";
-import { ServerEffect } from "./../../Entites/ServerCardEffect";
-import Effect from "./Effect";
 import Deck from "../../Entites/GameEntities/Deck";
 import CardPreviewManager from "../../Managers/CardPreviewManager";
 import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import StackEffectInterface from "../../StackEffects/StackEffectInterface";
+import { CHOOSE_CARD_TYPE } from "./../../Constants";
+import Effect from "./Effect";
+
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class LookAtTopDeck extends Effect {
-  chooseType = CHOOSE_TYPE.DECKS;
+  chooseType = CHOOSE_CARD_TYPE.DECKS;
 
   effectName = "LookAtTopDeck";
 
@@ -27,25 +25,32 @@ export default class LookAtTopDeck extends Effect {
 
   //@printMethodStarted(COLORS.RED)
   async doEffect(
-    serverEffectStack: ServerEffect[],
+    stack: StackEffectInterface[],
     data?: ActiveEffectData
   ) {
 
-
-    let deck: Deck = data.getTarget(TARGETTYPE.DECK).getComponent(
-      Deck
-    );
-    cc.log(deck)
-    let cardsToSee: cc.Node[] = [];
-    for (let i = 1; i <= this.numOfCards; i++) {
-      if (deck._cards.length > i) {
-        cardsToSee.push(deck._cards[deck._cards.length - i]);
-        //now only log, do multiple card previews!
-      }
+    let deckNode = data.getTarget(TARGETTYPE.DECK)
+    let deck: Deck
+    if (deckNode instanceof cc.Node) {
+      deck = deckNode.getComponent(
+        Deck
+      );
     }
-    cc.log(cardsToSee.map(card => card.name))
-    CardPreviewManager.getPreviews(cardsToSee)
 
-    return serverEffectStack
+    if (deck == null) {
+      cc.log(`no deck`)
+    } else {
+      let cardsToSee: cc.Node[] = [];
+      for (let i = 1; i <= this.numOfCards; i++) {
+        if (deck._cards.length > i) {
+          cardsToSee.push(deck._cards[deck._cards.length - i]);
+          //now only log, do multiple card previews!
+        }
+      }
+      cc.log(cardsToSee.map(card => card.name))
+      CardPreviewManager.getPreviews(cardsToSee, true)
+    }
+
+    return stack
   }
 }

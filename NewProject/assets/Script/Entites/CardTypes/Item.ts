@@ -1,8 +1,8 @@
-import { ITEM_TYPE, TIMETOROTATEACTIVATION } from "../../Constants";
+import { ITEM_TYPE, TIME_TO_ROTATE_ACTIVATION } from "../../Constants";
 
 import Signal from "../../../Misc/Signal";
 
-import Server from "../../../ServerClient/ServerClient";
+import ServerClient from "../../../ServerClient/ServerClient";
 import Card from "../GameEntities/Card";
 
 
@@ -25,19 +25,19 @@ export default class Item extends cc.Component {
     if (sendToServer) {
       //   cc.log(this.node.getComponent("Card"))
       let id = this.node.getComponent("Card")._cardId
-      Server.$.send(Signal.RECHARGEITEM, { cardId: id })
-      cc.log(Signal.RECHARGEITEM)
+      ServerClient.$.send(Signal.RECHARGE_ITEM, { cardId: id })
+      cc.log(Signal.RECHARGE_ITEM)
     }
-    this.node.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, 0));
+    this.node.runAction(cc.rotateTo(TIME_TO_ROTATE_ACTIVATION, 0));
     this.activated = false;
     return true;
   }
 
   useItem(sendToServer: boolean) {
     if (sendToServer) {
-      Server.$.send(Signal.USEITEM, { cardId: this.node.getComponent("Card")._cardId })
+      ServerClient.$.send(Signal.USE_ITEM, { cardId: this.node.getComponent("Card")._cardId })
     }
-    this.node.runAction(cc.rotateTo(TIMETOROTATEACTIVATION, -90));
+    this.node.runAction(cc.rotateTo(TIME_TO_ROTATE_ACTIVATION, -90));
     // }
     this.activated = true;
   }

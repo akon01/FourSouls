@@ -1,12 +1,9 @@
-import PlayerManager from "../../Managers/PlayerManager";
-import DataCollector from "../DataCollector/DataCollector";
-import { ServerEffect } from "./../../Entites/ServerCardEffect";
-import Effect from "./Effect";
-import Player from "../../Entites/GameEntities/Player";
-import CardPlayer from "../DataCollector/CardPlayer";
-import CardManager from "../../Managers/CardManager";
-import { ActiveEffectData } from "../../Managers/NewScript";
 import { TARGETTYPE } from "../../Constants";
+import Player from "../../Entites/GameEntities/Player";
+import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import PlayerManager from "../../Managers/PlayerManager";
+import StackEffectInterface from "../../StackEffects/StackEffectInterface";
+import Effect from "./Effect";
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,20 +20,18 @@ export default class DiscardLoot extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(serverEffectStack: ServerEffect[], data?: ActiveEffectData) {
-
-
-
-
-    // let targetPlayer: cc.Node = data.getTargets(TARGETTYPE.PLAYER)[0].effectTargetCard;
+  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData) {
     let targetLoots: cc.Node[] = data.getTargets(TARGETTYPE.CARD)
-    let player: Player
-    for (let i = 0; i < targetLoots.length; i++) {
-      const lootToDiscard = targetLoots[i];
-      player = PlayerManager.getPlayerByCard(lootToDiscard)
-      await player.discardLoot(lootToDiscard, true)
+    if (targetLoots.length == 0) {
+      cc.log(`no targets`)
+    } else {
+      let player: Player
+      for (let i = 0; i < targetLoots.length; i++) {
+        const lootToDiscard = targetLoots[i];
+        player = PlayerManager.getPlayerByCard(lootToDiscard)
+        await player.discardLoot(lootToDiscard, true)
+      }
     }
-
-    return serverEffectStack
+    return stack
   }
 }

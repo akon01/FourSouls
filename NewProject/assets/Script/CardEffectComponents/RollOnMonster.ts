@@ -5,7 +5,9 @@ import PlayerManager from "../Managers/PlayerManager";
 import Player from "../Entites/GameEntities/Player";
 import BattleManager from "../Managers/BattleManager";
 import TurnsManager from "../Managers/TurnsManager";
-import { ActiveEffectData } from "../Managers/NewScript";
+
+import StackEffectInterface from "../StackEffects/StackEffectInterface";
+import { ActiveEffectData } from "../Managers/DataInterpreter";
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,7 +22,7 @@ export default class RollOnMonster extends Effect {
    */
 
   async doEffect(
-    serverEffectStack: ServerEffect[],
+    stack: StackEffectInterface[],
     data?: ActiveEffectData
   ) {
     let numberRolled = data.numberRolled;
@@ -45,6 +47,6 @@ export default class RollOnMonster extends Effect {
     }
 
 
-    return serverEffectStack
+    return stack
   }
 }

@@ -1,6 +1,6 @@
 import {
   ROLL_TYPE,
-  TIMEFORDICEROLL
+  TIME_FOR_DICE_ROLL
 } from "../../Constants";
 import Player from "./Player";
 
@@ -54,7 +54,7 @@ export default class Dice extends cc.Component {
           this.currentRolledNumber = 6
         }
         break;
-      case ROLL_TYPE.FIRSTATTACK:
+      case ROLL_TYPE.FIRST_ATTACK:
         //add the bonus of all attacks plus the bonuses of only first attack
         if ((this.currentRolledNumber + player.attackRollBonus + player.firstAttackRollBonus) <= 6) {
           this.currentRolledNumber += player.attackRollBonus;
@@ -64,7 +64,7 @@ export default class Dice extends cc.Component {
         }
         break;
       case ROLL_TYPE.EFFECT:
-      case ROLL_TYPE.EFFECTROLL:
+      case ROLL_TYPE.EFFECT_ROLL:
         if ((this.currentRolledNumber + player.nonAttackRollBonus) <= 6) {
           //add the bonus of all attacks plus the bonuses of only first attack
           this.currentRolledNumber += player.nonAttackRollBonus;
@@ -95,7 +95,7 @@ export default class Dice extends cc.Component {
   }
 
   activateRollAnimation() {
-    this.schedule(this.diceChange, TIMEFORDICEROLL, cc.macro.REPEAT_FOREVER);
+    this.schedule(this.diceChange, TIME_FOR_DICE_ROLL, cc.macro.REPEAT_FOREVER);
   }
 
   endRollAnimation() {
@@ -121,7 +121,7 @@ export default class Dice extends cc.Component {
           this.diceChange();
           i++;
           check();
-        }, TIMEFORDICEROLL * 1000);
+        }, TIME_FOR_DICE_ROLL * 1000);
       } else {
         this.rollOver = true;
       }

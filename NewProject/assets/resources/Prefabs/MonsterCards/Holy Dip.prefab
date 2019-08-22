@@ -67,19 +67,19 @@
       "y": 1,
       "z": 1
     },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
     "groupIndex": 0,
     "_rotationX": 0,
     "_rotationY": 0,
-    "_id": "",
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    }
+    "_id": ""
   },
   {
     "__type__": "cc.Node",
@@ -129,17 +129,17 @@
       "y": 1,
       "z": 1
     },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_eulerAngles": {
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
       "z": 0
-    }
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "82c5bZEAZ1Oobq1Oh3I6fMe",
@@ -149,7 +149,7 @@
       "__id__": 2
     },
     "_enabled": true,
-    "dataCollector": null,
+    "hasRoll": false,
     "numOfMoneyToAdd": 1,
     "_id": ""
   },
@@ -172,7 +172,11 @@
       "__id__": 1
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
@@ -224,6 +228,7 @@
     "hasCounter": false,
     "_effectCounterLable": null,
     "_counters": 0,
+    "_hasEventsBeenModified": false,
     "_id": ""
   },
   {
@@ -237,7 +242,7 @@
     "monsterPlace": null,
     "HP": 1,
     "currentHp": 0,
-    "rollValue": 7,
+    "rollValue": 4,
     "rollBonus": 0,
     "DMG": 1,
     "baseDamage": 0,

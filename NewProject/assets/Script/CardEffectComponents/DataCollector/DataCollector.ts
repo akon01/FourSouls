@@ -1,4 +1,4 @@
-import { COLLECTORTYPE,  COLORS } from "../../Constants";
+import { COLLECTORTYPE, COLORS } from "../../Constants";
 import DataCollectorInterface from "./DataCollectorInterface";
 
 const { ccclass, property } = cc._decorator;
@@ -7,6 +7,7 @@ const { ccclass, property } = cc._decorator;
 export default class DataCollector extends cc.Component
   implements DataCollectorInterface {
   isCardChosen: boolean = false;
+  isEffectChosen: boolean = false;
   cardChosen: cc.Node;
   collectorName = "CardPlayer";
   hasSubAction: boolean = false;

@@ -2,11 +2,14 @@ import { ServerEffect } from "./../../Entites/ServerCardEffect";
 
 import EffectInterface from "./EffectInterface";
 import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_TYPE, PASSIVE_TYPE } from "../../Constants";
+import { CHOOSE_CARD_TYPE, PASSIVE_TYPE } from "../../Constants";
 import Condition from "../CardConditions/Condition";
 import PreCondition from "../PreConditions/PreCondition";
 import Cost from "../Costs/Cost";
 import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import StackEffectInterface from "../../StackEffects/StackEffectInterface";
+import ChooseCard from "../DataCollector/ChooseCard";
+import SelectLootToPlay from "../DataCollector/ChooseCardToPlay";
 
 
 const { ccclass, property } = cc._decorator;
@@ -35,7 +38,7 @@ export default class Effect extends cc.Component implements EffectInterface {
 
   effectName: string = null;
 
-  chooseType: CHOOSE_TYPE = null;
+  chooseType: CHOOSE_CARD_TYPE = null;
 
   @property([DataCollector])
   dataCollector: DataCollector[] = [];
@@ -43,17 +46,21 @@ export default class Effect extends cc.Component implements EffectInterface {
   @property
   _effectCard: cc.Node = null;
 
+  @property
+  hasPlayerChoiceToActivateInChainEffects: boolean = false;
+
   /**
    *
    * @param data {target:Player}
    */
-  async doEffect(serverEffectStack: ServerEffect[], data?) {
+  async doEffect(Stack: StackEffectInterface[], data?) {
     return null;
   }
 
   reverseEffect() {
 
   }
+
 
   onLoad() {
     this._effectCard = this.node.parent;

@@ -1,23 +1,22 @@
-import Signal from "../../../Misc/Signal";
 import Card from "../../Entites/GameEntities/Card";
 import Player from "../../Entites/GameEntities/Player";
-import ActionManager from "../../Managers/ActionManager";
 import CardManager from "../../Managers/CardManager";
+import { EffectTarget } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
 import Effect from "../CardEffects/Effect";
-import { CHOOSE_TYPE } from "./../../Constants";
-import { MoveLootToPile } from "./../../Entites/Action";
+import { CHOOSE_CARD_TYPE } from "./../../Constants";
 import DataCollector from "./DataCollector";
-import PileManager from "../../Managers/PileManager";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SelectLootToPlay extends DataCollector {
   collectorName = "SelectLootToPlay";
-  isCardChosen: boolean = false;
+  isEffectChosen: boolean = false;
   cardChosen: cc.Node;
   playerId: number;
+
+  isCardChosen: boolean = false;
 
   /**
    *
@@ -34,34 +33,20 @@ export default class SelectLootToPlay extends DataCollector {
     let chooseType = this.node.parent.getComponent(Effect).chooseType;
     let cardsToChooseFrom = this.getCardsToChoose(chooseType, player);
     let cardPlayedData = await this.requireChoosingACard(cardsToChooseFrom);
-    let cardPlayed = CardManager.getCardById(cardPlayedData.cardPlayedId);
-    let playLootAction = new MoveLootToPile(
-      { lootCard: cardPlayed },
-      this.playerId
-    );
-    let serverData = {
-      signal: Signal.DISCRADLOOT,
-      srvData: { playerId: this.playerId, cardId: cardPlayedData.cardPlayedId }
-    };
-    await CardManager.moveCardTo(cardPlayed, PileManager.lootCardPileNode, true)
-    await ActionManager.showSingleAction(playLootAction, serverData, true);
-    cc.log(cardPlayed)
-    let cardPlayedServerEffect = await CardManager.getCardEffect(
-      cardPlayed,
-      this.playerId
-    );
-    cc.log(cardPlayedServerEffect)
-    let collectedData = {
-      serverEffect: cardPlayedServerEffect,
-      playerId: this.playerId
-    };
-    cc.log('b4 return the server effect')
-    return collectedData.serverEffect;
+    cc.log(cardPlayedData)
+    let cardPlayed = CardManager.getCardById(cardPlayedData.cardPlayedId, true);
+    cc.log(cardPlayed.name)
+
+
+    let target = new EffectTarget(cardPlayed)
+    cc.log(target)
+    cc.log(`chosen ${target.effectTargetCard.name}`)
+    return target;
   }
 
-  getCardsToChoose(chooseType: CHOOSE_TYPE, player: Player) {
+  getCardsToChoose(chooseType: CHOOSE_CARD_TYPE, player: Player) {
     switch (chooseType) {
-      case CHOOSE_TYPE.PLAYERS:
+      case CHOOSE_CARD_TYPE.ALL_PLAYERS:
         let playerCards: cc.Node[] = [];
         for (let index = 0; index < PlayerManager.players.length; index++) {
           const player = PlayerManager.players[index].getComponent(Player);
@@ -69,7 +54,7 @@ export default class SelectLootToPlay extends DataCollector {
         }
         return playerCards;
         break;
-      case CHOOSE_TYPE.MYHAND:
+      case CHOOSE_CARD_TYPE.MY_HAND:
         return player.hand.layoutCards;
         break;
       default:

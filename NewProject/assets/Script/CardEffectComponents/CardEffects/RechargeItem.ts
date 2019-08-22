@@ -4,9 +4,10 @@ import { ServerEffect } from "./../../Entites/ServerCardEffect";
 import Effect from "./Effect";
 import Player from "../../Entites/GameEntities/Player";
 import CardManager from "../../Managers/CardManager";
-import { CHOOSE_TYPE, TARGETTYPE } from "../../Constants";
+import { CHOOSE_CARD_TYPE, TARGETTYPE } from "../../Constants";
 import ChooseCard from "../DataCollector/ChooseCard";
-import { ActiveEffectData } from "../../Managers/NewScript";
+import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 
 const { ccclass, property } = cc._decorator;
 
@@ -14,23 +15,22 @@ const { ccclass, property } = cc._decorator;
 export default class RechargeItem extends Effect {
   effectName = "RechargeItem";
 
-  chooseType: CHOOSE_TYPE = CHOOSE_TYPE.ALLPLAYERSITEMS;
+  chooseType: CHOOSE_CARD_TYPE = CHOOSE_CARD_TYPE.ALL_PLAYERS_ITEMS;
 
   /**
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(serverEffectStack: ServerEffect[], data?: ActiveEffectData) {
+  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData) {
     let targetItem
-    // if (this.dataCollector instanceof ChooseCard) {
-    //   targetItem = CardManager.getCardById(data.cardChosenId, true);
-    // } else {
-
     targetItem = data.getTarget(TARGETTYPE.ITEM);
-    // }
-    let cardPlayer = PlayerManager.getPlayerByCard(targetItem);
-    await cardPlayer.rechargeItem(targetItem, true);
+    if (targetItem == null) {
+      cc.log(`no item to recharge`)
+    } else {
+      let cardPlayer = PlayerManager.getPlayerByCard(targetItem);
+      await cardPlayer.rechargeItem(targetItem, true);
+    }
 
-    return serverEffectStack
+    return stack
   }
 }

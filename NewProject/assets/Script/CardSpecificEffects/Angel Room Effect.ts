@@ -5,6 +5,7 @@ import PlayerManager from "../Managers/PlayerManager";
 import Player from "../Entites/GameEntities/Player";
 import CardManager from "../Managers/CardManager";
 import Deck from "../Entites/GameEntities/Deck";
+import StackEffectInterface from "../StackEffects/StackEffectInterface";
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,7 +24,7 @@ export default class AngelRoomEffect extends Effect {
    * @param data {target:PlayerId}
    */
   async doEffect(
-    serverEffectStack: ServerEffect[],
+    stack: StackEffectInterface[],
     data: { numberRolled: number; cardPlayerId: number }
   ) {
     let activatingPlayer = PlayerManager.getPlayerById(
@@ -60,8 +61,6 @@ export default class AngelRoomEffect extends Effect {
     }
 
 
-    return new Promise<ServerEffect[]>((resolve, reject) => {
-      resolve(serverEffectStack);
-    });
+    return stack
   }
 }

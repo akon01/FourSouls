@@ -39,13 +39,20 @@ var Match = /** @class */ (function () {
         }
     };
     Match.prototype.getPlayerById = function (id) {
-        console.log("get Player by id");
+        console.log("get Player by id " + id);
         for (var i = 0; i < this.players.length; i++) {
             var player = this.players[i];
+            console.log("checking for " + player.uuid);
             if (player.uuid == id) {
-                console.log(player.uuid);
+                console.log("returning player " + player.uuid);
                 return player;
             }
+        }
+    };
+    Match.prototype.broadcastToPlayer = function (playerIdToSendTo, signal, data) {
+        var player = this.getPlayerById(playerIdToSendTo);
+        if (player) {
+            player.send(signal, data);
         }
     };
     Match.prototype.broadcastToNextPlayer = function (currentPlayer, signal, data) {
@@ -80,7 +87,7 @@ var Match = /** @class */ (function () {
         }
         console.log("starting match");
         this.running = true;
-        this.broadcast(signal_1["default"].STARTGAME, {});
+        this.broadcast(signal_1["default"].START_GAME, {});
         setTimeout(function () {
             _this.timeup();
         }, this.time * 1000);

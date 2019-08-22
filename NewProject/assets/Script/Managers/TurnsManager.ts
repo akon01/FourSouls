@@ -1,5 +1,5 @@
 import Signal from "../../Misc/Signal";
-import Server from "../../ServerClient/ServerClient";
+import ServerClient from "../../ServerClient/ServerClient";
 import { getNextTurn, Turn } from "../Modules/TurnsModule";
 import PlayerManager from "./PlayerManager";
 import Player from "../Entites/GameEntities/Player";
@@ -18,14 +18,14 @@ export default class TurnsManager extends cc.Component {
   static currentTurn: Turn = null;
 
   static init() {
-    
+
     this.makeTurns();
     TurnsManager.currentTurn = TurnsManager.turns[1];
 
     //TurnsManager.currentTurn = this.turns[Math.floor((Math.random() * Server.numOfPlayers))]
   }
   static makeTurns() {
-    for (let i = 1; i < Server.numOfPlayers + 1; i++) {
+    for (let i = 1; i < ServerClient.numOfPlayers + 1; i++) {
       this.turns.push(new Turn(i));
     }
   }
@@ -38,6 +38,14 @@ export default class TurnsManager extends cc.Component {
     return TurnsManager.turns;
   }
 
+  static getTurnByPlayerId(playerId: number) {
+    cc.log(`searching for turn ${playerId}`)
+    for (const turn of this.turns) {
+      cc.log(turn)
+      if (turn.PlayerId == playerId) return turn;
+    }
+  }
+
   /**
    *
    * @param sendToServer false if should not send an event.
@@ -46,7 +54,7 @@ export default class TurnsManager extends cc.Component {
 
     this.endTurn();
 
-    this.setCurrentTurn(getNextTurn(TurnsManager.currentTurn, this.turns));
+    this.setCurrentTurn(getNextTurn(TurnsManager.currentTurn, this.turns), false);
 
     cc.find("MainScript").dispatchEvent(
       new cc.Event.EventCustom("turnChanged", true)
@@ -54,11 +62,15 @@ export default class TurnsManager extends cc.Component {
     //  this.node.dispatchEvent(new cc.Event.EventCustom('turnChanged', true))
   }
 
-  static setCurrentTurn(turn: Turn) {
+  static setCurrentTurn(turn: Turn, sendToServer: boolean) {
+
     if (turn.PlayerId != 0) {
       turn.refreshTurn();
       TurnsManager.currentTurn = turn;
       turn.startTurn();
+    }
+    if (sendToServer) {
+      ServerClient.$.send(Signal.SET_TURN, { playerId: turn.PlayerId })
     }
   }
 
@@ -66,17 +78,15 @@ export default class TurnsManager extends cc.Component {
     if (
       getNextTurn(TurnsManager.currentTurn, TurnsManager.turns).PlayerId != 0
     ) {
-      //for each player heal to max hp
-      for (let playerNode of PlayerManager.players) {
-        let player = playerNode.getComponent(Player);
-        player.getComponent(Player).Hp = player.character.getComponent(
-          Character
-        ).Hp;
+      for (const player of PlayerManager.players.map(player => player.getComponent(Player))) {
+        player._hpBonus = 0
+        player.attackRollBonus = 0
+        player.nonAttackRollBonus = 0
+        player.firstAttackRollBonus = 0
       }
-      //for each monster heal to max hp
-      for (const monsterNode of MonsterField.activeMonsters) {
-        let monster = monsterNode.getComponent(Monster);
-        monster.currentHp = monster.HP;
+      for (const monster of MonsterField.activeMonsters.map(monster => monster.getComponent(Monster))) {
+        monster.rollBonus = 0;
+        monster.baseDamage = monster.DMG;
       }
 
     }

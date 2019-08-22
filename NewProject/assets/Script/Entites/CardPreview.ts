@@ -1,14 +1,14 @@
 import {
-  TIMETOSHOWPREVIEW,
+  TIME_TO_SHOW_PREVIEW,
   printMethodSignal,
   COLORS,
 } from "../Constants";
 import PlayerManager from "../Managers/PlayerManager";
 import TurnsManager from "../Managers/TurnsManager";
-import { TIMETOHIDEPREVIEW } from "./../Constants";
+import { TIME_TO_HIDE_PREVIEW } from "./../Constants";
 import CardEffect from "./CardEffect";
 import Player from "./GameEntities/Player";
-import Server from "../../ServerClient/ServerClient";
+import ServerClient from "../../ServerClient/ServerClient";
 import Signal from "../../Misc/Signal";
 import Card from "./GameEntities/Card";
 import ActionManager from "../Managers/ActionManager";
@@ -57,7 +57,7 @@ export default class CardPreview extends cc.Component {
       const child = this.effectChildren[o];
       this.node.removeChild(child);
     }
-    this.node.runAction(cc.fadeTo(TIMETOHIDEPREVIEW, 0));
+    this.node.runAction(cc.fadeTo(TIME_TO_HIDE_PREVIEW, 0));
     let hideTimeOut = () => {
       // this.node.setSiblingIndex(0);
       this.card = null;
@@ -67,7 +67,7 @@ export default class CardPreview extends cc.Component {
       CardPreviewManager.$.node.emit('previewRemoved', this.node)
     };
     hideTimeOut.bind(this);
-    this.hideThisTimeOut = setTimeout(hideTimeOut, TIMETOHIDEPREVIEW * 1000);
+    this.hideThisTimeOut = setTimeout(hideTimeOut, TIME_TO_HIDE_PREVIEW * 1000);
 
   }
 
@@ -177,7 +177,7 @@ export default class CardPreview extends cc.Component {
   // }
 
   chooseEffect() {
-    CardPreview.effectChosen = this;
+    CardPreview.effectChosen = this.node;
     CardPreview.wasEffectChosen = true;
   }
 

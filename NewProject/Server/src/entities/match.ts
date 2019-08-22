@@ -44,14 +44,25 @@ export default class Match {
     }
   }
 
-  getPlayerById(id): ServerPlayer {
-    console.log("get Player by id");
+  getPlayerById(id: number): ServerPlayer {
+    console.log("get Player by id " + id);
     for (let i = 0; i < this.players.length; i++) {
       const player = this.players[i];
+      console.log(`checking for ${player.uuid}`);
+
       if (player.uuid == id) {
-        console.log(player.uuid);
+
+        console.log(`returning player ${player.uuid}`);
+
         return player;
       }
+    }
+  }
+
+  broadcastToPlayer(playerIdToSendTo: number, signal: string, data?: any) {
+    let player = this.getPlayerById(playerIdToSendTo);
+    if (player) {
+      player.send(signal, data);
     }
   }
 
@@ -92,7 +103,7 @@ export default class Match {
     }
     console.log("starting match");
     this.running = true;
-    this.broadcast(signal.STARTGAME, {});
+    this.broadcast(signal.START_GAME, {});
     setTimeout(() => {
       this.timeup();
     }, this.time * 1000);

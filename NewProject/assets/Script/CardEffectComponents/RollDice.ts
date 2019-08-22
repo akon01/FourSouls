@@ -1,22 +1,16 @@
-import DataCollector from "./DataCollector/DataCollector";
-import PlayerManager from "../Managers/PlayerManager";
-import Player from "../Entites/GameEntities/Player";
-import Effect from "./CardEffects/Effect";
-import { CARD_TYPE, CHOOSE_TYPE, ROLL_TYPE } from "../Constants";
-import CardManager from "../Managers/CardManager";
-import MonsterField from "../Entites/MonsterField";
-import Deck from "../Entites/GameEntities/Deck";
-import Card from "../Entites/GameEntities/Card";
+import { ROLL_TYPE } from "../Constants";
 import Dice from "../Entites/GameEntities/Dice";
-import Server from "../../ServerClient/ServerClient";
-import Signal from "../../Misc/Signal";
+import Player from "../Entites/GameEntities/Player";
+import CardManager from "../Managers/CardManager";
+import PlayerManager from "../Managers/PlayerManager";
+import DataCollector from "./DataCollector/DataCollector";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class RollDice extends DataCollector {
   collectorName = "RollDice";
-  isCardChosen: boolean = false;
+  isEffectChosen: boolean = false;
   cardChosen: cc.Node;
   playerId: number;
   rollType: ROLL_TYPE;
@@ -53,7 +47,7 @@ export default class RollDice extends DataCollector {
     } else {
 
 
-      numberRolled = await player.rollDice(ROLL_TYPE.EFFECTROLL);
+      numberRolled = await player.rollDice(ROLL_TYPE.EFFECT_ROLL);
 
 
     }

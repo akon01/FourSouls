@@ -1,13 +1,8 @@
-import { ROLL_TYPE, COLORS, CARD_TYPE } from "../Constants";
 import Monster from "../Entites/CardTypes/Monster";
-import Dice from "../Entites/GameEntities/Dice";
 import Player from "../Entites/GameEntities/Player";
 import ActionManager from "./ActionManager";
 import PlayerManager from "./PlayerManager";
 import TurnsManager from "./TurnsManager";
-import { Turn } from "../Modules/TurnsModule";
-import PileManager from "./PileManager";
-import Card from "../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
@@ -19,7 +14,7 @@ export default class BattleManager extends cc.Component {
 
   static firstAttack: boolean = true;
 
-  static declareAttackOnMonster(monsterCard: cc.Node) {
+  static async declareAttackOnMonster(monsterCard: cc.Node) {
     // 
     BattleManager.currentlyAttackedMonsterNode = monsterCard;
     BattleManager.currentlyAttackedMonster = monsterCard.getComponent(Monster);
@@ -30,7 +25,7 @@ export default class BattleManager extends cc.Component {
       TurnsManager.currentTurn.PlayerId
     );
 
-    ActionManager.updateActions();
+    await ActionManager.updateActions();
   }
 
   /**
@@ -47,30 +42,15 @@ export default class BattleManager extends cc.Component {
       this.firstAttack = false;
     }
     if (rollValue >= monsterRollValue) {
-      // let damage = turnPlayer.calculateDamage();
-      // // 
-      // // 
-      // await this.currentlyAttackedMonster.getDamaged(damage, true);
-      // // 
       return true;
-    } else {
-      // let damage = this.currentlyAttackedMonster.calculateDamage();
-      // // 
-      // // 
-      // let gotHit = await turnPlayer.getHit(damage, true);
-      // // 
-      return false;
-    }
-    //  this.checkIfPlayerIsDead(sendToServer);
-    let monsterIsDead = await this.checkIfMonsterIsDead(this.currentlyAttackedMonster.node, sendToServer);
-    return monsterIsDead;
+    } else return false;
   }
 
-  static checkIfPlayerIsDead(sendToServer: boolean) {
+  static async checkIfPlayerIsDead(sendToServer: boolean) {
     for (const player of PlayerManager.players) {
       let playerComp = player.getComponent(Player);
-      if (playerComp.Hp <= 0) {
-        playerComp.killPlayer(sendToServer);
+      if (playerComp._Hp <= 0) {
+        await playerComp.killPlayer(sendToServer);
       }
     }
   }
@@ -87,30 +67,8 @@ export default class BattleManager extends cc.Component {
   }
 
   static async killMonster(monsterCard: cc.Node, sendToServer?: boolean) {
-    let monsterComp = monsterCard.getComponent(Monster)
-    let monsterPlace = monsterComp.monsterPlace;
-    let turnPlayer = PlayerManager.getPlayerById(
-      TurnsManager.currentTurn.PlayerId
-    ).getComponent(Player);
-    if (PlayerManager.mePlayer == turnPlayer.node) {
 
-      let over = await turnPlayer.getMonsterRewards(monsterCard, sendToServer);
-
-
-      let cardComp = monsterCard.getComponent(Card)
-      if (cardComp.souls == 0) {
-        await PileManager.addCardToPile(CARD_TYPE.MONSTER, monsterCard, true);
-      } else {
-
-        turnPlayer.getSoulCard(monsterCard, sendToServer)
-      }
-    }
-    if (this.currentlyAttackedMonster != null && monsterCard == this.currentlyAttackedMonster.node) {
-
-      this.currentlyAttackedMonster = null;
-      TurnsManager.currentTurn.battlePhase = false;
-    }
-    //   monsterPlace.getNextMonster();
+    await monsterCard.getComponent(Monster).kill(sendToServer)
   }
 
   // LIFE-CYCLE CALLBACKS:

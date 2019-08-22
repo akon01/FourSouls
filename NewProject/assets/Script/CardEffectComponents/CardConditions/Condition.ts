@@ -6,7 +6,7 @@ const { ccclass, property } = cc._decorator;
 export default class Condition extends cc.Component
   implements ConditionInterface {
   conditionData: any;
-  chooseType: import("../../Constants").CHOOSE_TYPE;
+  chooseType: import("../../Constants").CHOOSE_CARD_TYPE;
   dataCollector: import("../DataCollector/DataCollector").default;
   async testCondition(data?: any): Promise<boolean> {
     return true;

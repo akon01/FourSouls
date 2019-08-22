@@ -1,18 +1,19 @@
 import CardManager from "../../Managers/CardManager";
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_TYPE, TARGETTYPE } from "./../../Constants";
+import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
 import { ServerEffect } from "./../../Entites/ServerCardEffect";
 import Effect from "./Effect";
 import Player from "../../Entites/GameEntities/Player";
 import Deck from "../../Entites/GameEntities/Deck";
-import { ActiveEffectData } from "../../Managers/NewScript";
+import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class RerollItems extends Effect {
-  chooseType = CHOOSE_TYPE.MYHAND;
+  chooseType = CHOOSE_CARD_TYPE.MY_HAND;
 
   effectName = "RerollItems";
 
@@ -22,27 +23,26 @@ export default class RerollItems extends Effect {
    * @param data {lootPlayedId:number,playerId:number}
    */
   async doEffect(
-    serverEffectStack: ServerEffect[],
+    stack: StackEffectInterface[],
     data?: ActiveEffectData
   ) {
-    //   let cardChosenId = data.targets
-    // let cardsChosen: cc.Node[] = [];
-    // for (let i = 0; i < cardChosenId.length; i++) {
-    //   cardsChosen.push(CardManager.getCardById(cardChosenId[i]))
-    // }
     let cardsChosen = data.getTargets(TARGETTYPE.ITEM);
-    //  let cardChosen = CardManager.getCardById(data.cardChosenId);
     let player;
     let treasureTopDeck = CardManager.treasureDeck.getComponent(Deck).topBlankCard;
-    for (let i = 0; i < cardsChosen.length; i++) {
-      const cardChosen = cardsChosen[i];
-      PlayerManager.getPlayerByCard(cardChosen).getComponent(
-        Player
-      );
-      await player.destroyItem(cardChosen, true);
-      await player.addItem(treasureTopDeck, true, true);
+    if (cardsChosen.length == 0) {
+      cc.log(`no items to reroll`)
+    } else {
+      for (let i = 0; i < cardsChosen.length; i++) {
+        const cardChosen = cardsChosen[i];
+        if (cardChosen instanceof cc.Node) {
+          PlayerManager.getPlayerByCard(cardChosen).getComponent(
+            Player
+          );
+          await player.destroyItem(cardChosen, true);
+          await player.addItem(treasureTopDeck, true, true);
+        }
+      }
     }
-    // player.getComponent(Player).playLootCard(cardPlayed, true);
-    return serverEffectStack
+    return stack
   }
 }

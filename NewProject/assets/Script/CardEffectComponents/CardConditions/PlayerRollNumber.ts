@@ -3,7 +3,7 @@ import Condition from "./Condition";
 import Player from "../../Entites/GameEntities/Player";
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_TYPE } from "../../Constants";
+import { CHOOSE_CARD_TYPE } from "../../Constants";
 import { PassiveMeta } from "../../Managers/PassiveManager";
 
 const { ccclass, property } = cc._decorator;

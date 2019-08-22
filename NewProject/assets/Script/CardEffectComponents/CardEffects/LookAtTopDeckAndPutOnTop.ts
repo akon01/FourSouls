@@ -1,20 +1,18 @@
-import { CARD_TYPE } from "../../Constants";
-
-import CardManager from "../../Managers/CardManager";
-import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_TYPE, COLORS } from "./../../Constants";
-import { ServerEffect } from "./../../Entites/ServerCardEffect";
-import Effect from "./Effect";
+import { CARD_TYPE,TARGETTYPE } from "../../Constants";
 import Deck from "../../Entites/GameEntities/Deck";
+import CardManager from "../../Managers/CardManager";
 import CardPreviewManager from "../../Managers/CardPreviewManager";
-import PileManager from "../../Managers/PileManager";
-import { ActiveEffectData } from "../../Managers/NewScript";
+import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import StackEffectInterface from "../../StackEffects/StackEffectInterface";
+import { CHOOSE_CARD_TYPE } from "./../../Constants";
+import Effect from "./Effect";
+
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class LookAtTopDeckAndPutOnTop extends Effect {
-  chooseType = CHOOSE_TYPE.DECKS;
+  chooseType = CHOOSE_CARD_TYPE.DECKS;
 
   effectName = "LookAtTopDeckAndPutOnTop";
 
@@ -38,21 +36,26 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
 
   //@printMethodStarted(COLORS.RED)
   async doEffect(
-    serverEffectStack: ServerEffect[],
+    stack: StackEffectInterface[],
     data?: ActiveEffectData
   ) {
     let deck: Deck;
-    switch (this.deckType) {
-      case CARD_TYPE.LOOT:
-        deck = CardManager.lootDeck.getComponent(Deck)
-        break;
-      case CARD_TYPE.MONSTER:
-        deck = CardManager.monsterDeck.getComponent(Deck)
-        break;
-      case CARD_TYPE.TREASURE:
-        deck = CardManager.treasureDeck.getComponent(Deck)
-      default:
-        break;
+    if(data.getTarget(TARGETTYPE.DECK) == null){
+
+      switch (this.deckType) {
+        case CARD_TYPE.LOOT:
+          deck = CardManager.lootDeck.getComponent(Deck)
+          break;
+        case CARD_TYPE.MONSTER:
+          deck = CardManager.monsterDeck.getComponent(Deck)
+          break;
+        case CARD_TYPE.TREASURE:
+          deck = CardManager.treasureDeck.getComponent(Deck)
+        default:
+          break;
+      }
+    } else {
+      deck = data.getTarget(TARGETTYPE.DECK).getComponent(Deck)
     }
     let cardsToSee = [];
     for (let i = 0; i < this.numOfCardsToSee; i++) {
@@ -73,6 +76,6 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
       // await PileManager.addCardToPile(this.deckType, card, true)
     }
 
-    return serverEffectStack
+    return stack
   }
 }

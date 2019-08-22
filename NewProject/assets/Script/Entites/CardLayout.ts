@@ -176,6 +176,7 @@ export class CardLayout extends cc.Component {
     var layoutAnchor = this.node.getAnchorPoint();
 
     var children = this.layoutCards;
+
     var nodeX;
     var sign = this.localSign;
     var layoutY = this.node.y;
@@ -208,7 +209,9 @@ export class CardLayout extends cc.Component {
     }
     var leftBoundaryOfLayout = nodeX - layoutAnchor.x * baseWidth * sign;
 
+
     var nextX = leftBoundaryOfLayout + sign * paddingX - sign * this.spacingX;
+
 
     var containerResizeBoundary = 0;
 
@@ -243,6 +246,7 @@ export class CardLayout extends cc.Component {
       nextX =
         nextX + sign * anchorX * childBoundingBoxWidth + sign * this.spacingX;
       var rightBoundaryOfChild = sign * (1 - anchorX) * childBoundingBoxWidth;
+
 
       if (
         baseWidth >=

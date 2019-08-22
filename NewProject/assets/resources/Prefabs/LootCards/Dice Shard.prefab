@@ -67,23 +67,23 @@
       "y": 1,
       "z": 1
     },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
     "groupIndex": 0,
     "_rotationX": 0,
     "_rotationY": 0,
-    "_id": "",
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    }
+    "_id": ""
   },
   {
     "__type__": "cc.Node",
-    "_name": "AddMoney",
+    "_name": "Reroll Dice",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -113,8 +113,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 70,
-      "height": 35
+      "width": 0,
+      "height": 0
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -124,7 +124,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -29.4,
+      "y": 0,
       "z": 0
     },
     "_scale": {
@@ -133,21 +133,21 @@
       "y": 1,
       "z": 1
     },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_eulerAngles": {
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
       "z": 0
-    }
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "cc.Node",
-    "_name": "CardPlayer",
+    "_name": "ChooseStackEffect",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -184,7 +184,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 29.4,
+      "y": 0,
       "z": 0
     },
     "_scale": {
@@ -193,26 +193,30 @@
       "y": 1,
       "z": 1
     },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_eulerAngles": {
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
       "z": 0
-    }
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
-    "__type__": "1d1ecf8dolI9JOwSEDLfemj",
+    "__type__": "31902r3m41IKqUGWEKWbFJQ",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 3
     },
     "_enabled": true,
+    "chooseTypes": [
+      2,
+      11
+    ],
     "_id": ""
   },
   {
@@ -223,11 +227,11 @@
     "asset": {
       "__uuid__": "e7e7215b-2287-49e4-ad20-6365a398a5e4"
     },
-    "fileId": "985N9nTYdOBpbeZtcZ/SrJ",
+    "fileId": "1fq4LiWzxIj5Cwx6lazjSN",
     "sync": false
   },
   {
-    "__type__": "da7a1yhh65BupAGQR/L5ZZc",
+    "__type__": "982024DI9VAqaPkDMwFgsrr",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -239,11 +243,13 @@
     "condition": null,
     "passiveType": 1,
     "passiveEffectToAdd": null,
-    "dataCollector": {
-      "__id__": 4
-    },
+    "dataCollector": [
+      {
+        "__id__": 4
+      }
+    ],
     "_effectCard": null,
-    "numOfCoins": 1,
+    "hasPlayerChoiceToActivateInChainEffects": false,
     "_id": ""
   },
   {
@@ -254,7 +260,7 @@
     "asset": {
       "__uuid__": "e7e7215b-2287-49e4-ad20-6365a398a5e4"
     },
-    "fileId": "b9aj7VXGtD2Iv9S6x4J9se",
+    "fileId": "4eKVFfnFVIwKIxGs6Z6Mi7",
     "sync": false
   },
   {
@@ -265,7 +271,11 @@
       "__id__": 1
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
@@ -317,6 +327,7 @@
     "hasCounter": false,
     "_effectCounterLable": null,
     "_counters": 0,
+    "_hasEventsBeenModified": false,
     "_id": ""
   },
   {
@@ -337,6 +348,7 @@
     "toAddPassiveEffects": [],
     "paidEffects": [],
     "multiEffectCollector": null,
+    "hasRollLock": false,
     "effectData": null,
     "data": {},
     "hasMultipleEffects": false,

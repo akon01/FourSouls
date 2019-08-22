@@ -1,5 +1,5 @@
 import Signal from "../../Misc/Signal";
-import Server from "../../ServerClient/ServerClient";
+import ServerClient from "../../ServerClient/ServerClient";
 import CardManager from "../Managers/CardManager";
 import { CARD_HEIGHT, CARD_WIDTH, COLORS } from "./../Constants";
 import { CardLayout } from "./CardLayout";
@@ -27,6 +27,8 @@ export default class MonsterField extends cc.Component {
 
   static holderIds = 0;
 
+  static $: MonsterField = null
+
   @property
   layout: cc.Layout = null;
 
@@ -38,14 +40,14 @@ export default class MonsterField extends cc.Component {
    * @param monsterPlaceId id of the place to put the monster
    * @param monsterCard a monster card to put, if none is set, one from the deck wiil go
    */
-  addMonsterToExsistingPlace(
+  static async addMonsterToExsistingPlace(
     monsterPlaceId: number,
     monsterCard: cc.Node,
     sendToServer: boolean
   ) {
     let monsterCardComp = monsterCard.getComponent(Card);
     if (monsterCardComp._isFlipped) {
-      monsterCardComp.flipCard();
+      monsterCardComp.flipCard(sendToServer);
     }
     let monsterHolder = MonsterField.getMonsterPlaceById(monsterPlaceId);
     let monsterId = monsterCardComp._cardId;
@@ -53,14 +55,14 @@ export default class MonsterField extends cc.Component {
       Monster
     ).HP;
 
-    monsterHolder.addToMonsters(monsterCard, sendToServer);
+    await monsterHolder.addToMonsters(monsterCard, sendToServer);
     CardManager.allCards.push(monsterCard);
     CardManager.onTableCards.push(monsterCard);
     MonsterField.updateActiveMonsters();
-    let signal = Signal.NEWMONSTERONPLACE;
+    let signal = Signal.NEW_MONSTER_ON_PLACE;
     let srvData = { newMonsterId: monsterId, monsterPlaceId: monsterPlaceId };
     if (sendToServer) {
-      Server.$.send(signal, srvData);
+      ServerClient.$.send(signal, srvData);
     }
   }
 
@@ -78,12 +80,12 @@ export default class MonsterField extends cc.Component {
     }
   }
 
-  addMonsterToNewPlace(monsterCard, sendToServer: boolean) {
+  static addMonsterToNewPlace(monsterCard, sendToServer: boolean) {
     let newMonsterHolder = this.getNewMonsterHolder();
     MonsterField.monsterCardHolders.push(
       newMonsterHolder.getComponent(MonsterCardHolder)
     );
-    let layout = this.node.getComponent(CardLayout);
+    let layout = this.$.node.getComponent(CardLayout);
     layout.addCardToLayout(newMonsterHolder);
 
     this.addMonsterToExsistingPlace(
@@ -93,8 +95,8 @@ export default class MonsterField extends cc.Component {
     );
   }
 
-  getNewMonsterHolder() {
-    let newMonsterHolder = cc.instantiate(this.MonsterCardHolderPrefab);
+  static getNewMonsterHolder() {
+    let newMonsterHolder = cc.instantiate(MonsterField.$.MonsterCardHolderPrefab);
     newMonsterHolder.name;
     newMonsterHolder.width = CARD_WIDTH;
     newMonsterHolder.height = CARD_HEIGHT;
@@ -102,14 +104,14 @@ export default class MonsterField extends cc.Component {
       MonsterCardHolder
     ).id = ++MonsterField.holderIds;
     newMonsterHolder.name = "holder" + MonsterField.holderIds;
-    this.node.addChild(newMonsterHolder);
+    this.$.node.addChild(newMonsterHolder);
     MonsterField.monsterCardHolders.push(
       newMonsterHolder.getComponent(MonsterCardHolder)
     );
     return newMonsterHolder;
   }
 
-  getMonsterCardHoldersIds() {
+  static getMonsterCardHoldersIds() {
     let ids = [];
     for (let i = 0; i < MonsterField.monsterCardHolders.length; i++) {
       const monsterPlace = MonsterField.monsterCardHolders[i];
@@ -149,10 +151,10 @@ export default class MonsterField extends cc.Component {
 
   onLoad() {
     this.layout = this.getComponent(cc.Layout);
-
+    MonsterField.$ = this;
     //make first two monster places
     for (let i = 0; i < 2; i++) {
-      this.getNewMonsterHolder();
+      MonsterField.getNewMonsterHolder();
     }
     // MonsterField.monsterCardHolders.push(new MonsterPlace(++MonsterField.placesIds));
     // MonsterField.monsterCardHolders.push(new MonsterPlace(++MonsterField.placesIds));

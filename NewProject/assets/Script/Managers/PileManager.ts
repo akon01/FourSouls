@@ -1,9 +1,9 @@
 import PlayerManager from "./PlayerManager";
 import Player from "../Entites/GameEntities/Player";
-import { CARD_TYPE, TIMEFORMONSTERDISCARD } from "../Constants";
+import { CARD_TYPE, TIME_FOR_MONSTER_DISCARD } from "../Constants";
 import CardManager from "./CardManager";
 import Monster from "../Entites/CardTypes/Monster";
-import Server from "../../ServerClient/ServerClient";
+import ServerClient from "../../ServerClient/ServerClient";
 import Signal from "../../Misc/Signal";
 import Card from "../Entites/GameEntities/Card";
 import Pile from "../Entites/Pile";
@@ -26,16 +26,19 @@ export default class PileManager extends cc.Component {
   static treasureCardPile: Pile = null;
   static isOver: boolean = false;
 
+  static lootPlaceTest: cc.Node = null;
+
   static init() {
     for (let i = 0; i < PlayerManager.players.length; i++) {
       const playerComp = PlayerManager.players[i].getComponent(Player);
       playerComp.landingZones.push(PileManager.lootCardPileNode);
 
     }
+    PileManager.lootPlaceTest.getComponent(Card)._cardId = ++CardManager.cardsId
     PileManager.lootCardPileNode.getComponent(Card)._cardId = ++CardManager.cardsId
     PileManager.treasureCardPileNode.getComponent(Card)._cardId = ++CardManager.cardsId
     PileManager.monsterCardPileNode.getComponent(Card)._cardId = ++CardManager.cardsId
-    CardManager.allCards.push(PileManager.lootCardPileNode, PileManager.treasureCardPileNode, PileManager.monsterCardPileNode)
+    CardManager.allCards.push(PileManager.lootPlaceTest, PileManager.lootCardPileNode, PileManager.treasureCardPileNode, PileManager.monsterCardPileNode)
   }
 
   static getTopCardOfPiles() {
@@ -68,9 +71,9 @@ export default class PileManager extends cc.Component {
     let originalPos
     let moveAction
 
-    if (card.getComponent(Card)._isFlipped) {
-      card.getComponent(Card).flipCard();
-    }
+    // if (card.getComponent(Card)._isFlipped) {
+    //   card.getComponent(Card).flipCard(sendToServer);
+    // }
     // originalPos = card.convertToWorldSpaceAR(card.position);
     // card.parent = cc.find("Canvas");
     // card.setPosition(card.parent.convertToNodeSpaceAR(originalPos));
@@ -82,19 +85,19 @@ export default class PileManager extends cc.Component {
 
         if (sendToServer) {
 
-          await CardManager.moveCardTo(card, PileManager.lootCardPileNode, sendToServer)
+          await CardManager.moveCardTo(card, PileManager.lootCardPileNode, sendToServer, true)
         }
         PileManager.lootCardPile.addCardToTopPile(card)
         //    card.parent = this.lootCardPileNode;
         //card.setPosition(0, 0);
-        this.isOver = true
+        //this.isOver = true
         break;
       case CARD_TYPE.MONSTER:
         CardManager.onTableCards.push(card);
 
         if (sendToServer) {
 
-          await CardManager.moveCardTo(card, PileManager.monsterCardPileNode, sendToServer)
+          await CardManager.moveCardTo(card, PileManager.monsterCardPileNode, sendToServer, true)
         }
         PileManager.monsterCardPile.addCardToTopPile(card);
         // card.parent = this.monsterCardPileNode;
@@ -102,7 +105,7 @@ export default class PileManager extends cc.Component {
           if (sendToServer) {
             card.getComponent(Monster).monsterPlace.removeMonster(card, sendToServer);
             card.getComponent(Monster).monsterPlace.getNextMonster(sendToServer);
-            this.isOver = true;
+            //this.isOver = true;
           }
         }
 
@@ -114,12 +117,12 @@ export default class PileManager extends cc.Component {
 
         if (sendToServer) {
 
-          await CardManager.moveCardTo(card, PileManager.monsterCardPileNode, sendToServer)
+          await CardManager.moveCardTo(card, PileManager.monsterCardPileNode, sendToServer, true)
         }
         PileManager.treasureCardPile.addCardToTopPile(card);
         //  card.parent = this.treasureCardPileNode;
         card.setPosition(0, 0);
-        this.isOver = true
+        //   this.isOver = true
         break;
       default:
         break;
@@ -127,10 +130,10 @@ export default class PileManager extends cc.Component {
     }
     CardManager.disableCardActions(card);
     CardManager.makeCardPreviewable(card);
-    await this.waitForCardMovement()
+    //await this.waitForCardMovement()
     if (sendToServer) {
       let srvData = { type: type, cardId: card.getComponent(Card)._cardId };
-      Server.$.send(Signal.MOVECARDTOPILE, srvData);
+      ServerClient.$.send(Signal.MOVE_CARD_TO_PILE, srvData);
     }
   }
   // LIFE-CYCLE CALLBACKS:
@@ -139,6 +142,8 @@ export default class PileManager extends cc.Component {
     PileManager.lootCardPileNode = cc.find("Canvas/LootCardPile");
     PileManager.treasureCardPileNode = cc.find("Canvas/TreasureCardPile");
     PileManager.monsterCardPileNode = cc.find("Canvas/MonsterCardPile");
+    PileManager.lootPlaceTest = cc.find('Canvas/lootTest')
+
     PileManager.lootCardPile = PileManager.lootCardPileNode.getComponent(Pile)
     PileManager.treasureCardPile = PileManager.treasureCardPileNode.getComponent(Pile)
     PileManager.monsterCardPile = PileManager.monsterCardPileNode.getComponent(Pile)

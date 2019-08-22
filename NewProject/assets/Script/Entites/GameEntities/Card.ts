@@ -1,12 +1,8 @@
-import { CARD_HEIGHT, CARD_TYPE, CARD_WIDTH } from "../../Constants";
-import { CardLayout } from "../CardLayout";
-import Player from "./Player";
 import Signal from "../../../Misc/Signal";
-import { ActivatePassiveAction } from "../Action";
-import ActionManager from "../../Managers/ActionManager";
-import CardManager from "../../Managers/CardManager";
+import ServerClient from "../../../ServerClient/ServerClient";
 import DataCollector from "../../CardEffectComponents/DataCollector/DataCollector";
-import CardEffect from "../CardEffect";
+import { CARD_HEIGHT, CARD_TYPE, CARD_WIDTH } from "../../Constants";
+import Player from "./Player";
 
 const { ccclass, property } = cc._decorator;
 
@@ -85,58 +81,23 @@ export default class Card extends cc.Component {
   @property
   _counters: number = 0;
 
+  @property
+  _hasEventsBeenModified: boolean = false;
 
-  flipCard() {
+
+  flipCard(sendToServer: boolean) {
     this._isFlipped = !this._isFlipped;
     if (this._isFlipped) {
       this.node.getComponent(cc.Sprite).spriteFrame = this.backSprite;
     } else {
       this.node.getComponent(cc.Sprite).spriteFrame = this.frontSprite;
     }
-  }
-
-  async activatePassive(
-    cardActivatorId: number,
-    passiveIndex: number,
-    sendToServer: boolean
-  ) {
-    let serverData = {
-      signal: Signal.ACTIVATEPASSIVE,
-      srvData: {
-        cardId: this._cardId,
-        passiveIndex: passiveIndex,
-        cardActivatorId: cardActivatorId
-      }
-    };
-    let action = new ActivatePassiveAction(
-      { activatedCard: this.node, passiveIndex: passiveIndex },
-      cardActivatorId
-    );
-    if (ActionManager.inReactionPhase) {
-
-      action.showAction();
-      if (sendToServer) {
-        action.serverBrodcast(serverData);
-      }
-      let serverEffect = await CardManager.activateCard(
-        this.node,
-        cardActivatorId,
-        passiveIndex
-      );
-
-      cc.log(`activate after passive effect ${serverEffect.effectName}`)
-        ;
-      ActionManager.serverEffectStack.push(serverEffect);
-    } else {
-
-      if (sendToServer) {
-        ActionManager.doAction(action, serverData);
-      } else {
-        ActionManager.doSingleAction(action, serverData, sendToServer);
-      }
+    if (sendToServer) {
+      ServerClient.$.send(Signal.FLIP_CARD, { cardId: this._cardId })
     }
-    return true
   }
+
+
 
   // LIFE-CYCLE CALLBACKS:
 

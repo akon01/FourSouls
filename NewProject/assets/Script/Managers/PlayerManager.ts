@@ -1,19 +1,15 @@
-import { MoveLootToPile } from "./../Entites/Action";
-import {
-  ITEM_TYPE,
-  CARD_HEIGHT,
-  CARD_WIDTH
-} from "./../Constants";
-
-import MoneyLable from "../LableScripts/MoneyLable";
-import Item from "../Entites/CardTypes/Item";
-import Server from "../../ServerClient/ServerClient";
-import Player from "../Entites/GameEntities/Player";
+import Signal from "../../Misc/Signal";
+import ServerClient from "../../ServerClient/ServerClient";
 import { CardLayout } from "../Entites/CardLayout";
-import Dice from "../Entites/GameEntities/Dice";
-import PlayerDesk from "../Entites/PlayerDesk";
-import CardManager from "./CardManager";
+import Item from "../Entites/CardTypes/Item";
 import Card from "../Entites/GameEntities/Card";
+import Dice from "../Entites/GameEntities/Dice";
+import Player from "../Entites/GameEntities/Player";
+import PlayerDesk from "../Entites/PlayerDesk";
+import MoneyLable from "../LableScripts/MoneyLable";
+import { CARD_HEIGHT, CARD_WIDTH, ITEM_TYPE } from "./../Constants";
+import CardManager from "./CardManager";
+
 
 const { ccclass, property } = cc._decorator;
 
@@ -39,6 +35,10 @@ export default class PlayerManager extends cc.Component {
   static mePlayer: cc.Node = null;
 
   static prefabLoaded = false;
+
+  static edenChosen = false;
+
+  static edenChosenCard: cc.Node = null;
 
   static async init(serverId: number) {
     await this.preLoadPrefabs();
@@ -90,7 +90,7 @@ export default class PlayerManager extends cc.Component {
   static createPlayers(serverId: number) {
     //create max amount of players and assing them to this property
 
-    for (let i = 1; i <= Server.numOfPlayers; i++) {
+    for (let i = 1; i <= ServerClient.numOfPlayers; i++) {
       var newNode: cc.Node = cc.instantiate(PlayerManager.playerPrefab);
       newNode.name = "player" + i;
       let playerComp: Player = newNode.getComponent(Player);
@@ -165,7 +165,7 @@ export default class PlayerManager extends cc.Component {
     }
   }
 
-  static assingCharacters() {
+  static async assingCharacters(sendToServer: boolean) {
     for (let i = 0; i < PlayerManager.players.length; i++) {
       const playerComp: Player = PlayerManager.players[i].getComponent(Player);
       const fullCharCard: {
@@ -173,9 +173,16 @@ export default class PlayerManager extends cc.Component {
         item: cc.Node;
       } = CardManager.characterDeck.pop();
       let charCard = fullCharCard.char;
-      let itemCard = fullCharCard.item;
-      CardManager.onTableCards.push(charCard, itemCard);
-      CardManager.allCards.push(charCard, itemCard);
+      let itemCard;
+      if (charCard.getComponent(Card).cardName == 'Eden') {
+        ServerClient.$.send(Signal.CHOOSE_FOR_EDEN, { playerId: playerComp.playerId, originPlayerId: this.mePlayer.getComponent(Player).playerId })
+        itemCard = await this.waitForEdenChoose()
+
+      } else {
+
+        itemCard = fullCharCard.item;
+        CardManager.onTableCards.push(charCard, itemCard);
+      }
       playerComp.setCharacter(charCard, itemCard);
       playerComp.activeItems.push(charCard);
       if (
@@ -186,7 +193,25 @@ export default class PlayerManager extends cc.Component {
       } else {
         playerComp.passiveItems.push(itemCard);
       }
+      if (sendToServer) {
+
+        //  CardManager.allCards.push(charCard, itemCard);
+        ServerClient.$.send(Signal.ASSIGN_CHAR_TO_PLAYER, { playerId: playerComp.playerId, charCardId: charCard.getComponent(Card)._cardId, itemCardId: itemCard.getComponent(Card)._cardId })
+      }
     }
+  }
+
+
+  static async waitForEdenChoose() {
+    return new Promise((resolve, reject) => {
+      let check = () => {
+        if (PlayerManager.edenChosen == true) {
+          resolve(PlayerManager.edenChosenCard);
+        } else setTimeout(check, 50);
+      };
+      check.bind(this);
+      setTimeout(check, 50);
+    });
   }
 
   static getItemByCharCard(item, i, items) {
@@ -312,8 +337,8 @@ export default class PlayerManager extends cc.Component {
 
   static getPlayerById(id: number): cc.Node {
     //if current player id is not 1 in server then place id in order for assinging hands
-    if (id > Server.numOfPlayers) {
-      id = id - Server.numOfPlayers;
+    if (id > ServerClient.numOfPlayers) {
+      id = id - ServerClient.numOfPlayers;
     }
     for (let i = 0; i < PlayerManager.players.length; i++) {
       const player = PlayerManager.players[i];
@@ -330,6 +355,9 @@ export default class PlayerManager extends cc.Component {
   static getPlayerByCard(card: cc.Node) {
     for (let i = 0; i < this.players.length; i++) {
       const player = this.players[i].getComponent(Player);
+
+      if (player.character == card) return player
+      if (player.characterItem == card) return player
 
       for (let j = 0; j < player.handCards.length; j++) {
         const testedCard = player.handCards[j];
@@ -353,7 +381,7 @@ export default class PlayerManager extends cc.Component {
   }
 
   static getPlayerByCardId(cardId: number) {
-    let playerCard = CardManager.getCardById(cardId);
+    let playerCard = CardManager.getCardById(cardId, true);
     for (let i = 0; i < this.players.length; i++) {
       const player = this.players[i].getComponent(Player);
       if (player.character == playerCard) {
@@ -376,6 +404,19 @@ export default class PlayerManager extends cc.Component {
       if (player.getComponent(Player)._hasPriority) {
         return player.getComponent(Player)
       }
+    }
+  }
+
+  static getNextPlayer(player: Player) {
+    let id = player.playerId
+    cc.log(id)
+    if (id == this.players.length) {
+      id = 0
+    }
+    for (let i = 0; i < this.players.length; i++) {
+      const playerToTest = this.players[i].getComponent(Player);
+      if (playerToTest.playerId == (id + 1)) return playerToTest
+
     }
   }
 

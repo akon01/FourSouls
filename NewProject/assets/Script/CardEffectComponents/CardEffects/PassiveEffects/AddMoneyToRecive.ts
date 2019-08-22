@@ -5,7 +5,9 @@ import CardManager from "../../../Managers/CardManager";
 import PlayerManager from "../../../Managers/PlayerManager";
 import Player from "../../../Entites/GameEntities/Player";
 import PassiveEffect from "../PassiveEffect";
-import { PassiveEffectData } from "../../../Managers/NewScript";
+
+import StackEffectInterface from "../../../StackEffects/StackEffectInterface";
+import { PassiveEffectData } from "../../../Managers/DataInterpreter";
 
 
 const { ccclass, property } = cc._decorator;
@@ -22,7 +24,7 @@ export default class AddMoneyToReceive extends PassiveEffect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(serverEffectStack: ServerEffect[], data?: PassiveEffectData) {
+  async doEffect(stack: StackEffectInterface[], data?: PassiveEffectData) {
     let terminateOriginal = data.terminateOriginal;
     let args = data.methodArgs;
     //should be money count

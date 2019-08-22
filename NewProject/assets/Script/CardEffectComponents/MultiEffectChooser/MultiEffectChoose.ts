@@ -2,10 +2,9 @@ import ChooseNumber from "../../Entites/ChooseNumber";
 
 import Effect from "../CardEffects/Effect";
 import CardPreview from "../../Entites/CardPreview";
-import DataCollector from "./DataCollector";
 import CardPreviewManager from "../../Managers/CardPreviewManager";
-import CardPlayer from "./ChooseAPlayer";
 import Card from "../../Entites/GameEntities/Card";
+import DataCollector from "../DataCollector/DataCollector";
 
 const { ccclass, property } = cc._decorator;
 
@@ -21,7 +20,7 @@ export default class MultiEffectChoose extends DataCollector {
     cardPlayed: cc.Node;
     cardPlayerId: number;
   }): Promise<Effect> {
-    let preview = CardPreviewManager.getPreviewByCard(data.cardPlayed)
+    let preview = CardPreviewManager.getPreviewByCard(data.cardPlayed).node
     if (preview == null) {
       preview = CardPreviewManager.cardPreviewPool.get()
       preview.setParent(CardPreviewManager.scrollView.content);
@@ -33,8 +32,6 @@ export default class MultiEffectChoose extends DataCollector {
     // CardPreviewManager.openPreview(preview)
     let effectChosen = await preview.getComponent(CardPreview).chooseEffectFromCard(data.cardPlayed);
 
-    return new Promise<Effect>((resolve, reject) => {
-      resolve(effectChosen.getComponent(Effect));
-    });
+    return effectChosen.getComponent(Effect)
   }
 }

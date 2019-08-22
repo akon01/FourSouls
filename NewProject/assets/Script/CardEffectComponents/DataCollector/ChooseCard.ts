@@ -1,42 +1,33 @@
-import MonsterField from "./../../Entites/MonsterField";
-import { MoveLootToPile } from "./../../Entites/Action";
-import {
-  CHOOSE_TYPE,
-
-  COLORS,
-  CARD_TYPE
-} from "./../../Constants";
-
-import { COLLECTORTYPE } from "../../Constants";
-import PlayerManager from "../../Managers/PlayerManager";
-
-import { ServerEffect } from "../../Entites/ServerCardEffect";
-import CardManager from "../../Managers/CardManager";
-import DataCollector from "./DataCollector";
-import Effect from "../CardEffects/Effect";
-import PlayLootCard from "../CardEffects/PlayLootCard";
-import Player from "../../Entites/GameEntities/Player";
-import Deck from "../../Entites/GameEntities/Deck";
-import Card from "../../Entites/GameEntities/Card";
 import Item from "../../Entites/CardTypes/Item";
+import Card from "../../Entites/GameEntities/Card";
+import Deck from "../../Entites/GameEntities/Deck";
+import Player from "../../Entites/GameEntities/Player";
 import ActionManager from "../../Managers/ActionManager";
-import Condition from "../CardConditions/Condition";
+import CardManager from "../../Managers/CardManager";
 import { EffectTarget } from "../../Managers/DataInterpreter";
+import PlayerManager from "../../Managers/PlayerManager";
+import { CARD_TYPE, CHOOSE_CARD_TYPE } from "./../../Constants";
+import MonsterField from "./../../Entites/MonsterField";
+import DataCollector from "./DataCollector";
+
+
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class ChooseCard extends DataCollector {
   collectorName = "ChooseCard";
-  isCardChosen: boolean = false;
+  isEffectChosen: boolean = false;
   cardChosen: cc.Node;
   playerId: number;
 
-  @property({ type: cc.Enum(CHOOSE_TYPE) })
-  chooseType: CHOOSE_TYPE = CHOOSE_TYPE.ALLPLAYERSITEMS;
+  isCardChosen: boolean = false;
+
+  @property({ type: cc.Enum(CHOOSE_CARD_TYPE) })
+  chooseType: CHOOSE_CARD_TYPE = CHOOSE_CARD_TYPE.ALL_PLAYERS_ITEMS;
 
   /**
-   *
+   *  @throws when there are no cards to choose from in the choose type
    * @param data cardPlayerId:Player who played the card
    * @returns {target:cc.node of the player who played the card}
    */
@@ -49,13 +40,14 @@ export default class ChooseCard extends DataCollector {
     );
     this.playerId = data.cardPlayerId;
     let cardsToChooseFrom = this.getCardsToChoose(this.chooseType, player);
+    if (cardsToChooseFrom.length == 0) {
+      throw 'No Cards To Choose From!'
+    }
     cc.log(cardsToChooseFrom.map(card => card.name))
     let cardChosenData: {
       cardChosenId: number;
       playerId: number;
     } = await this.requireChoosingACard(cardsToChooseFrom);
-    cc.log(cardChosenData.cardChosenId)
-    cc.log(CardManager.treasureDeck.getComponent(Deck)._cardId)
     let target = new EffectTarget(CardManager.getCardById(cardChosenData.cardChosenId, true))
     cc.log(`chosen ${target.effectTargetCard.name}`)
     return target;
@@ -77,13 +69,13 @@ export default class ChooseCard extends DataCollector {
     switch (data.deckType) {
       case CARD_TYPE.MONSTER:
         cardsToChooseFrom = this.getCardsToChoose(
-          CHOOSE_TYPE.MONSTERPLACES,
+          CHOOSE_CARD_TYPE.MONSTER_PLACES,
           player
         );
         break;
       case CARD_TYPE.TREASURE:
         cardsToChooseFrom = this.getCardsToChoose(
-          CHOOSE_TYPE.STOREPLACES,
+          CHOOSE_CARD_TYPE.STORE_PLACES,
           player
         );
         break;
@@ -97,12 +89,12 @@ export default class ChooseCard extends DataCollector {
     return cardChosenData;
   }
 
-  getCardsToChoose(chooseType: CHOOSE_TYPE, mePlayer?: Player, player?: Player) {
+  getCardsToChoose(chooseType: CHOOSE_CARD_TYPE, mePlayer?: Player, player?: Player) {
     let cardsToReturn: cc.Node[] = [];
     let players
     switch (chooseType) {
       //Get all available player char cards
-      case CHOOSE_TYPE.PLAYERS:
+      case CHOOSE_CARD_TYPE.ALL_PLAYERS:
         let playerCards: cc.Node[] = [];
         for (let index = 0; index < PlayerManager.players.length; index++) {
           mePlayer = PlayerManager.players[index].getComponent(Player);
@@ -111,23 +103,23 @@ export default class ChooseCard extends DataCollector {
         return playerCards;
         break;
       // Get all of the chosen player hand cards
-      case CHOOSE_TYPE.MYHAND:
+      case CHOOSE_CARD_TYPE.MY_HAND:
         return mePlayer.handCards;
         break;
-      case CHOOSE_TYPE.SPECIPICPLAYERHAND:
+      case CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND:
         return player.handCards
-      case CHOOSE_TYPE.DECKS:
+      case CHOOSE_CARD_TYPE.DECKS:
         cardsToReturn = CardManager.getAllDecks();
         return cardsToReturn;
-      case CHOOSE_TYPE.MONSTERPLACES:
+      case CHOOSE_CARD_TYPE.MONSTER_PLACES:
         let monsterPlaces = MonsterField.activeMonsters;
         return monsterPlaces;
-      case CHOOSE_TYPE.PLAYERNONETERNALS:
+      case CHOOSE_CARD_TYPE.PLAYER_NON_ETERNALS:
         cardsToReturn = mePlayer.deskCards.filter(
           card => !card.getComponent(Item).eternal
         );
         return cardsToReturn;
-      case CHOOSE_TYPE.ALLPLAYERSITEMS:
+      case CHOOSE_CARD_TYPE.ALL_PLAYERS_ITEMS:
         cardsToReturn
         players = PlayerManager.players.map(player => player.getComponent(Player))
         for (const player of players) {
@@ -136,7 +128,7 @@ export default class ChooseCard extends DataCollector {
           cardsToReturn = cardsToReturn.concat(player.activeItems)
         }
         return cardsToReturn;
-      case CHOOSE_TYPE.ALLPLAYERSACTIVATEDITEMS:
+      case CHOOSE_CARD_TYPE.ALL_PLAYERS_ACTIVATED_ITEMS:
         cardsToReturn
 
         players = PlayerManager.players.map(player => player.getComponent(Player))
@@ -151,7 +143,7 @@ export default class ChooseCard extends DataCollector {
           }))
         }
         return cardsToReturn;
-      case CHOOSE_TYPE.ALLPLAYERSNONACTIVATEDITEMS:
+      case CHOOSE_CARD_TYPE.ALL_PLAYERS_NON_ACTIVATED_ITEMS:
         cardsToReturn
         players = PlayerManager.players.map(player => player.getComponent(Player))
         for (const player of players) {
@@ -165,22 +157,22 @@ export default class ChooseCard extends DataCollector {
           }))
         }
         return cardsToReturn;
-      case CHOOSE_TYPE.PLAYERITEMS:
+      case CHOOSE_CARD_TYPE.PLAYER_ITEMS:
         cardsToReturn = mePlayer.deskCards.filter(
           card => !card.getComponent(Item).eternal
         );
         return cardsToReturn;
-      case CHOOSE_TYPE.PLAYERACTIVATEDITEMS:
+      case CHOOSE_CARD_TYPE.PLAYER_ACTIVATED_ITEMS:
         cardsToReturn = mePlayer.deskCards.filter(
           card => card.getComponent(Item).activated
         );
         return cardsToReturn;
-      case CHOOSE_TYPE.PLAYERNONACTIVATEDITEMS:
+      case CHOOSE_CARD_TYPE.PLAYER_NON_ACTIVATED_ITEMS:
         cardsToReturn = mePlayer.deskCards.filter(
           card => !card.getComponent(Item).activated
         );
         return cardsToReturn;
-      case CHOOSE_TYPE.PLAYERSANDACTIVEMONSTERS:
+      case CHOOSE_CARD_TYPE.PLAYERSANDACTIVEMONSTERS:
         playerCards = [];
         for (let index = 0; index < PlayerManager.players.length; index++) {
           mePlayer = PlayerManager.players[index].getComponent(Player);
@@ -200,7 +192,6 @@ export default class ChooseCard extends DataCollector {
     ActionManager.inReactionPhase = true;
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];
-      cc.log(card)
       CardManager.disableCardActions(card);
       CardManager.makeRequiredForDataCollector(this, card);
     }
@@ -209,7 +200,7 @@ export default class ChooseCard extends DataCollector {
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];
       CardManager.unRequiredForDataCollector(card);
-      CardManager.disableCardActions(card);
+      //  CardManager.disableCardActions(card);
     }
     let cardId;
     if (cardPlayed.getComponent(Deck) == null) {
@@ -218,9 +209,7 @@ export default class ChooseCard extends DataCollector {
       cardId = cardPlayed.getComponent(Deck)._cardId;
     }
     ActionManager.inReactionPhase = false;
-    return new Promise((resolve, reject) => {
-      resolve({ cardChosenId: cardId, playerId: this.playerId });
-    });
+    return { cardChosenId: cardId, playerId: this.playerId }
   }
 
   async waitForCardToBeChosen(): Promise<cc.Node> {

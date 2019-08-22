@@ -1,6 +1,6 @@
 import TurnsManager from "./Managers/TurnsManager";
 import { MAX_PLAYERS } from "./Constants";
-import Server from "../ServerClient/ServerClient";
+import ServerClient from "../ServerClient/ServerClient";
 import PlayLootCard from "./CardEffectComponents/CardEffects/PlayLootCard";
 import PlayerManager from "./Managers/PlayerManager";
 import Player from "./Entites/GameEntities/Player";
@@ -30,21 +30,17 @@ export default class buttonScript extends cc.Component {
   // }
 
   changePlayers() {
-    id = (id + 1) % Server.numOfPlayers;
+    id = (id + 1) % ServerClient.numOfPlayers;
     if (id == 0) {
       id = 2;
     }
     return id;
   }
 
-  nextTurnClick() {
-    var turnComp: TurnsManager = cc
-      .find("MainScript/TurnsManager")
-      .getComponent(TurnsManager);
-    let turnPlayer = PlayerManager.getPlayerById(
-      TurnsManager.currentTurn.PlayerId
-    );
-    turnPlayer.getComponent(Player).endTurn(true);
+  async nextTurnClick() {
+    let turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
+
+    await turnPlayer.getComponent(Player).endTurn(true);
   }
 
   addNewCard() {

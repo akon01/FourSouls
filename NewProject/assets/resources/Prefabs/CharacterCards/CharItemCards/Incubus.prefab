@@ -341,6 +341,7 @@
       }
     ],
     "_effectCard": null,
+    "hasPlayerChoiceToActivateInChainEffects": false,
     "effectsToChain": [
       {
         "__id__": 10
@@ -370,6 +371,7 @@
       }
     ],
     "_effectCard": null,
+    "hasPlayerChoiceToActivateInChainEffects": false,
     "_id": ""
   },
   {
@@ -530,7 +532,7 @@
     "sync": false
   },
   {
-    "__type__": "eb2a0na5X5Km6YOAqNtGKMi",
+    "__type__": "b0e7bJPSSVD4ZOj4DPNL2/L",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -548,11 +550,12 @@
       }
     ],
     "_effectCard": null,
+    "hasPlayerChoiceToActivateInChainEffects": true,
     "_id": ""
   },
   {
     "__type__": "cc.Node",
-    "_name": "TakeLootFromPlayer",
+    "_name": "SwitchLootWithPlayer",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -593,7 +596,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -63.916,
+      "y": 0,
       "z": 0
     },
     "_scale": {
@@ -692,7 +695,7 @@
     "asset": {
       "__uuid__": "c329a523-0c34-497c-8410-400f060640e2"
     },
-    "fileId": "13Ol0xoIVGWYFzhZcqDfXU",
+    "fileId": "f3ausIkUFDertP/hWVOQF8",
     "sync": false
   },
   {
@@ -703,7 +706,7 @@
     "asset": {
       "__uuid__": "c329a523-0c34-497c-8410-400f060640e2"
     },
-    "fileId": "a8LWaPss5E97G7Y6gxfE9A",
+    "fileId": "05zd7Tk5hOY76uGhLUhrqN",
     "sync": false
   },
   {
@@ -881,6 +884,7 @@
       }
     ],
     "_effectCard": null,
+    "hasPlayerChoiceToActivateInChainEffects": false,
     "_id": ""
   },
   {
@@ -996,6 +1000,7 @@
     "multiEffectCollector": {
       "__id__": 3
     },
+    "hasRollLock": false,
     "effectData": null,
     "data": {},
     "hasMultipleEffects": true,

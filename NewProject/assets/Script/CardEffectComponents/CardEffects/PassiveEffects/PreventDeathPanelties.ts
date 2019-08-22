@@ -1,9 +1,8 @@
-import PlayerManager from "../../Managers/PlayerManager";
-import DataCollector from "../DataCollector/DataCollector";
-import { ServerEffect } from "./../../Entites/ServerCardEffect";
-import Effect from "./Effect";
-import Player from "../../Entites/GameEntities/Player";
-import CardManager from "../../Managers/CardManager";
+import StackEffectInterface from "../../../StackEffects/StackEffectInterface";
+
+import Effect from "../Effect";
+import DataCollector from "../../DataCollector/DataCollector";
+
 
 const { ccclass, property } = cc._decorator;
 
@@ -18,7 +17,7 @@ export default class PreventDeathPenalties extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(serverEffectStack: ServerEffect[], args?) {
+  async doEffect(stack: StackEffectInterface[], args?) {
     let terminateOriginal = args.terminateOriginal;
     terminateOriginal = true;
     let args2 = args.newArgs;

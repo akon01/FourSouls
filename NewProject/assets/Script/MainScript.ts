@@ -8,7 +8,7 @@ import ActionManager from "./Managers/ActionManager";
 import ButtonManager from "./Managers/ButtonManager";
 import CardManager from "./Managers/CardManager";
 
-import Server from "../ServerClient/ServerClient";
+import ServerClient from "../ServerClient/ServerClient";
 
 import PileManager from "./Managers/PileManager";
 import MonsterField from "./Entites/MonsterField";
@@ -21,6 +21,8 @@ import CardPreview from "./Entites/CardPreview";
 import Signal from "../Misc/Signal";
 import { ContainerBuilder } from "@ts-ioc/core";
 import { AopModule } from "@ts-ioc/aop";
+import Stack from "./Entites/Stack";
+import { STACK_EFFECT_TYPE } from "./Constants";
 
 //( id represents a human player and it coresponds with playerID)
 let id = 1;
@@ -72,19 +74,22 @@ export default class MainScript extends cc.Component {
   @property(cc.Node)
   monsterField: cc.Node = null;
 
+  @property
+  _stackShow: cc.Label = null;
+
   // LIFE-CYCLE CALLBACKS:
 
   async onLoad() {
     if (cc.find("ServerClient") != null) {
-      let ServerClient: Server = cc
+      let serverClient: ServerClient = cc
         .find("ServerClient")
-        .getComponent(Server);
-      MainScript.serverId = ServerClient.pid;
+        .getComponent(ServerClient);
+      MainScript.serverId = serverClient.pid;
     } else {
       MainScript.serverId = 1;
     }
 
-    cc.log('111')
+    this._stackShow = cc.find('Canvas/StackShow').getComponent(cc.Label)
 
     //set up screen size
     var canvas = this.canvasNode.getComponent(cc.Canvas);
@@ -122,6 +127,7 @@ export default class MainScript extends cc.Component {
     //set up Players
     await PlayerManager.init(MainScript.serverId);
 
+
     //Set up Turns
 
     TurnsManager.init();
@@ -139,7 +145,7 @@ export default class MainScript extends cc.Component {
 
     //deal player cards
 
-    PlayerManager.assingCharacters();
+
 
     //deal two treasures and  two monsters
     //this.node.on("decksDone", () => {
@@ -168,7 +174,7 @@ export default class MainScript extends cc.Component {
       .getComponent(cc.Label);
 
     currentTurnLableComp.string =
-      "current turn is:" + TurnsManager.getCurrentTurn().PlayerId;
+      "Turn " + TurnsManager.getCurrentTurn().PlayerId;
 
     //set up player lable
     var currentPlayerLableComp = cc
@@ -176,7 +182,7 @@ export default class MainScript extends cc.Component {
       .getChildByName("current Player")
       .getComponent(cc.Label);
 
-    currentPlayerLableComp.string = "current player is:" + MainScript.serverId;
+    currentPlayerLableComp.string = "Player " + MainScript.serverId;
 
     cc.director.getScene().on("monsterAttacked", () => {
 
@@ -193,20 +199,83 @@ export default class MainScript extends cc.Component {
     //ActionManager.updateActions();
     let playerId = PlayerManager.mePlayer.getComponent(Player).playerId
     let turnPlayerId = TurnsManager.currentTurn.PlayerId
-    Server.$.send(Signal.FINISHLOAD, { id: playerId, turnPlayerId: turnPlayerId })
+    ServerClient.$.send(Signal.FINISH_LOAD, { id: playerId, turnPlayerId: turnPlayerId })
 
+
+    this.node.on(`gameOver`, (playerWhoWonId => {
+      cc.director.loadScene("Game Over", () => {
+        let wonString = cc.find('Canvas/playerWon').getComponent(cc.RichText)
+        wonString.string = ' <color=#0fffff > player ' + playerWhoWonId + ' won < /color>'
+      });
+    }))
+
+    //await
     // ActionManager.updateActions()
   }
 
+  static async startGame() {
+    await PlayerManager.assingCharacters(true);
+    let startingPlayer: Player;
+    let firstTurn: Turn
+    for (const player of PlayerManager.players) {
+      if (player.getComponent(Player).character.name == "Cain") {
+        startingPlayer = player.getComponent(Player)
+        break;
+      }
+    }
+    if (startingPlayer != null) {
+
+      firstTurn = TurnsManager.getTurnByPlayerId(startingPlayer.playerId)
+    } else {
+      let randPlayerNumber = Math.floor(Math.random() * PlayerManager.players.length)
+      cc.log(randPlayerNumber
+      )
+      for (const player of PlayerManager.players) {
+        if (player.getComponent(Player).playerId == randPlayerNumber + 1) {
+          startingPlayer = player.getComponent(Player)
+          break;
+        }
+      }
+
+      firstTurn = TurnsManager.getTurnByPlayerId(startingPlayer.playerId)
+    }
+    await Store.$.addStoreCard(true)
+    await Store.$.addStoreCard(true)
+    let ids = MonsterField.getMonsterCardHoldersIds()
+    for (let i = 0; i < ids.length; i++) {
+      const mosnterHolderId = ids[i];
+      let newMonster = CardManager.monsterDeck.getComponent(Deck).drawCard(true)
+      await MonsterField.addMonsterToExsistingPlace(mosnterHolderId, newMonster, true)
+    }
+    // await CardManager.checkForEmptyFields();
+    // await CardManager.updateOnTableCards();
+    // await CardManager.updatePlayerCards();
+    await ActionManager.updateActions()
+    for (const player of PlayerManager.players) {
+      let comp = player.getComponent(Player)
+      await comp.changeMoney(3, true)
+      for (let o = 0; o < 3; o++) {
+        await comp.drawCard(CardManager.lootDeck, true)
+
+      }
+    }
+    TurnsManager.setCurrentTurn(firstTurn, true)
+  }
+
   static async makeFirstUpdateActions(playerId) {
-
-
-
+    //TurnsManager.endTurn()
+    //  await TurnsManager.currentTurn.getTurnPlayer().endTurn(true)
+    cc.log(`make first update`)
     if (PlayerManager.mePlayer.getComponent(Player).playerId == playerId) {
+      cc.log(`make first update 2`)
 
-      let over = await ActionManager.updateActions();
+      await MainScript.startGame()
+      await ActionManager.updateActions()
 
-      Server.$.send(Signal.UPDATEACTIONS)
+      // let over = await ActionManager.updateActions();
+
+      ServerClient.$.send(Signal.UPDATE_ACTIONS)
+
     }
   }
 
@@ -226,5 +295,70 @@ export default class MainScript extends cc.Component {
 
   start() { }
 
-  // update (dt) {}
+  update(dt) {
+    if (Stack._currentStack.length == 0) {
+      this._stackShow.string = "Empty Stack"
+    } else {
+      let stackText: string = '';
+      for (const stackEffect of Stack._currentStack) {
+        let type;
+        switch (stackEffect.stackEffectType) {
+          case 1:
+            type = "ACTIVATE ITEM"
+            break;
+          case 2:
+            type = "ATTACK_ROLL"
+            break;
+          case 3:
+            type = "COMBAT_DAMAGE"
+            break;
+          case 4:
+            type = "DECLARE_ATTACK"
+            break;
+          case 5:
+            type = "MONSTER_DEATH"
+            break;
+          case 6:
+            type = "MONSTER_END_DEATH"
+            break;
+          case 7:
+            type = "MONSTER_REWARD"
+            break;
+          case 8:
+            type = "PLAY_LOOT_CARD"
+            break;
+          case 9:
+            type = "  PURCHASE_ITEM"
+            break;
+          case 10:
+            type = "REFILL_EMPTY_SLOT"
+            break;
+          case 11:
+            type = "ROLL_DICE"
+            break;
+          case 12:
+
+            type = "TAKE_DAMAGE"
+            break;
+          case 13:
+            type = "START_TURN_LOOT"
+            break
+          case 14:
+            type = "ACTIVATE_PASSIVE_EFFECT"
+            break
+          case 15:
+            type = "PLAYER_DEATH"
+            break;
+          case 16:
+            type = "PLAYER_DEATH_PENALTY"
+            break
+          default:
+            break;
+        }
+
+        stackText = stackText.concat(' \n' + type + ' by ' + CardManager.getCardById(stackEffect.creatorCardId).name)
+      }
+      this._stackShow.string = stackText
+    }
+  }
 }

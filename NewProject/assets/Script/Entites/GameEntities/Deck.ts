@@ -1,7 +1,7 @@
 import { CARD_TYPE, CARD_WIDTH, CARD_HEIGHT } from "../../Constants";
 import CardManager from "../../Managers/CardManager";
 import DataCollector from "../../CardEffectComponents/DataCollector/DataCollector";
-import Server from "../../../ServerClient/ServerClient";
+import ServerClient from "../../../ServerClient/ServerClient";
 import Signal from "../../../Misc/Signal";
 import Card from "./Card";
 
@@ -33,6 +33,8 @@ export default class Deck extends cc.Component {
   @property
   _requiredFor: DataCollector = null;
 
+  @property
+  _hasEventsBeenModified: boolean = false;
 
   addToDeckOnTop(card: cc.Node, sendToServer: boolean) {
     this._cards.push(card);
@@ -40,25 +42,23 @@ export default class Deck extends cc.Component {
     //CardManager.monsterCardPool.put(card);
     card.setParent(null)
     let serverData = {
-      signal: Signal.DECKADDTOTOP,
+      signal: Signal.DECK_ADD_TO_TOP,
       srvData: { deckType: this.deckType, cardId: card.getComponent(Card)._cardId }
     };
     if (sendToServer) {
-      Server.$.send(serverData.signal, serverData.srvData)
+      ServerClient.$.send(serverData.signal, serverData.srvData)
     }
   }
   drawCard(sendToServer: boolean): cc.Node {
-
     if (this._cards.length != 0) {
       let newCard = this._cards.pop();
-
       if (newCard.parent == null) {
         newCard.parent = cc.find('Canvas')
         newCard.setPosition(this.node.getPosition())
       }
       CardManager.removeFromInAllDecksCards(newCard);
       if (sendToServer) {
-        Server.$.send(Signal.DRAWCARD, { deckType: this.deckType })
+        ServerClient.$.send(Signal.DRAW_CARD, { deckType: this.deckType })
       }
       return newCard;
     } else {
@@ -72,11 +72,11 @@ export default class Deck extends cc.Component {
     CardManager.inDecksCards.push(card);
     card.setParent(null)
     let serverData = {
-      signal: Signal.DECKADDTOBOTTOM,
+      signal: Signal.DECK_ADD_TO_BOTTOM,
       srvData: { deckType: this.deckType, cardId: card.getComponent(Card)._cardId }
     };
     if (sendToServer) {
-      Server.$.send(serverData.signal, serverData.srvData)
+      ServerClient.$.send(serverData.signal, serverData.srvData)
     }
   }
 

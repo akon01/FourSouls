@@ -44,7 +44,7 @@ export default class AtSpecificHp extends Condition {
       subject.name == cardOwner.name &&
       meta.methodName == "getHit"
     ) {
-      if (subject.getComponent(Player).Hp == this.specificHp) {
+      if (subject.getComponent(Player)._Hp == this.specificHp) {
         this.isActive = true
         return true;
       } else if (this.isActive) {

@@ -5,8 +5,12 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MonsterReward extends cc.Component {
-  @property(DataCollector)
-  dataCollector: DataCollector = null;
+
+  @property({ override: true })
+  hasRoll: boolean = false
+
+
+  rollNumber: number = 0;;
 
   async rewardPlayer(playerToReward: cc.Node, sendToServer: boolean): Promise<any> { }
 

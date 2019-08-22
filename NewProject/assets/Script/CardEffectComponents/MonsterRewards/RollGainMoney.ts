@@ -9,11 +9,12 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class RollGainMoney extends MonsterReward {
-  @property({
-    type: DataCollector,
-    override: true
-  })
-  dataCollector: RollDice = null;
+
+  @property({ override: true })
+  hasRoll: boolean = true
+
+  rollNumber: number = 0;
+
 
   @property
   numOfMoneyToAdd: number = 0;
@@ -22,7 +23,7 @@ export default class RollGainMoney extends MonsterReward {
     let player = playerToReward.getComponent(Player)
     let diceId = player.dice.diceId
 
-    let rollAnswer = await player.rollDice(ROLL_TYPE.EFFECTROLL)
+    let rollAnswer = this.rollNumber
     // let rollAnswer = await this.dataCollector.collectData({ cardPlayerId: player.playerId, cardId: diceId })
 
     //await player.changeMoney(rollAnswer.numberRolled, sendToServer)

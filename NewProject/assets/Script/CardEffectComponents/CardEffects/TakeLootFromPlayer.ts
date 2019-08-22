@@ -1,7 +1,7 @@
 import CardManager from "../../Managers/CardManager";
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_TYPE, TARGETTYPE } from "./../../Constants";
+import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
 import { ServerEffect } from "./../../Entites/ServerCardEffect";
 import Effect from "./Effect";
 import Player from "../../Entites/GameEntities/Player";
@@ -9,6 +9,7 @@ import ChooseCard from "../DataCollector/ChooseCard";
 import Card from "../../Entites/GameEntities/Card";
 import Deck from "../../Entites/GameEntities/Deck";
 import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 
 
 const { ccclass, property } = cc._decorator;
@@ -23,24 +24,35 @@ export default class TakeLootFromPlayer extends Effect {
    * @param data {lootPlayedId:number,playerId:number}
    */
   async doEffect(
-    serverEffectStack: ServerEffect[],
+    stack: StackEffectInterface[],
     data?: ActiveEffectData
   ) {
 
-    let players = data.getTargets(TARGETTYPE.PLAYER).map(target => PlayerManager.getPlayerByCard(target))
+    let playersCards = data.getTargets(TARGETTYPE.PLAYER)
+    let players = []
+    for (let i = 0; i < playersCards.length; i++) {
+      const playerCard = playersCards[i];
+      if (playerCard instanceof cc.Node) {
+        players.push(playerCard)
+      }
+    }
     let playerToTakeFrom = players[0]
     let playerToGiveTo = players[1]
-    let chooseCard = new ChooseCard();
-    ;
-    let playerHand = chooseCard.getCardsToChoose(CHOOSE_TYPE.SPECIPICPLAYERHAND, null, playerToTakeFrom)
-    let chosenData = await chooseCard.requireChoosingACard(playerHand)
+    if (playerToGiveTo == null || playerToTakeFrom == null) {
+      cc.log(`one of the players is null`)
+    } else {
+      let chooseCard = new ChooseCard();
 
-    let cardToTake = CardManager.getCardById(chosenData.cardChosenId, true)
+      let playerHand = chooseCard.getCardsToChoose(CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND, null, playerToTakeFrom)
+      let chosenData = await chooseCard.requireChoosingACard(playerHand)
 
-    await playerToTakeFrom.loseLoot(cardToTake, true)
+      let cardToTake = CardManager.getCardById(chosenData.cardChosenId, true)
 
-    await CardManager.moveCardTo(cardToTake, playerToGiveTo.hand.node, true)
-    await playerToGiveTo.gainLoot(cardToTake, true)
-    return serverEffectStack
+      await playerToTakeFrom.loseLoot(cardToTake, true)
+
+      await CardManager.moveCardTo(cardToTake, playerToGiveTo.hand.node, true, false)
+      await playerToGiveTo.gainLoot(cardToTake, true)
+    }
+    return stack
   }
 }

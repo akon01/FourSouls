@@ -3,8 +3,9 @@ import Condition from "./Condition";
 import Player from "../../Entites/GameEntities/Player";
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_TYPE } from "../../Constants";
+import { CHOOSE_CARD_TYPE, TARGETTYPE } from "../../Constants";
 import { PassiveMeta } from "../../Managers/PassiveManager";
+import { ActiveEffectData } from "../../Managers/DataInterpreter";
 
 const { ccclass, property } = cc._decorator;
 
@@ -12,20 +13,30 @@ const { ccclass, property } = cc._decorator;
 export default class PlayerPayPenalties extends Condition {
 
 
-  conditionData = null;
+  conditionData: ActiveEffectData = null;
 
   async testCondition(meta: PassiveMeta) {
     let player: Player = meta.methodScope.getComponent(Player);
     let thisCard = this.node.parent.parent;
-    let playerName = PlayerManager.getPlayerByCardId(this.conditionData.cardChosenId).name;
-    if (
-      player instanceof Player &&
-      player.name == playerName &&
-      meta.methodName == "payPenalties"
-    ) {
-      return true;
+    cc.log(this.conditionData)
+    //   let playerName = PlayerManager.getPlayerByCardId(this.conditionData.cardChosenId).name; 
+    let selectedPlayer = this.conditionData.getTarget(TARGETTYPE.PLAYER)
+    if (selectedPlayer == null) {
+      cc.log('no selected player')
     } else {
-      return false;
+      if (selectedPlayer instanceof cc.Node) {
+        if (
+          player instanceof Player &&
+          player.playerId == selectedPlayer.getComponent(Player).playerId &&
+          meta.methodName == "payPenalties"
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      }
     }
+    cc.log(selectedPlayer)
+
   }
 }

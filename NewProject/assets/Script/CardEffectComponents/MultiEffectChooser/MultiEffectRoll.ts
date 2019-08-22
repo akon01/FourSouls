@@ -42,37 +42,14 @@ export default class MultiEffectRoll extends DataCollector {
     let numberRolled = await diceRoll.collectData({ cardPlayerId: data.cardPlayerId, cardId: player.dice.diceId });
     let cardEffectComp = card.getComponent(CardEffect);
     let effects: cc.Node[] = [];
-    // switch (this.effectsType) {
-    //   case ITEM_TYPE.ACTIVE:
     effects = effects.concat(cardEffectComp.activeEffects, cardEffectComp.paidEffects, cardEffectComp.passiveEffects)
-    // case ITEM_TYPE.PAID:
-    //   effects = cardEffectComp.paidEffects;
-    //   break;
-    // case ITEM_TYPE.PASSIVE:
-    //effects = cardEffectComp.passiveEffects;
-    //     break;
-    //   default:
-    //     break;
-    // }
-
-
-
     let chosenEffect: Effect = null;
     for (let i = 0; i < this.effectsAndNumbers.length; i++) {
       const eAn = this.effectsAndNumbers[i];
       let index = eAn.numbers.find((number) => { if (number == numberRolled) return true })
       if (index != null) {
         chosenEffect = eAn.effect
-        // 
-        // 
-        // for (let j = 0; j < effects.length; j++) {
-        //   const effect = effects[j];
-        //   
-        //   if (effect.getComponent(Effect).name == eAn.effect.name) {
 
-        //     chosenEffect = effect.getComponent(Effect);
-        //   }
-        // }
         break;
       }
 
@@ -80,5 +57,26 @@ export default class MultiEffectRoll extends DataCollector {
     cc.log(chosenEffect.name)
     return chosenEffect;
   }
-}
 
+
+
+  getEffectByNumberRolled(numberRolled: number, cardPlayed: cc.Node) {
+    let cardEffectComp = cardPlayed.getComponent(CardEffect);
+    let effects: cc.Node[] = [];
+    effects = effects.concat(cardEffectComp.activeEffects, cardEffectComp.paidEffects, cardEffectComp.passiveEffects)
+    let chosenEffect: Effect = null;
+    for (let i = 0; i < this.effectsAndNumbers.length; i++) {
+      const eAn = this.effectsAndNumbers[i];
+      let index = eAn.numbers.find((number) => { if (number == numberRolled) return true })
+      if (index != null) {
+        chosenEffect = eAn.effect
+
+        break;
+      }
+
+    }
+    cc.log(chosenEffect.name)
+    return chosenEffect;
+
+  }
+}

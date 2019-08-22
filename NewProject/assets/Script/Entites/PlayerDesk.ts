@@ -31,12 +31,14 @@ export default class PlayerDesk extends cc.Component {
   _playerId: number = 0;
 
   addToDesk(card: Card) {
-
-    let deskComp: PlayerDesk = this.node.getComponent(PlayerDesk);
+    cc.log(`add ${card.name} to ${this.node.name}`)
+    let deskComp: PlayerDesk = this;
     card._isOnDesk = true;
     let itemComp = card.getComponent(Item);
+    card.node.parent = cc.find('Canvas')
     switch (itemComp.type) {
       case ITEM_TYPE.ACTIVE:
+        cc.log(`active item`)
         addCardToCardLayout(
           card.node,
           deskComp.activeItemLayout.getComponent(CardLayout),
@@ -44,6 +46,7 @@ export default class PlayerDesk extends cc.Component {
         );
         break;
       case ITEM_TYPE.PASSIVE:
+        cc.log(`passive item`)
         addCardToCardLayout(
           card.node,
           deskComp.passiveItemLayout.getComponent(CardLayout),
@@ -51,6 +54,7 @@ export default class PlayerDesk extends cc.Component {
         );
         break;
       default:
+        cc.log(`deafult add to desk`)
         break;
     }
   }

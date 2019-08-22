@@ -8,11 +8,11 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class RollGainLoot extends MonsterReward {
-  @property({
-    type: DataCollector,
-    override: true
-  })
-  dataCollector: RollDice = null;
+
+  @property({ override: true })
+  hasRoll: boolean = true
+
+  rollNumber: number = 0;
 
   @property
   numOfLootToAdd: number = 0;
@@ -20,11 +20,11 @@ export default class RollGainLoot extends MonsterReward {
   async rewardPlayer(playerToReward: cc.Node, sendToServer: boolean) {
     let player = playerToReward.getComponent(Player)
     let diceId = player.dice.diceId
-    let rollAnswer = await this.dataCollector.collectData({ cardPlayerId: player.playerId, cardId: diceId })
-    for (let index = 0; index < rollAnswer.numberRolled; index++) {
+    let rollAnswer = this.rollNumber
+    for (let index = 0; index < rollAnswer; index++) {
       await player.drawCard(CardManager.lootDeck, sendToServer)
     }
-    return new Promise((resolve, reject) => resolve(true))
+    return true
 
   }
 

@@ -13,8 +13,8 @@ import MainScript from "../Script/MainScript";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class Server extends cc.Component {
-  static $: Server = null;
+export default class ServerClient extends cc.Component {
+  static $: ServerClient = null;
   static players: Player[] = [];
   static numOfPlayers: number = null;
   @property(WebSocket)
@@ -23,83 +23,108 @@ export default class Server extends cc.Component {
   reactionCounter = 0;
 
   onLoad() {
-    Server.$ = this;
+    ServerClient.$ = this;
 
     whevent.on(Events.MULTIPLAYER, this.connect, this);
 
-    whevent.on(Signal.MOVETOTABLE, this.onMoveToTable, this);
-    whevent.on(Signal.NEXTTURN, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.MOVE_TO_TABLE, this.onMoveToTable, this);
+    whevent.on(Signal.NEXT_TURN, this.onPlayerActionFromServer, this);
     whevent.on(Signal.UUID, this.onUUID, this);
     whevent.on(Signal.JOIN, this.onJoin, this);
-    whevent.on(Signal.STARTGAME, this.onStartGame, this);
+    whevent.on(Signal.START_GAME, this.onStartGame, this);
     whevent.on(Signal.LEAVE, this.onLeave, this);
-    whevent.on(Signal.FINISHLOAD, this.onFinishLoad, this);
-    whevent.on(Signal.UPDATEACTIONS, this.onUpdateActions, this);
-    whevent.on(Signal.PLAYLOOTCARD, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.DECLAREATTACK, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.ADDANITEM, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.GETREACTION, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.FIRSTGETREACTION, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.ENDROLLACTION, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.RESOLVEACTIONS, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.FINISH_LOAD, this.onFinishLoad, this);
+    whevent.on(Signal.UPDATE_ACTIONS, this.onUpdateActions, this);
+    whevent.on(Signal.PLAY_LOOT_CARD, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.DECLARE_ATTACK, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.ADD_AN_ITEM, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.GET_REACTION, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.FIRST_GET_REACTION, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.END_ROLL_ACTION, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.RESOLVE_ACTIONS, this.onPlayerActionFromServer, this);
     whevent.on(
-      Signal.OTHERPLAYERRESOLVEREACTION,
+      Signal.OTHER_PLAYER_RESOLVE_REACTION,
       this.onPlayerActionFromServer,
       this
     );
-    whevent.on(Signal.DISCRADLOOT, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.ACTIVATEITEM, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.DISCARD_LOOT, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.ACTIVATE_ITEM, this.onPlayerActionFromServer, this);
 
-    whevent.on(Signal.SHOWCARDPREVIEW, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.ROLLDICE, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.ROLLDICEENDED, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.SHOW_CARD_PREVIEW, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.ROLL_DICE, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.ROLL_DICE_ENDED, this.onPlayerActionFromServer, this);
 
-    whevent.on(Signal.MOVECARDTOPILE, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.GETSOUL, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.REMOVEMONSTER, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.ADDMONSTER, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.DRAWCARD, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.FIRSTGETREACTION, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.CHANGEMONEY, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.ADDSTORECARD, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.UPDATEPASSIVESOVER, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.REGISTERPASSIVEITEM, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.REGISTERONETURNPASSIVEEFFECT, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.SETMONEY, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.MOVE_CARD_TO_PILE, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.GET_SOUL, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.REMOVE_MONSTER, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.ADD_MONSTER, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.DRAW_CARD, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.FIRST_GET_REACTION, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.CHANGE_MONEY, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.ADD_STORE_CARD, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.UPDATE_PASSIVES_OVER, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.REGISTER_PASSIVE_ITEM, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.REGISTER_ONE_TURN_PASSIVE_EFFECT, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.SET_MONEY, this.onPlayerActionFromServer, this);
 
     //player events
-    whevent.on(Signal.PLAYERGAINATTACKROLLBONUS, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.PLAYERGAINDMG, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.PLAYERGAINFIRSTATTACKROLLBONUS, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.PLAYERGAINHP, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.PLAYERGAINROLLBONUS, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.PLAYERGETHIT, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.PLAYERRECHARGEITEM, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.PLAYLOOTCARD, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.PLAYERGETLOOT, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.PLAYERLOSELOOT, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYER_GAIN_ATTACK_ROLL_BONUS, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYER_GAIN_DMG, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYER_GAIN_FIRST_ATTACK_ROLL_BONUS, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYER_GAIN_HP, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYER_GAIN_ROLL_BONUS, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYER_GET_HIT, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYER_RECHARGE_ITEM, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAY_LOOT_CARD, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYER_GET_LOOT, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYER_LOSE_LOOT, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.RESPOND_TO, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.DO_STACK_EFFECT, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.FINISH_DO_STACK_EFFECT, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.GIVE_PLAYER_PRIORITY, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.TURN_PLAYER_DO_STACK_EFFECT, this.onPlayerActionFromServer, this);
 
 
 
     //monster events
-    whevent.on(Signal.MONSTERGAINDMG, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.MONSTERGAINHP, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.MONSTERGAINROLLBONUS, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.MONSTERGETDAMAGED, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.MONSTER_GAIN_DMG, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.MONSTER_GAIN_HP, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.MONSTER_GAIN_ROLL_BONUS, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.MONSTER_GET_DAMAGED, this.onPlayerActionFromServer, this);
 
 
     //board events
-    whevent.on(Signal.MOVECARD, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.MOVECARDEND, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.NEWMONSTERONPLACE, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.GETNEXTMONSTER, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.RECHARGEITEM, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.USEITEM, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.MOVE_CARD, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.MOVE_CARD_END, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.NEW_MONSTER_ON_PLACE, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.GET_NEXT_MONSTER, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.RECHARGE_ITEM, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.USE_ITEM, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.SET_TURN, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.ASSIGN_CHAR_TO_PLAYER, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.FLIP_CARD, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.BUY_ITEM_FROM_SHOP, this.onPlayerActionFromServer, this);
 
     //deck event
-    whevent.on(Signal.DECKADDTOTOP, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.DECKADDTOBOTTOM, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.CARDDRAWED, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.DECK_ADD_TO_TOP, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.DECK_ADD_TO_BOTTOM, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.CARD_DRAWN, this.onPlayerActionFromServer, this);
+
+    //stack events
+    whevent.on(Signal.REPLACE_STACK, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.REMOVE_FROM_STACK, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.ADD_TO_STACK, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.ADD_RESOLVING_STACK_EFFECT, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.REMOVE_RESOLVING_STACK_EFFECT, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.UPDATE_STACK_VIS, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.NEXT_STACK_ID, this.onPlayerActionFromServer, this);
+
+    //Eden events
+    whevent.on(Signal.EDEN_CHOSEN, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.CHOOSE_FOR_EDEN, this.onPlayerActionFromServer, this);
+
+    //Action Lable
+    whevent.on(Signal.ACTION_MASSAGE, this.onPlayerActionFromServer, this);
   }
 
 
@@ -110,22 +135,24 @@ export default class Server extends cc.Component {
 
   onMoveToTable({ playerID, numOfPlayers }) {
     this.pid = playerID;
-    Server.numOfPlayers = numOfPlayers;
-    cc.log("Server num of players is " + Server.numOfPlayers);
+    ServerClient.numOfPlayers = numOfPlayers;
+    cc.log("Server num of players is " + ServerClient.numOfPlayers);
   }
 
   onFinishLoad({ id }) {
+    cc.log('on finish load')
     MainScript.makeFirstUpdateActions(id)
   }
 
-  onUpdateActions() {
-    ActionManager.updateActions()
+  async onUpdateActions() {
+    cc.log('update actions from server')
+    await ActionManager.updateActions()
   }
 
   onDestroy() {
     whevent.off(Events.MULTIPLAYER, this.connect, this);
     whevent.off(Signal.JOIN, this.onJoin, this);
-    whevent.off(Signal.STARTGAME, this.onStartGame, this);
+    whevent.off(Signal.START_GAME, this.onStartGame, this);
     whevent.off(Signal.LEAVE, this.onLeave, this);
   }
 
@@ -136,12 +163,13 @@ export default class Server extends cc.Component {
       let serverIp = "ws://" + serverLable.string;
 
       this.ws = new WebSocket(serverIp);
+
     }
 
     let onOpen = this.onOpen.bind(this);
     let onMessage = this.onMessage.bind(this);
     let onClose = this.onClose.bind(this);
-    cc.log(this.ws);
+
     this.ws.onopen = onOpen;
     this.ws.onmessage = onMessage;
     this.ws.onclose = onClose;
@@ -169,7 +197,7 @@ export default class Server extends cc.Component {
     whevent.emit(pack.signal, pack.data);
     if (
       pack.signal == Signal.REACTION ||
-      pack.signal == Signal.FIRSTGETREACTION
+      pack.signal == Signal.FIRST_GET_REACTION
     ) {
       cc.log(++this.reactionCounter);
     }
@@ -177,10 +205,11 @@ export default class Server extends cc.Component {
   }
 
   send(signal: string, data?: any) {
-    if (signal == Signal.REACTION || signal == Signal.FIRSTGETREACTION) {
+    if (signal == Signal.REACTION || signal == Signal.FIRST_GET_REACTION) {
       //cc.log(this.reactionCounter);
     }
-    cc.log("%cSENDING:", "color:#36F;", signal);
+    let time = new Date().toTimeString().substring(0, 8)
+    cc.log("%cSENDING:", "color:#36F;", signal, time);
     cc.log(data)
     this.ws.send(btoa(JSON.stringify({ signal, data })));
   }
@@ -197,7 +226,7 @@ export default class Server extends cc.Component {
   onStartGame({ }) {
     cc.game.addPersistRootNode(this.node);
 
-    Server.$.send(Signal.MOVETOTABLE);
+    ServerClient.$.send(Signal.MOVE_TO_TABLE);
     cc.director.loadScene("MainGame");
   }
 

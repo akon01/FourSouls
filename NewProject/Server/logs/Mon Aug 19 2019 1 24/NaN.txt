@@ -1,0 +1,207 @@
+ 
+ Player 2 01:33:00 $MATCH:  
+ Player 1 01:33:01 $MATCH:  
+ Player 1 01:33:02 $START_GAME:  
+ Player 2 01:33:02 $MOVE_TO_TABLE:  
+ Player 1 01:33:02 $MOVE_TO_TABLE:  
+ Player 2 01:33:04 $FINISH_LOAD:  
+ {"id":2,"turnPlayerId":2} 
+ Player 1 01:33:05 $FINISH_LOAD:  
+ {"id":1,"turnPlayerId":2} 
+ Player 2 01:33:05 $ASSIGN_CHAR_TO_PLAYER:  
+ {"playerId":1,"charCardId":50,"itemCardId":51} 
+ Player 2 01:33:05 $ASSIGN_CHAR_TO_PLAYER:  
+ {"playerId":2,"charCardId":48,"itemCardId":49} 
+ Player 2 01:33:05 $DRAW_CARD:  
+ {"deckType":5} 
+ Player 2 01:33:05 $FLIP_CARD:  
+ {"cardId":30} 
+ Player 2 01:33:05 $ADD_STORE_CARD:  
+ {"cardId":30} 
+ Player 2 01:33:05 $DRAW_CARD:  
+ {"deckType":5} 
+ Player 2 01:33:05 $FLIP_CARD:  
+ {"cardId":29} 
+ Player 2 01:33:05 $ADD_STORE_CARD:  
+ {"cardId":29} 
+ Player 2 01:33:05 $DRAW_CARD:  
+ {"deckType":2} 
+ Player 2 01:33:05 $FLIP_CARD:  
+ {"cardId":41} 
+ Player 2 01:33:05 $ADD_MONSTER:  
+ {"holderId":1,"monsterId":41} 
+ Player 2 01:33:05 $REGISTER_PASSIVE_ITEM:  
+ {"cardId":41} 
+ Player 2 01:33:05 $NEW_MONSTER_ON_PLACE:  
+ {"newMonsterId":41,"monsterPlaceId":1} 
+ Player 2 01:33:05 $DRAW_CARD:  
+ {"deckType":2} 
+ Player 2 01:33:05 $FLIP_CARD:  
+ {"cardId":40} 
+ Player 2 01:33:05 $ADD_MONSTER:  
+ {"holderId":2,"monsterId":40} 
+ Player 2 01:33:05 $NEW_MONSTER_ON_PLACE:  
+ {"newMonsterId":40,"monsterPlaceId":2} 
+ Player 2 01:33:05 $CHANGE_MONEY:  
+ {"playerId":1,"numOfCoins":3} 
+ Player 2 01:33:05 $DRAW_CARD:  
+ {"deckType":1} 
+ Player 2 01:33:05 $MOVE_CARD:  
+ {"moveIndex":1,"cardId":18,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0}} 
+ Player 1 01:33:06 $MOVE_CARD_END:  
+ {"moveIndex":1,"cardId":18,"flipIfFlipped":false} 
+ Player 2 01:33:06 $CARD_DRAWN:  
+ {"playerId":1,"deckType":1,"drawnCardId":18} 
+ Player 2 01:33:06 $FLIP_CARD:  
+ {"cardId":18} 
+ Player 2 01:33:06 $FLIP_CARD:  
+ {"cardId":18} 
+ Player 2 01:33:06 $PLAYER_GET_LOOT:  
+ {"playerId":1,"cardId":18} 
+ Player 2 01:33:06 $DRAW_CARD:  
+ {"deckType":1} 
+ Player 2 01:33:06 $MOVE_CARD:  
+ {"moveIndex":2,"cardId":17,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0}} 
+ Player 1 01:33:07 $MOVE_CARD_END:  
+ {"moveIndex":2,"cardId":17,"flipIfFlipped":false} 
+ Player 2 01:33:07 $CARD_DRAWN:  
+ {"playerId":1,"deckType":1,"drawnCardId":17} 
+ Player 2 01:33:07 $FLIP_CARD:  
+ {"cardId":17} 
+ Player 2 01:33:07 $FLIP_CARD:  
+ {"cardId":17} 
+ Player 2 01:33:07 $PLAYER_GET_LOOT:  
+ {"playerId":1,"cardId":17} 
+ Player 2 01:33:07 $DRAW_CARD:  
+ {"deckType":1} 
+ Player 2 01:33:07 $MOVE_CARD:  
+ {"moveIndex":3,"cardId":16,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0}} 
+ Player 1 01:33:08 $MOVE_CARD_END:  
+ {"moveIndex":3,"cardId":16,"flipIfFlipped":false} 
+ Player 2 01:33:08 $CARD_DRAWN:  
+ {"playerId":1,"deckType":1,"drawnCardId":16} 
+ Player 2 01:33:08 $FLIP_CARD:  
+ {"cardId":16} 
+ Player 2 01:33:08 $FLIP_CARD:  
+ {"cardId":16} 
+ Player 2 01:33:08 $PLAYER_GET_LOOT:  
+ {"playerId":1,"cardId":16} 
+ Player 2 01:33:08 $CHANGE_MONEY:  
+ {"playerId":2,"numOfCoins":3} 
+ Player 2 01:33:08 $DRAW_CARD:  
+ {"deckType":1} 
+ Player 2 01:33:08 $MOVE_CARD:  
+ {"moveIndex":4,"cardId":15,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0}} 
+ Player 1 01:33:09 $MOVE_CARD_END:  
+ {"moveIndex":4,"cardId":15,"flipIfFlipped":false} 
+ Player 2 01:33:09 $CARD_DRAWN:  
+ {"playerId":2,"deckType":1,"drawnCardId":15} 
+ Player 2 01:33:09 $FLIP_CARD:  
+ {"cardId":15} 
+ Player 2 01:33:09 $PLAYER_GET_LOOT:  
+ {"playerId":2,"cardId":15} 
+ Player 2 01:33:09 $DRAW_CARD:  
+ {"deckType":1} 
+ Player 2 01:33:09 $MOVE_CARD:  
+ {"moveIndex":5,"cardId":14,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0}} 
+ Player 1 01:33:10 $MOVE_CARD_END:  
+ {"moveIndex":5,"cardId":14,"flipIfFlipped":false} 
+ Player 2 01:33:10 $CARD_DRAWN:  
+ {"playerId":2,"deckType":1,"drawnCardId":14} 
+ Player 2 01:33:10 $FLIP_CARD:  
+ {"cardId":14} 
+ Player 2 01:33:10 $PLAYER_GET_LOOT:  
+ {"playerId":2,"cardId":14} 
+ Player 2 01:33:10 $DRAW_CARD:  
+ {"deckType":1} 
+ Player 2 01:33:10 $MOVE_CARD:  
+ {"moveIndex":6,"cardId":13,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0}} 
+ Player 1 01:33:11 $MOVE_CARD_END:  
+ {"moveIndex":6,"cardId":13,"flipIfFlipped":false} 
+ Player 2 01:33:11 $CARD_DRAWN:  
+ {"playerId":2,"deckType":1,"drawnCardId":13} 
+ Player 2 01:33:11 $FLIP_CARD:  
+ {"cardId":13} 
+ Player 2 01:33:11 $PLAYER_GET_LOOT:  
+ {"playerId":2,"cardId":13} 
+ Player 2 01:33:11 $SET_TURN:  
+ {"playerId":1} 
+ Player 2 01:33:11 $UPDATE_ACTIONS:  
+ Player 1 01:33:11 $GIVE_PLAYER_PRIORITY:  
+ {"playerId":1} 
+ Player 1 01:33:11 $NEXT_STACK_ID:  
+ Player 1 01:33:11 $GIVE_PLAYER_PRIORITY:  
+ {"playerId":1} 
+ Player 1 01:33:11 %ADD_TO_STACK:  
+ {"stackEffect":{"entityId":1,"creatorCardId":50,"turnPlayerCardId":50,"stackEffectType":13}} 
+ Player 1 01:33:11 $GET_REACTION:  
+ {"nextPlayerId":1,"activePlayerId":1} 
+ Player 1 01:33:11 $REGISTER_PASSIVE_ITEM:  
+ {"cardId":41} 
+ Player 1 01:33:11 $RESPOND_TO:  
+ {"playerId":1,"stackEffectResponse":false} 
+ Player 1 01:33:11 $GET_REACTION:  
+ {"nextPlayerId":2,"activePlayerId":1} 
+ Player 2 01:33:11 $RESPOND_TO:  
+ {"playerId":1,"stackEffectResponse":false} 
+ Player 1 01:33:11 $DRAW_CARD:  
+ {"deckType":1} 
+ Player 1 01:33:11 $MOVE_CARD:  
+ {"moveIndex":7,"cardId":12,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0}} 
+ Player 2 01:33:12 $MOVE_CARD_END:  
+ {"moveIndex":7,"cardId":12,"flipIfFlipped":false} 
+ Player 1 01:33:12 $CARD_DRAWN:  
+ {"playerId":1,"deckType":1,"drawnCardId":12} 
+ Player 1 01:33:12 $FLIP_CARD:  
+ {"cardId":12} 
+ Player 1 01:33:12 $PLAYER_GET_LOOT:  
+ {"playerId":1,"cardId":12} 
+ Player 1 01:33:12 $REMOVE_FROM_STACK:  
+ Player 1 01:33:12 $GET_REACTION:  
+ {"nextPlayerId":1,"activePlayerId":1} 
+ Player 1 01:33:12 $RESPOND_TO:  
+ {"playerId":1,"stackEffectResponse":false} 
+ Player 1 01:33:13 $GET_REACTION:  
+ {"nextPlayerId":2,"activePlayerId":1} 
+ Player 2 01:33:13 $RESPOND_TO:  
+ {"playerId":1,"stackEffectResponse":false} 
+ Player 1 01:33:18 $NEXT_STACK_ID:  
+ Player 1 01:33:18 $PLAYER_LOSE_LOOT:  
+ {"playerId":1,"cardId":16} 
+ Player 1 01:33:18 $MOVE_CARD:  
+ {"moveIndex":8,"cardId":16,"placeID":52,"flipIfFlipped":true} 
+ Player 2 01:33:19 $MOVE_CARD_END:  
+ {"moveIndex":8,"cardId":16,"flipIfFlipped":true} 
+ Player 1 01:33:19 $GIVE_PLAYER_PRIORITY:  
+ {"playerId":1} 
+ Player 1 01:33:19 %ADD_TO_STACK:  
+ {"stackEffect":{"entityId":2,"creatorCardId":50,"hasLockingStackEffect":false,"hasLockingStackEffectResolved":false,"lootToPlayCardId":16,"lootPlayerId":1,"effectToDo":{"effectName":"addMoney","cardEffectNum":0,"cardPlayerId":1,"cardId":16,"effctType":1},"hasDataBeenCollectedYet":true,"stackEffectType":8}} 
+ Player 1 01:33:19 $GET_REACTION:  
+ {"nextPlayerId":1,"activePlayerId":1} 
+ Player 1 01:33:20 $RESPOND_TO:  
+ {"playerId":1,"stackEffectResponse":false} 
+ Player 1 01:33:20 $GET_REACTION:  
+ {"nextPlayerId":2,"activePlayerId":1} 
+ Player 2 01:33:24 $NEXT_STACK_ID:  
+ Player 2 01:33:24 $RESPOND_TO:  
+ {"playerId":1,"stackEffectResponse":true} 
+ Player 2 01:33:25 $USE_ITEM:  
+ {"cardId":48} 
+ Player 2 01:33:25 $GIVE_PLAYER_PRIORITY:  
+ {"playerId":1} 
+ Player 2 01:33:25 %ADD_TO_STACK:  
+ {"stackEffect":{"entityId":3,"creatorCardId":48,"hasLockingStackEffect":false,"itemToPlayCardId":48,"itemPlayerId":2,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":true,"stackEffectType":1}} 
+ Player 2 01:33:26 $GET_REACTION:  
+ {"nextPlayerId":1,"activePlayerId":2} 
+ Player 1 01:33:31 $RESPOND_TO:  
+ {"playerId":2,"stackEffectResponse":false} 
+ Player 2 01:33:31 $GET_REACTION:  
+ {"nextPlayerId":2,"activePlayerId":2} 
+ Player 2 01:33:41 $RESPOND_TO:  
+ {"playerId":1,"stackEffectResponse":false} 
+ Player 2 01:33:46 $RESPOND_TO:  
+ {"playerId":2,"stackEffectResponse":false} 
+ Player 2 01:33:46 $TURN_PLAYER_DO_STACK_EFFECT:  
+ {"playerId":1} 
+ Player 1 01:33:46 $DO_STACK_EFFECT:  
+ {"originPlayerId":1,"playerId":2,"currentStack":[{"entityId":2,"creatorCardId":50,"hasLockingStackEffect":false,"hasLockingStackEffectResolved":false,"lootToPlayCardId":16,"lootPlayerId":1,"effectToDo":{"effectName":"addMoney","cardEffectNum":0,"cardPlayerId":1,"cardId":16,"effctType":1},"hasDataBeenCollectedYet":true,"stackEffectType":8},{"entityId":3,"creatorCardId":48,"hasLockingStackEffect":false,"itemToPlayCardId":48,"itemPlayerId":2,"hasDataBeenCollectedYet":true,"stackEffectType":1}]}

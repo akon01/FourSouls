@@ -8,11 +8,11 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class LootCards extends MonsterReward {
-  @property({
-    type: DataCollector,
-    override: true
-  })
-  dataCollector: DataCollector = null;
+
+  @property({ override: true })
+  hasRoll: boolean = false
+
+  rollNumber: number = 0;
 
   @property
   numOfCardsToLoot: number = 0;

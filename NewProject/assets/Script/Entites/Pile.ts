@@ -1,3 +1,5 @@
+import CardManager from "../Managers/CardManager";
+import CardPreviewManager from "../Managers/CardPreviewManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,6 +18,7 @@ export default class Pile extends cc.Component {
 
     addCardToTopPile(card: cc.Node) {
         this.cards.push(card);
+
         this.topCard = card;
         this.pileSprite.spriteFrame = card.getComponent(cc.Sprite).spriteFrame;
         card.parent = null;
@@ -35,6 +38,10 @@ export default class Pile extends cc.Component {
 
     onLoad() {
         this.pileSprite = this.node.getComponent(cc.Sprite);
+        this.node.on(cc.Node.EventType.TOUCH_START, () => {
+            cc.log(`pile clicked`)
+            CardPreviewManager.getPreviews(Array.of(this.node), true)
+        })
     }
 
     start() {

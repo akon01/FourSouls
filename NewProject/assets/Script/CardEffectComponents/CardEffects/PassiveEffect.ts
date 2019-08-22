@@ -1,13 +1,7 @@
-import { ServerEffect } from "./../../Entites/ServerCardEffect";
-
-import EffectInterface from "./EffectInterface";
-import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_TYPE, PASSIVE_TYPE } from "../../Constants";
-import Condition from "../CardConditions/Condition";
-import PreCondition from "../PreConditions/PreCondition";
-import Cost from "../Costs/Cost";
-import { ActiveEffectData, PassiveEffectData } from "../../Managers/NewScript";
+import { PassiveEffectData } from "../../Managers/DataInterpreter";
+import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import Effect from "./Effect";
+
 
 const { ccclass, property } = cc._decorator;
 
@@ -19,7 +13,7 @@ export default class PassiveEffect extends Effect {
    *
    * @param data {target:Player}
    */
-  async doEffect(serverEffectStack: ServerEffect[], data: PassiveEffectData) {
+  async doEffect(stack: StackEffectInterface[], data: PassiveEffectData) {
     return data;
   }
 

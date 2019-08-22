@@ -12,13 +12,16 @@ import Monster from "../Entites/CardTypes/Monster";
 import Effect from "../CardEffectComponents/CardEffects/Effect";
 import Card from "../Entites/GameEntities/Card";
 import CardManager from "./CardManager";
-import Server from "../../ServerClient/ServerClient";
+import ServerClient from "../../ServerClient/ServerClient";
 import Signal from "../../Misc/Signal";
 
 import { Pointcut, Aspect, Before, Joinpoint } from "@ts-ioc/aop"
 import { IClassMethodDecorator, TypeMetadata, createClassMethodDecorator, MethodMetadata } from "@ts-ioc/core";
 import { throws } from "assert";
 import DataInterpreter, { PassiveEffectData } from "./DataInterpreter";
+import ActivatePassiveEffect from "../StackEffects/Activate Passive Effect";
+import MultiEffectRoll from "../CardEffectComponents/MultiEffectChooser/MultiEffectRoll";
+import Stack from "../Entites/Stack";
 
 const { ccclass, property } = cc._decorator;
 
@@ -35,6 +38,7 @@ export default class PassiveManager extends cc.Component {
 
   static inRegisterPhase: boolean = false
 
+  static passiveMethodData: PassiveMeta
 
   static getPassivesinfo() {
     let passiveItemsCardIds = this.passiveItems.map(card => card.getComponent(Card)._cardId)
@@ -83,7 +87,7 @@ export default class PassiveManager extends cc.Component {
           }
           if (sendToServer) {
             let cardId = itemToRegister.getComponent(Card)._cardId
-            Server.$.send(Signal.REGISTERPASSIVEITEM, { cardId: cardId })
+            ServerClient.$.send(Signal.REGISTER_PASSIVE_ITEM, { cardId: cardId })
           }
         }
 
@@ -112,7 +116,7 @@ export default class PassiveManager extends cc.Component {
       let effectIndex = card.node.getComponent(CardEffect).getEffectIndexAndType(effect)
       let serverEffectData = DataInterpreter.convertToServerData(effect.condition.conditionData)
       let srvData = { cardId: card._cardId, effectIndex: effectIndex, conditionData: serverEffectData }
-      Server.$.send(Signal.REGISTERONETURNPASSIVEEFFECT, srvData)
+      ServerClient.$.send(Signal.REGISTER_ONE_TURN_PASSIVE_EFFECT, srvData)
     }
 
     this.inRegisterPhase = false;
@@ -163,8 +167,9 @@ export default class PassiveManager extends cc.Component {
     if (allPassivesToActivate.length > 0) {
 
       let passiveData = await this.activateB4Passives(passiveMeta, allPassivesToActivate)
-      methodData.continue = !passiveData.terminateOriginal
-      methodData.args = passiveData.methodArgs;
+      this.passiveMethodData = null;
+      methodData.continue = !passiveData.preventMethod
+      methodData.args = passiveData.args;
     } else {
       methodData.continue = true
       methodData.args = passiveMeta.args;
@@ -179,8 +184,10 @@ export default class PassiveManager extends cc.Component {
     let cardToActivate: cc.Node;
     let passiveIndex
     let cardActivatorId;
-    let newArgs: PassiveEffectData;
-    for (const effect of passivesToActivate) {
+    this.passiveMethodData = passiveMeta
+    let isPlayer = false;
+    for (let i = 0; i < passivesToActivate.length; i++) {
+      const effect = passivesToActivate[i];
       cc.log(`doing b4 passive effect ${effect.name}`)
       cardToActivate = effect.node.parent;
       passiveIndex = cardToActivate
@@ -189,34 +196,40 @@ export default class PassiveManager extends cc.Component {
       if (cardToActivate.getComponent(Monster) == null) {
         let player = PlayerManager.getPlayerByCard(cardToActivate);
         cardActivatorId = player.playerId;
+        isPlayer = true
       } else {
 
         let monster = cardToActivate.getComponent(Card)
         cardActivatorId = monster._cardId;
         //  monster.activatePassive(monster.cardId, passiveIndex, false)
       }
-      let serverEffect = await CardManager.activateCard(
-        cardToActivate,
-        cardActivatorId,
-        passiveIndex.index
-      );
-      let passiveData
-      if (newArgs == null) {
-        passiveData = { terminateOriginal: false, newArgs: passiveMeta.args }
-      } else {
-        passiveData = { terminateOriginal: newArgs.terminateOriginal, newArgs: newArgs.methodArgs }
-      }
-      passiveData = DataInterpreter.makeEffectData(passiveData, cardToActivate, cardActivatorId, false)
-      serverEffect.cardEffectData = passiveData;
+      let activatePassiveEffect: ActivatePassiveEffect
+      let hasLockingEffect;
+      let collector = cardToActivate.getComponent(CardEffect).multiEffectCollector;
+      if (collector != null && collector instanceof MultiEffectRoll) {
+        hasLockingEffect = true;
+      } else hasLockingEffect = false;
+      if (isPlayer) {
+        let player = PlayerManager.getPlayerByCard(cardToActivate);
 
-      //all of the effect should return an object {terminateOriginal:boolean,args:altered function args}
-      newArgs = await cardToActivate
-        .getComponent(CardEffect)
-        .doServerEffect(serverEffect, []);
+        activatePassiveEffect = new ActivatePassiveEffect(player.character.getComponent(Card)._cardId, hasLockingEffect, cardActivatorId, cardToActivate, effect, false)
+
+      } else {
+
+        activatePassiveEffect = new ActivatePassiveEffect(cardToActivate.getComponent(Card)._cardId, hasLockingEffect, cardActivatorId, cardToActivate, effect, false)
+      }
+      if (passivesToActivate.length - i == 1) {
+        cc.log(`should be last passive effect to be added to the stack for this action, begin resolving`)
+        await Stack.addToStack(activatePassiveEffect, true)
+      } else {
+        cc.log(`should be more passives to add to stack, do not start resolving.`)
+        await Stack.addToStackAbove(activatePassiveEffect)
+      }
 
     }
 
-    return newArgs;
+
+    return this.passiveMethodData;
   }
 
 
@@ -225,44 +238,52 @@ export default class PassiveManager extends cc.Component {
 
     PassiveManager.inPassivePhase = true;
     let allPassiveEffects = PassiveManager.allAfterEffects;
+    let passivesToActive = [];
     for (let i = 0; i < allPassiveEffects.length; i++) {
-      const passiveEffect = allPassiveEffects[i];
+      const passive = allPassiveEffects[i];
+      if (await passive.condition.testCondition(meta))
+        passivesToActive.push(passive)
+    }
+
+    //  await allPassiveEffects.for(passive => { if (passive.condition.testCondition(meta)) return passive })
+    this.passiveMethodData = meta;
+    for (let i = 0; i < passivesToActive.length; i++) {
+      const passiveEffect = passivesToActive[i];
 
       let activated: boolean
-      cc.log(`test condition for ${passiveEffect.name}`)
-      let isConditionTrue = await passiveEffect.condition.testCondition(meta);
-      if (isConditionTrue) {
-        cc.log('condition true')
-        let cardActivated = passiveEffect.node.parent;
-        let passiveIndex = cardActivated
-          .getComponent(CardEffect)
-          .getEffectIndexAndType(passiveEffect);
 
-        if (cardActivated.getComponent(Monster) == null) {
-          let player = PlayerManager.getPlayerByCard(cardActivated);
 
-          if (player.node == PlayerManager.mePlayer) {
-            activated = await player.activatePassive(
-              cardActivated,
-              true,
-              passiveIndex.index
-            );
-          } else {
-            activated = await player.activatePassive(
-              cardActivated,
-              false,
-              passiveIndex.index
-            );
-          }
-        } else {
-          let monster = cardActivated.getComponent(Card)
-          monster.activatePassive(monster._cardId, passiveIndex.index, false)
-        }
+      let cardActivated = passiveEffect.node.parent;
+      let passiveIndex = cardActivated
+        .getComponent(CardEffect)
+        .getEffectIndexAndType(passiveEffect);
+
+      let hasLockingEffect;
+      let collector = cardActivated.getComponent(CardEffect).multiEffectCollector;
+      if (collector != null && collector instanceof MultiEffectRoll) {
+        hasLockingEffect = true;
+      } else hasLockingEffect = false;
+      let activatePassiveEffect: ActivatePassiveEffect;
+      if (cardActivated.getComponent(Monster) == null) {
+        let player = PlayerManager.getPlayerByCard(cardActivated);
+        activatePassiveEffect = new ActivatePassiveEffect(player.character.getComponent(Card)._cardId, hasLockingEffect, player.playerId, cardActivated, passiveEffect, false)
+
       } else {
+        let monster = cardActivated.getComponent(Card)
+        activatePassiveEffect = new ActivatePassiveEffect(monster._cardId, hasLockingEffect, monster._cardId, cardActivated, passiveEffect, false)
+      }
+      if (passivesToActive.length - i == 1) {
+        cc.log(`should be last passive effect to be added to the stack for this action, begin resolving`)
+        await Stack.addToStack(activatePassiveEffect, true)
+      } else {
+        cc.log(`should be more passives to add to stack, do not start resolving.`)
+        await Stack.addToStackAbove(activatePassiveEffect)
       }
     }
+
+
     PassiveManager.inPassivePhase = false;
-    return meta.result;
+    return this.passiveMethodData.result;
 
   };
 

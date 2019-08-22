@@ -1,17 +1,9 @@
-import PlayerManager from "../../Managers/PlayerManager";
-import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_TYPE } from "./../../Constants";
-import { ServerEffect } from "./../../Entites/ServerCardEffect";
-import Effect from "./Effect";
-import Player from "../../Entites/GameEntities/Player";
-import { override } from "kaop";
-import CardManager from "../../Managers/CardManager";
-import Monster from "../../Entites/CardTypes/Monster";
-import BattleManager from "../../Managers/BattleManager";
-import Character from "../../Entites/CardTypes/Character";
-import DataInterpreter from "../../Managers/DataInterpreter";
 import CardEffect from "../../Entites/CardEffect";
+import Player from "../../Entites/GameEntities/Player";
+import PlayerManager from "../../Managers/PlayerManager";
+import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import ChainCollector from "../DataCollector/ChainCollector";
+import Effect from "./Effect";
 
 
 const { ccclass, property } = cc._decorator;
@@ -31,39 +23,31 @@ export default class ChainEffects extends Effect {
    */
 
   async doEffect(
-    serverEffectStack: ServerEffect[],
+    stack: StackEffectInterface[],
     data?: {}[]
   ) {
 
     let effectsData = [];
-    let currentStack = serverEffectStack
+    let currentStack = stack
     let cardEffectComp = this.node.parent.getComponent(CardEffect)
     const effectData = this.node.getComponentInChildren(ChainCollector).effectsData
     for (let i = 0; i < this.effectsToChain.length; i++) {
       const effect = this.effectsToChain[i];
-      await effect.doEffect(
-        serverEffectStack,
-        effectData
-      );
-
-      // let effectInfo = cardEffectComp.getEffectIndexAndType(effect)
-      // await cardEffectComp.doEffectByNumAndType(effectInfo.index, effectInfo.type, effectData)
-      // let effectData = await DataInterpreter.makeEffectData(data[i],this.node.parent,)
-      // currentStack = await effect.doEffect(currentStack, effectData)
+      if (effect.hasPlayerChoiceToActivateInChainEffects) {
+        let yesOrNo = await PlayerManager.getPlayerById(cardEffectComp.cardPlayerId).getComponent(Player).giveYesNoChoice()
+        if (yesOrNo) {
+          await effect.doEffect(
+            stack,
+            effectData
+          );
+        }
+      } else {
+        await effect.doEffect(
+          stack,
+          effectData
+        );
+      }
     }
-
-    // let targetEntity = data.effectTargetCard
-
-    // let entityComp;
-    // entityComp = targetEntity.getComponent(Character);
-    // if (entityComp == null) {
-    //   entityComp = targetEntity.getComponent(Monster)
-    //   await BattleManager.killMonster(targetEntity, true)
-    // } else {
-    //   if (entityComp instanceof Character) {
-    //     await PlayerManager.getPlayerByCard(entityComp.node).killPlayer(true)
-    //   }
-    // }
     return currentStack
   }
 }

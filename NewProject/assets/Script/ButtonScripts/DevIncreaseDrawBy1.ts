@@ -1,4 +1,4 @@
-import Server from "../../ServerClient/ServerClient";
+import ServerClient from "../../ServerClient/ServerClient";
 import Events from "../../Misc/Events";
 import Signal from "../../Misc/Signal";
 import MainScript from "../MainScript";

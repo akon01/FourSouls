@@ -1,5 +1,5 @@
 
-import { COLLECTORTYPE, CHOOSE_TYPE } from "../../Constants";
+import { COLLECTORTYPE, CHOOSE_CARD_TYPE } from "../../Constants";
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "./DataCollector";
 import Player from "../../Entites/GameEntities/Player";
@@ -16,8 +16,8 @@ export default class CardPlayerItems extends DataCollector {
     type = COLLECTORTYPE.AUTO;
     collectorName = 'CardPlayerItems';
 
-    @property({ type: cc.Enum(CHOOSE_TYPE) })
-    ItemsToGet: CHOOSE_TYPE = CHOOSE_TYPE.ALLPLAYERSACTIVATEDITEMS
+    @property({ type: cc.Enum(CHOOSE_CARD_TYPE) })
+    ItemsToGet: CHOOSE_CARD_TYPE = CHOOSE_CARD_TYPE.ALL_PLAYERS_ACTIVATED_ITEMS
 
     /**
      * 
@@ -28,7 +28,7 @@ export default class CardPlayerItems extends DataCollector {
         let player = PlayerManager.getPlayerById(data.cardPlayerId).getComponent(Player)
         let cards: cc.Node[] = []
         switch (this.ItemsToGet) {
-            case CHOOSE_TYPE.PLAYERITEMS:
+            case CHOOSE_CARD_TYPE.PLAYER_ITEMS:
                 cards = cards.concat(player.activeItems, player.passiveItems)
                 break;
             // case CHOOSE_TYPE.PLAYERNONACTIVATEDITEMS:

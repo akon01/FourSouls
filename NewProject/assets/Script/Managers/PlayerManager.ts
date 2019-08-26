@@ -9,6 +9,7 @@ import PlayerDesk from "../Entites/PlayerDesk";
 import MoneyLable from "../LableScripts/MoneyLable";
 import { CARD_HEIGHT, CARD_WIDTH, ITEM_TYPE } from "./../Constants";
 import CardManager from "./CardManager";
+import Character from "../Entites/CardTypes/Character";
 
 
 const { ccclass, property } = cc._decorator;
@@ -194,7 +195,8 @@ export default class PlayerManager extends cc.Component {
         playerComp.passiveItems.push(itemCard);
       }
       if (sendToServer) {
-
+        // playerComp.hpLable = cc.find(`Canvas/P${playerComp.playerId} HP`).getComponent(cc.Label)
+        playerComp.hpLable.string = `${charCard.getComponent(Character).Hp}♥`
         //  CardManager.allCards.push(charCard, itemCard);
         ServerClient.$.send(Signal.ASSIGN_CHAR_TO_PLAYER, { playerId: playerComp.playerId, charCardId: charCard.getComponent(Card)._cardId, itemCardId: itemCard.getComponent(Card)._cardId })
       }
@@ -264,6 +266,7 @@ export default class PlayerManager extends cc.Component {
             .find("Canvas/RBMoneyLable")
             .getComponent(MoneyLable).player = playerComp;
 
+          playerComp.hpLable = cc.find(`Canvas/P1 HP`).getComponent(cc.Label)
           break;
         case 1:
           playerNode = PlayerManager.getPlayerById(meId + 1);
@@ -274,7 +277,7 @@ export default class PlayerManager extends cc.Component {
           cc
             .find("Canvas/LBMoneyLable")
             .getComponent(MoneyLable).player = playerComp;
-
+          playerComp.hpLable = cc.find(`Canvas/P2 HP`).getComponent(cc.Label)
           break;
         case 2:
           playerNode = PlayerManager.getPlayerById(meId + 2);
@@ -285,7 +288,7 @@ export default class PlayerManager extends cc.Component {
           cc
             .find("Canvas/LTMoneyLable")
             .getComponent(MoneyLable).player = playerComp;
-
+          playerComp.hpLable = cc.find(`Canvas/P3 HP`).getComponent(cc.Label)
           break;
         case 3:
           playerNode = PlayerManager.getPlayerById(meId + 3);
@@ -297,6 +300,7 @@ export default class PlayerManager extends cc.Component {
           cc
             .find("Canvas/RTMoneyLable")
             .getComponent(MoneyLable).player = playerComp;
+          playerComp.hpLable = cc.find(`Canvas/P4 HP`).getComponent(cc.Label)
           break;
         default:
           break;

@@ -174,6 +174,14 @@ export default class DataInterpreter {
             if (effectData.terminateOriginal != null) {
                 serverEffectData.terminateOriginal = effectData.terminateOriginal
             }
+            if (effectData.effectTargets.length > 0) {
+                serverEffectData.effectTargets = effectData.effectTargets.map((target) => {
+                    if (target.effectTargetCard.getComponent(StackEffectPreview) != null) {
+                        serverEffectData.isTargetStackEffect = true
+                        return target.effectTargetCard.getComponent(StackEffectPreview).stackEffect.entityId
+                    } else return target.effectTargetCard.getComponent(Card)._cardId
+                })
+            }
         }
         if (effectData.chainEffectsData != null) {
             for (const chainEffectData of effectData.chainEffectsData) {
@@ -241,6 +249,32 @@ export class EffectData {
 export class PassiveEffectData extends EffectData {
     methodArgs: any[] = [];
     terminateOriginal: boolean = false;
+    effectTargets: EffectTarget[] = [];
+
+    getTargets(targetType: TARGETTYPE) {
+        let targets: EffectTarget[] = []
+        for (const target of this.effectTargets) {
+            if (target.targetType == targetType) targets.push(target)
+        }
+        if (targetType != TARGETTYPE.STACK_EFFECT) {
+
+            return targets.map(target => target.effectTargetCard);
+        } else return targets.map(target => target.effectTargetStackEffectId);
+    }
+    getTarget(targetType: TARGETTYPE) {
+        for (const target of this.effectTargets) {
+            if (target.targetType == targetType) {
+                return target.effectTargetCard
+            }
+        }
+        cc.error('no target was found')
+        return null
+    }
+
+    addTarget(target) {
+        let newTarget = new EffectTarget(target);
+        this.effectTargets.push(newTarget)
+    }
 
 }
 
@@ -281,9 +315,11 @@ export class ActiveEffectData extends EffectData {
         if (this.effectTargets.length == 0) {
             this.effectTargets.push(this.effectTargetCard);
             this.effectTargetCard = null;
+        } else {
+
+            let newTarget = new EffectTarget(target);
+            this.effectTargets.push(newTarget)
         }
-        let newTarget = new EffectTarget(target);
-        this.effectTargets.push(newTarget)
     }
 }
 

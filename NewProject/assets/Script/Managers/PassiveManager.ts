@@ -2,7 +2,8 @@ import { beforeMethod, afterMethod } from "kaop-ts";
 import {
   CONDITION_TYPE,
   COLORS,
-  PASSIVE_TYPE
+  PASSIVE_TYPE,
+  PASSIVE_EVENTS
 } from "../Constants";
 
 import CardEffect from "../Entites/CardEffect";
@@ -189,7 +190,8 @@ export default class PassiveManager extends cc.Component {
     for (let i = 0; i < passivesToActivate.length; i++) {
       const effect = passivesToActivate[i];
       cc.log(`doing b4 passive effect ${effect.name}`)
-      cardToActivate = effect.node.parent;
+      cardToActivate = effect.node.parent.parent;
+
       passiveIndex = cardToActivate
         .getComponent(CardEffect)
         .getEffectIndexAndType(effect);
@@ -300,15 +302,15 @@ export default class PassiveManager extends cc.Component {
 
 export class PassiveMeta {
 
-  constructor(methodName: string, args: any[], result: any, methodScope: cc.Node) {
+  constructor(passiveEvent: PASSIVE_EVENTS, args: any[], result: any, methodScope: cc.Node) {
     this.args = args
-    this.methodName = methodName;
+    this.passiveEvent = passiveEvent;
     this.methodScope = methodScope;
     this.preventMethod = false;
     this.result = result;
   }
 
-  methodName: string = "";
+  passiveEvent: PASSIVE_EVENTS = null;
   args: any[] = [];
   result: any = null;
   preventMethod: boolean = false;

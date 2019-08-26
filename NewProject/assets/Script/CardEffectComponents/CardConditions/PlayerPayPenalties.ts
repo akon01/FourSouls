@@ -3,7 +3,7 @@ import Condition from "./Condition";
 import Player from "../../Entites/GameEntities/Player";
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_CARD_TYPE, TARGETTYPE } from "../../Constants";
+import { CHOOSE_CARD_TYPE, TARGETTYPE, PASSIVE_EVENTS } from "../../Constants";
 import { PassiveMeta } from "../../Managers/PassiveManager";
 import { ActiveEffectData } from "../../Managers/DataInterpreter";
 
@@ -28,7 +28,7 @@ export default class PlayerPayPenalties extends Condition {
         if (
           player instanceof Player &&
           player.playerId == selectedPlayer.getComponent(Player).playerId &&
-          meta.methodName == "payPenalties"
+          meta.passiveEvent == PASSIVE_EVENTS.PLAYER_PAY_DEATH_PANELTIES
         ) {
           return true;
         } else {

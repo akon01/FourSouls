@@ -1,12 +1,8 @@
-import Character from "../../Entites/CardTypes/Character";
-import Monster from "../../Entites/CardTypes/Monster";
-import BattleManager from "../../Managers/BattleManager";
+import Stack from "../../Entites/Stack";
 import { ActiveEffectData } from "../../Managers/DataInterpreter";
-import PlayerManager from "../../Managers/PlayerManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import { TARGETTYPE } from "./../../Constants";
 import Effect from "./Effect";
-import Stack from "../../Entites/Stack";
 
 const { ccclass, property } = cc._decorator;
 
@@ -30,7 +26,7 @@ export default class CancelLootEffect extends Effect {
       cc.log(`no target stack effect`)
     } else {
       if (!(targetStackEffectToCancel instanceof cc.Node)) {
-        await Stack.fizzleStackEffect(targetStackEffectToCancel)
+        await Stack.fizzleStackEffect(targetStackEffectToCancel, true)
       }
     }
 

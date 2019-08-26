@@ -3,6 +3,7 @@ import Condition from "./Condition";
 import Player from "../../Entites/GameEntities/Player";
 import PlayerManager from "../../Managers/PlayerManager";
 import { PassiveMeta } from "../../Managers/PassiveManager";
+import { PASSIVE_EVENTS } from "../../Constants";
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,7 +17,7 @@ export default class CardOwnerGainCoin extends Condition {
       player instanceof Player &&
       player.name == cardOwner.name &&
       player.playerId == PlayerManager.mePlayer.getComponent(Player).playerId &&
-      meta.methodName == "changeMoney" &&
+      meta.passiveEvent == PASSIVE_EVENTS.PLAYER_CHANGE_MONEY &&
       meta.args[0] > 0
     ) {
       return true;

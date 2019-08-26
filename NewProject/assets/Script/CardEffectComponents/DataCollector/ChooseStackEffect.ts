@@ -51,7 +51,9 @@ export default class ChooseStackEffect extends DataCollector {
       throw 'No Stack Effects To Choose From!'
     }
 
+    cc.log(`b4 require choosing an effect`)
     let chosenStackEffect = await this.requireChoosingAnEffect(stackEffectsToChooseFrom);
+    cc.log(`after require choosing an effect`)
 
     let target = new EffectTarget(chosenStackEffect.getComponent(StackEffectPreview))
     cc.log(target)
@@ -67,6 +69,7 @@ export default class ChooseStackEffect extends DataCollector {
   getStackEffectsToChoose(chooseType: STACK_EFFECT_TYPE, mePlayer?: Player, player?: Player) {
     let stackEffectsToReturn: StackEffectInterface[] = [];
     let players
+
     return Stack._currentStack.filter(effect => { if (effect.stackEffectType == chooseType) return true })
 
 
@@ -75,24 +78,27 @@ export default class ChooseStackEffect extends DataCollector {
   async requireChoosingAnEffect(
     stackEffectsToChooseFrom
   ) {
-    cc.log(stackEffectsToChooseFrom)
+
     if (stackEffectsToChooseFrom.length == 1) {
       return StackEffectVisManager.$.getPreviewByStackId(stackEffectsToChooseFrom[0].entityId).node
 
     } let stackEffectsPreviews = []
-    cc.log(stackEffectsToChooseFrom)
+
     for (const effect of stackEffectsToChooseFrom) {
-      cc.log(effect)
-      cc.log(effect.entityId)
       stackEffectsPreviews.push(effect.entityId)
     }
-    //let stackEffectsPreviews = stackEffectsToChooseFrom.map(stackEffect => StackEffectVisManager.$.getPreviewByStackId(stackEffect.entityId))
-    cc.log(stackEffectsPreviews)
+
+    stackEffectsPreviews = stackEffectsToChooseFrom.map(stackEffect => StackEffectVisManager.$.getPreviewByStackId(stackEffect.entityId))
+    stackEffectsPreviews = stackEffectsPreviews.filter(preview => {
+      if (preview != undefined) return true
+    })
     for (const stackEffectPreview of stackEffectsPreviews) {
       StackEffectVisManager.$.makeRequiredForDataCollector(stackEffectPreview, this)
     }
     StackEffectVisManager.$.showPreviews()
+    cc.log(`wait for effect to be chosen `)
     let stackEffectChosen = await this.waitForEffectToBeChosen()
+    cc.log(`effect chosen is ${stackEffectChosen}`)
     for (const stackEffectPreview of stackEffectsPreviews) {
       StackEffectVisManager.$.makeNotRequiredForDataCollector(stackEffectPreview)
     }
@@ -101,13 +107,16 @@ export default class ChooseStackEffect extends DataCollector {
   }
 
   async waitForEffectToBeChosen(): Promise<cc.Node> {
+    cc.log(`wait for effect to be chosen start`)
     return new Promise((resolve, reject) => {
-      let timesChecked = 0;
       let check = () => {
         if (this.isEffectChosen == true) {
+          cc.log(`wait for effect to be chosen end`)
           this.isEffectChosen = false;
+
           resolve(this.cardChosen);
         } else {
+          cc.log(`wait for effect to be chosen continue`)
           setTimeout(check, 50);
         }
       };

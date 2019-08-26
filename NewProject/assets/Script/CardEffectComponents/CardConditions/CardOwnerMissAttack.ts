@@ -8,15 +8,18 @@ import { PASSIVE_EVENTS } from "../../Constants";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class CardOwnerPayPenalties extends Condition {
+export default class CardOwnerMissAttack extends Condition {
   async testCondition(meta: PassiveMeta) {
     let player: Player = meta.methodScope.getComponent(Player);
-    let thisCard = this.node.parent.parent;
+    let thisCard = this.node.parent.parent.parent;
     let cardOwner = PlayerManager.getPlayerByCard(thisCard);
+    cc.log(player)
+    cc.log(cardOwner)
+    cc.log(thisCard)
     if (
       player instanceof Player &&
       player.name == cardOwner.name &&
-      meta.passiveEvent == PASSIVE_EVENTS.PLAYER_PAY_DEATH_PANELTIES
+      meta.passiveEvent == PASSIVE_EVENTS.PLAYER_MISS_ATTACK
     ) {
       return true;
     } else {

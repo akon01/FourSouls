@@ -1,4 +1,4 @@
-import { ROLL_TYPE, STACK_EFFECT_TYPE } from "../Constants";
+import { ROLL_TYPE, STACK_EFFECT_TYPE, PASSIVE_EVENTS } from "../Constants";
 import Monster from "../Entites/CardTypes/Monster";
 import Player from "../Entites/GameEntities/Player";
 import Stack from "../Entites/Stack";
@@ -8,6 +8,7 @@ import ServerAttackRoll from "./ServerSideStackEffects/Server Attack Roll";
 import StackEffectInterface from "./StackEffectInterface";
 import { StackEffectVisualRepresentation } from "./StackEffectVisualRepresentation/Stack Vis Interface";
 import { AttackRollVis } from "./StackEffectVisualRepresentation/Attack Roll Vis";
+import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
 
 
 export default class AttackRoll implements StackEffectInterface {
@@ -65,6 +66,13 @@ export default class AttackRoll implements StackEffectInterface {
             await Stack.addToStackBelow(monsterCombatDamage, this)
 
         } else {
+
+
+            //Passive Check: Player Miss an Attack
+            let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_MISS_ATTACK, null, null, this.rollingPlayer.node)
+            let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+            //passiveMeta.args = afterPassiveMeta.args;
+
             let playerCombatDamage = new CombatDamage(this.creatorCardId, this.rollingPlayer.character, this.attackedMonster.node)
             await Stack.addToStackBelow(playerCombatDamage, this)
         }

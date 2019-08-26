@@ -10,6 +10,10 @@ import Player from "./GameEntities/Player";
 import StackEffectVisManager from "../Managers/StackEffectVisManager";
 import ActionLable from "../LableScripts/Action Lable";
 import TurnsManager from "../Managers/TurnsManager";
+import { STACK_EFFECT_TYPE, CARD_TYPE } from "../Constants";
+import PlayLootCardStackEffect from "../StackEffects/Play Loot Card";
+import CardManager from "../Managers/CardManager";
+import PileManager from "../Managers/PileManager";
 
 
 const { ccclass, property } = cc._decorator;
@@ -223,9 +227,18 @@ export default class Stack extends cc.Component {
     }
 
 
-    static fizzleStackEffect(stackEffect: StackEffectInterface) {
-        cc.log(stackEffect)
-        throw `implement fizzle stack effect`
+    static async fizzleStackEffect(stackEffect: StackEffectInterface, sendToServer: boolean) {
+        this._currentStack = this._currentStack.filter(effect => {
+            if (effect != stackEffect) return true;
+        })
+        StackEffectVisManager.$.removePreview(stackEffect)
+        if (sendToServer) {
+            ActionLable.$.publishMassage(`${stackEffect.stackEffectType} was fizzled`, 5)
+            if (stackEffect instanceof PlayLootCardStackEffect) {
+                await PileManager.addCardToPile(CARD_TYPE.LOOT, stackEffect.lootToPlay, true)
+            }
+        }
+        // throw `implement fizzle stack effect`
     }
 
     static async removeFromTopOfStack(sendToServer: boolean) {

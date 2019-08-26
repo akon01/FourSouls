@@ -3,7 +3,7 @@ import Condition from "./Condition";
 import Player from "../../Entites/GameEntities/Player";
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_CARD_TYPE } from "../../Constants";
+import { CHOOSE_CARD_TYPE, PASSIVE_EVENTS } from "../../Constants";
 import { PassiveMeta } from "../../Managers/PassiveManager";
 
 const { ccclass, property } = cc._decorator;
@@ -29,7 +29,7 @@ export default class PlayerRollNumber extends Condition {
     //  let playerName = PlayerManager.getPlayerByCardId(this.conditionData.cardChosenId).name;
     if (
       player instanceof Player &&
-      meta.methodName == "rollDice" &&
+      meta.passiveEvent == PASSIVE_EVENTS.PLAYER_ROLL_DICE &&
       this.numberRoll == c
     ) {
       return true;

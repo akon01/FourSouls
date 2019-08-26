@@ -10,6 +10,7 @@ import CardManager from "./CardManager";
 import ServerClient from "../../ServerClient/ServerClient";
 import Signal from "../../Misc/Signal";
 import Pile from "../Entites/Pile";
+import Item from "../Entites/CardTypes/Item";
 
 const { ccclass, property } = cc._decorator;
 
@@ -87,119 +88,7 @@ export default class CardPreviewManager extends cc.Component {
         //throw `no preview with ${card.name} found`
     }
 
-    static updateSpecificPreviewEvents(cardWithPreview: cc.Node) {
 
-        let isAPreview: boolean = false;
-        let cardPreview
-        for (const preview of this.currentPreviews) {
-            if (preview.getComponent(CardPreview).card == cardWithPreview) {
-                isAPreview = true;
-                preview.getComponent(CardPreview).card = cardWithPreview
-                cardPreview = preview
-                break;
-            }
-        }
-        if (isAPreview) {
-            if (this.previewsToChooseFrom.includes(cardPreview)) {
-                cc.log(`previews to choose from includes ${cardPreview.name}`)
-                return;
-            }
-
-            let cardComp;
-            let newSprite;
-            let card = cardPreview.getComponent(CardPreview).card
-            cardComp = card.getComponent(Deck)
-            if (cardComp == null) {
-                cardComp = card.getComponent(Card)
-            }
-
-            if (cardComp.isRequired) {
-                cc.log(`${cardComp.name} is required`)
-                if (card.getComponent(Deck) == null) {
-                    newSprite = card.getComponent(Card).frontSprite;
-                }
-                cardPreview.on(cc.Node.EventType.TOUCH_START, () => {
-                    let cardPlayer = PlayerManager.getPlayerById(
-                        TurnsManager.currentTurn.PlayerId
-                    ).getComponent(Player);
-                    cardPreview.getComponent(CardPreview).hideCardPreview();
-                    cardComp.requiredFor.cardChosen = card;
-                    cardComp.requiredFor.isCardChosen = true;
-                    CardManager.disableCardActions(card)
-                    this.hidePreviewManager()
-                });
-            } else if (cardComp instanceof Card) {
-                cc.log(`${card.name} is: reactable ${cardComp._isReactable}, activatable ${cardComp._isActivateable}, playable ${cardComp._isPlayable},attackable ${cardComp._isAttackable}, buyable ${cardComp._isBuyable}`)
-                newSprite = card.getComponent(Card).frontSprite;
-                if (cardComp._isReactable) {
-
-                    cardPreview.on(cc.Node.EventType.TOUCH_START, () => {
-                        let cardPlayer = PlayerManager.getPlayerById(
-                            cardComp._cardHolderId
-                        ).getComponent(Player);
-                        CardManager.disableCardActions(card)
-                        if (!card.getComponent(CardEffect).hasMultipleEffects) {
-                            cardPreview.getComponent(CardPreview).hideCardPreview();
-                        }
-                        this.hidePreviewManager()
-                        cardPlayer.activateCard(card, false);
-
-                    });
-                } else if (cardComp._isActivateable) {
-
-                    cardPreview.on(cc.Node.EventType.TOUCH_START, () => {
-                        let cardPlayer = PlayerManager.getPlayerById(
-                            TurnsManager.currentTurn.PlayerId
-                        ).getComponent(Player);
-                        CardManager.disableCardActions(card)
-                        if (!card.getComponent(CardEffect).hasMultipleEffects) {
-                            cardPreview.getComponent(CardPreview).hideCardPreview();
-                        }
-                        this.hidePreviewManager()
-                        cardPlayer.activateCard(card, true);
-                    });
-                } else if (cardComp._isPlayable) {
-
-                    cardPreview.on(cc.Node.EventType.TOUCH_START, () => {
-                        let cardPlayer = PlayerManager.getPlayerById(
-                            TurnsManager.currentTurn.PlayerId
-                        ).getComponent(Player);
-                        cardPreview.getComponent(CardPreview).hideCardPreview();
-                        CardManager.disableCardActions(card)
-                        this.hidePreviewManager()
-                        cardPlayer.playLootCard(card, true);
-                    });
-                }
-                if (cardComp._isAttackable) {
-
-                    cardPreview.on(cc.Node.EventType.TOUCH_START, () => {
-
-                        let cardPlayer = PlayerManager.getPlayerById(
-                            TurnsManager.currentTurn.PlayerId
-                        ).getComponent(Player);
-                        cardPreview.getComponent(CardPreview).hideCardPreview();
-                        CardManager.disableCardActions(card)
-                        this.hidePreviewManager()
-                        cardPlayer.declareAttack(card, true);
-                    });
-                } else if (cardComp._isBuyable) {
-
-                    cardPreview.on(cc.Node.EventType.TOUCH_START, () => {
-                        let cardPlayer = PlayerManager.getPlayerById(
-                            TurnsManager.currentTurn.PlayerId
-                        ).getComponent(Player);
-                        cardPreview.getComponent(CardPreview).hideCardPreview();
-                        CardManager.disableCardActions(card)
-                        this.hidePreviewManager()
-                        cardPlayer.buyItem(card, true);
-                    });
-                }
-            }
-        } else {
-
-        }
-
-    }
 
 
     static updatePreviewsEvents() {
@@ -217,13 +106,14 @@ export default class CardPreviewManager extends cc.Component {
                 cardComp = card.getComponent(Card)
             }
 
-            if (cardComp._hasEventsBeenModified) {
-
+            if (cardComp._hasEventsBeenModified || !preview.getComponent(CardPreview).hasTouchProperty) {
+                let previewComp = preview.getComponent(CardPreview)
                 if (cardComp._isRequired) {
                     cc.log(`${cardComp.name} is required`)
                     if (card.getComponent(Deck) == null) {
                         newSprite = card.getComponent(Card).frontSprite;
                     }
+                    previewComp.hasTouchProperty = true
                     preview.on(cc.Node.EventType.TOUCH_START, () => {
                         cc.log(`chosen ${card.name}`)
                         let cardPlayer = PlayerManager.getPlayerById(
@@ -239,7 +129,7 @@ export default class CardPreviewManager extends cc.Component {
                     cc.log(`${card.name} is: reactable ${cardComp._isReactable}, activatable ${cardComp._isActivateable}, playable ${cardComp._isPlayable},attackable ${cardComp._isAttackable}, buyable ${cardComp._isBuyable}`)
                     newSprite = card.getComponent(Card).frontSprite;
                     if (cardComp._isReactable) {
-
+                        previewComp.hasTouchProperty = true
                         preview.on(cc.Node.EventType.TOUCH_START, () => {
                             let cardPlayer = PlayerManager.getPlayerById(
                                 cardComp._cardHolderId
@@ -249,11 +139,18 @@ export default class CardPreviewManager extends cc.Component {
                                 preview.getComponent(CardPreview).hideCardPreview();
                             }
                             this.hidePreviewManager()
-                            cardPlayer.activateCard(card, false);
+                            cardPlayer.activatedCard = card;
+                            cardPlayer.cardActivated = true;
+                            if (card.getComponent(Item) != null) {
+                                cardPlayer.activateCard(card, false);
+                            } else {
+
+                                cardPlayer.playLootCard(card, true)
+                            }
 
                         });
                     } else if (cardComp._isActivateable) {
-
+                        previewComp.hasTouchProperty = true
                         preview.on(cc.Node.EventType.TOUCH_START, () => {
                             let cardPlayer = PlayerManager.getPlayerById(
                                 TurnsManager.currentTurn.PlayerId
@@ -266,7 +163,7 @@ export default class CardPreviewManager extends cc.Component {
                             cardPlayer.activateCard(card, true);
                         });
                     } else if (cardComp._isPlayable) {
-
+                        previewComp.hasTouchProperty = true
                         preview.on(cc.Node.EventType.TOUCH_START, () => {
                             let cardPlayer = PlayerManager.getPlayerById(
                                 TurnsManager.currentTurn.PlayerId
@@ -278,7 +175,7 @@ export default class CardPreviewManager extends cc.Component {
                         });
                     }
                     else if (cardComp._isAttackable) {
-
+                        previewComp.hasTouchProperty = true
                         preview.on(cc.Node.EventType.TOUCH_START, () => {
 
                             let cardPlayer = PlayerManager.getPlayerById(
@@ -290,7 +187,7 @@ export default class CardPreviewManager extends cc.Component {
                             cardPlayer.declareAttack(card, true);
                         });
                     } else if (cardComp._isBuyable) {
-
+                        previewComp.hasTouchProperty = true
                         preview.on(cc.Node.EventType.TOUCH_START, () => {
                             let cardPlayer = PlayerManager.getPlayerById(
                                 TurnsManager.currentTurn.PlayerId
@@ -301,6 +198,7 @@ export default class CardPreviewManager extends cc.Component {
                             cardPlayer.buyItem(card, true);
                         });
                     } else {
+                        previewComp.hasTouchProperty = false
                         preview.off(cc.Node.EventType.TOUCH_START)
                     }
                 }
@@ -419,31 +317,7 @@ export default class CardPreviewManager extends cc.Component {
         for (let i = 0; i < cardsToPreview.length; i++) {
             let card = cardsToPreview[i]
             let preview = this.addPreview(card)
-            // let preview: CardPreview;
-            // let exsistingPreview = this.getPreviewByCard(card)
-            // if (exsistingPreview == null) {
-            //     preview = this.cardPreviewPool.get().getComponent(CardPreview);
-            // } else {
-            //     preview = exsistingPreview
-            // }
-            // preview.node.setParent(this.scrollView.content.getChildByName('PreviewLayout'));
-            // preview.node.runAction(cc.fadeTo(0, 255))
-            // preview.card = card;
-            // if (card.getComponent(Deck) == null) {
-
-            //     preview.node.getComponent(cc.Sprite).spriteFrame = card.getComponent(Card).frontSprite;
-            // } else {
-            //     preview.node.getComponent(cc.Sprite).spriteFrame = card.getComponent(cc.Sprite).spriteFrame;
-            // }
-            // this.currentPreviews.push(preview.node)
             previews.push(preview.node)
-            // preview.node.active = true;
-
-            // preview.node.runAction(cc.fadeTo(0, 255))
-
-            // preview.node.runAction(cc.fadeTo(TIMETOSHOWPREVIEW, 255));
-
-            //   await preview.showCardPreview2(card);
         }
 
         this.$.node.active = true;
@@ -475,21 +349,24 @@ export default class CardPreviewManager extends cc.Component {
         //preview.node.setParent(this.scrollView.content);
         preview.node.runAction(cc.fadeTo(0, 255))
         preview.card = cardToAdd;
-        //   cc.log(`test1`)
-        if (cardToAdd.getComponent(Deck) != null) {
-            //  cc.log(`is deck`)
+        let cardComp = cardToAdd.getComponent(Card)
+
+
+        if (cardToAdd.getComponent(Deck) != null || cardComp.topDeckof != null) {
+
             preview.node.getComponent(cc.Sprite).spriteFrame = cardToAdd.getComponent(cc.Sprite).spriteFrame;
         } else if (cardToAdd.getComponent(Pile) != null) {
-            //   cc.log(`is Pile`)
+
             preview.node.getComponent(cc.Sprite).spriteFrame = cardToAdd.getComponent(Pile).pileSprite.spriteFrame;
         } else {
-            //   cc.log(`is a Card`)
-            preview.node.getComponent(cc.Sprite).spriteFrame = cardToAdd.getComponent(Card).frontSprite;
+
+            preview.node.getComponent(cc.Sprite).spriteFrame = cardComp.frontSprite;
         }
         //  cc.log(`test2`)
         this.currentPreviews.push(preview.node)
         preview.node.active = true;
         preview.node.runAction(cc.fadeTo(0, 255))
+        CardPreviewManager.updatePreviewsEvents()
         return preview
     }
 

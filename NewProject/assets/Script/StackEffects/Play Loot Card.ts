@@ -59,6 +59,10 @@ export default class PlayLootCardStackEffect implements StackEffectInterface {
         let card = this.lootToPlay.getComponent(Card);
         let cardEffect = this.lootToPlay.getComponent(CardEffect)
 
+
+        await this.lootPlayer.loseLoot(this.lootToPlay, true)
+        await CardManager.moveCardTo(this.lootToPlay, PileManager.lootPlaceTest, true, true)
+
         //let player choose effect b4 going in the stack
         if (cardEffect.hasMultipleEffects) {
             //if the card has multiple effects and the player needs to choose
@@ -72,12 +76,10 @@ export default class PlayLootCardStackEffect implements StackEffectInterface {
         }
         //if the effect is chosen already and the player needs to choose targets, let him now.
         if (this.effectToDo != null) {
-            let collectedData = cardEffect.collectEffectData(this.effectToDo, { cardId: this.lootToPlay.getComponent(Card)._cardId, cardPlayerId: this.lootPlayer.playerId })
+            let collectedData = await cardEffect.collectEffectData(this.effectToDo, { cardId: this.lootToPlay.getComponent(Card)._cardId, cardPlayerId: this.lootPlayer.playerId })
             cardEffect.effectData = collectedData;
             this.hasDataBeenCollectedYet = true;
         }
-        await this.lootPlayer.loseLoot(this.lootToPlay, true)
-        await CardManager.moveCardTo(this.lootToPlay, PileManager.lootPlaceTest, true, true)
 
         let turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
         turnPlayer.givePriority(true)

@@ -9,6 +9,8 @@ import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
 import StackEffectInterface from "./StackEffectInterface";
 import { ActivatePassiveItemVis } from "./StackEffectVisualRepresentation/Activate Passive Item Vis";
 import ServerActivatePassive from "./ServerSideStackEffects/Server Activate Passive";
+import PlayerManager from "../Managers/PlayerManager";
+import Player from "../Entites/GameEntities/Player";
 
 
 export default class ActivatePassiveEffect implements StackEffectInterface {
@@ -56,6 +58,17 @@ export default class ActivatePassiveEffect implements StackEffectInterface {
         let card = this.cardWithEffect.getComponent(Card);
         let cardEffect = this.cardWithEffect.getComponent(CardEffect)
 
+        let cardOwner = PlayerManager.getPlayerByCard(this.cardWithEffect).node
+        if (cardOwner == null) {
+            cardOwner = this.cardWithEffect
+        }
+
+        if (this.effectToDo.dataCollector.length > 0) {
+            let collectedData = await cardEffect.collectEffectData(this.effectToDo, { cardId: this.cardWithEffect.getComponent(Card)._cardId, cardPlayerId: cardOwner.getComponent(Player).playerId })
+            cardEffect.effectData = collectedData;
+            this.hasDataBeenCollectedYet = true;
+        }
+
 
     }
 
@@ -76,8 +89,12 @@ export default class ActivatePassiveEffect implements StackEffectInterface {
 
     async doCardEffect(effect: Effect, hasDataBeenCollectedYet: boolean) {
         let cardEffect = this.cardWithEffect.getComponent(CardEffect)
-        let serverEffect = await cardEffect.getServerEffect(effect, this.cardActivatorId, true)
+        let serverEffect = await cardEffect.getServerEffect(effect, this.cardActivatorId, !this.hasDataBeenCollectedYet)
         let passiveData = DataInterpreter.makeEffectData(this.effectPassiveMeta, this.cardWithEffect, this.cardActivatorId, false, false)
+        cc.log(passiveData)
+        cc.log(cardEffect.effectData)
+        passiveData.effectTargets.push(...cardEffect.effectData)
+        cc.log(passiveData)
         serverEffect.cardEffectData = passiveData;
         //change in every effect that it recives the current stack (maybe not needed cuz stack is static) so that effects that affect the stack (butter bean) can cancel them
         //  (build an interpreter that can take a StackEffect and check in what state it is , what is the chosen effect is and what can change it)

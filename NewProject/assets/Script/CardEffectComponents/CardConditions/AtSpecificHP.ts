@@ -6,6 +6,7 @@ import Monster from "../../Entites/CardTypes/Monster";
 import CardManager from "../../Managers/CardManager";
 import Effect from "../CardEffects/Effect";
 import { PassiveMeta } from "../../Managers/PassiveManager";
+import { PASSIVE_EVENTS } from "../../Constants";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,7 +33,7 @@ export default class AtSpecificHp extends Condition {
     cc.log(`card owner is ${cardOwner.name}`)
     let subjectName: string = subject.name
     let nameArray = subjectName.split('<')
-    if (subject.getComponent(Monster) != null && nameArray[0] == cardOwner.name && meta.methodName == 'getDamaged') {
+    if (subject.getComponent(Monster) != null && nameArray[0] == cardOwner.name && meta.passiveEvent == PASSIVE_EVENTS.MONSTER_GET_HIT) {
       if (subject.getComponent(Monster).currentHp == this.specificHp) {
         this.isActive = true
         return true;
@@ -42,7 +43,7 @@ export default class AtSpecificHp extends Condition {
     } else if (
       subject.getComponent(Player) != null &&
       subject.name == cardOwner.name &&
-      meta.methodName == "getHit"
+      meta.passiveEvent == PASSIVE_EVENTS.PLAYER_GET_HIT
     ) {
       if (subject.getComponent(Player)._Hp == this.specificHp) {
         this.isActive = true

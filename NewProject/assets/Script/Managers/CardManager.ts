@@ -263,11 +263,8 @@ export default class CardManager extends cc.Component {
 
       cc.log(`store cards ${Store.storeCards.length}`)
       if (Store.storeCards.length < Store.maxNumOfItems) {
-        cc.error(`store cards : ${Store.storeCards.length}`)
         let diff = Store.maxNumOfItems - Store.storeCards.length;
-        cc.error(`diff : ${diff}`)
         for (let i = 0; i < diff; i++) {
-          cc.error(`make refill store`)
           let refillEmptySlot = new RefillEmptySlot(PlayerManager.mePlayer.getComponent(Player).character.getComponent(Card)._cardId, Store.$.node, CARD_TYPE.TREASURE)
           await Stack.addToStack(refillEmptySlot, true)
           //Store.$.addStoreCard(true);
@@ -557,7 +554,7 @@ export default class CardManager extends cc.Component {
     }
 
     ///change to show preview for comfirmation!
-    CardPreviewManager.addPreview(card)
+    // CardPreviewManager.addPreview(card) 
     this.makeCardPreviewable(card);
 
 

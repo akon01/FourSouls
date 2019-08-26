@@ -163,6 +163,9 @@ export default class Player extends cc.Component {
   @property
   _curses: cc.Node[] = [];
 
+  @property
+  hpLable: cc.Label = null;
+
   assignChar(charCard: cc.Node, itemCard: cc.Node) {
     CardManager.onTableCards.push(charCard, itemCard);
     this.setCharacter(charCard, itemCard);
@@ -175,6 +178,8 @@ export default class Player extends cc.Component {
     } else {
       this.passiveItems.push(itemCard);
     }
+    // this.hpLable = cc.find(`Canvas/P${this.playerId} HP`).getComponent(cc.Label)
+    this.hpLable.string = `${charCard.getComponent(Character).Hp}♥`
   }
 
   async drawCard(deck: cc.Node, sendToServer: boolean, alreadyDrawnCard?: cc.Node) {
@@ -337,6 +342,7 @@ export default class Player extends cc.Component {
 
   async loseLoot(loot: cc.Node, sendToServer: boolean) {
     this.hand.removeCardFromLayout(loot)
+    this.handCards.splice(this.handCards.indexOf(loot), 1)
     let serverData = {
       signal: Signal.PLAYER_LOSE_LOOT,
       srvData: { playerId: this.playerId, cardId: loot.getComponent(Card)._cardId }
@@ -470,7 +476,6 @@ export default class Player extends cc.Component {
         TurnsManager.currentTurn.lootCardPlays -= 1
       }
       let playLoot = new PlayLootCardStackEffect(this.character.getComponent(Card)._cardId, hasLockingEffect, lootCard, this.character, false, false)
-      cc.log(playLoot)
       await Stack.addToStack(playLoot, sendToServer)
 
     } else {
@@ -487,21 +492,7 @@ export default class Player extends cc.Component {
       let playerDeath = new PlayerDeath(this.character.getComponent(Card)._cardId, this.character)
       // if (addBelow) {
       await Stack.addToStackBelow(playerDeath, stackEffectToAddBelowTo)
-      //   await Stack.doStackEffectFromTop(true)
-      // } else await Stack.addToStack(playerDeath, true)
-      //remove curses
 
-
-      // let playerPenalty = new PlayerDeathPenalties(this.character.getComponent(Card)._cardId, this.character)
-
-      // if (addBelow) {
-      //   await Stack.addToStackBelow(playerPenalty, stackEffectToAddBelowTo)
-      // } else
-      // await Stack.addToStack(playerPenalty, true)
-      //if it is your turn, end it.
-      // if (TurnsManager.currentTurn.getTurnPlayer().playerId == this.playerId) {
-      //   await this.endTurn(sendToServer);
-      // }
     }
 
   }
@@ -541,9 +532,7 @@ export default class Player extends cc.Component {
 
       let over = this.destroyItem(chosenCard, sendToServer);
     }
-    return new Promise((resolve, reject) => {
-      resolve(true);
-    });
+    return true
   }
 
   destroyItem(itemToDestroy: cc.Node, sendToServer: boolean) {
@@ -599,6 +588,7 @@ export default class Player extends cc.Component {
     } else {
       this._Hp += hpToHeal
     }
+    this.hpLable.string = `${this._Hp}♥`
   }
 
   async endTurn(sendToServer: boolean) {
@@ -655,7 +645,7 @@ export default class Player extends cc.Component {
       } else {
         this._Hp -= damage
       }
-
+      this.hpLable.string = `${this._Hp}♥`
       let serverData = {
         signal: Signal.PLAYER_GET_HIT,
         srvData: { playerId: this.playerId, damage: damage }
@@ -758,8 +748,8 @@ export default class Player extends cc.Component {
   }
 
   async activateCard(card: cc.Node, isStackEmpty: boolean) {
-    this.activatedCard = card;
-    this.cardActivated = true;
+    //this.activatedCard = card;
+    //this.cardActivated = true;
     let cardId = card.getComponent(Card)._cardId;
     let hasLockingEffect;
     let collector = card.getComponent(CardEffect).multiEffectCollector;
@@ -875,6 +865,11 @@ export default class Player extends cc.Component {
         this.reactCardNode.push(activeItem.node);
       }
     }
+    if (TurnsManager.currentTurn.PlayerId == this.playerId && TurnsManager.currentTurn.lootCardPlays > 0) {
+      for (const handCard of this.handCards) {
+        this.reactCardNode.push(handCard)
+      }
+    }
 
   }
 
@@ -895,15 +890,16 @@ export default class Player extends cc.Component {
   hideAvailableReactions() {
     for (let i = 0; i < this.reactCardNode.length; i++) {
       const card = this.reactCardNode[i];
-      if (card.getActionByTag(12) != null) {
-        card.stopAllActions();
-      } else card.stopActionByTag(12);
+      card.stopActionByTag(12)
+      // if (card.getActionByTag(12) != null) {
+      //   card.stopAllActions();
+      // } else card.stopActionByTag(12);
       card.runAction(cc.fadeTo(0.5, 255));
     }
   }
 
   async respondWithNoAction(reactionNodes: cc.Node[], askingPlayerId: number) {
-    cc.log(`respond with no action to player ${askingPlayerId}!`)
+
 
     this.hideAvailableReactions()
     cc.find('Canvas/SkipButton').off(cc.Node.EventType.TOUCH_START)
@@ -912,7 +908,7 @@ export default class Player extends cc.Component {
   }
 
   async getResponse(askingPlayerId: number) {
-    cc.log(`get response from player ${askingPlayerId}`)
+
     this._askingPlayerId = askingPlayerId
     this.calculateReactions();
 

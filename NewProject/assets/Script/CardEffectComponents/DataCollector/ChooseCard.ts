@@ -43,7 +43,6 @@ export default class ChooseCard extends DataCollector {
     if (cardsToChooseFrom.length == 0) {
       throw 'No Cards To Choose From!'
     }
-    cc.log(cardsToChooseFrom.map(card => card.name))
     let cardChosenData: {
       cardChosenId: number;
       playerId: number;

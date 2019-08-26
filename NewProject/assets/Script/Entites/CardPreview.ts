@@ -1,21 +1,7 @@
-import {
-  TIME_TO_SHOW_PREVIEW,
-  printMethodSignal,
-  COLORS,
-} from "../Constants";
-import PlayerManager from "../Managers/PlayerManager";
-import TurnsManager from "../Managers/TurnsManager";
+import Effect from "../CardEffectComponents/CardEffects/Effect";
+import CardPreviewManager from "../Managers/CardPreviewManager";
 import { TIME_TO_HIDE_PREVIEW } from "./../Constants";
 import CardEffect from "./CardEffect";
-import Player from "./GameEntities/Player";
-import ServerClient from "../../ServerClient/ServerClient";
-import Signal from "../../Misc/Signal";
-import Card from "./GameEntities/Card";
-import ActionManager from "../Managers/ActionManager";
-import { Decipher } from "crypto";
-import Deck from "./GameEntities/Deck";
-import CardPreviewManager from "../Managers/CardPreviewManager";
-import Effect from "../CardEffectComponents/CardEffects/Effect";
 import Item from "./CardTypes/Item";
 
 const { ccclass, property } = cc._decorator;
@@ -44,6 +30,9 @@ export default class CardPreview extends cc.Component {
 
   @property
   hideThisTimeOut = null;
+
+  @property
+  hasTouchProperty: boolean = false;
 
 
 

@@ -46,14 +46,13 @@ export default class Store extends cc.Component {
       if (sendToServer) {
         ServerClient.$.send(Signal.ADD_STORE_CARD, { cardId: cardId })
       }
-    } else cc.log(`already max store cards`)
+    } else cc.error(`already max store cards`)
   }
 
   buyItemFromShop(itemToBuy: cc.Node, sendToServer: boolean) {
     if (itemToBuy.getComponent(Card).topDeckof == null) {
       cc.log(`buy item ${itemToBuy.name} from the shop`)
-      cc.error(Store.storeCards)
-      Store.storeCards.splice(Store.storeCards.indexOf(itemToBuy))
+      Store.storeCards.splice(Store.storeCards.indexOf(itemToBuy), 1)
       cc.error(Store.storeCards)
       if (sendToServer) {
         ServerClient.$.send(Signal.BUY_ITEM_FROM_SHOP, { cardId: itemToBuy.getComponent(Card)._cardId })

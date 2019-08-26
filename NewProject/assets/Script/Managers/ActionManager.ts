@@ -97,14 +97,13 @@ export default class ActionManager extends cc.Component {
       //if not in battle pahse allow other actions (buying,playing turnLoot,activating itmes,attacking a monster)
       if (!TurnsManager.currentTurn.battlePhase) {
         //make store cards buyable (add check for money)
-        cc.log(TurnsManager.currentTurn.buyPlays)
         if (
           TurnsManager.currentTurn.buyPlays > 0
           //&& player.getComponent(Player).coins >= 10
         ) {
           for (let i = 0; i < Store.storeCards.length; i++) {
             const storeCard = Store.storeCards[i];
-            cc.log(`make ${storeCard.name} buyable`)
+
             CardManager.makeItemBuyable(storeCard, currentPlayerComp);
           }
 
@@ -302,7 +301,7 @@ export default class ActionManager extends cc.Component {
 
     await CardManager.updateOnTableCards();
 
-    await CardManager.checkForEmptyFields(); 
+    await CardManager.checkForEmptyFields();
 
 
 
@@ -693,9 +692,9 @@ export default class ActionManager extends cc.Component {
         await player.givePriority(false)
         break;
       case Signal.GET_REACTION:
-        cc.log(`respond to player ${data.activePlayerId} effect?`)
+
         let me = PlayerManager.mePlayer.getComponent(Player);
-        cc.log(data.activePlayerId)
+
         await me.getResponse(data.activePlayerId)
         break;
       case Signal.RESPOND_TO:
@@ -703,7 +702,7 @@ export default class ActionManager extends cc.Component {
         Stack.hasOtherPlayerRespondedYet = true;
         break;
       case Signal.DO_STACK_EFFECT:
-        cc.log(`signal do stack effect`)
+
         Stack.replaceStack(data.currentStack.map(stackEffect => converter.convertToStackEffect(stackEffect)), false)
         let newStack = await Stack.doStackEffectFromTop(false)
         if (newStack != undefined) {
@@ -713,12 +712,7 @@ export default class ActionManager extends cc.Component {
         }
         break;
       case Signal.TURN_PLAYER_DO_STACK_EFFECT:
-
-        //  Stack.replaceStack(data.currentStack.map(stackEffect => converter.convertToStackEffect(stackEffect)), false)
-        //  let newStack = await Stack.doStackEffectFromTop(false)
         await ActionManager.updateActions()
-        //Stack.doStackEffectFromTop(true)
-        //ServerClient.$.send(Signal.FINISH_DO_STACK_EFFECT, { playerId: data.originPlayerId, newStack: newStack.map(effect => effect.convertToServerStackEffect()) })
         break;
 
       case Signal.ADD_RESOLVING_STACK_EFFECT:

@@ -3,6 +3,7 @@ import Condition from "./Condition";
 import Player from "../../Entites/GameEntities/Player";
 import PlayerManager from "../../Managers/PlayerManager";
 import { PassiveMeta } from "../../Managers/PassiveManager";
+import { PASSIVE_EVENTS } from "../../Constants";
 
 const { ccclass, property } = cc._decorator;
 
@@ -15,7 +16,7 @@ export default class TakeDamage extends Condition {
     if (
       player instanceof Player &&
       player.name == cardOwner.name &&
-      meta.methodName == "getHit"
+      meta.passiveEvent == PASSIVE_EVENTS.PLAYER_GET_HIT
     ) {
       return true;
     } else {

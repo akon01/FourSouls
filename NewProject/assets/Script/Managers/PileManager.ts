@@ -102,11 +102,11 @@ export default class PileManager extends cc.Component {
         PileManager.monsterCardPile.addCardToTopPile(card);
         // card.parent = this.monsterCardPileNode;
         if (card.getComponent(Monster).monsterPlace != null) {
-          if (sendToServer) {
-            card.getComponent(Monster).monsterPlace.removeMonster(card, sendToServer);
-            card.getComponent(Monster).monsterPlace.getNextMonster(sendToServer);
-            //this.isOver = true;
-          }
+          // if (sendToServer) {
+          //   card.getComponent(Monster).monsterPlace.removeMonster(card, sendToServer); 
+          //   card.getComponent(Monster).monsterPlace.getNextMonster(sendToServer);
+          //   //this.isOver = true;
+          // }
         }
 
         break;

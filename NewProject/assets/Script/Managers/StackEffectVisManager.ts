@@ -84,7 +84,7 @@ export default class StackEffectVisManager extends cc.Component {
     }
 
     addPreview(stackEffect: StackEffectInterface) {
-        cc.error(`add preview of ${stackEffect.entityId}`)
+
         let preview = this.previewPool.get()
         preview.getComponent(StackEffectPreview).setStackEffect(stackEffect)
         this.currentPreviews.push(preview.getComponent(StackEffectPreview))
@@ -93,7 +93,7 @@ export default class StackEffectVisManager extends cc.Component {
     }
 
     clearPreviews() {
-        cc.error(`clear all previews`)
+
         for (const preview of this.currentPreviews) {
             this.previewPool.put(preview.node)
         }
@@ -101,7 +101,7 @@ export default class StackEffectVisManager extends cc.Component {
     }
 
     removePreview(stackEffect: StackEffectInterface) {
-        cc.error(`remove preview of ${stackEffect.entityId}`)
+
         let preview = this.currentPreviews.find(preview => preview.stackEffect.entityId == stackEffect.entityId)
         if (preview != null) {
             this.currentPreviews.splice(this.currentPreviews.indexOf(preview))

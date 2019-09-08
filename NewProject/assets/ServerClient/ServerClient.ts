@@ -9,6 +9,7 @@ import Signal from "../Misc/Signal";
 import ActionManager from "../Script/Managers/ActionManager";
 import Player from "../Script/Entites/GameEntities/Player";
 import MainScript from "../Script/MainScript";
+import { Logger } from "../Script/Entites/Logger";
 
 const { ccclass, property } = cc._decorator;
 
@@ -181,6 +182,7 @@ export default class ServerClient extends cc.Component {
 
   onOpen() {
     cc.log("Connected to the server!");
+    cc.find(`Canvas/Server Connection`).getComponent(cc.Label).string = 'Connected to the Server'
   }
 
   onClose() {
@@ -209,8 +211,9 @@ export default class ServerClient extends cc.Component {
       //cc.log(this.reactionCounter);
     }
     let time = new Date().toTimeString().substring(0, 8)
-    cc.log("%cSENDING:", "color:#36F;", signal, time);
-    cc.log(data)
+    Logger.printMethodSignal([signal, data], true)
+    // cc.log("%cSENDING:", "color:#36F;", signal, time);
+    // cc.log(data)
     this.ws.send(btoa(JSON.stringify({ signal, data })));
   }
 
@@ -219,8 +222,12 @@ export default class ServerClient extends cc.Component {
     player.playerId = uuid;
   }
 
-  onJoin(uuid: number) {
+  onJoin(uuid) {
     cc.log(uuid);
+    let lable = cc.find(`Canvas/Match Players`).getComponent(cc.Label)
+    let string = lable.string + `\nPlayer ${uuid.uuid}`;
+
+    cc.find(`Canvas/Match Players`).getComponent(cc.Label).string = string
   }
 
   onStartGame({ }) {

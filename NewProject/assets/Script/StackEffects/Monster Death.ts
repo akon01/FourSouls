@@ -55,7 +55,7 @@ export default class MonsterDeath implements StackEffectInterface {
         let turnPlayerCard = PlayerManager.getPlayerById(TurnsManager.currentTurn.PlayerId).getComponent(Player).character
         let monsterReward = new MonsterRewardStackEffect(this.creatorCardId, this.monsterToDie.node, turnPlayerCard)
 
-        await Stack.addToStackBelow(monsterReward, this)
+        await Stack.addToStackBelow(monsterReward, this, true)
 
     }
 

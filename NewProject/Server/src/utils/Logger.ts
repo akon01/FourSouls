@@ -1,6 +1,5 @@
 
 import * as fs from "fs";
-import ServerPlayer from "src/entities/player";
 
 export class Logger {
 

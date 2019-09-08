@@ -1,4 +1,4 @@
-import { CARD_TYPE,TARGETTYPE } from "../../Constants";
+import { CARD_TYPE, TARGETTYPE } from "../../Constants";
 import Deck from "../../Entites/GameEntities/Deck";
 import CardManager from "../../Managers/CardManager";
 import CardPreviewManager from "../../Managers/CardPreviewManager";
@@ -40,7 +40,7 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
     data?: ActiveEffectData
   ) {
     let deck: Deck;
-    if(data.getTarget(TARGETTYPE.DECK) == null){
+    if (data == null) {
 
       switch (this.deckType) {
         case CARD_TYPE.LOOT:
@@ -55,7 +55,8 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
           break;
       }
     } else {
-      deck = data.getTarget(TARGETTYPE.DECK).getComponent(Deck)
+
+      deck = (data.getTarget(TARGETTYPE.DECK) as cc.Node).getComponent(Deck)
     }
     let cardsToSee = [];
     for (let i = 0; i < this.numOfCardsToSee; i++) {

@@ -2,13 +2,14 @@ import StackEffectInterface from "./StackEffectInterface";
 import Stack from "../Entites/Stack";
 import CardManager from "../Managers/CardManager";
 import PlayerManager from "../Managers/PlayerManager";
-import { ROLL_TYPE, STACK_EFFECT_TYPE } from "../Constants";
+import { ROLL_TYPE, STACK_EFFECT_TYPE, PASSIVE_EVENTS } from "../Constants";
 import ServerRollDiceStackEffect from "./ServerSideStackEffects/Server Roll DIce";
 import Player from "../Entites/GameEntities/Player";
 import ServerPurchaseItem from "./ServerSideStackEffects/Server Purchase Item";
 import TurnsManager from "../Managers/TurnsManager";
 import { PurchaseItemVis } from "./StackEffectVisualRepresentation/Purchase Item Vis";
 import Store from "../Entites/GameEntities/Store";
+import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
 
 
 export default class PurchaseItem implements StackEffectInterface {
@@ -52,12 +53,19 @@ export default class PurchaseItem implements StackEffectInterface {
 
     async resolve() {
         cc.log('resolve purchase item')
-        cc.log(this.playerWhoBuys)
+
+
+        let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_BUY_ITEM, [this.cost, this.itemToPurchase], null, this.playerWhoBuys.node)
+
+        let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+        cc.log(afterPassiveMeta)
+        passiveMeta.args = afterPassiveMeta.args;
+
         // if (this.playerWhoBuys.coins >= this.cost) {
-        await this.playerWhoBuys.changeMoney(this.cost, true)
+        await this.playerWhoBuys.changeMoney(passiveMeta.args[0], true)
         //  await CardManager.moveCardTo(this.itemToPurchase, this.playerWhoBuys.hand.node, true)
-        await this.playerWhoBuys.addItem(this.itemToPurchase, true, false)
-        Store.$.buyItemFromShop(this.itemToPurchase, true)
+        Store.$.buyItemFromShop(passiveMeta.args[1], true)
+        await this.playerWhoBuys.addItem(passiveMeta.args[1], true, false)
         TurnsManager.currentTurn.buyPlays -= 1;
         //  } else {
         //    cc.log(`not enought money`)

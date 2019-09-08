@@ -6,6 +6,7 @@ import { PassiveEffectData } from "../../../Managers/DataInterpreter";
 import { TARGETTYPE } from "../../../Constants";
 import Player from "../../../Entites/GameEntities/Player";
 import Monster from "../../../Entites/CardTypes/Monster";
+import PlayerManager from "../../../Managers/PlayerManager";
 
 
 const { ccclass, property } = cc._decorator;
@@ -33,7 +34,7 @@ export default class DealDamage extends Effect {
       entityToHit = data.getTarget(TARGETTYPE.MONSTER)
     }
     if (isPlayer) {
-      await entityToHit.getComponent(Player).getHit(this.damageToDeal, true)
+      await PlayerManager.getPlayerByCard(entityToHit).getHit(this.damageToDeal, true)
     } else {
       await entityToHit.getComponent(Monster).getDamaged(this.damageToDeal, true)
     }

@@ -21,6 +21,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class DataInterpreter {
 
+
     static makeEffectData(data, effectCard, cardPlayerId, isActive: boolean, isChainCollectorData: boolean): ActiveEffectData | PassiveEffectData {
         let effectData: ActiveEffectData | PassiveEffectData
         if (isActive) {
@@ -56,7 +57,9 @@ export default class DataInterpreter {
                 if (data.terminateOriginal != null) {
                     effectData.terminateOriginal = data.terminateOriginal
                 }
-
+                if (data instanceof EffectTarget) {
+                    effectData.effectTargets.push(data)
+                }
             }
         }
 
@@ -87,7 +90,7 @@ export default class DataInterpreter {
             if (serverEffectData.effectTargetCard != null) {
                 if (serverEffectData.isTargetStackEffect) {
                     let chosenStackEffect = Stack._currentStack.find(stackEffect => stackEffect.entityId == serverEffectData.effectTargetCard);
-                    cc.log(chosenStackEffect)
+
                     let stackPreview = StackEffectVisManager.$.getPreviewByStackId(chosenStackEffect.entityId)
                     effectData.effectTargetCard = new EffectTarget(stackPreview)
                 } else
@@ -128,12 +131,13 @@ export default class DataInterpreter {
                 }
             }
         }
-        cc.error(`effect data after converting from server to client`)
-        cc.log(effectData)
         return effectData;
     }
 
     static convertToServerData(effectData: ActiveEffectData | PassiveEffectData) {
+        if (effectData == null) {
+            return
+        }
         let serverEffectData = new ServerEffectData()
         if (effectData instanceof ActiveEffectData) {
             if (effectData.effectTargetCard != null) {
@@ -262,6 +266,7 @@ export class PassiveEffectData extends EffectData {
         } else return targets.map(target => target.effectTargetStackEffectId);
     }
     getTarget(targetType: TARGETTYPE) {
+
         for (const target of this.effectTargets) {
             if (target.targetType == targetType) {
                 return target.effectTargetCard
@@ -312,14 +317,14 @@ export class ActiveEffectData extends EffectData {
     }
 
     addTarget(target) {
-        if (this.effectTargets.length == 0) {
+        if (this.effectTargets.length == 0 && this.effectTargetCard != null) {
             this.effectTargets.push(this.effectTargetCard);
             this.effectTargetCard = null;
-        } else {
-
-            let newTarget = new EffectTarget(target);
-            this.effectTargets.push(newTarget)
         }
+
+        let newTarget = new EffectTarget(target);
+        this.effectTargets.push(newTarget)
+
     }
 }
 

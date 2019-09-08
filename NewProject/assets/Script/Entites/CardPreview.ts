@@ -50,6 +50,7 @@ export default class CardPreview extends cc.Component {
     let hideTimeOut = () => {
       // this.node.setSiblingIndex(0);
       this.card = null;
+      this.hasTouchProperty = false
       this.node.getComponent(cc.Sprite).spriteFrame = null;
       this.node.active = false;
       this.hideThisTimeOut = null;
@@ -70,8 +71,10 @@ export default class CardPreview extends cc.Component {
 
     let heightScale = effect.height / parentHeight;
     let widthScale = this.node.width / originalParent.width;
-    this.node.addChild(cc.instantiate(effect), 1, effect.name);
-    let newEffect = this.node.getChildByName(effect.name);
+
+    let name = effect.name + ' ' + this.node.childrenCount
+    this.node.addChild(cc.instantiate(effect), 1, name);
+    let newEffect = this.node.getChildByName(name);
     newEffect.getComponent(Effect)._effectCard = originalParent;
     this.effectChildren.push(newEffect);
 
@@ -79,11 +82,14 @@ export default class CardPreview extends cc.Component {
 
     newEffect.height = this.node.height * heightScale;
 
+
     let newY = originalY * yPositionScale;
+
     newEffect.setPosition(0, newY);
 
+    cc.log(`new effect name ${newEffect.name}`)
     newEffect.once(cc.Node.EventType.TOUCH_START, () => {
-
+      cc.log(`new effect ${newEffect.name} was chosen`)
       this.hideCardPreview();
       CardPreview.effectChosen = effect;
       CardPreview.wasEffectChosen = true;
@@ -111,17 +117,29 @@ export default class CardPreview extends cc.Component {
       }
     }
     cardEffects = card.getComponent(CardEffect).activeEffects;
+    cc.log(cardEffects)
     for (let i = 0; i < cardEffects.length; i++) {
       const effect = cardEffects[i];
+      cc.log(effect)
       let preCondition = effect.getComponent(Effect).preCondition
-      if (!card.getComponent(Item).activated) {
+      let itemComp = card.getComponent(Item)
+      if (itemComp != null) {
+        if (!itemComp.activated) {
 
+          if (preCondition != null && preCondition.testCondition()) {
+
+            this.addEffectToPreview(effect);
+          }
+          else if (preCondition == null) {
+
+            this.addEffectToPreview(effect)
+          }
+        }
+      } else {
         if (preCondition != null && preCondition.testCondition()) {
-
           this.addEffectToPreview(effect);
         }
         else if (preCondition == null) {
-
           this.addEffectToPreview(effect)
         }
       }

@@ -190,7 +190,7 @@ export default class PassiveManager extends cc.Component {
     for (let i = 0; i < passivesToActivate.length; i++) {
       const effect = passivesToActivate[i];
       cc.log(`doing b4 passive effect ${effect.name}`)
-      cardToActivate = effect.node.parent.parent;
+      cardToActivate = effect.node.parent;
 
       passiveIndex = cardToActivate
         .getComponent(CardEffect)
@@ -222,7 +222,11 @@ export default class PassiveManager extends cc.Component {
       }
       if (passivesToActivate.length - i == 1) {
         cc.log(`should be last passive effect to be added to the stack for this action, begin resolving`)
+        // if (Stack._currentStackEffectsResolving.length == 0) {
         await Stack.addToStack(activatePassiveEffect, true)
+        // } else {
+        //   await Stack.addToStackAbove(activatePassiveEffect) 
+        // }
       } else {
         cc.log(`should be more passives to add to stack, do not start resolving.`)
         await Stack.addToStackAbove(activatePassiveEffect)
@@ -230,6 +234,7 @@ export default class PassiveManager extends cc.Component {
 
     }
 
+    cc.log(this.passiveMethodData)
 
     return this.passiveMethodData;
   }

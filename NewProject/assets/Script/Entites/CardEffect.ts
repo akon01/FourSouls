@@ -264,32 +264,38 @@ export default class CardEffect extends cc.Component {
 
     let isActive = (this.getEffectIndexAndType(effect).type == ITEM_TYPE.ACTIVE) ? true : false
 
-    for (let o = 0; o < effect.dataCollector.length; o++) {
-      const dataCollector = effect.dataCollector[o];
-      cc.log(`collecting data for ${effect.name} with ${dataCollector.name}`)
-      try {
-        data = await dataCollector.collectData(oldData)
+    if (effect.dataCollector != null) {
 
-      } catch (error) {
-        cc.error(error)
-      }
-      if (endData == null) {
-        if (dataCollector instanceof ChainCollector) {
-          endData = DataInterpreter.makeEffectData(data, this.node, oldData.cardPlayerId, true, true)
-        } else {
-          endData = DataInterpreter.makeEffectData(data, this.node, oldData.cardPlayerId, true, false)
-        }
+
+
+      if (effect.dataCollector instanceof DataCollector) {
+        data = await effect.dataCollector.collectData(oldData)
+        endData = DataInterpreter.makeEffectData(data, this.node, oldData.cardPlayerId, isActive, false)
       } else {
-        if (endData instanceof ActiveEffectData) endData.addTarget(DataInterpreter.getNodeFromData(data))
+        for (let o = 0; o < effect.dataCollector.length; o++) {
+          const dataCollector = effect.dataCollector[o];
+          cc.log(`collecting data for ${effect.name} with ${dataCollector.name}`)
+          try {
+            data = await dataCollector.collectData(oldData)
+
+          } catch (error) {
+            cc.error(error)
+          }
+          if (endData == null) {
+            if (dataCollector instanceof ChainCollector) {
+              endData = DataInterpreter.makeEffectData(data, this.node, oldData.cardPlayerId, isActive, true)
+            } else {
+              endData = DataInterpreter.makeEffectData(data, this.node, oldData.cardPlayerId, isActive, false)
+            }
+          } else {
+            //  if (endData instanceof ActiveEffectData) endData.addTarget(DataInterpreter.getNodeFromData(data))
+            endData.addTarget(DataInterpreter.getNodeFromData(data))
+          }
+        }
       }
     }
-    if (effect.dataCollector instanceof DataCollector) {
-      data = await effect.dataCollector.collectData(oldData)
-      endData = DataInterpreter.makeEffectData(data, this.node, oldData.cardPlayerId, true, false)
-    }
-    if (endData instanceof ActiveEffectData) data = DataInterpreter.convertToServerData(endData)
-    cc.log(endData)
-    cc.log(data)
+    // if (endData instanceof ActiveEffectData) data = DataInterpreter.convertToServerData(endData)
+    data = DataInterpreter.convertToServerData(endData)
     //  data = await effect.dataCollector.collectData(oldData);
     return data;
   }
@@ -300,28 +306,36 @@ export default class CardEffect extends cc.Component {
     for (let i = 0; i < this.activeEffects.length; i++) {
       const testedEffect = this.activeEffects[i].getComponent(Effect);
       let splitTestedName = testedEffect.name.split("<");
-      if (splitName[1] == splitTestedName[1]) {
+
+      if (effect.uuid == testedEffect.uuid) {
+        //  if (splitName[1] == splitTestedName[1]) {
         return { type: ITEM_TYPE.ACTIVE, index: i };
       }
     }
     for (let i = 0; i < this.passiveEffects.length; i++) {
       const passiveEffect = this.passiveEffects[i].getComponent(Effect);
       let splitTestedName = passiveEffect.name.split("<");
-      if (splitName[1] == splitTestedName[1]) {
+      // if (splitName[1] == splitTestedName[1]) {
+
+      if (effect.uuid == passiveEffect.uuid) {
         return { type: ITEM_TYPE.PASSIVE, index: i };
       }
     }
     for (let i = 0; i < this.toAddPassiveEffects.length; i++) {
       const toAddPassiveEffect = this.toAddPassiveEffects[i].getComponent(Effect);
       let splitTestedName = toAddPassiveEffect.name.split("<");
-      if (splitName[1] == splitTestedName[1]) {
+      //if (splitName[1] == splitTestedName[1]) {
+
+      if (effect.uuid == toAddPassiveEffect.uuid) {
         return { type: ITEM_TYPE.TO_ADD_PASSIVE, index: i };
       }
     }
     for (let i = 0; i < this.paidEffects.length; i++) {
       const paidEffect = this.paidEffects[i].getComponent(Effect);
       let splitTestedName = paidEffect.name.split("<");
-      if (splitName[1] == splitTestedName[1]) {
+      // if (splitName[1] == splitTestedName[1]) {
+
+      if (effect.uuid == paidEffect.uuid) {
         return { type: ITEM_TYPE.PAID, index: i };
       }
     }
@@ -340,57 +354,7 @@ export default class CardEffect extends cc.Component {
     return chosenEffect;
   }
 
-  // async getServerEffectDepracated(
-  //   cardPlayedData: {
-  //     cardPlayerId: number;
-  //     cardId: number;
-  //   },
-  //   cardEffectIndex?
-  // ): Promise<ServerEffect> {
 
-  //   let cardPlayed = CardManager.getCardById(cardPlayedData.cardId, true);
-  //   let cardEffect: Effect;
-  //   if (cardEffectIndex != null) {
-
-  //     let effect = this.passiveEffects[cardEffectIndex];
-  //     if (effect == null) {
-  //       effect = this.toAddPassiveEffects[cardEffectIndex]
-  //     }
-  //     cardEffect = effect.getComponent(Effect);
-  //   } else {
-  //     if (this.hasMultipleEffects) {
-  //       cardEffect = await this.collectEffectFromNum(
-  //         cardPlayed,
-  //         cardPlayedData.cardPlayerId
-  //       );
-  //     } else {
-  //       cardEffect = this.activeEffects[0].getComponent(Effect);
-  //     }
-  //   }
-  //   let effectData = this.getEffectIndexAndType(cardEffect);
-  //   let serverEffect = new ServerEffect(
-  //     cardEffect.effectName,
-  //     effectData.index,
-  //     cardPlayedData.cardPlayerId,
-  //     cardPlayedData.cardId,
-  //     effectData.type
-  //   );
-  //   //pay costs like counters/destroing items and so on
-  //   if (cardEffect.cost != null) {
-  //     cardEffect.cost.takeCost()
-  //   }
-
-
-  //   if (cardEffect.dataCollector.length > 0 || cardEffect.dataCollector != null) {
-  //     cc.log(`collect effect data for ${cardEffect.name}`)
-  //     this.effectData = await this.collectEffectData(cardEffect, cardPlayedData);
-  //   }
-
-  //   serverEffect.hasSubAction = false;
-  //   serverEffect.cardEffectData = this.effectData;
-
-  //   return serverEffect;
-  // }
 
 
   ///TEST!!
@@ -405,17 +369,22 @@ export default class CardEffect extends cc.Component {
       effectData.type
     );
     //pay costs like counters/destroing items and so on
-    // if (cardEffect.cost != null) {
-    //   cardEffect.cost.takeCost()
-    // }
+    if (cardEffect.cost != null) {
+      cc.log(`take cost`)
+      cardEffect.cost.takeCost()
+    }
 
     let cardPlayedData = { cardPlayerId: cardPlayerId, cardId: cardPlayed.getComponent(Card)._cardId }
+
     if (collectEffectData) {
-      if (cardEffect.dataCollector.length > 0 || cardEffect.dataCollector != null) {
-        cc.log(`collect effect data for ${cardEffect.name}`)
+      if (cardEffect.dataCollector != null) {
         this.effectData = await this.collectEffectData(cardEffect, cardPlayedData);
+      } else {
+        cc.error(`need to collect data but cant!`)
+        cc.log(cardEffect.dataCollector)
       }
     }
+    cc.log(this.effectData)
     if (this.effectData != null) {
       serverEffect.cardEffectData = this.effectData;
     }
@@ -450,6 +419,7 @@ export default class CardEffect extends cc.Component {
     this.cardPlayerId = currentServerEffect.cardPlayerId;
     this.serverEffectStack = allServerEffects;
     let serverEffectStack;
+
     // if (currentServerEffect.effctType == ITEM_TYPE.ACTIVE) {
     serverEffectStack = await this.doEffectByNumAndType(
       currentServerEffect.cardEffectNum,
@@ -486,12 +456,16 @@ export default class CardEffect extends cc.Component {
     }
     this.cardPlayerId = currentServerEffect.cardPlayerId;
     let newStack;
+
     // if (currentServerEffect.effctType == ITEM_TYPE.ACTIVE) {
     newStack = await this.doEffectByNumAndType(
       currentServerEffect.cardEffectNum,
       currentServerEffect.effctType,
       effectData
     );
+
+    //TODO - TEST!!!! NEW!
+    this.effectData = null
 
     return newStack
 

@@ -1,11 +1,9 @@
-import ConditionInterface from "./ConditionInterface";
-import Condition from "./Condition";
+import { PASSIVE_EVENTS, TARGETTYPE } from "../../Constants";
 import Player from "../../Entites/GameEntities/Player";
-import PlayerManager from "../../Managers/PlayerManager";
-import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_CARD_TYPE, TARGETTYPE, PASSIVE_EVENTS } from "../../Constants";
-import { PassiveMeta } from "../../Managers/PassiveManager";
 import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import { PassiveMeta } from "../../Managers/PassiveManager";
+import Condition from "./Condition";
+import PlayerManager from "../../Managers/PlayerManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,18 +14,19 @@ export default class PlayerPayPenalties extends Condition {
   conditionData: ActiveEffectData = null;
 
   async testCondition(meta: PassiveMeta) {
+
     let player: Player = meta.methodScope.getComponent(Player);
     let thisCard = this.node.parent.parent;
-    cc.log(this.conditionData)
     //   let playerName = PlayerManager.getPlayerByCardId(this.conditionData.cardChosenId).name; 
-    let selectedPlayer = this.conditionData.getTarget(TARGETTYPE.PLAYER)
-    if (selectedPlayer == null) {
+    let selectedPlayerCard = this.conditionData.getTarget(TARGETTYPE.PLAYER)
+    if (selectedPlayerCard == null) {
       cc.log('no selected player')
     } else {
-      if (selectedPlayer instanceof cc.Node) {
+      if (selectedPlayerCard instanceof cc.Node) {
+        let selectedPlayer = PlayerManager.getPlayerByCard(selectedPlayerCard)
         if (
           player instanceof Player &&
-          player.playerId == selectedPlayer.getComponent(Player).playerId &&
+          player.playerId == selectedPlayer.playerId &&
           meta.passiveEvent == PASSIVE_EVENTS.PLAYER_PAY_DEATH_PANELTIES
         ) {
           return true;
@@ -36,7 +35,7 @@ export default class PlayerPayPenalties extends Condition {
         }
       }
     }
-    cc.log(selectedPlayer)
+    cc.log(selectedPlayerCard)
 
   }
 }

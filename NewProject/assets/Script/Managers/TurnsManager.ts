@@ -6,6 +6,7 @@ import Player from "../Entites/GameEntities/Player";
 import Character from "../Entites/CardTypes/Character";
 import MonsterField from "../Entites/MonsterField";
 import Monster from "../Entites/CardTypes/Monster";
+import Stack from "../Entites/Stack";
 
 const { ccclass, property } = cc._decorator;
 
@@ -50,7 +51,9 @@ export default class TurnsManager extends cc.Component {
    *
    * @param sendToServer false if should not send an event.
    */
-  static nextTurn(sendToServer?: boolean) {
+  static async nextTurn(sendToServer?: boolean) {
+
+    await Stack.replaceStack([], false)
 
     this.endTurn();
 
@@ -83,10 +86,11 @@ export default class TurnsManager extends cc.Component {
         player.attackRollBonus = 0
         player.nonAttackRollBonus = 0
         player.firstAttackRollBonus = 0
+        player._lootCardsPlayedThisTurn = [];
       }
       for (const monster of MonsterField.activeMonsters.map(monster => monster.getComponent(Monster))) {
         monster.rollBonus = 0;
-        monster.baseDamage = monster.DMG;
+        monster.bonusDamage = 0;
       }
 
     }

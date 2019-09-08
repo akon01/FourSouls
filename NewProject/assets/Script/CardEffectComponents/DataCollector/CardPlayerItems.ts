@@ -1,11 +1,10 @@
 
-import { COLLECTORTYPE, CHOOSE_CARD_TYPE } from "../../Constants";
+import { CHOOSE_CARD_TYPE, COLLECTORTYPE } from "../../Constants";
+import Card from "../../Entites/GameEntities/Card";
+import Player from "../../Entites/GameEntities/Player";
+import { EffectTarget } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "./DataCollector";
-import Player from "../../Entites/GameEntities/Player";
-import Card from "../../Entites/GameEntities/Card";
-import Item from "../../Entites/CardTypes/Item";
-import { EffectTarget } from "../../Managers/DataInterpreter";
 
 
 
@@ -28,7 +27,7 @@ export default class CardPlayerItems extends DataCollector {
         let player = PlayerManager.getPlayerById(data.cardPlayerId).getComponent(Player)
         let cards: cc.Node[] = []
         switch (this.ItemsToGet) {
-            case CHOOSE_CARD_TYPE.PLAYER_ITEMS:
+            case CHOOSE_CARD_TYPE.MY_ITEMS:
                 cards = cards.concat(player.activeItems, player.passiveItems)
                 break;
             // case CHOOSE_TYPE.PLAYERNONACTIVATEDITEMS:

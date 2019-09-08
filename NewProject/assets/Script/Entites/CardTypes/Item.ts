@@ -1,9 +1,8 @@
+import Signal from "../../../Misc/Signal";
+import ServerClient from "../../../ServerClient/ServerClient";
 import { ITEM_TYPE, TIME_TO_ROTATE_ACTIVATION } from "../../Constants";
 
-import Signal from "../../../Misc/Signal";
 
-import ServerClient from "../../../ServerClient/ServerClient";
-import Card from "../GameEntities/Card";
 
 
 const { ccclass, property } = cc._decorator;

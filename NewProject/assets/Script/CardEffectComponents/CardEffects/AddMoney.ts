@@ -15,20 +15,39 @@ export default class AddMoney extends Effect {
   @property(Number)
   numOfCoins: number = 0;
 
+  @property
+  multiTarget: boolean = false;
+
   /**
    *
    * @param data {target:PlayerId}
    */
   async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData) {
 
+    if (this.multiTarget) {
+      let targets = data.getTargets(TARGETTYPE.PLAYER)
+      if (targets.length == 0) {
+        cc.log(`no targets`)
+        return
+      }
 
-    let targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER)
-    if (targetPlayerCard == null) {
-      cc.log(`target player is null`)
+      for (let i = 0; i < targets.length; i++) {
+        const target = targets[i];
+
+        await PlayerManager.getPlayerByCard(target as cc.Node).changeMoney(this.numOfCoins, true)
+      }
+
+
     } else {
-      let player: Player = PlayerManager.getPlayerByCard(targetPlayerCard)
-      await player.changeMoney(this.numOfCoins, true);
+
+      let targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER)
+      if (targetPlayerCard == null) {
+        cc.log(`target player is null`)
+      } else {
+        let player: Player = PlayerManager.getPlayerByCard(targetPlayerCard as cc.Node)
+        await player.changeMoney(this.numOfCoins, true);
+      }
+      return stack
     }
-    return stack
   }
 }

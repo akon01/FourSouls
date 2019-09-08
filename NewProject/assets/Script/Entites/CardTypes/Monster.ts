@@ -10,7 +10,7 @@ import PlayerManager from "../../Managers/PlayerManager";
 import MonsterDeath from "../../StackEffects/Monster Death";
 import Stack from "../Stack";
 import PileManager from "../../Managers/PileManager";
-import { CARD_TYPE } from "../../Constants";
+import { CARD_TYPE, PASSIVE_EVENTS } from "../../Constants";
 import MonsterRewardStackEffect from "../../StackEffects/Monster Reward";
 import Player from "../GameEntities/Player";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
@@ -38,7 +38,7 @@ export default class Monster extends cc.Component {
   DMG: number = 0;
 
   @property
-  baseDamage: number = 0;
+  bonusDamage: number = 0;
 
   @property
   isAttacked: boolean = false;
@@ -71,7 +71,7 @@ export default class Monster extends cc.Component {
         this.currentHp -= damage;
       }
     } else {
-      let passiveMeta = new PassiveMeta('getDamaged', Array.of(damage), null, this.node)
+      let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.MONSTER_GET_HIT, Array.of(damage), null, this.node)
       let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
       passiveMeta.args = afterPassiveMeta.args;
       let wasKilled
@@ -90,6 +90,9 @@ export default class Monster extends cc.Component {
         };
         if (sendToServer) {
           ServerClient.$.send(serverData.signal, serverData.srvData)
+          if (this.currentHp == 0) {
+            await this.kill(true)
+          }
         }
       }
       //   wasKilled = await BattleManager.checkIfMonsterIsDead(this.node, sendToServer);
@@ -115,7 +118,7 @@ export default class Monster extends cc.Component {
 
 
   async gainDMG(DMGToGain: number, sendToServer: boolean) {
-    this.baseDamage += DMGToGain;
+    this.bonusDamage += DMGToGain;
     let cardId = this.node.getComponent(Card)._cardId
     let serverData = {
       signal: Signal.MONSTER_GAIN_DMG,
@@ -155,52 +158,21 @@ export default class Monster extends cc.Component {
   }
 
   async kill(sendToServer: boolean, stackEffectToAddBelow?: StackEffectInterface) {
-    cc.log(stackEffectToAddBelow)
     let monsterComp = this
     let monsterPlace = monsterComp.monsterPlace;
     let turnPlayer =
       TurnsManager.currentTurn.getTurnPlayer()
     if (PlayerManager.mePlayer == turnPlayer.node) {
       let monsterDeath = new MonsterDeath(turnPlayer.character.getComponent(Card)._cardId, this.node)
-      if (stackEffectToAddBelow) {
-        cc.log(`add below`)
-        await Stack.addToStackBelow(monsterDeath, stackEffectToAddBelow)
-        //   await Stack.doStackEffectFromTop(true) 
-        // } else {
-        //   cc.log(`add normal`)
-        //   await Stack.addToStack(monsterDeath, true)
-      }
-      cc.log(`after monster death resolved`)
+      await Stack.addToStackAbove(monsterDeath)
 
-      // let turnPlayerCard = PlayerManager.getPlayerById(TurnsManager.currentTurn.PlayerId).getComponent(Player).character
-      // let monsterReward = new MonsterRewardStackEffect(monsterDeath.creatorCardId, this.node, turnPlayerCard)
-      // // if (stackEffectToAddBelow) {
-      // //   cc.log(`add below`)
-      // //   await Stack.addToStackBelow(monsterDeath, stackEffectToAddBelow)
-      // // } else {
-      // // cc.log(`add normal`)
-      // await Stack.addToStack(monsterReward, true)
     }
-    cc.log(`after monster reward resolved`)
-
-    //TODO add passive check for "when this dies" and add them to the stack and change above to "addToStackAbove"
-
-    // let cardComp = this.node.getComponent(Card)
-    // if (cardComp.souls == 0) {
-    //   await PileManager.addCardToPile(CARD_TYPE.MONSTER, this.node, true);
-    // } else {
-    //   await turnPlayer.getSoulCard(this.node, sendToServer)
-    // }
-    // if (BattleManager.currentlyAttackedMonster != null && this.node == BattleManager.currentlyAttackedMonster.node) {
-    //   BattleManager.currentlyAttackedMonster = null;
-    //   TurnsManager.currentTurn.battlePhase = false;
-    // }
   }
 
 
   calculateDamage() {
     let damage = 0;
-    damage += this.baseDamage;
+    damage += this.bonusDamage;
     damage += this.DMG;
     // items that increase damage should increase baseDamage
     return damage;

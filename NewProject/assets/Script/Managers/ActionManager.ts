@@ -1,3 +1,4 @@
+
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
 import Effect from "../CardEffectComponents/CardEffects/Effect";
@@ -11,13 +12,14 @@ import Deck from "../Entites/GameEntities/Deck";
 import Dice from "../Entites/GameEntities/Dice";
 import Player from "../Entites/GameEntities/Player";
 import Store from "../Entites/GameEntities/Store";
+import { Logger } from "../Entites/Logger";
 import MonsterCardHolder from "../Entites/MonsterCardHolder";
 import MonsterField from "../Entites/MonsterField";
 import Stack from "../Entites/Stack";
+import ActionLable from "../LableScripts/Action Lable";
 import MainScript from "../MainScript";
 import { getCurrentPlayer, Turn } from "../Modules/TurnsModule";
 import ServerStackEffectConverter from "../StackEffects/ServerSideStackEffects/ServerStackEffectConverter";
-import { printMethodSignal } from "./../Constants";
 import { ServerEffect } from "./../Entites/ServerCardEffect";
 import BattleManager from "./BattleManager";
 import ButtonManager from "./ButtonManager";
@@ -27,13 +29,12 @@ import DataInterpreter from "./DataInterpreter";
 import PassiveManager from "./PassiveManager";
 import PileManager from "./PileManager";
 import PlayerManager from "./PlayerManager";
-import TurnsManager from "./TurnsManager";
-import { StackEffectVisBasic } from "../StackEffects/StackEffectVisualRepresentation/Stack Vis Basic";
 import StackEffectVisManager from "./StackEffectVisManager";
-import ActionLable from "../LableScripts/Action Lable";
+import TurnsManager from "./TurnsManager";
 
 
 const { ccclass, property } = cc._decorator;
+
 
 @ccclass
 export default class ActionManager extends cc.Component {
@@ -49,6 +50,8 @@ export default class ActionManager extends cc.Component {
   static serverEffectStack: ServerEffect[] = [];
   static noMoreActionsBool: boolean = false;
   static inReactionPhase: boolean = false;
+
+
 
   //test only!!
   static reactionChainNum: number = 0;
@@ -388,8 +391,8 @@ export default class ActionManager extends cc.Component {
   static inRollAction = false;
 
 
-  @printMethodSignal
   static async getActionFromServer(signal, data) {
+    Logger.printMethodSignal([signal, data], false)
     let player: Player;
     let card: cc.Node;
     let deck: Deck;
@@ -411,7 +414,7 @@ export default class ActionManager extends cc.Component {
         let monsterField = cc
           .find("Canvas/MonsterField")
           .getComponent(MonsterField);
-        let newMonster = CardManager.getCardById(data.newMonsterId, true);
+        let newMonster = CardManager.getCardById(data.cardId, true);
         let monsterDeck = CardManager.monsterDeck.getComponent(Deck);
         monsterDeck._cards.splice(monsterDeck._cards.indexOf(newMonster), 1);
         MonsterField.addMonsterToExsistingPlace(
@@ -522,12 +525,12 @@ export default class ActionManager extends cc.Component {
 
       //Monster holder actions
       case Signal.GET_NEXT_MONSTER:
-        monsterHolder = MonsterField.getMonsterPlaceById(data.holderId);
+        monsterHolder = MonsterField.getMonsterPlaceById(data.monsterPlaceId);
         monsterHolder.getNextMonster(false);
         break;
       case Signal.ADD_MONSTER:
-
-        monsterHolder = MonsterField.getMonsterPlaceById(data.holderId);
+        cc.log(data)
+        monsterHolder = MonsterField.getMonsterPlaceById(data.monsterPlaceId);
 
         card = CardManager.getCardById(data.monsterId, true)
         monsterHolder.addToMonsters(card, false);
@@ -670,7 +673,7 @@ export default class ActionManager extends cc.Component {
 
       //PassiveManager actions.
       case Signal.REGISTER_PASSIVE_ITEM:
-        card = CardManager.getCardById(data.cardId)
+        card = CardManager.getCardById(data.cardId, true)
         if (card != null) PassiveManager.registerPassiveItem(card, false);
         break;
 
@@ -753,12 +756,16 @@ export default class ActionManager extends cc.Component {
         await Stack.replaceStack(data.currentStack.map(stackEffect => converter.convertToStackEffect(stackEffect)), false)
         break;
       case Signal.REMOVE_FROM_STACK:
-        await Stack.removeFromTopOfStack(false)
-        break;
-      case Signal.ADD_TO_STACK:
-        // let stackEffectType = data.stackEffect.stackEffectType
+        // await Stack.removeFromTopOfStack(false)
         converter = new ServerStackEffectConverter();
         let stackEffect = converter.convertToStackEffect(data.stackEffect)
+        await Stack.removeAfterResolve(stackEffect, false)
+        break;
+
+      case Signal.ADD_TO_STACK:
+        converter = new ServerStackEffectConverter();
+        // let stackEffectType = data.stackEffect.stackEffectType
+        stackEffect = converter.convertToStackEffect(data.stackEffect)
         await Stack.addToStack(stackEffect, false)
         break;
       case Signal.UPDATE_STACK_VIS:
@@ -824,8 +831,6 @@ export default class ActionManager extends cc.Component {
 
 
 
-
-
   // LIFE-CYCLE CALLBACKS:
 
   onLoad() {
@@ -834,7 +839,6 @@ export default class ActionManager extends cc.Component {
     ActionManager.playersManager = cc.find("MainScript/PlayerManager");
 
     ActionManager.cardManager = cc.find("MainScript/CardManager");
-
 
 
     ActionManager.decks = CardManager.getAllDecks();

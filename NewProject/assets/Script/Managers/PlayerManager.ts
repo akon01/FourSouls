@@ -378,6 +378,10 @@ export default class PlayerManager extends cc.Component {
           return player;
         }
       }
+      for (let j = 0; j < player._lootCardsPlayedThisTurn.length; j++) {
+        const lootCard = player._lootCardsPlayedThisTurn[j];
+        if (card == lootCard) return player
+      }
     }
     cc.log('no player was found')
     return null;

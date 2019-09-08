@@ -36,10 +36,12 @@ export default class ChainCollector extends DataCollector {
         cc.log(`collecting using ${dataCollector.name}`)
         let newData = await dataCollector.collectData(data)
         let thisCard = this.node.parent.parent
-        let itemType = thisCard.getComponent(Item).type
-        let isActive: boolean
-        if (itemType == ITEM_TYPE.ACTIVE || itemType == ITEM_TYPE.BOTH) {
-          isActive = true;
+        if (thisCard.getComponent(Item) != null) {
+          let itemType = thisCard.getComponent(Item).type
+          let isActive: boolean
+          if (itemType == ITEM_TYPE.ACTIVE || itemType == ITEM_TYPE.BOTH) {
+            isActive = true;
+          }
         }
         if (effectsData == null) {
           effectsData = DataInterpreter.makeEffectData(newData, thisCard, data.cardPlayerId, isActive, false)

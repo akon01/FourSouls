@@ -35,6 +35,7 @@ export default class ServerPlayLootCard implements ServerStackEffectInterface {
         this.lootToPlayCardId = stackEffect.lootToPlay.getComponent(Card)._cardId;
         this.lootPlayerId = stackEffect.lootPlayer.getComponent(Player).playerId
         if (stackEffect.effectToDo != null) {
+
             let effectData = stackEffect.lootToPlay.getComponent(CardEffect).getEffectIndexAndType(stackEffect.effectToDo)
             let serverEffect = new ServerEffect(
                 stackEffect.effectToDo.effectName, effectData.index,

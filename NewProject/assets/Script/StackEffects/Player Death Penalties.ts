@@ -1,4 +1,4 @@
-import { STACK_EFFECT_TYPE } from "../Constants";
+import { STACK_EFFECT_TYPE, PASSIVE_EVENTS } from "../Constants";
 import Player from "../Entites/GameEntities/Player";
 import Stack from "../Entites/Stack";
 import PlayerManager from "../Managers/PlayerManager";
@@ -6,6 +6,7 @@ import TurnsManager from "../Managers/TurnsManager";
 import ServerPlayerDeathPenalties from "./ServerSideStackEffects/Server Player Death Penalties";
 import StackEffectInterface from "./StackEffectInterface";
 import { PlayerDeathPenaltiesVis } from "./StackEffectVisualRepresentation/Player Death Penalties Vis";
+import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
 
 
 export default class PlayerDeathPenalties implements StackEffectInterface {
@@ -42,6 +43,10 @@ export default class PlayerDeathPenalties implements StackEffectInterface {
 
         //TODO add passive check for every "before paying penalties" and "when a player would die"
 
+        let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_PAY_DEATH_PANELTIES, [], null, this.playerToPay.node)
+        let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+        passiveMeta.args = afterPassiveMeta.args;
+
         let turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
         turnPlayer.givePriority(true)
 
@@ -53,6 +58,7 @@ export default class PlayerDeathPenalties implements StackEffectInterface {
         cc.log('resolve player death penalty')
         await this.playerToPay.payPenalties(true)
         if (TurnsManager.currentTurn.getTurnPlayer().playerId == this.playerToPay.playerId) {
+            //   Stack.removeFromCurrentStackEffectResolving()
             await this.playerToPay.endTurn(true);
         }
 

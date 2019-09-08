@@ -1,13 +1,8 @@
-import PlayerManager from "../../Managers/PlayerManager";
-import DataCollector from "../DataCollector/DataCollector";
-import { ServerEffect } from "./../../Entites/ServerCardEffect";
-import Effect from "./Effect";
-import Player from "../../Entites/GameEntities/Player";
-import CardManager from "../../Managers/CardManager";
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "../../Constants";
-import ChooseCard from "../DataCollector/ChooseCard";
-import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
+import PlayerManager from "../../Managers/PlayerManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
+import Effect from "./Effect";
 
 const { ccclass, property } = cc._decorator;
 
@@ -21,7 +16,7 @@ export default class RechargeItem extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData) {
+  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
     let targetItem
     targetItem = data.getTarget(TARGETTYPE.ITEM);
     if (targetItem == null) {

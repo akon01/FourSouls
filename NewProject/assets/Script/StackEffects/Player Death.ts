@@ -43,7 +43,6 @@ export default class PlayerDeath implements StackEffectInterface {
         cc.log(`put ${this.playerToDie.name} death on the stack`)
         let turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
         turnPlayer.givePriority(true)
-        //add Passive Check for all the +X/-X To dice rolls to add on top of the stack
     }
 
     async resolve() {
@@ -53,7 +52,8 @@ export default class PlayerDeath implements StackEffectInterface {
             await this.playerToDie.removeCurse(curse, true)
         }
         let playerPenalty = new PlayerDeathPenalties(this.playerToDie.character.getComponent(Card)._cardId, this.playerToDie.character)
-        await Stack.addToStackBelow(playerPenalty, this)
+        await Stack.addToStackAbove(playerPenalty)
+        // await Stack.addToStackBelow(playerPenalty, this, true)
     }
 
     convertToServerStackEffect() {

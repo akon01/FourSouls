@@ -71,7 +71,8 @@ export default class MonsterRewardStackEffect implements StackEffectInterface {
         await this.monsterReward.rewardPlayer(this.playerToReward.node, true)
         let cardComp = this.monsterWithReward.node.getComponent(Card)
         if (cardComp.souls == 0) {
-            await PileManager.addCardToPile(CARD_TYPE.MONSTER, this.monsterWithReward.node, true);
+            await this.monsterWithReward.monsterPlace.discardTopMonster(true)
+            //await PileManager.addCardToPile(CARD_TYPE.MONSTER, this.monsterWithReward.node, true);
         } else {
             await turnPlayer.getSoulCard(this.monsterWithReward.node, true)
         }

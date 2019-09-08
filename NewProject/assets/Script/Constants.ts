@@ -1,6 +1,5 @@
-import { beforeInstance, beforeMethod, afterMethod } from "kaop-ts";
-import Signal from "../Misc/Signal";
-import PlayerManager from "./Managers/PlayerManager";
+import { afterMethod, beforeMethod } from "kaop-ts";
+import CardManager from "./Managers/CardManager";
 
 export const MAX_PLAYERS = 2;
 
@@ -105,15 +104,26 @@ export enum CHOOSE_CARD_TYPE {
   DECKS = 3,
   MONSTER_PLACES = 4,
   STORE_PLACES = 5,
-  PLAYER_NON_ETERNALS = 6,
+  MY_NON_ETERNALS = 6,
   ALL_PLAYERS_ITEMS = 7,
-  PLAYER_ITEMS = 8,
-  PLAYER_ACTIVATED_ITEMS = 9,
-  PLAYER_NON_ACTIVATED_ITEMS = 10,
+  ALL_PLAYERS_NON_ETERNAL_ITEMS = 17,
+  MY_ITEMS = 8,
+  MY_ACTIVATED_ITEMS = 9,
+  MY_NON_ACTIVATED_ITEMS = 10,
   ALL_PLAYERS_ACTIVATED_ITEMS = 11,
   ALL_PLAYERS_NON_ACTIVATED_ITEMS = 12,
-  PLAYERSANDACTIVEMONSTERS = 13,
-  SPECIPIC_PLAYER_HAND = 14
+  PLAYERS_AND_ACTIVE_MONSTERS = 13,
+  SPECIPIC_PLAYER_HAND = 14,
+  MY_CURSES = 15,
+  ALL_CURSES = 16,
+
+}
+
+export enum CARD_POOLS {
+
+  ACTIVE_MONSTERS = 1,
+  YOUR_HAND = 2,
+  ALL_PLAYERS = 3,
 
 }
 
@@ -127,9 +137,15 @@ export enum PASSIVE_EVENTS {
 
   PLAYER_MISS_ATTACK,
   PLAYER_GET_HIT,
+  /**
+   * args = [damage taken,num of missed dice roll]
+   */
+  PLAYER_COMBAT_DAMAGE_TAKEN,
   PLAYER_CHANGE_MONEY,
   PLAYER_PAY_DEATH_PANELTIES,
   PLAYER_ROLL_DICE,
+  PLAYER_END_TURN,
+  PLAYER_BUY_ITEM,
 
   MONSTER_GET_HIT,
 }
@@ -161,20 +177,7 @@ export let ServerIp = "localhost:7456/"
 
 
 
-export const printMethodSignal = beforeMethod(meta => {
-  let classDesc = meta.target.toString().split(" ");
-  let className = classDesc[1];
 
-
-  let time = new Date().toTimeString().substring(0, 8)
-  cc.log(
-    "%c" + " Signal :" + meta.args[0] + " Time:" + time,
-    "color:rgb(60%, 0%, 10%)"
-  );
-  cc.log(
-    meta.args[1],
-  );
-});
 
 export const checkIfPlayerIsDead = afterMethod(async meta => {
   let player = meta.scope;

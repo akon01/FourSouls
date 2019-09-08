@@ -1,4 +1,4 @@
-import { STACK_EFFECT_TYPE } from "../Constants";
+import { STACK_EFFECT_TYPE, PASSIVE_EVENTS } from "../Constants";
 import Monster from "../Entites/CardTypes/Monster";
 import Stack from "../Entites/Stack";
 import PlayerManager from "../Managers/PlayerManager";
@@ -8,6 +8,7 @@ import StackEffectInterface from "./StackEffectInterface";
 import { CombatDamageVis } from "./StackEffectVisualRepresentation/Combat Damage Vis";
 import ServerCombatDamage from "./ServerSideStackEffects/Server Combat Damage";
 import Player from "../Entites/GameEntities/Player";
+import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
 
 
 export default class CombatDamage implements StackEffectInterface {
@@ -29,6 +30,8 @@ export default class CombatDamage implements StackEffectInterface {
     isPlayerTakeDamage: boolean
     isMonsterDoDamage: boolean
     isPlayerDoDamage: boolean;
+
+    numberRolled: number;
 
     constructor(creatorCardId: number, entityToTakeDamageCard: cc.Node, entityToDoDamageCard: cc.Node, entityId?: number) {
         if (entityId) {
@@ -62,7 +65,7 @@ export default class CombatDamage implements StackEffectInterface {
         cc.log(this.visualRepesentation)
         let turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
         turnPlayer.givePriority(true)
-        //add Passive Check for all the +X/-X To dice rolls to add on top of the stack
+        //add Passive Check for all the +X/-X To dice rolls to add on top of the stack 
     }
 
     async resolve() {
@@ -71,15 +74,21 @@ export default class CombatDamage implements StackEffectInterface {
         let damage
         if (this.isPlayerTakeDamage) {
             cc.log('player take damage')
+
             player = PlayerManager.getPlayerByCard(this.entityToTakeDamageCard)
             damage = this.entityToDoDamageCard.getComponent(Monster).calculateDamage()
+
+            let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_TAKEN, [damage, this.numberRolled], null, player.node)
+            let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+            passiveMeta.args = afterPassiveMeta.args;
+
             this.visualRepesentation.changeDamage(damage)
             this.visualRepesentation.flavorText = `${this.entityToDoDamageCard.name} will deal ${damage} combat damage to ${this.entityToTakeDamageCard.name}`
             await player.getHit(damage, true)
-            //add death check!
-            if (player._Hp == 0) {
-                await player.killPlayer(true, true, this)
-            }
+            passiveMeta.result = null
+            //do passive effects after!
+            let thisResult = await PassiveManager.testForPassiveAfter(passiveMeta)
+
         } else {
             cc.log('mosnter take damage')
             player = PlayerManager.getPlayerByCard(this.entityToDoDamageCard);
@@ -88,11 +97,7 @@ export default class CombatDamage implements StackEffectInterface {
             this.visualRepesentation.flavorText = `${this.entityToDoDamageCard.name} will deal ${damage} combat damage to ${this.entityToTakeDamageCard.name}`
             await monster.getDamaged(damage, true)
             //add death check!
-            let stack = this;
-            cc.log(stack)
-            if (monster.currentHp == 0) {
-                await monster.kill(true, this)
-            }
+
         }
 
     }

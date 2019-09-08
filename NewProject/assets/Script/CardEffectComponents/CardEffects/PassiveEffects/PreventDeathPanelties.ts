@@ -1,7 +1,12 @@
+import Stack from "../../../Entites/Stack";
+import { PassiveEffectData } from "../../../Managers/DataInterpreter";
+import PlayerManager from "../../../Managers/PlayerManager";
+import TurnsManager from "../../../Managers/TurnsManager";
+import PlayerDeathPenalties from "../../../StackEffects/Player Death Penalties";
 import StackEffectInterface from "../../../StackEffects/StackEffectInterface";
-
-import Effect from "../Effect";
 import DataCollector from "../../DataCollector/DataCollector";
+import Effect from "../Effect";
+
 
 
 const { ccclass, property } = cc._decorator;
@@ -17,13 +22,21 @@ export default class PreventDeathPenalties extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(stack: StackEffectInterface[], args?) {
-    let terminateOriginal = args.terminateOriginal;
-    terminateOriginal = true;
-    let args2 = args.newArgs;
+  async doEffect(stack: StackEffectInterface[], data?: PassiveEffectData) {
 
-    return new Promise<{ terminateOriginal: boolean, newArgs: any }>((resolve, reject) => {
-      resolve({ terminateOriginal: terminateOriginal, newArgs: args2 });
-    });
+    let playerPenaltiesStackEffect = Stack._currentStack.find(effect => {
+      if (effect instanceof PlayerDeathPenalties && effect.playerToPay.playerId == PlayerManager.getPlayerByCard(data.effectCardPlayer).playerId) return true
+    })
+
+    await Stack.fizzleStackEffect(playerPenaltiesStackEffect, true)
+    if (playerPenaltiesStackEffect instanceof PlayerDeathPenalties) {
+      let playerToPay = playerPenaltiesStackEffect.playerToPay
+      if (TurnsManager.currentTurn.getTurnPlayer().playerId == playerToPay.playerId) {
+        //   Stack.removeFromCurrentStackEffectResolving()
+        await playerToPay.endTurn(true);
+      }
+    }
+
+    return data
   }
 }

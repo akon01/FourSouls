@@ -3,7 +3,7 @@ import ServerClient from "../../../ServerClient/ServerClient";
 import ChooseCard from "../../CardEffectComponents/DataCollector/ChooseCard";
 import MultiEffectRoll from "../../CardEffectComponents/MultiEffectChooser/MultiEffectRoll";
 import RollDice from "../../CardEffectComponents/RollDice";
-import { CARD_TYPE, CARD_WIDTH, CHOOSE_CARD_TYPE, ITEM_TYPE, ROLL_TYPE, TIME_TO_REACT_ON_ACTION } from "../../Constants";
+import { CARD_TYPE, CARD_WIDTH, CHOOSE_CARD_TYPE, ITEM_TYPE, ROLL_TYPE, TIME_TO_REACT_ON_ACTION, PASSIVE_EVENTS } from "../../Constants";
 import BattleManager from "../../Managers/BattleManager";
 import CardManager from "../../Managers/CardManager";
 import CardPreviewManager from "../../Managers/CardPreviewManager";
@@ -137,6 +137,9 @@ export default class Player extends cc.Component {
   cards: cc.Node[] = [];
 
   @property
+  _lootCardsPlayedThisTurn: cc.Node[] = []
+
+  @property
   cardActivated: boolean = false;
 
   @property
@@ -165,6 +168,30 @@ export default class Player extends cc.Component {
 
   @property
   hpLable: cc.Label = null;
+
+  @property
+  _dmgPrevention: number[] = [];
+
+
+
+
+
+
+  ///Admin Methods Only!
+
+
+
+
+  async giveCard(card: cc.Node) {
+    card.parent = cc.find(`Canvas`)
+    await CardManager.moveCardTo(card, this.hand.node, true, true)
+    await this.gainLoot(card, true)
+  }
+
+
+  ///
+
+
 
   assignChar(charCard: cc.Node, itemCard: cc.Node) {
     CardManager.onTableCards.push(charCard, itemCard);
@@ -490,8 +517,9 @@ export default class Player extends cc.Component {
 
     if (sendToServer) {
       let playerDeath = new PlayerDeath(this.character.getComponent(Card)._cardId, this.character)
+      await Stack.addToStackAbove(playerDeath)
       // if (addBelow) {
-      await Stack.addToStackBelow(playerDeath, stackEffectToAddBelowTo)
+      //  await Stack.addToStackBelow(playerDeath, stackEffectToAddBelowTo, false)
 
     }
 
@@ -515,7 +543,7 @@ export default class Player extends cc.Component {
       );
       let chosenData = await chooseCard.requireChoosingACard(cardToChooseFrom);
       let chosenCard = CardManager.getCardById(chosenData.cardChosenId);
-      let over = this.discardLoot(chosenCard, sendToServer);
+      let over = await this.discardLoot(chosenCard, sendToServer);
     }
     let nonEternalItems = this.deskCards.filter(
       card => !card.getComponent(Item).eternal
@@ -523,21 +551,27 @@ export default class Player extends cc.Component {
     if (nonEternalItems.length > 0) {
       let chooseCard = new ChooseCard();
       let cardToChooseFrom = chooseCard.getCardsToChoose(
-        CHOOSE_CARD_TYPE.PLAYER_NON_ETERNALS,
+        CHOOSE_CARD_TYPE.MY_NON_ETERNALS,
         this
       );
       let chosenData = await chooseCard.requireChoosingACard(cardToChooseFrom);
 
       let chosenCard = CardManager.getCardById(chosenData.cardChosenId);
 
-      let over = this.destroyItem(chosenCard, sendToServer);
+      let over = await this.destroyItem(chosenCard, sendToServer);
     }
     return true
   }
 
-  destroyItem(itemToDestroy: cc.Node, sendToServer: boolean) {
+  async destroyItem(itemToDestroy: cc.Node, sendToServer: boolean) {
 
-    PileManager.addCardToPile(CARD_TYPE.TREASURE, itemToDestroy, sendToServer);
+    this.loseItem(itemToDestroy)
+    await PileManager.addCardToPile(CARD_TYPE.TREASURE, itemToDestroy, sendToServer);
+  }
+
+  loseItem(itemToLose: cc.Node) {
+    this.activeItems = this.activeItems.filter(item => item != itemToLose)
+    this.passiveItems = this.passiveItems.filter(item => item != itemToLose)
   }
 
   async startTurn(numOfCardToDraw: number, numberOfItemsToCharge: number, sendToServer: boolean) {
@@ -593,6 +627,10 @@ export default class Player extends cc.Component {
 
   async endTurn(sendToServer: boolean) {
 
+    let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_END_TURN, [], null, this.node)
+    let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+    passiveMeta.args = afterPassiveMeta.args;
+
     // end of turn passive effects should trigger
     if (sendToServer) {
       await this.givePriority(true)
@@ -603,12 +641,15 @@ export default class Player extends cc.Component {
       //for each player heal to max hp
       for (let playerNode of PlayerManager.players) {
         let player = playerNode.getComponent(Player);
-        player.heal(player.character.getComponent(Character).Hp + player._hpBonus, sendToServer)
+        await player.heal(player.character.getComponent(Character).Hp + player._hpBonus, sendToServer)
+
       }
       //for each monster heal to max hp
       for (const monsterNode of MonsterField.activeMonsters) {
         let monster = monsterNode.getComponent(Monster);
-        monster.heal(monster.HP, sendToServer)
+
+        await monster.heal(monster.HP, sendToServer)
+
       }
     }
     TurnsManager.nextTurn();
@@ -631,28 +672,65 @@ export default class Player extends cc.Component {
     }
   }
 
+  async addDamagePrevention(dmgToPrevent: number) {
+    this._dmgPrevention.push(dmgToPrevent)
+  }
+
 
 
 
   async getHit(damage: number, sendToServer: boolean) {
-    let passiveMeta = new PassiveMeta('getHit', Array.of(damage), null, this.node)
+
+    //Prevent Damage
+    if (this._dmgPrevention.length > 0) {
+      this._dmgPrevention.sort((a, b) => { return a - b })
+      let newDamage = damage
+
+      while (this._dmgPrevention.length > 0) {
+        if (newDamage == 0) {
+          return;
+        } else {
+          if (this._dmgPrevention.includes(newDamage)) {
+            let dmgPreventionInstance = this._dmgPrevention.splice(this._dmgPrevention.indexOf(newDamage), 1)
+            newDamage -= dmgPreventionInstance[0]
+            continue;
+          } else {
+            const instance = this._dmgPrevention.shift();
+            newDamage -= instance
+            continue;
+          }
+        }
+      }
+
+      if (newDamage == 0) {
+        return
+      } else damage = newDamage
+
+    }
+    /////
+
+    let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_GET_HIT, Array.of(damage), null, this.node)
     let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
     passiveMeta.args = afterPassiveMeta.args;
     if (afterPassiveMeta.continue) {
 
-      if (this._Hp - damage < 0) {
+      if (this._Hp - passiveMeta.args[0] < 0) {
         this._Hp = 0
       } else {
-        this._Hp -= damage
+        this._Hp -= passiveMeta.args[0]
       }
       this.hpLable.string = `${this._Hp}♥`
       let serverData = {
         signal: Signal.PLAYER_GET_HIT,
-        srvData: { playerId: this.playerId, damage: damage }
+        srvData: { playerId: this.playerId, damage: passiveMeta.args[0] }
       };
       if (sendToServer) {
         ServerClient.$.send(serverData.signal, serverData.srvData)
+        if (this._Hp == 0) {
+          await this.killPlayer(true, true)
+        }
       }
+
     }
     // let isDead = await this.checkIfDead();
 
@@ -805,7 +883,7 @@ export default class Player extends cc.Component {
   //Example for passives, any interaction for passives needs to be like this!
   async changeMoney(numOfCoins: number, sendToServer: boolean) {
     //do passive effects b4
-    let passiveMeta = new PassiveMeta('changeMoney', Array.of(numOfCoins), null, this.node)
+    let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_CHANGE_MONEY, Array.of(numOfCoins), null, this.node)
     let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
     passiveMeta.args = afterPassiveMeta.args;
     //if continue do regular function

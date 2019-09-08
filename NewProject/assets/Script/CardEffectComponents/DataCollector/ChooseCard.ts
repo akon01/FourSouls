@@ -100,7 +100,7 @@ export default class ChooseCard extends DataCollector {
           playerCards.push(mePlayer.character);
         }
         return playerCards;
-        break;
+
       // Get all of the chosen player hand cards
       case CHOOSE_CARD_TYPE.MY_HAND:
         return mePlayer.handCards;
@@ -113,7 +113,7 @@ export default class ChooseCard extends DataCollector {
       case CHOOSE_CARD_TYPE.MONSTER_PLACES:
         let monsterPlaces = MonsterField.activeMonsters;
         return monsterPlaces;
-      case CHOOSE_CARD_TYPE.PLAYER_NON_ETERNALS:
+      case CHOOSE_CARD_TYPE.MY_NON_ETERNALS:
         cardsToReturn = mePlayer.deskCards.filter(
           card => !card.getComponent(Item).eternal
         );
@@ -156,22 +156,22 @@ export default class ChooseCard extends DataCollector {
           }))
         }
         return cardsToReturn;
-      case CHOOSE_CARD_TYPE.PLAYER_ITEMS:
+      case CHOOSE_CARD_TYPE.MY_ITEMS:
         cardsToReturn = mePlayer.deskCards.filter(
           card => !card.getComponent(Item).eternal
         );
         return cardsToReturn;
-      case CHOOSE_CARD_TYPE.PLAYER_ACTIVATED_ITEMS:
+      case CHOOSE_CARD_TYPE.MY_ACTIVATED_ITEMS:
         cardsToReturn = mePlayer.deskCards.filter(
           card => card.getComponent(Item).activated
         );
         return cardsToReturn;
-      case CHOOSE_CARD_TYPE.PLAYER_NON_ACTIVATED_ITEMS:
+      case CHOOSE_CARD_TYPE.MY_NON_ACTIVATED_ITEMS:
         cardsToReturn = mePlayer.deskCards.filter(
           card => !card.getComponent(Item).activated
         );
         return cardsToReturn;
-      case CHOOSE_CARD_TYPE.PLAYERSANDACTIVEMONSTERS:
+      case CHOOSE_CARD_TYPE.PLAYERS_AND_ACTIVE_MONSTERS:
         playerCards = [];
         for (let index = 0; index < PlayerManager.players.length; index++) {
           mePlayer = PlayerManager.players[index].getComponent(Player);
@@ -179,6 +179,11 @@ export default class ChooseCard extends DataCollector {
         }
         cardsToReturn = MonsterField.activeMonsters.concat(playerCards);
 
+        return cardsToReturn;
+      case CHOOSE_CARD_TYPE.MY_CURSES:
+        return mePlayer._curses
+      case CHOOSE_CARD_TYPE.ALL_CURSES:
+        PlayerManager.players.forEach(player => { cardsToReturn.concat((player.getComponent(Player)._curses)) })
         return cardsToReturn;
       default:
         break;

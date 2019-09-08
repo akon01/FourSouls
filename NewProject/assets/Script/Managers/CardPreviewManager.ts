@@ -85,16 +85,16 @@ export default class CardPreviewManager extends cc.Component {
         }
 
         return null
+
         //throw `no preview with ${card.name} found`
     }
-
 
 
 
     static updatePreviewsEvents() {
         this.currentPreviews.forEach(preview => {
             if (this.previewsToChooseFrom.includes(preview)) {
-                cc.log(`previews to choose from includes ${preview.name}`)
+                //   cc.log(`previews to choose from includes ${preview.name}`)
                 return;
             }
 
@@ -109,13 +109,13 @@ export default class CardPreviewManager extends cc.Component {
             if (cardComp._hasEventsBeenModified || !preview.getComponent(CardPreview).hasTouchProperty) {
                 let previewComp = preview.getComponent(CardPreview)
                 if (cardComp._isRequired) {
-                    cc.log(`${cardComp.name} is required`)
+                    //  cc.log(`${cardComp.name} is required`)
                     if (card.getComponent(Deck) == null) {
                         newSprite = card.getComponent(Card).frontSprite;
                     }
                     previewComp.hasTouchProperty = true
                     preview.on(cc.Node.EventType.TOUCH_START, () => {
-                        cc.log(`chosen ${card.name}`)
+                        // cc.log(`chosen ${card.name}`)
                         let cardPlayer = PlayerManager.getPlayerById(
                             TurnsManager.currentTurn.PlayerId
                         ).getComponent(Player);
@@ -126,7 +126,7 @@ export default class CardPreviewManager extends cc.Component {
                         this.hidePreviewManager()
                     });
                 } else if (cardComp instanceof Card) {
-                    cc.log(`${card.name} is: reactable ${cardComp._isReactable}, activatable ${cardComp._isActivateable}, playable ${cardComp._isPlayable},attackable ${cardComp._isAttackable}, buyable ${cardComp._isBuyable}`)
+                    //  cc.log(`${card.name} is: reactable ${cardComp._isReactable}, activatable ${cardComp._isActivateable}, playable ${cardComp._isPlayable},attackable ${cardComp._isAttackable}, buyable ${cardComp._isBuyable}`)
                     newSprite = card.getComponent(Card).frontSprite;
                     if (cardComp._isReactable) {
                         previewComp.hasTouchProperty = true

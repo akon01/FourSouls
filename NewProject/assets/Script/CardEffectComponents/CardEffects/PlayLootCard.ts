@@ -37,7 +37,7 @@ export default class PlayLootCard extends Effect {
     if (card != null && card instanceof cc.Node) {
       let playLoot = new PlayLootCardStackEffect(player.character.getComponent(Card)._cardId, hasLockingEffect, card, player.character, false, false)
 
-      await Stack.addToStackBelow(playLoot, Stack._currentStack[Stack._currentStack.length - 1])
+      await Stack.addToStackBelow(playLoot, Stack._currentStack[Stack._currentStack.length - 1], false)
     }
     // stack.push(data.cardEffect);
     return stack

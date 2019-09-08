@@ -23,14 +23,14 @@ export default class AtSpecificHp extends Condition {
 
   async testCondition(meta: PassiveMeta) {
     let subject = meta.methodScope;;
-    cc.log(`subject is ${subject.name}`)
+
     let thisCard = this.node.parent.parent;
-    cc.log(`this card is ${thisCard.name}`)
+
     let cardOwner: any = PlayerManager.getPlayerByCard(thisCard);
     if (cardOwner == null) {
       cardOwner = thisCard;
     }
-    cc.log(`card owner is ${cardOwner.name}`)
+
     let subjectName: string = subject.name
     let nameArray = subjectName.split('<')
     if (subject.getComponent(Monster) != null && nameArray[0] == cardOwner.name && meta.passiveEvent == PASSIVE_EVENTS.MONSTER_GET_HIT) {

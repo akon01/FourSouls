@@ -75,7 +75,9 @@ export default class ActivateItem implements StackEffectInterface {
             cardEffect.effectData = collectedData;
             this.hasDataBeenCollectedYet = true;
         }
-        this.itemToActivate.getComponent(Item).useItem(true)
+        if (this.itemToActivate.getComponent(Item) != null) {
+            this.itemToActivate.getComponent(Item).useItem(true)
+        }
         let turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
         turnPlayer.givePriority(true)
 
@@ -118,7 +120,7 @@ export default class ActivateItem implements StackEffectInterface {
         } catch (e) {
             cc.error(e)
         }
-
+        this.effectToDo = null;
         //put new stack insted of old one (check maybe only add and removed the changed StackEffects)
         if (newStack != null)
             Stack.replaceStack(newStack, true)
@@ -134,6 +136,7 @@ export default class ActivateItem implements StackEffectInterface {
         if (effect == null) {
             throw `effect is null`
         }
+        cc.log(`do card effect has data been collected yet : ${hasDataBeenCollectedYet}`)
         let cardEffect = this.itemToActivate.getComponent(CardEffect)
         let serverEffect = await cardEffect.getServerEffect(effect, this.itemPlayer.playerId, !hasDataBeenCollectedYet)
         //change in every effect that it recives the current stack (maybe not needed cuz stack is static) so that effects that affect the stack (butter bean) can cancel them

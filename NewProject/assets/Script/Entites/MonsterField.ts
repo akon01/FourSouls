@@ -38,7 +38,7 @@ export default class MonsterField extends cc.Component {
   /**
    *
    * @param monsterPlaceId id of the place to put the monster
-   * @param monsterCard a monster card to put, if none is set, one from the deck wiil go
+   * @param monsterCard a monster card to put, if none is set, one from the deck wiil go 
    */
   static async addMonsterToExsistingPlace(
     monsterPlaceId: number,
@@ -60,7 +60,7 @@ export default class MonsterField extends cc.Component {
     CardManager.onTableCards.push(monsterCard);
     MonsterField.updateActiveMonsters();
     let signal = Signal.NEW_MONSTER_ON_PLACE;
-    let srvData = { newMonsterId: monsterId, monsterPlaceId: monsterPlaceId };
+    let srvData = { cardId: monsterId, monsterPlaceId: monsterPlaceId };
     if (sendToServer) {
       ServerClient.$.send(signal, srvData);
     }

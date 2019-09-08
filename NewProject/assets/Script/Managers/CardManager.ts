@@ -1,39 +1,29 @@
+import Signal from "../../Misc/Signal";
+import ServerClient from "../../ServerClient/ServerClient";
 import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
-import {
-  BLINKING_SPEED,
-  CARD_TYPE,
-  COLORS,
-  TIME_TO_BUY,
-  ITEM_TYPE,
-  TIME_TO_DRAW
-} from "../Constants";
+import { BLINKING_SPEED, CARD_TYPE, TIME_TO_BUY, TIME_TO_DRAW } from "../Constants";
 import CardEffect from "../Entites/CardEffect";
 import { CardLayout } from "../Entites/CardLayout";
-import CardPreview from "../Entites/CardPreview";
 import Character from "../Entites/CardTypes/Character";
+import Monster from "../Entites/CardTypes/Monster";
 import Card from "../Entites/GameEntities/Card";
 import Deck from "../Entites/GameEntities/Deck";
-import Player from "../Entites/GameEntities/Player";
-import { ServerEffect } from "../Entites/ServerCardEffect";
-import MonsterField from "../Entites/MonsterField";
-import MonsterCardHolder from "../Entites/MonsterCardHolder";
-import Store from "../Entites/GameEntities/Store";
-import PlayerManager from "./PlayerManager";
 import Dice from "../Entites/GameEntities/Dice";
-import PileManager from "./PileManager";
-import Item from "../Entites/CardTypes/Item";
-import PassiveManager from "./PassiveManager";
-import TurnsManager from "./TurnsManager";
-import Monster from "../Entites/CardTypes/Monster";
-import ServerClient from "../../ServerClient/ServerClient";
-import Signal from "../../Misc/Signal";
-import CardPreviewManager from "./CardPreviewManager";
-
+import Player from "../Entites/GameEntities/Player";
+import Store from "../Entites/GameEntities/Store";
+import MonsterCardHolder from "../Entites/MonsterCardHolder";
+import MonsterField from "../Entites/MonsterField";
 import Pile from "../Entites/Pile";
-import CharacterItem from "../Entites/CardTypes/CharacterItem";
-import RefillEmptySlot from "../StackEffects/Refill Empty Slot";
-import Stack from "../Entites/Stack";
 import PlayerDesk from "../Entites/PlayerDesk";
+import { ServerEffect } from "../Entites/ServerCardEffect";
+import Stack from "../Entites/Stack";
+import RefillEmptySlot from "../StackEffects/Refill Empty Slot";
+import CardPreviewManager from "./CardPreviewManager";
+import PassiveManager from "./PassiveManager";
+import PileManager from "./PileManager";
+import PlayerManager from "./PlayerManager";
+import TurnsManager from "./TurnsManager";
+
 
 
 const { ccclass, property } = cc._decorator;
@@ -181,7 +171,10 @@ export default class CardManager extends cc.Component {
                   break;
               }
             }
-            CardManager.prefabLoaded = true;
+            cc.loader.loadResDir('Prefabs/LootCards', cc.Prefab, (err, rsc, urls) => {
+              CardManager.lootDeck.getComponent(Deck).cardsPrefab.push(...rsc)
+              CardManager.prefabLoaded = true;
+            })
           }
         );
       });
@@ -244,10 +237,12 @@ export default class CardManager extends cc.Component {
         //let over = await this.waitForCheck()
         return
       }
+      cc.log(`check for empty fields`)
       this.isCheckingForEmptyFields = true;
 
       let monsterField = this.monsterField.getComponent(MonsterField)
       MonsterField.updateActiveMonsters();
+      cc.log(MonsterField.activeMonsters.map(monster => monster.name))
       if (monsterField.maxNumOfMonsters > MonsterField.activeMonsters.length) {
         let emptyHolders = MonsterField.monsterCardHolders.filter(
           holder => holder.getComponent(MonsterCardHolder).monsters.length == 0
@@ -355,6 +350,50 @@ export default class CardManager extends cc.Component {
     cc.error(`no card found`)
     return null;
 
+  }
+
+  static getCardByName(name: string) {
+    let regEx: RegExp = new RegExp(name, 'i')
+    for (let i = 0; i < CardManager.allCards.length; i++) {
+      const card: Card = CardManager.allCards[i].getComponent(Card);
+      if (card.name.search(regEx) != -1) {
+        return card.node;
+      }
+    }
+
+
+    for (let i = 0; i < PlayerManager.players.map(player => player.getComponent(Player)).length; i++) {
+      const player = PlayerManager.players.map(player => player.getComponent(Player))[i];
+      for (let j = 0; j < player.deskCards.length; j++) {
+        const card = player.deskCards[j].getComponent(Card);
+        if (card.name.search(regEx) != -1) {
+          return card.node;
+        }
+      }
+      for (let j = 0; j < player.handCards.length; j++) {
+        const card = player.handCards[j].getComponent(Card);
+        if (card.name.search(regEx) != -1) {
+          return card.node;
+        }
+      }
+      for (let j = 0; j < player.activeItems.length; j++) {
+        const card = player.activeItems[j].getComponent(Card);
+        if (card.name.search(regEx) != -1) {
+          return card.node;
+        }
+      }
+    }
+
+    for (let i = 0; i < this.inDecksCards.length; i++) {
+      const inDeckCard = this.inDecksCards[i].getComponent(Card);
+
+      if (inDeckCard.name.search(regEx) != -1) {
+        return inDeckCard.node;
+      }
+    }
+
+    cc.error(`no card found`)
+    return null;
   }
 
   static makeDeckCards(deck: Deck) {
@@ -609,6 +648,15 @@ export default class CardManager extends cc.Component {
       card.setParent(canvas)
       card.setPosition(firstPos)
     }
+
+
+    //only for test!
+
+    if (card.parent == null) {
+      card.parent = canvas
+    }
+
+
     cc.log(`place to move to is: ${placeToMove.name}, its parent is ${placeToMove.parent.name} `)
 
     let originalPos = canvas.convertToNodeSpaceAR(card.parent.convertToWorldSpaceAR(card.getPosition()));

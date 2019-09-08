@@ -69,6 +69,7 @@ export default class PlayLootCardStackEffect implements StackEffectInterface {
             if (cardEffect.multiEffectCollector instanceof MultiEffectChoose) {
                 let effectChosen = await cardEffect.multiEffectCollector.collectData({ cardPlayed: this.lootToPlay, cardPlayerId: this.lootPlayer.playerId })
                 this.effectToDo = effectChosen;
+                cc.log(this.effectToDo)
             }
         } else {
             cc.log(`only has one effect`)
@@ -89,6 +90,7 @@ export default class PlayLootCardStackEffect implements StackEffectInterface {
     async resolve() {
         let selectedEffect: Effect = null;
         let cardEffect = this.lootToPlay.getComponent(CardEffect)
+        this.lootPlayer._lootCardsPlayedThisTurn.push(this.lootToPlay)
         if (this.effectToDo == null) {
             cc.log(`no chosen effect to do yet`)
             //if this effect has locking stack effect (first only "roll:" for a dice roll) and it has not yet resolved
@@ -115,9 +117,14 @@ export default class PlayLootCardStackEffect implements StackEffectInterface {
         } else {
             selectedEffect = this.effectToDo;
         }
-        cc.log(selectedEffect.effectName)
-        let newStack = await this.doCardEffect(selectedEffect, this.hasDataBeenCollectedYet);
-
+        cc.log(selectedEffect)
+        let newStack
+        try {
+            newStack = await this.doCardEffect(selectedEffect, this.hasDataBeenCollectedYet);
+        } catch (e) {
+            cc.error(e)
+        }
+        this.effectToDo = null;
         //put new stack insted of old one (check maybe only add and removed the changed StackEffects)
 
         //if the loot card is not a trinket (triknets have Item component)
@@ -131,6 +138,7 @@ export default class PlayLootCardStackEffect implements StackEffectInterface {
 
     async doCardEffect(effect: Effect, hasDataBeenCollectedYet: boolean) {
         let cardEffect = this.lootToPlay.getComponent(CardEffect)
+
         let serverEffect = await cardEffect.getServerEffect(effect, this.lootPlayer.playerId, !hasDataBeenCollectedYet)
 
         if (hasDataBeenCollectedYet) {

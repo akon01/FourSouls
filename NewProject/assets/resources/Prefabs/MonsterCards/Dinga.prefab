@@ -63,20 +63,19 @@
       "y": 1,
       "z": 1
     },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_zIndex": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_rotationX": 0,
-    "_rotationY": 0,
-    "_id": "",
     "_eulerAngles": {
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
       "z": 0
-    }
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_rotationX": 0,
+    "_rotationY": 0,
+    "_id": ""
   },
   {
     "__type__": "cc.Sprite",
@@ -86,10 +85,15 @@
       "__id__": 1
     },
     "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "2db2718b-bca3-4324-96b3-981341cdd40a"
+      "__uuid__": "0471538f-03e6-4224-a924-9a96b83da85c"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -102,8 +106,9 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_state": 0,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "e728376a-50c1-4a1b-967c-acbd4c477c21"
+    },
     "_id": ""
   },
   {
@@ -115,24 +120,28 @@
     },
     "_enabled": true,
     "cardName": "Dinga",
-    "cardId": 0,
-    "moving": false,
-    "dragStartPos": null,
-    "xDiff": null,
-    "yDiff": null,
-    "isInHand": false,
-    "isOnDesk": false,
-    "originalParent": null,
-    "newPos": null,
+    "_cardId": 0,
+    "_isInHand": false,
+    "_isOnDesk": false,
+    "_originalParent": null,
     "topDeckof": null,
-    "wasDragged": false,
+    "souls": 0,
     "type": 2,
-    "currentCardLayout": null,
-    "hasDraggableComp": false,
+    "_isAttackable": false,
+    "_isBuyable": false,
+    "_isPlayable": false,
+    "_isActivateable": false,
+    "_isReactable": false,
+    "_isRequired": false,
+    "_requiredFor": null,
     "frontSprite": null,
     "backSprite": null,
-    "isFlipped": false,
-    "ownedBy": null,
+    "_isFlipped": false,
+    "_ownedBy": null,
+    "hasCounter": false,
+    "_effectCounterLable": null,
+    "_counters": 0,
+    "_hasEventsBeenModified": false,
     "_id": ""
   },
   {
@@ -145,10 +154,16 @@
     "_enabled": true,
     "monsterPlace": null,
     "HP": 3,
+    "currentHp": 0,
     "rollValue": 3,
+    "rollBonus": 0,
     "DMG": 1,
+    "bonusDamage": 0,
     "isAttacked": false,
     "hasEffect": true,
+    "isNonMonster": false,
+    "souls": 0,
+    "reward": null,
     "_id": ""
   },
   {
@@ -157,7 +172,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": ""
+      "__uuid__": "76d1b2ee-9c92-4de6-b0f9-a74b9e13e7ae"
     },
     "fileId": "74xrl7Ss9GNLi7htp7h56D",
     "sync": false

@@ -63,7 +63,8 @@ export default class AttackRoll implements StackEffectInterface {
         //player hit monster.
         if (playerRollValue >= monsterEvasion) {
             let monsterCombatDamage = new CombatDamage(this.creatorCardId, this.attackedMonster.node, this.rollingPlayer.character)
-            await Stack.addToStackBelow(monsterCombatDamage, this)
+            monsterCombatDamage.numberRolled = playerRollValue
+            await Stack.addToStackBelow(monsterCombatDamage, this, true)
 
         } else {
 
@@ -74,7 +75,8 @@ export default class AttackRoll implements StackEffectInterface {
             //passiveMeta.args = afterPassiveMeta.args;
 
             let playerCombatDamage = new CombatDamage(this.creatorCardId, this.rollingPlayer.character, this.attackedMonster.node)
-            await Stack.addToStackBelow(playerCombatDamage, this)
+            playerCombatDamage.numberRolled = playerRollValue
+            await Stack.addToStackBelow(playerCombatDamage, this, true)
         }
     }
 

@@ -69,7 +69,7 @@ export default class TakeDamage implements StackEffectInterface {
         switch (this.isPlayerTakeDamage) {
             case true:
                 let player = PlayerManager.getPlayerByCard(this.entityToTakeDamageCard)
-                await player.getHit(this.damage, true)
+                await player.getHit(this.damage, true, this.entityToDoDamageCard)
                 if (player._Hp == 0) {
                     await player.killPlayer(true, true, this)
                 }
@@ -77,7 +77,7 @@ export default class TakeDamage implements StackEffectInterface {
             case false:
                 player = PlayerManager.getPlayerByCard(this.entityToDoDamageCard);
                 let monster = this.entityToTakeDamageCard.getComponent(Monster)
-                await monster.getDamaged(this.damage, true)
+                await monster.getDamaged(this.damage, true, this.entityToDoDamageCard)
                 if (monster.currentHp == 0) {
                     await monster.kill(true, this)
                 }

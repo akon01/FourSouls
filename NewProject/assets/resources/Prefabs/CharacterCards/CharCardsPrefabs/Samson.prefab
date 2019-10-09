@@ -83,8 +83,6 @@
     "_skewY": 0,
     "_is3DNode": false,
     "groupIndex": 0,
-    "_rotationX": 0,
-    "_rotationY": 0,
     "_id": ""
   },
   {
@@ -242,7 +240,7 @@
     "_enabled": true,
     "cost": null,
     "preCondition": null,
-    "condition": null,
+    "conditions": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "dataCollector": [
@@ -251,6 +249,8 @@
       }
     ],
     "_effectCard": null,
+    "optional": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
     "_id": ""
   },
   {
@@ -328,6 +328,7 @@
     "hasCounter": false,
     "_effectCounterLable": null,
     "_counters": 0,
+    "_hasEventsBeenModified": false,
     "_id": ""
   },
   {
@@ -339,7 +340,7 @@
     },
     "_enabled": true,
     "charItemPrefab": {
-      "__uuid__": "c329a523-0c34-497c-8410-400f060640e2"
+      "__uuid__": "57883470-cd68-4990-b671-40e17397b979"
     },
     "charItemCard": null,
     "activated": false,
@@ -358,6 +359,7 @@
     "type": 1,
     "activated": false,
     "eternal": true,
+    "lastOwnedBy": null,
     "_id": ""
   },
   {
@@ -377,10 +379,11 @@
     "passiveEffects": [],
     "toAddPassiveEffects": [],
     "paidEffects": [],
+    "test123": [],
+    "hasMultipleEffects": false,
     "multiEffectCollector": null,
     "effectData": null,
     "data": {},
-    "hasMultipleEffects": false,
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""

@@ -1,17 +1,17 @@
-import ConditionInterface from "./ConditionInterface";
-import Condition from "./Condition";
-import Player from "../../Entites/GameEntities/Player";
-import PlayerManager from "../../Managers/PlayerManager";
-import Monster from "../../Entites/CardTypes/Monster";
-import CardManager from "../../Managers/CardManager";
-import Effect from "../CardEffects/Effect";
-import { PassiveMeta } from "../../Managers/PassiveManager";
 import { PASSIVE_EVENTS } from "../../Constants";
+import Monster from "../../Entites/CardTypes/Monster";
+import Player from "../../Entites/GameEntities/Player";
+import { PassiveMeta } from "../../Managers/PassiveManager";
+import PlayerManager from "../../Managers/PlayerManager";
+import Effect from "../CardEffects/Effect";
+import Condition from "./Condition";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class AtSpecificHp extends Condition {
+
+  event = PASSIVE_EVENTS.PLAYER_GET_HIT
 
   @property
   specificHp: number = 0;
@@ -42,8 +42,8 @@ export default class AtSpecificHp extends Condition {
       }
     } else if (
       subject.getComponent(Player) != null &&
-      subject.name == cardOwner.name &&
-      meta.passiveEvent == PASSIVE_EVENTS.PLAYER_GET_HIT
+      subject.name == cardOwner.name
+      //&&  meta.passiveEvent == PASSIVE_EVENTS.PLAYER_GET_HIT
     ) {
       if (subject.getComponent(Player)._Hp == this.specificHp) {
         this.isActive = true

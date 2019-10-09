@@ -9,14 +9,18 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class CardOwnerPayPenalties extends Condition {
+
+
+  event = PASSIVE_EVENTS.PLAYER_PAY_DEATH_PANELTIES
+
   async testCondition(meta: PassiveMeta) {
     let player: Player = meta.methodScope.getComponent(Player);
     let thisCard = this.node.parent.parent;
     let cardOwner = PlayerManager.getPlayerByCard(thisCard);
     if (
       player instanceof Player &&
-      player.name == cardOwner.name &&
-      meta.passiveEvent == PASSIVE_EVENTS.PLAYER_PAY_DEATH_PANELTIES
+      player.name == cardOwner.name
+      // &&  meta.passiveEvent == PASSIVE_EVENTS.PLAYER_PAY_DEATH_PANELTIES
     ) {
       return true;
     } else {

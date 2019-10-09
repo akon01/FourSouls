@@ -1,6 +1,6 @@
 import { TARGETTYPE } from "../../Constants";
 import Player from "../../Entites/GameEntities/Player";
-import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import Effect from "./Effect";
@@ -22,7 +22,7 @@ export default class AddMoney extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData) {
+  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
 
     if (this.multiTarget) {
       let targets = data.getTargets(TARGETTYPE.PLAYER)
@@ -47,6 +47,8 @@ export default class AddMoney extends Effect {
         let player: Player = PlayerManager.getPlayerByCard(targetPlayerCard as cc.Node)
         await player.changeMoney(this.numOfCoins, true);
       }
+
+      if (data instanceof PassiveEffectData) return data
       return stack
     }
   }

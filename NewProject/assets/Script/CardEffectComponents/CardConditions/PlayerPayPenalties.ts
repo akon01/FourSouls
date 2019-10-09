@@ -1,17 +1,22 @@
 import { PASSIVE_EVENTS, TARGETTYPE } from "../../Constants";
 import Player from "../../Entites/GameEntities/Player";
-import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import { PassiveMeta } from "../../Managers/PassiveManager";
 import Condition from "./Condition";
 import PlayerManager from "../../Managers/PlayerManager";
+import DataCollector from "../DataCollector/DataCollector";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class PlayerPayPenalties extends Condition {
 
+  event = PASSIVE_EVENTS.PLAYER_PAY_DEATH_PANELTIES
 
-  conditionData: ActiveEffectData = null;
+  conditionData: ActiveEffectData | PassiveEffectData = null;
+
+  @property({ type: DataCollector, tooltip: 'Only Put If Not In "Add Passive Effect" Active effect' })
+  dataCollector: DataCollector = null
 
   async testCondition(meta: PassiveMeta) {
 
@@ -26,8 +31,9 @@ export default class PlayerPayPenalties extends Condition {
         let selectedPlayer = PlayerManager.getPlayerByCard(selectedPlayerCard)
         if (
           player instanceof Player &&
-          player.playerId == selectedPlayer.playerId &&
-          meta.passiveEvent == PASSIVE_EVENTS.PLAYER_PAY_DEATH_PANELTIES
+          player.playerId == selectedPlayer.playerId
+          //&&
+          // meta.passiveEvent == PASSIVE_EVENTS.PLAYER_PAY_DEATH_PANELTIES
         ) {
           return true;
         } else {

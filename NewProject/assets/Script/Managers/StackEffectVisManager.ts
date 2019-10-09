@@ -139,7 +139,7 @@ export default class StackEffectVisManager extends cc.Component {
 
             if (preview.stackEffect.entityId == stackId) return preview
         }
-        cc.error('no preview was found')
+
     }
 
     hidePreviews() {

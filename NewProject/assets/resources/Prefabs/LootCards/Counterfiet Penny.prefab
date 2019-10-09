@@ -73,19 +73,17 @@
       "y": 1,
       "z": 1
     },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_rotationX": 0,
-    "_rotationY": 0,
-    "_id": "",
     "_eulerAngles": {
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
       "z": 0
-    }
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "cc.Node",
@@ -139,17 +137,17 @@
       "y": 1,
       "z": 1
     },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_eulerAngles": {
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
       "z": 0
-    }
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "cc.Node",
@@ -199,17 +197,17 @@
       "y": 1,
       "z": 1
     },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_eulerAngles": {
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
       "z": 0
-    }
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "1d1ecf8dolI9JOwSEDLfemj",
@@ -242,7 +240,7 @@
     "_enabled": true,
     "cost": null,
     "preCondition": null,
-    "condition": null,
+    "conditions": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "dataCollector": [
@@ -251,9 +249,14 @@
       }
     ],
     "_effectCard": null,
+    "optional": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
     "itemEffectToAdd": {
       "__id__": 7
     },
+    "itemEffectsToAdd": [],
+    "addMuiliEffect": false,
+    "multiEffectCollector": null,
     "_id": ""
   },
   {
@@ -311,17 +314,17 @@
       "y": 1,
       "z": 1
     },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_eulerAngles": {
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
       "z": 0
-    }
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "cc.Node",
@@ -371,17 +374,17 @@
       "y": 1,
       "z": 1
     },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_eulerAngles": {
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
       "z": 0
-    }
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "1d1ecf8dolI9JOwSEDLfemj",
@@ -452,17 +455,17 @@
       "y": 1,
       "z": 1
     },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_eulerAngles": {
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
       "z": 0
-    }
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "99a0c5BSCJB4JIxyQUIoBKw",
@@ -495,9 +498,11 @@
     "_enabled": true,
     "cost": null,
     "preCondition": null,
-    "condition": {
-      "__id__": 12
-    },
+    "conditions": [
+      {
+        "__id__": 12
+      }
+    ],
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "dataCollector": [
@@ -506,6 +511,8 @@
       }
     ],
     "_effectCard": null,
+    "optional": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
     "numOfCoins": 1,
     "_id": ""
   },
@@ -539,7 +546,11 @@
       "__id__": 1
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
@@ -591,6 +602,7 @@
     "hasCounter": false,
     "_effectCounterLable": null,
     "_counters": 0,
+    "_hasEventsBeenModified": false,
     "_id": ""
   },
   {
@@ -610,10 +622,11 @@
     "passiveEffects": [],
     "toAddPassiveEffects": [],
     "paidEffects": [],
+    "test123": [],
+    "hasMultipleEffects": false,
     "multiEffectCollector": null,
     "effectData": null,
     "data": {},
-    "hasMultipleEffects": false,
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""

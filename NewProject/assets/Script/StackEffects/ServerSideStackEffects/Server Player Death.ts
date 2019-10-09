@@ -1,15 +1,7 @@
-import StackEffectInterface from "../StackEffectInterface";
-import Stack from "../../Entites/Stack";
-import CardManager from "../../Managers/CardManager";
-import PlayerManager from "../../Managers/PlayerManager";
-import { ROLL_TYPE } from "../../Constants";
-import ServerStackEffectInterface from "./ServerStackEffectInterface";
-import RollDiceStackEffect from "../Roll DIce";
-import AttackRoll from "../Attack Roll";
 import Card from "../../Entites/GameEntities/Card";
-import Player from "../../Entites/GameEntities/Player";
-import MonsterDeath from "../Monster Death";
+import CardManager from "../../Managers/CardManager";
 import PlayerDeath from "../Player Death";
+import ServerStackEffectInterface from "./ServerStackEffectInterface";
 
 
 export default class ServerPlayerDeath implements ServerStackEffectInterface {
@@ -26,18 +18,20 @@ export default class ServerPlayerDeath implements ServerStackEffectInterface {
     LockingResolve: any;
 
     playerToDieCardId: number;
+    killerId: number
 
     constructor(stackEffect: PlayerDeath) {
         this.entityId = stackEffect.entityId;
         this.creatorCardId = stackEffect.creatorCardId;
         this.playerToDieCardId = stackEffect.playerToDie.character.getComponent(Card)._cardId
         this.stackEffectType = stackEffect.stackEffectType;
+        this.killerId = stackEffect.killer.getComponent(Card)._cardId
     }
 
 
 
     convertToStackEffect() {
-        let playerDeath = new PlayerDeath(this.creatorCardId, CardManager.getCardById(this.playerToDieCardId))
+        let playerDeath = new PlayerDeath(this.creatorCardId, CardManager.getCardById(this.playerToDieCardId), CardManager.getCardById(this.killerId, true))
         return playerDeath;
     }
 

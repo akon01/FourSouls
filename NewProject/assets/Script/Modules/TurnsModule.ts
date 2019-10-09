@@ -5,6 +5,7 @@ import PlayerManager from "../Managers/PlayerManager";
 
 import CardManager from "../Managers/CardManager";
 import Player from "../Entites/GameEntities/Player";
+import Signal from "../../Misc/Signal";
 
 //make the turns ininitally
 export function makeNextTurn(currentTurn: Turn): Turn[] {
@@ -22,21 +23,6 @@ export function getCurrentPlayer(players: cc.Node[], turn: Turn) {
     let playerComp: Player = player.getComponent(Player);
     if (playerComp.playerId == turn.PlayerId) {
       return player;
-    }
-  }
-  return null;
-}
-
-export function getNextTurn(currentTurn: Turn, turns: Turn[]): Turn {
-  for (let i = 0; i < turns.length; i++) {
-    let nextTurn = turns[i];
-    if (currentTurn.PlayerId == MAX_TURNID) {
-      if (nextTurn.PlayerId == 1) {
-        return nextTurn;
-      }
-    }
-    if (nextTurn.PlayerId == currentTurn.PlayerId + 1) {
-      return nextTurn;
     }
   }
   return null;
@@ -71,12 +57,14 @@ export class Turn {
     return PlayerManager.getPlayerById(this.PlayerId).getComponent(Player)
   }
 
-  startTurn() {
+  async startTurn() {
     let player: Player = PlayerManager.getPlayerById(
       this.PlayerId
     ).getComponent(Player);
     if (player.node.name == PlayerManager.mePlayer.name) {
-      player.startTurn(this.drawPlays, player.activeItems.length, true)
+      await player.startTurn(this.drawPlays, player.activeItems.length, true)
+    } else {
+      ServerClient.$.send(Signal.START_TURN, { playerId: player.playerId })
     }
     // //draw cards
     //  for (let i = 0; i < this.drawPlays; i++) {

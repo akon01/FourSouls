@@ -1,7 +1,7 @@
 import { TARGETTYPE } from "../../Constants";
 import Player from "../../Entites/GameEntities/Player";
 import CardManager from "../../Managers/CardManager";
-import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import Effect from "./Effect";
@@ -22,7 +22,7 @@ export default class GainLoot extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData) {
+  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
     if (this.multiTarget) {
       let targets = data.getTargets(TARGETTYPE.PLAYER)
       if (targets.length == 0) {
@@ -50,6 +50,7 @@ export default class GainLoot extends Effect {
         }
       }
 
+      if (data instanceof PassiveEffectData) return data
       return stack
     }
   }

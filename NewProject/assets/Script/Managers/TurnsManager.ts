@@ -1,12 +1,13 @@
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
-import { getNextTurn, Turn } from "../Modules/TurnsModule";
 import PlayerManager from "./PlayerManager";
 import Player from "../Entites/GameEntities/Player";
 import Character from "../Entites/CardTypes/Character";
 import MonsterField from "../Entites/MonsterField";
 import Monster from "../Entites/CardTypes/Monster";
 import Stack from "../Entites/Stack";
+import { MAX_TURNID } from "../Constants";
+import { Turn } from "../Modules/TurnsModule";
 
 const { ccclass, property } = cc._decorator;
 
@@ -53,11 +54,11 @@ export default class TurnsManager extends cc.Component {
    */
   static async nextTurn(sendToServer?: boolean) {
 
-    await Stack.replaceStack([], false)
+    // await Stack.replaceStack([], false)
 
-    this.endTurn();
+    await this.endTurn();
 
-    this.setCurrentTurn(getNextTurn(TurnsManager.currentTurn, this.turns), false);
+    this.setCurrentTurn(TurnsManager.getNextTurn(TurnsManager.currentTurn, this.turns), true);
 
     cc.find("MainScript").dispatchEvent(
       new cc.Event.EventCustom("turnChanged", true)
@@ -67,34 +68,54 @@ export default class TurnsManager extends cc.Component {
 
   static setCurrentTurn(turn: Turn, sendToServer: boolean) {
 
-    if (turn.PlayerId != 0) {
-      turn.refreshTurn();
-      TurnsManager.currentTurn = turn;
-      turn.startTurn();
-    }
     if (sendToServer) {
       ServerClient.$.send(Signal.SET_TURN, { playerId: turn.PlayerId })
     }
+    if (turn.PlayerId != 0) {
+      turn.refreshTurn();
+      TurnsManager.currentTurn = turn;
+      if (sendToServer) turn.startTurn();
+    }
   }
 
-  static endTurn() {
+  static async endTurn() {
     if (
-      getNextTurn(TurnsManager.currentTurn, TurnsManager.turns).PlayerId != 0
+      this.getNextTurn(TurnsManager.currentTurn, TurnsManager.turns).PlayerId != 0
     ) {
       for (const player of PlayerManager.players.map(player => player.getComponent(Player))) {
-        player._hpBonus = 0
-        player.attackRollBonus = 0
-        player.nonAttackRollBonus = 0
-        player.firstAttackRollBonus = 0
+        player._tempHpBonus = 0
+        player.tempAttackRollBonus = 0
+        player.tempNonAttackRollBonus = 0
+        player.tempFirstAttackRollBonus = 0
         player._lootCardsPlayedThisTurn = [];
+        player._thisTurnKiller = null
+        await player.heal(player.character.getComponent(Character).Hp + player._hpBonus, true)
       }
       for (const monster of MonsterField.activeMonsters.map(monster => monster.getComponent(Monster))) {
         monster.rollBonus = 0;
         monster.bonusDamage = 0;
+        monster._thisTurnKiller = null;
+        await monster.heal(monster.HP, true)
       }
 
     }
   }
+
+  static getNextTurn(currentTurn: Turn, turns: Turn[]): Turn {
+    for (let i = 0; i < turns.length; i++) {
+      let nextTurn = turns[i];
+      if (currentTurn.PlayerId == MAX_TURNID) {
+        if (nextTurn.PlayerId == 1) {
+          return nextTurn;
+        }
+      }
+      if (nextTurn.PlayerId == currentTurn.PlayerId + 1) {
+        return nextTurn;
+      }
+    }
+    return null;
+  }
+
 
   static setTurns(turns2: Turn[]) {
     TurnsManager.turns = turns2;

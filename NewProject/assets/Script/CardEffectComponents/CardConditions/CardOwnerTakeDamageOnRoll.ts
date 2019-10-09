@@ -12,6 +12,8 @@ export default class CardOwnerTakeDamageOnRoll extends Condition {
   @property
   rollOf: number = 0
 
+  event = PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_TAKEN
+
   async testCondition(meta: PassiveMeta) {
     let player: Player = meta.methodScope.getComponent(Player);
     let thisCard = this.node.parent.parent.parent;
@@ -20,7 +22,7 @@ export default class CardOwnerTakeDamageOnRoll extends Condition {
     if (
       player instanceof Player &&
       player.name == cardOwner.name &&
-      meta.passiveEvent == PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_TAKEN &&
+      //     meta.passiveEvent == PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_TAKEN &&
       meta.args[1] == this.rollOf
     ) {
       return true;

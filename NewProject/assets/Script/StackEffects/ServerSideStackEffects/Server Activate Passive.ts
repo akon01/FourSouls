@@ -1,6 +1,6 @@
 import ServerStackEffectInterface from "./ServerStackEffectInterface";
 import { STACK_EFFECT_TYPE } from "../../Constants";
-import { PassiveMeta } from "../../Managers/PassiveManager";
+import { PassiveMeta, ServerPassiveMeta } from "../../Managers/PassiveManager";
 import { ServerEffect } from "../../Entites/ServerCardEffect";
 import ActivatePassiveEffect from "../Activate Passive Effect";
 import Card from "../../Entites/GameEntities/Card";
@@ -24,7 +24,9 @@ export default class ServerActivatePassive implements ServerStackEffectInterface
 
     cardActivatorId: number
     cardWithEffectId: number;
-    effectPassiveMeta: PassiveMeta
+    effectPassiveMeta: ServerPassiveMeta
+    isAfterActivation: boolean
+    index: number
 
     effectToDo: ServerEffect;
     hasDataBeenCollectedYet: boolean;
@@ -47,6 +49,11 @@ export default class ServerActivatePassive implements ServerStackEffectInterface
             )
             this.effectToDo = serverEffect;
         }
+        if (stackEffect.effectPassiveMeta != null) {
+            this.effectPassiveMeta = stackEffect.effectPassiveMeta.convertToServerPassiveMeta()
+        }
+        this.isAfterActivation = stackEffect.isAfterActivation;
+        this.index = stackEffect.index
         this.hasDataBeenCollectedYet = stackEffect.hasDataBeenCollectedYet;
         this.stackEffectType = stackEffect.stackEffectType;
     }
@@ -55,7 +62,7 @@ export default class ServerActivatePassive implements ServerStackEffectInterface
     convertToStackEffect() {
         let cardWithEffect = CardManager.getCardById(this.cardWithEffectId, true)
         let effect = cardWithEffect.getComponent(CardEffect).getEffectByNumAndType(this.effectToDo.cardEffectNum, this.effectToDo.effctType)
-        let activatePassiveEffect = new ActivatePassiveEffect(this.creatorCardId, this.hasLockingStackEffect, this.cardActivatorId, cardWithEffect, effect, this.hasDataBeenCollectedYet)
+        let activatePassiveEffect = new ActivatePassiveEffect(this.creatorCardId, this.hasLockingStackEffect, this.cardActivatorId, cardWithEffect, effect, this.hasDataBeenCollectedYet, this.isAfterActivation, this.index)
         activatePassiveEffect.LockingResolve = this.LockingResolve;
         activatePassiveEffect.hasLockingStackEffectResolved = this.hasLockingStackEffectResolved
         return activatePassiveEffect

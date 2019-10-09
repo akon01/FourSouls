@@ -55,15 +55,23 @@ export default class MonsterField extends cc.Component {
       Monster
     ).HP;
 
-    await monsterHolder.addToMonsters(monsterCard, sendToServer);
-    CardManager.allCards.push(monsterCard);
-    CardManager.onTableCards.push(monsterCard);
-    MonsterField.updateActiveMonsters();
+    if (sendToServer) {
+      await monsterHolder.addToMonsters(monsterCard, sendToServer);
+    }
     let signal = Signal.NEW_MONSTER_ON_PLACE;
     let srvData = { cardId: monsterId, monsterPlaceId: monsterPlaceId };
     if (sendToServer) {
       ServerClient.$.send(signal, srvData);
+      if (monsterCard.getComponent(Monster).isNonMonster) {
+
+        await TurnsManager.currentTurn.getTurnPlayer().activateCard(monsterCard, true)
+      }
     }
+    CardManager.allCards.push(monsterCard);
+    CardManager.onTableCards.push(monsterCard);
+
+    MonsterField.updateActiveMonsters();
+
   }
 
   static getMonsterPlaceByActiveMonsterId(

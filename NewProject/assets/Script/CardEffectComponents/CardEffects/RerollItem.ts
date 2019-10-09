@@ -6,7 +6,7 @@ import { ServerEffect } from "./../../Entites/ServerCardEffect";
 import Effect from "./Effect";
 import Player from "../../Entites/GameEntities/Player";
 import Deck from "../../Entites/GameEntities/Deck";
-import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 
 const { ccclass, property } = cc._decorator;
@@ -22,7 +22,7 @@ export default class RerollItem extends Effect {
    */
   async doEffect(
     stack: StackEffectInterface[],
-    data?: ActiveEffectData
+    data?: ActiveEffectData | PassiveEffectData
   ) {
     let cardChosen = data.getTarget(TARGETTYPE.ITEM)
     if (cardChosen == null) {
@@ -35,6 +35,8 @@ export default class RerollItem extends Effect {
         await player.addItem(treasureTopDeck, true, true);
       }
     }
+
+    if (data instanceof PassiveEffectData) return data
     return stack
   }
 }

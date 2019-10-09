@@ -1,8 +1,6 @@
-import DataCollector from "../DataCollector/DataCollector";
 import Player from "../../Entites/GameEntities/Player";
-import MonsterReward from "./MonsterReward";
 import CardManager from "../../Managers/CardManager";
-import RollDice from "../RollDice";
+import MonsterReward from "./MonsterReward";
 
 const { ccclass, property } = cc._decorator;
 

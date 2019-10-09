@@ -1,0 +1,586 @@
+[
+  {
+    "__type__": "cc.Prefab",
+    "_name": "",
+    "_objFlags": 0,
+    "_native": "",
+    "data": {
+      "__id__": 1
+    },
+    "optimizationPolicy": 0,
+    "asyncLoadAssets": false,
+    "readonly": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "War",
+    "_objFlags": 0,
+    "_parent": null,
+    "_children": [
+      {
+        "__id__": 2
+      },
+      {
+        "__id__": 11
+      }
+    ],
+    "_active": true,
+    "_level": 1,
+    "_components": [
+      {
+        "__id__": 14
+      },
+      {
+        "__id__": 15
+      },
+      {
+        "__id__": 16
+      },
+      {
+        "__id__": 17
+      }
+    ],
+    "_prefab": {
+      "__id__": 18
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 70,
+      "height": 100
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_position": {
+      "__type__": "cc.Vec3",
+      "x": -178,
+      "y": 0,
+      "z": 0
+    },
+    "_scale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "GainStats",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [
+      {
+        "__id__": 3
+      },
+      {
+        "__id__": 6
+      }
+    ],
+    "_active": true,
+    "_level": 2,
+    "_components": [
+      {
+        "__id__": 9
+      }
+    ],
+    "_prefab": {
+      "__id__": 10
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_position": {
+      "__type__": "cc.Vec3",
+      "x": 178,
+      "y": 0,
+      "z": 0
+    },
+    "_scale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "EntityTakeDamage",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 2
+    },
+    "_children": [],
+    "_active": true,
+    "_level": 3,
+    "_components": [
+      {
+        "__id__": 4
+      }
+    ],
+    "_prefab": {
+      "__id__": 5
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_position": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_scale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "b3a74RkS6JJHoXnYn1G/FGy",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 3
+    },
+    "_enabled": true,
+    "dataCollector": null,
+    "isSpecificToEntityTakesDamage": true,
+    "entityWhoTookDamage": null,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "7a4d632f-256c-4e3f-936e-e75fa270907a"
+    },
+    "fileId": "4cI6D7h4pJVpLmbJHVVGKr",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "CardActivated",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 2
+    },
+    "_children": [],
+    "_active": true,
+    "_level": 3,
+    "_components": [
+      {
+        "__id__": 7
+      }
+    ],
+    "_prefab": {
+      "__id__": 8
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_position": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_scale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "0175bFUYExPf5FCIvNA1zX2",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 6
+    },
+    "_enabled": true,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "7a4d632f-256c-4e3f-936e-e75fa270907a"
+    },
+    "fileId": "a7FuTbnxhEPKvvJMCm0L2e",
+    "sync": false
+  },
+  {
+    "__type__": "1251ehOdU9IcaUBBusBC3Mv",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "cost": null,
+    "preCondition": null,
+    "conditions": [
+      {
+        "__id__": 4
+      }
+    ],
+    "passiveType": 1,
+    "passiveEffectToAdd": null,
+    "dataCollector": [
+      {
+        "__id__": 7
+      }
+    ],
+    "_effectCard": null,
+    "optional": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "gainHp": false,
+    "hpToGain": 0,
+    "hpTemp": false,
+    "gainDMG": true,
+    "DMGToGain": 1,
+    "dmgTemp": true,
+    "gainRollBonus": false,
+    "rollBonusToGain": 0,
+    "rollBonusTemp": false,
+    "gainAttackRollBonus": false,
+    "attackRollBonusToGain": 0,
+    "attackRollBonusTemp": false,
+    "gainFirstAttackRollBonus": false,
+    "firstAttackRollBonusToGain": 0,
+    "firstAttackRollBonusToGainTemp": false,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "7a4d632f-256c-4e3f-936e-e75fa270907a"
+    },
+    "fileId": "82YwZFxwBJE7bMB1V4xbV9",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "GainMoney",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": true,
+    "_level": 2,
+    "_components": [
+      {
+        "__id__": 12
+      }
+    ],
+    "_prefab": {
+      "__id__": 13
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_position": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_scale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "82c5bZEAZ1Oobq1Oh3I6fMe",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 11
+    },
+    "_enabled": true,
+    "hasRoll": false,
+    "numOfMoneyToAdd": 8,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "7a4d632f-256c-4e3f-936e-e75fa270907a"
+    },
+    "fileId": "8595lG2BFKCYfLVtsZw21B",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_spriteFrame": {
+      "__uuid__": "9451020a-9042-49e1-b5bc-1b269346969b"
+    },
+    "_type": 0,
+    "_sizeMode": 0,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": {
+      "__uuid__": "68990513-9e33-4419-bf7a-b0a0b6296f78"
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "469baVqArxNIJpM2pHjkHeJ",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "cardName": "War",
+    "_cardId": 0,
+    "_isInHand": false,
+    "_isOnDesk": false,
+    "_originalParent": null,
+    "topDeckof": null,
+    "souls": 1,
+    "type": 2,
+    "_isAttackable": false,
+    "_isBuyable": false,
+    "_isPlayable": false,
+    "_isActivateable": false,
+    "_isReactable": false,
+    "_isRequired": false,
+    "_requiredFor": null,
+    "frontSprite": null,
+    "backSprite": null,
+    "_isFlipped": false,
+    "_ownedBy": null,
+    "hasCounter": false,
+    "_effectCounterLable": null,
+    "_counters": 0,
+    "_hasEventsBeenModified": false,
+    "_id": ""
+  },
+  {
+    "__type__": "4ac15aQszVPe5b55U9/MQys",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "monsterPlace": null,
+    "HP": 3,
+    "currentHp": 0,
+    "rollValue": 3,
+    "rollBonus": 0,
+    "DMG": 1,
+    "bonusDamage": 0,
+    "isAttacked": false,
+    "hasEffect": true,
+    "isNonMonster": false,
+    "souls": 1,
+    "_dmgPrevention": [],
+    "_thisTurnKiller": null,
+    "reward": {
+      "__id__": 12
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "bd535UKRTNDu7iLPx8/+FlC",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "conditions": [],
+    "activeEffects": [],
+    "passiveEffects": [
+      {
+        "__id__": 2
+      }
+    ],
+    "toAddPassiveEffects": [],
+    "paidEffects": [],
+    "test123": [],
+    "hasMultipleEffects": false,
+    "multiEffectCollector": null,
+    "effectData": null,
+    "data": {},
+    "cardPlayerId": 0,
+    "serverEffectStack": [],
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "7a4d632f-256c-4e3f-936e-e75fa270907a"
+    },
+    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "sync": false
+  }
+]

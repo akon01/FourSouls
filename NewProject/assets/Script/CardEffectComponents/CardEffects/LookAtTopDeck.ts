@@ -1,7 +1,7 @@
 import { TARGETTYPE } from "../../Constants";
 import Deck from "../../Entites/GameEntities/Deck";
 import CardPreviewManager from "../../Managers/CardPreviewManager";
-import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import { CHOOSE_CARD_TYPE } from "./../../Constants";
 import Effect from "./Effect";
@@ -26,7 +26,7 @@ export default class LookAtTopDeck extends Effect {
   //@printMethodStarted(COLORS.RED)
   async doEffect(
     stack: StackEffectInterface[],
-    data?: ActiveEffectData
+    data?: ActiveEffectData | PassiveEffectData
   ) {
 
     let deckNode = data.getTarget(TARGETTYPE.DECK)
@@ -51,6 +51,7 @@ export default class LookAtTopDeck extends Effect {
       CardPreviewManager.getPreviews(cardsToSee, true)
     }
 
+    if (data instanceof PassiveEffectData) return data
     return stack
   }
 }

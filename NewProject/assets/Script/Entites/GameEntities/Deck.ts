@@ -20,6 +20,9 @@ export default class Deck extends cc.Component {
   @property([cc.Node])
   _cards: cc.Node[] = [];
 
+  @property
+  suffleInTheStart: boolean = false;
+
 
   @property([cc.Prefab])
   cardsPrefab: cc.Prefab[] = [];
@@ -53,6 +56,8 @@ export default class Deck extends cc.Component {
     if (this._cards.length != 0) {
       let newCard = this._cards.pop();
       cc.log(`${newCard.name} was drawn from its deck`)
+
+      if (!newCard.getComponent(Card)._isFlipped) newCard.getComponent(Card).flipCard(false)
       if (newCard.parent == null) {
         newCard.parent = cc.find('Canvas')
         newCard.setPosition(this.node.getPosition())
@@ -81,14 +86,37 @@ export default class Deck extends cc.Component {
     }
   }
 
-  shuffleDeck() {
-    let newDeckArrangment: cc.Node[];
-    for (let i = 0; i < this._cards.length; i++) {
-      newDeckArrangment.push(
-        this._cards[Math.floor(Math.random() * this._cards.length)]
-      );
+  shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
     }
-    this._cards = newDeckArrangment;
+
+    return array;
+  }
+
+  shuffleDeck() {
+    let randomSeed = Math.floor(Math.log(new Date().getTime()))
+    let randomTimes = Math.random() * randomSeed
+    for (let i = 0; i < randomTimes; i++) {
+      this._cards = this.shuffle(this._cards)
+    }
+
+    ServerClient.$.send(Signal.DECK_ARRAGMENT, { deckType: this.deckType, arrangement: this._cards.map(card => card.getComponent(Card)._cardId) })
+  }
+
+  setDeckCards(cards: cc.Node[]) {
+    this._cards = cards
   }
 
   createNewTopBlank() { }
@@ -107,5 +135,8 @@ export default class Deck extends cc.Component {
 
   start() { }
 
-  // update (dt) {}
+  // update(dt) {
+  //   //   if (this.deckType == CARD_TYPE.MONSTER)
+  //   //     cc.log(this._cards.map(card => card.name))
+  // }
 }

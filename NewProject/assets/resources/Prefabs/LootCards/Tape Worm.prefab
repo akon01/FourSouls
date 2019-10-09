@@ -80,8 +80,6 @@
     "_skewY": 0,
     "_is3DNode": false,
     "groupIndex": 0,
-    "_rotationX": 0,
-    "_rotationY": 0,
     "_id": ""
   },
   {
@@ -367,7 +365,9 @@
       "__id__": 7
     },
     "_enabled": true,
+    "multiType": false,
     "chooseType": 1,
+    "chooseTypes": [],
     "_id": ""
   },
   {
@@ -472,15 +472,18 @@
     "_enabled": true,
     "cost": null,
     "preCondition": null,
-    "condition": {
-      "__id__": 11
-    },
+    "conditions": [
+      {
+        "__id__": 11
+      }
+    ],
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "dataCollector": {
       "__id__": 8
     },
     "_effectCard": null,
+    "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "damageToDeal": 1,
     "_id": ""
@@ -506,7 +509,7 @@
     "_enabled": true,
     "cost": null,
     "preCondition": null,
-    "condition": null,
+    "conditions": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "dataCollector": [
@@ -515,10 +518,14 @@
       }
     ],
     "_effectCard": null,
+    "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "itemEffectToAdd": {
       "__id__": 6
     },
+    "itemEffectsToAdd": [],
+    "addMuiliEffect": false,
+    "multiEffectCollector": null,
     "_id": ""
   },
   {
@@ -616,11 +623,11 @@
     "passiveEffects": [],
     "toAddPassiveEffects": [],
     "paidEffects": [],
+    "test123": [],
+    "hasMultipleEffects": false,
     "multiEffectCollector": null,
-    "hasRollLock": false,
     "effectData": null,
     "data": {},
-    "hasMultipleEffects": false,
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""

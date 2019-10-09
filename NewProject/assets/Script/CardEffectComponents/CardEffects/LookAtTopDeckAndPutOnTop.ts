@@ -27,6 +27,10 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
   @property
   reorderCards: boolean = false;
 
+  @property
+  putOnBottomOfDeck: boolean = false;
+
+
   @property({ type: cc.Enum(CARD_TYPE) })
   deckType: CARD_TYPE = CARD_TYPE.CHAR;
   /**
@@ -61,22 +65,46 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
     let cardsToSee = [];
     for (let i = 0; i < this.numOfCardsToSee; i++) {
       if (deck._cards.length > i) {
-        cardsToSee.push(deck._cards[i]);
+        let card = deck._cards[deck._cards.length - 1 - i]
+        cc.log(card)
+        cardsToSee.push(card);
       }
     }
+    cc.log(cardsToSee)
+
     let selectedQueue = await CardPreviewManager.selectFromCards(cardsToSee, this.numOfCardsToPut)
-    for (let i = 0; i < selectedQueue.length; i++) {
-      const selectedCard = selectedQueue[i];
-      deck.addToDeckOnTop(selectedCard, true)
-    }
-    let notSelectedCards: cc.Node[] = [];
-    notSelectedCards = cardsToSee.filter(card => !selectedQueue.includes(card))
-    for (let i = 0; i < notSelectedCards.length; i++) {
-      const card = notSelectedCards[i];
-      deck.addToDeckOnBottom(card, true)
-      // await PileManager.addCardToPile(this.deckType, card, true)
+
+
+
+
+    if (!this.putOnBottomOfDeck) {
+      for (let i = 0; i < selectedQueue.length; i++) {
+        const selectedCard = selectedQueue[i];
+        deck.addToDeckOnTop(selectedCard, true)
+      }
+      let notSelectedCards: cc.Node[] = [];
+      notSelectedCards = cardsToSee.filter(card => !selectedQueue.includes(card))
+      for (let i = 0; i < notSelectedCards.length; i++) {
+        const card = notSelectedCards[i];
+        deck.addToDeckOnBottom(card, true)
+        // await PileManager.addCardToPile(this.deckType, card, true)
+      }
+    } else {
+      for (let i = 0; i < selectedQueue.length; i++) {
+        const selectedCard = selectedQueue[i];
+        deck.addToDeckOnBottom(selectedCard, true)
+      }
+      let notSelectedCards: cc.Node[] = [];
+      notSelectedCards = cardsToSee.filter(card => !selectedQueue.includes(card))
+      for (let i = 0; i < notSelectedCards.length; i++) {
+        const card = notSelectedCards[i];
+        deck.addToDeckOnTop(card, true)
+        // await PileManager.addCardToPile(this.deckType, card, true)
+      }
     }
 
-    return stack
+    if (this.conditions.length > 0) {
+      return data;
+    } else return stack
   }
 }

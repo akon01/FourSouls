@@ -1,5 +1,6 @@
 import { afterMethod, beforeMethod } from "kaop-ts";
 import CardManager from "./Managers/CardManager";
+import Signal from "../Misc/Signal";
 
 export const MAX_PLAYERS = 2;
 
@@ -59,6 +60,7 @@ export enum ROLL_TYPE {
   EFFECT_ROLL = 4
 }
 
+
 export enum STATS {
   HP = 1,
   DMG = 2,
@@ -91,10 +93,26 @@ export enum ITEM_TYPE {
   PAID
 }
 
+export enum ARGS_TYPES {
+  CARD, PLAYER, NUMBER
+}
+
+export enum PASSIVE_META_COMPONENTS {
+  SCOPE = 1,
+  ARGS = 2,
+  RESULT = 3,
+}
+
 export enum CONDITION_TYPE {
   PASSIVE,
   ACTIVE,
   BOTH
+}
+
+
+export enum PLAYER_RESOURCES {
+  MONEY = 1,
+  LOOT = 2
 }
 
 
@@ -116,14 +134,53 @@ export enum CHOOSE_CARD_TYPE {
   SPECIPIC_PLAYER_HAND = 14,
   MY_CURSES = 15,
   ALL_CURSES = 16,
-
+  STORE_CARDS = 18,
+  SPECIPIC_PLAYER_ITEMS = 19,
+  SPECIPIC_PLAYER_ITEMS_WITHOUT_ETERNALS = 20,
+  NON_ATTACKED_ACTIVE_MONSTERS = 21,
+  ALL_PLAYERS_SOUL_CARDS = 22,
 }
 
 export enum CARD_POOLS {
-
   ACTIVE_MONSTERS = 1,
   YOUR_HAND = 2,
   ALL_PLAYERS = 3,
+  OTHER_PLAYERS = 4,
+  YOUR_CHARACTER = 5,
+  PLAYERS_EXCEPT_ATTAKING = 6,
+}
+
+export enum BUTTON_STATE {
+  ENABLED,
+  DISABLED,
+  SKIP_SKIP_RESPONSE,
+  /**
+   * extra - textToChangeTo:string 
+   */
+  CHANGE_TEXT,
+  PLAYER_CHOOSE_NO,
+  PLAYER_CHOOSE_YES,
+  PLAYER_CLICKS_NEXT,
+  TOGGLE_TO_OPEN_PREVIEWS,
+  TOGGLE_TO_CLOSE_PREVIEWS,
+  SET_CLEAR_PREVIEWS,
+  SET_CONFIRM_SELECT_IN_PREVIEWS,
+  REMOVE_CONFIRM_SELECT,
+  SET_NOT_YET_AVAILABLE,
+  SET_AVAILABLE
+}
+
+export class SIGNAL_GROUPS {
+  REACTION = [Signal.RESPOND_TO, Signal.GET_REACTION, Signal.GIVE_PLAYER_PRIORITY]
+  STACK = [Signal.ADD_TO_STACK, Signal.REMOVE_FROM_STACK]
+  TESTG = [Signal.ADD_TO_STACK, Signal.REMOVE_FROM_STACK, Signal.RESPOND_TO, Signal.GET_REACTION, Signal.GIVE_PLAYER_PRIORITY, Signal.ACTION_MASSAGE]
+
+
+  getGroup(type: string) {
+    if (this.REACTION.includes(type)) return this.REACTION;
+    if (this.STACK.includes(type)) return this.STACK
+    if (type == 'test') return this.TESTG
+  }
 
 }
 
@@ -135,19 +192,50 @@ export enum TARGETTYPE {
 
 export enum PASSIVE_EVENTS {
 
-  PLAYER_MISS_ATTACK,
-  PLAYER_GET_HIT,
   /**
-   * args = [damage taken,num of missed dice roll]
+   * scope - 
    */
-  PLAYER_COMBAT_DAMAGE_TAKEN,
-  PLAYER_CHANGE_MONEY,
-  PLAYER_PAY_DEATH_PANELTIES,
-  PLAYER_ROLL_DICE,
-  PLAYER_END_TURN,
-  PLAYER_BUY_ITEM,
+  PLAYER_MISS_ATTACK = 'PLAYER_MISS_ATTACK',
+  /**
+   * args = damage,damageDealer
+   */
+  PLAYER_GET_HIT = 'PLAYER_GET_HIT',
+  PLAYER_ACTIVATE_ITEM = 'PLAYER_ACTIVATE_ITEM',
+  PLAYER_PREVENT_DAMAGE = 'PLAYER_PREVENT_DAMAGE',
+  /**
+   * args = [damage taken,num of missed dice roll,entity who dealt damage:cc.node]
+   */
+  PLAYER_COMBAT_DAMAGE_TAKEN = 'PLAYER_COMBAT_DAMAGE_TAKEN',
+  /**
+   * args = [damage taken,num of missed dice roll,entity who dealt damage:cc.node,entity who took damage:cc.Node]
+   */
+  PLAYER_COMBAT_DAMAGE_GIVEN = 'PLAYER_COMBAT_DAMAGE_GIVEN',
+  PLAYER_CHANGE_MONEY = 'PLAYER_CHANGE_MONEY',
+  /**
+   * scope:the player who will pay the panelties
+   */
+  PLAYER_PAY_DEATH_PANELTIES = 'PLAYER_PAY_DEATH_PANELTIES',
+  PLAYER_LOSE_ITEM = 'PLAYER_LOSE_ITEM',
+  PLAYER_ROLL_DICE = 'PLAYER_ROLL_DICE',
+  PLAYER_END_TURN = 'PLAYER_END_TURN',
+  PLAYER_START_TURN = 'PLAYER_START_TURN',
+  PLAYER_BUY_ITEM = 'PLAYER_BUY_ITEM',
+  PLAYER_DECLARE_ATTACK = 'PLAYER_DECLARE_ATTACK',
+  PLAYER_FIRST_ATTACK_ROLL_OF_TURN = 'PLAYER_FIRST_ATTACK_ROLL_OF_TURN',
+  PLAYER_ADD_ITEM = 'PLAYER_ADD_ITEM',
+  /**
+     * args = damage,damageDealer
+     */
+  MONSTER_GET_HIT = 'MONSTER_GET_HIT',
+  /**
+   * scope : the monster who was killed
+   */
+  MONSTER_IS_KILLED = 'MONSTER_IS_KILLED',
+  NEW_ACTIVE_MONSTER = 'NEW_ACTIVE_MONSTER',
+  MONSTER_PREVENT_DAMAGE = 'MONSTER_PREVENT_DAMAGE',
 
-  MONSTER_GET_HIT,
+
+  CARD_GAINS_COUNTER = 'CARD_GAINS_COUNTER',
 }
 
 

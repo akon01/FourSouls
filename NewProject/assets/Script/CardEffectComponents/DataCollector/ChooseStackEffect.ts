@@ -6,13 +6,14 @@ import ActionManager from "../../Managers/ActionManager";
 import CardManager from "../../Managers/CardManager";
 import { EffectTarget } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
-import { CARD_TYPE, CHOOSE_CARD_TYPE, STACK_EFFECT_TYPE } from "./../../Constants";
+import { CARD_TYPE, CHOOSE_CARD_TYPE, STACK_EFFECT_TYPE, TARGETTYPE } from "./../../Constants";
 import MonsterField from "./../../Entites/MonsterField";
 import DataCollector from "./DataCollector";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import Stack from "../../Entites/Stack";
 import StackEffectVisManager from "../../Managers/StackEffectVisManager";
 import StackEffectPreview from "../../StackEffects/StackEffectVisualRepresentation/StackEffectPreview";
+import ActivateItem from "../../StackEffects/Activate Item";
 
 
 
@@ -70,7 +71,12 @@ export default class ChooseStackEffect extends DataCollector {
     let stackEffectsToReturn: StackEffectInterface[] = [];
     let players
 
-    return Stack._currentStack.filter(effect => { if (effect.stackEffectType == chooseType) return true })
+
+    return Stack._currentStack.filter(effect => {
+      if (effect.stackEffectType == chooseType) {
+        return true
+      }
+    })
 
 
   }

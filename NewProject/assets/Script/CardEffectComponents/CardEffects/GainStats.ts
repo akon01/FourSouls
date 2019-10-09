@@ -13,35 +13,100 @@ const { ccclass, property } = cc._decorator;
 export default class GainStats extends Effect {
   effectName = "GainStats";
 
+  @property
+  multiTarget: boolean = false;
+
   @property()
   gainHp: boolean = false;
 
-  @property
+  @property({
+    visible: function (this: GainStats) {
+      if (this.gainHp) return true
+    }
+  })
   hpToGain: number = 0;
+
+  @property({
+    visible: function (this: GainStats) {
+      if (this.gainHp) return true
+    }
+  })
+  hpTemp: boolean = false;
 
   @property()
   gainDMG: boolean = false;
 
-  @property
+
+  @property({
+    visible: function (this: GainStats) {
+      if (this.gainDMG) return true
+    }
+    , type: cc.Integer
+  })
   DMGToGain: number = 0;
+
+
+  @property({
+    visible: function (this: GainStats) {
+      if (this.gainDMG) return true
+    }
+  })
+  dmgTemp: boolean = false;
 
   @property()
   gainRollBonus: boolean = false;
 
-  @property({ tooltip: "non-attack bonus for players,roll needed to hit on monster" })
+  @property({
+    tooltip: "non-attack bonus for players,roll needed to hit on monster", visible: function (this: GainStats) {
+      if (this.gainRollBonus) return true
+    }
+    , type: cc.Integer
+  })
   rollBonusToGain: number = 0;
+
+
+  @property({
+    visible: function (this: GainStats) {
+      if (this.gainRollBonus) return true
+    }
+  })
+  rollBonusTemp: boolean = false;
 
   @property()
   gainAttackRollBonus: boolean = false;
 
-  @property
+  @property({
+    visible: function (this: GainStats) {
+      if (this.gainAttackRollBonus) return true
+    }
+    , type: cc.Integer
+  })
   attackRollBonusToGain: number = 0;
+
+  @property({
+    visible: function (this: GainStats) {
+      if (this.gainAttackRollBonus) return true
+    }
+  })
+  attackRollBonusTemp: boolean = false;
 
   @property()
   gainFirstAttackRollBonus: boolean = false;
 
-  @property
+  @property({
+    visible: function (this: GainStats) {
+      if (this.gainFirstAttackRollBonus) return true
+    }
+    , type: cc.Integer
+  })
   firstAttackRollBonusToGain: number = 0;
+
+  @property({
+    visible: function (this: GainStats) {
+      if (this.gainFirstAttackRollBonus) return true
+    }
+  })
+  firstAttackRollBonusToGainTemp: boolean = false;
 
   isReveseable = true
 
@@ -55,55 +120,85 @@ export default class GainStats extends Effect {
   async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
     let target;
     cc.log(data)
-    if (data instanceof ActiveEffectData) {
-      target = data.getTarget(TARGETTYPE.PLAYER)
+    if (this.multiTarget) {
+      let targets
+      targets = data.getTargets(TARGETTYPE.PLAYER)
+      let isPlayer = false;
+      if (targets.length > 0) {
+        targets = (targets as cc.Node[]).map(target => PlayerManager.getPlayerByCard(target))
+        isPlayer = true;
+      } else {
+        targets = data.getTargets(TARGETTYPE.MONSTER)
+      }
+      for (const target of targets) {
+        await this.addStat(target)
+      }
+    } else {
+      if (data instanceof ActiveEffectData) {
+        target = data.getTarget(TARGETTYPE.PLAYER)
+        if (target == null) {
+          target = data.getTarget(TARGETTYPE.MONSTER)
+        } else {
+          target = PlayerManager.getPlayerByCard(target)
+        }
+      } else {
+        if (data.effectTargets.length == 0) {
+          target = data.effectCardPlayer
+        } else {
+          target = data.getTarget(TARGETTYPE.PLAYER)
+          if (target == null) {
+            target = data.getTarget(TARGETTYPE.MONSTER)
+          } else {
+            target = PlayerManager.getPlayerByCard(target)
+          }
+        }
+      }
+
       if (target == null) {
-        target = data.getTarget(TARGETTYPE.MONSTER)
+        throw `no target to gain stats`
       } else {
-        target = PlayerManager.getPlayerByCard(target)
+        cc.log(target)
+        await this.addStat(target)
       }
-    } else {
-      target = data.effectCardPlayer
     }
-
-    if (target == null) {
-      cc.log(`no target to gain stats`)
-    } else {
-      //case target is a player
-      if (target.getComponent(Player) != null) {
-        let player: Player = target.getComponent(Player);
-        if (this.gainHp) {
-          await player.gainHp(this.hpToGain, true)
-        }
-        if (this.gainDMG) {
-          await player.gainDMG(this.DMGToGain, true)
-        }
-        if (this.gainRollBonus) {
-          await player.gainRollBonus(this.rollBonusToGain, true)
-        }
-        if (this.gainAttackRollBonus) {
-          await player.gainAttackRollBonus(this.attackRollBonusToGain, true)
-        }
-        if (this.gainFirstAttackRollBonus) {
-          await player.gainFirstAttackRollBonus(this.firstAttackRollBonusToGain, true)
-        }
-      } else {
-        //    target = CardManager.getCardById(data.target, true)
-        let monster: Monster = target.getComponent(Monster)
-        if (this.gainHp) {
-          await monster.gainHp(this.hpToGain, true)
-        }
-        if (this.gainDMG) {
-          await monster.gainDMG(this.DMGToGain, true)
-        }
-        if (this.gainRollBonus) {
-          await monster.gainRollBonus(this.rollBonusToGain, true)
-        }
-      }
-      this.activatedTarget = target
-    }
-
+    if (data instanceof PassiveEffectData) return data
     return stack
+  }
+
+  async addStat(target: cc.Node) {
+    //case target is a player
+    let player: Player = target.getComponent(Player)
+    if (player == null) player = PlayerManager.getPlayerByCard(target)
+    if (player != null) {
+      if (this.gainHp) {
+        await player.gainHeartContainer(this.hpToGain, this.hpTemp, true)
+      }
+      if (this.gainDMG) {
+        await player.gainDMG(this.DMGToGain, this.dmgTemp, true)
+      }
+      if (this.gainRollBonus) {
+        await player.gainRollBonus(this.rollBonusToGain, this.rollBonusTemp, true)
+      }
+      if (this.gainAttackRollBonus) {
+        await player.gainAttackRollBonus(this.attackRollBonusToGain, this.attackRollBonusTemp, true)
+      }
+      if (this.gainFirstAttackRollBonus) {
+        await player.gainFirstAttackRollBonus(this.firstAttackRollBonusToGain, this.firstAttackRollBonusToGainTemp, true)
+      }
+    } else {
+      //    target = CardManager.getCardById(data.target, true)
+      let monster: Monster = target.getComponent(Monster)
+      if (this.gainHp) {
+        await monster.gainHp(this.hpToGain, true)
+      }
+      if (this.gainDMG) {
+        await monster.gainDMG(this.DMGToGain, true)
+      }
+      if (this.gainRollBonus) {
+        await monster.gainRollBonus(this.rollBonusToGain, true)
+      }
+    }
+    this.activatedTarget = target
   }
 
   async reverseEffect() {
@@ -116,19 +211,19 @@ export default class GainStats extends Effect {
         let player: Player = target.getComponent(Player);
 
         if (this.gainHp) {
-          await player.gainHp(-this.hpToGain, true)
+          await player.gainHeartContainer(-this.hpToGain, this.hpTemp, true)
         }
         if (this.gainDMG) {
-          await player.gainDMG(-this.DMGToGain, true)
+          await player.gainDMG(-this.DMGToGain, this.dmgTemp, true)
         }
         if (this.gainRollBonus) {
-          await player.gainRollBonus(-this.rollBonusToGain, true)
+          await player.gainRollBonus(-this.rollBonusToGain, this.rollBonusTemp, true)
         }
         if (this.gainAttackRollBonus) {
-          await player.gainAttackRollBonus(-this.attackRollBonusToGain, true)
+          await player.gainAttackRollBonus(-this.attackRollBonusToGain, this.attackRollBonusTemp, true)
         }
         if (this.gainFirstAttackRollBonus) {
-          await player.gainFirstAttackRollBonus(-this.firstAttackRollBonusToGain, true)
+          await player.gainFirstAttackRollBonus(-this.firstAttackRollBonusToGain, this.firstAttackRollBonusToGainTemp, true)
         }
       } else {
         //target is a monster

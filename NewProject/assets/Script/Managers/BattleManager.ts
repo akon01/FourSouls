@@ -3,6 +3,10 @@ import Player from "../Entites/GameEntities/Player";
 import ActionManager from "./ActionManager";
 import PlayerManager from "./PlayerManager";
 import TurnsManager from "./TurnsManager";
+import Stack from "../Entites/Stack";
+import { STACK_EFFECT_TYPE } from "../Constants";
+import ServerClient from "../../ServerClient/ServerClient";
+import Signal from "../../Misc/Signal";
 
 const { ccclass, property } = cc._decorator;
 
@@ -28,6 +32,22 @@ export default class BattleManager extends cc.Component {
     await ActionManager.updateActions();
   }
 
+  static async cancelAttack(sendToServer: boolean) {
+
+    this.currentlyAttackedMonster = null
+    this.currentlyAttackedMonsterNode = null
+    TurnsManager.currentTurn.battlePhase = false;
+    if (sendToServer) {
+      let currentStackEffectOfTheAttack = Stack._currentStack.filter(stackEffect => {
+        if (stackEffect.stackEffectType == STACK_EFFECT_TYPE.ATTACK_ROLL || stackEffect.stackEffectType == STACK_EFFECT_TYPE.COMBAT_DAMAGE) return true
+      })
+      for (const stackEffect of currentStackEffectOfTheAttack) {
+        await Stack.fizzleStackEffect(stackEffect, true)
+      }
+      ServerClient.$.send(Signal.CANCEL_ATTACK)
+    }
+  }
+
   /**
    * @returns true if hit, false if miss
    * @param rollValue dice roll
@@ -46,30 +66,12 @@ export default class BattleManager extends cc.Component {
     } else return false;
   }
 
-  static async checkIfPlayerIsDead(sendToServer: boolean) {
-    for (const player of PlayerManager.players) {
-      let playerComp = player.getComponent(Player);
-      if (playerComp._Hp <= 0) {
-        await playerComp.killPlayer(sendToServer);
-      }
-    }
-  }
 
-  static async checkIfMonsterIsDead(monsterCard: cc.Node, sendToServer?: boolean) {
-    let monster = monsterCard.getComponent(Monster);
-    if (monster.currentHp <= 0) {
 
-      await this.killMonster(monsterCard, sendToServer);
+  // static async killMonster(monsterCard: cc.Node, sendToServer?: boolean) {
 
-      return true;
-    }
-    return false;
-  }
-
-  static async killMonster(monsterCard: cc.Node, sendToServer?: boolean) {
-
-    await monsterCard.getComponent(Monster).kill(sendToServer)
-  }
+  //   await monsterCard.getComponent(Monster).kill(sendToServer) 
+  // }
 
   // LIFE-CYCLE CALLBACKS:
 

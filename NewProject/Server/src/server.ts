@@ -77,6 +77,8 @@ export default class Server {
     whevent.on(signal.FLIP_CARD, this.onFlipCard, this);
     whevent.on(signal.BUY_ITEM_FROM_SHOP, this.onBuyItemFromShop, this);
 
+    whevent.on(signal.UPDATE_PASSIVE_DATA, this.onUpdatePassiveData, this);
+
 
 
     whevent.on(signal.CHANGE_MONEY, this.onChangeMoney, this);
@@ -332,6 +334,11 @@ export default class Server {
   onBuyItemFromShop({ player, data }) {
     player.match.broadcastExept(player, signal.BUY_ITEM_FROM_SHOP, data);
   }
+
+  onUpdatePassiveData({ player, data }) {
+    player.match.broadcastExept(player, signal.UPDATE_PASSIVE_DATA, data);
+  }
+
 
   //
 

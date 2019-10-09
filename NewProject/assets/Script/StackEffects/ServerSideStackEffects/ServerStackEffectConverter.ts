@@ -24,6 +24,7 @@ import RollDiceStackEffect from "../Roll DIce";
 import StackEffectInterface from "../StackEffectInterface";
 import StartTurnLoot from "../Start Turn Loot";
 import TakeDamage from "../Take Damage";
+import { ServerPassiveMeta } from "../../Managers/PassiveManager";
 
 
 export default class ServerStackEffectConverter {
@@ -67,10 +68,10 @@ export default class ServerStackEffectConverter {
 
                 return combatDamage;
             case STACK_EFFECT_TYPE.DECLARE_ATTACK:
-                let declareAttack = new DeclareAttack(serverStackEffectData.creatorCardId, PlayerManager.getPlayerByCardId(serverStackEffectData.attackingPlayerCardId).getComponent(Player), CardManager.getCardById(serverStackEffectData.idOfCardBeingAttacked), serverStackEffectData.entityId)
+                let declareAttack = new DeclareAttack(serverStackEffectData.creatorCardId, PlayerManager.getPlayerByCardId(serverStackEffectData.attackingPlayerCardId).getComponent(Player), CardManager.getCardById(serverStackEffectData.idOfCardBeingAttacked, true), serverStackEffectData.entityId)
                 return declareAttack;
             case STACK_EFFECT_TYPE.MONSTER_DEATH:
-                let monsterDeath = new MonsterDeath(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.monsterToDieCardId), serverStackEffectData.entityId)
+                let monsterDeath = new MonsterDeath(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.monsterToDieCardId), serverStackEffectData.killerId, serverStackEffectData.entityId)
                 return monsterDeath;
             case STACK_EFFECT_TYPE.MONSTER_END_DEATH:
                 let monsterEndDeath = new MonsterEndDeath(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.monsterWhoDiedCardId), serverStackEffectData.entityId)
@@ -132,12 +133,33 @@ export default class ServerStackEffectConverter {
                 let startLootTurn = new StartTurnLoot(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.turnPlayerCardId, true), serverStackEffectData.entityId)
                 return startLootTurn;
             case STACK_EFFECT_TYPE.ACTIVATE_PASSIVE_EFFECT:
+                cc.log(serverStackEffectData)
                 let card = CardManager.getCardById(serverStackEffectData.cardWithEffectId)
-                let effect = card.getComponent(CardEffect).getEffectByNumAndType(serverStackEffectData.effectToDo.cardEffectNum, serverStackEffectData.effectToDo.effectType)
-                let activatePassive = new ActivatePassiveEffect(serverStackEffectData.creatorCardId, serverStackEffectData.hasLockingStackEffect, serverStackEffectData.cardActivatorId, card, effect, serverStackEffectData.hasDataBeenCollectedYet, serverStackEffectData.entityId)
+                let effect = null
+                if (serverStackEffectData.effectToDo) {
+                    effect = card.getComponent(CardEffect).getEffectByNumAndType(serverStackEffectData.effectToDo.cardEffectNum, serverStackEffectData.effectToDo.effctType)
+                }
+                let index = serverStackEffectData.index
+                // if (serverStackEffectData.effectPassiveMeta) {
+                //     index = 
+                // } else {
+                //     index = null
+                // }
+                let activatePassive = new ActivatePassiveEffect(serverStackEffectData.creatorCardId, serverStackEffectData.hasLockingStackEffect, serverStackEffectData.cardActivatorId, card, effect, serverStackEffectData.hasDataBeenCollectedYet, serverStackEffectData.isAfterActivation, index, serverStackEffectData.entityId)
+                if (serverStackEffectData.effectPassiveMeta) {
+                    let serverPassiveMeta = new ServerPassiveMeta();
+                    serverPassiveMeta.args = serverStackEffectData.effectPassiveMeta.args
+                    serverPassiveMeta.methodScopeId = serverStackEffectData.effectPassiveMeta.methodScopeId
+                    serverPassiveMeta.passiveEvent = serverStackEffectData.effectPassiveMeta.passiveEvent;
+                    serverPassiveMeta.result = serverStackEffectData.effectPassiveMeta.result
+                    serverPassiveMeta.preventMethod = serverStackEffectData.effectPassiveMeta.preventMethod;
+                    serverPassiveMeta.scopeIsPlayer = serverStackEffectData.effectPassiveMeta.scopeIsPlayer
+                    activatePassive.effectPassiveMeta = serverPassiveMeta.convertToPassiveMeta()
+                }
+                cc.log(activatePassive.effectToDo)
                 return activatePassive;
             case STACK_EFFECT_TYPE.PLAYER_DEATH:
-                let playerDeath = new PlayerDeath(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.playerToDieCardId), serverStackEffectData.entityId)
+                let playerDeath = new PlayerDeath(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.playerToDieCardId), CardManager.getCardById(serverStackEffectData.killerId), serverStackEffectData.entityId)
                 return playerDeath
             case STACK_EFFECT_TYPE.PLAYER_DEATH_PENALTY:
                 let playerDeathPenalty = new PlayerDeathPenalties(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.playerToPayCardId), serverStackEffectData.entityId)

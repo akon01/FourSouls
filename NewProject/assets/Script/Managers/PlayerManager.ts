@@ -7,9 +7,10 @@ import Dice from "../Entites/GameEntities/Dice";
 import Player from "../Entites/GameEntities/Player";
 import PlayerDesk from "../Entites/PlayerDesk";
 import MoneyLable from "../LableScripts/MoneyLable";
-import { CARD_HEIGHT, CARD_WIDTH, ITEM_TYPE } from "./../Constants";
+import { CARD_HEIGHT, CARD_WIDTH, ITEM_TYPE, BUTTON_STATE } from "./../Constants";
 import CardManager from "./CardManager";
 import Character from "../Entites/CardTypes/Character";
+import ButtonManager from "./ButtonManager";
 
 
 const { ccclass, property } = cc._decorator;
@@ -43,11 +44,15 @@ export default class PlayerManager extends cc.Component {
 
   static async init(serverId: number) {
     await this.preLoadPrefabs();
+    cc.log(`b4 create players`)
     this.createPlayers(serverId);
+    cc.log(`after create players`)
     this.createHands();
     this.createPlayerDesks();
     this.createDice();
+    cc.log(`b4 assign hands`)
     this.assingHands();
+    cc.log(`after assign hands`)
   }
 
   static async preLoadPrefabs() {
@@ -129,7 +134,11 @@ export default class PlayerManager extends cc.Component {
     //    for (let i = 1; i <= PlayerManager.players.length; i++) {
     for (let i = 1; i <= 4; i++) {
       //   var newNode: cc.Node = cc.instantiate(PlayerManager.dicePrefab);
-      let newNode = cc.find('Canvas/Dice' + i)
+      let newNode: cc.Node
+      if (i != 1) {
+
+        newNode = cc.find('Canvas/Dice' + i)
+      } else newNode = cc.find('Canvas/Player Button Layout/Dice' + i)
 
       newNode.getComponent(Dice).diceId = ++CardManager.cardsId;
       newNode.name = "Dice";
@@ -155,18 +164,40 @@ export default class PlayerManager extends cc.Component {
       let passiveItemsLayout: CardLayout = deskComp.passiveItemLayout.getComponent(
         CardLayout
       );
-      // activeItemsLayout.node.height = CARD_HEIGHT;
-      // passiveItemsLayout.node.height = CARD_HEIGHT;
-      // activeItemsLayout.node.width = CARD_WIDTH * 7;
-      // passiveItemsLayout.node.width = CARD_WIDTH * 7;
-
       deskComp.deskId = i;
       newNode.name = "Desk";
       PlayerManager.desks.push(newNode);
     }
   }
 
+  static shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  }
+
+
   static async assingCharacters(sendToServer: boolean) {
+    //Is Char Deck Shuffle
+
+    let rand = new Date().getTime() % 10
+    for (let index = 0; index <= rand; index++) {
+      CardManager.characterDeck = this.shuffle(CardManager.characterDeck)
+    }
+    //
     for (let i = 0; i < PlayerManager.players.length; i++) {
       const playerComp: Player = PlayerManager.players[i].getComponent(Player);
       const fullCharCard: {
@@ -175,10 +206,10 @@ export default class PlayerManager extends cc.Component {
       } = CardManager.characterDeck.pop();
       let charCard = fullCharCard.char;
       let itemCard;
+      //Special Case : Eden
       if (charCard.getComponent(Card).cardName == 'Eden') {
         ServerClient.$.send(Signal.CHOOSE_FOR_EDEN, { playerId: playerComp.playerId, originPlayerId: this.mePlayer.getComponent(Player).playerId })
         itemCard = await this.waitForEdenChoose()
-
       } else {
 
         itemCard = fullCharCard.item;
@@ -259,7 +290,16 @@ export default class PlayerManager extends cc.Component {
           playerComp._putCharLeft = true
           // //position hand
 
+          cc.error(`setting player reaction toggle`)
           playerComp._reactionToggle = cc.find('Canvas/Reaction Toggle').getComponent(cc.Toggle)
+          cc.log(playerComp._reactionToggle)
+
+
+          playerComp._reactionToggle.node.on(cc.Node.EventType.TOUCH_START, () => {
+            let event;
+            !PlayerManager.mePlayer.getComponent(Player)._reactionToggle.isChecked == true ? event = BUTTON_STATE.ENABLED : event = BUTTON_STATE.DISABLED
+            ButtonManager.enableButton(ButtonManager.$.skipButton, event)
+          })
 
           //attach money lable to player
           cc
@@ -318,6 +358,7 @@ export default class PlayerManager extends cc.Component {
       // playerComp.hand = handComp;
 
       //setting desk of player
+      cc.log(deskNode)
 
       playerComp.setDesk(deskNode);
       deskWidget.updateAlignment();
@@ -326,7 +367,9 @@ export default class PlayerManager extends cc.Component {
       playerComp.setDice(diceNode);
     }
 
-    for (let i = 1; i <= this.players.length; i++) {
+    let numToDelete = this.desks.length - this.players.length
+
+    for (let i = 0; i < numToDelete; i++) {
       const desk = this.desks[this.desks.length - 1];
       desk.destroy();
       this.desks.splice(this.desks.indexOf(desk))
@@ -381,6 +424,9 @@ export default class PlayerManager extends cc.Component {
       for (let j = 0; j < player._lootCardsPlayedThisTurn.length; j++) {
         const lootCard = player._lootCardsPlayedThisTurn[j];
         if (card == lootCard) return player
+      }
+      for (const soulCard of player.soulsLayout.children) {
+        if (card == soulCard) return player
       }
     }
     cc.log('no player was found')
@@ -437,6 +483,13 @@ export default class PlayerManager extends cc.Component {
       }
     }
     return otherPlayerNodes;
+  }
+
+  static isAOwnedSoul(card: cc.Node) {
+    for (const player of this.players.map(player => player.getComponent(Player))) {
+      if (player.soulsLayout.children.includes(card)) return true
+    }
+    return false
   }
 
   // LIFE-CYCLE CALLBACKS:

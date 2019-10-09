@@ -1,8 +1,9 @@
 import Signal from "../../../Misc/Signal";
 import ServerClient from "../../../ServerClient/ServerClient";
 import DataCollector from "../../CardEffectComponents/DataCollector/DataCollector";
-import { CARD_HEIGHT, CARD_TYPE, CARD_WIDTH } from "../../Constants";
+import { CARD_HEIGHT, CARD_TYPE, CARD_WIDTH, PASSIVE_EVENTS, ROLL_TYPE } from "../../Constants";
 import Player from "./Player";
+import PassiveManager, { PassiveMeta } from "../../Managers/PassiveManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -97,6 +98,18 @@ export default class Card extends cc.Component {
     }
   }
 
+  async putCounter(numOfCounters: number) {
+
+    let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.CARD_GAINS_COUNTER, [numOfCounters], null, this.node)
+    let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+    numOfCounters = afterPassiveMeta.args[0]
+
+    this._counters += numOfCounters;
+
+    ServerClient.$.send(Signal.CARD_GET_COUNTER, { cardId: this._cardId, numOfCounters: numOfCounters })
+
+  }
+
 
 
   // LIFE-CYCLE CALLBACKS:
@@ -109,7 +122,15 @@ export default class Card extends cc.Component {
     }
     if (!this.hasCounter) {
       //   this._effectCounterLable.node.destroy()
-    } else this._effectCounterLable = this.node.getChildByName('EffectCounter').getComponent(cc.Label)
+    } else {
+      try {
+
+        this._effectCounterLable = this.node.getChildByName('EffectCounter').getComponent(cc.Label)
+      } catch (error) {
+        cc.error(`card should have a counter, no counter found!`)
+      }
+
+    }
   }
 
   start() { }

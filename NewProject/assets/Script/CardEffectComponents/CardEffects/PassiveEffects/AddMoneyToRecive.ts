@@ -28,7 +28,7 @@ export default class AddMoneyToReceive extends PassiveEffect {
     let terminateOriginal = data.terminateOriginal;
     let args = data.methodArgs;
     //should be money count
-    args[0] = args[0] + 1
+    args[0] = args[0] + this.numOfCoins
     return data
   }
 }

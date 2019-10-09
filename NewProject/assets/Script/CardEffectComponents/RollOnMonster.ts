@@ -7,7 +7,7 @@ import BattleManager from "../Managers/BattleManager";
 import TurnsManager from "../Managers/TurnsManager";
 
 import StackEffectInterface from "../StackEffects/StackEffectInterface";
-import { ActiveEffectData } from "../Managers/DataInterpreter";
+import { ActiveEffectData, PassiveEffectData } from "../Managers/DataInterpreter";
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,7 +23,7 @@ export default class RollOnMonster extends Effect {
 
   async doEffect(
     stack: StackEffectInterface[],
-    data?: ActiveEffectData
+    data?: ActiveEffectData | PassiveEffectData
   ) {
     let numberRolled = data.numberRolled;
     let turnPlayer = PlayerManager.getPlayerById(
@@ -34,19 +34,21 @@ export default class RollOnMonster extends Effect {
       let damage = turnPlayer.calculateDamage();
       // 
       // 
-      await BattleManager.currentlyAttackedMonster.getDamaged(damage, true);
+      await BattleManager.currentlyAttackedMonster.getDamaged(damage, true, turnPlayer.character);
       // 
     } else {
       let damage = BattleManager.currentlyAttackedMonster.calculateDamage();
       // 
       // 
 
-      let o = await turnPlayer.getHit(damage, true);
+
+      let o = await turnPlayer.getHit(damage, true, BattleManager.currentlyAttackedMonster.node);
 
       // 
     }
 
 
+    if (data instanceof PassiveEffectData) return data
     return stack
   }
 }

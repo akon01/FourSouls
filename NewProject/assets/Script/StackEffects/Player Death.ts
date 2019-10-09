@@ -1,14 +1,13 @@
 import { STACK_EFFECT_TYPE } from "../Constants";
+import Card from "../Entites/GameEntities/Card";
 import Player from "../Entites/GameEntities/Player";
 import Stack from "../Entites/Stack";
+import PlayerManager from "../Managers/PlayerManager";
 import TurnsManager from "../Managers/TurnsManager";
+import PlayerDeathPenalties from "./Player Death Penalties";
 import ServerPlayerDeath from "./ServerSideStackEffects/Server Player Death";
 import StackEffectInterface from "./StackEffectInterface";
 import { PlayerDeathVis } from "./StackEffectVisualRepresentation/Player Death Vis ";
-import PlayerDeathPenalties from "./Player Death Penalties";
-import Card from "../Entites/GameEntities/Card";
-import Character from "../Entites/CardTypes/Character";
-import PlayerManager from "../Managers/PlayerManager";
 
 
 export default class PlayerDeath implements StackEffectInterface {
@@ -26,14 +25,15 @@ export default class PlayerDeath implements StackEffectInterface {
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.PLAYER_DEATH;
 
     playerToDie: Player;
+    killer: cc.Node
 
-    constructor(creatorCardId: number, playerToDieCard: cc.Node, entityId?: number) {
+    constructor(creatorCardId: number, playerToDieCard: cc.Node, killer: cc.Node, entityId?: number) {
         if (entityId) {
             this.entityId = entityId
         } else {
             this.entityId = Stack.getNextStackEffectId()
         }
-
+        this.killer = killer
         this.creatorCardId = creatorCardId;
         this.playerToDie = PlayerManager.getPlayerByCard(playerToDieCard)
         this.visualRepesentation = new PlayerDeathVis(this.playerToDie)
@@ -47,6 +47,7 @@ export default class PlayerDeath implements StackEffectInterface {
 
     async resolve() {
         cc.log('resolve player death')
+        this.playerToDie._thisTurnKiller = this.killer;
         for (let i = 0; i < this.playerToDie._curses.length; i++) {
             const curse = this.playerToDie._curses[i];
             await this.playerToDie.removeCurse(curse, true)
@@ -57,6 +58,7 @@ export default class PlayerDeath implements StackEffectInterface {
     }
 
     convertToServerStackEffect() {
+
         let serverPlayerDeath = new ServerPlayerDeath(this)
         return serverPlayerDeath
     }

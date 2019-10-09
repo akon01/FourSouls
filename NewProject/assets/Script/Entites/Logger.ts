@@ -3,6 +3,7 @@ import Signal from "../../Misc/Signal";
 import CardManager from "../Managers/CardManager";
 import PlayerManager from "../Managers/PlayerManager";
 import MonsterField from "./MonsterField";
+import AdminConsole from "../LableScripts/Admin Console";
 
 export class Logger {
 
@@ -101,7 +102,7 @@ export class Logger {
                         break
                     case 'effectIndex':
                         name = 'Card Effect Index';
-                        data.push(t)
+                        data.push(JSON.stringify(t))
                         break;
                     case 'conditionData':
                         name = 'Condition Data'
@@ -113,14 +114,13 @@ export class Logger {
                         break;
                     case 'stackEffect':
                         name = 'Stack Effect'
-                        data.push(typeof t)
-                        // data.push(JSON.stringify(t))
+                        data.push(JSON.stringify(t))
                         break
                     case 'currentStack':
                     case 'newStack':
                         name = 'Stack'
-                        //data.push(t.map(item => JSON.stringify(item)))
-                        data.push(t.map(item => typeof item))
+                        data.push(t.map(item => JSON.stringify(item)))
+                        // data.push(t.map(item => typeof item))
                         break;
                     case 'stackVis':
                         name = 'Stack Effect Visualization';
@@ -154,16 +154,18 @@ export class Logger {
                     dataString = dataString + inData + ' \n'
                 }
             }
-            if (isSending) {
-                cc.log(
-                    "%c" + "Sending Signal :" + methodArgs[0] + " Time:" + time + '\n' + dataString,
-                    "color:#36F"
-                );
-            } else
-                cc.log(
-                    "%c" + "Receiving Signal :" + methodArgs[0] + " Time:" + time + '\n' + dataString,
-                    "color:rgb(60%, 0%, 10%)"
-                );
+            if (!AdminConsole.noPrintSignal.includes(methodArgs[0])) {
+                if (isSending) {
+                    cc.log(
+                        "%c" + "Sending Signal :" + methodArgs[0] + " Time:" + time + '\n' + dataString,
+                        "color:#36F"
+                    );
+                } else
+                    cc.log(
+                        "%c" + "Receiving Signal :" + methodArgs[0] + " Time:" + time + '\n' + dataString,
+                        "color:rgb(60%, 0%, 10%)"
+                    );
+            }
             // cc.log(
             //     methodArgs[1],
             // );

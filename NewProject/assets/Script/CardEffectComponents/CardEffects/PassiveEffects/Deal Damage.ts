@@ -7,6 +7,7 @@ import { TARGETTYPE } from "../../../Constants";
 import Player from "../../../Entites/GameEntities/Player";
 import Monster from "../../../Entites/CardTypes/Monster";
 import PlayerManager from "../../../Managers/PlayerManager";
+import CardManager from "../../../Managers/CardManager";
 
 
 const { ccclass, property } = cc._decorator;
@@ -26,7 +27,6 @@ export default class DealDamage extends Effect {
    * @param data {target:PlayerId}
    */
   async doEffect(stack: StackEffectInterface[], data?: PassiveEffectData) {
-    cc.log(data)
     let entityToHit = data.getTarget(TARGETTYPE.PLAYER)
     let isPlayer = true;
     if (entityToHit == null) {
@@ -34,9 +34,10 @@ export default class DealDamage extends Effect {
       entityToHit = data.getTarget(TARGETTYPE.MONSTER)
     }
     if (isPlayer) {
-      await PlayerManager.getPlayerByCard(entityToHit).getHit(this.damageToDeal, true)
+      let owner = CardManager.getCardOwner(this.node.parent)
+      await PlayerManager.getPlayerByCard(entityToHit as cc.Node).getHit(this.damageToDeal, true, owner)
     } else {
-      await entityToHit.getComponent(Monster).getDamaged(this.damageToDeal, true)
+      await (entityToHit as cc.Node).getComponent(Monster).getDamaged(this.damageToDeal, true)
     }
 
     return data

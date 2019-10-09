@@ -83,8 +83,6 @@
     "_skewY": 0,
     "_is3DNode": false,
     "groupIndex": 0,
-    "_rotationX": 0,
-    "_rotationY": 0,
     "_id": ""
   },
   {
@@ -321,26 +319,34 @@
     "_enabled": true,
     "cost": null,
     "preCondition": null,
-    "condition": {
-      "__id__": 7
-    },
+    "conditions": [
+      {
+        "__id__": 7
+      }
+    ],
     "passiveType": 2,
     "passiveEffectToAdd": null,
     "dataCollector": {
       "__id__": 9
     },
     "_effectCard": null,
+    "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "gainHp": false,
     "hpToGain": 0,
+    "hpTemp": false,
     "gainDMG": true,
     "DMGToGain": 1,
+    "dmgTemp": false,
     "gainRollBonus": false,
     "rollBonusToGain": 0,
+    "rollBonusTemp": false,
     "gainAttackRollBonus": false,
     "attackRollBonusToGain": 0,
+    "attackRollBonusTemp": false,
     "gainFirstAttackRollBonus": false,
     "firstAttackRollBonusToGain": 0,
+    "firstAttackRollBonusToGainTemp": false,
     "_id": ""
   },
   {
@@ -527,11 +533,13 @@
     "rollValue": 4,
     "rollBonus": 0,
     "DMG": 1,
-    "baseDamage": 0,
+    "bonusDamage": 0,
     "isAttacked": false,
     "hasEffect": true,
     "isNonMonster": false,
     "souls": 0,
+    "_dmgPrevention": [],
+    "_thisTurnKiller": null,
     "reward": {
       "__id__": 3
     },
@@ -556,11 +564,11 @@
     ],
     "toAddPassiveEffects": [],
     "paidEffects": [],
+    "test123": [],
+    "hasMultipleEffects": false,
     "multiEffectCollector": null,
-    "hasRollLock": false,
     "effectData": null,
     "data": {},
-    "hasMultipleEffects": false,
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""

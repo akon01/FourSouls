@@ -24,36 +24,39 @@ export default class ChainCollector extends DataCollector {
    * @returns {target:cc.node of the card that was played}
    */
   async collectData(data) {
-
     let effects = this.node.parent.getComponent(ChainEffects).effectsToChain
-    let effectsData;
+    let effectsData: ActiveEffectData | PassiveEffectData;
     for (let i = 0; i < effects.length; i++) {
       const effect = effects[i]
       //  let effectData = this.effectsData[i]
       cc.log(`in chain collector, collecting for ${effect.name}`)
+      let endData: ActiveEffectData | PassiveEffectData = null;
       for (let j = 0; j < effect.dataCollector.length; j++) {
         const dataCollector = effect.dataCollector[j];
         cc.log(`collecting using ${dataCollector.name}`)
         let newData = await dataCollector.collectData(data)
+        cc.log(newData)
         let thisCard = this.node.parent.parent
+        let isActive: boolean
         if (thisCard.getComponent(Item) != null) {
           let itemType = thisCard.getComponent(Item).type
-          let isActive: boolean
           if (itemType == ITEM_TYPE.ACTIVE || itemType == ITEM_TYPE.BOTH) {
             isActive = true;
           }
         }
-        if (effectsData == null) {
-          effectsData = DataInterpreter.makeEffectData(newData, thisCard, data.cardPlayerId, isActive, false)
+        if (endData == null) {
+          endData = DataInterpreter.makeEffectData(newData, thisCard, data.cardPlayerId, isActive, false)
         } else {
-          cc.log(newData)
           if (newData instanceof EffectTarget) {
-            effectsData.addTarget(newData.effectTargetCard)
-          } else if (effectsData instanceof ActiveEffectData) effectsData.addTarget(DataInterpreter.getNodeFromData(newData))
+            endData.addTarget(newData.effectTargetCard)
+          } else if (endData instanceof ActiveEffectData) endData.addTarget(DataInterpreter.getNodeFromData(newData))
         }
         // let formattedData = DataInterpreter.makeEffectData(newData, thisCard, data.cardPlayerId, isActive, false)
         // effectData.data.push(formattedData)
+        cc.log(endData)
       }
+      cc.log(endData)
+      effect.effectData = endData;
     }
 
     // let player = PlayerManager.getPlayerByCard(this.node.parent.parent)

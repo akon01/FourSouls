@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Bomb",
+    "_name": "Gold Bomb",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -77,8 +77,6 @@
     "_skewY": 0,
     "_is3DNode": false,
     "groupIndex": 0,
-    "_rotationX": 0,
-    "_rotationY": 0,
     "_id": ""
   },
   {
@@ -213,7 +211,9 @@
       "__id__": 3
     },
     "_enabled": true,
+    "multiType": false,
     "chooseType": 13,
+    "chooseTypes": [],
     "_id": ""
   },
   {
@@ -237,7 +237,7 @@
     "_enabled": true,
     "cost": null,
     "preCondition": null,
-    "condition": null,
+    "conditions": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "dataCollector": [
@@ -246,8 +246,10 @@
       }
     ],
     "_effectCard": null,
+    "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "damageToDeal": 3,
+    "multipleTargets": false,
     "_id": ""
   },
   {
@@ -303,7 +305,7 @@
       "__id__": 1
     },
     "_enabled": true,
-    "cardName": "Bomb",
+    "cardName": "Gold Bomb",
     "_cardId": 0,
     "_isInHand": false,
     "_isOnDesk": false,
@@ -325,6 +327,7 @@
     "hasCounter": false,
     "_effectCounterLable": null,
     "_counters": 0,
+    "_hasEventsBeenModified": false,
     "_id": ""
   },
   {
@@ -344,11 +347,11 @@
     "passiveEffects": [],
     "toAddPassiveEffects": [],
     "paidEffects": [],
+    "test123": [],
+    "hasMultipleEffects": false,
     "multiEffectCollector": null,
-    "hasRollLock": false,
     "effectData": null,
     "data": {},
-    "hasMultipleEffects": false,
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""

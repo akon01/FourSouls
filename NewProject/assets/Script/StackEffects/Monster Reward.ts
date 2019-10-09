@@ -1,5 +1,5 @@
 import MonsterReward from "../CardEffectComponents/MonsterRewards/MonsterReward";
-import { STACK_EFFECT_TYPE, CARD_TYPE } from "../Constants";
+import { STACK_EFFECT_TYPE, CARD_TYPE, PASSIVE_EVENTS } from "../Constants";
 import Monster from "../Entites/CardTypes/Monster";
 import Player from "../Entites/GameEntities/Player";
 import Stack from "../Entites/Stack";
@@ -11,6 +11,7 @@ import StackEffectInterface from "./StackEffectInterface";
 import { MonsterRewardVis } from "./StackEffectVisualRepresentation/Monster Reward Vis";
 import Card from "../Entites/GameEntities/Card";
 import PileManager from "../Managers/PileManager";
+import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
 
 
 export default class MonsterRewardStackEffect implements StackEffectInterface {
@@ -54,6 +55,13 @@ export default class MonsterRewardStackEffect implements StackEffectInterface {
 
     async putOnStack() {
         cc.log(`put monster reward on the stack`)
+
+
+        let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.MONSTER_IS_KILLED, [], null, this.monsterWithReward.node)
+        let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+
+
+
         let turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
         turnPlayer.givePriority(true)
 

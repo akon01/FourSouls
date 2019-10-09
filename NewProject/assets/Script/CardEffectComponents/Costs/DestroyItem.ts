@@ -22,7 +22,7 @@ export default class DestroyItemCost extends Cost {
         let chooseCard = new ChooseCard();
         chooseCard.chooseType = CHOOSE_CARD_TYPE.MY_ITEMS
         let chosenItem = await chooseCard.collectData({ cardPlayerId: player.playerId })
-        player.destroyItem(chosenItem.effectTargetCard, true)
+        await player.destroyItem(chosenItem.effectTargetCard, true)
     }
 
 

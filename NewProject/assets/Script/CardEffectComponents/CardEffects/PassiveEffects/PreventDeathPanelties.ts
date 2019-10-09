@@ -30,12 +30,15 @@ export default class PreventDeathPenalties extends Effect {
 
     await Stack.fizzleStackEffect(playerPenaltiesStackEffect, true)
     if (playerPenaltiesStackEffect instanceof PlayerDeathPenalties) {
+      cc.log(`if player is turn player end their turn`)
       let playerToPay = playerPenaltiesStackEffect.playerToPay
       if (TurnsManager.currentTurn.getTurnPlayer().playerId == playerToPay.playerId) {
+        cc.log(`end turn`)
         //   Stack.removeFromCurrentStackEffectResolving()
-        await playerToPay.endTurn(true);
+        playerToPay.endTurn(true);
       }
     }
+    data.terminateOriginal = true;
 
     return data
   }

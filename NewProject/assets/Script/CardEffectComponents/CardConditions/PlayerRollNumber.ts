@@ -1,40 +1,46 @@
-import ConditionInterface from "./ConditionInterface";
-import Condition from "./Condition";
+import { PASSIVE_EVENTS } from "../../Constants";
 import Player from "../../Entites/GameEntities/Player";
-import PlayerManager from "../../Managers/PlayerManager";
-import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_CARD_TYPE, PASSIVE_EVENTS } from "../../Constants";
 import { PassiveMeta } from "../../Managers/PassiveManager";
+import Condition from "./Condition";
+import DataCollector from "../DataCollector/DataCollector";
+import BattleManager from "../../Managers/BattleManager";
+import TurnsManager from "../../Managers/TurnsManager";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class PlayerRollNumber extends Condition {
 
+  event = PASSIVE_EVENTS.PLAYER_ROLL_DICE
+
 
   @property
   numberRoll: number = 1;
+
+  @property
+  isOnlyAttackingPlayer: boolean = false;
 
   // cardChosenId: number;
   // playerId: number;
   conditionData = null;
 
+  // @property({ type: DataCollector, tooltip: 'Only Put If Not In "Add Passive Effect" Active effect' })
+  // dataCollector: DataCollector = null
+
   async testCondition(meta: PassiveMeta) {
 
     let player: Player = meta.methodScope.getComponent(Player);
     let thisCard = this.node.parent.parent;
-
-    let c = await meta.result
-
+    let c = meta.args[0]
+    let answer = false;
     //  let playerName = PlayerManager.getPlayerByCardId(this.conditionData.cardChosenId).name;
     if (
       player instanceof Player &&
-      meta.passiveEvent == PASSIVE_EVENTS.PLAYER_ROLL_DICE &&
       this.numberRoll == c
-    ) {
-      return true;
-    } else {
-      return false;
+    ) answer = true
+    if (!(this.isOnlyAttackingPlayer && BattleManager.currentlyAttackedMonsterNode != null && player == TurnsManager.currentTurn.getTurnPlayer() && answer == true)) {
+      answer = false;
     }
+    return answer
   }
 }

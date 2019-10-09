@@ -26,6 +26,7 @@ export default class RechargeItem extends Effect {
       await cardPlayer.rechargeItem(targetItem, true);
     }
 
+    if (data instanceof PassiveEffectData) return data
     return stack
   }
 }

@@ -4,6 +4,8 @@ import { ITEM_TYPE } from "../Constants";
 import { addCardToCardLayout } from "../Modules/HandModule";
 import Item from "./CardTypes/Item";
 import Card from "./GameEntities/Card";
+import PlayerManager from "../Managers/PlayerManager";
+import Player from "./GameEntities/Player";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,12 +34,16 @@ export default class PlayerDesk extends cc.Component {
 
   addToDesk(card: Card) {
     cc.log(`add ${card.name} to ${this.node.name}`)
+    let player = PlayerManager.getPlayerById(this._playerId).getComponent(Player)
+    player.deskCards.push(card.node)
     let deskComp: PlayerDesk = this;
     card._isOnDesk = true;
     let itemComp = card.getComponent(Item);
     card.node.parent = cc.find('Canvas')
     switch (itemComp.type) {
       case ITEM_TYPE.ACTIVE:
+      case ITEM_TYPE.PAID:
+      case ITEM_TYPE.BOTH:
         cc.log(`active item`)
         addCardToCardLayout(
           card.node,
@@ -53,8 +59,9 @@ export default class PlayerDesk extends cc.Component {
           false
         );
         break;
+
       default:
-        cc.log(`deafult add to desk`)
+        cc.error(`Item type is not active or passive`)
         break;
     }
   }

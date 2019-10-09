@@ -1,6 +1,6 @@
 import CardEffect from "../../Entites/CardEffect";
 import Stack from "../../Entites/Stack";
-import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
 import PlayLootCardStackEffect from "../../StackEffects/Play Loot Card";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
@@ -24,7 +24,7 @@ export default class PlayLootCard extends Effect {
    */
   async doEffect(
     stack: StackEffectInterface[],
-    data?: ActiveEffectData
+    data?: ActiveEffectData | PassiveEffectData
   ) {
     cc.log(data)
     let hasLockingEffect;
@@ -39,7 +39,8 @@ export default class PlayLootCard extends Effect {
 
       await Stack.addToStackBelow(playLoot, Stack._currentStack[Stack._currentStack.length - 1], false)
     }
-    // stack.push(data.cardEffect);
+
+    if (data instanceof PassiveEffectData) return data
     return stack
   }
 }

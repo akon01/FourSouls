@@ -1,4 +1,4 @@
-import { PassiveEffectData } from "../../../Managers/DataInterpreter";
+import { PassiveEffectData, ActiveEffectData } from "../../../Managers/DataInterpreter";
 import Effect from "../Effect";
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "../../../Constants";
 import StackEffectInterface from "../../../StackEffects/StackEffectInterface";
@@ -16,7 +16,7 @@ export default class RechargeItem extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(stack: StackEffectInterface[], data?: PassiveEffectData) {
+  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
     let targetItem
     targetItem = data.getTarget(TARGETTYPE.ITEM);
     if (targetItem == null) {
@@ -26,6 +26,7 @@ export default class RechargeItem extends Effect {
       await cardPlayer.rechargeItem(targetItem, true);
     }
 
+    if (data instanceof PassiveEffectData) return data
     return stack
   }
 }

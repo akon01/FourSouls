@@ -13,7 +13,6 @@ export default class ChainEffects extends Effect {
 
   effectName = "ChainEffects";
 
-
   @property([Effect])
   effectsToChain: Effect[] = [];
 
@@ -33,21 +32,25 @@ export default class ChainEffects extends Effect {
     const effectData = this.node.getComponentInChildren(ChainCollector).effectsData
     for (let i = 0; i < this.effectsToChain.length; i++) {
       const effect = this.effectsToChain[i];
+      cc.log(effect.effectData)
       if (effect.hasPlayerChoiceToActivateInChainEffects) {
         let yesOrNo = await PlayerManager.getPlayerById(cardEffectComp.cardPlayerId).getComponent(Player).giveYesNoChoice()
         if (yesOrNo) {
+
           await effect.doEffect(
             stack,
-            effectData
+            effect.effectData
           );
         }
       } else {
         await effect.doEffect(
           stack,
-          effectData
+          effect.effectData
         );
       }
     }
-    return currentStack
+    if (this.conditions.length > 0) {
+      return data;
+    } else return stack
   }
 }

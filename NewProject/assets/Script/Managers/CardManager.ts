@@ -23,6 +23,7 @@ import PassiveManager from "./PassiveManager";
 import PileManager from "./PileManager";
 import PlayerManager from "./PlayerManager";
 import TurnsManager from "./TurnsManager";
+import Item from "../Entites/CardTypes/Item";
 
 
 
@@ -173,7 +174,10 @@ export default class CardManager extends cc.Component {
             }
             cc.loader.loadResDir('Prefabs/LootCards', cc.Prefab, (err, rsc, urls) => {
               CardManager.lootDeck.getComponent(Deck).cardsPrefab.push(...rsc)
-              CardManager.prefabLoaded = true;
+              cc.loader.loadResDir('Prefabs/TreasureCards', cc.Prefab, (err, rsc, urls) => {
+                CardManager.treasureDeck.getComponent(Deck).cardsPrefab.push(...rsc)
+                CardManager.prefabLoaded = true;
+              })
             })
           }
         );
@@ -338,16 +342,16 @@ export default class CardManager extends cc.Component {
       }
     }
 
-    if (includeInDecksCards) {
-      for (let i = 0; i < this.inDecksCards.length; i++) {
-        const inDeckCard = this.inDecksCards[i].getComponent(Card);
+    //  if (includeInDecksCards) {
+    for (let i = 0; i < this.inDecksCards.length; i++) {
+      const inDeckCard = this.inDecksCards[i].getComponent(Card);
 
-        if (inDeckCard._cardId == cardId) {
-          return inDeckCard.node;
-        }
+      if (inDeckCard._cardId == cardId) {
+        return inDeckCard.node;
       }
     }
-    cc.error(`no card found`)
+    // }
+    cc.error(`no card found for id ${cardId}`)
     return null;
 
   }
@@ -432,6 +436,7 @@ export default class CardManager extends cc.Component {
       deck.addToDeckOnTop(newCard, false);
     }
 
+    // if (deck.suffleInTheStart) deck.shuffleDeck();
 
   }
 
@@ -502,12 +507,16 @@ export default class CardManager extends cc.Component {
   static makeCardReactable(card: cc.Node, reactablePlayer: cc.Node) {
     let cardComp = card.getComponent(Card);
     let cardEffectComp = card.getComponent(CardEffect);
-    if (cardEffectComp.testEffectsPreConditions()) {
-      if (!cardComp._isReactable) {
-        cardComp._hasEventsBeenModified = true;
+    try {
+      if (cardEffectComp.testEffectsPreConditions()) {
+        if (!cardComp._isReactable) {
+          cardComp._hasEventsBeenModified = true;
+        }
+        cardComp._isReactable = true;
+        cardComp._cardHolderId = reactablePlayer.getComponent(Player).playerId
       }
-      cardComp._isReactable = true;
-      cardComp._cardHolderId = reactablePlayer.getComponent(Player).playerId
+    } catch (error) {
+      cc.error(error)
     }
     //change to show card preview.
     this.makeCardPreviewable(card);
@@ -526,7 +535,11 @@ export default class CardManager extends cc.Component {
       },
       this
     );
-    CardPreviewManager.updatePreviewsEvents()
+    try {
+      CardPreviewManager.updatePreviewsEvents()
+    } catch (error) {
+      cc.error(error)
+    }
   }
 
 
@@ -606,13 +619,32 @@ export default class CardManager extends cc.Component {
     card.runAction(cc.fadeTo(BLINKING_SPEED, 255));
     let cardPreview = CardPreviewManager.getPreviewByCard(card)
     if (cardPreview != null) {
-      CardPreviewManager.removeFromCurrentPreviews(Array.of(cardPreview.node))
+      CardPreviewManager.removeFromCurrentPreviews(Array.of(card))
+      // CardPreviewManager.removeFromCurrentPreviews(Array.of(cardPreview.node))
     }
     this.disableCardActions(card)
     card.off(cc.Node.EventType.TOUCH_START);
   }
 
   static requireLootPlay(cards: cc.Node[]) { }
+
+  /**
+   * 
+   * @param card card to get the owner of
+   * @returns character if owned by player, monster card if not.
+   */
+  static getCardOwner(card: cc.Node) {
+    let owner: cc.Node
+    let player = PlayerManager.getPlayerByCard(card)
+    if (player) {
+      owner = player.character;
+    } else if (card.getComponent(Monster)) {
+      owner = card
+    } else if (card.getComponent(Item)) {
+      owner = card.getComponent(Item).lastOwnedBy.character
+    } else owner = null
+    return owner;
+  }
 
 
   static updatePlayerCards() {
@@ -641,7 +673,7 @@ export default class CardManager extends cc.Component {
   static activeMoveAnimations: { index: number, endBools: boolean[] }[] = []
   static moveAnimationIndex: number = 0;
 
-  static async moveCardTo(card: cc.Node, placeToMove: cc.Node, sendToServer: boolean, flipIfFlipped: boolean, moveIndex?: number, firstPos?) {
+  static async moveCardTo(card: cc.Node, placeToMove: cc.Node, sendToServer: boolean, flipIfFlipped: boolean, moveIndex?: number, firstPos?, playerId?: number) {
 
     let canvas = cc.find('Canvas')
     if (firstPos != null && sendToServer == false) {
@@ -685,7 +717,7 @@ export default class CardManager extends cc.Component {
       }
       let serverData = {
         signal: Signal.MOVE_CARD,
-        srvData: { moveIndex: animationIndex, cardId: card.getComponent(Card)._cardId, placeID: placeId, flipIfFlipped: flipIfFlipped, firstPos: firstPos }
+        srvData: { moveIndex: animationIndex, cardId: card.getComponent(Card)._cardId, placeID: placeId, flipIfFlipped: flipIfFlipped, firstPos: firstPos, playerId: PlayerManager.mePlayer.getComponent(Player).playerId }
       };
       card.runAction(cc.spawn(moveAction, cc.callFunc(() => {
         ServerClient.$.send(serverData.signal, serverData.srvData)
@@ -699,7 +731,7 @@ export default class CardManager extends cc.Component {
     } else {
       let serverData = {
         signal: Signal.MOVE_CARD_END,
-        srvData: { moveIndex: animationIndex, cardId: card.getComponent(Card)._cardId, flipIfFlipped: flipIfFlipped }
+        srvData: { moveIndex: animationIndex, cardId: card.getComponent(Card)._cardId, flipIfFlipped: flipIfFlipped, playerId: playerId }
       };
       if (moveIndex == null) {
         serverData.signal = Signal.MOVE_CARD

@@ -23,6 +23,7 @@ import { ContainerBuilder } from "@ts-ioc/core";
 import { AopModule } from "@ts-ioc/aop";
 import Stack from "./Entites/Stack";
 import { STACK_EFFECT_TYPE } from "./Constants";
+import Card from "./Entites/GameEntities/Card";
 
 //( id represents a human player and it coresponds with playerID)
 let id = 1;
@@ -214,6 +215,7 @@ export default class MainScript extends cc.Component {
   }
 
   static async startGame() {
+    cc.error(`start game`)
     await PlayerManager.assingCharacters(true);
     let startingPlayer: Player;
     let firstTurn: Turn
@@ -239,17 +241,34 @@ export default class MainScript extends cc.Component {
 
       firstTurn = TurnsManager.getTurnByPlayerId(startingPlayer.playerId)
     }
-    await Store.$.addStoreCard(true)
-    await Store.$.addStoreCard(true)
+    let decks = CardManager.getAllDecks()
+    for (let i = 0; i < decks.length; i++) {
+      const deck = decks[i].getComponent(Deck);
+
+      if (deck.suffleInTheStart) {
+        deck.shuffleDeck()
+      } else {
+        ServerClient.$.send(Signal.DECK_ARRAGMENT, { deckType: deck.deckType, arrangement: deck._cards.map(card => card.getComponent(Card)._cardId) })
+      }
+
+    }
+    // await Store.$.addStoreCard(true)
+    // await Store.$.addStoreCard(true)
+    // cc.error(`after add store card`)
     let ids = MonsterField.getMonsterCardHoldersIds()
     for (let i = 0; i < ids.length; i++) {
       const mosnterHolderId = ids[i];
       let newMonster = CardManager.monsterDeck.getComponent(Deck).drawCard(true)
+      while (newMonster.getComponent(Monster).isNonMonster) {
+        CardManager.monsterDeck.getComponent(Deck).addToDeckOnBottom(newMonster, true)
+        newMonster = CardManager.monsterDeck.getComponent(Deck).drawCard(true)
+      }
       await MonsterField.addMonsterToExsistingPlace(mosnterHolderId, newMonster, true)
     }
     // await CardManager.checkForEmptyFields();
     // await CardManager.updateOnTableCards();
     // await CardManager.updatePlayerCards();
+
     await ActionManager.updateActions()
     for (const player of PlayerManager.players) {
       let comp = player.getComponent(Player)
@@ -260,6 +279,7 @@ export default class MainScript extends cc.Component {
       }
     }
     TurnsManager.setCurrentTurn(firstTurn, true)
+
   }
 
   static async makeFirstUpdateActions(playerId) {
@@ -267,8 +287,6 @@ export default class MainScript extends cc.Component {
     //  await TurnsManager.currentTurn.getTurnPlayer().endTurn(true)
     cc.log(`make first update`)
     if (PlayerManager.mePlayer.getComponent(Player).playerId == playerId) {
-      cc.log(`make first update 2`)
-
       await MainScript.startGame()
       await ActionManager.updateActions()
 

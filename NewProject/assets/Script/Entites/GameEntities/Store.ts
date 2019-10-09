@@ -14,6 +14,10 @@ export default class Store extends cc.Component {
 
   static storeCards: cc.Node[] = [];
 
+  static storeCardsCost: number = 10;
+
+  static topCardCost: number = 10;
+
   static $: Store = null;
 
   @property

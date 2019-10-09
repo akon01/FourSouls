@@ -83,8 +83,6 @@
     "_skewY": 0,
     "_is3DNode": false,
     "groupIndex": 0,
-    "_rotationX": 0,
-    "_rotationY": 0,
     "_id": ""
   },
   {
@@ -282,6 +280,7 @@
     ],
     "_effectCard": null,
     "hasPlayerChoiceToActivateInChainEffects": false,
+    "numberOfItemsToDestroy": 1,
     "_id": ""
   },
   {
@@ -416,7 +415,9 @@
       "__id__": 9
     },
     "_enabled": true,
+    "multiType": false,
     "chooseType": 6,
+    "chooseTypes": [],
     "_id": ""
   },
   {
@@ -595,7 +596,12 @@
       "__id__": 15
     },
     "_enabled": true,
+    "multiType": true,
     "chooseType": 17,
+    "chooseTypes": [
+      17,
+      18
+    ],
     "_id": ""
   },
   {

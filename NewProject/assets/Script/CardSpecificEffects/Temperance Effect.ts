@@ -1,13 +1,10 @@
 import Effect from "../CardEffectComponents/CardEffects/Effect";
 import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
-import Deck from "../Entites/GameEntities/Deck";
-import MonsterField from "../Entites/MonsterField";
-import BattleManager from "../Managers/BattleManager";
-import CardManager from "../Managers/CardManager";
-import StackEffectInterface from "../StackEffects/StackEffectInterface";
 import { TARGETTYPE } from "../Constants";
 import Player from "../Entites/GameEntities/Player";
+import CardManager from "../Managers/CardManager";
 import PlayerManager from "../Managers/PlayerManager";
+import StackEffectInterface from "../StackEffects/StackEffectInterface";
 
 const { ccclass, property } = cc._decorator;
 
@@ -39,7 +36,8 @@ export default class TemperanceEffect extends Effect {
       cc.log(`no target player`)
     } else {
       let player: Player = PlayerManager.getPlayerByCard(targetPlayerCard as cc.Node)
-      await player.getHit(this.dmgToTake, true)
+      let owner = CardManager.getCardOwner(this.node.parent)
+      await player.getHit(this.dmgToTake, true, owner)
       await player.changeMoney(this.moneyToGet, true)
     }
 

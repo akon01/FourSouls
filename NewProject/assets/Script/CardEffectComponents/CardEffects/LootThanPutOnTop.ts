@@ -1,15 +1,11 @@
-import CardManager from "../../Managers/CardManager";
-import PlayerManager from "../../Managers/PlayerManager";
-import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
-import { ServerEffect } from "./../../Entites/ServerCardEffect";
-import Effect from "./Effect";
-import Player from "../../Entites/GameEntities/Player";
-import ChooseCard from "../DataCollector/ChooseCard";
-import Card from "../../Entites/GameEntities/Card";
 import Deck from "../../Entites/GameEntities/Deck";
-import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import CardManager from "../../Managers/CardManager";
+import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
+import PlayerManager from "../../Managers/PlayerManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
+import ChooseCard from "../DataCollector/ChooseCard";
+import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
+import Effect from "./Effect";
 
 const { ccclass, property } = cc._decorator;
 
@@ -25,7 +21,7 @@ export default class LootThenPutOnTop extends Effect {
    */
   async doEffect(
     stack: StackEffectInterface[],
-    data?: ActiveEffectData
+    data?: ActiveEffectData | PassiveEffectData
   ) {
     let playerCard = data.getTarget(TARGETTYPE.PLAYER)
     if (playerCard instanceof cc.Node) {
@@ -45,6 +41,8 @@ export default class LootThenPutOnTop extends Effect {
         await lootDeck.addToDeckOnTop(chosenCard, true)
       }
     }
+
+    if (data instanceof PassiveEffectData) return data
     return stack
   }
 }

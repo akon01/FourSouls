@@ -1,19 +1,15 @@
-import MonsterCardHolder from "../MonsterCardHolder";
-import MonsterReward from "../../CardEffectComponents/MonsterRewards/MonsterReward";
 import Signal from "../../../Misc/Signal";
-import Card from "../GameEntities/Card";
 import ServerClient from "../../../ServerClient/ServerClient";
-import BattleManager from "../../Managers/BattleManager";
+import MonsterReward from "../../CardEffectComponents/MonsterRewards/MonsterReward";
+import { PASSIVE_EVENTS } from "../../Constants";
 import PassiveManager, { PassiveMeta } from "../../Managers/PassiveManager";
-import TurnsManager from "../../Managers/TurnsManager";
 import PlayerManager from "../../Managers/PlayerManager";
+import TurnsManager from "../../Managers/TurnsManager";
 import MonsterDeath from "../../StackEffects/Monster Death";
-import Stack from "../Stack";
-import PileManager from "../../Managers/PileManager";
-import { CARD_TYPE, PASSIVE_EVENTS } from "../../Constants";
-import MonsterRewardStackEffect from "../../StackEffects/Monster Reward";
-import Player from "../GameEntities/Player";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
+import Card from "../GameEntities/Card";
+import MonsterCardHolder from "../MonsterCardHolder";
+import Stack from "../Stack";
 
 const { ccclass, property } = cc._decorator;
 
@@ -52,6 +48,12 @@ export default class Monster extends cc.Component {
   @property
   souls: number = 0;
 
+  @property
+  _dmgPrevention: number[] = [];
+
+  @property
+  _thisTurnKiller: cc.Node = null;
+
   @property(MonsterReward)
   reward: MonsterReward = null;
 
@@ -62,7 +64,7 @@ export default class Monster extends cc.Component {
    * @returns true if the monster was killed 
    */
   // @testForPassiveAfter('getDamaged')
-  async getDamaged(damage: number, sendToServer: boolean) {
+  async getDamaged(damage: number, sendToServer: boolean, damageDealer: cc.Node) {
 
     if (!sendToServer) {
       if (this.currentHp - damage < 0) {
@@ -71,11 +73,24 @@ export default class Monster extends cc.Component {
         this.currentHp -= damage;
       }
     } else {
-      let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.MONSTER_GET_HIT, Array.of(damage), null, this.node)
-      let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
-      passiveMeta.args = afterPassiveMeta.args;
+
+      //Prevent Damage
+      damage = await this.preventDamage(damage)
+      if (damage == 0) {
+        cc.log(`damage after reduction is 0`)
+      }
+
+      let toContinue = true
+      let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.MONSTER_GET_HIT, [damage, damageDealer], null, this.node)
+      if (sendToServer) {
+        let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+        passiveMeta.args = afterPassiveMeta.args;
+        toContinue = afterPassiveMeta.continue
+        damage = afterPassiveMeta.args[0];
+        damageDealer = afterPassiveMeta.args[1];
+      }
       let wasKilled
-      if (afterPassiveMeta.continue) {
+      if (toContinue) {
 
         if (this.currentHp - damage < 0) {
           this.currentHp = 0
@@ -86,21 +101,65 @@ export default class Monster extends cc.Component {
         let cardId = this.node.getComponent(Card)._cardId
         let serverData = {
           signal: Signal.MONSTER_GET_DAMAGED,
-          srvData: { cardId: cardId, damage: damage }
+          srvData: { cardId: cardId, hpLeft: this.currentHp, damageDealerId: damageDealer.getComponent(Card)._cardId }
         };
         if (sendToServer) {
           ServerClient.$.send(serverData.signal, serverData.srvData)
           if (this.currentHp == 0) {
-            await this.kill(true)
+            await this.kill(damageDealer)
           }
         }
       }
       //   wasKilled = await BattleManager.checkIfMonsterIsDead(this.node, sendToServer);
       // }
-      let thisResult = await PassiveManager.testForPassiveAfter(passiveMeta)
-      return thisResult;
+      if (sendToServer) {
+        let thisResult = await PassiveManager.testForPassiveAfter(passiveMeta)
+        return thisResult;
+      }
     }
     // passiveMeta.result = wasKilled
+  }
+
+  async addDamagePrevention(dmgToPrevent: number, sendToServer: boolean) {
+    this._dmgPrevention.push(dmgToPrevent)
+    if (sendToServer) {
+      ServerClient.$.send(Signal.MONSTER_ADD_DMG_PREVENTION, { playerId: this.node.getComponent(Card)._cardId, dmgToPrevent: dmgToPrevent })
+    }
+  }
+
+  async preventDamage(incomingDamage: number) {
+    if (this._dmgPrevention.length > 0) {
+      cc.log(`doing dmg prevention`)
+      let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.MONSTER_PREVENT_DAMAGE, null, null, this.node)
+      let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+      this._dmgPrevention.sort((a, b) => { return a - b })
+      let newDamage = incomingDamage
+
+      while (this._dmgPrevention.length > 0) {
+        if (newDamage == 0) {
+          return 0;
+        } else {
+          if (this._dmgPrevention.includes(newDamage)) {
+            let dmgPreventionInstance = this._dmgPrevention.splice(this._dmgPrevention.indexOf(newDamage), 1)
+            cc.error(`prevented exactly ${dmgPreventionInstance[0]} dmg`)
+            newDamage -= dmgPreventionInstance[0]
+
+            continue;
+          } else {
+            const instance = this._dmgPrevention.shift();
+            cc.error(`prevented ${instance} dmg`)
+            newDamage -= instance
+            continue;
+          }
+        }
+      }
+
+      passiveMeta.result = newDamage
+      let thisResult = await PassiveManager.testForPassiveAfter(passiveMeta)
+      if (thisResult == 0) {
+        return 0
+      } else return thisResult
+    } else return incomingDamage
   }
 
   async gainHp(hpToGain: number, sendToServer: boolean) {
@@ -157,13 +216,13 @@ export default class Monster extends cc.Component {
 
   }
 
-  async kill(sendToServer: boolean, stackEffectToAddBelow?: StackEffectInterface) {
+  async kill(killerCard: cc.Node) {
     let monsterComp = this
     let monsterPlace = monsterComp.monsterPlace;
     let turnPlayer =
       TurnsManager.currentTurn.getTurnPlayer()
     if (PlayerManager.mePlayer == turnPlayer.node) {
-      let monsterDeath = new MonsterDeath(turnPlayer.character.getComponent(Card)._cardId, this.node)
+      let monsterDeath = new MonsterDeath(turnPlayer.character.getComponent(Card)._cardId, this.node, killerCard)
       await Stack.addToStackAbove(monsterDeath)
 
     }

@@ -1,5 +1,5 @@
 import Player from "../../Entites/GameEntities/Player";
-import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
@@ -23,10 +23,10 @@ export default class StealItem extends Effect {
 
   async doEffect(
     stack: StackEffectInterface[],
-    data?: ActiveEffectData
+    data?: ActiveEffectData | PassiveEffectData
   ) {
     cc.log(data)
-    let stealer = data.effectCardPlayer.getComponent(Player)
+    let stealer = PlayerManager.getPlayerByCard(data.effectCardPlayer)
     let itemToSteal = data.getTarget(TARGETTYPE.ITEM)
     if (itemToSteal instanceof cc.Node) {
       if (itemToSteal == null) {
@@ -43,6 +43,7 @@ export default class StealItem extends Effect {
       }
     }
 
+    if (data instanceof PassiveEffectData) return data
     return stack;
   }
 }

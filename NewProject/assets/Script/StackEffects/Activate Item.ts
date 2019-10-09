@@ -1,7 +1,7 @@
 import Effect from "../CardEffectComponents/CardEffects/Effect";
 import MultiEffectChoose from "../CardEffectComponents/MultiEffectChooser/MultiEffectChoose";
 import MultiEffectRoll from "../CardEffectComponents/MultiEffectChooser/MultiEffectRoll";
-import { CARD_TYPE, STACK_EFFECT_TYPE } from "../Constants";
+import { CARD_TYPE, STACK_EFFECT_TYPE, PASSIVE_EVENTS, ROLL_TYPE, ITEM_TYPE } from "../Constants";
 import CardEffect from "../Entites/CardEffect";
 import Item from "../Entites/CardTypes/Item";
 import Monster from "../Entites/CardTypes/Monster";
@@ -15,6 +15,10 @@ import RollDiceStackEffect from "./Roll DIce";
 import ServerActivateItem from "./ServerSideStackEffects/Server Activate Item";
 import StackEffectInterface from "./StackEffectInterface";
 import { ActivateItemVis } from "./StackEffectVisualRepresentation/Activate Item Vis";
+import MonsterField from "../Entites/MonsterField";
+import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
+import MultiEffectChooseThenRoll from "../CardEffectComponents/MultiEffectChooser/MultiEffectChooseThenRoll";
+import MultiEffectDestroyThisThenRoll from "../CardEffectComponents/MultiEffectChooser/MultiEffectDestroyThisThenRoll";
 
 export default class ActivateItem implements StackEffectInterface {
     visualRepesentation: ActivateItemVis;
@@ -75,8 +79,15 @@ export default class ActivateItem implements StackEffectInterface {
             cardEffect.effectData = collectedData;
             this.hasDataBeenCollectedYet = true;
         }
-        if (this.itemToActivate.getComponent(Item) != null) {
-            this.itemToActivate.getComponent(Item).useItem(true)
+        if (this.effectToDo) {
+            let effectIndexType = cardEffect.getEffectIndexAndType(this.effectToDo)
+            if (this.itemToActivate.getComponent(Item) != null && effectIndexType.type == ITEM_TYPE.ACTIVE) {
+                this.itemToActivate.getComponent(Item).useItem(true)
+            }
+        } else {
+            if (this.itemToActivate.getComponent(Item) != null) {
+                this.itemToActivate.getComponent(Item).useItem(true)
+            }
         }
         let turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
         turnPlayer.givePriority(true)
@@ -94,10 +105,14 @@ export default class ActivateItem implements StackEffectInterface {
 
                 let lockingStackEffect: StackEffectInterface
                 if (cardEffect.multiEffectCollector instanceof MultiEffectRoll) {
-                    lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
+                    // lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
+                }
+                if (cardEffect.multiEffectCollector instanceof MultiEffectChooseThenRoll || cardEffect.multiEffectCollector instanceof MultiEffectDestroyThisThenRoll) {
+                    await cardEffect.multiEffectCollector.collectData({ cardPlayed: this.itemToActivate, cardPlayerId: this.itemPlayer.playerId })
+                    // lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
                 }
 
-
+                lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
                 //TODO add put on stack when the method is complete
                 await Stack.addToStack(lockingStackEffect, true)
 
@@ -107,8 +122,16 @@ export default class ActivateItem implements StackEffectInterface {
 
             if (this.hasLockingStackEffect && this.hasLockingStackEffectResolved == true) {
 
-                if (cardEffect.multiEffectCollector instanceof MultiEffectRoll) {
-                    selectedEffect = cardEffect.multiEffectCollector.getEffectByNumberRolled(this.LockingResolve, this.itemToActivate)
+                if (cardEffect.multiEffectCollector instanceof MultiEffectRoll || cardEffect.multiEffectCollector instanceof MultiEffectChooseThenRoll) {
+                    let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_ROLL_DICE, [this.LockingResolve, ROLL_TYPE.EFFECT], null, this.itemPlayer.node)
+                    let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+                    this.LockingResolve = afterPassiveMeta.args[0]
+                    try {
+                        selectedEffect = cardEffect.multiEffectCollector.getEffectByNumberRolled(this.LockingResolve, this.itemToActivate)
+                        cc.log(`selected effect from roll is ${selectedEffect.name}`)
+                    } catch (error) {
+                        cc.error(error)
+                    }
                 }
             }
         } else {
@@ -127,7 +150,9 @@ export default class ActivateItem implements StackEffectInterface {
 
         //if the "item" is a non-monster monster card, move it to monster discard pile
         if (this.itemToActivate.getComponent(Monster) != null) {
-            await PileManager.addCardToPile(CARD_TYPE.MONSTER, this.itemToActivate, true)
+
+            await this.itemToActivate.getComponent(Monster).monsterPlace.discardTopMonster(true)
+            // await PileManager.addCardToPile(CARD_TYPE.MONSTER, this.itemToActivate, true)
             //await CardManager.moveCardTo(this.itemToActivate, PileManager.monsterCardPile.node, true)
         }
     }

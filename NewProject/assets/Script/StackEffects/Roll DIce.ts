@@ -1,4 +1,4 @@
-import { ROLL_TYPE, STACK_EFFECT_TYPE } from "../Constants";
+import { ROLL_TYPE, STACK_EFFECT_TYPE, PASSIVE_EVENTS } from "../Constants";
 import Stack from "../Entites/Stack";
 import CardManager from "../Managers/CardManager";
 import PlayerManager from "../Managers/PlayerManager";
@@ -6,6 +6,8 @@ import TurnsManager from "../Managers/TurnsManager";
 import ServerRollDiceStackEffect from "./ServerSideStackEffects/Server Roll DIce";
 import StackEffectInterface from "./StackEffectInterface";
 import { DiceRollVis } from "./StackEffectVisualRepresentation/Dice Roll Vis";
+import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
+import ActionLable from "../LableScripts/Action Lable";
 
 
 export default class RollDiceStackEffect implements StackEffectInterface {
@@ -51,11 +53,22 @@ export default class RollDiceStackEffect implements StackEffectInterface {
         //add Passive Check for all the +X/-X To dice rolls to add on top of the stack
     }
 
-    resolve() {
+    async resolve() {
         cc.log('resolve roll dice')
+        let playerCard = CardManager.getCardById(this.creatorCardId, true);
+        let player = PlayerManager.getPlayerByCard(playerCard);
+        cc.log(`roll b4 modifires ${this.numberRolled}`)
+        let playerRollValue = player.calculateFinalRoll(this.numberRolled, ROLL_TYPE.EFFECT)
+        cc.log(`roll after modifires ${playerRollValue}`)
+        ActionLable.$.publishMassage(`Added ${player.nonAttackRollBonus} to original roll`, 3)
+        playerRollValue = await player.dice.setRoll(playerRollValue)
+        let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_ROLL_DICE, [playerRollValue, ROLL_TYPE.EFFECT], null, player.node)
+        let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+        playerRollValue = afterPassiveMeta.args[0]
         if (Stack._currentStack.includes(this.stackEffectToLock) && this.stackEffectToLock.hasLockingStackEffectResolved == false) {
             let stackEffectToLock = Stack._currentStack[Stack._currentStack.indexOf(this.stackEffectToLock)];
-            stackEffectToLock.LockingResolve = this.numberRolled;
+            cc.log(`setting stackEffect ${stackEffectToLock.entityId} locking resolve as ${playerRollValue}`)
+            stackEffectToLock.LockingResolve = playerRollValue
             stackEffectToLock.hasLockingStackEffectResolved = true;
         } else {
             cc.log(`locking stack effect tried to resolve when his to lock effect is not in the stack`)

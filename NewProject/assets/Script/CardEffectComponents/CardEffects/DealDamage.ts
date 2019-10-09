@@ -1,10 +1,11 @@
 import Character from "../../Entites/CardTypes/Character";
 import Monster from "../../Entites/CardTypes/Monster";
-import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import { TARGETTYPE } from "./../../Constants";
 import Effect from "./Effect";
+import CardManager from "../../Managers/CardManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,7 +27,7 @@ export default class DealDamage extends Effect {
 
   async doEffect(
     stack: StackEffectInterface[],
-    data?: ActiveEffectData
+    data?: ActiveEffectData | PassiveEffectData
   ) {
 
 
@@ -57,27 +58,25 @@ export default class DealDamage extends Effect {
       await this.hitAnEntity(targetEntity as cc.Node)
     }
 
-
-
-
-
-
+    if (data instanceof PassiveEffectData) return data
     return stack
   }
 
   async hitAnEntity(targetEntity: cc.Node) {
     let entityComp;
+    let damageDealer = CardManager.getCardOwner(this.node.parent)
     entityComp = targetEntity.getComponent(Character);
     //Entity is Monster
     if (entityComp == null) {
       entityComp = targetEntity.getComponent(Monster)
       if (entityComp instanceof Monster) {
-        await entityComp.getDamaged(this.damageToDeal, true)
+        await entityComp.getDamaged(this.damageToDeal, true, damageDealer)
       }
     } else {
       //Entity is Player
       if (entityComp instanceof Character) {
-        await PlayerManager.getPlayerByCard(entityComp.node).getHit(this.damageToDeal, true)
+
+        await PlayerManager.getPlayerByCard(entityComp.node).getHit(this.damageToDeal, true, damageDealer)
       }
     }
   }

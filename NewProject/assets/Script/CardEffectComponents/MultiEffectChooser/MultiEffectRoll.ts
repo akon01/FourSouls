@@ -1,18 +1,17 @@
-import ChooseNumber from "../../Entites/ChooseNumber";
-
-import Effect from "../CardEffects/Effect";
-import CardPreview from "../../Entites/CardPreview";
-
-import CardPreviewManager from "../../Managers/CardPreviewManager";
-
-import Card from "../../Entites/GameEntities/Card";
-import RollDice from "../RollDice";
-import PlayerManager from "../../Managers/PlayerManager";
-import Player from "../../Entites/GameEntities/Player";
-import CardEffect from "../../Entites/CardEffect";
 import { ITEM_TYPE } from "../../Constants";
 import EffectsAndNumbers from "../../EffectsAndNumbers";
+import CardEffect from "../../Entites/CardEffect";
+import Player from "../../Entites/GameEntities/Player";
+import PlayerManager from "../../Managers/PlayerManager";
+import Effect from "../CardEffects/Effect";
 import DataCollector from "../DataCollector/DataCollector";
+import RollDice from "../RollDice";
+import RollDiceStackEffect from "../../StackEffects/Roll DIce";
+import Card from "../../Entites/GameEntities/Card";
+import Stack from "../../Entites/Stack";
+
+
+
 
 const { ccclass, property } = cc._decorator;
 
@@ -38,8 +37,12 @@ export default class MultiEffectRoll extends DataCollector {
   }): Promise<Effect> {
     let card = data.cardPlayed;
     let player = PlayerManager.getPlayerById(data.cardPlayerId).getComponent(Player)
-    let diceRoll = new RollDice();
-    let numberRolled = await diceRoll.collectData({ cardPlayerId: data.cardPlayerId, cardId: player.dice.diceId });
+    let currentStackEffect = Stack.getCurrentResolvingStackEffect()
+    let diceRoll = new RollDiceStackEffect(player.character.getComponent(Card)._cardId, currentStackEffect)
+    // let diceRoll = new RollDice();
+    await Stack.addToStack(diceRoll, true)
+    let numberRolled = currentStackEffect.LockingResolve;
+    // let numberRolled = await diceRoll.collectData({ cardPlayerId: data.cardPlayerId, cardId: player.dice.diceId });
     let cardEffectComp = card.getComponent(CardEffect);
     let effects: cc.Node[] = [];
     effects = effects.concat(cardEffectComp.activeEffects, cardEffectComp.paidEffects, cardEffectComp.passiveEffects)
@@ -74,6 +77,9 @@ export default class MultiEffectRoll extends DataCollector {
         break;
       }
 
+    }
+    if (!chosenEffect) {
+      throw `No effect was chosen with the number rolled ${numberRolled}`
     }
     cc.log(chosenEffect.name)
     return chosenEffect;

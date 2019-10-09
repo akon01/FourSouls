@@ -1,5 +1,5 @@
 import CardManager from "../../Managers/CardManager";
-import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
 import { ServerEffect } from "./../../Entites/ServerCardEffect";
@@ -20,7 +20,7 @@ export default class DiscardAndDrawLoot extends Effect {
    */
   async doEffect(
     stack: StackEffectInterface[],
-    data?: ActiveEffectData
+    data?: ActiveEffectData | PassiveEffectData
   ) {
 
     let cardChosen = data.getTarget(TARGETTYPE.CARD)
@@ -35,6 +35,7 @@ export default class DiscardAndDrawLoot extends Effect {
       }
     }
 
+    if (data instanceof PassiveEffectData) return data
     return stack
   }
 }

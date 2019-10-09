@@ -1,11 +1,9 @@
 import Effect from "../CardEffectComponents/CardEffects/Effect";
 import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
-import Deck from "../Entites/GameEntities/Deck";
-import MonsterField from "../Entites/MonsterField";
-import BattleManager from "../Managers/BattleManager";
-import CardManager from "../Managers/CardManager";
-import StackEffectInterface from "../StackEffects/StackEffectInterface";
 import { PassiveEffectData } from "../Managers/DataInterpreter";
+import StackEffectInterface from "../StackEffects/StackEffectInterface";
+import Store from "../Entites/GameEntities/Store";
+import CreditCardEffect2 from "./Credit Card Effect 2";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,6 +15,7 @@ export default class CreditCardEffect extends Effect {
   dataCollector = null;
 
 
+
   /**
    *
    * @param data {target:PlayerId}
@@ -25,12 +24,10 @@ export default class CreditCardEffect extends Effect {
     stack: StackEffectInterface[],
     data: PassiveEffectData
   ) {
-
-    cc.log(data)
-    let targetCost = data.methodArgs[0]
-    cc.log(targetCost)
-    data.methodArgs[0] = 0
-
+    let originalCost = Store.storeCardsCost;
+    Store.storeCardsCost = 0;
+    this.node.parent.getChildByName('CreditCardEffect2').getComponent(CreditCardEffect2).originalCost = originalCost;
     return data
   }
+
 }

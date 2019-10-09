@@ -39,8 +39,9 @@ export default class PurchaseItem implements StackEffectInterface {
         this.creatorCardId = creatorCardId;
         this.itemToPurchase = itemToPurchase;
         this.playerWhoBuys = PlayerManager.getPlayerById(playerWhoBuysId).getComponent(Player)
-
-        this.cost = -10;
+        if (Store.storeCards.includes(itemToPurchase)) {
+            this.cost = Store.storeCardsCost
+        } else this.cost = Store.topCardCost
         this.visualRepesentation = new PurchaseItemVis(this.itemToPurchase, this.playerWhoBuys, this.cost)
     }
 
@@ -55,7 +56,7 @@ export default class PurchaseItem implements StackEffectInterface {
         cc.log('resolve purchase item')
 
 
-        let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_BUY_ITEM, [this.cost, this.itemToPurchase], null, this.playerWhoBuys.node)
+        let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_BUY_ITEM, [-this.cost, this.itemToPurchase], null, this.playerWhoBuys.node)
 
         let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
         cc.log(afterPassiveMeta)

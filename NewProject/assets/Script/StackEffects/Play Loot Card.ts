@@ -101,11 +101,9 @@ export default class PlayLootCardStackEffect implements StackEffectInterface {
                     lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
                     this.lockingStackEffect = lockingStackEffect;
                 }
-
-                cc.log('b4 add to stack of Roll Dice')
                 //TODO add put on stack when the method is complete
                 await Stack.addToStack(lockingStackEffect, true)
-                cc.log('after add to stack of Roll Dice')
+
 
                 //if this effect has locking stack effect (first only "roll:" for a dice roll) and it has resolved
             }
@@ -119,10 +117,14 @@ export default class PlayLootCardStackEffect implements StackEffectInterface {
         }
         cc.log(selectedEffect)
         let newStack
-        try {
-            newStack = await this.doCardEffect(selectedEffect, this.hasDataBeenCollectedYet);
-        } catch (e) {
-            cc.error(e)
+        if (!selectedEffect) {
+            cc.error(`no selected effect where should be!`)
+        } else {
+            try {
+                newStack = await this.doCardEffect(selectedEffect, this.hasDataBeenCollectedYet);
+            } catch (e) {
+                cc.error(e)
+            }
         }
         this.effectToDo = null;
         //put new stack insted of old one (check maybe only add and removed the changed StackEffects)

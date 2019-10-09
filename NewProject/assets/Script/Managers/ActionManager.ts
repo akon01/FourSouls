@@ -2,7 +2,7 @@
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
 import Effect from "../CardEffectComponents/CardEffects/Effect";
-import { CARD_TYPE, ROLL_TYPE } from "../Constants";
+import { CARD_TYPE, ROLL_TYPE, BUTTON_STATE } from "../Constants";
 import CardEffect from "../Entites/CardEffect";
 import { CardLayout } from "../Entites/CardLayout";
 import Item from "../Entites/CardTypes/Item";
@@ -25,8 +25,8 @@ import BattleManager from "./BattleManager";
 import ButtonManager from "./ButtonManager";
 import CardManager from "./CardManager";
 import CardPreviewManager from "./CardPreviewManager";
-import DataInterpreter from "./DataInterpreter";
-import PassiveManager from "./PassiveManager";
+import DataInterpreter, { ActiveEffectData } from "./DataInterpreter";
+import PassiveManager, { ServerPassiveMeta } from "./PassiveManager";
 import PileManager from "./PileManager";
 import PlayerManager from "./PlayerManager";
 import StackEffectVisManager from "./StackEffectVisManager";
@@ -75,14 +75,16 @@ export default class ActionManager extends cc.Component {
     );
 
 
-    cc.log('Stack length:' + Stack._currentStack.length)
-    cc.log(currentPlayerComp._Hp)
+    cc.log(`attack plays: ${TurnsManager.currentTurn.attackPlays}`)
+    cc.log(`buy plays: ${TurnsManager.currentTurn.buyPlays}`)
+    cc.log(`loot plays ${TurnsManager.currentTurn.lootCardPlays}`)
     cc.log('in Battle Phase:' + TurnsManager.currentTurn.battlePhase)
     if (Stack._currentStack.length == 0 && currentPlayerComp._Hp > 0) {
       //if (!ActionManager.inReactionPhase && currentPlayerComp.Hp > 0) {
 
-      //make next turn btn available
-      ButtonManager.nextTurnButton.getComponent(cc.Button).interactable = true;
+      //make next turn btn available 
+      ButtonManager.enableButton(ButtonManager.$.nextTurnButton, BUTTON_STATE.ENABLED)
+      // ButtonManager.nextTurnButton.getComponent(cc.Button).interactable = true;
 
       //update player available reactions
       currentPlayerComp.calculateReactions();
@@ -106,23 +108,27 @@ export default class ActionManager extends cc.Component {
         ) {
           for (let i = 0; i < Store.storeCards.length; i++) {
             const storeCard = Store.storeCards[i];
-
-            CardManager.makeItemBuyable(storeCard, currentPlayerComp);
+            if (player.getComponent(Player).coins >= Store.storeCardsCost) {
+              CardManager.makeItemBuyable(storeCard, currentPlayerComp);
+            }
           }
 
           if (treasureDeck.topBlankCard != null) {
             let treasureDeckTopCard = treasureDeck.topBlankCard;
-            CardManager.makeItemBuyable(treasureDeckTopCard, currentPlayerComp);
-          }
-        } else {
-          for (let i = 0; i < Store.storeCards.length; i++) {
-            const storeCard = Store.storeCards[i];
-            CardManager.disableCardActions(storeCard);
-            CardManager.makeCardPreviewable(storeCard);
-          }
-          if (treasureDeck.topBlankCard != null) {
-            let treasureDeckTopCard = treasureDeck.topBlankCard;
-            CardManager.disableCardActions(treasureDeckTopCard);
+            if (player.getComponent(Player).coins >= Store.topCardCost) {
+
+              CardManager.makeItemBuyable(treasureDeckTopCard, currentPlayerComp);
+            }
+          } else {
+            for (let i = 0; i < Store.storeCards.length; i++) {
+              const storeCard = Store.storeCards[i];
+              CardManager.disableCardActions(storeCard);
+              CardManager.makeCardPreviewable(storeCard);
+            }
+            if (treasureDeck.topBlankCard != null) {
+              let treasureDeckTopCard = treasureDeck.topBlankCard;
+              CardManager.disableCardActions(treasureDeckTopCard);
+            }
           }
         }
         //make monster cards attackable
@@ -159,22 +165,28 @@ export default class ActionManager extends cc.Component {
         let playerItems = player.getComponent(Player).activeItems;
         for (let i = 0; i < playerItems.length; i++) {
           const item = playerItems[i].getComponent(Item);
-          if (item.getComponent(CardEffect).testEffectsPreConditions()) {
-            CardManager.makeItemActivateable(item.node);
-          } else {
-            CardManager.disableCardActions(item.node);
+          try {
 
+            if (item.getComponent(CardEffect).testEffectsPreConditions()) {
+              CardManager.makeItemActivateable(item.node);
+            } else {
+              CardManager.disableCardActions(item.node);
+
+            }
+          } catch (error) {
+            cc.error(error)
           }
         }
         player.getComponent(Player).dice.getComponent(Dice).disableRoll();
 
         //if in battle phase do battle
       } else {
+        cc.log(`in battle phase do battle`)
 
         //if the monster is not dead
         // 
         //enable activating items
-        ButtonManager.nextTurnButton.getComponent(cc.Button).interactable = false;
+        ButtonManager.enableButton(ButtonManager.$.nextTurnButton, BUTTON_STATE.DISABLED)
         if (BattleManager.currentlyAttackedMonster.currentHp > 0) {
           let playerItems = player.getComponent(Player).activeItems;
           for (let i = 0; i < playerItems.length; i++) {
@@ -211,17 +223,20 @@ export default class ActionManager extends cc.Component {
           } else {
             player.getComponent(Player).dice.addRollAction(ROLL_TYPE.ATTACK);
           }
+
+
+        } else {
+          cc.log(`currently attacked monster has 0 hp`)
+
+          ActionManager.inReactionPhase
+          ButtonManager.enableButton(ButtonManager.$.nextTurnButton, BUTTON_STATE.DISABLED)
+
         }
+        return new Promise((resolve, reject) => {
+          resolve(true)
+        })
       }
-    } else {
-
-
-      ActionManager.inReactionPhase
-      ButtonManager.nextTurnButton.getComponent(cc.Button).interactable = false;
     }
-    return new Promise((resolve, reject) => {
-      resolve(true)
-    })
   }
 
 
@@ -273,7 +288,7 @@ export default class ActionManager extends cc.Component {
 
     //set up components
     //disable next turn btn
-    ButtonManager.nextTurnButton.getComponent(cc.Button).interactable = false;
+    ButtonManager.enableButton(ButtonManager.$.nextTurnButton, BUTTON_STATE.DISABLED)
 
     //Set up listener to card selected
     return true
@@ -416,7 +431,10 @@ export default class ActionManager extends cc.Component {
           .getComponent(MonsterField);
         let newMonster = CardManager.getCardById(data.cardId, true);
         let monsterDeck = CardManager.monsterDeck.getComponent(Deck);
-        monsterDeck._cards.splice(monsterDeck._cards.indexOf(newMonster), 1);
+        let monsterIndex = monsterDeck._cards.indexOf(newMonster)
+        if (monsterIndex != -1) {
+          monsterDeck._cards.splice(monsterIndex, 1);
+        }
         MonsterField.addMonsterToExsistingPlace(
           data.monsterPlaceId,
           newMonster,
@@ -470,7 +488,7 @@ export default class ActionManager extends cc.Component {
 
         }
         cc.log(place)
-        await CardManager.moveCardTo(card, place, false, data.flipIfFlipped, data.moveIndex, data.firstPos)
+        await CardManager.moveCardTo(card, place, false, data.flipIfFlipped, data.moveIndex, data.firstPos, data.playerId)
         break;
       case Signal.MOVE_CARD_END:
         CardManager.receiveMoveCardEnd(data.moveIndex)
@@ -503,11 +521,18 @@ export default class ActionManager extends cc.Component {
         player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
         player.getSoulCard(card, false)
         break;
+      case Signal.LOSE_SOUL:
+        card = CardManager.getCardById(data.cardId, true);
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        player.loseSoul(card, false)
+        break;
 
       //On Monster Events
       case Signal.MONSTER_GET_DAMAGED:
         monster = CardManager.getCardById(data.cardId, true).getComponent(Monster);
-        await monster.getDamaged(data.damage, false)
+        let damageDealer = CardManager.getCardById(data.damageDealerId)
+        monster.currentHp = data.hpLeft
+        // await monster.getDamaged(data.damage, false, damageDealer) 
         break;
       case Signal.MONSTER_GAIN_HP:
         monster = CardManager.getCardById(data.cardId, true).getComponent(Monster);
@@ -522,6 +547,15 @@ export default class ActionManager extends cc.Component {
         monster = CardManager.getCardById(data.cardId, true).getComponent(Monster);
         await monster.gainRollBonus(data.bonusToGain, false)
         break;
+      case Signal.MONSTER_HEAL:
+        monster = CardManager.getCardById(data.cardId, true).getComponent(Monster);
+        await monster.heal(data.hpToGain, false)
+        break;
+      case Signal.MONSTER_ADD_DMG_PREVENTION:
+        monster = CardManager.getCardById(data.cardId, true).getComponent(Monster);
+        await monster.addDamagePrevention(data.dmgToPrevent, false)
+        break;
+
 
       //Monster holder actions
       case Signal.GET_NEXT_MONSTER:
@@ -585,14 +619,15 @@ export default class ActionManager extends cc.Component {
         card = CardManager.getCardById(data.cardId, true);
         player.playLootCard(card, false);
         break;
-      case Signal.PLAY_LOOT_CARD:
+      // case Signal.PLAY_LOOT_CARD:
 
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(
-          Player
-        );
-        card = CardManager.getCardById(data.cardId, true);
-        player.loseLoot(card, false);
-        break;
+      //   player = PlayerManager.getPlayerById(data.playerId).getComponent(
+      //     Player
+      //   );
+      //   card = CardManager.getCardById(data.cardId, true);
+      //   player.loseLoot(card, false);
+      //   break;
+
       case Signal.ADD_AN_ITEM:
         player = PlayerManager.getPlayerById(data.playerId).getComponent(
           Player
@@ -616,7 +651,6 @@ export default class ActionManager extends cc.Component {
           true
         );
         player.declareAttack(attackedMonster, false, data.cardHolderId);
-
         break;
       case Signal.PLAYER_GET_LOOT:
         player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
@@ -632,45 +666,50 @@ export default class ActionManager extends cc.Component {
         player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
         player.changeMoney(data.numOfCoins, false)
         break;
-
-
       case Signal.SET_MONEY:
         player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
         player.setMoney(data.numOfCoins, false)
         break;
-
-
       case Signal.PLAYER_GAIN_HP:
         player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
-        await player.gainHp(data.hpToGain, false)
+        await player.gainHeartContainer(data.hpToGain, data.isTemp, false)
         break;
-
       case Signal.PLAYER_GAIN_DMG:
         player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
-        await player.gainDMG(data.DMGToGain, false)
+        await player.gainDMG(data.DMGToGain, data.isTemp, false)
         break;
-
       case Signal.PLAYER_GAIN_ROLL_BONUS:
         player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
-        await player.gainRollBonus(data.bonusToGain, false)
+        await player.gainRollBonus(data.bonusToGain, data.isTemp, false)
         break;
 
       case Signal.PLAYER_GAIN_ATTACK_ROLL_BONUS:
         player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
-        await player.gainAttackRollBonus(data.bonusToGain, false)
+        await player.gainAttackRollBonus(data.bonusToGain, data.isTemp, false)
         break;
 
       case Signal.PLAYER_GAIN_FIRST_ATTACK_ROLL_BONUS:
         player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
-        await player.gainFirstAttackRollBonus(data.bonusToGain, false)
+        await player.gainFirstAttackRollBonus(data.bonusToGain, data.isTemp, false)
         break;
 
       case Signal.PLAYER_GET_HIT:
         player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
-        await player.getHit(data.damage, false)
+        damageDealer = CardManager.getCardById(data.damageDealerId, true)
+        await player.getHit(data.damage, false, damageDealer)
         break;
-
-
+      case Signal.PLAYER_HEAL:
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        await player.heal(data.hpToHeal, false)
+        break;
+      case Signal.START_TURN:
+        // player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        TurnsManager.currentTurn.startTurn()
+        break;
+      case Signal.PLAYER_ADD_DMG_PREVENTION:
+        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        await player.addDamagePrevention(data.dmgToPrevent, false)
+        break;
       //PassiveManager actions.
       case Signal.REGISTER_PASSIVE_ITEM:
         card = CardManager.getCardById(data.cardId, true)
@@ -679,9 +718,17 @@ export default class ActionManager extends cc.Component {
 
       case Signal.REGISTER_ONE_TURN_PASSIVE_EFFECT:
         card = CardManager.getCardById(data.cardId);
-        let cardEffect = card.getComponent(CardEffect).toAddPassiveEffects[data.effectIndex].getComponent(Effect)
-        let conditionData = DataInterpreter.convertToActiveEffectData(data.conditionData)
-        cardEffect.condition.conditionData = conditionData;
+        cc.log(card)
+        let cardEffect = card.getComponent(CardEffect).toAddPassiveEffects[data.effectIndex.index].getComponent(Effect)
+        let conditionsData: ActiveEffectData[] = [];
+        for (let i = 0; i < cardEffect.conditions.length; i++) {
+          const condition = cardEffect.conditions[i];
+          let conditionData = data.conditionData[i];
+          conditionsData.push(DataInterpreter.convertToActiveEffectData(conditionData))
+          cardEffect.conditions[i].conditionData = conditionData
+        }
+        //  let conditionData = DataInterpreter.convertToActiveEffectData(data.conditionData)
+        //cardEffect.conditions.conditionData = conditionData;
         PassiveManager.registerOneTurnPassiveEffect(cardEffect, false)
         break;
 
@@ -707,7 +754,12 @@ export default class ActionManager extends cc.Component {
       case Signal.DO_STACK_EFFECT:
 
         Stack.replaceStack(data.currentStack.map(stackEffect => converter.convertToStackEffect(stackEffect)), false)
+        cc.log(`stack after replacing`)
+        cc.log(Stack._currentStack)
         let newStack = await Stack.doStackEffectFromTop(false)
+        cc.log(`new stack after doing effect`)
+        cc.log(newStack)
+        cc.log(Stack._currentStack)
         if (newStack != undefined) {
           ServerClient.$.send(Signal.FINISH_DO_STACK_EFFECT, { playerId: data.originPlayerId, newStack: newStack.map(effect => effect.convertToServerStackEffect()) })
         } else {
@@ -727,7 +779,7 @@ export default class ActionManager extends cc.Component {
         await Stack.removeFromCurrentStackEffectResolving(stackEffectToRemove, false)
         break
       case Signal.FINISH_DO_STACK_EFFECT:
-
+        // await Stack.replaceStack(data.newStack.map(stackEffect => converter.convertToStackEffect(stackEffect)), true)
         Stack.newStack = data.newStack.map(stackEffect => converter.convertToStackEffect(stackEffect));
         Stack.hasStackEffectResolvedAtAnotherPlayer = true;
         break;
@@ -794,7 +846,9 @@ export default class ActionManager extends cc.Component {
         card = CardManager.getCardById(data.cardId, true)
         card.getComponent(Card).flipCard(false)
         break;
-
+      case Signal.CANCEL_ATTACK:
+        await BattleManager.cancelAttack(false)
+        break
       //
 
 
@@ -818,6 +872,40 @@ export default class ActionManager extends cc.Component {
         let massage = data.massage;
         let time = data.timeToDisappear;
         ActionLable.$.putMassage(massage, time)
+        break;
+      ///
+
+
+
+      case Signal.UPDATE_PASSIVE_DATA:
+        let newData = data.passiveData;
+        if (newData) {
+          let serverPassiveData = new ServerPassiveMeta
+          serverPassiveData.args = newData.args
+          serverPassiveData.methodScopeId = newData.methodScopeId
+          serverPassiveData.passiveEvent = newData.passiveEvent
+          serverPassiveData.result = newData.result
+          serverPassiveData.scopeIsPlayer = newData.scopeIsPlayer
+          serverPassiveData.index = newData.index
+          PassiveManager.updatePassiveMethodData(serverPassiveData.convertToPassiveMeta(), data.isAfterActivation, false)
+        } else {
+          PassiveManager.updatePassiveMethodData(null, data.isAfterActivation, false)
+        }
+        break;
+
+      case Signal.CLEAR_PASSIVE_DATA:
+        PassiveManager.clearPassiveMethodData(data.index, data.isAfterActivation, false)
+        break;
+
+      case Signal.DECK_ARRAGMENT:
+        let cards = data.arrangement.map(id => CardManager.getCardById(id, true))
+        let deckToSet = CardManager.getDeckByType(data.deckType)
+        deckToSet.getComponent(Deck).setDeckCards(cards)
+        break;
+
+      case Signal.CARD_GET_COUNTER:
+        card = CardManager.getCardById(data.cardId, true)
+        card.getComponent(Card)._counters += data.numOfCounters
         break;
       default:
 

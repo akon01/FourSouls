@@ -1,6 +1,7 @@
 import Signal from "../../../Misc/Signal";
 import ServerClient from "../../../ServerClient/ServerClient";
 import { ITEM_TYPE, TIME_TO_ROTATE_ACTIVATION } from "../../Constants";
+import Player from "../GameEntities/Player";
 
 
 
@@ -19,6 +20,10 @@ export default class Item extends cc.Component {
 
   @property
   eternal: boolean = false;
+
+  @property
+  lastOwnedBy: Player = null
+
 
   async rechargeItem(sendToServer: boolean) {
     if (sendToServer) {

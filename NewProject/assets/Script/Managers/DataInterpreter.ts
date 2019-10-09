@@ -23,6 +23,7 @@ export default class DataInterpreter {
 
 
     static makeEffectData(data, effectCard, cardPlayerId, isActive: boolean, isChainCollectorData: boolean): ActiveEffectData | PassiveEffectData {
+
         let effectData: ActiveEffectData | PassiveEffectData
         if (isActive) {
             effectData = new ActiveEffectData();
@@ -31,7 +32,11 @@ export default class DataInterpreter {
                     effectData.chainEffectsData = data;
                 } else {
                     if (Array.isArray(data)) {
+
                         effectData.effectTargets = data;
+                    }
+                    if (data instanceof EffectTarget) {
+                        effectData.effectTargets.push(data)
                     }
                 }
                 if (typeof data === "number") {
@@ -40,9 +45,6 @@ export default class DataInterpreter {
                 if (data instanceof ServerEffect) {
                     effectData.cardEffect = data
                 }
-                if (data instanceof EffectTarget) {
-                    effectData.effectTargetCard = data
-                }
                 if (data.cardPlayer != null) {
 
                     effectData.effectCardPlayer = PlayerManager.getPlayerById(data.cardPlayer).getComponent(Player).character
@@ -50,9 +52,13 @@ export default class DataInterpreter {
             }
         } else {
             effectData = new PassiveEffectData();
+
             if (data != null) {
                 if (data.newArgs != null) {
                     effectData.methodArgs = data.newArgs
+                }
+                if (data.args != null) {
+                    effectData.methodArgs = data.args
                 }
                 if (data.terminateOriginal != null) {
                     effectData.terminateOriginal = data.terminateOriginal
@@ -87,15 +93,6 @@ export default class DataInterpreter {
 
         let effectData = new ActiveEffectData()
         if (serverEffectData != null) {
-            if (serverEffectData.effectTargetCard != null) {
-                if (serverEffectData.isTargetStackEffect) {
-                    let chosenStackEffect = Stack._currentStack.find(stackEffect => stackEffect.entityId == serverEffectData.effectTargetCard);
-
-                    let stackPreview = StackEffectVisManager.$.getPreviewByStackId(chosenStackEffect.entityId)
-                    effectData.effectTargetCard = new EffectTarget(stackPreview)
-                } else
-                    effectData.effectTargetCard = new EffectTarget(CardManager.getCardById(serverEffectData.effectTargetCard, true))
-            }
             if (serverEffectData.effectTargets.length > 0) {
                 if (serverEffectData.isTargetStackEffect) {
                     effectData.effectTargets = serverEffectData.effectTargets.map((target) => new EffectTarget(Stack._currentStack.find(stackEffect => stackEffect.entityId == target)))
@@ -140,14 +137,7 @@ export default class DataInterpreter {
         }
         let serverEffectData = new ServerEffectData()
         if (effectData instanceof ActiveEffectData) {
-            if (effectData.effectTargetCard != null) {
 
-                if (effectData.effectTargetCard.targetType == TARGETTYPE.STACK_EFFECT) {
-                    serverEffectData.effectTargetCard = effectData.effectTargetCard.effectTargetStackEffectId.entityId
-                    serverEffectData.isTargetStackEffect = true
-                } else
-                    serverEffectData.effectTargetCard = effectData.effectTargetCard.effectTargetCard.getComponent(Card)._cardId;
-            }
             if (effectData.effectTargets.length > 0) {
                 serverEffectData.effectTargets = effectData.effectTargets.map((target) => {
                     if (target.effectTargetCard.getComponent(StackEffectPreview) != null) {
@@ -179,11 +169,15 @@ export default class DataInterpreter {
                 serverEffectData.terminateOriginal = effectData.terminateOriginal
             }
             if (effectData.effectTargets.length > 0) {
+                cc.log(effectData.effectTargets)
                 serverEffectData.effectTargets = effectData.effectTargets.map((target) => {
                     if (target.effectTargetCard.getComponent(StackEffectPreview) != null) {
                         serverEffectData.isTargetStackEffect = true
                         return target.effectTargetCard.getComponent(StackEffectPreview).stackEffect.entityId
-                    } else return target.effectTargetCard.getComponent(Card)._cardId
+                    } else {
+                        cc.log(target)
+                        return target.effectTargetCard.getComponent(Card)._cardId
+                    }
                 })
             }
         }
@@ -266,12 +260,23 @@ export class PassiveEffectData extends EffectData {
         } else return targets.map(target => target.effectTargetStackEffectId);
     }
     getTarget(targetType: TARGETTYPE) {
-
-        for (const target of this.effectTargets) {
-            if (target.targetType == targetType) {
-                return target.effectTargetCard
+        if (targetType == TARGETTYPE.STACK_EFFECT) {
+            for (const target of this.effectTargets) {
+                if (target.targetType == targetType) {
+                    return target.effectTargetStackEffectId
+                }
             }
-        }
+        } else
+            if (targetType == TARGETTYPE.CARD) {
+                return this.effectTargets[this.effectTargets.length - 1].effectTargetCard
+            } else {
+
+                for (const target of this.effectTargets) {
+                    if (target.targetType == targetType) {
+                        return target.effectTargetCard
+                    }
+                }
+            }
         cc.error('no target was found')
         return null
     }
@@ -284,7 +289,6 @@ export class PassiveEffectData extends EffectData {
 }
 
 export class ActiveEffectData extends EffectData {
-    effectTargetCard: EffectTarget;
     effectTargets: EffectTarget[] = [];
     effectOriginPlayer: cc.Node;
     cardEffect: ServerEffect;
@@ -301,31 +305,31 @@ export class ActiveEffectData extends EffectData {
         } else return targets.map(target => target.effectTargetStackEffectId);
     }
     getTarget(targetType: TARGETTYPE) {
-        if (this.effectTargetCard != null && (this.effectTargetCard.targetType == targetType || targetType == TARGETTYPE.CARD)) {
-            if (targetType == TARGETTYPE.STACK_EFFECT) {
-                return this.effectTargetCard.effectTargetStackEffectId
-            } else
-                return this.effectTargetCard.effectTargetCard
-        }
-        for (const target of this.effectTargets) {
-            if (target.targetType == targetType) {
-                return target.effectTargetCard
+        if (targetType == TARGETTYPE.STACK_EFFECT) {
+            for (const target of this.effectTargets) {
+                if (target.targetType == targetType) {
+                    return target.effectTargetStackEffectId
+                }
+            }
+        } else if (targetType == TARGETTYPE.CARD) {
+            return this.effectTargets[this.effectTargets.length - 1].effectTargetCard
+        } else {
+            for (const target of this.effectTargets) {
+                if (target.targetType == targetType) {
+                    return target.effectTargetCard
+                }
             }
         }
         cc.error('no target was found')
         return null
     }
 
-    addTarget(target) {
-        if (this.effectTargets.length == 0 && this.effectTargetCard != null) {
-            this.effectTargets.push(this.effectTargetCard);
-            this.effectTargetCard = null;
-        }
 
+    addTarget(target) {
         let newTarget = new EffectTarget(target);
         this.effectTargets.push(newTarget)
-
     }
+
 }
 
 

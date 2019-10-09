@@ -26,14 +26,15 @@ export default class MonsterDeath implements StackEffectInterface {
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.MONSTER_DEATH;
 
     monsterToDie: Monster;
+    killer: cc.Node
 
-    constructor(creatorCardId: number, monsterToDieCard: cc.Node, entityId?: number) {
+    constructor(creatorCardId: number, monsterToDieCard: cc.Node, killerCard: cc.Node, entityId?: number) {
         if (entityId) {
             this.entityId = entityId
         } else {
             this.entityId = Stack.getNextStackEffectId()
         }
-
+        this.killer = killerCard
         this.creatorCardId = creatorCardId;
         this.monsterToDie = monsterToDieCard.getComponent(Monster)
         this.visualRepesentation = new MonsterDeathVis(this.monsterToDie.name)
@@ -52,6 +53,7 @@ export default class MonsterDeath implements StackEffectInterface {
             BattleManager.currentlyAttackedMonster = null;
             TurnsManager.currentTurn.battlePhase = false;
         }
+        this.monsterToDie._thisTurnKiller = this.killer
         let turnPlayerCard = PlayerManager.getPlayerById(TurnsManager.currentTurn.PlayerId).getComponent(Player).character
         let monsterReward = new MonsterRewardStackEffect(this.creatorCardId, this.monsterToDie.node, turnPlayerCard)
 

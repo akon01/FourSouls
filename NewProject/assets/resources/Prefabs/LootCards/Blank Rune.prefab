@@ -95,8 +95,6 @@
     "_skewY": 0,
     "_is3DNode": false,
     "groupIndex": 0,
-    "_rotationX": 0,
-    "_rotationY": 0,
     "_id": ""
   },
   {
@@ -209,7 +207,7 @@
     "_enabled": true,
     "cost": null,
     "preCondition": null,
-    "condition": null,
+    "conditions": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "dataCollector": [
@@ -218,6 +216,7 @@
       }
     ],
     "_effectCard": null,
+    "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "numOfCoins": 1,
     "multiTarget": true,
@@ -399,7 +398,7 @@
     "_enabled": true,
     "cost": null,
     "preCondition": null,
-    "condition": null,
+    "conditions": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "dataCollector": [
@@ -408,6 +407,7 @@
       }
     ],
     "_effectCard": null,
+    "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "numOfLoot": 2,
     "multiTarget": true,
@@ -573,7 +573,7 @@
   {
     "__type__": "EffectsAndNumbers",
     "numbers": [
-      5
+      3
     ],
     "effect": {
       "__id__": 19
@@ -589,7 +589,7 @@
     "_enabled": true,
     "cost": null,
     "preCondition": null,
-    "condition": null,
+    "conditions": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "dataCollector": [
@@ -598,6 +598,7 @@
       }
     ],
     "_effectCard": null,
+    "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "damageToDeal": 3,
     "multipleTargets": true,
@@ -763,7 +764,7 @@
   {
     "__type__": "EffectsAndNumbers",
     "numbers": [
-      0
+      4
     ],
     "effect": {
       "__id__": 26
@@ -779,7 +780,7 @@
     "_enabled": true,
     "cost": null,
     "preCondition": null,
-    "condition": null,
+    "conditions": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "dataCollector": [
@@ -788,6 +789,7 @@
       }
     ],
     "_effectCard": null,
+    "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "numOfCoins": 4,
     "multiTarget": true,
@@ -953,7 +955,7 @@
   {
     "__type__": "EffectsAndNumbers",
     "numbers": [
-      0
+      5
     ],
     "effect": {
       "__id__": 33
@@ -969,7 +971,7 @@
     "_enabled": true,
     "cost": null,
     "preCondition": null,
-    "condition": null,
+    "conditions": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "dataCollector": [
@@ -978,6 +980,7 @@
       }
     ],
     "_effectCard": null,
+    "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "numOfLoot": 5,
     "multiTarget": true,
@@ -1143,7 +1146,7 @@
   {
     "__type__": "EffectsAndNumbers",
     "numbers": [
-      0
+      6
     ],
     "effect": {
       "__id__": 40
@@ -1159,7 +1162,7 @@
     "_enabled": true,
     "cost": null,
     "preCondition": null,
-    "condition": null,
+    "conditions": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "dataCollector": [
@@ -1168,6 +1171,7 @@
       }
     ],
     "_effectCard": null,
+    "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "numOfCoins": 6,
     "multiTarget": true,
@@ -1440,13 +1444,13 @@
     "passiveEffects": [],
     "toAddPassiveEffects": [],
     "paidEffects": [],
+    "test123": [],
+    "hasMultipleEffects": true,
     "multiEffectCollector": {
       "__id__": 3
     },
-    "hasRollLock": false,
     "effectData": null,
     "data": {},
-    "hasMultipleEffects": true,
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""

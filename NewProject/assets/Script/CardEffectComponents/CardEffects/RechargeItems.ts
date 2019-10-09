@@ -7,7 +7,7 @@ import CardManager from "../../Managers/CardManager";
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "../../Constants";
 import ChooseCard from "../DataCollector/ChooseCard";
 import { Turn } from "../../Modules/TurnsModule";
-import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 
 const { ccclass, property } = cc._decorator;
@@ -23,7 +23,7 @@ export default class RechargeItems extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData) {
+  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
     //let targetItemsId: number[] = data.targets;
     let cardPlayer: Player;
     let itemsToRecharge = data.getTargets(TARGETTYPE.ITEM)
@@ -40,6 +40,8 @@ export default class RechargeItems extends Effect {
         }
       }
     }
+
+    if (data instanceof PassiveEffectData) return data
     return stack
   }
 }

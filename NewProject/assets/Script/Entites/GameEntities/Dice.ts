@@ -35,6 +35,8 @@ export default class Dice extends cc.Component {
   @property
   player: Player = null;
 
+
+
   //@printMethodStarted(COLORS.RED)
   async rollDice(rollType: ROLL_TYPE) {
     let player = this.player
@@ -127,20 +129,6 @@ export default class Dice extends cc.Component {
       }
     }
     check()
-    // this.schedule(
-    //   () => {
-    //     if (rolledTimes == timesToRoll) {
-    //       
-    //       this.rollOver = true;
-    //     } else {
-    //       this.diceChange();
-    //       rolledTimes++;
-    //     }
-    //   },
-    //   TIMEFORDICEROLL,
-    //   timesToRoll
-    // );
-
   }
 
   disableRoll() {
@@ -148,7 +136,15 @@ export default class Dice extends cc.Component {
   }
 
   async setRoll(diceNum: number) {
+    //ONly for admin console//
+    if (this.player.setDiceAdmin > 0 && this.player.setDiceAdmin < 7) {
+      this.currentRolledNumber = this.player.setDiceAdmin
+      return this.currentRolledNumber
+    }
+    //ONly for admin console//
     this.lastRolledNumber = this.currentRolledNumber;
+    if (diceNum > 6) diceNum = 6
+    if (diceNum < 1) diceNum = 1
     this.currentRolledNumber = diceNum;
     return new Promise<number>((resolve) => {
       resolve(this.currentRolledNumber);

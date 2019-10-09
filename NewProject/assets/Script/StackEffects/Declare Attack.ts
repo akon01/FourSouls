@@ -1,10 +1,19 @@
-import { STACK_EFFECT_TYPE } from "../Constants";
+import { STACK_EFFECT_TYPE, PASSIVE_EVENTS, CHOOSE_CARD_TYPE } from "../Constants";
 import Player from "../Entites/GameEntities/Player";
 import Stack from "../Entites/Stack";
 import TurnsManager from "../Managers/TurnsManager";
 import ServerDeclareAttack from "./ServerSideStackEffects/Server Declare Attack";
 import StackEffectInterface from "./StackEffectInterface";
 import { DeclareAttackVis } from "./StackEffectVisualRepresentation/Declare Attack Vis";
+import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
+import CardManager from "../Managers/CardManager";
+import Deck from "../Entites/GameEntities/Deck";
+import ChooseCard from "../CardEffectComponents/DataCollector/ChooseCard";
+import CardPreviewManager from "../Managers/CardPreviewManager";
+import Monster from "../Entites/CardTypes/Monster";
+import MonsterField from "../Entites/MonsterField";
+import BattleManager from "../Managers/BattleManager";
+import MonsterCardHolder from "../Entites/MonsterCardHolder";
 
 
 export default class DeclareAttack implements StackEffectInterface {
@@ -49,7 +58,53 @@ export default class DeclareAttack implements StackEffectInterface {
     async resolve() {
         cc.log('resolve declare attack')
 
+        let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_DECLARE_ATTACK, [], null, this.attackingPlayer.node)
+        let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+        passiveMeta.args = afterPassiveMeta.args;
+
+        cc.error(`reducing current turn attack plays by 1`)
+        cc.log(`current player attack plays : ${TurnsManager.currentTurn.getTurnPlayer().attackPlays}`)
+        cc.log(`${TurnsManager.currentTurn.attackPlays}`)
         TurnsManager.currentTurn.attackPlays -= 1;
+        cc.log(`current player attack plays : ${TurnsManager.currentTurn.getTurnPlayer().attackPlays}`)
+        cc.log(`${TurnsManager.currentTurn.attackPlays}`)
+
+        let monsterField = cc
+            .find("Canvas/MonsterField")
+            .getComponent(MonsterField);
+        let monsterId;
+        let monsterDeck = CardManager.monsterDeck.getComponent(Deck);
+        let monsterCardHolder: MonsterCardHolder;
+        let attackedMonster;
+        let newMonster = this.cardBeingAttacked;
+        if (this.cardBeingAttacked == monsterDeck.topBlankCard) {
+            cc.log(`chosen card is top deck ${this.cardBeingAttacked.name}`)
+            let chooseCard = new ChooseCard();
+            newMonster = monsterDeck.drawCard(true);
+            CardPreviewManager.getPreviews(Array.of(newMonster), true)
+            CardPreviewManager.showToOtherPlayers(newMonster);
+            chooseCard.chooseType = CHOOSE_CARD_TYPE.MONSTER_PLACES
+            let monsterInSpotChosen = await chooseCard.collectData({ cardPlayerId: this.attackingPlayer.playerId })
+            let activeMonsterSelected = monsterInSpotChosen.effectTargetCard.getComponent(Monster)
+            cc.log(activeMonsterSelected.name)
+            monsterCardHolder = MonsterField.getMonsterPlaceById(
+                activeMonsterSelected.monsterPlace.id
+            );
+            await MonsterField.addMonsterToExsistingPlace(monsterCardHolder.id, newMonster, true)
+            this.cardBeingAttacked = newMonster;
+        }
+        //if the drawn card is a non-monster play its effect
+        if (this.cardBeingAttacked.getComponent(Monster).isNonMonster) {
+            //  await this.attackingPlayer.activateCard(this.cardBeingAttacked, true)
+            //if the drawn card is a monster, declare attack
+        } else {
+            await BattleManager.declareAttackOnMonster(this.cardBeingAttacked);
+        }
+
+
+        passiveMeta.result = null
+        //do passive effects after!
+        let thisResult = await PassiveManager.testForPassiveAfter(passiveMeta)
     }
 
     convertToServerStackEffect() {

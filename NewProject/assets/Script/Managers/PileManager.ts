@@ -29,11 +29,7 @@ export default class PileManager extends cc.Component {
   static lootPlaceTest: cc.Node = null;
 
   static init() {
-    for (let i = 0; i < PlayerManager.players.length; i++) {
-      const playerComp = PlayerManager.players[i].getComponent(Player);
-      playerComp.landingZones.push(PileManager.lootCardPileNode);
 
-    }
     PileManager.lootPlaceTest.getComponent(Card)._cardId = ++CardManager.cardsId
     PileManager.lootCardPileNode.getComponent(Card)._cardId = ++CardManager.cardsId
     PileManager.treasureCardPileNode.getComponent(Card)._cardId = ++CardManager.cardsId

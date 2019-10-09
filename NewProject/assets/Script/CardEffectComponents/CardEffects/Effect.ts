@@ -1,15 +1,12 @@
-import { ServerEffect } from "./../../Entites/ServerCardEffect";
-
-import EffectInterface from "./EffectInterface";
-import DataCollector from "../DataCollector/DataCollector";
 import { CHOOSE_CARD_TYPE, PASSIVE_TYPE } from "../../Constants";
-import Condition from "../CardConditions/Condition";
-import PreCondition from "../PreConditions/PreCondition";
-import Cost from "../Costs/Cost";
-import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
-import ChooseCard from "../DataCollector/ChooseCard";
-import SelectLootToPlay from "../DataCollector/ChooseCardToPlay";
+import Condition from "../CardConditions/Condition";
+import Cost from "../Costs/Cost";
+import DataCollector from "../DataCollector/DataCollector";
+import PreCondition from "../PreConditions/PreCondition";
+import EffectInterface from "./EffectInterface";
+
 
 
 const { ccclass, property } = cc._decorator;
@@ -18,7 +15,7 @@ const { ccclass, property } = cc._decorator;
 export default class Effect extends cc.Component implements EffectInterface {
 
 
-  effectData: ActiveEffectData = null;
+  effectData: ActiveEffectData | PassiveEffectData = null;
 
   @property(Cost)
   cost: Cost = null;
@@ -27,8 +24,9 @@ export default class Effect extends cc.Component implements EffectInterface {
   preCondition: PreCondition = null;
 
   hasSubAction: boolean = false;
-  @property(Condition)
-  condition: Condition = null;
+
+  @property({ type: [Condition] })
+  conditions: Condition[] = [];
 
   @property({ type: cc.Enum(PASSIVE_TYPE) })
   passiveType: PASSIVE_TYPE = 1;
@@ -45,6 +43,9 @@ export default class Effect extends cc.Component implements EffectInterface {
 
   @property
   _effectCard: cc.Node = null;
+
+  @property
+  optional: boolean = false;
 
   @property
   hasPlayerChoiceToActivateInChainEffects: boolean = false;

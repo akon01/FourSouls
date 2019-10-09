@@ -1,10 +1,9 @@
 import Effect from "../CardEffectComponents/CardEffects/Effect";
 import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
-import { ServerEffect } from "../Entites/ServerCardEffect";
-import PlayerManager from "../Managers/PlayerManager";
+import Deck from "../Entites/GameEntities/Deck";
 import Player from "../Entites/GameEntities/Player";
 import CardManager from "../Managers/CardManager";
-import Deck from "../Entites/GameEntities/Deck";
+import PlayerManager from "../Managers/PlayerManager";
 import StackEffectInterface from "../StackEffects/StackEffectInterface";
 
 const { ccclass, property } = cc._decorator;

@@ -5,7 +5,7 @@ import { ServerEffect } from "./../../Entites/ServerCardEffect";
 import Effect from "./Effect";
 import Player from "../../Entites/GameEntities/Player";
 import { override } from "kaop";
-import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 
 const { ccclass, property } = cc._decorator;
@@ -26,7 +26,7 @@ export default class StealMoney extends Effect {
 
   async doEffect(
     stack: StackEffectInterface[],
-    data?: ActiveEffectData
+    data?: ActiveEffectData | PassiveEffectData
   ) {
     let stealer = data.effectCardPlayer.getComponent(Player)
     let playerCard = data.getTarget(TARGETTYPE.PLAYER)
@@ -45,6 +45,7 @@ export default class StealMoney extends Effect {
       }
     }
 
+    if (data instanceof PassiveEffectData) return data
     return stack;
   }
 }

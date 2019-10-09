@@ -3,7 +3,7 @@ import DataCollector from "../DataCollector/DataCollector";
 import Condition from "../CardConditions/Condition";
 import PreCondition from "../PreConditions/PreCondition";
 import Cost from "../Costs/Cost";
-import { ActiveEffectData } from "../../Managers/DataInterpreter";
+import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,13 +16,13 @@ export default interface EffectInterface {
 
   cost: Cost;
 
-  condition: Condition;
+  conditions: Condition[];
 
   preCondition: PreCondition;
 
   hasSubAction: boolean;
 
-  effectData: ActiveEffectData;
+  effectData: ActiveEffectData | PassiveEffectData;
 
   reverseEffect();
 

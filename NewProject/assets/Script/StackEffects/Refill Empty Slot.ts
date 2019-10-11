@@ -71,4 +71,13 @@ export default class RefillEmptySlot implements StackEffectInterface {
         return serverRefillEmptySlot
     }
 
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Refill Slot\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.slotToFill) endString = endString + `Slot To Fill:${this.slotToFill.name}\n`
+        if (this.slotType) endString = endString + `Slot Type:${this.slotType}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
+    }
+
 }

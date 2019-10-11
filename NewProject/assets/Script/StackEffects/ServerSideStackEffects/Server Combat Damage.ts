@@ -59,4 +59,14 @@ export default class ServerCombatDamage implements ServerStackEffectInterface {
         return combatDamage;
     }
 
+
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Combat Damage\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.entityToDoDamageCardId) endString = endString + `Attacking Card:${CardManager.getCardById(this.entityToDoDamageCardId).name}\n`
+        if (this.entityToTakeDamageCardId) endString = endString + `Taking Damage Card:${CardManager.getCardById(this.entityToTakeDamageCardId).name}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
+    }
+
 }

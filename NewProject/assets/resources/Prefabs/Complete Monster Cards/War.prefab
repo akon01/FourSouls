@@ -222,7 +222,9 @@
     "_enabled": true,
     "dataCollector": null,
     "isSpecificToEntityTakesDamage": true,
-    "entityWhoTookDamage": null,
+    "entityWhoTookDamage": {
+      "__id__": 1
+    },
     "_id": ""
   },
   {
@@ -342,6 +344,7 @@
     "_effectCard": null,
     "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
+    "multiTarget": false,
     "gainHp": false,
     "hpToGain": 0,
     "hpTemp": false,

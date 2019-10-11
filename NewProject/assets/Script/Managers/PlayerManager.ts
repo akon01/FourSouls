@@ -7,10 +7,11 @@ import Dice from "../Entites/GameEntities/Dice";
 import Player from "../Entites/GameEntities/Player";
 import PlayerDesk from "../Entites/PlayerDesk";
 import MoneyLable from "../LableScripts/MoneyLable";
-import { CARD_HEIGHT, CARD_WIDTH, ITEM_TYPE, BUTTON_STATE } from "./../Constants";
+import { CARD_HEIGHT, CARD_WIDTH, ITEM_TYPE, BUTTON_STATE, GAME_EVENTS } from "./../Constants";
 import CardManager from "./CardManager";
 import Character from "../Entites/CardTypes/Character";
 import ButtonManager from "./ButtonManager";
+import Deck from "../Entites/GameEntities/Deck";
 
 
 const { ccclass, property } = cc._decorator;
@@ -200,16 +201,21 @@ export default class PlayerManager extends cc.Component {
     //
     for (let i = 0; i < PlayerManager.players.length; i++) {
       const playerComp: Player = PlayerManager.players[i].getComponent(Player);
-      const fullCharCard: {
+      let fullCharCard: {
         char: cc.Node;
         item: cc.Node;
       } = CardManager.characterDeck.pop();
+      ///////
+      if (i == 0) fullCharCard = CardManager.characterDeck.find(char => char.char.getComponent(Card).cardName == 'Eden')
+      /////////
       let charCard = fullCharCard.char;
-      let itemCard;
+      let itemCard: cc.Node;
       //Special Case : Eden
       if (charCard.getComponent(Card).cardName == 'Eden') {
         ServerClient.$.send(Signal.CHOOSE_FOR_EDEN, { playerId: playerComp.playerId, originPlayerId: this.mePlayer.getComponent(Player).playerId })
         itemCard = await this.waitForEdenChoose()
+        CardManager.treasureDeck.getComponent(Deck).drawSpecificCard(itemCard, true)
+        itemCard.getComponent(Item).eternal = true
       } else {
 
         itemCard = fullCharCard.item;
@@ -235,16 +241,21 @@ export default class PlayerManager extends cc.Component {
   }
 
 
-  static async waitForEdenChoose() {
+  static async waitForEdenChoose(): Promise<cc.Node> {
     return new Promise((resolve, reject) => {
-      let check = () => {
-        if (PlayerManager.edenChosen == true) {
-          resolve(PlayerManager.edenChosenCard);
-        } else setTimeout(check, 50);
-      };
-      check.bind(this);
-      setTimeout(check, 50);
-    });
+      whevent.onOnce(GAME_EVENTS.EDEN_WAS_CHOSEN, () => {
+        resolve(PlayerManager.edenChosenCard)
+      })
+    })
+    // return new Promise((resolve, reject) => {
+    //   let check = () => {
+    //     if (PlayerManager.edenChosen == true) {
+    //       resolve(PlayerManager.edenChosenCard);
+    //     } else setTimeout(check, 50);
+    //   };
+    //   check.bind(this);
+    //   setTimeout(check, 50);
+    // });
   }
 
   static getItemByCharCard(item, i, items) {

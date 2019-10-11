@@ -80,4 +80,12 @@ export default class RollDiceStackEffect implements StackEffectInterface {
         return serverDiceRoll
     }
 
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Roll Dice\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.numberRolled) endString = endString + `Number Rolled:${this.numberRolled}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
+    }
+
 }

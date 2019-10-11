@@ -36,4 +36,14 @@ export default class ServerStartTurnLoot implements ServerStackEffectInterface {
     }
 
 
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Start Turn Loot\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.turnPlayerCardId) endString = endString + `Turn Player: ${CardManager.getCardById(this.turnPlayerCardId).name}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
+    }
+
+
+
 }

@@ -68,4 +68,17 @@ export default class ServerActivatePassive implements ServerStackEffectInterface
         return activatePassiveEffect
     }
 
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Activate Passive Effect\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.effectToDo) endString = endString + `Effect:${this.effectToDo.effectName}\n`
+        if (this.cardActivatorId) endString = endString + `Effect Played By:${CardManager.getCardById(this.cardActivatorId).name}\n`
+        if (this.cardWithEffectId) endString = endString + `Card With Effect:${CardManager.getCardById(this.cardWithEffectId).name}\n`
+        if (this.index) endString = endString + endString + `Index:${this.index}\n`
+        if (this.isAfterActivation) endString = endString + endString + `Is An After Passive Effect:${this.isAfterActivation}\n`
+        if (this.effectPassiveMeta) endString = endString + endString + `Effect Passive Meta:${this.effectPassiveMeta}\n`
+        return endString
+    }
+
+
 }

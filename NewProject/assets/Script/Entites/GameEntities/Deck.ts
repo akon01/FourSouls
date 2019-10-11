@@ -70,6 +70,26 @@ export default class Deck extends cc.Component {
     } else {
       return null;
     }
+  }
+
+  drawSpecificCard(cardToDraw: cc.Node, sendToServer: boolean): cc.Node {
+    if (this._cards.length != 0) {
+      let newCard = this._cards.splice(this._cards.indexOf(cardToDraw));
+      cc.log(`${newCard[0].name} was drawn from its deck`)
+
+      if (!newCard[0].getComponent(Card)._isFlipped) newCard[0].getComponent(Card).flipCard(false)
+      if (newCard[0].parent == null) {
+        newCard[0].parent = cc.find('Canvas')
+        newCard[0].setPosition(this.node.getPosition())
+      }
+      CardManager.removeFromInAllDecksCards(newCard[0]);
+      if (sendToServer) {
+        ServerClient.$.send(Signal.DECK_ARRAGMENT, { deckType: this.deckType, arrangement: this._cards.map(card => card.getComponent(Card)._cardId) })
+      }
+      return newCard[0];
+    } else {
+      return null;
+    }
 
   }
 

@@ -9,6 +9,7 @@ import ServerAttackRoll from "./ServerSideStackEffects/Server Attack Roll";
 import StackEffectInterface from "./StackEffectInterface";
 import { AttackRollVis } from "./StackEffectVisualRepresentation/Attack Roll Vis";
 import ActionLable from "../LableScripts/Action Lable";
+import CardManager from "../Managers/CardManager";
 
 
 export default class AttackRoll implements StackEffectInterface {
@@ -102,6 +103,16 @@ export default class AttackRoll implements StackEffectInterface {
     convertToServerStackEffect() {
         let serverDiceRoll = new ServerAttackRoll(this)
         return serverDiceRoll
+    }
+
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Attack Roll\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.attackedMonster) endString = endString + `Attacked Monster:${this.attackedMonster.name}\n`
+        if (this.numberRolled) endString = endString + `Number Rolled:${this.numberRolled}\n`
+        if (this.rollingPlayer) endString = endString + `Rolling Player:${this.rollingPlayer.name}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
     }
 
 }

@@ -56,4 +56,14 @@ export default class ServerActivateItem implements ServerStackEffectInterface {
         return activateItem
     }
 
+    toString() {
+        let itemToActivate = CardManager.getCardById(this.itemToPlayCardId, true)
+        let endString = `id:${this.entityId}\ntype: Activate Item\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.effectToDoData) endString = endString + `Effect To Do:${itemToActivate.getComponent(CardEffect).getEffectByNumAndType(this.effectToDoData.index, this.effectToDoData.type).name}\n`
+        if (this.itemPlayerId) endString = endString + `Player:${PlayerManager.getPlayerById(this.itemPlayerId).name}\n`
+        if (this.itemToPlayCardId) endString = endString + `Item:${CardManager.getCardById(this.itemToPlayCardId).name}\n`
+        return endString
+    }
+
 }

@@ -326,6 +326,7 @@ export default class Player extends cc.Component {
   }
 
 
+
   async giveYesNoChoice() {
 
 

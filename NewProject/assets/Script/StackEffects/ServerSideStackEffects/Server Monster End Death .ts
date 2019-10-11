@@ -1,15 +1,7 @@
-import StackEffectInterface from "../StackEffectInterface";
-import Stack from "../../Entites/Stack";
-import CardManager from "../../Managers/CardManager";
-import PlayerManager from "../../Managers/PlayerManager";
-import { ROLL_TYPE } from "../../Constants";
-import ServerStackEffectInterface from "./ServerStackEffectInterface";
-import RollDiceStackEffect from "../Roll DIce";
-import AttackRoll from "../Attack Roll";
 import Card from "../../Entites/GameEntities/Card";
-import Player from "../../Entites/GameEntities/Player";
-import MonsterDeath from "../Monster Death";
+import CardManager from "../../Managers/CardManager";
 import MonsterEndDeath from "../Monster End Death";
+import ServerStackEffectInterface from "./ServerStackEffectInterface";
 
 
 export default class ServerMonsterEndDeath implements ServerStackEffectInterface {
@@ -39,6 +31,14 @@ export default class ServerMonsterEndDeath implements ServerStackEffectInterface
     convertToStackEffect() {
         let monsterEndDeath = new MonsterEndDeath(this.creatorCardId, CardManager.getCardById(this.monsterWhoDiedCardId))
         return monsterEndDeath;
+    }
+
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Monster End Death\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.monsterWhoDiedCardId) endString = endString + `Monster Who Died:${CardManager.getCardById(this.monsterWhoDiedCardId).name}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
     }
 
 }

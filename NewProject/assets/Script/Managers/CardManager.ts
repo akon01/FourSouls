@@ -447,21 +447,28 @@ export default class CardManager extends cc.Component {
 
     for (let j = 0; j < CardManager.charCardsPrefabs.length; j++) {
       characterNode = cc.instantiate(CardManager.charCardsPrefabs[j]);
-      characterItemNode = cc.instantiate(
-        characterNode.getComponent(Character).charItemPrefab
-      );
+      if (characterNode.getComponent(Character).charItemPrefab) {
+        characterItemNode = cc.instantiate(
+          characterNode.getComponent(Character).charItemPrefab
+        );
+      }
       characterNode.getComponent(Card)._cardId = ++CardManager.cardsId;
       characterNode.getComponent(Card).frontSprite = characterNode.getComponent(cc.Sprite).spriteFrame;
-      characterItemNode.getComponent(Card)._cardId = ++CardManager.cardsId;
-      characterItemNode.getComponent(Card).frontSprite = characterItemNode.getComponent(cc.Sprite).spriteFrame;
+      if (characterItemNode) {
+        characterItemNode.getComponent(Card)._cardId = ++CardManager.cardsId;
+        characterItemNode.getComponent(Card).frontSprite = characterItemNode.getComponent(cc.Sprite).spriteFrame;
+        characterItemNode.parent = cc.director.getScene();
+      }
       let fullCharCards: { char: cc.Node; item: cc.Node } = {
         char: characterNode,
         item: characterItemNode
       };
       characterNode.parent = cc.director.getScene();
-      characterItemNode.parent = cc.director.getScene();
       CardManager.characterDeck.push(fullCharCards);
-      CardManager.allCards.push(fullCharCards.char, fullCharCards.item);
+      CardManager.allCards.push(fullCharCards.char)
+      if (fullCharCards.item) {
+        CardManager.allCards.push(fullCharCards.item)
+      }
       //CardManager.characterItemDeck.put(characterItemNode)
     }
   }

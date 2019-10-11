@@ -1,12 +1,8 @@
-import StackEffectInterface from "../StackEffectInterface";
-import Stack from "../../Entites/Stack";
+import Card from "../../Entites/GameEntities/Card";
+import Player from "../../Entites/GameEntities/Player";
 import CardManager from "../../Managers/CardManager";
 import PlayerManager from "../../Managers/PlayerManager";
-import { ROLL_TYPE } from "../../Constants";
-import ServerRollDiceStackEffect from "./Server Roll DIce";
-import Player from "../../Entites/GameEntities/Player";
 import PurchaseItem from "../Purchase Item";
-import Card from "../../Entites/GameEntities/Card";
 import ServerStackEffectInterface from "./ServerStackEffectInterface";
 
 
@@ -40,6 +36,16 @@ export default class ServerPurchaseItem implements ServerStackEffectInterface {
     convertToStackEffect() {
         let purchaseItem = new PurchaseItem(this.creatorCardId, CardManager.getCardById(this.itemToPurchaseCardId, true), PlayerManager.getPlayerByCardId(this.playerWhoBuysCardId).getComponent(Player).character.getComponent(Card)._cardId)
         return purchaseItem;
+    }
+
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Purchase Item\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.cost) endString = endString + `Cost Of Item:${this.cost}\n`
+        if (this.itemToPurchaseCardId) endString = endString + `Item To Buy:${CardManager.getCardById(this.itemToPurchaseCardId).name}\n`
+        if (this.playerWhoBuysCardId) endString = endString + `Player Who Buys:${CardManager.getCardById(this.playerWhoBuysCardId).name}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
     }
 
 

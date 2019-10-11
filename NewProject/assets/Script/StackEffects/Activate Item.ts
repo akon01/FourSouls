@@ -19,6 +19,7 @@ import MonsterField from "../Entites/MonsterField";
 import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
 import MultiEffectChooseThenRoll from "../CardEffectComponents/MultiEffectChooser/MultiEffectChooseThenRoll";
 import MultiEffectDestroyThisThenRoll from "../CardEffectComponents/MultiEffectChooser/MultiEffectDestroyThisThenRoll";
+import CardManager from "../Managers/CardManager";
 
 export default class ActivateItem implements StackEffectInterface {
     visualRepesentation: ActivateItemVis;
@@ -173,6 +174,15 @@ export default class ActivateItem implements StackEffectInterface {
     convertToServerStackEffect() {
         let serverPlayLoot = new ServerActivateItem(this);
         return serverPlayLoot;
+    }
+
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Activate Item\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.effectToDo) endString = endString + `Effect:${this.effectToDo.name}\n`
+        if (this.itemPlayer) endString = endString + `Player:${this.itemPlayer.name}\n`
+        if (this.itemToActivate) endString = endString + `Item:${this.itemToActivate.name}\n`
+        return endString
     }
 
 }

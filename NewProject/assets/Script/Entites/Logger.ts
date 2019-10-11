@@ -4,6 +4,7 @@ import CardManager from "../Managers/CardManager";
 import PlayerManager from "../Managers/PlayerManager";
 import MonsterField from "./MonsterField";
 import AdminConsole from "../LableScripts/Admin Console";
+import ServerStackEffectConverter from "../StackEffects/ServerSideStackEffects/ServerStackEffectConverter";
 
 export class Logger {
 
@@ -114,12 +115,17 @@ export class Logger {
                         break;
                     case 'stackEffect':
                         name = 'Stack Effect'
-                        data.push(JSON.stringify(t))
+                        cc.log(t)
+                        let convertor = new ServerStackEffectConverter();
+                        let stackEffect = convertor.convertToStackEffect(t)
+                        if (stackEffect) {
+                            data.push(stackEffect.toString())
+                        } else data.push(t.toString())
                         break
                     case 'currentStack':
                     case 'newStack':
                         name = 'Stack'
-                        data.push(t.map(item => JSON.stringify(item)))
+                        data.push(t.map(item => item.toString()))
                         // data.push(t.map(item => typeof item))
                         break;
                     case 'stackVis':
@@ -133,6 +139,10 @@ export class Logger {
                     case 'firstPos':
                         name = 'First Position';
                         data.push(JSON.stringify(t))
+                        break;
+                    case 'massage':
+                        name = 'Massage';
+                        data.push(t)
                         break;
                     default:
                         name = dataEntry[0]

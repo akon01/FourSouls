@@ -35,4 +35,13 @@ export default class ServerPlayerDeath implements ServerStackEffectInterface {
         return playerDeath;
     }
 
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Player Death\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.playerToDieCardId) endString = endString + `Player To DIe:${CardManager.getCardById(this.playerToDieCardId).name}\n`
+        if (this.killerId) endString = endString + `Killer:${CardManager.getCardById(this.killerId).name}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
+    }
+
 }

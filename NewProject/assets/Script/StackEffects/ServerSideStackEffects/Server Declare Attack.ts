@@ -1,20 +1,9 @@
-import StackEffectInterface from "../StackEffectInterface";
-import Stack from "../../Entites/Stack";
+import Card from "../../Entites/GameEntities/Card";
+import Player from "../../Entites/GameEntities/Player";
 import CardManager from "../../Managers/CardManager";
 import PlayerManager from "../../Managers/PlayerManager";
-import { ROLL_TYPE, CARD_TYPE } from "../../Constants";
-import ServerRollDiceStackEffect from "./Server Roll DIce";
-import Player from "../../Entites/GameEntities/Player";
-import ServerPurchaseItem from "./Server Purchase Item";
-import TurnsManager from "../../Managers/TurnsManager";
-import Deck from "../../Entites/GameEntities/Deck";
-import Store from "../../Entites/GameEntities/Store";
-import MonsterField from "../../Entites/MonsterField";
-import MonsterCardHolder from "../../Entites/MonsterCardHolder";
-import ServerRefillEmptySlot from "./Server Reffill Empty Slot";
-import ServerStackEffectInterface from "./ServerStackEffectInterface";
 import DeclareAttack from "../Declare Attack";
-import Card from "../../Entites/GameEntities/Card";
+import ServerStackEffectInterface from "./ServerStackEffectInterface";
 
 
 export default class ServerDeclareAttack implements ServerStackEffectInterface {
@@ -47,6 +36,15 @@ export default class ServerDeclareAttack implements ServerStackEffectInterface {
     convertToStackEffect() {
         let declareAttack = new DeclareAttack(this.creatorCardId, PlayerManager.getPlayerByCardId(this.attackingPlayerCardId).getComponent(Player), CardManager.getCardById(this.idOfCardBeingAttacked))
         return declareAttack;
+    }
+
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Declare Attack\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.attackingPlayerCardId) endString = endString + `Attacking Player:${CardManager.getCardById(this.attackingPlayerCardId).name}\n`
+        if (this.idOfCardBeingAttacked) endString = endString + `Monster Being Attacked:${CardManager.getCardById(this.idOfCardBeingAttacked).name}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
     }
 
 

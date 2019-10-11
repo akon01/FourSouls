@@ -1,17 +1,17 @@
 import MonsterReward from "../CardEffectComponents/MonsterRewards/MonsterReward";
-import { STACK_EFFECT_TYPE, CARD_TYPE, PASSIVE_EVENTS } from "../Constants";
+import { PASSIVE_EVENTS, STACK_EFFECT_TYPE } from "../Constants";
 import Monster from "../Entites/CardTypes/Monster";
+import Card from "../Entites/GameEntities/Card";
 import Player from "../Entites/GameEntities/Player";
 import Stack from "../Entites/Stack";
+import CardManager from "../Managers/CardManager";
+import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
 import PlayerManager from "../Managers/PlayerManager";
 import TurnsManager from "../Managers/TurnsManager";
 import RollDiceStackEffect from "./Roll DIce";
 import ServerMonsterReward from "./ServerSideStackEffects/Server Monster Reward";
 import StackEffectInterface from "./StackEffectInterface";
 import { MonsterRewardVis } from "./StackEffectVisualRepresentation/Monster Reward Vis";
-import Card from "../Entites/GameEntities/Card";
-import PileManager from "../Managers/PileManager";
-import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
 
 
 export default class MonsterRewardStackEffect implements StackEffectInterface {
@@ -55,12 +55,8 @@ export default class MonsterRewardStackEffect implements StackEffectInterface {
 
     async putOnStack() {
         cc.log(`put monster reward on the stack`)
-
-
         let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.MONSTER_IS_KILLED, [], null, this.monsterWithReward.node)
         let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
-
-
 
         let turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
         turnPlayer.givePriority(true)
@@ -89,6 +85,16 @@ export default class MonsterRewardStackEffect implements StackEffectInterface {
     convertToServerStackEffect() {
         let serverMonsterReward = new ServerMonsterReward(this)
         return serverMonsterReward
+    }
+
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Monster Reward\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.monsterWithReward) endString = endString + `Monster With Reward:${this.monsterWithReward.name}\n`
+        if (this.monsterReward) endString = endString + `Reward:${this.monsterReward.name}\n`
+        if (this.playerToReward) endString = endString + `Player To Reward:${this.playerToReward.name}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
     }
 
 }

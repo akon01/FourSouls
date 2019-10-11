@@ -43,8 +43,6 @@ export default class ServerPlayLootCard implements ServerStackEffectInterface {
                 this.lootToPlayCardId,
                 effectData.type
             )
-            // stackEffect.effectToDo.effectData.effectCardPlayer.getComponent(Card)._cardId,
-            // stackEffect.effectToDo.effectData.effectCard.getComponent(Card)._cardId,
             this.effectToDo = serverEffect;
         }
 
@@ -63,6 +61,16 @@ export default class ServerPlayLootCard implements ServerStackEffectInterface {
         }
         playLoot.hasLockingStackEffectResolved = this.hasLockingStackEffectResolved
         return playLoot
+    }
+
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Play Loot Card\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.effectToDo) endString = endString + `Effect:${this.effectToDo.effectName}\n`
+        if (this.lootPlayerId) endString = endString + `Player:${CardManager.getCardById(this.lootPlayerId).name}\n`
+        if (this.lootToPlayCardId) endString = endString + `Loot To Play:${CardManager.getCardById(this.lootToPlayCardId).name}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
     }
 
 }

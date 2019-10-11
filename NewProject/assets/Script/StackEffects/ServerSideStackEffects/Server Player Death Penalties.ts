@@ -33,4 +33,13 @@ export default class ServerPlayerDeathPenalties implements ServerStackEffectInte
         return playerDeathPenalties;
     }
 
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Player Death Penalties\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.playerToPayCardId) endString = endString + `Player To Pay:${CardManager.getCardById(this.playerToPayCardId).name}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
+    }
+
+
 }

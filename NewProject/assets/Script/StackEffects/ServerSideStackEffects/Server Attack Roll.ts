@@ -39,4 +39,14 @@ export default class ServerAttackRoll implements ServerStackEffectInterface {
         return rollDice;
     }
 
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Attack Roll\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.attackedMonsterCardId) endString = endString + `Attacked Monster:${CardManager.getCardById(this.attackedMonsterCardId).name}\n`
+        if (this.numberRolled) endString = endString + `Number Rolled:${this.numberRolled}\n`
+        if (this.rollingPlayerCardId) endString = endString + `Rolling Player:${CardManager.getCardById(this.rollingPlayerCardId).name}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
+    }
+
 }

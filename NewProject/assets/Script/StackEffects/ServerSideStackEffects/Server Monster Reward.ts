@@ -1,22 +1,7 @@
-import StackEffectInterface from "../StackEffectInterface";
-import Stack from "../../Entites/Stack";
 import Card from "../../Entites/GameEntities/Card";
 import CardManager from "../../Managers/CardManager";
-import PileManager from "../../Managers/PileManager";
-import CardEffect from "../../Entites/CardEffect";
-import MultiEffectChoose from "../../CardEffectComponents/MultiEffectChooser/MultiEffectChoose";
-import Player from "../../Entites/GameEntities/Player";
-import Effect from "../../CardEffectComponents/CardEffects/Effect";
-import MultiEffectRoll from "../../CardEffectComponents/MultiEffectChooser/MultiEffectRoll";
-import RollDiceStackEffect from "../Roll DIce";
-import { ROLL_TYPE } from "../../Constants";
-import ServerStackEffectInterface from "./ServerStackEffectInterface";
-import { ServerEffect } from "../../Entites/ServerCardEffect";
-import PlayLootCardStackEffect from "../Play Loot Card";
-import PlayerManager from "../../Managers/PlayerManager";
-import ActivateItem from "../Activate Item";
 import MonsterRewardStackEffect from "../Monster Reward";
-import MonsterReward from "../../CardEffectComponents/MonsterRewards/MonsterReward";
+import ServerStackEffectInterface from "./ServerStackEffectInterface";
 
 
 export default class ServerMonsterReward implements ServerStackEffectInterface {
@@ -55,5 +40,15 @@ export default class ServerMonsterReward implements ServerStackEffectInterface {
         monsterReward.hasLockingStackEffectResolved = this.hasLockingStackEffectResolved
         return monsterReward
     }
+
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Monster Reward\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.monsterCardWithRewardId) endString = endString + `Monster With Reward:${CardManager.getCardById(this.monsterCardWithRewardId).name}\n`
+        if (this.playerCardIdToReward) endString = endString + `Player To Reward:${CardManager.getCardById(this.playerCardIdToReward).name}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
+    }
+
 
 }

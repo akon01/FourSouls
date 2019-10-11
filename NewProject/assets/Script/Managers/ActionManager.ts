@@ -2,7 +2,7 @@
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
 import Effect from "../CardEffectComponents/CardEffects/Effect";
-import { CARD_TYPE, ROLL_TYPE, BUTTON_STATE } from "../Constants";
+import { CARD_TYPE, ROLL_TYPE, BUTTON_STATE, GAME_EVENTS } from "../Constants";
 import CardEffect from "../Entites/CardEffect";
 import { CardLayout } from "../Entites/CardLayout";
 import Item from "../Entites/CardTypes/Item";
@@ -749,6 +749,7 @@ export default class ActionManager extends cc.Component {
         break;
       case Signal.RESPOND_TO:
         Stack.hasOtherPlayerRespond = data.stackEffectResponse;
+        whevent.emit(GAME_EVENTS.PLAYER_RESPOND)
         Stack.hasOtherPlayerRespondedYet = true;
         break;
       case Signal.DO_STACK_EFFECT:
@@ -838,6 +839,7 @@ export default class ActionManager extends cc.Component {
         player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
         let charCard = CardManager.getCardById(data.charCardId, true)
         let itemCard = CardManager.getCardById(data.itemCardId, true)
+        itemCard.getComponent(Item).eternal = true
         player.assignChar(charCard, itemCard)
         break
 
@@ -854,16 +856,21 @@ export default class ActionManager extends cc.Component {
 
       //eden signals
       case Signal.CHOOSE_FOR_EDEN:
+        CardManager.treasureDeck.getComponent(Deck).shuffleDeck()
         let cardsToChooseFrom = CardManager.treasureDeck.getComponent(Deck)._cards.filter((card, index, array) => { if (index == array.length - 1 || index == array.length - 2 || index == array.length - 3) return true })
-        let chosen = await CardPreviewManager.selectFromCards(cardsToChooseFrom, 1)[0]
+        let chosenCards = await CardPreviewManager.selectFromCards(cardsToChooseFrom, 1)
+        let chosen = chosenCards.pop()
+        if (chosen) {
+          ServerClient.$.send(Signal.EDEN_CHOSEN, { cardId: chosen.getComponent(Card)._cardId, sendToPlayerId: data.originPlayerId })
+        }
         //  player = PlayerManager.getPlayerById(data.originalPlayerId).getComponent(Player)
-        ServerClient.$.send(Signal.EDEN_CHOSEN, { cardId: chosen.getComponent(Card)._cardId, sendToPlayerId: data.originalPlayerId })
         break;
       case Signal.EDEN_CHOSEN:
         card = CardManager.getCardById(data.cardId)
         //  player = PlayerManager.getPlayerById(data.originalPlayerId).getComponent(Player)
         PlayerManager.edenChosenCard = card;
         PlayerManager.edenChosen = true
+        whevent.emit(GAME_EVENTS.EDEN_WAS_CHOSEN)
         break;
 
 

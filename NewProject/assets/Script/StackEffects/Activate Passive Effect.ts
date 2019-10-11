@@ -1,5 +1,8 @@
 import Effect from "../CardEffectComponents/CardEffects/Effect";
-import { STACK_EFFECT_TYPE, PASSIVE_EVENTS, ROLL_TYPE } from "../Constants";
+import MultiEffectRollEffect from "../CardEffectComponents/CardEffects/MultiEffectRollAsEffect";
+import GetTargetFromPassiveMeta from "../CardEffectComponents/DataCollector/GetTargetFromPassiveMeta";
+import MultiEffectChoose from "../CardEffectComponents/MultiEffectChooser/MultiEffectChoose";
+import { PASSIVE_EVENTS, ROLL_TYPE, STACK_EFFECT_TYPE } from "../Constants";
 import CardEffect from "../Entites/CardEffect";
 import Card from "../Entites/GameEntities/Card";
 import Player from "../Entites/GameEntities/Player";
@@ -8,17 +11,10 @@ import CardManager from "../Managers/CardManager";
 import DataInterpreter, { EffectTarget, PassiveEffectData } from "../Managers/DataInterpreter";
 import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
 import PlayerManager from "../Managers/PlayerManager";
+import RollDiceStackEffect from "./Roll DIce";
 import ServerActivatePassive from "./ServerSideStackEffects/Server Activate Passive";
 import StackEffectInterface from "./StackEffectInterface";
 import { ActivatePassiveItemVis } from "./StackEffectVisualRepresentation/Activate Passive Item Vis";
-import GetTargetFromPassiveMeta from "../CardEffectComponents/DataCollector/GetTargetFromPassiveMeta";
-import MultiEffectChoose from "../CardEffectComponents/MultiEffectChooser/MultiEffectChoose";
-import { resolve } from "dns";
-import MultiEffectRoll from "../CardEffectComponents/MultiEffectChooser/MultiEffectRoll";
-import MultiEffectChooseThenRoll from "../CardEffectComponents/MultiEffectChooser/MultiEffectChooseThenRoll";
-import MultiEffectDestroyThisThenRoll from "../CardEffectComponents/MultiEffectChooser/MultiEffectDestroyThisThenRoll";
-import RollDiceStackEffect from "./Roll DIce";
-import MultiEffectRollEffect from "../CardEffectComponents/CardEffects/MultiEffectRollAsEffect";
 
 
 
@@ -216,5 +212,15 @@ export default class ActivatePassiveEffect implements StackEffectInterface {
         let serverActivatePassive = new ServerActivatePassive(this);
         return serverActivatePassive;
     }
+
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Activate Passive Effect\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.effectToDo) endString = endString + `Effect:${this.effectToDo.name}\n`
+        if (this.cardActivatorId) endString = endString + `Effect Played By:${CardManager.getCardById(this.cardActivatorId).name}\n`
+        if (this.cardWithEffect) endString = endString + `Card With Effect:${this.cardWithEffect.name}\n`
+        return endString
+    }
+
 
 }

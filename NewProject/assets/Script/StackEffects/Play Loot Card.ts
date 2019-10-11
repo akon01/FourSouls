@@ -157,4 +157,14 @@ export default class PlayLootCardStackEffect implements StackEffectInterface {
         return serverPlayLoot;
     }
 
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Play Loot Card\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.effectToDo) endString = endString + `Effect:${this.effectToDo.name}\n`
+        if (this.lootPlayer) endString = endString + `Player:${this.lootPlayer.name}\n`
+        if (this.lootToPlay) endString = endString + `Loot To Play:${this.lootToPlay.name}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
+    }
+
 }

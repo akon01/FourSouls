@@ -9,6 +9,7 @@ import { CombatDamageVis } from "./StackEffectVisualRepresentation/Combat Damage
 import ServerCombatDamage from "./ServerSideStackEffects/Server Combat Damage";
 import Player from "../Entites/GameEntities/Player";
 import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
+import CardManager from "../Managers/CardManager";
 
 
 export default class CombatDamage implements StackEffectInterface {
@@ -115,6 +116,16 @@ export default class CombatDamage implements StackEffectInterface {
     convertToServerStackEffect() {
         let serverCombatDamage = new ServerCombatDamage(this)
         return serverCombatDamage
+    }
+
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Combat Damage\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.entityToDoDamageCard) endString = endString + `Attacking Card:${this.entityToDoDamageCard.name}\n`
+        if (this.numberRolled) endString = endString + `Number Rolled:${this.numberRolled}\n`
+        if (this.entityToTakeDamageCard) endString = endString + `Taking Damage Card:${this.entityToTakeDamageCard.name}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
     }
 
 }

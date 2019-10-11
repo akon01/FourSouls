@@ -7,6 +7,7 @@ import ServerPlayerDeathPenalties from "./ServerSideStackEffects/Server Player D
 import StackEffectInterface from "./StackEffectInterface";
 import { PlayerDeathPenaltiesVis } from "./StackEffectVisualRepresentation/Player Death Penalties Vis";
 import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
+import CardManager from "../Managers/CardManager";
 
 
 export default class PlayerDeathPenalties implements StackEffectInterface {
@@ -76,6 +77,14 @@ export default class PlayerDeathPenalties implements StackEffectInterface {
     convertToServerStackEffect() {
         let serverPlayerDeathPenalties = new ServerPlayerDeathPenalties(this)
         return serverPlayerDeathPenalties
+    }
+
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Player Death Penalties\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.playerToPay) endString = endString + `Player To Pay:${this.playerToPay.name}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
     }
 
 }

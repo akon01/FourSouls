@@ -78,4 +78,15 @@ export default class PurchaseItem implements StackEffectInterface {
         return serverPurchaseItem
     }
 
+
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Purchase Item\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.cost) endString = endString + `Cost Of Item:${this.cost}\n`
+        if (this.itemToPurchase) endString = endString + `Item To Buy:${this.itemToPurchase.name}\n`
+        if (this.playerWhoBuys) endString = endString + `Player Who Buys:${this.playerWhoBuys.name}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
+    }
+
 }

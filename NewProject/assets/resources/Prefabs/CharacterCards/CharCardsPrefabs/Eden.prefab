@@ -13,35 +13,35 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Fistula",
+    "_name": "Eden",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
       {
         "__id__": 2
-      },
-      {
-        "__id__": 11
       }
     ],
     "_active": true,
     "_level": 1,
     "_components": [
       {
-        "__id__": 14
+        "__id__": 8
       },
       {
-        "__id__": 15
+        "__id__": 9
       },
       {
-        "__id__": 16
+        "__id__": 10
       },
       {
-        "__id__": 17
+        "__id__": 11
+      },
+      {
+        "__id__": 12
       }
     ],
     "_prefab": {
-      "__id__": 18
+      "__id__": 13
     },
     "_opacity": 255,
     "_color": {
@@ -53,8 +53,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 70,
-      "height": 100
+      "width": 200,
+      "height": 280
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -87,7 +87,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "GainStats",
+    "_name": "PlayLootCard",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -95,20 +95,17 @@
     "_children": [
       {
         "__id__": 3
-      },
-      {
-        "__id__": 6
       }
     ],
     "_active": true,
     "_level": 2,
     "_components": [
       {
-        "__id__": 9
+        "__id__": 6
       }
     ],
     "_prefab": {
-      "__id__": 10
+      "__id__": 7
     },
     "_opacity": 255,
     "_color": {
@@ -120,8 +117,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
+      "width": 2,
+      "height": 50
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -130,14 +127,14 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 178,
-      "y": 0,
+      "x": -0.3,
+      "y": -23.2,
       "z": 0
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
+      "x": 35.51,
+      "y": 0.41,
       "z": 1
     },
     "_eulerAngles": {
@@ -154,7 +151,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "EntityTakeDamage",
+    "_name": "ChooseLootToPlay",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -190,15 +187,15 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
+      "x": 0.00845,
+      "y": 56.58537,
       "z": 0
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
+      "x": 0.02816,
+      "y": 2.43902,
+      "z": 0.02816
     },
     "_eulerAngles": {
       "__type__": "cc.Vec3",
@@ -213,18 +210,13 @@
     "_id": ""
   },
   {
-    "__type__": "b3a74RkS6JJHoXnYn1G/FGy",
+    "__type__": "84e8cgJfw5Fept+2p2iMMgM",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 3
     },
     "_enabled": true,
-    "dataCollector": null,
-    "isSpecificToEntityTakesDamage": true,
-    "entityWhoTookDamage": {
-      "__id__": 1
-    },
     "_id": ""
   },
   {
@@ -233,94 +225,13 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "7d20a7cd-79dc-47e1-a6cd-b1f8eae1756a"
+      "__uuid__": "9da0ee9c-0c6f-411b-97fb-070cf4634e73"
     },
-    "fileId": "28qdZLgFZJipugaVRNb4IF",
+    "fileId": "a1WjOYMhxMrYOdomrpYGew",
     "sync": false
   },
   {
-    "__type__": "cc.Node",
-    "_name": "CardActivated",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_level": 3,
-    "_components": [
-      {
-        "__id__": 7
-      }
-    ],
-    "_prefab": {
-      "__id__": 8
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "0175bFUYExPf5FCIvNA1zX2",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 6
-    },
-    "_enabled": true,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "7d20a7cd-79dc-47e1-a6cd-b1f8eae1756a"
-    },
-    "fileId": "d1GnHtvBVOeLwGQ08iwI97",
-    "sync": false
-  },
-  {
-    "__type__": "1251ehOdU9IcaUBBusBC3Mv",
+    "__type__": "3e26ck2/KpCGLEq1eJEbRu3",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -329,37 +240,17 @@
     "_enabled": true,
     "cost": null,
     "preCondition": null,
-    "conditions": [
-      {
-        "__id__": 4
-      }
-    ],
+    "conditions": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "dataCollector": [
       {
-        "__id__": 7
+        "__id__": 4
       }
     ],
     "_effectCard": null,
     "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
-    "multiTarget": false,
-    "gainHp": false,
-    "hpToGain": 0,
-    "hpTemp": false,
-    "gainDMG": false,
-    "DMGToGain": 1,
-    "dmgTemp": true,
-    "gainRollBonus": true,
-    "rollBonusToGain": 1,
-    "rollBonusTemp": true,
-    "gainAttackRollBonus": false,
-    "attackRollBonusToGain": 0,
-    "attackRollBonusTemp": false,
-    "gainFirstAttackRollBonus": false,
-    "firstAttackRollBonusToGain": 0,
-    "firstAttackRollBonusToGainTemp": false,
     "_id": ""
   },
   {
@@ -368,92 +259,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "7d20a7cd-79dc-47e1-a6cd-b1f8eae1756a"
+      "__uuid__": "9da0ee9c-0c6f-411b-97fb-070cf4634e73"
     },
-    "fileId": "1b7+92mklCqq+DSSEqK7T5",
-    "sync": false
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "GainMoney",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [],
-    "_active": true,
-    "_level": 2,
-    "_components": [
-      {
-        "__id__": 12
-      }
-    ],
-    "_prefab": {
-      "__id__": 13
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "82c5bZEAZ1Oobq1Oh3I6fMe",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 11
-    },
-    "_enabled": true,
-    "hasRoll": false,
-    "numOfMoneyToAdd": 7,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "7d20a7cd-79dc-47e1-a6cd-b1f8eae1756a"
-    },
-    "fileId": "f9ggqaqcxM8pd8OiUNLark",
+    "fileId": "406rxJeyRHLIriGc/zN5xP",
     "sync": false
   },
   {
@@ -472,7 +280,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "acf0e194-29e4-4e35-84b5-cb0dcb33f7bf"
+      "__uuid__": "6544b9eb-0f1e-4341-ad35-22241ed0f3fb"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -486,7 +294,7 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_atlas": {
-      "__uuid__": "aa393420-2116-49d9-a0f0-3dd5c9ac392b"
+      "__uuid__": "de399264-10e3-48a4-a703-397ad2818793"
     },
     "_id": ""
   },
@@ -498,14 +306,14 @@
       "__id__": 1
     },
     "_enabled": true,
-    "cardName": "Fistula",
+    "cardName": "Eden",
     "_cardId": 0,
     "_isInHand": false,
     "_isOnDesk": false,
     "_originalParent": null,
     "topDeckof": null,
-    "souls": 1,
-    "type": 2,
+    "souls": 0,
+    "type": 3,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -524,29 +332,32 @@
     "_id": ""
   },
   {
-    "__type__": "4ac15aQszVPe5b55U9/MQys",
+    "__type__": "90fa6noO7FLcJam6YyIdS/W",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "monsterPlace": null,
-    "HP": 4,
-    "currentHp": 0,
-    "rollValue": 2,
-    "rollBonus": 0,
-    "DMG": 1,
-    "bonusDamage": 0,
-    "isAttacked": false,
-    "hasEffect": true,
-    "isNonMonster": false,
-    "souls": 1,
-    "_dmgPrevention": [],
-    "_thisTurnKiller": null,
-    "reward": {
-      "__id__": 12
+    "charItemPrefab": null,
+    "charItemCard": null,
+    "activated": false,
+    "Hp": 2,
+    "damage": 1,
+    "_id": ""
+  },
+  {
+    "__type__": "b5e97fLQIJGGq1XOyBEfLay",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
     },
+    "_enabled": true,
+    "type": 1,
+    "activated": false,
+    "eternal": true,
+    "lastOwnedBy": null,
     "_id": ""
   },
   {
@@ -558,12 +369,12 @@
     },
     "_enabled": true,
     "conditions": [],
-    "activeEffects": [],
-    "passiveEffects": [
+    "activeEffects": [
       {
         "__id__": 2
       }
     ],
+    "passiveEffects": [],
     "toAddPassiveEffects": [],
     "paidEffects": [],
     "test123": [],
@@ -581,7 +392,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "7d20a7cd-79dc-47e1-a6cd-b1f8eae1756a"
+      "__uuid__": "9da0ee9c-0c6f-411b-97fb-070cf4634e73"
     },
     "fileId": "74xrl7Ss9GNLi7htp7h56D",
     "sync": false

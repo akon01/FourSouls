@@ -8,6 +8,7 @@ import TurnsManager from "../Managers/TurnsManager";
 import ServerMonsterEndDeath from "./ServerSideStackEffects/Server Monster End Death ";
 import StackEffectInterface from "./StackEffectInterface";
 import { MonsterDeathVis } from "./StackEffectVisualRepresentation/Monster Death Vis";
+import CardManager from "../Managers/CardManager";
 
 
 export default class MonsterEndDeath implements StackEffectInterface {
@@ -60,6 +61,15 @@ export default class MonsterEndDeath implements StackEffectInterface {
     convertToServerStackEffect() {
         let serverMonsterReward = new ServerMonsterEndDeath(this)
         return serverMonsterReward
+    }
+
+
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Monster End Death\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.monsterWhoDied) endString = endString + `Monster Who Died:${this.monsterWhoDied.name}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
     }
 
 }

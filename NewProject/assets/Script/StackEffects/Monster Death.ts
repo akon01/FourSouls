@@ -9,6 +9,7 @@ import PlayerManager from "../Managers/PlayerManager";
 import Player from "../Entites/GameEntities/Player";
 import MonsterRewardStackEffect from "./Monster Reward";
 import BattleManager from "../Managers/BattleManager";
+import CardManager from "../Managers/CardManager";
 
 
 export default class MonsterDeath implements StackEffectInterface {
@@ -64,6 +65,15 @@ export default class MonsterDeath implements StackEffectInterface {
     convertToServerStackEffect() {
         let serverCombatDamage = new ServerMonsterDeath(this)
         return serverCombatDamage
+    }
+
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Monster Death\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.monsterToDie) endString = endString + `Monster To Die:${this.monsterToDie.name}\n`
+        if (this.killer) endString = endString + `Killer:${this.killer.name}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
     }
 
 }

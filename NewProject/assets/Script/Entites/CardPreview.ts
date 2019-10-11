@@ -34,9 +34,13 @@ export default class CardPreview extends cc.Component {
   @property
   hasTouchProperty: boolean = false;
 
+  unuse() {
+    this.node.active = true;
+    this.node.opacity = 255;
+  }
 
 
-  hideCardPreview(event?) {
+  async hideCardPreview(event?) {
     if (event) {
       event.stopPropagation();
     }
@@ -46,20 +50,34 @@ export default class CardPreview extends cc.Component {
       const child = this.effectChildren[o];
       this.node.removeChild(child);
     }
-    this.node.runAction(cc.fadeTo(TIME_TO_HIDE_PREVIEW, 0));
-    let hideTimeOut = () => {
+    let func = cc.callFunc(() => {
       // this.node.setSiblingIndex(0);
       this.card = null;
       this.hasTouchProperty = false
       this.node.getComponent(cc.Sprite).spriteFrame = null;
       this.node.active = false;
-      this.hideThisTimeOut = null;
       CardPreviewManager.$.node.emit('previewRemoved', this.node)
-    };
-    hideTimeOut.bind(this);
-    this.hideThisTimeOut = setTimeout(hideTimeOut, TIME_TO_HIDE_PREVIEW * 1000);
-
+    }, this)
+    this.node.runAction(cc.sequence(cc.fadeTo(TIME_TO_HIDE_PREVIEW, 0), func));
+    //this.hideThisTimeOut = setTimeout(hideTimeOut, TIME_TO_HIDE_PREVIEW * 1000);
+    await this.waitForHideOver()
   }
+
+  waitForHideOver() {
+    return new Promise((resolve, reject) => {
+      let check = () => {
+        if (!this.card) {
+          //  ActionManager.noMoreActionsBool = false;
+          resolve(true);
+        } else {
+          setTimeout(check, 50);
+        }
+      };
+      check.bind(this);
+      setTimeout(check, 50);
+    });
+  }
+
 
   addEffectToPreview(effect: cc.Node) {
     let originalParent = effect.parent;
@@ -88,9 +106,9 @@ export default class CardPreview extends cc.Component {
     newEffect.setPosition(0, newY);
 
     cc.log(`new effect name ${newEffect.name}`)
-    newEffect.once(cc.Node.EventType.TOUCH_START, () => {
+    newEffect.once(cc.Node.EventType.TOUCH_START, async () => {
       cc.log(`new effect ${newEffect.name} was chosen`)
-      this.hideCardPreview();
+      await this.hideCardPreview();
       CardPreview.effectChosen = effect;
       CardPreview.wasEffectChosen = true;
     });

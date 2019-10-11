@@ -4,6 +4,7 @@ import MonsterCardHolder from "../../Entites/MonsterCardHolder";
 import MonsterField from "../../Entites/MonsterField";
 import RefillEmptySlot from "../Refill Empty Slot";
 import ServerStackEffectInterface from "./ServerStackEffectInterface";
+import CardManager from "../../Managers/CardManager";
 
 
 export default class ServerRefillEmptySlot implements ServerStackEffectInterface {
@@ -53,6 +54,15 @@ export default class ServerRefillEmptySlot implements ServerStackEffectInterface
         }
         let refillEmtySlot = new RefillEmptySlot(this.creatorCardId, slotToFill, this.slotType)
         return refillEmtySlot;
+    }
+
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Refill Slot\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.slotToFillId) endString = endString + `Slot To Fill:${MonsterField.getMonsterPlaceById(this.slotToFillId).name}\n`
+        if (this.slotType) endString = endString + `Slot Type:${this.slotType}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
     }
 
 }

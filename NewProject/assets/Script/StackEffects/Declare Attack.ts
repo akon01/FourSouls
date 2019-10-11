@@ -112,4 +112,13 @@ export default class DeclareAttack implements StackEffectInterface {
         return serverDeclareAttack
     }
 
+    toString() {
+        let endString = `id:${this.entityId}\ntype: Declare Attack\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
+        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
+        if (this.attackingPlayer) endString = endString + `Attacking Player:${this.attackingPlayer.name}\n`
+        if (this.cardBeingAttacked) endString = endString + `Monster Being Attacked:${this.cardBeingAttacked.name}\n`
+        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        return endString
+    }
+
 }

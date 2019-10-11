@@ -64,8 +64,8 @@ export default class ButtonManager extends cc.Component {
 
         //special cases
 
-        //Yes/Confirm button should be on previews layout if it is open
-        if (button == this.$.yesButton) {
+        //Yes/Confirm Or No/Skip button should be on previews layout if it is open
+        if (button == this.$.yesButton || button == this.$.skipButton) {
           if (CardPreviewManager.isOpen) {
             this.moveButton(btn.node, this.$.cardPreviewButtonLayout)
           } else this.moveButton(btn.node, this.$.playerButtonLayout)
@@ -113,6 +113,9 @@ export default class ButtonManager extends cc.Component {
             extra[3]
           )
         }, extra[1])
+        if (CardPreviewManager.isOpen) {
+          this.moveButton(btn.node, this.$.cardPreviewButtonLayout)
+        } else this.moveButton(btn.node, this.$.playerButtonLayout)
         break;
 
       //SKIP BUTTON ONLY END //

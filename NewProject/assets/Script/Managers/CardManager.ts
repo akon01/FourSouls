@@ -1,7 +1,7 @@
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
 import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
-import { BLINKING_SPEED, CARD_TYPE, TIME_TO_BUY, TIME_TO_DRAW } from "../Constants";
+import { BLINKING_SPEED, CARD_TYPE, TIME_TO_BUY, TIME_TO_DRAW, GAME_EVENTS } from "../Constants";
 import CardEffect from "../Entites/CardEffect";
 import { CardLayout } from "../Entites/CardLayout";
 import Character from "../Entites/CardTypes/Character";
@@ -24,6 +24,7 @@ import PileManager from "./PileManager";
 import PlayerManager from "./PlayerManager";
 import TurnsManager from "./TurnsManager";
 import Item from "../Entites/CardTypes/Item";
+import { Logger } from "../Entites/Logger";
 
 
 
@@ -103,8 +104,6 @@ export default class CardManager extends cc.Component {
 
   static CharItemCardPool: cc.NodePool = null;
 
-  static prefabLoaded: boolean = false;
-
   static async init() {
     let loaded = await this.preLoadPrefabs();
     CardManager.treasureDeck = cc.find("Canvas/TreasureDeck");
@@ -176,7 +175,8 @@ export default class CardManager extends cc.Component {
               CardManager.lootDeck.getComponent(Deck).cardsPrefab.push(...rsc)
               cc.loader.loadResDir('Prefabs/TreasureCards', cc.Prefab, (err, rsc, urls) => {
                 CardManager.treasureDeck.getComponent(Deck).cardsPrefab.push(...rsc)
-                CardManager.prefabLoaded = true;
+                whevent.emit(GAME_EVENTS.CARD_MANAGER_LOAD_PREFAB)
+                // CardManager.prefabLoaded = true;
               })
             })
           }
@@ -190,19 +190,10 @@ export default class CardManager extends cc.Component {
 
   static async waitForPrefabLoad(): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      let timesChecked = 0;
-      let check = () => {
-        if (CardManager.prefabLoaded == true) {
-          resolve(true);
-        } else if (timesChecked < 1000) {
-          timesChecked++;
-          setTimeout(check, 50);
-        } else {
-          reject("checked 100 times");
-        }
-      };
-      check.bind(this);
-      setTimeout(check, 50);
+      whevent.onOnce(GAME_EVENTS.CARD_MANAGER_LOAD_PREFAB, () => {
+        resolve(true);
+      })
+
     });
   }
 
@@ -272,21 +263,6 @@ export default class CardManager extends cc.Component {
       }
       this.isCheckingForEmptyFields = false;
     }
-  }
-
-  static async waitForCheck(): Promise<boolean> {
-    //w8 for a server message with a while,after the message is recived (should be a stack of effects with booleans) resolve with stack of effects.
-    return new Promise((resolve, reject) => {
-      let check = () => {
-        if (this.isCheckingForEmptyFields == false) {
-          resolve(true);
-        } else {
-          setTimeout(check, 50);
-        }
-      };
-      check.bind(this);
-      setTimeout(check, 50);
-    });
   }
 
 
@@ -524,6 +500,7 @@ export default class CardManager extends cc.Component {
       }
     } catch (error) {
       cc.error(error)
+      Logger.error(error)
     }
     //change to show card preview.
     this.makeCardPreviewable(card);
@@ -546,6 +523,7 @@ export default class CardManager extends cc.Component {
       CardPreviewManager.updatePreviewsEvents()
     } catch (error) {
       cc.error(error)
+      Logger.error(error)
     }
   }
 
@@ -587,11 +565,17 @@ export default class CardManager extends cc.Component {
     card: cc.Node
   ) {
     cc.log(`make ${card.name} required `)
-    card.runAction(
-      cc
-        .sequence(cc.fadeTo(BLINKING_SPEED, 50), cc.fadeTo(BLINKING_SPEED, 255))
-        .repeatForever()
-    );
+
+    let p = card.getComponentInChildren(cc.ParticleSystem);
+    p.resetSystem()
+    cc.log(`particle sys of ${card.name}`)
+    cc.log(p)
+
+    // card.runAction(
+    //   cc
+    //     .sequence(cc.fadeTo(BLINKING_SPEED, 50), cc.fadeTo(BLINKING_SPEED, 255))
+    //     .repeatForever()
+    // );
 
     this.disableCardActions(card);
     if (card.getComponent(Deck) == null) {
@@ -624,6 +608,9 @@ export default class CardManager extends cc.Component {
     cc.log(`un require for ${card.name}`)
     card.stopAllActions();
     card.runAction(cc.fadeTo(BLINKING_SPEED, 255));
+    let p = card.getComponentInChildren(cc.ParticleSystem);
+    p.stopSystem();
+
     let cardPreview = CardPreviewManager.getPreviewByCard(card)
     if (cardPreview != null) {
       CardPreviewManager.removeFromCurrentPreviews(Array.of(card))
@@ -772,6 +759,7 @@ export default class CardManager extends cc.Component {
     this.activeMoveAnimations = this.activeMoveAnimations.filter((moveAnim) => {
       moveAnim.index != moveIndex
     })
+    whevent.emit(GAME_EVENTS.CARD_MANAGER_MOVE_ANIM_END, moveIndex)
   }
 
   static isMoveAnimationOver(moveIndex: number) {
@@ -788,15 +776,11 @@ export default class CardManager extends cc.Component {
 
   static waitForMoveAnimationEnd(moveIndex: number) {
     return new Promise((resolve, reject) => {
-      let check = () => {
-        if (this.isMoveAnimationOver(moveIndex)) {
-          resolve(true);
-        } else {
-          setTimeout(check, 50);
+      whevent.on(GAME_EVENTS.CARD_MANAGER_MOVE_ANIM_END, (params) => {
+        if (params == moveIndex) {
+          resolve(true)
         }
-      };
-      check.bind(this);
-      setTimeout(check, 50);
+      })
     });
   }
 

@@ -7,7 +7,7 @@ import Condition from "./Condition";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class CardOwnerEndTurn extends Condition {
+export default class CardOwnerStartTurn extends Condition {
 
   event = PASSIVE_EVENTS.PLAYER_START_TURN
 
@@ -30,7 +30,6 @@ export default class CardOwnerEndTurn extends Condition {
       } else {
         answer = true;
       }
-      return true;
     }
     return answer
   }

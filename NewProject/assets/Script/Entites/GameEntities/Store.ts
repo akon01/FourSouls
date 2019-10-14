@@ -57,7 +57,6 @@ export default class Store extends cc.Component {
     if (itemToBuy.getComponent(Card).topDeckof == null) {
       cc.log(`buy item ${itemToBuy.name} from the shop`)
       Store.storeCards.splice(Store.storeCards.indexOf(itemToBuy), 1)
-      cc.error(Store.storeCards)
       if (sendToServer) {
         ServerClient.$.send(Signal.BUY_ITEM_FROM_SHOP, { cardId: itemToBuy.getComponent(Card)._cardId })
       }

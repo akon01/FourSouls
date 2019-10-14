@@ -1,5 +1,5 @@
 import CardPreview from "../Entites/CardPreview";
-import { TIME_TO_SHOW_PREVIEW, COLORS, BUTTON_STATE } from "../Constants";
+import { TIME_TO_SHOW_PREVIEW, COLORS, BUTTON_STATE, GAME_EVENTS } from "../Constants";
 import Card from "../Entites/GameEntities/Card";
 import Deck from "../Entites/GameEntities/Deck";
 import PlayerManager from "./PlayerManager";
@@ -12,6 +12,8 @@ import Signal from "../../Misc/Signal";
 import Pile from "../Entites/Pile";
 import Item from "../Entites/CardTypes/Item";
 import ButtonManager from "./ButtonManager";
+import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
+import { Logger } from "../Entites/Logger";
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,8 +28,6 @@ export default class CardPreviewManager extends cc.Component {
     static previewsLayout: cc.Layout = null;
 
     static scrollView: cc.ScrollView = null;
-
-    static isSelectOver: boolean = false;
 
     private static previewsToChooseFrom: cc.Node[] = [];
 
@@ -125,7 +125,8 @@ export default class CardPreviewManager extends cc.Component {
                         await preview.getComponent(CardPreview).hideCardPreview();
                         if (cardComp._requiredFor) {
                             cardComp._requiredFor.cardChosen = card;
-                            cardComp._requiredFor.isCardChosen = true;
+                            //cc.log(cardComp._requiredFor)
+                            cardComp._requiredFor.isCardChosen = true
                         } else {
                             throw "card has Requierd For Flag, but no data collector set as requiredFor.";
 
@@ -148,6 +149,7 @@ export default class CardPreviewManager extends cc.Component {
                             }
                             this.hidePreviewManager()
                             cardPlayer.activatedCard = card;
+                            whevent.emit(GAME_EVENTS.PLAYER_CARD_ACTIVATED)
                             cardPlayer.cardActivated = true;
                             if (card.getComponent(Item) != null) {
                                 cardPlayer.activateCard(card, false);
@@ -241,7 +243,8 @@ export default class CardPreviewManager extends cc.Component {
 
     confirmSelect() {
         ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.REMOVE_CONFIRM_SELECT)
-        CardPreviewManager.isSelectOver = true;
+        whevent.emit(GAME_EVENTS.CARD_PREV_MAN_WAIT_FOR_SELECT)
+        // CardPreviewManager.isSelectOver = true;
         CardPreviewManager.hidePreviewManager()
     }
 
@@ -265,6 +268,11 @@ export default class CardPreviewManager extends cc.Component {
         let previews = await this.getPreviews(cardsToSelectFrom, true)
         this.previewsToChooseFrom = previews;
         cc.log(this.previewsToChooseFrom)
+        ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.CHANGE_TEXT, ['Confirm'])
+        ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.SET_CONFIRM_SELECT_IN_PREVIEWS)
+
+        //ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.ENABLED)
+        ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.SET_NOT_YET_AVAILABLE)
         for (let i = 0; i < previews.length; i++) {
             const preview = previews[i];
             let previewComp = preview.getComponent(CardPreview);
@@ -289,6 +297,17 @@ export default class CardPreviewManager extends cc.Component {
 
                     previewComp.counterLable.string = this.selectQueue.length.toString()
                 }
+                if (this.isOpen) {
+                    ButtonManager.moveButton(ButtonManager.$.yesButton, ButtonManager.$.cardPreviewButtonLayout)
+                } else ButtonManager.moveButton(ButtonManager.$.yesButton, ButtonManager.$.playerButtonLayout)
+                if (this.selectQueue.length == numberOfCardsToSelect) {
+                    cc.log(`number of selected cards match the number to select`)
+                    ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.SET_AVAILABLE)
+                    //   this.confirmSelectButton.enabled = true;
+                } else {
+                    cc.log(`number of selected cards dont match the number to select`)
+                    ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.SET_NOT_YET_AVAILABLE)
+                }
             }, this)
         }
         let selectedQueue = await this.waitForSelect(numberOfCardsToSelect)
@@ -308,23 +327,11 @@ export default class CardPreviewManager extends cc.Component {
         ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.CHANGE_TEXT, ['Confirm'])
         ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.SET_CONFIRM_SELECT_IN_PREVIEWS)
         return new Promise((resolve, reject) => {
-            let check = () => {
-                if (this.selectQueue.length == numberOfCardsToSelect) {
-                    ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.SET_AVAILABLE)
-                    //   this.confirmSelectButton.enabled = true;
-                } else {
-                    ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.SET_NOT_YET_AVAILABLE)
-                }
-                if (this.isSelectOver == true) {
-                    this.isSelectOver = false;
-                    ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.DISABLED)
-                    resolve(this.selectQueue)
-                } else {
-                    setTimeout(check, 50);
-                }
-            };
-            check.bind(this);
-            setTimeout(check, 50);
+            whevent.onOnce(GAME_EVENTS.CARD_PREV_MAN_WAIT_FOR_SELECT, (params) => {
+                ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.DISABLED)
+                resolve(this.selectQueue)
+            })
+
         });
     }
 
@@ -395,6 +402,7 @@ export default class CardPreviewManager extends cc.Component {
                 CardPreviewManager.updatePreviewsEvents()
             } catch (error) {
                 cc.error(error)
+                Logger.error(error)
             }
         }, this)
         if (this.isOpen) {
@@ -408,6 +416,7 @@ export default class CardPreviewManager extends cc.Component {
                 CardPreviewManager.updatePreviewsEvents()
             } catch (error) {
                 cc.error(error)
+                Logger.error(error)
             }
         }
 
@@ -426,6 +435,7 @@ export default class CardPreviewManager extends cc.Component {
             CardPreviewManager.updatePreviewsEvents()
         } catch (error) {
             cc.error(error)
+            Logger.error(error)
         }
         let action = cc.fadeTo(TIME_TO_SHOW_PREVIEW, 255)
         CardPreviewManager.scrollView.node.setSiblingIndex(CardPreviewManager.$.node.parent.childrenCount - 1);
@@ -441,6 +451,9 @@ export default class CardPreviewManager extends cc.Component {
         ButtonManager.enableButton(ButtonManager.$.togglePreviewManagerButton, BUTTON_STATE.TOGGLE_TO_CLOSE_PREVIEWS)
         if (ButtonManager.$.skipButton.active) {
             ButtonManager.moveButton(ButtonManager.$.skipButton, ButtonManager.$.cardPreviewButtonLayout)
+        }
+        if (ButtonManager.$.yesButton.active) {
+            ButtonManager.moveButton(ButtonManager.$.yesButton, ButtonManager.$.cardPreviewButtonLayout)
         }
         CardPreviewManager.scrollView.node.runAction(cc.sequence(action, cc.callFunc(() => {
             CardPreviewManager.makeCardsOpaqe();
@@ -462,12 +475,16 @@ export default class CardPreviewManager extends cc.Component {
         if (ButtonManager.$.skipButton.active) {
             ButtonManager.moveButton(ButtonManager.$.skipButton, ButtonManager.$.playerButtonLayout)
         }
+        if (ButtonManager.$.yesButton.active) {
+            ButtonManager.moveButton(ButtonManager.$.yesButton, ButtonManager.$.playerButtonLayout)
+        }
 
         ButtonManager.enableButton(ButtonManager.$.togglePreviewManagerButton, BUTTON_STATE.TOGGLE_TO_OPEN_PREVIEWS)
         try {
             CardPreviewManager.updatePreviewsEvents()
         } catch (error) {
             cc.error(error)
+            Logger.error(error)
         }
         // this.node.active = false;
     }

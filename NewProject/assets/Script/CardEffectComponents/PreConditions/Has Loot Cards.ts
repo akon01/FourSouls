@@ -21,7 +21,7 @@ export default class HasLootCards extends PreCondition {
         return true
       } else return false
     } else {
-      cc.error(`no owner for this card ${thisCard}`)
+      throw `no owner for this card ${thisCard}`
     }
   }
 }

@@ -6,6 +6,7 @@ import Item from "./CardTypes/Item";
 import Card from "./GameEntities/Card";
 import PlayerManager from "../Managers/PlayerManager";
 import Player from "./GameEntities/Player";
+import { Logger } from "./Logger";
 
 const { ccclass, property } = cc._decorator;
 
@@ -62,6 +63,7 @@ export default class PlayerDesk extends cc.Component {
 
       default:
         cc.error(`Item type is not active or passive`)
+        Logger.error(`Item type is not active or passive when adding to desk`)
         break;
     }
   }

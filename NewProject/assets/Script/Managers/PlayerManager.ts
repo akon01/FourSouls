@@ -37,8 +37,6 @@ export default class PlayerManager extends cc.Component {
 
   static mePlayer: cc.Node = null;
 
-  static prefabLoaded = false;
-
   static edenChosen = false;
 
   static edenChosenCard: cc.Node = null;
@@ -76,7 +74,8 @@ export default class PlayerManager extends cc.Component {
             break;
         }
       }
-      PlayerManager.prefabLoaded = true;
+      whevent.emit(GAME_EVENTS.PLAYER_MAN_PREFAB_LOAD)
+      //PlayerManager.prefabLoaded = true;
     });
     let loaded = await this.waitForPrefabLoad();
     return loaded;
@@ -84,13 +83,10 @@ export default class PlayerManager extends cc.Component {
 
   static async waitForPrefabLoad(): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      let check = () => {
-        if (PlayerManager.prefabLoaded == true) {
-          resolve(true);
-        } else setTimeout(check, 50);
-      };
-      check.bind(this);
-      setTimeout(check, 50);
+      whevent.onOnce(GAME_EVENTS.PLAYER_MAN_PREFAB_LOAD, () => {
+        resolve(true);
+      })
+
     });
   }
 
@@ -205,9 +201,11 @@ export default class PlayerManager extends cc.Component {
         char: cc.Node;
         item: cc.Node;
       } = CardManager.characterDeck.pop();
-      ///////
-      if (i == 0) fullCharCard = CardManager.characterDeck.find(char => char.char.getComponent(Card).cardName == 'Eden')
-      /////////
+      cc.log(i)
+      cc.log(fullCharCard)
+      // ///////
+      //if (i == 0) fullCharCard = CardManager.characterDeck.splice(CardManager.characterDeck.indexOf(CardManager.characterDeck.find(char => char.char.getComponent(Card).cardName == 'Eden')), 1)[0]
+      // /////////
       let charCard = fullCharCard.char;
       let itemCard: cc.Node;
       //Special Case : Eden
@@ -247,15 +245,6 @@ export default class PlayerManager extends cc.Component {
         resolve(PlayerManager.edenChosenCard)
       })
     })
-    // return new Promise((resolve, reject) => {
-    //   let check = () => {
-    //     if (PlayerManager.edenChosen == true) {
-    //       resolve(PlayerManager.edenChosenCard);
-    //     } else setTimeout(check, 50);
-    //   };
-    //   check.bind(this);
-    //   setTimeout(check, 50);
-    // });
   }
 
   static getItemByCharCard(item, i, items) {

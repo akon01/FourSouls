@@ -172,7 +172,7 @@ export default class ServerClient extends cc.Component {
     //	whevent.emit(Events.TIP, {message: 'Connecting...', time: 0});
     if (this.ws == null) {
       let serverLable = cc.find('Canvas/ServerIP').getComponent(cc.EditBox)
-      let serverIp = "ws://" + serverLable.string;
+      let serverIp = "ws://" + serverLable.string + ':2333';
 
       this.ws = new WebSocket(serverIp);
 

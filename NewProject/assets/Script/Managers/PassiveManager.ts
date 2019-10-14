@@ -2,7 +2,7 @@ import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
 import Effect from "../CardEffectComponents/CardEffects/Effect";
 import MultiEffectRoll from "../CardEffectComponents/MultiEffectChooser/MultiEffectRoll";
-import { ARGS_TYPES, PASSIVE_EVENTS, PASSIVE_TYPE } from "../Constants";
+import { ARGS_TYPES, PASSIVE_EVENTS, PASSIVE_TYPE, GAME_EVENTS } from "../Constants";
 import CardEffect from "../Entites/CardEffect";
 import Monster from "../Entites/CardTypes/Monster";
 import Card from "../Entites/GameEntities/Card";
@@ -14,6 +14,7 @@ import DataInterpreter, { ServerEffectData } from "./DataInterpreter";
 import PlayerManager from "./PlayerManager";
 import MultiEffectRollEffect from "../CardEffectComponents/CardEffects/MultiEffectRollAsEffect";
 import TurnsManager from "./TurnsManager";
+import { Logger } from "../Entites/Logger";
 
 
 
@@ -172,16 +173,9 @@ export default class PassiveManager extends cc.Component {
   static async waitForRegister(): Promise<boolean> {
     //w8 for a server message with a while,after the message is recived (should be a stack of effects with booleans) resolve with stack of effects.
     return new Promise((resolve, reject) => {
-      let check = () => {
-        if (PassiveManager.inPassivePhase == false) {
-          //  ActionManager.noMoreActionsBool = false;
-          resolve(true);
-        } else {
-          setTimeout(check, 50);
-        }
-      };
-      check.bind(this);
-      setTimeout(check, 50);
+      whevent.onOnce(GAME_EVENTS.PASSIVE_MAN_PASSIVE_PHASE_OVER, (params) => {
+        resolve(true);
+      })
     });
   }
 
@@ -237,6 +231,7 @@ export default class PassiveManager extends cc.Component {
           if (isTrue && (await condition.testCondition(passiveMeta) == false)) isTrue = false;
         } catch (error) {
           cc.error(error)
+          Logger.error(error)
           isTrue = false
         }
       }
@@ -268,6 +263,7 @@ export default class PassiveManager extends cc.Component {
       allPassivesToActivate = await this.testPassivesCondtions(allPassiveEffects, passiveMeta)
     } catch (error) {
       cc.error(error)
+      Logger.error(error)
     }
     cc.log(allPassivesToActivate.map(effect => effect.name))
     let methodData = { continue: false, args: [] }
@@ -283,7 +279,7 @@ export default class PassiveManager extends cc.Component {
     if (passiveData) {
       this.clearPassiveMethodData(passiveData.index, false, true)
     }
-
+    whevent.emit(GAME_EVENTS.PASSIVE_MAN_PASSIVE_PHASE_OVER)
     PassiveManager.inPassivePhase = false;
 
     return methodData;
@@ -365,6 +361,7 @@ export default class PassiveManager extends cc.Component {
       passivesToActivate = await this.testPassivesCondtions(allPassiveEffects, meta)
     } catch (error) {
       cc.error(error)
+      Logger.error(error)
     }
     for (let i = 0; i < passivesToActivate.length; i++) {
       const passiveEffect = passivesToActivate[i];
@@ -401,6 +398,7 @@ export default class PassiveManager extends cc.Component {
       }
     }
 
+    whevent.emit(GAME_EVENTS.PASSIVE_MAN_PASSIVE_PHASE_OVER)
     PassiveManager.inPassivePhase = false;
     let result = this.afterActivationMap.get(meta.index).result
     this.clearPassiveMethodData(meta.index, true, true)

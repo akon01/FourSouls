@@ -1,6 +1,6 @@
 import Effect from "../CardEffectComponents/CardEffects/Effect";
 import CardPreviewManager from "../Managers/CardPreviewManager";
-import { TIME_TO_HIDE_PREVIEW } from "./../Constants";
+import { TIME_TO_HIDE_PREVIEW, GAME_EVENTS } from "./../Constants";
 import CardEffect from "./CardEffect";
 import Item from "./CardTypes/Item";
 
@@ -56,6 +56,7 @@ export default class CardPreview extends cc.Component {
       this.hasTouchProperty = false
       this.node.getComponent(cc.Sprite).spriteFrame = null;
       this.node.active = false;
+      whevent.emit(GAME_EVENTS.CARD_PREVIEW_HIDE_OVER)
       CardPreviewManager.$.node.emit('previewRemoved', this.node)
     }, this)
     this.node.runAction(cc.sequence(cc.fadeTo(TIME_TO_HIDE_PREVIEW, 0), func));
@@ -65,16 +66,9 @@ export default class CardPreview extends cc.Component {
 
   waitForHideOver() {
     return new Promise((resolve, reject) => {
-      let check = () => {
-        if (!this.card) {
-          //  ActionManager.noMoreActionsBool = false;
-          resolve(true);
-        } else {
-          setTimeout(check, 50);
-        }
-      };
-      check.bind(this);
-      setTimeout(check, 50);
+      whevent.onOnce(GAME_EVENTS.CARD_PREVIEW_HIDE_OVER, () => {
+        resolve(true)
+      })
     });
   }
 
@@ -110,7 +104,8 @@ export default class CardPreview extends cc.Component {
       cc.log(`new effect ${newEffect.name} was chosen`)
       await this.hideCardPreview();
       CardPreview.effectChosen = effect;
-      CardPreview.wasEffectChosen = true;
+      whevent.emit(GAME_EVENTS.CARD_PREVIEW_CHOOSE_EFFECT)
+      //  CardPreview.wasEffectChosen = true;
     });
   }
 
@@ -179,16 +174,9 @@ export default class CardPreview extends cc.Component {
 
   testForEffectChosen(): Promise<cc.Node> {
     return new Promise((resolve, reject) => {
-      let check = () => {
-        if (CardPreview.wasEffectChosen) {
-          CardPreview.wasEffectChosen = false;
-          resolve(CardPreview.effectChosen);
-        } else {
-          setTimeout(check, 50);
-        }
-      };
-      check.bind(this);
-      setTimeout(check, 50);
+      whevent.onOnce(GAME_EVENTS.CARD_PREVIEW_CHOOSE_EFFECT, () => {
+        resolve(CardPreview.effectChosen)
+      })
     });
   }
 
@@ -203,7 +191,8 @@ export default class CardPreview extends cc.Component {
 
   chooseEffect() {
     CardPreview.effectChosen = this.node;
-    CardPreview.wasEffectChosen = true;
+    whevent.emit(GAME_EVENTS.CARD_PREVIEW_CHOOSE_EFFECT)
+    // CardPreview.wasEffectChosen = true;
   }
 
   // LIFE-CYCLE CALLBACKS:

@@ -87,18 +87,21 @@ export default class ButtonManager extends cc.Component {
       case BUTTON_STATE.PLAYER_CHOOSE_NO:
         btn.node.on(cc.Node.EventType.TOUCH_START, () => {
           extra[0]._playerYesNoDecision = false;
-          extra[0]._hasPlayerSelectedYesNo = true
+          cc.log(extra[0])
+          extra[0].hasPlayerSelectedYesNo = true
         }, extra[0])
         break;
       case BUTTON_STATE.PLAYER_CHOOSE_YES:
         btn.node.on(cc.Node.EventType.TOUCH_START, () => {
           extra[0]._playerYesNoDecision = true;
-          extra[0]._hasPlayerSelectedYesNo = true
+          cc.log(extra[0])
+          extra[0].hasPlayerSelectedYesNo = true
         }, extra[0])
         break;
       case BUTTON_STATE.PLAYER_CLICKS_NEXT:
         btn.node.on(cc.Node.EventType.TOUCH_START, () => {
-          extra[0]._hasPlayerClickedNext = true;
+          cc.log(extra[0])
+          extra[0].hasPlayerClickedNext = true
         }, extra[0])
         break;
 
@@ -143,9 +146,9 @@ export default class ButtonManager extends cc.Component {
 
       //Yes Button Only//
       case BUTTON_STATE.SET_CONFIRM_SELECT_IN_PREVIEWS:
-        if (CardPreviewManager.isOpen) {
-          this.moveButton(btn.node, this.$.cardPreviewButtonLayout)
-        } else this.moveButton(btn.node, this.$.playerButtonLayout)
+        // if (CardPreviewManager.isOpen) {
+        //   this.moveButton(btn.node, this.$.cardPreviewButtonLayout)
+        // } else this.moveButton(btn.node, this.$.playerButtonLayout)
         let eventHandler = new cc.Component.EventHandler();
         eventHandler.component = 'CardPreviewManager'
         eventHandler.handler = 'confirmSelect'

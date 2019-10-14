@@ -175,6 +175,7 @@ export default class ActionManager extends cc.Component {
             }
           } catch (error) {
             cc.error(error)
+            Logger.error(error)
           }
         }
         player.getComponent(Player).dice.getComponent(Dice).disableRoll();
@@ -297,21 +298,6 @@ export default class ActionManager extends cc.Component {
 
   static isUpdateActionsRunning = false;
 
-  static async waitForUpdateActions(): Promise<boolean> {
-    //w8 for a server message with a while,after the message is recived (should be a stack of effects with booleans) resolve with stack of effects.
-    return new Promise((resolve, reject) => {
-      let check = () => {
-        if (this.isUpdateActionsRunning == true) {
-          resolve(true);
-        } else {
-          setTimeout(check, 50);
-        }
-      };
-      check.bind(this);
-      setTimeout(check, 50);
-    });
-  }
-
   static async updateActions() {
 
 
@@ -358,46 +344,6 @@ export default class ActionManager extends cc.Component {
 
 
   static cardEffectToDo: { playedCard: cc.Node, playerId: number, passiveIndex?: number } = null;
-
-
-
-
-
-
-  static async waitForPassives(): Promise<boolean> {
-    //w8 for a server message with a while,after the message is recived (should be a stack of effects with booleans) resolve with stack of effects.
-    return new Promise((resolve, reject) => {
-      let check = () => {
-        if (PassiveManager.inPassivePhase == false) {
-          //  ActionManager.noMoreActionsBool = false;
-          resolve(true);
-        } else {
-          setTimeout(check, 50);
-        }
-      };
-      check.bind(this);
-      setTimeout(check, 50);
-    });
-  }
-
-
-  static async waitForReqctionsOver(): Promise<boolean> {
-    //w8 for a server message with a while,after the message is recived (should be a stack of effects with booleans) resolve with stack of effects.
-    return new Promise((resolve, reject) => {
-      let check = () => {
-        if (ActionManager.inReactionPhase == false) {
-          //  ActionManager.noMoreActionsBool = false;
-          resolve(true);
-        } else {
-          setTimeout(check, 50);
-        }
-      };
-      check.bind(this);
-      setTimeout(check, 50);
-    });
-  }
-
-
 
 
   static waitForAllEffectsOn: boolean = false;
@@ -750,7 +696,7 @@ export default class ActionManager extends cc.Component {
       case Signal.RESPOND_TO:
         Stack.hasOtherPlayerRespond = data.stackEffectResponse;
         whevent.emit(GAME_EVENTS.PLAYER_RESPOND)
-        Stack.hasOtherPlayerRespondedYet = true;
+        //Stack.hasOtherPlayerRespondedYet = true;
         break;
       case Signal.DO_STACK_EFFECT:
 
@@ -782,6 +728,7 @@ export default class ActionManager extends cc.Component {
       case Signal.FINISH_DO_STACK_EFFECT:
         // await Stack.replaceStack(data.newStack.map(stackEffect => converter.convertToStackEffect(stackEffect)), true)
         Stack.newStack = data.newStack.map(stackEffect => converter.convertToStackEffect(stackEffect));
+        whevent.emit(GAME_EVENTS.STACK_STACK_EFFECT_RESOLVED_AT_OTHER_PLAYER)
         Stack.hasStackEffectResolvedAtAnotherPlayer = true;
         break;
       case Signal.ACTIVATE_PASSIVE:

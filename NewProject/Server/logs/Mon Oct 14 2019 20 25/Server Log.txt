@@ -1,0 +1,605 @@
+Start Log 
+ Player 2 21:22:32 $MATCH:  
+ Player 1 21:22:33 $MATCH:  
+ Player 1 21:22:33 $START_GAME:  
+ Player 1 21:22:33 $MOVE_TO_TABLE:  
+ Player 2 21:22:33 $MOVE_TO_TABLE:  
+ Player 1 21:22:38 $FINISH_LOAD:  
+{"id":1,"turnPlayerId":2} 
+ Player 2 21:22:38 $FINISH_LOAD:  
+{"id":2,"turnPlayerId":2} 
+ Player 2 21:22:38 $ASSIGN_CHAR_TO_PLAYER:  
+{"playerId":1,"charCardId":153,"itemCardId":154} 
+ Player 2 21:22:38 $CHOOSE_FOR_EDEN:  
+{"playerId":2,"originPlayerId":2} 
+ Player 2 21:22:38 $DECK_ARRAGMENT:  
+{"deckType":5,"arrangement":[88,77,98,119,107,102,87,84,116,123,127,76,103,80,75,86,104,115,95,92,114,94,117,110,124,97,85,72,129,125,96,128,121,74,81,100,118,78,91,120,113,109,112,82,126,90,106,101,83,122,105,79,89,73,108,111,99,93]} 
+ Player 2 21:23:16 $EDEN_CHOSEN:  
+{"cardId":99,"sendToPlayerId":2} 
+ Player 2 21:23:16 $DECK_ARRAGMENT:  
+{"deckType":5,"arrangement":[88,77,98,119,107,102,87,84,116,123,127,76,103,80,75,86,104,115,95,92,114,94,117,110,124,97,85,72,129,125,96,128,121,74,81,100,118,78,91,120,113,109,112,82,126,90,106,101,83,122,105,79,89,73,108,111]} 
+ Player 2 21:23:16 $ASSIGN_CHAR_TO_PLAYER:  
+{"playerId":2,"charCardId":159,"itemCardId":99} 
+ Player 2 21:23:16 $DECK_ARRAGMENT:  
+{"deckType":1,"arrangement":[17,13,14,26,19,33,32,27,59,61,36,66,56,24,8,9,29,12,21,15,10,40,23,39,68,50,55,67,34,18,31,48,63,57,25,30,65,69,22,52,51,37,62,38,49,46,11,58,42,35,16,60,44,45,64,20,7,41,28,54,47,43,53]} 
+ Player 2 21:23:16 $DECK_ARRAGMENT:  
+{"deckType":2,"arrangement":[151,141,133,148,145,149,150,137,134,147,142,146,140,144,152,139,136,143,132,138,135]} 
+ Player 2 21:23:16 $DECK_ARRAGMENT:  
+{"deckType":5,"arrangement":[119,115,123,82,101,100,73,105,110,97,106,129,128,80,88,113,127,116,84,72,121,76,114,86,74,120,117,90,103,124,104,118,112,89,95,85,94,75,91,111,81,108,87,79,125,102,83,109,96,126,77,107,78,98,122,92]} 
+ Player 2 21:23:16 $DRAW_CARD:  
+{"deckType":2} 
+ Player 2 21:23:16 $FLIP_CARD:  
+{"cardId":135} 
+ Player 2 21:23:16 $ADD_MONSTER:  
+{"monsterPlaceId":1,"monsterId":135} 
+ Player 2 21:23:16 $NEW_MONSTER_ON_PLACE:  
+{"cardId":135,"monsterPlaceId":1} 
+ Player 2 21:23:16 $DRAW_CARD:  
+{"deckType":2} 
+ Player 2 21:23:16 $DECK_ADD_TO_BOTTOM:  
+{"deckType":2,"cardId":138} 
+ Player 2 21:23:16 $DRAW_CARD:  
+{"deckType":2} 
+ Player 2 21:23:16 $FLIP_CARD:  
+{"cardId":132} 
+ Player 2 21:23:16 $ADD_MONSTER:  
+{"monsterPlaceId":2,"monsterId":132} 
+ Player 2 21:23:16 $NEW_MONSTER_ON_PLACE:  
+{"cardId":132,"monsterPlaceId":2} 
+ Player 2 21:23:16 $NEXT_STACK_ID:  
+ Player 2 21:23:16 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+ Player 2 21:23:16 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":1,"creatorCardId":159,"slotType":5,"slotToFillId":0,"stackEffectType":10}} 
+ Player 2 21:23:16 $ACTION_MASSAGE:  
+{"massage":"Start Response Check ","timeToDisappear":0} 
+ Player 2 21:23:16 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 2 ","timeToDisappear":0} 
+ Player 2 21:23:16 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+ Player 2 21:23:16 $GET_REACTION:  
+{"nextPlayerId":2,"activePlayerId":2} 
+ Player 2 21:23:16 $RESPOND_TO:  
+{"playerId":2,"stackEffectResponse":false} 
+ Player 2 21:23:16 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 1 ","timeToDisappear":0} 
+ Player 2 21:23:16 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 2 21:23:16 $GET_REACTION:  
+{"nextPlayerId":1,"activePlayerId":2} 
+ Player 1 21:23:16 $RESPOND_TO:  
+{"playerId":2,"stackEffectResponse":false} 
+ Player 2 21:23:16 $ACTION_MASSAGE:  
+{"massage":"Resolve Top Stack Effect:\nid:1\ntype: Refill Slot\nCreator Card: Eden\nSlot To Fill:Store\nSlot Type:5\n ","timeToDisappear":0} 
+ Player 2 21:23:16 $DRAW_CARD:  
+{"deckType":5} 
+ Player 2 21:23:16 $FLIP_CARD:  
+{"cardId":92} 
+ Player 2 21:23:16 $ADD_STORE_CARD:  
+{"cardId":92} 
+ Player 2 21:23:16 $ACTION_MASSAGE:  
+{"massage":"Remove Stack Effect After Resolve:\nid:1\ntype: Refill Slot\nCreator Card: Eden\nSlot To Fill:Store\nSlot Type:5\n  ","timeToDisappear":0} 
+ Player 2 21:23:16 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":1,"creatorCardId":159,"slotType":5,"slotToFillId":0,"stackEffectType":10}} 
+ Player 2 21:23:16 $ACTION_MASSAGE:  
+{"massage":"Start Response Check ","timeToDisappear":0} 
+ Player 2 21:23:16 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 1 ","timeToDisappear":0} 
+ Player 2 21:23:16 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 2 21:23:16 $GET_REACTION:  
+{"nextPlayerId":1,"activePlayerId":2} 
+ Player 1 21:23:17 $RESPOND_TO:  
+{"playerId":2,"stackEffectResponse":false} 
+ Player 2 21:23:17 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 2 ","timeToDisappear":0} 
+ Player 2 21:23:17 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+ Player 2 21:23:17 $GET_REACTION:  
+{"nextPlayerId":2,"activePlayerId":2} 
+ Player 2 21:23:17 $RESPOND_TO:  
+{"playerId":2,"stackEffectResponse":false} 
+ Player 2 21:23:17 $ACTION_MASSAGE:  
+{"massage":"Stack Was Emptied ","timeToDisappear":5} 
+ Player 2 21:23:17 $NEXT_STACK_ID:  
+ Player 2 21:23:17 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+ Player 2 21:23:17 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":2,"creatorCardId":159,"slotType":5,"slotToFillId":0,"stackEffectType":10}} 
+ Player 2 21:23:17 $ACTION_MASSAGE:  
+{"massage":"Start Response Check ","timeToDisappear":0} 
+ Player 2 21:23:17 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 2 ","timeToDisappear":0} 
+ Player 2 21:23:17 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+ Player 2 21:23:17 $GET_REACTION:  
+{"nextPlayerId":2,"activePlayerId":2} 
+ Player 2 21:23:17 $RESPOND_TO:  
+{"playerId":2,"stackEffectResponse":false} 
+ Player 2 21:23:17 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 1 ","timeToDisappear":0} 
+ Player 2 21:23:17 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 2 21:23:17 $GET_REACTION:  
+{"nextPlayerId":1,"activePlayerId":2} 
+ Player 1 21:23:17 $RESPOND_TO:  
+{"playerId":2,"stackEffectResponse":false} 
+ Player 2 21:23:17 $ACTION_MASSAGE:  
+{"massage":"Resolve Top Stack Effect:\nid:2\ntype: Refill Slot\nCreator Card: Eden\nSlot To Fill:Store\nSlot Type:5\n ","timeToDisappear":0} 
+ Player 2 21:23:17 $DRAW_CARD:  
+{"deckType":5} 
+ Player 2 21:23:17 $FLIP_CARD:  
+{"cardId":122} 
+ Player 2 21:23:17 $ADD_STORE_CARD:  
+{"cardId":122} 
+ Player 2 21:23:17 $ACTION_MASSAGE:  
+{"massage":"Remove Stack Effect After Resolve:\nid:2\ntype: Refill Slot\nCreator Card: Eden\nSlot To Fill:Store\nSlot Type:5\n  ","timeToDisappear":0} 
+ Player 2 21:23:17 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":2,"creatorCardId":159,"slotType":5,"slotToFillId":0,"stackEffectType":10}} 
+ Player 2 21:23:17 $ACTION_MASSAGE:  
+{"massage":"Start Response Check ","timeToDisappear":0} 
+ Player 2 21:23:17 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 1 ","timeToDisappear":0} 
+ Player 2 21:23:17 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 2 21:23:17 $GET_REACTION:  
+{"nextPlayerId":1,"activePlayerId":2} 
+ Player 1 21:23:17 $RESPOND_TO:  
+{"playerId":2,"stackEffectResponse":false} 
+ Player 2 21:23:17 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 2 ","timeToDisappear":0} 
+ Player 2 21:23:17 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+ Player 2 21:23:17 $GET_REACTION:  
+{"nextPlayerId":2,"activePlayerId":2} 
+ Player 2 21:23:17 $RESPOND_TO:  
+{"playerId":2,"stackEffectResponse":false} 
+ Player 2 21:23:17 $ACTION_MASSAGE:  
+{"massage":"Stack Was Emptied ","timeToDisappear":5} 
+ Player 2 21:23:17 $CHANGE_MONEY:  
+{"playerId":1,"numOfCoins":3} 
+ Player 2 21:23:17 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":3}],"result":null,"preventMethod":false,"methodScopeId":153,"scopeIsPlayer":true,"index":1},"isAfterActivation":true,"index":1} 
+ Player 2 21:23:17 $CLEAR_PASSIVE_DATA:  
+{"index":1,"isAfterActivation":true} 
+ Player 2 21:23:17 $DRAW_CARD:  
+{"deckType":1} 
+ Player 2 21:23:17 $MOVE_CARD:  
+{"moveIndex":1,"cardId":53,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2} 
+ Player 1 21:23:18 $MOVE_CARD_END:  
+{"moveIndex":1,"cardId":53,"flipIfFlipped":false,"playerId":2} 
+ Player 2 21:23:18 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":53} 
+ Player 2 21:23:18 $FLIP_CARD:  
+{"cardId":53} 
+ Player 2 21:23:18 $FLIP_CARD:  
+{"cardId":53} 
+ Player 2 21:23:18 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":53} 
+ Player 2 21:23:18 $DRAW_CARD:  
+{"deckType":1} 
+ Player 2 21:23:18 $MOVE_CARD:  
+{"moveIndex":2,"cardId":43,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2} 
+ Player 1 21:23:19 $MOVE_CARD_END:  
+{"moveIndex":2,"cardId":43,"flipIfFlipped":false,"playerId":2} 
+ Player 2 21:23:19 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":43} 
+ Player 2 21:23:19 $FLIP_CARD:  
+{"cardId":43} 
+ Player 2 21:23:19 $FLIP_CARD:  
+{"cardId":43} 
+ Player 2 21:23:19 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":43} 
+ Player 2 21:23:19 $DRAW_CARD:  
+{"deckType":1} 
+ Player 2 21:23:19 $MOVE_CARD:  
+{"moveIndex":3,"cardId":47,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2} 
+ Player 1 21:23:20 $MOVE_CARD_END:  
+{"moveIndex":3,"cardId":47,"flipIfFlipped":false,"playerId":2} 
+ Player 2 21:23:20 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":47} 
+ Player 2 21:23:20 $FLIP_CARD:  
+{"cardId":47} 
+ Player 2 21:23:20 $FLIP_CARD:  
+{"cardId":47} 
+ Player 2 21:23:20 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":47} 
+ Player 2 21:23:20 $CHANGE_MONEY:  
+{"playerId":2,"numOfCoins":3} 
+ Player 2 21:23:20 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":3}],"result":null,"preventMethod":false,"methodScopeId":159,"scopeIsPlayer":true,"index":2},"isAfterActivation":true,"index":2} 
+ Player 2 21:23:20 $CLEAR_PASSIVE_DATA:  
+{"index":2,"isAfterActivation":true} 
+ Player 2 21:23:20 $DRAW_CARD:  
+{"deckType":1} 
+ Player 2 21:23:20 $MOVE_CARD:  
+{"moveIndex":4,"cardId":54,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2} 
+ Player 1 21:23:20 $MOVE_CARD_END:  
+{"moveIndex":4,"cardId":54,"flipIfFlipped":false,"playerId":2} 
+ Player 2 21:23:20 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":54} 
+ Player 2 21:23:20 $FLIP_CARD:  
+{"cardId":54} 
+ Player 2 21:23:20 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":54} 
+ Player 2 21:23:20 $DRAW_CARD:  
+{"deckType":1} 
+ Player 2 21:23:20 $MOVE_CARD:  
+{"moveIndex":5,"cardId":28,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2} 
+ Player 1 21:23:21 $MOVE_CARD_END:  
+{"moveIndex":5,"cardId":28,"flipIfFlipped":false,"playerId":2} 
+ Player 2 21:23:21 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":28} 
+ Player 2 21:23:21 $FLIP_CARD:  
+{"cardId":28} 
+ Player 2 21:23:21 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":28} 
+ Player 2 21:23:21 $DRAW_CARD:  
+{"deckType":1} 
+ Player 2 21:23:21 $MOVE_CARD:  
+{"moveIndex":6,"cardId":41,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2} 
+ Player 1 21:23:22 $MOVE_CARD_END:  
+{"moveIndex":6,"cardId":41,"flipIfFlipped":false,"playerId":2} 
+ Player 2 21:23:22 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":41} 
+ Player 2 21:23:22 $FLIP_CARD:  
+{"cardId":41} 
+ Player 2 21:23:22 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":41} 
+ Player 2 21:23:22 $SET_TURN:  
+{"playerId":1} 
+ Player 2 21:23:22 $START_TURN:  
+{"playerId":1} 
+ Player 2 21:23:22 $UPDATE_ACTIONS:  
+ Player 1 21:23:22 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 1 21:23:22 $NEXT_STACK_ID:  
+ Player 1 21:23:22 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 1 21:23:22 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":3,"creatorCardId":153,"turnPlayerCardId":153,"stackEffectType":13}} 
+ Player 1 21:23:22 $ACTION_MASSAGE:  
+{"massage":"Start Response Check ","timeToDisappear":0} 
+ Player 1 21:23:22 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 1 ","timeToDisappear":0} 
+ Player 1 21:23:22 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 1 21:23:22 $GET_REACTION:  
+{"nextPlayerId":1,"activePlayerId":1} 
+ Player 1 21:23:22 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:23:22 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 2 ","timeToDisappear":0} 
+ Player 1 21:23:22 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+ Player 1 21:23:22 $GET_REACTION:  
+{"nextPlayerId":2,"activePlayerId":1} 
+ Player 2 21:23:22 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:23:22 $ACTION_MASSAGE:  
+{"massage":"Resolve Top Stack Effect:\nid:3\ntype: Start Turn Loot\nCreator Card: Azazel\nTurn Player: player1<Player>\n ","timeToDisappear":0} 
+ Player 1 21:23:22 $DRAW_CARD:  
+{"deckType":1} 
+ Player 1 21:23:22 $MOVE_CARD:  
+{"moveIndex":7,"cardId":7,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":1} 
+ Player 2 21:23:23 $MOVE_CARD_END:  
+{"moveIndex":7,"cardId":7,"flipIfFlipped":false,"playerId":1} 
+ Player 1 21:23:23 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":7} 
+ Player 1 21:23:23 $FLIP_CARD:  
+{"cardId":7} 
+ Player 1 21:23:23 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":7} 
+ Player 1 21:23:23 $ACTION_MASSAGE:  
+{"massage":"Remove Stack Effect After Resolve:\nid:3\ntype: Start Turn Loot\nCreator Card: Azazel\nTurn Player: player1<Player>\n  ","timeToDisappear":0} 
+ Player 1 21:23:23 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":3,"creatorCardId":153,"turnPlayerCardId":153,"stackEffectType":13}} 
+ Player 1 21:23:23 $ACTION_MASSAGE:  
+{"massage":"Start Response Check ","timeToDisappear":0} 
+ Player 1 21:23:23 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 2 ","timeToDisappear":0} 
+ Player 1 21:23:23 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+ Player 1 21:23:23 $GET_REACTION:  
+{"nextPlayerId":2,"activePlayerId":1} 
+ Player 2 21:23:23 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:23:23 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 1 ","timeToDisappear":0} 
+ Player 1 21:23:23 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 1 21:23:23 $GET_REACTION:  
+{"nextPlayerId":1,"activePlayerId":1} 
+ Player 1 21:23:23 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:23:23 $ACTION_MASSAGE:  
+{"massage":"Stack Was Emptied ","timeToDisappear":5} 
+ Player 1 21:26:35 $NEXT_STACK_ID:  
+ Player 1 21:26:35 $PLAYER_LOSE_LOOT:  
+{"playerId":1,"cardId":53} 
+ Player 1 21:26:35 $MOVE_CARD:  
+{"moveIndex":8,"cardId":53,"placeID":171,"flipIfFlipped":true,"playerId":1} 
+ Player 2 21:26:36 $MOVE_CARD_END:  
+{"moveIndex":8,"cardId":53,"flipIfFlipped":true,"playerId":1} 
+ Player 1 21:26:36 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 1 21:26:36 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":4,"creatorCardId":153,"hasLockingStackEffect":false,"hasLockingStackEffectResolved":false,"lootToPlayCardId":53,"lootPlayerId":1,"effectToDo":{"effectName":"AddTrinket","cardEffectNum":0,"cardPlayerId":1,"cardId":53,"effctType":1},"hasDataBeenCollectedYet":true,"stackEffectType":8}} 
+ Player 1 21:26:36 $ACTION_MASSAGE:  
+{"massage":"Start Response Check ","timeToDisappear":0} 
+ Player 1 21:26:36 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 1 ","timeToDisappear":0} 
+ Player 1 21:26:36 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 1 21:26:36 $GET_REACTION:  
+{"nextPlayerId":1,"activePlayerId":1} 
+ Player 1 21:26:36 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:26:36 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 2 ","timeToDisappear":0} 
+ Player 1 21:26:36 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+ Player 1 21:26:36 $GET_REACTION:  
+{"nextPlayerId":2,"activePlayerId":1} 
+ Player 2 21:26:36 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:26:36 $ACTION_MASSAGE:  
+{"massage":"Resolve Top Stack Effect:\nid:4\ntype: Play Loot Card\nCreator Card: Azazel\nEffect:AddTrinket<AddTrinket>\nPlayer:player1<Player>\nLoot To Play:Swallowed Penny\n ","timeToDisappear":0} 
+ Player 1 21:26:36 $MOVE_CARD:  
+{"moveIndex":9,"cardId":53,"placeID":1,"flipIfFlipped":true,"playerId":1} 
+ Player 2 21:26:37 $MOVE_CARD_END:  
+{"moveIndex":9,"cardId":53,"flipIfFlipped":true,"playerId":1} 
+ Player 1 21:26:37 $ADD_AN_ITEM:  
+{"playerId":1,"cardId":53,"isReward":true} 
+ Player 1 21:26:37 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":53}],"result":true,"preventMethod":false,"methodScopeId":153,"scopeIsPlayer":true,"index":1},"isAfterActivation":true,"index":1} 
+ Player 1 21:26:37 $CLEAR_PASSIVE_DATA:  
+{"index":1,"isAfterActivation":true} 
+ Player 1 21:26:37 $ACTION_MASSAGE:  
+{"massage":"Remove Stack Effect After Resolve:\nid:4\ntype: Play Loot Card\nCreator Card: Azazel\nPlayer:player1<Player>\nLoot To Play:Swallowed Penny\n  ","timeToDisappear":0} 
+ Player 1 21:26:37 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":4,"creatorCardId":153,"hasLockingStackEffect":false,"hasLockingStackEffectResolved":false,"lootToPlayCardId":53,"lootPlayerId":1,"hasDataBeenCollectedYet":true,"stackEffectType":8}} 
+ Player 1 21:26:37 $ACTION_MASSAGE:  
+{"massage":"Start Response Check ","timeToDisappear":0} 
+ Player 1 21:26:37 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 2 ","timeToDisappear":0} 
+ Player 1 21:26:37 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+ Player 1 21:26:37 $GET_REACTION:  
+{"nextPlayerId":2,"activePlayerId":1} 
+ Player 2 21:26:37 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":53}],"result":true,"preventMethod":false,"methodScopeId":153,"scopeIsPlayer":true,"index":3},"isAfterActivation":true,"index":3} 
+ Player 2 21:26:37 $CLEAR_PASSIVE_DATA:  
+{"index":3,"isAfterActivation":true} 
+ Player 2 21:26:37 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:26:37 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 1 ","timeToDisappear":0} 
+ Player 1 21:26:37 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 1 21:26:37 $GET_REACTION:  
+{"nextPlayerId":1,"activePlayerId":1} 
+ Player 1 21:26:37 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:26:37 $ACTION_MASSAGE:  
+{"massage":"Stack Was Emptied ","timeToDisappear":5} 
+ Player 1 21:26:37 $REGISTER_PASSIVE_ITEM:  
+{"cardId":53} 
+ Player 1 21:26:40 $NEXT_STACK_ID:  
+ Player 1 21:26:40 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 1 21:26:40 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":5,"creatorCardId":153,"attackingPlayerCardId":153,"idOfCardBeingAttacked":135,"stackEffectType":4}} 
+ Player 1 21:26:40 $ACTION_MASSAGE:  
+{"massage":"Start Response Check ","timeToDisappear":0} 
+ Player 1 21:26:40 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 1 ","timeToDisappear":0} 
+ Player 1 21:26:40 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 1 21:26:40 $GET_REACTION:  
+{"nextPlayerId":1,"activePlayerId":1} 
+ Player 1 21:26:40 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:26:40 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 2 ","timeToDisappear":0} 
+ Player 1 21:26:40 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+ Player 1 21:26:40 $GET_REACTION:  
+{"nextPlayerId":2,"activePlayerId":1} 
+ Player 2 21:26:40 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:26:40 $ACTION_MASSAGE:  
+{"massage":"Resolve Top Stack Effect:\nid:5\ntype: Declare Attack\nCreator Card: Azazel\nAttacking Player:player1<Player>\nMonster Being Attacked:Holy Dip\n ","timeToDisappear":0} 
+ Player 1 21:26:40 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_DECLARE_ATTACK","args":[],"result":null,"preventMethod":false,"methodScopeId":153,"scopeIsPlayer":true,"index":2},"isAfterActivation":true,"index":2} 
+ Player 1 21:26:40 $CLEAR_PASSIVE_DATA:  
+{"index":2,"isAfterActivation":true} 
+ Player 1 21:26:40 $ACTION_MASSAGE:  
+{"massage":"Remove Stack Effect After Resolve:\nid:5\ntype: Declare Attack\nCreator Card: Azazel\nAttacking Player:player1<Player>\nMonster Being Attacked:Holy Dip\n  ","timeToDisappear":0} 
+ Player 1 21:26:40 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":5,"creatorCardId":153,"attackingPlayerCardId":153,"idOfCardBeingAttacked":135,"stackEffectType":4}} 
+ Player 1 21:26:40 $ACTION_MASSAGE:  
+{"massage":"Start Response Check ","timeToDisappear":0} 
+ Player 1 21:26:40 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 2 ","timeToDisappear":0} 
+ Player 1 21:26:40 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+ Player 1 21:26:40 $GET_REACTION:  
+{"nextPlayerId":2,"activePlayerId":1} 
+ Player 2 21:26:40 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:26:40 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 1 ","timeToDisappear":0} 
+ Player 1 21:26:40 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 1 21:26:40 $GET_REACTION:  
+{"nextPlayerId":1,"activePlayerId":1} 
+ Player 1 21:26:40 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:26:40 $ACTION_MASSAGE:  
+{"massage":"Stack Was Emptied ","timeToDisappear":5} 
+ Player 1 21:26:42 $NEXT_STACK_ID:  
+ Player 1 21:26:42 $ROLL_DICE:  
+{"playerId":1} 
+ Player 1 21:26:44 $ROLL_DICE_ENDED:  
+{"playerId":1,"numberRolled":1} 
+ Player 1 21:26:44 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 1 21:26:44 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":6,"creatorCardId":153,"numberRolled":1,"rollingPlayerCardId":153,"stackEffectType":2,"attackedMonsterCardId":135}} 
+ Player 1 21:26:44 $ACTION_MASSAGE:  
+{"massage":"Start Response Check ","timeToDisappear":0} 
+ Player 1 21:26:44 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 1 ","timeToDisappear":0} 
+ Player 1 21:26:44 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 1 21:26:44 $GET_REACTION:  
+{"nextPlayerId":1,"activePlayerId":1} 
+ Player 1 21:26:44 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:26:44 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 2 ","timeToDisappear":0} 
+ Player 1 21:26:44 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+ Player 1 21:26:44 $GET_REACTION:  
+{"nextPlayerId":2,"activePlayerId":1} 
+ Player 2 21:26:44 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:26:44 $ACTION_MASSAGE:  
+{"massage":"Resolve Top Stack Effect:\nid:6\ntype: Attack Roll\nCreator Card: Azazel\nAttacked Monster:Holy Dip<Monster>\nNumber Rolled:1\nRolling Player:player1<Player>\n ","timeToDisappear":0} 
+ Player 1 21:26:44 $ACTION_MASSAGE:  
+{"massage":"Added 0 to original roll","timeToDisappear":3} 
+ Player 1 21:26:44 $NEXT_STACK_ID:  
+ Player 1 21:26:44 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 1 21:26:44 $REPLACE_STACK:  
+{"currentStack":[{"entityId":7,"creatorCardId":153,"entityToDoDamageCardId":135,"entityToTakeDamageCardId":153,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3},{"entityId":6,"creatorCardId":153,"numberRolled":1,"rollingPlayerCardId":153,"stackEffectType":2,"attackedMonsterCardId":135}]} 
+ Player 1 21:26:44 $ACTION_MASSAGE:  
+{"massage":"Remove Stack Effect After Resolve:\nid:6\ntype: Attack Roll\nCreator Card: Azazel\nAttacked Monster:Holy Dip<Monster>\nNumber Rolled:1\nRolling Player:player1<Player>\n  ","timeToDisappear":0} 
+ Player 1 21:26:44 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":6,"creatorCardId":153,"numberRolled":1,"rollingPlayerCardId":153,"stackEffectType":2,"attackedMonsterCardId":135}} 
+ Player 1 21:26:44 $ACTION_MASSAGE:  
+{"massage":"Start Response Check ","timeToDisappear":0} 
+ Player 1 21:26:44 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 1 ","timeToDisappear":0} 
+ Player 1 21:26:44 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 1 21:26:44 $GET_REACTION:  
+{"nextPlayerId":1,"activePlayerId":1} 
+ Player 1 21:26:44 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:26:44 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 2 ","timeToDisappear":0} 
+ Player 1 21:26:44 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+ Player 1 21:26:44 $GET_REACTION:  
+{"nextPlayerId":2,"activePlayerId":1} 
+ Player 2 21:26:44 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:26:44 $ACTION_MASSAGE:  
+{"massage":"Resolve Top Stack Effect:\nid:7\ntype: Combat Damage\nCreator Card: Azazel\nAttacking Card:Holy Dip\nNumber Rolled:1\nTaking Damage Card:Azazel\n ","timeToDisappear":0} 
+ Player 1 21:26:44 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GET_HIT","args":[{"type":2,"number":1},{"type":0,"number":135}],"result":null,"preventMethod":false,"methodScopeId":153,"scopeIsPlayer":true,"index":1},"isAfterActivation":false,"index":1} 
+ Player 1 21:26:44 $NEXT_STACK_ID:  
+ Player 1 21:26:44 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":8,"creatorCardId":153,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":53,"effectToDo":{"effectName":"addMoney","cardEffectNum":0,"cardPlayerId":1,"cardId":53,"effctType":0},"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14}} 
+ Player 1 21:26:44 $ACTION_MASSAGE:  
+{"massage":"Start Response Check ","timeToDisappear":0} 
+ Player 1 21:26:44 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 2 ","timeToDisappear":0} 
+ Player 1 21:26:44 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+ Player 1 21:26:44 $GET_REACTION:  
+{"nextPlayerId":2,"activePlayerId":1} 
+ Player 2 21:26:44 $LOG_ERROR:  
+"no effect found" 
+ Player 2 21:26:44 $LOG_ERROR:  
+//////Error From Player 2////
+ "no effect found"
+////// 
+ Player 2 21:26:44 $LOG_ERROR:  
+"no effect found" 
+ Player 2 21:26:44 $LOG_ERROR:  
+//////Error From Player 2////
+ "no effect found"
+////// 
+ Player 2 21:26:44 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:26:44 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 1 ","timeToDisappear":0} 
+ Player 1 21:26:44 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 1 21:26:44 $GET_REACTION:  
+{"nextPlayerId":1,"activePlayerId":1} 
+ Player 1 21:26:44 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:26:44 $ACTION_MASSAGE:  
+{"massage":"Resolve Top Stack Effect:\nid:8\ntype: Activate Passive Effect\nCreator Card: Azazel\nEffect:AddMoney<AddMoney>\nEffect Played By:Dice\nCard With Effect:Swallowed Penny\n ","timeToDisappear":0} 
+ Player 1 21:26:44 $CHANGE_MONEY:  
+{"playerId":1,"numOfCoins":0} 
+ Player 1 21:26:44 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":0}],"result":null,"preventMethod":false,"methodScopeId":153,"scopeIsPlayer":true,"index":3},"isAfterActivation":true,"index":3} 
+ Player 1 21:26:44 $CLEAR_PASSIVE_DATA:  
+{"index":3,"isAfterActivation":true} 
+ Player 1 21:26:44 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GET_HIT","args":[{"type":2,"number":1},{"type":0,"number":135}],"result":null,"preventMethod":false,"methodScopeId":153,"scopeIsPlayer":true,"index":1},"isAfterActivation":false,"index":1} 
+ Player 1 21:26:45 $ACTION_MASSAGE:  
+{"massage":"Remove Stack Effect After Resolve:\nid:8\ntype: Activate Passive Effect\nCreator Card: Azazel\nEffect Played By:Dice\nCard With Effect:Swallowed Penny\n  ","timeToDisappear":0} 
+ Player 1 21:26:45 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":8,"creatorCardId":153,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":53,"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14}} 
+ Player 1 21:26:45 $ACTION_MASSAGE:  
+{"massage":"Start Response Check ","timeToDisappear":0} 
+ Player 1 21:26:45 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 1 ","timeToDisappear":0} 
+ Player 1 21:26:45 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 1 21:26:45 $GET_REACTION:  
+{"nextPlayerId":1,"activePlayerId":1} 
+ Player 1 21:26:45 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:26:45 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 2 ","timeToDisappear":0} 
+ Player 1 21:26:45 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+ Player 1 21:26:45 $GET_REACTION:  
+{"nextPlayerId":2,"activePlayerId":1} 
+ Player 2 21:26:45 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:26:45 $ACTION_MASSAGE:  
+{"massage":"Resolve Top Stack Effect:\nid:7\ntype: Combat Damage\nCreator Card: Azazel\nAttacking Card:Holy Dip\nNumber Rolled:1\nTaking Damage Card:Azazel\n ","timeToDisappear":0} 
+ Player 1 21:26:45 $CLEAR_PASSIVE_DATA:  
+{"index":1,"isAfterActivation":false} 
+ Player 1 21:26:45 $PLAYER_GET_HIT:  
+{"playerId":1,"damage":1,"damageDealerId":135} 
+ Player 1 21:26:45 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GET_HIT","args":[{"type":2,"number":1},{"type":0,"number":135}],"result":null,"preventMethod":false,"methodScopeId":153,"scopeIsPlayer":true,"index":1},"isAfterActivation":true,"index":1} 
+ Player 1 21:26:45 $CLEAR_PASSIVE_DATA:  
+{"index":1,"isAfterActivation":true} 
+ Player 1 21:26:45 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_COMBAT_DAMAGE_TAKEN","args":[{"type":2,"number":1},{"type":2,"number":1},{"type":0,"number":135}],"result":null,"preventMethod":false,"methodScopeId":153,"scopeIsPlayer":true,"index":4},"isAfterActivation":true,"index":4} 
+ Player 1 21:26:45 $CLEAR_PASSIVE_DATA:  
+{"index":4,"isAfterActivation":true} 
+ Player 1 21:26:45 $ACTION_MASSAGE:  
+{"massage":"Remove Stack Effect After Resolve:\nid:7\ntype: Combat Damage\nCreator Card: Azazel\nAttacking Card:Holy Dip\nNumber Rolled:1\nTaking Damage Card:Azazel\n  ","timeToDisappear":0} 
+ Player 1 21:26:45 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":7,"creatorCardId":153,"entityToDoDamageCardId":135,"entityToTakeDamageCardId":153,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3}} 
+ Player 1 21:26:45 $ACTION_MASSAGE:  
+{"massage":"Start Response Check ","timeToDisappear":0} 
+ Player 1 21:26:45 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 2 ","timeToDisappear":0} 
+ Player 1 21:26:45 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+ Player 1 21:26:45 $GET_REACTION:  
+{"nextPlayerId":2,"activePlayerId":1} 
+ Player 2 21:26:45 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:26:45 $ACTION_MASSAGE:  
+{"massage":"Wait For Response From Player 1 ","timeToDisappear":0} 
+ Player 1 21:26:45 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+ Player 1 21:26:45 $GET_REACTION:  
+{"nextPlayerId":1,"activePlayerId":1} 
+ Player 1 21:26:45 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+ Player 1 21:26:45 $ACTION_MASSAGE:  
+{"massage":"Stack Was Emptied ","timeToDisappear":5}

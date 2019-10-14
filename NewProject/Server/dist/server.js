@@ -76,6 +76,7 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.bindEvents = function () {
         whevent.on(signal_1["default"].LOG, this.logFromPlayer, this);
+        whevent.on(signal_1["default"].LOG_ERROR, this.logErrorFromPlayer, this);
         whevent.on(signal_1["default"].MATCH, this.onRequestMatch, this);
         whevent.on(signal_1["default"].MOVE_TO_TABLE, this.moveToTable, this);
         whevent.on(signal_1["default"].NEXT_TURN, this.nextTurn, this);
@@ -98,6 +99,7 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].GET_NEXT_MONSTER, this.onGetNextMonster, this);
         whevent.on(signal_1["default"].MOVE_CARD_TO_PILE, this.onMoveCardToPile, this);
         whevent.on(signal_1["default"].GET_SOUL, this.onGetSoul, this);
+        whevent.on(signal_1["default"].LOSE_SOUL, this.onLoseSoul, this);
         whevent.on(signal_1["default"].ADD_MONSTER, this.onAddMonster, this);
         //BOARD SIGANL
         whevent.on(signal_1["default"].REMOVE_MONSTER, this.onRemoveMonster, this);
@@ -111,6 +113,8 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].FLIP_CARD, this.onFlipCard, this);
         whevent.on(signal_1["default"].BUY_ITEM_FROM_SHOP, this.onBuyItemFromShop, this);
         whevent.on(signal_1["default"].UPDATE_PASSIVE_DATA, this.onUpdatePassiveData, this);
+        whevent.on(signal_1["default"].CARD_GET_COUNTER, this.onCardGetCounter, this);
+        whevent.on(signal_1["default"].CANCEL_ATTACK, this.onCancelAttack, this);
         whevent.on(signal_1["default"].CHANGE_MONEY, this.onChangeMoney, this);
         whevent.on(signal_1["default"].ADD_STORE_CARD, this.onAddToStoreCard, this);
         whevent.on(signal_1["default"].REGISTER_PASSIVE_ITEM, this.onRegisterPassive, this);
@@ -138,14 +142,21 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].PLAY_LOOT_CARD, this.onLootCardPlayed, this);
         whevent.on(signal_1["default"].PLAYER_GET_LOOT, this.onPlayerGainLoot, this);
         whevent.on(signal_1["default"].PLAYER_LOSE_LOOT, this.onPlayerLoseCard, this);
+        whevent.on(signal_1["default"].PLAYER_HEAL, this.onPlayerHeal, this);
+        //
+        //monster events
         whevent.on(signal_1["default"].MONSTER_GAIN_DMG, this.onMonsterGainDMG, this);
         whevent.on(signal_1["default"].MONSTER_GAIN_HP, this.onMonsterGainHp, this);
         whevent.on(signal_1["default"].MONSTER_GAIN_ROLL_BONUS, this.onMonsterGainRollBonus, this);
         whevent.on(signal_1["default"].MONSTER_GET_DAMAGED, this.onMonsterGetDamaged, this);
+        whevent.on(signal_1["default"].MONSTER_HEAL, this.onMonsterHeal, this);
+        //
         whevent.on(signal_1["default"].RESPOND_TO, this.onRespondTo, this);
         whevent.on(signal_1["default"].FINISH_DO_STACK_EFFECT, this.onFinishDoStackEffect, this);
         whevent.on(signal_1["default"].DO_STACK_EFFECT, this.onDoStackEffect, this);
         whevent.on(signal_1["default"].TURN_PLAYER_DO_STACK_EFFECT, this.onTurnPlayerDoStackEffect, this);
+        whevent.on(signal_1["default"].START_TURN, this.onStartTurn, this);
+        whevent.on(signal_1["default"].DECK_ARRAGMENT, this.onDeckArrangement, this);
         whevent.on(signal_1["default"].MOVE_CARD, this.onCardMove, this);
         whevent.on(signal_1["default"].MOVE_CARD_END, this.onCardMoveEnd, this);
         //eden events
@@ -157,6 +168,10 @@ var Server = /** @class */ (function () {
     Server.prototype.logFromPlayer = function (_a) {
         var player = _a.player, data = _a.data;
         this.logger.logFromPlayer(player.uuid, data);
+    };
+    Server.prototype.logErrorFromPlayer = function (_a) {
+        var player = _a.player, data = _a.data;
+        this.logger.logErrorFromPlayer(player.uuid, data);
     };
     Server.prototype.onRequestMatch = function (_a) {
         var player = _a.player, data = _a.data;
@@ -210,6 +225,11 @@ var Server = /** @class */ (function () {
         var player = _a.player, data = _a.data;
         var playerToSendToId = data.data.playerId;
         player.match.broadcastToPlayer(playerToSendToId, signal_1["default"].TURN_PLAYER_DO_STACK_EFFECT, data);
+    };
+    Server.prototype.onStartTurn = function (_a) {
+        var player = _a.player, data = _a.data;
+        var playerToSendToId = data.data.playerId;
+        player.match.broadcastToPlayer(playerToSendToId, signal_1["default"].START_TURN, data);
     };
     Server.prototype.onActionMassage = function (_a) {
         var player = _a.player, data = _a.data;
@@ -302,6 +322,14 @@ var Server = /** @class */ (function () {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_1["default"].SET_TURN, data);
     };
+    Server.prototype.onCancelAttack = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_1["default"].CANCEL_ATTACK, data);
+    };
+    Server.prototype.onCardGetCounter = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_1["default"].CARD_GET_COUNTER, data);
+    };
     Server.prototype.onEndRollAction = function (_a) {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_1["default"].END_ROLL_ACTION, data);
@@ -312,7 +340,8 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.onCardMoveEnd = function (_a) {
         var player = _a.player, data = _a.data;
-        player.match.broadcastExept(player, signal_1["default"].MOVE_CARD_END, data);
+        var playerToSendToId = data.data.playerId;
+        player.match.broadcastToPlayer(playerToSendToId, signal_1["default"].MOVE_CARD_END, data);
     };
     Server.prototype.onRechargeItem = function (_a) {
         var player = _a.player, data = _a.data;
@@ -352,8 +381,16 @@ var Server = /** @class */ (function () {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_1["default"].MONSTER_GET_DAMAGED, data);
     };
+    Server.prototype.onMonsterHeal = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_1["default"].MONSTER_HEAL, data);
+    };
     //monster events end
     //player events
+    Server.prototype.onPlayerHeal = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_1["default"].PLAYER_HEAL, data);
+    };
     Server.prototype.onPlayerGainLoot = function (_a) {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_1["default"].PLAYER_GET_LOOT, data);
@@ -408,6 +445,11 @@ var Server = /** @class */ (function () {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_1["default"].DECK_ADD_TO_BOTTOM, data);
     };
+    Server.prototype.onDeckArrangement = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_1["default"].DECK_ARRAGMENT, data);
+    };
+    //
     Server.prototype.onChangeMoney = function (_a) {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_1["default"].CHANGE_MONEY, data);
@@ -419,6 +461,10 @@ var Server = /** @class */ (function () {
     Server.prototype.onGetSoul = function (_a) {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_1["default"].GET_SOUL, data);
+    };
+    Server.prototype.onLoseSoul = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_1["default"].LOSE_SOUL, data);
     };
     Server.prototype.onRemoveMonster = function (_a) {
         var player = _a.player, data = _a.data;
@@ -540,7 +586,6 @@ var Server = /** @class */ (function () {
             var data = JSON.parse(Buffer.from(message, "base64").toString());
             console.log("Player " + player.uuid + ": ", data);
             var id = player.uuid;
-            console.log(id);
             this.logger.logFromServer(id, data);
             whevent.emit(data.signal, { player: player, data: data });
         }

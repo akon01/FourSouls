@@ -6,7 +6,7 @@ import ActionManager from "../../Managers/ActionManager";
 import CardManager from "../../Managers/CardManager";
 import { EffectTarget } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
-import { CARD_TYPE, CHOOSE_CARD_TYPE } from "./../../Constants";
+import { CARD_TYPE, CHOOSE_CARD_TYPE, GAME_EVENTS } from "./../../Constants";
 import MonsterField from "./../../Entites/MonsterField";
 import DataCollector from "./DataCollector";
 import Store from "../../Entites/GameEntities/Store";
@@ -23,7 +23,11 @@ export default class ChooseCard extends DataCollector {
   cardChosen: cc.Node;
   playerId: number;
 
-  isCardChosen: boolean = false;
+  // private _isCardChosen: boolean = false;
+
+  set isCardChosen(boolean: boolean) {
+    whevent.emit(GAME_EVENTS.CHOOSE_CARD_CARD_CHOSEN, boolean)
+  }
 
 
   @property
@@ -269,17 +273,11 @@ export default class ChooseCard extends DataCollector {
 
   async waitForCardToBeChosen(): Promise<cc.Node> {
     return new Promise((resolve, reject) => {
-      let timesChecked = 0;
-      let check = () => {
-        if (this.isCardChosen == true) {
-          this.isCardChosen = false;
+      whevent.onOnce(GAME_EVENTS.CHOOSE_CARD_CARD_CHOSEN, (data) => {
+        if (data) {
           resolve(this.cardChosen);
-        } else {
-          setTimeout(check, 50);
         }
-      };
-      check.bind(this);
-      setTimeout(check, 50);
-    });
+      })
+    })
   }
 }

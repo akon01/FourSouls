@@ -26,7 +26,7 @@ export default class CreditCardEffect extends Effect {
   ) {
     let originalCost = Store.storeCardsCost;
     Store.storeCardsCost = 0;
-    this.node.parent.getChildByName('CreditCardEffect2').getComponent(CreditCardEffect2).originalCost = originalCost;
+    this.node.parent.getChildByName('Credit Card Effect 2').getComponent(CreditCardEffect2).originalCost = originalCost;
     return data
   }
 

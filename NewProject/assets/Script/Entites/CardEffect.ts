@@ -14,6 +14,7 @@ import Stack from "./Stack";
 import EffectsAndOptionalChoice from "../EffectAndOptionalChoice";
 import PlayerManager from "../Managers/PlayerManager";
 import Player from "./GameEntities/Player";
+import { Logger } from "./Logger";
 
 
 
@@ -253,6 +254,7 @@ export default class CardEffect extends cc.Component {
       }
     } catch (error) {
       cc.error(error)
+      Logger.error(error)
     }
     return serverEffectStack
   }
@@ -293,9 +295,11 @@ export default class CardEffect extends cc.Component {
         }
       default:
         cc.error(`effect type is not one of the registered ITEM_TYPE enum`)
+        Logger.error('effect type is not one of the registered ITEM_TYPE enum')
         break;
     }
     cc.error(`no effect found`)
+    Logger.error('no effect found')
   }
 
   sendServerCardEffect(oldData) {
@@ -331,6 +335,7 @@ export default class CardEffect extends cc.Component {
 
           } catch (error) {
             cc.error(error)
+            Logger.error(error)
           }
           if (endData == null) {
             if (dataCollector instanceof ChainCollector) {
@@ -438,7 +443,10 @@ export default class CardEffect extends cc.Component {
       if (cardEffect.dataCollector != null) {
         this.effectData = await this.collectEffectData(cardEffect, cardPlayedData);
       } else {
-        if (cardEffect.dataCollector) cc.error(`need to collect data but cant!`)
+        if (cardEffect.dataCollector) {
+          cc.error(`need to collect data but cant!`)
+          Logger.error(`need to collect data for ${cardEffect.name} with ${cardEffect.dataCollector} but cant!`)
+        }
       }
     }
     cc.log(this.effectData)

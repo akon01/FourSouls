@@ -15,6 +15,7 @@ import RollDiceStackEffect from "./Roll DIce";
 import ServerActivatePassive from "./ServerSideStackEffects/Server Activate Passive";
 import StackEffectInterface from "./StackEffectInterface";
 import { ActivatePassiveItemVis } from "./StackEffectVisualRepresentation/Activate Passive Item Vis";
+import { Logger } from "../Entites/Logger";
 
 
 
@@ -144,6 +145,10 @@ export default class ActivatePassiveEffect implements StackEffectInterface {
         let selectedEffect: Effect = null;
         this.isAfterActivation == true ? this.effectPassiveMeta = PassiveManager.afterActivationMap.get(this.index) : this.effectPassiveMeta = PassiveManager.beforeActivationMap.get(this.index)
 
+        if (!this.effectPassiveMeta) {
+            cc.error(`passive effect meta was not found by index`)
+        }
+
         //Special Cases
         //1. Passive card which says "when .... roll: do:1,2,3"
         if (this.effectToDo instanceof MultiEffectRollEffect) {
@@ -163,6 +168,7 @@ export default class ActivatePassiveEffect implements StackEffectInterface {
                     selectedEffect = (this.effectToDo as MultiEffectRollEffect).getEffectByNumberRolled(this.LockingResolve, this.cardWithEffect)
                 } catch (error) {
                     cc.error(error)
+                    Logger.error(error)
                 }
             }
 

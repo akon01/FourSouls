@@ -1,6 +1,6 @@
 import PlayerManager from "./PlayerManager";
 import Player from "../Entites/GameEntities/Player";
-import { CARD_TYPE, TIME_FOR_MONSTER_DISCARD } from "../Constants";
+import { CARD_TYPE, TIME_FOR_MONSTER_DISCARD, GAME_EVENTS } from "../Constants";
 import CardManager from "./CardManager";
 import Monster from "../Entites/CardTypes/Monster";
 import ServerClient from "../../ServerClient/ServerClient";
@@ -47,21 +47,6 @@ export default class PileManager extends cc.Component {
 
   }
 
-  static async waitForCardMovement(): Promise<boolean> {
-    //w8 for a server message with a while,after the message is recived (should be a stack of effects with booleans) resolve with stack of effects.
-    return new Promise((resolve, reject) => {
-      let check = () => {
-        if (this.isOver) {
-          this.isOver = false;
-          resolve(true);
-        } else {
-          setTimeout(check, 50);
-        }
-      };
-      check.bind(this);
-      setTimeout(check, 50);
-    });
-  }
 
   static async addCardToPile(type: CARD_TYPE, card: cc.Node, sendToServer: boolean) {
     let originalPos

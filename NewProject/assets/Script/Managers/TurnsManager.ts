@@ -73,6 +73,7 @@ export default class TurnsManager extends cc.Component {
     }
     if (turn.PlayerId != 0) {
       turn.refreshTurn();
+      cc.log(`after refresh turn`)
       TurnsManager.currentTurn = turn;
       if (sendToServer) turn.startTurn();
     }

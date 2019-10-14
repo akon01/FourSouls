@@ -1,3 +1,5 @@
+import { GAME_EVENTS } from "../Constants";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -34,22 +36,14 @@ export default class ChooseNumber extends cc.Component {
   }
 
   ok() {
-    this.isOk = true;
+    whevent.emit(GAME_EVENTS.CHOOSE_NUMBER_OK)
   }
 
   testForOk(): Promise<number> {
     return new Promise((resolve, reject) => {
-
-      let check = () => {
-        if (this.isOk) {
-          this.isOk = false;
-          resolve(this.currentNumber);
-        } else {
-          setTimeout(check, 50);
-        }
-      };
-      check.bind(this);
-      setTimeout(check, 50);
+      whevent.onOnce(GAME_EVENTS.CHOOSE_NUMBER_OK, () => {
+        resolve(this.currentNumber);
+      })
     });
   }
 

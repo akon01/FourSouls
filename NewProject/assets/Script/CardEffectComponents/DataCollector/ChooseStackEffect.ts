@@ -1,19 +1,12 @@
-import Item from "../../Entites/CardTypes/Item";
-import Card from "../../Entites/GameEntities/Card";
-import Deck from "../../Entites/GameEntities/Deck";
 import Player from "../../Entites/GameEntities/Player";
-import ActionManager from "../../Managers/ActionManager";
-import CardManager from "../../Managers/CardManager";
+import Stack from "../../Entites/Stack";
 import { EffectTarget } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
-import { CARD_TYPE, CHOOSE_CARD_TYPE, STACK_EFFECT_TYPE, TARGETTYPE } from "./../../Constants";
-import MonsterField from "./../../Entites/MonsterField";
-import DataCollector from "./DataCollector";
-import StackEffectInterface from "../../StackEffects/StackEffectInterface";
-import Stack from "../../Entites/Stack";
 import StackEffectVisManager from "../../Managers/StackEffectVisManager";
+import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import StackEffectPreview from "../../StackEffects/StackEffectVisualRepresentation/StackEffectPreview";
-import ActivateItem from "../../StackEffects/Activate Item";
+import { STACK_EFFECT_TYPE, GAME_EVENTS } from "./../../Constants";
+import DataCollector from "./DataCollector";
 
 
 
@@ -22,7 +15,10 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class ChooseStackEffect extends DataCollector {
   collectorName = "ChooseStackEffect";
-  isEffectChosen: boolean = false;
+  //isEffectChosen: boolean = false;
+  set isEffectChosen(boolean: boolean) {
+    whevent.emit(GAME_EVENTS.CHOOSE_STACK_EFFECT_CHOSEN, boolean)
+  }
   stackEffectChosen: StackEffectInterface;
   playerId: number;
 
@@ -113,21 +109,12 @@ export default class ChooseStackEffect extends DataCollector {
   }
 
   async waitForEffectToBeChosen(): Promise<cc.Node> {
-    cc.log(`wait for effect to be chosen start`)
     return new Promise((resolve, reject) => {
-      let check = () => {
-        if (this.isEffectChosen == true) {
-          cc.log(`wait for effect to be chosen end`)
-          this.isEffectChosen = false;
-
+      whevent.onOnce(GAME_EVENTS.CHOOSE_STACK_EFFECT_CHOSEN, (data) => {
+        if (data) {
           resolve(this.cardChosen);
-        } else {
-          cc.log(`wait for effect to be chosen continue`)
-          setTimeout(check, 50);
         }
-      };
-      check.bind(this);
-      setTimeout(check, 50);
-    });
+      })
+    })
   }
 }

@@ -39,6 +39,7 @@ export default class Server {
   bindEvents() {
 
     whevent.on(signal.LOG, this.logFromPlayer, this);
+    whevent.on(signal.LOG_ERROR, this.logErrorFromPlayer, this);
 
     whevent.on(signal.MATCH, this.onRequestMatch, this);
     whevent.on(signal.MOVE_TO_TABLE, this.moveToTable, this);
@@ -62,6 +63,7 @@ export default class Server {
     whevent.on(signal.GET_NEXT_MONSTER, this.onGetNextMonster, this);
     whevent.on(signal.MOVE_CARD_TO_PILE, this.onMoveCardToPile, this);
     whevent.on(signal.GET_SOUL, this.onGetSoul, this);
+    whevent.on(signal.LOSE_SOUL, this.onLoseSoul, this);
     whevent.on(signal.ADD_MONSTER, this.onAddMonster, this);
 
 
@@ -78,6 +80,8 @@ export default class Server {
     whevent.on(signal.BUY_ITEM_FROM_SHOP, this.onBuyItemFromShop, this);
 
     whevent.on(signal.UPDATE_PASSIVE_DATA, this.onUpdatePassiveData, this);
+    whevent.on(signal.CARD_GET_COUNTER, this.onCardGetCounter, this);
+    whevent.on(signal.CANCEL_ATTACK, this.onCancelAttack, this);
 
 
 
@@ -112,18 +116,24 @@ export default class Server {
     whevent.on(signal.PLAY_LOOT_CARD, this.onLootCardPlayed, this);
     whevent.on(signal.PLAYER_GET_LOOT, this.onPlayerGainLoot, this);
     whevent.on(signal.PLAYER_LOSE_LOOT, this.onPlayerLoseCard, this);
+    whevent.on(signal.PLAYER_HEAL, this.onPlayerHeal, this);
+    //
 
+    //monster events
     whevent.on(signal.MONSTER_GAIN_DMG, this.onMonsterGainDMG, this);
     whevent.on(signal.MONSTER_GAIN_HP, this.onMonsterGainHp, this);
     whevent.on(signal.MONSTER_GAIN_ROLL_BONUS, this.onMonsterGainRollBonus, this);
     whevent.on(signal.MONSTER_GET_DAMAGED, this.onMonsterGetDamaged, this);
+    whevent.on(signal.MONSTER_HEAL, this.onMonsterHeal, this);
+    //
 
     whevent.on(signal.RESPOND_TO, this.onRespondTo, this);
     whevent.on(signal.FINISH_DO_STACK_EFFECT, this.onFinishDoStackEffect, this);
     whevent.on(signal.DO_STACK_EFFECT, this.onDoStackEffect, this);
     whevent.on(signal.TURN_PLAYER_DO_STACK_EFFECT, this.onTurnPlayerDoStackEffect, this);
+    whevent.on(signal.START_TURN, this.onStartTurn, this);
 
-
+    whevent.on(signal.DECK_ARRAGMENT, this.onDeckArrangement, this);
 
     whevent.on(signal.MOVE_CARD, this.onCardMove, this);
     whevent.on(signal.MOVE_CARD_END, this.onCardMoveEnd, this);
@@ -140,8 +150,13 @@ export default class Server {
 
 
 
+
   logFromPlayer({ player, data }) {
     this.logger.logFromPlayer(player.uuid, data)
+  }
+
+  logErrorFromPlayer({ player, data }) {
+    this.logger.logErrorFromPlayer(player.uuid, data)
   }
 
 
@@ -210,9 +225,18 @@ export default class Server {
 
   }
 
+  onStartTurn({ player, data }) {
+    let playerToSendToId: number = data.data.playerId
+
+    player.match.broadcastToPlayer(playerToSendToId, signal.START_TURN, data)
+
+  }
+
   onActionMassage({ player, data }) {
     player.match.broadcastExept(player, signal.ACTION_MASSAGE, data)
   }
+
+
 
 
   //Stack events
@@ -255,6 +279,7 @@ export default class Server {
   onRemoveFromStack({ player, data }) {
     player.match.broadcastExept(player, signal.REMOVE_FROM_STACK, data);
   }
+
   onAddToStack({ player, data }) {
     player.match.broadcastExept(player, signal.ADD_TO_STACK, data);
   }
@@ -309,6 +334,13 @@ export default class Server {
   onSetTurn({ player, data }) {
     player.match.broadcastExept(player, signal.SET_TURN, data);
   }
+  onCancelAttack({ player, data }) {
+    player.match.broadcastExept(player, signal.CANCEL_ATTACK, data);
+  }
+
+  onCardGetCounter({ player, data }) {
+    player.match.broadcastExept(player, signal.CARD_GET_COUNTER, data);
+  }
 
   onEndRollAction({ player, data }) {
     player.match.broadcastExept(player, signal.END_ROLL_ACTION, data);
@@ -317,7 +349,8 @@ export default class Server {
     player.match.broadcastExept(player, signal.MOVE_CARD, data);
   }
   onCardMoveEnd({ player, data }) {
-    player.match.broadcastExept(player, signal.MOVE_CARD_END, data);
+    let playerToSendToId: number = data.data.playerId
+    player.match.broadcastToPlayer(playerToSendToId, signal.MOVE_CARD_END, data);
   }
 
   onRechargeItem({ player, data }) {
@@ -357,10 +390,18 @@ export default class Server {
   }
 
 
+  onMonsterHeal({ player, data }) {
+    player.match.broadcastExept(player, signal.MONSTER_HEAL, data);
+  }
+
   //monster events end
 
 
   //player events
+
+  onPlayerHeal({ player, data }) {
+    player.match.broadcastExept(player, signal.PLAYER_HEAL, data);
+  }
 
   onPlayerGainLoot({ player, data }) {
     player.match.broadcastExept(player, signal.PLAYER_GET_LOOT, data);
@@ -415,6 +456,14 @@ export default class Server {
   }
 
 
+  onDeckArrangement({ player, data }) {
+    player.match.broadcastExept(player, signal.DECK_ARRAGMENT, data)
+  }
+
+
+  //
+
+
   onChangeMoney({ player, data }) {
     player.match.broadcastExept(player, signal.CHANGE_MONEY, data);
   }
@@ -427,6 +476,10 @@ export default class Server {
 
   onGetSoul({ player, data }) {
     player.match.broadcastExept(player, signal.GET_SOUL, data);
+  }
+
+  onLoseSoul({ player, data }) {
+    player.match.broadcastExept(player, signal.LOSE_SOUL, data);
   }
 
   onRemoveMonster({ player, data }) {
@@ -554,7 +607,6 @@ export default class Server {
       let data = JSON.parse(Buffer.from(message, "base64").toString());
       console.log(`Player ${player.uuid}: `, data);
       let id = player.uuid;
-      console.log(id);
 
       this.logger.logFromServer(id, data)
       whevent.emit(data.signal, { player, data });

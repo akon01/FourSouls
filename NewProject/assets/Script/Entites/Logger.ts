@@ -12,6 +12,10 @@ export class Logger {
         ServerClient.$.send(Signal.LOG, logData)
     }
 
+    static error(logData) {
+        ServerClient.$.send(Signal.LOG_ERROR, logData)
+    }
+
 
 
     static printMethodSignal(methodArgs: any[], isSending: boolean) {

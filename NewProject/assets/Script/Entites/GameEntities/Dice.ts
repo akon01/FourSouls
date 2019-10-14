@@ -1,6 +1,7 @@
 import {
   ROLL_TYPE,
-  TIME_FOR_DICE_ROLL
+  TIME_FOR_DICE_ROLL,
+  GAME_EVENTS
 } from "../../Constants";
 import Player from "./Player";
 
@@ -83,16 +84,10 @@ export default class Dice extends cc.Component {
 
   async waitForDiceRoll(): Promise<boolean> {
     return new Promise((resolve) => {
-      let check = () => {
-        if (this.rollOver == true) {
-          this.rollOver = false;
-          resolve(true);
-        } else {
-          setTimeout(check, 50);
-        }
-      };
-      check.bind(this);
-      setTimeout(check, 50);
+      whevent.onOnce(GAME_EVENTS.DICE_ROLL_OVER, () => {
+        this.rollOver = false;
+        resolve(true);
+      })
     });
   }
 
@@ -125,6 +120,7 @@ export default class Dice extends cc.Component {
           check();
         }, TIME_FOR_DICE_ROLL * 1000);
       } else {
+        whevent.emit(GAME_EVENTS.DICE_ROLL_OVER)
         this.rollOver = true;
       }
     }

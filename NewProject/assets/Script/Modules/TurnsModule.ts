@@ -58,9 +58,12 @@ export class Turn {
   }
 
   async startTurn() {
+    cc.log(`start turn`)
     let player: Player = PlayerManager.getPlayerById(
       this.PlayerId
     ).getComponent(Player);
+    cc.log(`turn player ${player.name}`)
+    cc.log(`me player ${PlayerManager.mePlayer.name}`)
     if (player.node.name == PlayerManager.mePlayer.name) {
       await player.startTurn(this.drawPlays, player.activeItems.length, true)
     } else {

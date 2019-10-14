@@ -129,7 +129,7 @@ export default class Monster extends cc.Component {
 
   async preventDamage(incomingDamage: number) {
     if (this._dmgPrevention.length > 0) {
-      cc.log(`doing dmg prevention`)
+      //  cc.log(`doing dmg prevention`)
       let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.MONSTER_PREVENT_DAMAGE, null, null, this.node)
       let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
       this._dmgPrevention.sort((a, b) => { return a - b })
@@ -141,13 +141,13 @@ export default class Monster extends cc.Component {
         } else {
           if (this._dmgPrevention.includes(newDamage)) {
             let dmgPreventionInstance = this._dmgPrevention.splice(this._dmgPrevention.indexOf(newDamage), 1)
-            cc.error(`prevented exactly ${dmgPreventionInstance[0]} dmg`)
+            //   cc.error(`prevented exactly ${dmgPreventionInstance[0]} dmg`)
             newDamage -= dmgPreventionInstance[0]
 
             continue;
           } else {
             const instance = this._dmgPrevention.shift();
-            cc.error(`prevented ${instance} dmg`)
+            //  cc.error(`prevented ${instance} dmg`)
             newDamage -= instance
             continue;
           }

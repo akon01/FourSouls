@@ -133,6 +133,7 @@ export default class Deck extends cc.Component {
     }
 
     ServerClient.$.send(Signal.DECK_ARRAGMENT, { deckType: this.deckType, arrangement: this._cards.map(card => card.getComponent(Card)._cardId) })
+
   }
 
   setDeckCards(cards: cc.Node[]) {

@@ -7,6 +7,7 @@ import CardManager from "../../Managers/CardManager";
 import { EffectTarget } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "./DataCollector";
+import { GAME_EVENTS } from "../../Constants";
 
 
 
@@ -19,7 +20,11 @@ export default class ChooseFromTargetCard extends DataCollector {
   cardChosen: cc.Node;
   playerId: number;
 
-  isCardChosen: boolean = false;
+  // isCardChosen: boolean = false;
+
+  set isCardChosen(boolean: boolean) {
+    whevent.emit(GAME_EVENTS.CHOOSE_FROM_TARGET_CARD_CARD_CHOSEN, boolean)
+  }
 
   @property
   isItems: boolean = false;
@@ -110,17 +115,11 @@ export default class ChooseFromTargetCard extends DataCollector {
 
   async waitForCardToBeChosen(): Promise<cc.Node> {
     return new Promise((resolve, reject) => {
-      let timesChecked = 0;
-      let check = () => {
-        if (this.isCardChosen == true) {
-          this.isCardChosen = false;
+      whevent.onOnce(GAME_EVENTS.CHOOSE_FROM_TARGET_CARD_CARD_CHOSEN, (data) => {
+        if (data) {
           resolve(this.cardChosen);
-        } else {
-          setTimeout(check, 50);
         }
-      };
-      check.bind(this);
-      setTimeout(check, 50);
-    });
+      })
+    })
   }
 }

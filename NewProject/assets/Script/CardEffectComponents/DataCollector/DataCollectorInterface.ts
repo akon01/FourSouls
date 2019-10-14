@@ -6,5 +6,7 @@ export default interface DataCollectorInterface {
   cardChosen: cc.Node;
   isCardChosen: boolean;
 
+
+
   collectData(data?): Promise<{}>;
 }

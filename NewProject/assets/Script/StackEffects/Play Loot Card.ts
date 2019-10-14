@@ -15,6 +15,7 @@ import RollDiceStackEffect from "./Roll DIce";
 import ServerPlayLootCard from "./ServerSideStackEffects/Server Play Loot Card ";
 import StackEffectInterface from "./StackEffectInterface";
 import { PlayLootCardVis } from "./StackEffectVisualRepresentation/Play Loot Card Vis";
+import { Logger } from "../Entites/Logger";
 
 
 export default class PlayLootCardStackEffect implements StackEffectInterface {
@@ -122,8 +123,9 @@ export default class PlayLootCardStackEffect implements StackEffectInterface {
         } else {
             try {
                 newStack = await this.doCardEffect(selectedEffect, this.hasDataBeenCollectedYet);
-            } catch (e) {
-                cc.error(e)
+            } catch (error) {
+                cc.error(error)
+                Logger.error(error)
             }
         }
         this.effectToDo = null;

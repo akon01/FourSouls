@@ -14,6 +14,7 @@ import StackEffectInterface from "../StackEffects/StackEffectInterface";
 import Card from "./GameEntities/Card";
 import Player from "./GameEntities/Player";
 import Effect from "../CardEffectComponents/CardEffects/Effect";
+import { Logger } from "./Logger";
 
 
 const { ccclass, property } = cc._decorator;
@@ -106,6 +107,8 @@ export default class Stack extends cc.Component {
                 } catch (error) {
                     cc.error(`error while resolving stack effect ${stackEffect.entityId}`)
                     cc.error(error)
+                    Logger.error(`error while resolving stack effect ${stackEffect.entityId}`)
+                    Logger.error(error)
                 }
                 this._currentStackEffectsResolving.splice(this._currentStackEffectsResolving.indexOf(stackEffect.entityId));
                 if (sendToServer) {
@@ -180,29 +183,19 @@ export default class Stack extends cc.Component {
      */
     static async addToStack(stackEffect: StackEffectInterface, sendToServer: boolean) {
 
-
         this._currentStack.push(stackEffect)
         StackEffectVisManager.$.addPreview(stackEffect)
 
-
         if (sendToServer) {
-
             cc.log(`b4 ${stackEffect.entityId} put on stack`)
             await stackEffect.putOnStack()
             cc.log(`after ${stackEffect.entityId} put on stack`)
             //await ActionManager.updateActions()
-
             let serverStackEffect: ServerStackEffectInterface = stackEffect.convertToServerStackEffect()
             ServerClient.$.send(Signal.ADD_TO_STACK, { stackEffect: serverStackEffect })
             //do check for responses.
-
-
-
             let hasAPlayerResponded = await this.startResponseCheck()
-
-
             if (hasAPlayerResponded) {
-
                 // cc.log(hasAPlayerResponded)
                 // await this.addToStack(hasAPlayerResponded)
                 return;
@@ -233,6 +226,7 @@ export default class Stack extends cc.Component {
         this._currentStack = this._currentStack.filter(effect => {
             if (effect != stackEffect) return true;
         })
+        if (this._currentStack.length == 0) whevent.emit(GAME_EVENTS.STACK_EMPTIED)
         this._currentStackEffectsResolving = this._currentStackEffectsResolving.filter(effect => {
             if (effect != stackEffect.entityId) return true;
         })
@@ -263,6 +257,7 @@ export default class Stack extends cc.Component {
                     await this.doStackEffectFromTop(sendToServer)
                 } else {
                     ActionLable.$.publishMassage(`Stack Was Emptied `, 5)
+                    whevent.emit(GAME_EVENTS.STACK_EMPTIED)
                     if (PlayerManager.mePlayer.getComponent(Player) != TurnsManager.currentTurn.getTurnPlayer()) {
                         ServerClient.$.send(Signal.TURN_PLAYER_DO_STACK_EFFECT, { playerId: TurnsManager.currentTurn.getTurnPlayer().playerId })
                     } else {
@@ -301,6 +296,7 @@ export default class Stack extends cc.Component {
                         await this.doStackEffectFromTop(sendToServer)
                     } else {
                         ActionLable.$.publishMassage(`Stack Was Emptied `, 5)
+                        whevent.emit(GAME_EVENTS.STACK_EMPTIED)
                         if (PlayerManager.mePlayer.getComponent(Player) != TurnsManager.currentTurn.getTurnPlayer()) {
                             ServerClient.$.send(Signal.TURN_PLAYER_DO_STACK_EFFECT, { playerId: TurnsManager.currentTurn.getTurnPlayer().playerId })
                         } else {
@@ -329,11 +325,8 @@ export default class Stack extends cc.Component {
         } else {
             this._currentStack.push(newStack)
         }
-        //
-        // this._currentStackEffectsResolving = []
-        // this._currentStackEffectsResolving.push(this._currentStack.filter(effect=>{
-        //     effect.
-        // }))
+
+        if (this._currentStack.length == 0) whevent.emit(GAME_EVENTS.STACK_EMPTIED)
 
         StackEffectVisManager.$.clearPreviews()
         for (const stackEffect of this._currentStack) {
@@ -356,15 +349,9 @@ export default class Stack extends cc.Component {
     }
     static waitForStackEmptied(): Promise<boolean> {
         return new Promise((resolve, reject) => {
-            let check = () => {
-                if (this._currentStack.length == 0) {
-                    resolve();
-                } else {
-                    setTimeout(check, 50);
-                }
-            };
-            check.bind(this);
-            setTimeout(check, 50);
+            whevent.onOnce(GAME_EVENTS.STACK_EMPTIED, () => {
+                resolve();
+            })
         });
     }
 
@@ -372,16 +359,10 @@ export default class Stack extends cc.Component {
 
     static waitForStackEffectResolve(): Promise<StackEffectInterface[]> {
         return new Promise((resolve, reject) => {
-            let check = () => {
-                if (this.hasStackEffectResolvedAtAnotherPlayer == true) {
-                    this.hasStackEffectResolvedAtAnotherPlayer = false;
-                    resolve(this.newStack);
-                } else {
-                    setTimeout(check, 50);
-                }
-            };
-            check.bind(this);
-            setTimeout(check, 50);
+            whevent.onOnce(GAME_EVENTS.STACK_STACK_EFFECT_RESOLVED_AT_OTHER_PLAYER, () => {
+                this.hasStackEffectResolvedAtAnotherPlayer = false;
+                resolve(this.newStack);
+            })
         });
     }
 

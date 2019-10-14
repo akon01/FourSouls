@@ -3,7 +3,7 @@ import ServerClient from "../../../ServerClient/ServerClient";
 import ChooseCard from "../../CardEffectComponents/DataCollector/ChooseCard";
 import MultiEffectRoll from "../../CardEffectComponents/MultiEffectChooser/MultiEffectRoll";
 import RollDice from "../../CardEffectComponents/RollDice";
-import { CARD_TYPE, CARD_WIDTH, CHOOSE_CARD_TYPE, ITEM_TYPE, ROLL_TYPE, TIME_TO_REACT_ON_ACTION, PASSIVE_EVENTS, BUTTON_STATE } from "../../Constants";
+import { CARD_TYPE, CARD_WIDTH, CHOOSE_CARD_TYPE, ITEM_TYPE, ROLL_TYPE, TIME_TO_REACT_ON_ACTION, PASSIVE_EVENTS, BUTTON_STATE, GAME_EVENTS } from "../../Constants";
 import BattleManager from "../../Managers/BattleManager";
 import CardManager from "../../Managers/CardManager";
 import CardPreviewManager from "../../Managers/CardPreviewManager";
@@ -33,6 +33,7 @@ import Deck from "./Deck";
 import Dice from "./Dice";
 import MultiEffectChooseThenRoll from "../../CardEffectComponents/MultiEffectChooser/MultiEffectChooseThenRoll";
 import ButtonManager from "../../Managers/ButtonManager";
+import { Logger } from "../Logger";
 
 
 const { ccclass, property } = cc._decorator;
@@ -163,9 +164,6 @@ export default class Player extends cc.Component {
   cardActivated: boolean = false;
 
   @property
-  cardNotActivated: boolean = false;
-
-  @property
   activatedCard: cc.Node = null;
 
   @property
@@ -178,14 +176,27 @@ export default class Player extends cc.Component {
   _askingPlayerId: number = 0;
 
   @property
-  _hasPlayerSelectedYesNo: boolean = false;
+  private _hasPlayerSelectedYesNo: boolean = false;
+
+  set hasPlayerSelectedYesNo(bool: boolean) {
+    cc.log(`set of has player selected yes no`)
+    this._hasPlayerSelectedYesNo = bool;
+    whevent.emit(GAME_EVENTS.PLAYER_SELECTED_YES_NO, bool)
+  }
+
+
 
   @property
   _playerYesNoDecision: boolean = false;
 
 
   @property
-  _hasPlayerClickedNext: boolean = false;
+  private _hasPlayerClickedNext: boolean = false;
+
+  set hasPlayerClickedNext(bool: boolean) {
+    this._hasPlayerClickedNext = bool;
+    whevent.emit(GAME_EVENTS.PLAYER_CLICKED_NEXT, bool)
+  }
 
   @property
   _curses: cc.Node[] = [];
@@ -295,33 +306,6 @@ export default class Player extends cc.Component {
       let newMonster = monsterCard;
       let declareAttack = new DeclareAttack(this.character.getComponent(Card)._cardId, this, monsterCard)
       await Stack.addToStack(declareAttack, true)
-
-      //occurs when selected card is top card of monster deck, will let player choose where to put the new monster
-      //   if (monsterCard == monsterDeck.topBlankCard) {
-      //     cc.log(`chosen card is top deck ${monsterCard.name}`)
-      //     let chooseCard = new ChooseCard();
-      //     newMonster = monsterDeck.drawCard(sendToServer);
-      //     CardPreviewManager.getPreviews(Array.of(newMonster), true)
-      //     CardPreviewManager.showToOtherPlayers(newMonster);
-      //     chooseCard.chooseType = CHOOSE_CARD_TYPE.MONSTER_PLACES
-      //     let monsterInSpotChosen = await chooseCard.collectData({ cardPlayerId: this.playerId })
-      //     let activeMonsterSelected = monsterInSpotChosen.effectTargetCard.getComponent(Monster)
-      //     cc.log(activeMonsterSelected.name)
-      //     monsterCardHolder = MonsterField.getMonsterPlaceById(
-      //       activeMonsterSelected.monsterPlace.id
-      //     );
-      //     await MonsterField.addMonsterToExsistingPlace(monsterCardHolder.id, newMonster, true)
-      //     monsterCard = newMonster;
-      //   }
-      //   //if the drawn card is a non-monster play its effect
-      //   if (monsterCard.getComponent(Monster).isNonMonster) {
-      //     await this.activateCard(monsterCard, true)
-      //     //if the drawn card is a monster, declare attack
-      //   } else {
-      //     await BattleManager.declareAttackOnMonster(monsterCard); 
-      //   }
-      // } else {
-
     }
   }
 
@@ -329,6 +313,15 @@ export default class Player extends cc.Component {
 
   async giveYesNoChoice() {
 
+    if (CardPreviewManager.isOpen) {
+      cc.log(`preview mangaer is open move to its layout`)
+      ButtonManager.moveButton(ButtonManager.$.skipButton, ButtonManager.$.cardPreviewButtonLayout)
+      ButtonManager.moveButton(ButtonManager.$.yesButton, ButtonManager.$.cardPreviewButtonLayout)
+    } else {
+      cc.log(`preview mangaer is closed move to player layout`)
+      ButtonManager.moveButton(ButtonManager.$.skipButton, ButtonManager.$.playerButtonLayout)
+      ButtonManager.moveButton(ButtonManager.$.yesButton, ButtonManager.$.playerButtonLayout)
+    }
 
     ButtonManager.enableButton(ButtonManager.$.skipButton, BUTTON_STATE.CHANGE_TEXT, ['No'])
     ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.CHANGE_TEXT, ['Yes'])
@@ -357,38 +350,26 @@ export default class Player extends cc.Component {
   async waitForNextClick() {
 
     return new Promise((resolve, reject) => {
-      let check = () => {
-        if (this._hasPlayerClickedNext) {
-
+      whevent.onOnce(GAME_EVENTS.PLAYER_CLICKED_NEXT, (data) => {
+        if (data) {
           this._hasPlayerClickedNext = false;
-
           resolve();
-        } else {
-
-          setTimeout(check, 50);
         }
-      };
-      check.bind(this);
-      setTimeout(check, 50);
+      })
     });
   }
 
   async waitForPlayerYesNoSelection(): Promise<boolean> {
 
     return new Promise((resolve, reject) => {
-      let check = () => {
-        if (this._hasPlayerSelectedYesNo) {
+      whevent.onOnce(GAME_EVENTS.PLAYER_SELECTED_YES_NO, (data) => {
+        if (data) {
           this._hasPlayerSelectedYesNo = false;
-
           resolve(this._playerYesNoDecision);
-        } else {
-          setTimeout(check, 50);
         }
-      };
-      check.bind(this);
-      setTimeout(check, 50);
-    });
+      });
 
+    })
   }
 
   calculateDamage() {
@@ -674,7 +655,9 @@ export default class Player extends cc.Component {
 
   async startTurn(numOfCardToDraw: number, numberOfItemsToCharge: number, sendToServer: boolean) {
 
-    await Stack.waitForStackEmptied()
+    if (Stack._currentStack.length > 0) {
+      await Stack.waitForStackEmptied()
+    }
 
 
     if (sendToServer) {
@@ -741,7 +724,10 @@ export default class Player extends cc.Component {
    */
   async endTurn(sendToServer: boolean) {
 
-    await Stack.waitForStackEmptied()
+
+    if (Stack._currentStack.length > 0) {
+      await Stack.waitForStackEmptied()
+    }
 
     // end of turn passive effects should trigger
     if (sendToServer) {
@@ -773,7 +759,7 @@ export default class Player extends cc.Component {
 
   async preventDamage(incomingDamage: number) {
     if (this._dmgPrevention.length > 0) {
-      cc.log(`doing dmg prevention`)
+      // cc.log(`doing dmg prevention`)
       let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_PREVENT_DAMAGE, null, null, this.node)
       let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
       this._dmgPrevention.sort((a, b) => { return a - b })
@@ -785,13 +771,13 @@ export default class Player extends cc.Component {
         } else {
           if (this._dmgPrevention.includes(newDamage)) {
             let dmgPreventionInstance = this._dmgPrevention.splice(this._dmgPrevention.indexOf(newDamage), 1)
-            cc.error(`prevented exactly ${dmgPreventionInstance[0]} dmg`)
+            //   cc.error(`prevented exactly ${dmgPreventionInstance[0]} dmg`)
             newDamage -= dmgPreventionInstance[0]
 
             continue;
           } else {
             const instance = this._dmgPrevention.shift();
-            cc.error(`prevented ${instance} dmg`)
+            //    cc.error(`prevented ${instance} dmg`)
             newDamage -= instance
             continue;
           }
@@ -1122,6 +1108,7 @@ export default class Player extends cc.Component {
         }
       } catch (error) {
         cc.error(error)
+        Logger.error(error)
       }
     }
     if (TurnsManager.currentTurn.PlayerId == this.playerId && TurnsManager.currentTurn.lootCardPlays > 0) {
@@ -1156,7 +1143,7 @@ export default class Player extends cc.Component {
 
   async respondWithNoAction(reactionNodes: cc.Node[], askingPlayerId: number) {
     this.hideAvailableReactions()
-
+    whevent.emit(GAME_EVENTS.PLAYER_CARD_NOT_ACTIVATED)
     ButtonManager.enableButton(ButtonManager.$.skipButton, BUTTON_STATE.DISABLED)
     // cc.find('Canvas/SkipButton').off(cc.Node.EventType.TOUCH_START)
     ServerClient.$.send(Signal.RESPOND_TO, { playerId: askingPlayerId, stackEffectResponse: false })
@@ -1208,19 +1195,13 @@ export default class Player extends cc.Component {
 
   async waitForCardActivation(): Promise<cc.Node> {
     return new Promise((resolve, reject) => {
-      let check = () => {
-        if (this.cardActivated == true) {
-          this.cardActivated = false;
-          resolve(this.activatedCard);
-        } else if (this.cardNotActivated == true) {
-          this.cardNotActivated = false;
-          resolve(null);
-        } else {
-          setTimeout(check, 50);
-        }
-      };
-      check.bind(this);
-      setTimeout(check, 50);
+      whevent.onOnce(GAME_EVENTS.PLAYER_CARD_ACTIVATED, (data) => {
+        this.cardActivated = false;
+        resolve(this.activatedCard);
+      })
+      whevent.onOnce(GAME_EVENTS.PLAYER_CARD_NOT_ACTIVATED, (data) => {
+        resolve(null);
+      })
     });
   }
 

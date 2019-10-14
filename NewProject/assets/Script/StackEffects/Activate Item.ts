@@ -20,6 +20,7 @@ import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
 import MultiEffectChooseThenRoll from "../CardEffectComponents/MultiEffectChooser/MultiEffectChooseThenRoll";
 import MultiEffectDestroyThisThenRoll from "../CardEffectComponents/MultiEffectChooser/MultiEffectDestroyThisThenRoll";
 import CardManager from "../Managers/CardManager";
+import { Logger } from "../Entites/Logger";
 
 export default class ActivateItem implements StackEffectInterface {
     visualRepesentation: ActivateItemVis;
@@ -132,6 +133,7 @@ export default class ActivateItem implements StackEffectInterface {
                         cc.log(`selected effect from roll is ${selectedEffect.name}`)
                     } catch (error) {
                         cc.error(error)
+                        Logger.error(error)
                     }
                 }
             }
@@ -141,8 +143,9 @@ export default class ActivateItem implements StackEffectInterface {
         let newStack
         try {
             newStack = await this.doCardEffect(selectedEffect, this.hasDataBeenCollectedYet);
-        } catch (e) {
-            cc.error(e)
+        } catch (error) {
+            cc.error(error)
+            Logger.error(error)
         }
         this.effectToDo = null;
         //put new stack insted of old one (check maybe only add and removed the changed StackEffects)

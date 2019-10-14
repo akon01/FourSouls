@@ -4,7 +4,7 @@ import CardManager from "../../Managers/CardManager";
 import { EffectTarget } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
 import Effect from "../CardEffects/Effect";
-import { CHOOSE_CARD_TYPE } from "./../../Constants";
+import { CHOOSE_CARD_TYPE, GAME_EVENTS } from "./../../Constants";
 import DataCollector from "./DataCollector";
 
 const { ccclass, property } = cc._decorator;
@@ -16,7 +16,12 @@ export default class SelectLootToPlay extends DataCollector {
   cardChosen: cc.Node;
   playerId: number;
 
-  isCardChosen: boolean = false;
+  // isCardChosen: boolean = false;
+
+  set isCardChosen(boolean: boolean) {
+    whevent.emit(GAME_EVENTS.SELECT_LOOT_TO_PLAY_CARD_CHOSEN, boolean)
+  }
+
 
   /**
    *
@@ -87,17 +92,11 @@ export default class SelectLootToPlay extends DataCollector {
 
   async waitForCardPlay(): Promise<cc.Node> {
     return new Promise((resolve, reject) => {
-      let timesChecked = 0;
-      let check = () => {
-        if (this.isCardChosen == true) {
-          this.isCardChosen = false;
+      whevent.onOnce(GAME_EVENTS.SELECT_LOOT_TO_PLAY_CARD_CHOSEN, (data) => {
+        if (data) {
           resolve(this.cardChosen);
-        } else {
-          setTimeout(check, 50);
         }
-      };
-      check.bind(this);
-      setTimeout(check, 50);
-    });
+      })
+    })
   }
 }

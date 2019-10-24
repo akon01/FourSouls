@@ -110,6 +110,7 @@ export default class ServerClient extends cc.Component {
     whevent.on(Signal.FLIP_CARD, this.onPlayerActionFromServer, this);
     whevent.on(Signal.BUY_ITEM_FROM_SHOP, this.onPlayerActionFromServer, this);
     whevent.on(Signal.CARD_GET_COUNTER, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.NEW_MONSTER_PLACE, this.onPlayerActionFromServer, this);
 
 
 
@@ -149,6 +150,7 @@ export default class ServerClient extends cc.Component {
     this.pid = playerID;
     ServerClient.numOfPlayers = numOfPlayers;
     cc.log("Server num of players is " + ServerClient.numOfPlayers);
+    cc.director.loadScene("MainGame");
   }
 
   onFinishLoad({ id }) {
@@ -245,7 +247,7 @@ export default class ServerClient extends cc.Component {
     cc.game.addPersistRootNode(this.node);
 
     ServerClient.$.send(Signal.MOVE_TO_TABLE);
-    cc.director.loadScene("MainGame");
+    //  cc.director.loadScene("MainGame");
   }
 
   onLeave(uuid: number) {

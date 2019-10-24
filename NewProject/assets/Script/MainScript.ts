@@ -89,6 +89,7 @@ export default class MainScript extends cc.Component {
     } else {
       MainScript.serverId = 1;
     }
+    cc.log(`server id is ${MainScript.serverId}`)
 
     this._stackShow = cc.find('Canvas/StackShow').getComponent(cc.Label)
 
@@ -126,6 +127,7 @@ export default class MainScript extends cc.Component {
     );
 
     //set up Players
+    cc.log(`init player manager with ${MainScript.serverId}`)
     await PlayerManager.init(MainScript.serverId);
 
 

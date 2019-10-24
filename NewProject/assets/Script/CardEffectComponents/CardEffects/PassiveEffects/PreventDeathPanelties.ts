@@ -6,6 +6,7 @@ import PlayerDeathPenalties from "../../../StackEffects/Player Death Penalties";
 import StackEffectInterface from "../../../StackEffects/StackEffectInterface";
 import DataCollector from "../../DataCollector/DataCollector";
 import Effect from "../Effect";
+import { TARGETTYPE } from "../../../Constants";
 
 
 
@@ -24,10 +25,13 @@ export default class PreventDeathPenalties extends Effect {
    */
   async doEffect(stack: StackEffectInterface[], data?: PassiveEffectData) {
 
+    cc.log(data.effectTargets)
+    let targetPlayer = data.getTarget(TARGETTYPE.PLAYER)
+    if (!targetPlayer) throw `No target player found`
     let playerPenaltiesStackEffect = Stack._currentStack.find(effect => {
-      if (effect instanceof PlayerDeathPenalties && effect.playerToPay.playerId == PlayerManager.getPlayerByCard(data.effectCardPlayer).playerId) return true
+      if (effect instanceof PlayerDeathPenalties && effect.playerToPay.playerId == PlayerManager.getPlayerByCard(targetPlayer as cc.Node).playerId) return true
     })
-
+    if (!playerPenaltiesStackEffect) throw `No Player Penalties found`
     await Stack.fizzleStackEffect(playerPenaltiesStackEffect, true)
     if (playerPenaltiesStackEffect instanceof PlayerDeathPenalties) {
       cc.log(`if player is turn player end their turn`)

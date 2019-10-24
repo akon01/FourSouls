@@ -172,6 +172,7 @@ export enum BUTTON_STATE {
 
 export enum GAME_EVENTS {
   EDEN_WAS_CHOSEN,
+  CARD_EFFECT_ANIM_END,
   PLAYER_RESPOND,
   CHOOSE_CARD_CARD_CHOSEN,
   SELECT_LOOT_TO_PLAY_CARD_CHOSEN,
@@ -206,6 +207,11 @@ export class SIGNAL_GROUPS {
     if (type == 'test') return this.TESTG
   }
 
+}
+
+export enum PARTICLE_TYPES {
+
+  CARD_CHOSEN, CHOOSE_CARD, OPTIONAL_CHOOSE_CARD, MONSTER_GET_HIT, PLAYER_GET_HIT, MONSTER_IN_BATTLE
 }
 
 
@@ -273,17 +279,19 @@ export enum COLORS {
   LIGHTBLUE = "10%, 10%, 75%"
 }
 
-export const TIME_TO_DRAW = 0.7;
-export const TIME_TO_BUY = 0.7;
+export const TIME_TO_DRAW = 0.3;
+export const TIME_TO_BUY = 0.5;
 export const BLINKING_SPEED = 1;
-export const TIME_TO_PLAY_LOOT = 0.7;
+export const TIME_TO_PLAY_LOOT = 0.4;
 export const TIME_TO_SHOW_PREVIEW = 0.5;
 export const TIME_TO_HIDE_PREVIEW = 0.5;
-export const TIME_TO_ROTATE_ACTIVATION = 0.5;
+export const TIME_TO_ROTATE_ACTIVATION = 0.3;
 export const TIME_TO_REACT_ON_ACTION = 15;
 export const TIME_FOR_DICE_ROLL = 0.3;
 export const TIME_FOR_MONSTER_DISCARD = 1;
 export const TIME_FOR_TREASURE_DISCARD = 2;
+export const MAX_NUM_OF_HISTORY_ITEM = 150
+export const EFFECT_ANIMATION_TIME = 2
 
 export let ServerIp = "localhost:7456/"
 

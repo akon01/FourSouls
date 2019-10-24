@@ -105,7 +105,7 @@ export default class TurnsManager extends cc.Component {
   static getNextTurn(currentTurn: Turn, turns: Turn[]): Turn {
     for (let i = 0; i < turns.length; i++) {
       let nextTurn = turns[i];
-      if (currentTurn.PlayerId == MAX_TURNID) {
+      if (currentTurn.PlayerId == PlayerManager.players.length) {
         if (nextTurn.PlayerId == 1) {
           return nextTurn;
         }

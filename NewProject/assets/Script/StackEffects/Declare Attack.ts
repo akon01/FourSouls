@@ -61,13 +61,7 @@ export default class DeclareAttack implements StackEffectInterface {
         let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_DECLARE_ATTACK, [], null, this.attackingPlayer.node)
         let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
         passiveMeta.args = afterPassiveMeta.args;
-
-        cc.error(`reducing current turn attack plays by 1`)
-        cc.log(`current player attack plays : ${TurnsManager.currentTurn.getTurnPlayer().attackPlays}`)
-        cc.log(`${TurnsManager.currentTurn.attackPlays}`)
         TurnsManager.currentTurn.attackPlays -= 1;
-        cc.log(`current player attack plays : ${TurnsManager.currentTurn.getTurnPlayer().attackPlays}`)
-        cc.log(`${TurnsManager.currentTurn.attackPlays}`)
 
         let monsterField = cc
             .find("Canvas/MonsterField")

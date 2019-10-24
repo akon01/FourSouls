@@ -34,6 +34,7 @@ import Dice from "./Dice";
 import MultiEffectChooseThenRoll from "../../CardEffectComponents/MultiEffectChooser/MultiEffectChooseThenRoll";
 import ButtonManager from "../../Managers/ButtonManager";
 import { Logger } from "../Logger";
+import MultiEffectDestroyThisThenRoll from "../../CardEffectComponents/MultiEffectChooser/MultiEffectDestroyThisThenRoll";
 
 
 const { ccclass, property } = cc._decorator;
@@ -190,13 +191,13 @@ export default class Player extends cc.Component {
   _playerYesNoDecision: boolean = false;
 
 
-  @property
-  private _hasPlayerClickedNext: boolean = false;
+  // @property
+  // private _hasPlayerClickedNext: boolean = false;
 
-  set hasPlayerClickedNext(bool: boolean) {
-    this._hasPlayerClickedNext = bool;
-    whevent.emit(GAME_EVENTS.PLAYER_CLICKED_NEXT, bool)
-  }
+  // set hasPlayerClickedNext(bool: boolean) {
+  //   this._hasPlayerClickedNext = bool;
+  //   whevent.emit(GAME_EVENTS.PLAYER_CLICKED_NEXT, bool)
+  // }
 
   @property
   _curses: cc.Node[] = [];
@@ -234,6 +235,10 @@ export default class Player extends cc.Component {
         break;
       case CARD_TYPE.TREASURE:
         await this.addItem(card, true, true)
+        break
+      case CARD_TYPE.MONSTER:
+        await MonsterField.addMonsterToExsistingPlace(MonsterField.getMonsterCardHoldersIds()[0], card, true)
+        break;
       default:
         break;
     }
@@ -257,7 +262,7 @@ export default class Player extends cc.Component {
       this.passiveItems.push(itemCard);
     }
     // this.hpLable = cc.find(`Canvas/P${this.playerId} HP`).getComponent(cc.Label)
-    this.hpLable.string = `${charCard.getComponent(Character).Hp}♥`
+    //    this.hpLable.string = `${charCard.getComponent(Character).Hp}♥`
   }
 
   async drawCard(deck: cc.Node, sendToServer: boolean, alreadyDrawnCard?: cc.Node) {
@@ -341,6 +346,7 @@ export default class Player extends cc.Component {
   async giveNextClick() {
 
     ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.CHANGE_TEXT, ['Next'])
+    ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.PLAYER_CLICKS_NEXT)
     await this.waitForNextClick()
     ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.DISABLED)
 
@@ -350,11 +356,8 @@ export default class Player extends cc.Component {
   async waitForNextClick() {
 
     return new Promise((resolve, reject) => {
-      whevent.onOnce(GAME_EVENTS.PLAYER_CLICKED_NEXT, (data) => {
-        if (data) {
-          this._hasPlayerClickedNext = false;
-          resolve();
-        }
+      whevent.onOnce(GAME_EVENTS.PLAYER_CLICKED_NEXT, () => {
+        resolve();
       })
     });
   }
@@ -551,11 +554,15 @@ export default class Player extends cc.Component {
       ServerClient.$.send(serverData.signal, serverData.srvData)
     }
     await this.desk.addToDesk(itemToAdd.getComponent(Card))
-
     passiveMeta.result = true
+
     //do passive effects after!
-    let thisResult = await PassiveManager.testForPassiveAfter(passiveMeta)
-    return thisResult
+    if (sendToServer) {
+
+      passiveMeta.result = await PassiveManager.testForPassiveAfter(passiveMeta)
+    }
+    return passiveMeta.result
+
   }
 
   async playLootCard(lootCard: cc.Node, sendToServer: boolean) {
@@ -606,9 +613,11 @@ export default class Player extends cc.Component {
 
   async payPenalties(sendToServer: boolean) {
 
+    //lose 1 coin
     if (this.coins > 0) {
       this.coins -= 1;
     }
+    //lose 1 loot if you have any
     if (this.handCards.length > 0) {
       let chooseCard = new ChooseCard();
       let cardToChooseFrom = chooseCard.getCardsToChoose(
@@ -622,6 +631,7 @@ export default class Player extends cc.Component {
     let nonEternalItems = this.deskCards.filter(
       card => !card.getComponent(Item).eternal
     );
+    //lose 1 non-eternal item if you have any
     if (nonEternalItems.length > 0) {
       let chooseCard = new ChooseCard();
       let cardToChooseFrom = chooseCard.getCardsToChoose(
@@ -634,6 +644,8 @@ export default class Player extends cc.Component {
 
       let over = await this.destroyItem(chosenCard, sendToServer);
     }
+
+    this.activeItems.forEach(item => item.getComponent(Item).useItem(true))
     return true
   }
 
@@ -715,7 +727,7 @@ export default class Player extends cc.Component {
     } else {
       this._Hp += hpToHeal
     }
-    this.hpLable.string = `${this._Hp}♥`
+    //this.hpLable.string = `${this._Hp}♥`
   }
 
   /**
@@ -811,7 +823,7 @@ export default class Player extends cc.Component {
         this._Hp -= damage;
       }
 
-      this.hpLable.string = `${this._Hp}♥`
+      // this.hpLable.string = `${this._Hp}♥`
     } else {
       //Prevent Damage
       damage = await this.preventDamage(damage)
@@ -836,7 +848,7 @@ export default class Player extends cc.Component {
         } else {
           this._Hp -= passiveMeta.args[0]
         }
-        this.hpLable.string = `${this._Hp}♥`
+        //this.hpLable.string = `${this._Hp}♥`
         let serverData = {
           signal: Signal.PLAYER_GET_HIT,
           srvData: { playerId: this.playerId, damage: passiveMeta.args[0], damageDealerId: passiveMeta.args[1].getComponent(Card)._cardId }
@@ -867,7 +879,7 @@ export default class Player extends cc.Component {
     if (isTillEndOfTurn) {
       this._tempHpBonus += hpToGain;
     } else this._hpBonus += hpToGain;
-    this.hpLable.string = `${this._Hp + this._hpBonus + this._tempHpBonus}♥`
+    // this.hpLable.string = `${this._Hp + this._hpBonus + this._tempHpBonus}♥`
     let serverData = {
       signal: Signal.PLAYER_GAIN_HP,
       srvData: { playerId: this.playerId, hpToGain: hpToGain, isTemp: isTillEndOfTurn }
@@ -965,7 +977,7 @@ export default class Player extends cc.Component {
     let cardId = card.getComponent(Card)._cardId;
     let hasLockingEffect;
     let collector = card.getComponent(CardEffect).multiEffectCollector;
-    if (collector != null && (collector instanceof MultiEffectRoll || collector instanceof MultiEffectChooseThenRoll)) {
+    if (collector != null && (collector instanceof MultiEffectRoll || collector instanceof MultiEffectChooseThenRoll || collector instanceof MultiEffectDestroyThisThenRoll)) {
       hasLockingEffect = true;
     } else hasLockingEffect = false;
     let activateItem = new ActivateItem(this.character.getComponent(Card)._cardId, hasLockingEffect, card, this.character, false)
@@ -993,7 +1005,7 @@ export default class Player extends cc.Component {
       if (this.souls >= 4) {
         cc.find('MainScript').emit('gameOver', this.playerId)
       }
-      if (cardWithSoul.getComponent(Monster).monsterPlace != null) {
+      if (cardWithSoul.getComponent(Monster) && cardWithSoul.getComponent(Monster).monsterPlace != null) {
         cardWithSoul.getComponent(Monster).monsterPlace.removeMonster(cardWithSoul, sendToServer);
         cardWithSoul.getComponent(Monster).monsterPlace.getNextMonster(sendToServer);
       };
@@ -1044,7 +1056,12 @@ export default class Player extends cc.Component {
     //if continue do regular function
     if (toContinue) {
       //regular function
-      this.coins += numOfCoins;
+      if (this.coins + numOfCoins > 0) {
+        this.coins += numOfCoins;
+      } else {
+        this.coins = 0
+      }
+
       if (sendToServer) {
         ServerClient.$.send(Signal.CHANGE_MONEY, { playerId: this.playerId, numOfCoins: numOfCoins })
       }

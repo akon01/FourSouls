@@ -32,7 +32,7 @@ export default class ChainEffects extends Effect {
     const effectData = this.node.getComponentInChildren(ChainCollector).effectsData
     for (let i = 0; i < this.effectsToChain.length; i++) {
       const effect = this.effectsToChain[i];
-      cc.log(effect.effectData)
+      // cc.log(effect.effectData)
       if (effect.hasPlayerChoiceToActivateInChainEffects) {
         let yesOrNo = await PlayerManager.getPlayerById(cardEffectComp.cardPlayerId).getComponent(Player).giveYesNoChoice()
         if (yesOrNo) {

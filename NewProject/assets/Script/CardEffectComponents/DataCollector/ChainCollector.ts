@@ -38,11 +38,15 @@ export default class ChainCollector extends DataCollector {
           let newData = await dataCollector.collectData(data)
           cc.log(newData)
           let thisCard = this.node.parent.parent
-          let isActive: boolean
+          let isActive: boolean = false;
           if (thisCard.getComponent(Item) != null) {
             let itemType = thisCard.getComponent(Item).type
             if (itemType == ITEM_TYPE.ACTIVE || itemType == ITEM_TYPE.BOTH) {
               isActive = true;
+            }
+          } else {
+            if (effect.conditions.length == 0) {
+              isActive = true
             }
           }
           if (endData == null) {

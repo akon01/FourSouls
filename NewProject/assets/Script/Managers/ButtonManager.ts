@@ -1,5 +1,5 @@
 import Player from "../Entites/GameEntities/Player";
-import { BUTTON_STATE } from "../Constants";
+import { BUTTON_STATE, GAME_EVENTS } from "../Constants";
 import PlayerManager from "./PlayerManager";
 import CardPreviewManager from "./CardPreviewManager";
 
@@ -100,9 +100,10 @@ export default class ButtonManager extends cc.Component {
         break;
       case BUTTON_STATE.PLAYER_CLICKS_NEXT:
         btn.node.on(cc.Node.EventType.TOUCH_START, () => {
-          cc.log(extra[0])
-          extra[0].hasPlayerClickedNext = true
-        }, extra[0])
+          //cc.log(extra[0])
+          whevent.emit(GAME_EVENTS.PLAYER_CLICKED_NEXT)
+          //extra[0].hasPlayerClickedNext = true
+        })
         break;
 
       //PLAYER AFFECTING//

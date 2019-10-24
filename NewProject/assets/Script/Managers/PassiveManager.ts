@@ -117,6 +117,10 @@ export default class PassiveManager extends cc.Component {
           //this.allPassiveEffects.concat(cardPassives);
           for (let passive of cardPassives) {
             if (!passive) continue
+            //test check to see if any effects are registered with condition data already collected, if so , when registering on server, convert to ActiveEffectData\PassiveEffectData
+            if (passive.conditions.find(condition => condition.conditionData != null) != undefined) {
+              throw `trying to register a passive effect with condition data, change algorithm to pass the data thru the server`
+            }
             if (passive.passiveType == PASSIVE_TYPE.AFTER) {
 
               this.allAfterEffects.push(passive);
@@ -194,14 +198,12 @@ export default class PassiveManager extends cc.Component {
     for (let i = 0; i < allPassiveEffects.length; i++) {
       const passiveEffect = allPassiveEffects[i];
       const effectCard = passiveEffect.node.parent;
-      cc.log(`effect card tested is ${effectCard.name}`)
 
       let isTrue = true;
       if (passiveEffect.conditions.length == 0) {
-        cc.error(`passive effect has no conditions`)
+        cc.error(`passive effect ${passiveEffect.effectName} has no conditions`)
         isTrue = false;
       }
-      cc.log(`start testing condition for ${effectCard.name}`)
       for (let i = 0; i < passiveEffect.conditions.length; i++) {
         const condition = passiveEffect.conditions[i];
         if (!condition) throw 'Empty condition space in Effect'
@@ -238,7 +240,6 @@ export default class PassiveManager extends cc.Component {
       //  let isConditionTrue = await passiveEffect.conditions.testCondition(passiveMeta);
       //if (isConditionTrue) {
       if (isTrue) {
-        cc.log('condition true')
         allPassivesToActivate.push(passiveEffect)
       } else {
         //condition wasnt true, do nothning
@@ -257,15 +258,13 @@ export default class PassiveManager extends cc.Component {
     let allPassiveEffects = PassiveManager.allBeforeEffects;
     allPassiveEffects = allPassiveEffects.concat(PassiveManager.oneTurnBeforeEffects)
     let allPassivesToActivate: Effect[] = [];
-    cc.log(PassiveManager.allBeforeEffects)
-    cc.log(allPassiveEffects)
     try {
       allPassivesToActivate = await this.testPassivesCondtions(allPassiveEffects, passiveMeta)
     } catch (error) {
       cc.error(error)
       Logger.error(error)
     }
-    cc.log(allPassivesToActivate.map(effect => effect.name))
+
     let methodData = { continue: false, args: [] }
     let passiveData: PassiveMeta
     if (allPassivesToActivate.length > 0) {
@@ -296,7 +295,7 @@ export default class PassiveManager extends cc.Component {
     let isPlayer = false;
     for (let i = 0; i < passivesToActivate.length; i++) {
       const effect = passivesToActivate[i];
-      cc.log(`doing b4 passive effect ${effect.name}`)
+
       cardToActivate = effect.node.parent;
 
       passiveIndex = cardToActivate
@@ -318,24 +317,28 @@ export default class PassiveManager extends cc.Component {
       if (multiEffectRollEffect != null && multiEffectRollEffect.getComponent(Effect) instanceof MultiEffectRollEffect) {
         hasLockingEffect = true;
       } else hasLockingEffect = false;
+      let hasDataBeenColleced: boolean
+      if (effect.effectData) {
+        hasDataBeenColleced = true
+      } else hasDataBeenColleced = false
       if (isPlayer) {
         let player = PlayerManager.getPlayerByCard(cardToActivate);
-        cc.log(effect)
-        activatePassiveEffect = new ActivatePassiveEffect(player.character.getComponent(Card)._cardId, hasLockingEffect, cardActivatorId, cardToActivate, effect, false, false, index)
+
+        activatePassiveEffect = new ActivatePassiveEffect(player.character.getComponent(Card)._cardId, hasLockingEffect, cardActivatorId, cardToActivate, effect, hasDataBeenColleced, false, index)
 
       } else {
-        cc.log(effect)
-        activatePassiveEffect = new ActivatePassiveEffect(cardToActivate.getComponent(Card)._cardId, hasLockingEffect, cardActivatorId, cardToActivate, effect, false, false, index)
+
+        activatePassiveEffect = new ActivatePassiveEffect(cardToActivate.getComponent(Card)._cardId, hasLockingEffect, cardActivatorId, cardToActivate, effect, hasDataBeenColleced, false, index)
       }
       if (passivesToActivate.length - i == 1) {
-        cc.log(`should be last passive effect to be added to the stack for this action, begin resolving`)
+
         // if (Stack._currentStackEffectsResolving.length == 0) {
         await Stack.addToStack(activatePassiveEffect, true)
         // } else {
         //   await Stack.addToStackAbove(activatePassiveEffect) 
         // }
       } else {
-        cc.log(`should be more passives to add to stack, do not start resolving.`)
+
         await Stack.addToStackAbove(activatePassiveEffect)
       }
 
@@ -351,7 +354,7 @@ export default class PassiveManager extends cc.Component {
     //  if (!PlayerManager.mePlayer.getComponent(Player)._hasPriority) return meta.result;
 
 
-    cc.log(`passive after check`)
+
     let index = this.updatePassiveMethodData(meta, true, true)
     meta.index = index
     PassiveManager.inPassivePhase = true;
@@ -365,7 +368,7 @@ export default class PassiveManager extends cc.Component {
     }
     for (let i = 0; i < passivesToActivate.length; i++) {
       const passiveEffect = passivesToActivate[i];
-      cc.log(`doing passive after ${passiveEffect.name}`)
+
 
       let activated: boolean
 
@@ -390,10 +393,10 @@ export default class PassiveManager extends cc.Component {
         activatePassiveEffect = new ActivatePassiveEffect(monster._cardId, hasLockingEffect, monster._cardId, cardActivated, passiveEffect, false, true, index)
       }
       if (passivesToActivate.length - i == 1) {
-        cc.log(`should be last passive effect to be added to the stack for this action, begin resolving`)
+
         await Stack.addToStack(activatePassiveEffect, true)
       } else {
-        cc.log(`should be more passives to add to stack, do not start resolving.`)
+
         await Stack.addToStackAbove(activatePassiveEffect)
       }
     }

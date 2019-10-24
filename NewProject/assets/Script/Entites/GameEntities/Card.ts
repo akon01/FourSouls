@@ -13,6 +13,23 @@ export default class Card extends cc.Component {
   cardName: string = "";
 
   @property
+  makeMultiCards: boolean = false;
+
+  @property({
+    visible: function (this: Card) {
+      if (this.makeMultiCards) return true
+    }, type: cc.Integer, min: 2
+  })
+  numOfCopies: number = 2;
+
+  @property({
+    type: [cc.SpriteFrame], visible: function (this: Card) {
+      if (this.makeMultiCards) return true
+    }
+  })
+  copiesSprites: cc.SpriteFrame[] = []
+
+  @property
   _cardId: number = 0;
 
   @property
@@ -84,6 +101,9 @@ export default class Card extends cc.Component {
 
   @property
   _hasEventsBeenModified: boolean = false;
+
+  @property({ type: [cc.ParticleAsset] })
+  availableParticles: cc.ParticleAsset[] = [];
 
 
   flipCard(sendToServer: boolean) {

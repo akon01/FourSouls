@@ -1,9 +1,11 @@
-import { ITEM_TYPE } from "../../Constants";
+import { ITEM_TYPE, CARD_TYPE } from "../../Constants";
 import EffectsAndNumbers from "../../EffectsAndNumbers";
 import CardEffect from "../../Entites/CardEffect";
 import PlayerManager from "../../Managers/PlayerManager";
 import Effect from "../CardEffects/Effect";
 import DataCollector from "../DataCollector/DataCollector";
+import PileManager from "../../Managers/PileManager";
+import Card from "../../Entites/GameEntities/Card";
 
 
 
@@ -37,6 +39,7 @@ export default class MultiEffectDestroyThisThenRoll extends DataCollector {
     let thisCard = this.node.parent;
     let thisOwner = PlayerManager.getPlayerByCard(thisCard)
     await thisOwner.loseItem(thisCard)
+    await PileManager.addCardToPile(thisCard.getComponent(Card).type, thisCard, true)
 
 
 

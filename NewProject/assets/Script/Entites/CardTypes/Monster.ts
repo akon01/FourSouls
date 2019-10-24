@@ -1,7 +1,7 @@
 import Signal from "../../../Misc/Signal";
 import ServerClient from "../../../ServerClient/ServerClient";
 import MonsterReward from "../../CardEffectComponents/MonsterRewards/MonsterReward";
-import { PASSIVE_EVENTS } from "../../Constants";
+import { PASSIVE_EVENTS, PARTICLE_TYPES } from "../../Constants";
 import PassiveManager, { PassiveMeta } from "../../Managers/PassiveManager";
 import PlayerManager from "../../Managers/PlayerManager";
 import TurnsManager from "../../Managers/TurnsManager";
@@ -10,6 +10,7 @@ import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import Card from "../GameEntities/Card";
 import MonsterCardHolder from "../MonsterCardHolder";
 import Stack from "../Stack";
+import ParticleManager from "../../Managers/ParticleManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -103,6 +104,8 @@ export default class Monster extends cc.Component {
           signal: Signal.MONSTER_GET_DAMAGED,
           srvData: { cardId: cardId, hpLeft: this.currentHp, damageDealerId: damageDealer.getComponent(Card)._cardId }
         };
+        ParticleManager.activateParticleEffect(this.node, PARTICLE_TYPES.MONSTER_GET_HIT)
+        //ParticleManager.runParticleOnce(this.node, PARTICLE_TYPES.MONSTER_GET_HIT)
         if (sendToServer) {
           ServerClient.$.send(serverData.signal, serverData.srvData)
           if (this.currentHp == 0) {

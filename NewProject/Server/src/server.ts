@@ -82,6 +82,7 @@ export default class Server {
     whevent.on(signal.UPDATE_PASSIVE_DATA, this.onUpdatePassiveData, this);
     whevent.on(signal.CARD_GET_COUNTER, this.onCardGetCounter, this);
     whevent.on(signal.CANCEL_ATTACK, this.onCancelAttack, this);
+    whevent.on(signal.NEW_MONSTER_PLACE, this.onNewMonsterPlace, this);
 
 
 
@@ -330,6 +331,12 @@ export default class Server {
   onAssignChar({ player, data }) {
     player.match.broadcastExept(player, signal.ASSIGN_CHAR_TO_PLAYER, data);
   }
+
+
+  onNewMonsterPlace({ player, data }) {
+    player.match.broadcastExept(player, signal.NEW_MONSTER_PLACE, data);
+  }
+
 
   onSetTurn({ player, data }) {
     player.match.broadcastExept(player, signal.SET_TURN, data);

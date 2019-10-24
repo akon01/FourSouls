@@ -25,7 +25,7 @@ import BattleManager from "./BattleManager";
 import ButtonManager from "./ButtonManager";
 import CardManager from "./CardManager";
 import CardPreviewManager from "./CardPreviewManager";
-import DataInterpreter, { ActiveEffectData } from "./DataInterpreter";
+import DataInterpreter, { ActiveEffectData, PassiveEffectData } from "./DataInterpreter";
 import PassiveManager, { ServerPassiveMeta } from "./PassiveManager";
 import PileManager from "./PileManager";
 import PlayerManager from "./PlayerManager";
@@ -419,9 +419,9 @@ export default class ActionManager extends cc.Component {
         break;
       case Signal.MOVE_CARD:
         card = CardManager.getCardById(data.cardId, true)
-        cc.log(data.placeID)
+
         place = PlayerManager.getPlayerById(data.placeID)
-        cc.log(place)
+
         if (place != null) {
           if (card.getComponent(Card).type == CARD_TYPE.LOOT) {
             place = place.getComponent(Player).hand.node;
@@ -433,7 +433,7 @@ export default class ActionManager extends cc.Component {
           place = CardManager.getCardById(data.placeID, true)
 
         }
-        cc.log(place)
+
         await CardManager.moveCardTo(card, place, false, data.flipIfFlipped, data.moveIndex, data.firstPos, data.playerId)
         break;
       case Signal.MOVE_CARD_END:
@@ -664,14 +664,16 @@ export default class ActionManager extends cc.Component {
 
       case Signal.REGISTER_ONE_TURN_PASSIVE_EFFECT:
         card = CardManager.getCardById(data.cardId);
-        cc.log(card)
         let cardEffect = card.getComponent(CardEffect).toAddPassiveEffects[data.effectIndex.index].getComponent(Effect)
-        let conditionsData: ActiveEffectData[] = [];
+        let conditionsData = [];
         for (let i = 0; i < cardEffect.conditions.length; i++) {
           const condition = cardEffect.conditions[i];
           let conditionData = data.conditionData[i];
-          conditionsData.push(DataInterpreter.convertToActiveEffectData(conditionData))
-          cardEffect.conditions[i].conditionData = conditionData
+          //conditionsData.push(DataInterpreter.convertToEffectData(conditionData))
+          let t = DataInterpreter.convertToEffectData(conditionData);
+          cc.error(`register one turn passive, condition ${condition.name}`)
+          cc.log(t)
+          cardEffect.conditions[i].conditionData = t
         }
         //  let conditionData = DataInterpreter.convertToActiveEffectData(data.conditionData)
         //cardEffect.conditions.conditionData = conditionData;
@@ -789,7 +791,9 @@ export default class ActionManager extends cc.Component {
         itemCard.getComponent(Item).eternal = true
         player.assignChar(charCard, itemCard)
         break
-
+      case Signal.NEW_MONSTER_PLACE:
+        MonsterField.addMonsterToNewPlace(false)
+        break;
 
       case Signal.FLIP_CARD:
         card = CardManager.getCardById(data.cardId, true)

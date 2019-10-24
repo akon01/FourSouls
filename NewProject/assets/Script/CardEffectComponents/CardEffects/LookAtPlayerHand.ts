@@ -61,7 +61,7 @@ export default class LookAtPlayerHand extends Effect {
         }
       }
     }
-
+    cc.log(`end of look at player hand`)
     if (data instanceof PassiveEffectData) return data
     return stack
   }

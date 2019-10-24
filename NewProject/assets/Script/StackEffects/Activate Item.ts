@@ -107,15 +107,14 @@ export default class ActivateItem implements StackEffectInterface {
 
                 let lockingStackEffect: StackEffectInterface
                 if (cardEffect.multiEffectCollector instanceof MultiEffectRoll) {
-                    // lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
+                    lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
                 }
                 if (cardEffect.multiEffectCollector instanceof MultiEffectChooseThenRoll || cardEffect.multiEffectCollector instanceof MultiEffectDestroyThisThenRoll) {
                     await cardEffect.multiEffectCollector.collectData({ cardPlayed: this.itemToActivate, cardPlayerId: this.itemPlayer.playerId })
-                    // lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
+                    lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
                 }
 
                 lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
-                //TODO add put on stack when the method is complete
                 await Stack.addToStack(lockingStackEffect, true)
 
 
@@ -124,7 +123,7 @@ export default class ActivateItem implements StackEffectInterface {
 
             if (this.hasLockingStackEffect && this.hasLockingStackEffectResolved == true) {
 
-                if (cardEffect.multiEffectCollector instanceof MultiEffectRoll || cardEffect.multiEffectCollector instanceof MultiEffectChooseThenRoll) {
+                if (cardEffect.multiEffectCollector instanceof MultiEffectRoll || cardEffect.multiEffectCollector instanceof MultiEffectChooseThenRoll || cardEffect.multiEffectCollector instanceof MultiEffectDestroyThisThenRoll) {
                     let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_ROLL_DICE, [this.LockingResolve, ROLL_TYPE.EFFECT], null, this.itemPlayer.node)
                     let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
                     this.LockingResolve = afterPassiveMeta.args[0]

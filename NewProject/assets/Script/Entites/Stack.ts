@@ -105,7 +105,7 @@ export default class Stack extends cc.Component {
                 try {
                     newStack = await stackEffect.resolve()
                 } catch (error) {
-                    cc.error(`error while resolving stack effect ${stackEffect.entityId}`)
+                    cc.error(`error while resolving stack effect ${stackEffect.toString()}`)
                     cc.error(error)
                     Logger.error(`error while resolving stack effect ${stackEffect.entityId}`)
                     Logger.error(error)
@@ -187,9 +187,7 @@ export default class Stack extends cc.Component {
         StackEffectVisManager.$.addPreview(stackEffect)
 
         if (sendToServer) {
-            cc.log(`b4 ${stackEffect.entityId} put on stack`)
             await stackEffect.putOnStack()
-            cc.log(`after ${stackEffect.entityId} put on stack`)
             //await ActionManager.updateActions()
             let serverStackEffect: ServerStackEffectInterface = stackEffect.convertToServerStackEffect()
             ServerClient.$.send(Signal.ADD_TO_STACK, { stackEffect: serverStackEffect })

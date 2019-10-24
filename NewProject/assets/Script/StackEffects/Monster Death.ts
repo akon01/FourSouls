@@ -51,8 +51,7 @@ export default class MonsterDeath implements StackEffectInterface {
     async resolve() {
         cc.log('resolve monster death')
         if (BattleManager.currentlyAttackedMonster != null && this.monsterToDie.node == BattleManager.currentlyAttackedMonster.node) {
-            BattleManager.currentlyAttackedMonster = null;
-            TurnsManager.currentTurn.battlePhase = false;
+            BattleManager.endBattle()
         }
         this.monsterToDie._thisTurnKiller = this.killer
         let turnPlayerCard = PlayerManager.getPlayerById(TurnsManager.currentTurn.PlayerId).getComponent(Player).character

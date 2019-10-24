@@ -8,12 +8,11 @@ import Dice from "../Entites/GameEntities/Dice";
 import Player from "../Entites/GameEntities/Player";
 import Pile from "../Entites/Pile";
 import { ServerEffect } from "../Entites/ServerCardEffect";
+import Stack from "../Entites/Stack";
 import StackEffectInterface from "../StackEffects/StackEffectInterface";
+import StackEffectPreview from "../StackEffects/StackEffectVisualRepresentation/StackEffectPreview";
 import CardManager from "./CardManager";
 import PlayerManager from "./PlayerManager";
-import StackEffectPreview from "../StackEffects/StackEffectVisualRepresentation/StackEffectPreview";
-import Stack from "../Entites/Stack";
-import StackEffectVisManager from "./StackEffectVisManager";
 
 
 const { ccclass, property } = cc._decorator;
@@ -63,6 +62,9 @@ export default class DataInterpreter {
                 if (data.terminateOriginal != null) {
                     effectData.terminateOriginal = data.terminateOriginal
                 }
+                if (Array.isArray(data) && data[0] instanceof EffectTarget) {
+                    effectData.effectTargets = data;
+                }
                 if (data instanceof EffectTarget) {
                     effectData.effectTargets.push(data)
                 }
@@ -89,10 +91,18 @@ export default class DataInterpreter {
         return effectData
     }
 
-    static convertToActiveEffectData(serverEffectData: ServerEffectData) {
-
-        let effectData = new ActiveEffectData()
+    static convertToEffectData(serverEffectData: ServerEffectData) {
+        let effectData: ActiveEffectData | PassiveEffectData;
         if (serverEffectData != null) {
+            if (serverEffectData.isPassive) {
+                effectData = new PassiveEffectData()
+                if (serverEffectData.methodArgs) {
+                    effectData.methodArgs = serverEffectData.methodArgs;
+                    effectData.terminateOriginal = serverEffectData.terminateOriginal
+                }
+            } else {
+                effectData = new ActiveEffectData()
+            }
             if (serverEffectData.effectTargets.length > 0) {
                 if (serverEffectData.isTargetStackEffect) {
                     effectData.effectTargets = serverEffectData.effectTargets.map((target) => new EffectTarget(Stack._currentStack.find(stackEffect => stackEffect.entityId == target)))
@@ -111,22 +121,24 @@ export default class DataInterpreter {
             if (serverEffectData.effectCardPlayer != null) {
                 effectData.effectCardPlayer = CardManager.getCardById(serverEffectData.effectCardPlayer, true)
             }
+            if (!serverEffectData.isPassive) {
+                if (serverEffectData.cardEffect != null) {
+                    (effectData as ActiveEffectData).cardEffect = serverEffectData.cardEffect;
+                }
+                if (serverEffectData.numberRolled != 0) {
 
-            if (serverEffectData.cardEffect != null) {
-                effectData.cardEffect = serverEffectData.cardEffect;
-            }
-            if (serverEffectData.numberRolled != 0) {
-
-                effectData.numberRolled = serverEffectData.numberRolled;
+                    (effectData as ActiveEffectData).numberRolled = serverEffectData.numberRolled;
+                }
             }
             if (serverEffectData.chainEffectsData != null) {
                 for (let i = 0; i < serverEffectData.chainEffectsData.length; i++) {
                     const chainEffectData = serverEffectData.chainEffectsData[i];
                     effectData.chainEffectsData.push(
-                        { effectIndex: chainEffectData.effectIndex, data: chainEffectData.data.map(data => DataInterpreter.convertToActiveEffectData(data)) }
+                        { effectIndex: chainEffectData.effectIndex, data: chainEffectData.data.map(data => DataInterpreter.convertToEffectData(data) as any) }
                     )
                 }
             }
+
         }
         return effectData;
     }
@@ -137,7 +149,7 @@ export default class DataInterpreter {
         }
         let serverEffectData = new ServerEffectData()
         if (effectData instanceof ActiveEffectData) {
-
+            serverEffectData.isPassive = false;
             if (effectData.effectTargets.length > 0) {
                 serverEffectData.effectTargets = effectData.effectTargets.map((target) => {
                     if (target.effectTargetCard.getComponent(StackEffectPreview) != null) {
@@ -162,6 +174,7 @@ export default class DataInterpreter {
             }
         }
         if (effectData instanceof PassiveEffectData) {
+            serverEffectData.isPassive = true;
             if (effectData.methodArgs != null) {
                 serverEffectData.methodArgs = effectData.methodArgs;
             }
@@ -169,13 +182,13 @@ export default class DataInterpreter {
                 serverEffectData.terminateOriginal = effectData.terminateOriginal
             }
             if (effectData.effectTargets.length > 0) {
-                cc.log(effectData.effectTargets)
+
                 serverEffectData.effectTargets = effectData.effectTargets.map((target) => {
                     if (target.effectTargetCard.getComponent(StackEffectPreview) != null) {
                         serverEffectData.isTargetStackEffect = true
                         return target.effectTargetCard.getComponent(StackEffectPreview).stackEffect.entityId
                     } else {
-                        cc.log(target)
+
                         return target.effectTargetCard.getComponent(Card)._cardId
                     }
                 })
@@ -352,6 +365,7 @@ export class ServerEffectData {
     }[] = []
     methodArgs: any[] = [];
     terminateOriginal: boolean
+    isPassive: boolean
 }
 
 export class EffectTarget {

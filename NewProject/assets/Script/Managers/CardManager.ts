@@ -175,8 +175,11 @@ export default class CardManager extends cc.Component {
               CardManager.lootDeck.getComponent(Deck).cardsPrefab.push(...rsc)
               cc.loader.loadResDir('Prefabs/TreasureCards', cc.Prefab, (err, rsc, urls) => {
                 CardManager.treasureDeck.getComponent(Deck).cardsPrefab.push(...rsc)
-                whevent.emit(GAME_EVENTS.CARD_MANAGER_LOAD_PREFAB)
-                // CardManager.prefabLoaded = true;
+                cc.loader.loadResDir('Prefabs/Complete Monster Cards', cc.Prefab, (err, rsc, urls) => {
+                  CardManager.monsterDeck.getComponent(Deck).cardsPrefab.push(...rsc)
+                  whevent.emit(GAME_EVENTS.CARD_MANAGER_LOAD_PREFAB)
+                  // CardManager.prefabLoaded = true;
+                })
               })
             })
           }
@@ -197,16 +200,16 @@ export default class CardManager extends cc.Component {
     });
   }
 
-  static async doEffectFromServer(
-    serverEffect: ServerEffect,
-    allServerEffects: ServerEffect[]
-  ) {
-    let card = this.getCardById(serverEffect.cardId, true);
-    let serverEffectStack = await card
-      .getComponent(CardEffect)
-      .doServerEffect(serverEffect, allServerEffects);
-    return serverEffectStack
-  }
+  // static async doEffectFromServer(
+  //   serverEffect: ServerEffect,
+  //   allServerEffects: ServerEffect[]
+  // ) {
+  //   let card = this.getCardById(serverEffect.cardId, true);
+  //   let serverEffectStack = await card
+  //     .getComponent(CardEffect)
+  //     .doServerEffect(serverEffect, allServerEffects);
+  //   return serverEffectStack
+  // }
 
   static getDeckByType(deckType: CARD_TYPE) {
     switch (deckType) {
@@ -232,13 +235,10 @@ export default class CardManager extends cc.Component {
         //let over = await this.waitForCheck()
         return
       }
-      cc.log(`check for empty fields`)
       this.isCheckingForEmptyFields = true;
-
       let monsterField = this.monsterField.getComponent(MonsterField)
       MonsterField.updateActiveMonsters();
-      cc.log(MonsterField.activeMonsters.map(monster => monster.name))
-      if (monsterField.maxNumOfMonsters > MonsterField.activeMonsters.length) {
+      if (MonsterField.monsterCardHolders.length > MonsterField.activeMonsters.length) {
         let emptyHolders = MonsterField.monsterCardHolders.filter(
           holder => holder.getComponent(MonsterCardHolder).monsters.length == 0
         );
@@ -251,7 +251,6 @@ export default class CardManager extends cc.Component {
         }
       }
 
-      cc.log(`store cards ${Store.storeCards.length}`)
       if (Store.storeCards.length < Store.maxNumOfItems) {
         let diff = Store.maxNumOfItems - Store.storeCards.length;
         for (let i = 0; i < diff; i++) {
@@ -267,7 +266,7 @@ export default class CardManager extends cc.Component {
 
 
   /**
-   * Serch in allCards and Decks for a matching card/Deck
+   * Search in allCards and Decks for a matching card/Deck
    * @param cardId a card id to get from all cards
    */
   static getCardById(cardId: number, includeInDecksCards?: boolean): cc.Node {
@@ -376,6 +375,35 @@ export default class CardManager extends cc.Component {
     return null;
   }
 
+  static addCardToDeck(card: cc.Node, deck: Deck) {
+    let cardComp: Card = card.getComponent(Card);
+    switch (deck.deckType) {
+      case CARD_TYPE.LOOT:
+        cardComp.backSprite = CardManager.lootCardBack;
+        CardManager.lootCardPool.put(card);
+        break;
+      case CARD_TYPE.MONSTER:
+        cardComp.backSprite = CardManager.monsterCardBack;
+
+        break;
+      case CARD_TYPE.TREASURE:
+        cardComp.backSprite = CardManager.treasureCardBack;
+        CardManager.treasureCardPool.put(card);
+        break;
+      default:
+        break;
+    }
+    if (deck._cardId == -1) {
+
+      deck._cardId = ++CardManager.cardsId;
+    }
+    cardComp._cardId = ++CardManager.cardsId;
+
+
+    cardComp.flipCard(false);
+    deck.addToDeckOnTop(card, false);
+  }
+
   static makeDeckCards(deck: Deck) {
     deck._cardId = ++this.cardsId
     deck.node.getComponent(Card)._cardId = ++this.cardsId
@@ -385,31 +413,45 @@ export default class CardManager extends cc.Component {
 
       let cardComp: Card = newCard.getComponent(Card);
       newCard.getComponent(Card).frontSprite = newCard.getComponent(cc.Sprite).spriteFrame;
-      switch (deck.deckType) {
-        case CARD_TYPE.LOOT:
-          cardComp.backSprite = CardManager.lootCardBack;
-          CardManager.lootCardPool.put(newCard);
-          break;
-        case CARD_TYPE.MONSTER:
-          cardComp.backSprite = CardManager.monsterCardBack;
-
-          break;
-        case CARD_TYPE.TREASURE:
-          cardComp.backSprite = CardManager.treasureCardBack;
-          CardManager.treasureCardPool.put(newCard);
-          break;
-        default:
-          break;
+      this.addCardToDeck(newCard, deck)
+      if (cardComp.makeMultiCards) {
+        for (let j = 0; j < cardComp.numOfCopies; j++) {
+          let copyCard = cc.instantiate(newCard);
+          if (cardComp.copiesSprites[j]) {
+            copyCard.getComponent(Card).frontSprite = cardComp.copiesSprites[j]
+          } else {
+            copyCard.getComponent(Card).frontSprite = newCard.getComponent(Card).frontSprite
+          }
+          copyCard.name = cardComp.node.name + `(${j})`
+          copyCard.getComponent(Card).cardName = cardComp.cardName + `(${j})`
+          this.addCardToDeck(copyCard, deck)
+        }
       }
-      if (deck._cardId == -1) {
+      // switch (deck.deckType) {
+      //   case CARD_TYPE.LOOT:
+      //     cardComp.backSprite = CardManager.lootCardBack;
+      //     CardManager.lootCardPool.put(newCard);
+      //     break;
+      //   case CARD_TYPE.MONSTER:
+      //     cardComp.backSprite = CardManager.monsterCardBack;
 
-        deck._cardId = ++CardManager.cardsId;
-      }
-      cardComp._cardId = ++CardManager.cardsId;
+      //     break;
+      //   case CARD_TYPE.TREASURE:
+      //     cardComp.backSprite = CardManager.treasureCardBack;
+      //     CardManager.treasureCardPool.put(newCard);
+      //     break;
+      //   default:
+      //     break;
+      // }
+      // if (deck._cardId == -1) {
+
+      //   deck._cardId = ++CardManager.cardsId;
+      // }
+      // cardComp._cardId = ++CardManager.cardsId;
 
 
-      cardComp.flipCard(false);
-      deck.addToDeckOnTop(newCard, false);
+      // cardComp.flipCard(false);
+      // deck.addToDeckOnTop(newCard, false);
     }
 
     // if (deck.suffleInTheStart) deck.shuffleDeck();
@@ -513,7 +555,6 @@ export default class CardManager extends cc.Component {
     card.on(
       cc.Node.EventType.TOUCH_START,
       () => {
-        cc.log(`${card.name} was pressed, get previews`)
         CardPreviewManager.getPreviews(Array.of(card), true)
         //cardPreview.showCardPreview2(card);
       },
@@ -564,12 +605,8 @@ export default class CardManager extends cc.Component {
     dataCollector: DataCollector,
     card: cc.Node
   ) {
-    cc.log(`make ${card.name} required `)
-
     let p = card.getComponentInChildren(cc.ParticleSystem);
     p.resetSystem()
-    cc.log(`particle sys of ${card.name}`)
-    cc.log(p)
 
     // card.runAction(
     //   cc
@@ -605,7 +642,6 @@ export default class CardManager extends cc.Component {
   }
 
   static unRequiredForDataCollector(card: cc.Node) {
-    cc.log(`un require for ${card.name}`)
     card.stopAllActions();
     card.runAction(cc.fadeTo(BLINKING_SPEED, 255));
     let p = card.getComponentInChildren(cc.ParticleSystem);
@@ -681,9 +717,6 @@ export default class CardManager extends cc.Component {
     if (card.parent == null) {
       card.parent = canvas
     }
-
-
-    cc.log(`place to move to is: ${placeToMove.name}, its parent is ${placeToMove.parent.name} `)
 
     let originalPos = canvas.convertToNodeSpaceAR(card.parent.convertToWorldSpaceAR(card.getPosition()));
     let movePos = canvas.convertToNodeSpaceAR(placeToMove.parent.convertToWorldSpaceAR(placeToMove.getPosition()))
@@ -839,17 +872,23 @@ export default class CardManager extends cc.Component {
     let layoutPos = soulsLayout.parent.convertToWorldSpaceAR(soulsLayout.getPosition())
     let conv = cardToMove.convertToNodeSpaceAR(layoutPos)
     let action = (cc.moveTo(TIME_TO_BUY, conv))
+    if (cardToMove.angle != 0) cardToMove.angle = 0;
     cardToMove.runAction(cc.sequence(action, cc.callFunc(() => {
       cardToMove.setParent(soulsLayout);
       let cardWidget = cardToMove.addComponent(cc.Widget)
+      cardWidget.alignMode = cc.Widget.AlignMode.ALWAYS;
       cardWidget.isAlignRight = true;
       cardWidget.right = 0;
+      cardToMove.y = 0;
+      cardToMove.x = 0
 
       let monsterComp = cardToMove.getComponent(Monster)
       return true
     }, this)))
     // setTimeout(() => {
     // }, TIMETOBUY + 0.1 * 1000);
+
+
 
   }
 

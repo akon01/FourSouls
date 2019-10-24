@@ -88,19 +88,20 @@ export default class MonsterField extends cc.Component {
     }
   }
 
-  static addMonsterToNewPlace(monsterCard, sendToServer: boolean) {
+  static addMonsterToNewPlace(sendToServer: boolean) {
     let newMonsterHolder = this.getNewMonsterHolder();
-    MonsterField.monsterCardHolders.push(
-      newMonsterHolder.getComponent(MonsterCardHolder)
-    );
-    let layout = this.$.node.getComponent(CardLayout);
-    layout.addCardToLayout(newMonsterHolder);
+    let layout = this.$.node.getComponent(cc.Layout);
+    newMonsterHolder.setParent(layout.node)
+    //layout.addCardToLayout(newMonsterHolder); 
 
-    this.addMonsterToExsistingPlace(
-      newMonsterHolder.getComponent(MonsterCardHolder).id,
-      monsterCard,
-      sendToServer
-    );
+    if (sendToServer) {
+      ServerClient.$.send(Signal.NEW_MONSTER_PLACE)
+    }
+    // this.addMonsterToExsistingPlace(
+    //   newMonsterHolder.getComponent(MonsterCardHolder).id,
+    //   monsterCard,
+    //   sendToServer
+    // );
   }
 
   static getNewMonsterHolder() {

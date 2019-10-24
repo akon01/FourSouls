@@ -13,6 +13,7 @@ import PlayerManager from "../Managers/PlayerManager";
 import Player from "./GameEntities/Player";
 import Stack from "./Stack";
 import TurnsManager from "../Managers/TurnsManager";
+import BattleManager from "../Managers/BattleManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -170,16 +171,22 @@ export default class MonsterCardHolder extends cc.Component {
   update(dt) {
     if (this._activeMonster != null) {
       this.hpLable.string =
-        "hp: " + this._activeMonster.getComponent(Monster).currentHp;
+        "🖤:" + this._activeMonster.getComponent(Monster).currentHp;
       if (this._activeMonster.getComponent(Monster).bonusDamage != 0) {
         this.dmgLable.string =
-          "dmg: " + this._activeMonster.getComponent(Monster).calculateDamage();
+          "🏹:" + this._activeMonster.getComponent(Monster).calculateDamage();
         this.dmgLable.enabled = true;
       } else {
         this.dmgLable.enabled = false;
       }
+
+      if (BattleManager.currentlyAttackedMonsterNode == this.activeMonster) {
+
+      }
+
+
     } else {
-      this.hpLable.string = "hp:" + 'null!';
+      this.hpLable.string = '';
       this.dmgLable.enabled = false;
       // this.dmgLable.string = "dmg:" + 0;
     }

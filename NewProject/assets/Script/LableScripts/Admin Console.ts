@@ -1,11 +1,12 @@
 import Effect from "../CardEffectComponents/CardEffects/Effect";
-import { SIGNAL_GROUPS } from "../Constants";
+import { SIGNAL_GROUPS, ITEM_TYPE } from "../Constants";
 import CardEffect from "../Entites/CardEffect";
 import Player from "../Entites/GameEntities/Player";
 import { Logger } from "../Entites/Logger";
 import ActionManager from "../Managers/ActionManager";
 import CardManager from "../Managers/CardManager";
 import PlayerManager from "../Managers/PlayerManager";
+import Item from "../Entites/CardTypes/Item";
 
 const { ccclass, property } = cc._decorator;
 
@@ -49,7 +50,13 @@ export default class AdminConsole extends cc.Component {
                 await mePlayer.gainAttackRollBonus(Number(commandText), true, true)
                 break;
             case 'dice':
-                mePlayer.setDiceAdmin = Number.parseInt(commandText)
+                let num = Number.parseInt(commandText)
+                if (num > 0 && num < 7) {
+
+                    mePlayer.setDiceAdmin = num
+                } else {
+                    mePlayer.setDiceAdmin = 0
+                }
                 cc.log(`set all rolls to ${commandText}`)
                 break;
             case 'hp':
@@ -95,6 +102,18 @@ export default class AdminConsole extends cc.Component {
             case 'help':
                 cc.log('available commands:  log,coins,heal,hp,dice,roll,card,run')
                 break;
+            case 'char':
+                //let mePlayer = PlayerManager.mePlayer.getComponent(Player)
+                mePlayer.activeItems.splice(mePlayer.activeItems.indexOf(mePlayer.character))
+                if (mePlayer.characterItem.getComponent(Item).type == ITEM_TYPE.PASSIVE) {
+                    mePlayer.activeItems.splice(mePlayer.passiveItems.indexOf(mePlayer.characterItem))
+                } else mePlayer.activeItems.splice(mePlayer.activeItems.indexOf(mePlayer.characterItem))
+                let fullCharCard: {
+                    char: cc.Node;
+                    item: cc.Node;
+                } = CardManager.characterDeck.find(char => char.char.name == commandText)
+                await PlayerManager.assignCharacterToPlayer(fullCharCard, mePlayer, true)
+                break
             case 'run':
                 switch (commandText) {
                     case 'test':
@@ -183,7 +202,15 @@ export default class AdminConsole extends cc.Component {
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {}
+    onLoad() {
+        const logGroups = new SIGNAL_GROUPS();
+        let chosenGroup = logGroups.getGroup('test')
+        if (chosenGroup) {
+            chosenGroup.forEach(word => {
+                AdminConsole.noPrintSignal.push(word)
+            })
+        }
+    }
 
     start() {
 

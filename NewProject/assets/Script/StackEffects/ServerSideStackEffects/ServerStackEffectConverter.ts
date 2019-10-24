@@ -138,6 +138,9 @@ export default class ServerStackEffectConverter {
                 let effect = null
                 if (serverStackEffectData.effectToDo) {
                     effect = card.getComponent(CardEffect).getEffectByNumAndType(serverStackEffectData.effectToDo.cardEffectNum, serverStackEffectData.effectToDo.effctType)
+                    if (serverStackEffectData.hasDataBeenCollectedYet) {
+                        card.getComponent(CardEffect).effectData = serverStackEffectData.effectCollectedData
+                    }
                 }
                 let index = serverStackEffectData.index
                 // if (serverStackEffectData.effectPassiveMeta) {

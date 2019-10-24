@@ -150,7 +150,9 @@ export class Logger {
                         break;
                     default:
                         name = dataEntry[0]
-                        data.push(JSON.stringify(t))
+                        if (typeof t != 'string') {
+                            data.push(JSON.stringify(t))
+                        } else data.push(t)
                         break;
                 }
 

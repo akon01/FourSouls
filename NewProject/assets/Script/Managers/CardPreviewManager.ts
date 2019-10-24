@@ -267,7 +267,6 @@ export default class CardPreviewManager extends cc.Component {
         }
         let previews = await this.getPreviews(cardsToSelectFrom, true)
         this.previewsToChooseFrom = previews;
-        cc.log(this.previewsToChooseFrom)
         ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.CHANGE_TEXT, ['Confirm'])
         ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.SET_CONFIRM_SELECT_IN_PREVIEWS)
 
@@ -301,11 +300,9 @@ export default class CardPreviewManager extends cc.Component {
                     ButtonManager.moveButton(ButtonManager.$.yesButton, ButtonManager.$.cardPreviewButtonLayout)
                 } else ButtonManager.moveButton(ButtonManager.$.yesButton, ButtonManager.$.playerButtonLayout)
                 if (this.selectQueue.length == numberOfCardsToSelect) {
-                    cc.log(`number of selected cards match the number to select`)
                     ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.SET_AVAILABLE)
                     //   this.confirmSelectButton.enabled = true;
                 } else {
-                    cc.log(`number of selected cards dont match the number to select`)
                     ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.SET_NOT_YET_AVAILABLE)
                 }
             }, this)
@@ -343,8 +340,8 @@ export default class CardPreviewManager extends cc.Component {
             let preview = await this.addPreview(card)
             previews.push(preview.node)
         }
-        cc.log(`current previews`)
-        cc.log(previews.map(preview => preview.getComponent(CardPreview)))
+
+
         this.$.node.active = true;
 
         if (openPreviewManager) {
@@ -359,7 +356,7 @@ export default class CardPreviewManager extends cc.Component {
     }
 
     static addPreview(cardToAdd: cc.Node) {
-        cc.log(`add preview of ${cardToAdd.name}`)
+
         let preview: CardPreview
         if (!cardToAdd) {
             throw `Cant Add Preview Of null Card`
@@ -372,15 +369,8 @@ export default class CardPreviewManager extends cc.Component {
         } else {
             preview = this.cardPreviewPool.get().getComponent(CardPreview);
         }
-        //preview.node.setParent(this.scrollView.content.getChildByName('PreviewLayout'));
 
-        //preview.node.setParent(this.scrollView.content);
-        //preview.node.runAction(cc.fadeTo(0, 255))
-        cc.log(`b4 set card`)
-        cc.log(preview)
         preview.card = cardToAdd;
-        cc.log(`after set card`)
-        cc.log(preview)
         let cardComp = cardToAdd.getComponent(Card)
 
 
@@ -394,7 +384,6 @@ export default class CardPreviewManager extends cc.Component {
 
             preview.node.getComponent(cc.Sprite).spriteFrame = cardComp.frontSprite;
         }
-        //  cc.log(`test2`)
         this.currentPreviews.push(preview.node)
         preview.node.active = true;
         let func = cc.callFunc(() => {
@@ -430,7 +419,6 @@ export default class CardPreviewManager extends cc.Component {
     }
 
     static showPreviewManager() {
-        cc.log(`show previes mangaer`)
         try {
             CardPreviewManager.updatePreviewsEvents()
         } catch (error) {

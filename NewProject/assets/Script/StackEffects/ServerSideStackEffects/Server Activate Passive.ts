@@ -6,6 +6,7 @@ import ActivatePassiveEffect from "../Activate Passive Effect";
 import Card from "../../Entites/GameEntities/Card";
 import CardEffect from "../../Entites/CardEffect";
 import CardManager from "../../Managers/CardManager";
+import { ServerEffectData } from "../../Managers/DataInterpreter";
 
 
 export default class ServerActivatePassive implements ServerStackEffectInterface {
@@ -27,7 +28,7 @@ export default class ServerActivatePassive implements ServerStackEffectInterface
     effectPassiveMeta: ServerPassiveMeta
     isAfterActivation: boolean
     index: number
-
+    effectCollectedData: ServerEffectData = null;
     effectToDo: ServerEffect;
     hasDataBeenCollectedYet: boolean;
 
@@ -55,6 +56,7 @@ export default class ServerActivatePassive implements ServerStackEffectInterface
         this.isAfterActivation = stackEffect.isAfterActivation;
         this.index = stackEffect.index
         this.hasDataBeenCollectedYet = stackEffect.hasDataBeenCollectedYet;
+        if (this.hasDataBeenCollectedYet) this.effectCollectedData = stackEffect.effectCollectedData
         this.stackEffectType = stackEffect.stackEffectType;
     }
 

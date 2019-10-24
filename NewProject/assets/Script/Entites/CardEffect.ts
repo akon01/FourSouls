@@ -3,7 +3,7 @@ import ServerClient from "../../ServerClient/ServerClient";
 import Effect from "../CardEffectComponents/CardEffects/Effect";
 import ChainCollector from "../CardEffectComponents/DataCollector/ChainCollector";
 import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
-import { ITEM_TYPE } from "../Constants";
+import { ITEM_TYPE, GAME_EVENTS, EFFECT_ANIMATION_TIME } from "../Constants";
 import CardManager from "../Managers/CardManager";
 import DataInterpreter, { ActiveEffectData, EffectData, PassiveEffectData, ServerEffectData } from "../Managers/DataInterpreter";
 import StackEffectInterface from "../StackEffects/StackEffectInterface";
@@ -253,7 +253,10 @@ export default class CardEffect extends cc.Component {
         return effectData
       }
     } catch (error) {
+      error = `effect ${chosenEffect.effectName} failed to execute\n${error}\n` + `effect data was:`
       cc.error(error)
+      cc.error(effectData)
+
       Logger.error(error)
     }
     return serverEffectStack
@@ -459,41 +462,64 @@ export default class CardEffect extends cc.Component {
     return serverEffect;
   }
 
-  async doServerEffect(
-    currentServerEffect: ServerEffect,
-    allServerEffects: ServerEffect[]
-  ) {
-    cc.log(
-      "doing effect: " +
-      currentServerEffect.effectName +
-      " of card: " +
-      this.node.name
-    );
+  // async doServerEffect(
+  //   currentServerEffect: ServerEffect,
+  //   allServerEffects: ServerEffect[]
+  // ) {
+  //   cc.log(
+  //     "doing effect: " +
+  //     currentServerEffect.effectName +
+  //     " of card: " +
+  //     this.node.name
+  //   );
 
-    //interpret data --- not for chainEffect effectData
-    let effectData
-    if (currentServerEffect.cardEffectData != null) {
-      if (!(currentServerEffect.cardEffectData instanceof EffectData)) {
-        effectData = DataInterpreter.convertToActiveEffectData(currentServerEffect.cardEffectData)
-      } else {
-        effectData = currentServerEffect.cardEffectData
-      }
-      this.effectData = effectData;
-      //if effect is chainEffects
-    }
-    this.cardPlayerId = currentServerEffect.cardPlayerId;
-    this.serverEffectStack = allServerEffects;
-    let serverEffectStack;
+  //   //interpret data --- not for chainEffect effectData
+  //   let effectData
+  //   if (currentServerEffect.cardEffectData != null) {
+  //     if (!(currentServerEffect.cardEffectData instanceof EffectData)) {
+  //       effectData = DataInterpreter.convertToEffectData(currentServerEffect.cardEffectData)
+  //     } else {
+  //       effectData = currentServerEffect.cardEffectData
+  //     }
+  //     this.effectData = effectData;
+  //     //if effect is chainEffects
+  //   }
+  //   this.cardPlayerId = currentServerEffect.cardPlayerId;
+  //   this.serverEffectStack = allServerEffects;
+  //   let serverEffectStack;
 
-    // if (currentServerEffect.effctType == ITEM_TYPE.ACTIVE) {
-    serverEffectStack = await this.doEffectByNumAndType(
-      currentServerEffect.cardEffectNum,
-      currentServerEffect.effctType,
-      effectData
-    );
+  //   // if (currentServerEffect.effctType == ITEM_TYPE.ACTIVE) {
+  //   serverEffectStack = await this.doEffectByNumAndType(
+  //     currentServerEffect.cardEffectNum,
+  //     currentServerEffect.effctType,
+  //     effectData
+  //   );
 
-    return serverEffectStack
+  //   return serverEffectStack
 
+  // }
+
+  async doEffectAnimation() {
+    let particleSystem = this.node.getComponentInChildren(cc.ParticleSystem)
+    let lastColor = particleSystem.endColor
+    let lastColorVar = particleSystem.endColorVar
+    particleSystem.endColor = cc.color(98, 202, 207)
+    particleSystem.endColorVar = cc.color(130, 140, 197)
+    particleSystem.resetSystem();
+    setTimeout(() => {
+      whevent.emit(GAME_EVENTS.CARD_EFFECT_ANIM_END, this.node)
+    }, EFFECT_ANIMATION_TIME * 1000);
+    return new Promise((resolve, reject) => {
+      whevent.onOnce(GAME_EVENTS.CARD_EFFECT_ANIM_END, (cardWithAnim: cc.Node) => {
+        if (cardWithAnim == this.node) {
+          particleSystem.stopSystem()
+          particleSystem.endColor = lastColor
+          particleSystem.endColorVar = lastColorVar
+          resolve()
+        }
+      })
+
+    })
   }
 
   async doServerEffect2(
@@ -507,13 +533,13 @@ export default class CardEffect extends cc.Component {
       this.node.name
     );
 
+    await this.doEffectAnimation()
+
     //interpret data --- not for chainEffect effectData
     let effectData
     if (currentServerEffect.cardEffectData != null) {
       if (!(currentServerEffect.cardEffectData instanceof EffectData)) {
-        cc.log('current server effect data is not of type EffectData')
-        effectData = DataInterpreter.convertToActiveEffectData(await currentServerEffect.cardEffectData)
-        cc.log(effectData)
+        effectData = DataInterpreter.convertToEffectData(currentServerEffect.cardEffectData)
       } else {
         effectData = currentServerEffect.cardEffectData
       }

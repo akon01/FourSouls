@@ -8,7 +8,7 @@ import Card from "../Entites/GameEntities/Card";
 import Player from "../Entites/GameEntities/Player";
 import Stack from "../Entites/Stack";
 import CardManager from "../Managers/CardManager";
-import DataInterpreter, { EffectTarget, PassiveEffectData } from "../Managers/DataInterpreter";
+import DataInterpreter, { EffectTarget, PassiveEffectData, ServerEffectData } from "../Managers/DataInterpreter";
 import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
 import PlayerManager from "../Managers/PlayerManager";
 import RollDiceStackEffect from "./Roll DIce";
@@ -38,8 +38,10 @@ export default class ActivatePassiveEffect implements StackEffectInterface {
     effectToDo: Effect;
     effectPassiveMeta: PassiveMeta
     hasDataBeenCollectedYet: boolean = false;
+    effectCollectedData: ServerEffectData = null;
     index: number = null;
     isAfterActivation: boolean = null
+
 
 
     constructor(creatorCardId: number, hasLockingStackEffect: boolean, cardActivatorId: number, cardWithEffect: cc.Node, effectToDo: Effect, hasDataBeenCollectedYet: boolean, isAfterActivation: boolean, index?: number, entityId?: number) {
@@ -57,7 +59,7 @@ export default class ActivatePassiveEffect implements StackEffectInterface {
         this.cardWithEffect = cardWithEffect;
         this.hasDataBeenCollectedYet = hasDataBeenCollectedYet;
         this.visualRepesentation = new ActivatePassiveItemVis(this.cardWithEffect.getComponent(cc.Sprite))
-        cc.log(`creating activate passive effect with index ${index}`)
+        //cc.log(`creating activate passive effect with index ${index}`)
         this.index = index;
         this.isAfterActivation = isAfterActivation
 
@@ -112,8 +114,8 @@ export default class ActivatePassiveEffect implements StackEffectInterface {
                         }
 
                         let collectedData = await cardEffect.collectEffectData(effect, { cardId: this.cardWithEffect.getComponent(Card)._cardId, cardPlayerId: id })
-
                         cardEffect.effectData = collectedData;
+                        this.effectCollectedData = collectedData;
                         this.hasDataBeenCollectedYet = true;
                     }
                 }
@@ -131,8 +133,8 @@ export default class ActivatePassiveEffect implements StackEffectInterface {
                 }
 
                 let collectedData = await cardEffect.collectEffectData(this.effectToDo, { cardId: this.cardWithEffect.getComponent(Card)._cardId, cardPlayerId: id })
-
                 cardEffect.effectData = collectedData;
+                this.effectCollectedData = collectedData;
                 this.hasDataBeenCollectedYet = true;
             }
         }

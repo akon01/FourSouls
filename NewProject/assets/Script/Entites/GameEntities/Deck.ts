@@ -55,7 +55,7 @@ export default class Deck extends cc.Component {
   drawCard(sendToServer: boolean): cc.Node {
     if (this._cards.length != 0) {
       let newCard = this._cards.pop();
-      cc.log(`${newCard.name} was drawn from its deck`)
+
 
       if (!newCard.getComponent(Card)._isFlipped) newCard.getComponent(Card).flipCard(false)
       if (newCard.parent == null) {

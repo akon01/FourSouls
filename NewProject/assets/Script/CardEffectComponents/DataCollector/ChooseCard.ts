@@ -77,7 +77,6 @@ export default class ChooseCard extends DataCollector {
       playerId: number;
     } = await this.requireChoosingACard(cardsToChooseFrom);
     let target = new EffectTarget(CardManager.getCardById(cardChosenData.cardChosenId, true))
-    cc.log(`chosen ${target.effectTargetCard.name}`)
     return target;
   }
 

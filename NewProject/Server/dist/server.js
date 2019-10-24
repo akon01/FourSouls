@@ -115,6 +115,7 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].UPDATE_PASSIVE_DATA, this.onUpdatePassiveData, this);
         whevent.on(signal_1["default"].CARD_GET_COUNTER, this.onCardGetCounter, this);
         whevent.on(signal_1["default"].CANCEL_ATTACK, this.onCancelAttack, this);
+        whevent.on(signal_1["default"].NEW_MONSTER_PLACE, this.onNewMonsterPlace, this);
         whevent.on(signal_1["default"].CHANGE_MONEY, this.onChangeMoney, this);
         whevent.on(signal_1["default"].ADD_STORE_CARD, this.onAddToStoreCard, this);
         whevent.on(signal_1["default"].REGISTER_PASSIVE_ITEM, this.onRegisterPassive, this);
@@ -317,6 +318,10 @@ var Server = /** @class */ (function () {
     Server.prototype.onAssignChar = function (_a) {
         var player = _a.player, data = _a.data;
         player.match.broadcastExept(player, signal_1["default"].ASSIGN_CHAR_TO_PLAYER, data);
+    };
+    Server.prototype.onNewMonsterPlace = function (_a) {
+        var player = _a.player, data = _a.data;
+        player.match.broadcastExept(player, signal_1["default"].NEW_MONSTER_PLACE, data);
     };
     Server.prototype.onSetTurn = function (_a) {
         var player = _a.player, data = _a.data;

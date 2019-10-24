@@ -33,14 +33,18 @@ export default class PlayerRollNumber extends Condition {
     let thisCard = this.node.parent.parent;
     let c = meta.args[0]
     let answer = false;
+    cc.log(`player ${player.name} rolled ${c}, this numberRoll is ${this.numberRoll}`)
     //  let playerName = PlayerManager.getPlayerByCardId(this.conditionData.cardChosenId).name;
     if (
       player instanceof Player &&
       this.numberRoll == c
     ) answer = true
-    if (!(this.isOnlyAttackingPlayer && BattleManager.currentlyAttackedMonsterNode != null && player == TurnsManager.currentTurn.getTurnPlayer() && answer == true)) {
-      answer = false;
+    if (this.isOnlyAttackingPlayer) {
+      if (!(BattleManager.currentlyAttackedMonsterNode != null && player == TurnsManager.currentTurn.getTurnPlayer())) {
+        answer = false;
+      }
     }
+    cc.log(`answer is ${answer}`)
     return answer
   }
 }

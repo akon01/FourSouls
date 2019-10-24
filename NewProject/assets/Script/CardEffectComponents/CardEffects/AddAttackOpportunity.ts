@@ -29,7 +29,8 @@ export default class AddAttackOpportunity extends Effect {
       cc.log(`target player is null`)
     } else {
       let player: Player = PlayerManager.getPlayerByCard(targetPlayerCard as cc.Node)
-      TurnsManager.currentTurn.attackPlays += this.numOfTimes
+      player.attackPlays += this.numOfTimes
+      TurnsManager.currentTurn.attackPlays = player.attackPlays;
     }
 
     if (data instanceof PassiveEffectData) return data

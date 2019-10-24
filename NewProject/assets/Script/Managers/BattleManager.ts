@@ -4,9 +4,11 @@ import ActionManager from "./ActionManager";
 import PlayerManager from "./PlayerManager";
 import TurnsManager from "./TurnsManager";
 import Stack from "../Entites/Stack";
-import { STACK_EFFECT_TYPE } from "../Constants";
+import { STACK_EFFECT_TYPE, PARTICLE_TYPES } from "../Constants";
 import ServerClient from "../../ServerClient/ServerClient";
 import Signal from "../../Misc/Signal";
+import Card from "../Entites/GameEntities/Card";
+import ParticleManager from "./ParticleManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,6 +25,19 @@ export default class BattleManager extends cc.Component {
     BattleManager.currentlyAttackedMonsterNode = monsterCard;
     BattleManager.currentlyAttackedMonster = monsterCard.getComponent(Monster);
     // ;
+
+
+    ParticleManager.activateParticleEffect(monsterCard, PARTICLE_TYPES.MONSTER_IN_BATTLE)
+
+    // let part = monsterCard.getComponent(Card).availableParticles.find(particle => particle.name == 'monsterInFight')
+
+    // monsterCard.getComponentInChildren(cc.ParticleSystem).stopSystem()
+    // monsterCard.getComponentInChildren(cc.ParticleSystem).file = part as unknown as string;
+
+
+    // monsterCard.getComponentInChildren(cc.ParticleSystem).resetSystem()
+
+
     TurnsManager.currentTurn.battlePhase = true;
 
     let turnPlayer = PlayerManager.getPlayerById(
@@ -32,11 +47,17 @@ export default class BattleManager extends cc.Component {
     await ActionManager.updateActions();
   }
 
+  static endBattle() {
+    let monsterCard = BattleManager.currentlyAttackedMonsterNode
+    BattleManager.currentlyAttackedMonster = null;
+    BattleManager.currentlyAttackedMonsterNode = null;
+    TurnsManager.currentTurn.battlePhase = false;
+    ParticleManager.disableParticleEffect(monsterCard, PARTICLE_TYPES.MONSTER_IN_BATTLE)
+  }
+
   static async cancelAttack(sendToServer: boolean) {
 
-    this.currentlyAttackedMonster = null
-    this.currentlyAttackedMonsterNode = null
-    TurnsManager.currentTurn.battlePhase = false;
+    this.endBattle()
     if (sendToServer) {
       let currentStackEffectOfTheAttack = Stack._currentStack.filter(stackEffect => {
         if (stackEffect.stackEffectType == STACK_EFFECT_TYPE.ATTACK_ROLL || stackEffect.stackEffectType == STACK_EFFECT_TYPE.COMBAT_DAMAGE) return true

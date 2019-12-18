@@ -1,4 +1,8 @@
 import { PARTICLE_TYPES } from "../Constants";
+import ServerClient from "../../ServerClient/ServerClient";
+import Signal from "../../Misc/Signal";
+import Card from "../Entites/GameEntities/Card";
+import { Server } from "net";
 
 
 
@@ -22,24 +26,52 @@ export default class ParticleManager extends cc.Component {
     @property({ type: [EffectMap], multiline: true })
     particleEffects: EffectMap[] = [];
 
-    static activateParticleEffect(card: cc.Node, particleType: PARTICLE_TYPES) {
+    activatedEffects: Map<cc.Node, PARTICLE_TYPES[]> = new Map();
+
+    static activateParticleEffect(card: cc.Node, particleType: PARTICLE_TYPES, sendToServer: boolean) {
+
         let particleSys: cc.ParticleSystem = card.getComponentInChildren(cc.ParticleSystem)
         let particle = this.$.particleEffects.find(particle => particle.name == particleType)
-        if (!particle) throw 'No particle found by type'
+        if (!particle) throw new Error('No particle found by type')
 
         particleSys.stopSystem()
         particleSys.file = particle.effect as unknown as string
+        let activeCardEffects = this.$.activatedEffects.get(card)
+        if (activeCardEffects) {
+            activeCardEffects.push(particle.name)
+            this.$.activatedEffects.set(card, activeCardEffects)
+        } else {
+            this.$.activatedEffects.set(card, [particle.name])
+        }
         particleSys.resetSystem()
+        if (sendToServer) {
+            ServerClient.$.send(Signal.ACTIVATE_PARTICLE_EFFECT, { cardId: card.getComponent(Card)._cardId, particleType: particleType })
+        }
         // particleSys.
     }
 
-    static disableParticleEffect(card: cc.Node, particleType: PARTICLE_TYPES) {
+    static disableParticleEffect(card: cc.Node, particleType: PARTICLE_TYPES, sendToServer: boolean) {
         let particleSys: cc.ParticleSystem = card.getComponentInChildren(cc.ParticleSystem)
         let particle = this.$.particleEffects.find(particle => particle.name == particleType)
-        if (!particle) throw 'No particle found by type'
+        if (!particle) throw new Error('No particle found by type')
         if (particleSys.file == particle.effect as unknown as string) {
             particleSys.stopSystem()
+            let activeCardEffects = this.$.activatedEffects.get(card)
+            activeCardEffects = activeCardEffects.filter(effect => effect != particleType)
+            this.$.activatedEffects.set(card, activeCardEffects)
+            const shouldRunEffects = this.$.activatedEffects.get(card);
+            this.$.activatedEffects.set(card, [])
+            if (sendToServer) {
+                ServerClient.$.send(Signal.DISABLE_PARTICLE_EFFECT, { cardId: card.getComponent(Card)._cardId, particleType: particleType })
+            }
+            for (let i = 0; i < shouldRunEffects.length; i++) {
+                const effect = shouldRunEffects[i];
+                this.activateParticleEffect(card, effect, false)
+            }
+            // for (let i = 0; i < shouldRunEffects.length; i++) {
+            // }
         }
+
     }
 
     static runParticleOnce(card: cc.Node, particleType: PARTICLE_TYPES) {

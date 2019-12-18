@@ -6,6 +6,7 @@ import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import { TARGETTYPE } from "./../../Constants";
 import Effect from "./Effect";
 import CardManager from "../../Managers/CardManager";
+import Stack from "../../Entites/Stack";
 
 const { ccclass, property } = cc._decorator;
 
@@ -59,7 +60,7 @@ export default class DealDamage extends Effect {
     }
 
     if (data instanceof PassiveEffectData) return data
-    return stack
+    return Stack._currentStack
   }
 
   async hitAnEntity(targetEntity: cc.Node) {
@@ -70,13 +71,13 @@ export default class DealDamage extends Effect {
     if (entityComp == null) {
       entityComp = targetEntity.getComponent(Monster)
       if (entityComp instanceof Monster) {
-        await entityComp.getDamaged(this.damageToDeal, true, damageDealer)
+        await entityComp.takeDamaged(this.damageToDeal, true, damageDealer)
       }
     } else {
       //Entity is Player
       if (entityComp instanceof Character) {
 
-        await PlayerManager.getPlayerByCard(entityComp.node).getHit(this.damageToDeal, true, damageDealer)
+        await PlayerManager.getPlayerByCard(entityComp.node).takeDamage(this.damageToDeal, true, damageDealer)
       }
     }
   }

@@ -4,6 +4,7 @@ import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpre
 import TurnsManager from "../../Managers/TurnsManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import Effect from "./Effect";
+import Stack from "../../Entites/Stack";
 
 const { ccclass, property } = cc._decorator;
 
@@ -24,12 +25,14 @@ export default class CancelAttack extends Effect {
    */
   async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
 
+    cc.log(`do effect cancel attack`)
     let player: Player = TurnsManager.currentTurn.getTurnPlayer();
     await BattleManager.cancelAttack(true);
     if (this.addAttackOppurtunity) TurnsManager.currentTurn.attackPlays = TurnsManager.currentTurn.attackPlays + this.howMuchToAdd
 
 
+
     if (data instanceof PassiveEffectData) return data
-    return stack
+    return Stack._currentStack
   }
 }

@@ -31,7 +31,8 @@ export default class CancelStackEffect extends Effect {
     }
 
 
+
     if (data instanceof PassiveEffectData) return data
-    return stack
+    return Stack._currentStack
   }
 }

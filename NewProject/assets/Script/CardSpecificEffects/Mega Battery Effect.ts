@@ -27,7 +27,7 @@ export default class MegaBatteryEffect extends Effect {
 
     let targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER)
     if (targetPlayerCard == null) {
-      throw 'no target'
+      throw new Error('no target')
     } else {
       let player = PlayerManager.getPlayerByCard(targetPlayerCard as cc.Node)
       let itemsToRecharge = player.deskCards.filter(card => {
@@ -45,3 +45,4 @@ export default class MegaBatteryEffect extends Effect {
       return stack
     }
   }
+}

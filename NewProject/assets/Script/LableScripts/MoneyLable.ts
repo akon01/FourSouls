@@ -38,7 +38,7 @@ export default class StatLable extends cc.Component {
                     this.label.string = '💰:' + this.playerMoney.toString()
                     break;
                 case stats.HP:
-                    this.label.string = '🧡' + (this.player._Hp + this.player._hpBonus + this.player._tempHpBonus).toString()
+                    this.label.string = '🧡' + (this.player._Hp).toString()
                     break;
                 default:
                     break;

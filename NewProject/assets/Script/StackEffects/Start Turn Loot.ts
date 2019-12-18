@@ -1,4 +1,4 @@
-import { STACK_EFFECT_TYPE } from "../Constants";
+import { STACK_EFFECT_TYPE, GAME_EVENTS } from "../Constants";
 import Player from "../Entites/GameEntities/Player";
 import Stack from "../Entites/Stack";
 import CardManager from "../Managers/CardManager";
@@ -22,25 +22,45 @@ export default class StartTurnLoot implements StackEffectInterface {
     hasLockingStackEffectResolved: boolean;
     lockingStackEffect: StackEffectInterface;
     LockingResolve: any;
+    _lable: string;
+
+    set lable(text: string) {
+        this._lable = text
+        if (!this.nonOriginal) whevent.emit(GAME_EVENTS.LABLE_CHANGE)
+    }
+
+    isToBeFizzled: boolean = false;
+
+    creationTurnId: number
+
+
+    checkForFizzle() {
+        if (this.creationTurnId != TurnsManager.currentTurn.turnId) return true
+        return false;
+    }
+
+    nonOriginal: boolean = false;
 
     turnPlayer: Player;
 
 
     constructor(creatorCardId: number, turnPlayerCard: cc.Node, entityId?: number) {
         if (entityId) {
+            this.nonOriginal = true
             this.entityId = entityId
         } else {
             this.entityId = Stack.getNextStackEffectId()
         }
         this.creatorCardId = creatorCardId;
+        this.creationTurnId = TurnsManager.currentTurn.turnId;
         this.turnPlayer = PlayerManager.getPlayerByCard(turnPlayerCard)
         this.visualRepesentation = new StartTurnVis(this.turnPlayer)
+        this.lable = `Player ${this.turnPlayer.playerId} start turn loot`
     }
 
 
 
     async putOnStack() {
-        cc.log('put on stack turn player loot')
         let turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
         turnPlayer.givePriority(true)
 

@@ -148,6 +148,8 @@ export enum CARD_POOLS {
   OTHER_PLAYERS = 4,
   YOUR_CHARACTER = 5,
   PLAYERS_EXCEPT_ATTAKING = 6,
+  ACTIVE_MONSTERS_NOT_ATTACKED = 7,
+  STORE_CARDS = 8,
 }
 
 export enum BUTTON_STATE {
@@ -193,25 +195,34 @@ export enum GAME_EVENTS {
   CARD_PREV_MAN_WAIT_FOR_SELECT,
   PASSIVE_MAN_PASSIVE_PHASE_OVER,
   PLAYER_MAN_PREFAB_LOAD,
+  CHECK_FOR_DEAD_ENTITIES,
+  STACK_CHANGED,
+  LABLE_CHANGE,
+  GAME_OVER,
+  SOUL_CARD_MOVE_END
 }
 
 export class SIGNAL_GROUPS {
   REACTION = [Signal.RESPOND_TO, Signal.GET_REACTION, Signal.GIVE_PLAYER_PRIORITY]
-  STACK = [Signal.ADD_TO_STACK, Signal.REMOVE_FROM_STACK]
-  TESTG = [Signal.ADD_TO_STACK, Signal.REMOVE_FROM_STACK, Signal.RESPOND_TO, Signal.GET_REACTION, Signal.GIVE_PLAYER_PRIORITY, Signal.ACTION_MASSAGE]
+  STACK = [Signal.ADD_TO_STACK, Signal.REMOVE_FROM_STACK, Signal.UPDATE_STACK_LABLE, Signal.REPLACE_STACK]
+  CARD_MOVEMENT = [Signal.SOUL_CARD_MOVE_END, Signal.MOVE_CARD, Signal.MOVE_CARD_END]
+  PARTICLE = [Signal.ACTIVATE_PARTICLE_EFFECT, Signal.DISABLE_PARTICLE_EFFECT]
+  TESTG = [].concat(this.STACK, this.PARTICLE, this.CARD_MOVEMENT, [Signal.ACTION_MASSAGE])
+  //[Signal.ADD_TO_STACK, Signal.REMOVE_FROM_STACK, Signal.RESPOND_TO, Signal.GET_REACTION, Signal.GIVE_PLAYER_PRIORITY, Signal.ACTION_MASSAGE, Signal]
 
 
   getGroup(type: string) {
+    if (type == 'test') return this.TESTG
     if (this.REACTION.includes(type)) return this.REACTION;
     if (this.STACK.includes(type)) return this.STACK
-    if (type == 'test') return this.TESTG
+    if (this.PARTICLE.includes(type)) return this.STACK
   }
 
 }
 
 export enum PARTICLE_TYPES {
 
-  CARD_CHOSEN, CHOOSE_CARD, OPTIONAL_CHOOSE_CARD, MONSTER_GET_HIT, PLAYER_GET_HIT, MONSTER_IN_BATTLE
+  CARD_CHOSEN, CHOOSE_CARD, OPTIONAL_CHOOSE_CARD, MONSTER_GET_HIT, PLAYER_GET_HIT, MONSTER_IN_BATTLE, ACTIVATE_EFFECT
 }
 
 
@@ -240,6 +251,9 @@ export enum PASSIVE_EVENTS {
    * args = [damage taken,num of missed dice roll,entity who dealt damage:cc.node,entity who took damage:cc.Node]
    */
   PLAYER_COMBAT_DAMAGE_GIVEN = 'PLAYER_COMBAT_DAMAGE_GIVEN',
+  /**
+   * args = [number of coins]
+   */
   PLAYER_CHANGE_MONEY = 'PLAYER_CHANGE_MONEY',
   /**
    * scope:the player who will pay the panelties

@@ -1,31 +1,32 @@
 const { ccclass, property } = cc._decorator;
 
-import { Turn, getCurrentPlayer } from "./Modules/TurnsModule";
 import TurnsManager from "./Managers/TurnsManager";
+import { getCurrentPlayer, Turn } from "./Modules/TurnsModule";
 
-import PlayerManager from "./Managers/PlayerManager";
 import ActionManager from "./Managers/ActionManager";
 import ButtonManager from "./Managers/ButtonManager";
 import CardManager from "./Managers/CardManager";
+import PlayerManager from "./Managers/PlayerManager";
 
 import ServerClient from "../ServerClient/ServerClient";
 
-import PileManager from "./Managers/PileManager";
 import MonsterField from "./Entites/MonsterField";
+import PileManager from "./Managers/PileManager";
 
-import Store from "./Entites/GameEntities/Store";
-import Player from "./Entites/GameEntities/Player";
-import Monster from "./Entites/CardTypes/Monster";
-import Deck from "./Entites/GameEntities/Deck";
-import CardPreview from "./Entites/CardPreview";
-import Signal from "../Misc/Signal";
-import { ContainerBuilder } from "@ts-ioc/core";
 import { AopModule } from "@ts-ioc/aop";
-import Stack from "./Entites/Stack";
-import { STACK_EFFECT_TYPE } from "./Constants";
+import { ContainerBuilder } from "@ts-ioc/core";
+import Signal from "../Misc/Signal";
+import { GAME_EVENTS, STACK_EFFECT_TYPE } from "./Constants";
+import CardPreview from "./Entites/CardPreview";
+import Monster from "./Entites/CardTypes/Monster";
 import Card from "./Entites/GameEntities/Card";
+import Deck from "./Entites/GameEntities/Deck";
+import Player from "./Entites/GameEntities/Player";
+import Store from "./Entites/GameEntities/Store";
+import Stack from "./Entites/Stack";
 
 //( id represents a human player and it coresponds with playerID)
+// tslint:disable-next-line: prefer-const
 let id = 1;
 
 @ccclass
@@ -78,11 +79,13 @@ export default class MainScript extends cc.Component {
   @property
   _stackShow: cc.Label = null;
 
+  static gameHasStarted: boolean = false;
+
   // LIFE-CYCLE CALLBACKS:
 
   async onLoad() {
     if (cc.find("ServerClient") != null) {
-      let serverClient: ServerClient = cc
+      const serverClient: ServerClient = cc
         .find("ServerClient")
         .getComponent(ServerClient);
       MainScript.serverId = serverClient.pid;
@@ -91,45 +94,15 @@ export default class MainScript extends cc.Component {
     }
     cc.log(`server id is ${MainScript.serverId}`)
 
-    this._stackShow = cc.find('Canvas/StackShow').getComponent(cc.Label)
-
-    //set up screen size
-    var canvas = this.canvasNode.getComponent(cc.Canvas);
-
-    //  canvas.designResolution = new cc.Size(SCREEN_WIDTH, SCREEN_HEIGHT)
-
-    //set up manager components
-    var playerManagerComp: PlayerManager = this.playersManager.getComponent(
-      "PlayerManager"
-    );
-    var turnsManagerComp: TurnsManager = this.turnsManager.getComponent(
-      "TurnsManager"
-    );
-    var actionsManagerComp: ActionManager = this.actionsManager.getComponent(
-      "ActionManager"
-    );
-    var buttonsManagerComp: ButtonManager = this.buttonsManager.getComponent(
-      "ButtonManager"
-    );
-    var CardManagerComp: CardManager = this.cardManager.getComponent(
-      "CardManager"
-    );
-    var PilesManagerComp: PileManager = this.pilesManager.getComponent(
-      PileManager
-    );
+    this._stackShow = cc.find("Canvas/StackShow").getComponent(cc.Label)
 
     //set up store and monster components
-    var storeComp: Store = this.store.getComponent(Store);
+    const storeComp: Store = this.store.getComponent(Store);
     storeComp.onLoad();
-
-    var monsterComp: MonsterField = this.monsterField.getComponent(
-      MonsterField
-    );
 
     //set up Players
     cc.log(`init player manager with ${MainScript.serverId}`)
     await PlayerManager.init(MainScript.serverId);
-
 
     //Set up Turns
 
@@ -138,21 +111,16 @@ export default class MainScript extends cc.Component {
     ButtonManager.init();
 
     //set up card manager
-
-    let cardManagerFinished = await CardManager.init();
-
-    let charDeckComplete = false;
+    await CardManager.init();
 
     //set up pile manager
     PileManager.init();
 
     //deal player cards
 
-
-
     //deal two treasures and  two monsters
     //this.node.on("decksDone", () => {
-    //   
+    //
     //storeComp.addStoreCard(false);
     //storeComp.addStoreCard(false);
 
@@ -167,11 +135,10 @@ export default class MainScript extends cc.Component {
     //   false
     // );
 
-
     // });
 
     //Set up turn lable
-    var currentTurnLableComp = cc
+    const currentTurnLableComp = cc
       .find("Canvas")
       .getChildByName("current Turn")
       .getComponent(cc.Label);
@@ -180,7 +147,7 @@ export default class MainScript extends cc.Component {
       "Turn " + TurnsManager.getCurrentTurn().PlayerId;
 
     //set up player lable
-    var currentPlayerLableComp = cc
+    const currentPlayerLableComp = cc
       .find("Canvas")
       .getChildByName("current Player")
       .getComponent(cc.Label);
@@ -194,26 +161,41 @@ export default class MainScript extends cc.Component {
 
     MainScript.currentPlayerNode = getCurrentPlayer(
       PlayerManager.players,
-      TurnsManager.currentTurn
+      TurnsManager.currentTurn,
     );
     MainScript.currentPlayerComp = MainScript.currentPlayerNode.getComponent(
-      Player
+      Player,
     );
     //ActionManager.updateActions();
-    let playerId = PlayerManager.mePlayer.getComponent(Player).playerId
-    let turnPlayerId = TurnsManager.currentTurn.PlayerId
+    const playerId = PlayerManager.mePlayer.getComponent(Player).playerId
+    const turnPlayerId = TurnsManager.currentTurn.PlayerId
     ServerClient.$.send(Signal.FINISH_LOAD, { id: playerId, turnPlayerId: turnPlayerId })
 
-
-    this.node.on(`gameOver`, (playerWhoWonId => {
-      cc.director.loadScene("Game Over", () => {
-        let wonString = cc.find('Canvas/playerWon').getComponent(cc.RichText)
-        wonString.string = ' <color=#0fffff > player ' + playerWhoWonId + ' won < /color>'
-      });
+    whevent.on(GAME_EVENTS.GAME_OVER, (playerWhoWonId => {
+      MainScript.endGame(playerWhoWonId, true)
     }))
+
+    // this.node.on(`gameOver`, (playerWhoWonId => {
+    //   cc.director.loadScene("Game Over", () => {
+    //     let wonString = cc.find('Canvas/playerWon').getComponent(cc.RichText)
+    //     wonString.string = ' <color=#0fffff > player ' + playerWhoWonId + ' won < /color>'
+    //   });
+    // }))
 
     //await
     // ActionManager.updateActions()
+  }
+
+  static endGame(playerWhoWonId: number, sendToServer: boolean) {
+
+    cc.error(`end game`)
+    if (sendToServer) {
+      ServerClient.$.send(Signal.END_GAME, { playerId: playerWhoWonId })
+    }
+    cc.director.loadScene("Game Over", () => {
+      const wonString = cc.find("Canvas/playerWon").getComponent(cc.RichText)
+      wonString.string = " <color=#0fffff > player " + playerWhoWonId + " won < /color>"
+    });
   }
 
   static async startGame() {
@@ -231,9 +213,7 @@ export default class MainScript extends cc.Component {
 
       firstTurn = TurnsManager.getTurnByPlayerId(startingPlayer.playerId)
     } else {
-      let randPlayerNumber = Math.floor(Math.random() * PlayerManager.players.length)
-      cc.log(randPlayerNumber
-      )
+      const randPlayerNumber = Math.floor(Math.random() * PlayerManager.players.length)
       for (const player of PlayerManager.players) {
         if (player.getComponent(Player).playerId == randPlayerNumber + 1) {
           startingPlayer = player.getComponent(Player)
@@ -243,7 +223,7 @@ export default class MainScript extends cc.Component {
 
       firstTurn = TurnsManager.getTurnByPlayerId(startingPlayer.playerId)
     }
-    let decks = CardManager.getAllDecks()
+    const decks = CardManager.getAllDecks()
     for (let i = 0; i < decks.length; i++) {
       const deck = decks[i].getComponent(Deck);
 
@@ -254,10 +234,10 @@ export default class MainScript extends cc.Component {
       }
 
     }
-    // await Store.$.addStoreCard(true)
-    // await Store.$.addStoreCard(true)
+    await Store.$.addStoreCard(true)
+    await Store.$.addStoreCard(true)
     // cc.error(`after add store card`)
-    let ids = MonsterField.getMonsterCardHoldersIds()
+    const ids = MonsterField.getMonsterCardHoldersIds()
     for (let i = 0; i < ids.length; i++) {
       const mosnterHolderId = ids[i];
       let newMonster = CardManager.monsterDeck.getComponent(Deck).drawCard(true)
@@ -273,13 +253,15 @@ export default class MainScript extends cc.Component {
 
     await ActionManager.updateActions()
     for (const player of PlayerManager.players) {
-      let comp = player.getComponent(Player)
-      await comp.changeMoney(3, true)
+      const comp = player.getComponent(Player)
+      await comp.changeMoney(3, true, true)
       for (let o = 0; o < 3; o++) {
         await comp.drawCard(CardManager.lootDeck, true)
 
       }
     }
+    MainScript.gameHasStarted = true
+    ServerClient.$.send(Signal.GAME_HAS_STARTED)
     TurnsManager.setCurrentTurn(firstTurn, true)
 
   }
@@ -300,12 +282,6 @@ export default class MainScript extends cc.Component {
   }
 
   updateActions() {
-    var playerManagerComp: PlayerManager = this.playersManager.getComponent(
-      "PlayerManager"
-    );
-    var actionsManagerComp: ActionManager = this.actionsManager.getComponent(
-      "ActionManager"
-    );
     if (MainScript.currentPlayerNode == PlayerManager.mePlayer) {
       ActionManager.updateActionsForTurnPlayer(MainScript.currentPlayerNode);
     } else {
@@ -316,69 +292,6 @@ export default class MainScript extends cc.Component {
   start() { }
 
   update(dt) {
-    if (Stack._currentStack.length == 0) {
-      this._stackShow.string = "Empty Stack"
-    } else {
-      let stackText: string = '';
-      for (const stackEffect of Stack._currentStack) {
-        let type;
-        switch (stackEffect.stackEffectType) {
-          case 1:
-            type = "ACTIVATE ITEM"
-            break;
-          case 2:
-            type = "ATTACK_ROLL"
-            break;
-          case 3:
-            type = "COMBAT_DAMAGE"
-            break;
-          case 4:
-            type = "DECLARE_ATTACK"
-            break;
-          case 5:
-            type = "MONSTER_DEATH"
-            break;
-          case 6:
-            type = "MONSTER_END_DEATH"
-            break;
-          case 7:
-            type = "MONSTER_REWARD"
-            break;
-          case 8:
-            type = "PLAY_LOOT_CARD"
-            break;
-          case 9:
-            type = "  PURCHASE_ITEM"
-            break;
-          case 10:
-            type = "REFILL_EMPTY_SLOT"
-            break;
-          case 11:
-            type = "ROLL_DICE"
-            break;
-          case 12:
 
-            type = "TAKE_DAMAGE"
-            break;
-          case 13:
-            type = "START_TURN_LOOT"
-            break
-          case 14:
-            type = "ACTIVATE_PASSIVE_EFFECT"
-            break
-          case 15:
-            type = "PLAYER_DEATH"
-            break;
-          case 16:
-            type = "PLAYER_DEATH_PENALTY"
-            break
-          default:
-            break;
-        }
-
-        stackText = stackText.concat(' \n' + type + ' by ' + CardManager.getCardById(stackEffect.creatorCardId).name)
-      }
-      this._stackShow.string = stackText
-    }
   }
 }

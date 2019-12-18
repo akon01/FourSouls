@@ -16,16 +16,19 @@ export default class CardOwnerMissAttack extends Condition {
 
   @property({
     visible: function (this: CardOwnerMissAttack) {
-      if (this.isSpecificRoll) return true;
+      if (this.isSpecificRoll) { return true; }
     }
     , type: cc.Integer
   })
   specificNumber: number = 1;
 
+  needsDataCollector = false;
+
   async testCondition(meta: PassiveMeta) {
-    let player: Player = meta.methodScope.getComponent(Player);
-    let thisCard = this.node.parent.parent.parent;
-    let cardOwner = PlayerManager.getPlayerByCard(thisCard);
+    const player: Player = meta.methodScope.getComponent(Player);
+    const thisCard = this.node.parent.parent;
+    const cardOwner = PlayerManager.getPlayerByCard(thisCard);
+    if (!cardOwner) { throw new Error(`no card owner from PlayerManger.getPlayerByCard of card ${thisCard.name}`) }
     if (
       player instanceof Player &&
       player.name == cardOwner.name
@@ -34,8 +37,8 @@ export default class CardOwnerMissAttack extends Condition {
       if (this.isSpecificRoll) {
         if (this.specificNumber == meta.args[0]) {
           return true
-        } else return false
-      } else return true;
+        } else { return false }
+      } else { return true; }
     } else {
       return false;
     }

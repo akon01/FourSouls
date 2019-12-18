@@ -22,11 +22,11 @@ export default class ActionLable extends cc.Component {
 
     static $: ActionLable = null;
 
-    publishMassage(massage: string, timeToDisappear: number) {
+    publishMassage(massage: string, timeToDisappear: number, doNotAddToHistory?: boolean) {
         this.label.node.active = true;
         this.label.string = massage
         this.messages.push(massage)
-        this.addToHistory(massage)
+        if (!doNotAddToHistory) this.addToHistory(massage)
         ServerClient.$.send(Signal.ACTION_MASSAGE, { massage: massage, timeToDisappear: timeToDisappear })
         if (timeToDisappear != 0) {
             setTimeout(() => {

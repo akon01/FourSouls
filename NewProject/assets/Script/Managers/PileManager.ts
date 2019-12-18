@@ -49,16 +49,6 @@ export default class PileManager extends cc.Component {
 
 
   static async addCardToPile(type: CARD_TYPE, card: cc.Node, sendToServer: boolean) {
-    let originalPos
-    let moveAction
-
-    // if (card.getComponent(Card)._isFlipped) {
-    //   card.getComponent(Card).flipCard(sendToServer);
-    // }
-    // originalPos = card.convertToWorldSpaceAR(card.position);
-    // card.parent = cc.find("Canvas");
-    // card.setPosition(card.parent.convertToNodeSpaceAR(originalPos));
-    let goTo
     switch (type) {
 
       case CARD_TYPE.LOOT:

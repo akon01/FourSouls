@@ -7,6 +7,7 @@ import Player from "../../Entites/GameEntities/Player";
 import { override } from "kaop";
 import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
+import Stack from "../../Entites/Stack";
 
 const { ccclass, property } = cc._decorator;
 
@@ -28,12 +29,13 @@ export default class StealMoney extends Effect {
     stack: StackEffectInterface[],
     data?: ActiveEffectData | PassiveEffectData
   ) {
-    let stealer = data.effectCardPlayer.getComponent(Player)
+
+    let stealer = PlayerManager.getPlayerByCard(data.effectCardPlayer)
     let playerCard = data.getTarget(TARGETTYPE.PLAYER)
     if (playerCard instanceof cc.Node) {
       let targetPlayer = PlayerManager.getPlayerByCard(playerCard)
       if (targetPlayer == null) {
-        cc.log(`no target player available`)
+        throw new Error(`no target player available`)
       } else {
         if (targetPlayer.coins >= this.numOfCoins) {
           await targetPlayer.changeMoney(-this.numOfCoins, false);
@@ -46,6 +48,6 @@ export default class StealMoney extends Effect {
     }
 
     if (data instanceof PassiveEffectData) return data
-    return stack;
+    return Stack._currentStack
   }
 }

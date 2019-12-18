@@ -9,17 +9,14 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class CardOwnerCombatDamageGiven extends Condition {
 
-
   event = PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_GIVEN
 
+  needsDataCollector = false;
+
   async testCondition(meta: PassiveMeta) {
-    let player: Player = meta.methodScope.getComponent(Player);
-    cc.log(this.node)
-    let thisCard = this.node.parent.parent;
-    cc.log(thisCard)
-    let cardOwner = PlayerManager.getPlayerByCard(thisCard);
-    cc.log(player)
-    cc.log(cardOwner)
+    const player: Player = meta.methodScope.getComponent(Player);
+    const thisCard = this.node.parent.parent;
+    const cardOwner = PlayerManager.getPlayerByCard(thisCard);
     if (
       player instanceof Player &&
       player.name == cardOwner.name

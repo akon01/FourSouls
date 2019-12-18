@@ -38,115 +38,142 @@ export default class Server {
 
   bindEvents() {
 
+    whevent.on(signal.SET_MAX_ITEMS_STORE, this.onBroadcastExceptOrigin, this);
+
     whevent.on(signal.LOG, this.logFromPlayer, this);
     whevent.on(signal.LOG_ERROR, this.logErrorFromPlayer, this);
 
     whevent.on(signal.MATCH, this.onRequestMatch, this);
     whevent.on(signal.MOVE_TO_TABLE, this.moveToTable, this);
-    whevent.on(signal.NEXT_TURN, this.nextTurn, this);
+    whevent.on(signal.NEXT_TURN, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.START_GAME, this.onStartGame, this);
+    whevent.on(signal.END_GAME, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.GAME_HAS_STARTED, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.FINISH_LOAD, this.onFinishLoad, this);
-    whevent.on(signal.UPDATE_ACTIONS, this.onUpdateActions, this);
+    whevent.on(signal.UPDATE_ACTIONS, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.VALIDATE, this.onValidate, this);
-    whevent.on(signal.CARD_DRAWN, this.onCardDrawed, this);
-    whevent.on(signal.ADD_AN_ITEM, this.onAddItem, this);
-    whevent.on(signal.DECLARE_ATTACK, this.onDeclareAttack, this);
-    whevent.on(signal.GET_REACTION, this.onGetReaction, this);
+    whevent.on(signal.CARD_DRAWN, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.ADD_AN_ITEM, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.DECLARE_ATTACK, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.GET_REACTION, this.onSendToSpecificPlayer, this);
     // whevent.on(signal.FIRSTGETREACTION, this.onGetReaction, this);
     whevent.on(signal.RESOLVE_ACTIONS, this.onResolveActions, this);
-    whevent.on(signal.DISCARD_LOOT, this.onDiscardLoot, this);
-    whevent.on(signal.ACTIVATE_ITEM, this.onActivateItem, this);
-    whevent.on(signal.NEW_MONSTER_ON_PLACE, this.onNewActiveMonster, this);
-    whevent.on(signal.SHOW_CARD_PREVIEW, this.onShowCardPreview, this);
-    whevent.on(signal.ROLL_DICE, this.onRollDice, this);
-    whevent.on(signal.ROLL_DICE_ENDED, this.onRollDiceEnded, this);
-    whevent.on(signal.GET_NEXT_MONSTER, this.onGetNextMonster, this);
-    whevent.on(signal.MOVE_CARD_TO_PILE, this.onMoveCardToPile, this);
-    whevent.on(signal.GET_SOUL, this.onGetSoul, this);
-    whevent.on(signal.LOSE_SOUL, this.onLoseSoul, this);
-    whevent.on(signal.ADD_MONSTER, this.onAddMonster, this);
+    whevent.on(signal.DISCARD_LOOT, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.ACTIVATE_ITEM, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.NEW_MONSTER_ON_PLACE, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.SHOW_CARD_PREVIEW, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.ROLL_DICE, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.ROLL_DICE_ENDED, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.GET_NEXT_MONSTER, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.MOVE_CARD_TO_PILE, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.GET_SOUL, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.LOSE_SOUL, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.ADD_MONSTER, this.onBroadcastExceptOrigin, this);
+
+    //Particle Signals
+    whevent.on(signal.ACTIVATE_PARTICLE_EFFECT, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.DISABLE_PARTICLE_EFFECT, this.onBroadcastExceptOrigin, this);
+    //
 
 
     //BOARD SIGANL
-    whevent.on(signal.REMOVE_MONSTER, this.onRemoveMonster, this);
-    whevent.on(signal.DRAW_CARD, this.onDrawCard, this);
-    whevent.on(signal.DECK_ADD_TO_TOP, this.onDeckAddToTop, this);
-    whevent.on(signal.DECK_ADD_TO_BOTTOM, this.onDeckAddToBottom, this);
-    whevent.on(signal.RECHARGE_ITEM, this.onRechargeItem, this);
-    whevent.on(signal.USE_ITEM, this.onRotateItem, this);
-    whevent.on(signal.SET_TURN, this.onSetTurn, this);
-    whevent.on(signal.ASSIGN_CHAR_TO_PLAYER, this.onAssignChar, this);
-    whevent.on(signal.FLIP_CARD, this.onFlipCard, this);
-    whevent.on(signal.BUY_ITEM_FROM_SHOP, this.onBuyItemFromShop, this);
+    whevent.on(signal.REMOVE_MONSTER, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.DRAW_CARD, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.DECK_ADD_TO_TOP, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.DECK_ADD_TO_BOTTOM, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.RECHARGE_ITEM, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.USE_ITEM, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.SET_TURN, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.ASSIGN_CHAR_TO_PLAYER, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.FLIP_CARD, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.REMOVE_ITEM_FROM_SHOP, this.onBroadcastExceptOrigin, this);
 
-    whevent.on(signal.UPDATE_PASSIVE_DATA, this.onUpdatePassiveData, this);
-    whevent.on(signal.CARD_GET_COUNTER, this.onCardGetCounter, this);
-    whevent.on(signal.CANCEL_ATTACK, this.onCancelAttack, this);
-    whevent.on(signal.NEW_MONSTER_PLACE, this.onNewMonsterPlace, this);
+    whevent.on(signal.UPDATE_PASSIVE_DATA, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.CARD_GET_COUNTER, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.CANCEL_ATTACK, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.NEW_MONSTER_PLACE, this.onBroadcastExceptOrigin, this);
 
 
 
-    whevent.on(signal.CHANGE_MONEY, this.onChangeMoney, this);
-    whevent.on(signal.ADD_STORE_CARD, this.onAddToStoreCard, this);
-    whevent.on(signal.REGISTER_PASSIVE_ITEM, this.onRegisterPassive, this);
-    whevent.on(signal.UPDATE_PASSIVES_OVER, this.onUpdatePassiveOver, this);
-    whevent.on(signal.REGISTER_ONE_TURN_PASSIVE_EFFECT, this.onRegisterOneTurnPassive, this);
-    whevent.on(signal.END_ROLL_ACTION, this.onEndRollAction, this);
+    whevent.on(signal.CHANGE_MONEY, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.ADD_STORE_CARD, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.REGISTER_PASSIVE_ITEM, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.REMOVE_FROM_PASSIVE_MANAGER, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.UPDATE_PASSIVES_OVER, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.REGISTER_ONE_TURN_PASSIVE_EFFECT, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.END_ROLL_ACTION, this.onBroadcastExceptOrigin, this);
 
     //stack events:
 
-    whevent.on(signal.REPLACE_STACK, this.onReplaceStack, this);
-    whevent.on(signal.REMOVE_FROM_STACK, this.onRemoveFromStack, this);
-    whevent.on(signal.ADD_TO_STACK, this.onAddToStack, this);
-    whevent.on(signal.ADD_RESOLVING_STACK_EFFECT, this.onAddToResolvingStack, this);
-    whevent.on(signal.REMOVE_RESOLVING_STACK_EFFECT, this.onRemoveFromResolvingStack, this);
-    whevent.on(signal.UPDATE_STACK_VIS, this.onUpdateStackVis, this);
-    whevent.on(signal.NEXT_STACK_ID, this.onNextStackId, this);
-    whevent.on(signal.GIVE_PLAYER_PRIORITY, this.onGivePlayerPriority, this);
+    whevent.on(signal.REPLACE_STACK, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.REMOVE_FROM_STACK, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.ADD_TO_STACK, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.ADD_RESOLVING_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.REMOVE_RESOLVING_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.UPDATE_STACK_VIS, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.UPDATE_STACK_LABLE, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.NEXT_STACK_ID, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.GIVE_PLAYER_PRIORITY, this.onBroadcastExceptOrigin, this);
 
 
     //player events
-    whevent.on(signal.SET_MONEY, this.onSetMoney, this);
-    whevent.on(signal.PLAYER_GAIN_ATTACK_ROLL_BONUS, this.onPlayerGainAttackRollBonus, this);
-    whevent.on(signal.PLAYER_GAIN_DMG, this.onPlayerGainDMG, this);
-    whevent.on(signal.PLAYER_GAIN_FIRST_ATTACK_ROLL_BONUS, this.onPlayerGainFirstAttackRollBonus, this);
-    whevent.on(signal.PLAYER_GAIN_HP, this.onPlayerGainHp, this);
-    whevent.on(signal.PLAYER_GAIN_ROLL_BONUS, this.onPlayerGainRollBonus, this);
-    whevent.on(signal.PLAYER_GET_HIT, this.onPlayerGetHit, this);
-    whevent.on(signal.PLAYER_RECHARGE_ITEM, this.onPlayerRechargeItem, this);
-    whevent.on(signal.PLAY_LOOT_CARD, this.onLootCardPlayed, this);
-    whevent.on(signal.PLAYER_GET_LOOT, this.onPlayerGainLoot, this);
-    whevent.on(signal.PLAYER_LOSE_LOOT, this.onPlayerLoseCard, this);
-    whevent.on(signal.PLAYER_HEAL, this.onPlayerHeal, this);
+    whevent.on(signal.SET_MONEY, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.PLAYER_GAIN_ATTACK_ROLL_BONUS, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.PLAYER_GAIN_DMG, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.PLAYER_GAIN_FIRST_ATTACK_ROLL_BONUS, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.PLAYER_GAIN_HP, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.PLAYER_GAIN_ROLL_BONUS, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.PLAYER_GET_HIT, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.PLAYER_RECHARGE_ITEM, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.PLAY_LOOT_CARD, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.PLAYER_GET_LOOT, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.PLAYER_LOSE_LOOT, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.PLAYER_HEAL, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.PLAYER_ADD_DMG_PREVENTION, this.onBroadcastExceptOrigin, this);
     //
 
     //monster events
-    whevent.on(signal.MONSTER_GAIN_DMG, this.onMonsterGainDMG, this);
-    whevent.on(signal.MONSTER_GAIN_HP, this.onMonsterGainHp, this);
-    whevent.on(signal.MONSTER_GAIN_ROLL_BONUS, this.onMonsterGainRollBonus, this);
-    whevent.on(signal.MONSTER_GET_DAMAGED, this.onMonsterGetDamaged, this);
-    whevent.on(signal.MONSTER_HEAL, this.onMonsterHeal, this);
+    whevent.on(signal.MONSTER_GAIN_DMG, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.MONSTER_GAIN_HP, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.MONSTER_GAIN_ROLL_BONUS, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.MONSTER_GET_DAMAGED, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.MONSTER_HEAL, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.MONSTER_ADD_DMG_PREVENTION, this.onBroadcastExceptOrigin, this);
+
     //
 
-    whevent.on(signal.RESPOND_TO, this.onRespondTo, this);
-    whevent.on(signal.FINISH_DO_STACK_EFFECT, this.onFinishDoStackEffect, this);
-    whevent.on(signal.DO_STACK_EFFECT, this.onDoStackEffect, this);
-    whevent.on(signal.TURN_PLAYER_DO_STACK_EFFECT, this.onTurnPlayerDoStackEffect, this);
-    whevent.on(signal.START_TURN, this.onStartTurn, this);
+    whevent.on(signal.RESPOND_TO, this.onSendToSpecificPlayer, this);
+    whevent.on(signal.FINISH_DO_STACK_EFFECT, this.onSendToSpecificPlayer, this);
+    whevent.on(signal.DO_STACK_EFFECT, this.onSendToSpecificPlayer, this);
+    whevent.on(signal.TURN_PLAYER_DO_STACK_EFFECT, this.onSendToSpecificPlayer, this);
+    whevent.on(signal.START_TURN, this.onSendToSpecificPlayer, this);
 
-    whevent.on(signal.DECK_ARRAGMENT, this.onDeckArrangement, this);
+    whevent.on(signal.DECK_ARRAGMENT, this.onBroadcastExceptOrigin, this);
 
-    whevent.on(signal.MOVE_CARD, this.onCardMove, this);
-    whevent.on(signal.MOVE_CARD_END, this.onCardMoveEnd, this);
+    whevent.on(signal.MOVE_CARD, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.MOVE_CARD_END, this.onSendToSpecificPlayer, this);
+    whevent.on(signal.SOUL_CARD_MOVE_END, this.onSendToSpecificPlayer, this);
+    whevent.on(signal.CARD_ADD_TRINKET, this.onBroadcastExceptOrigin, this);
+
 
     //eden events
-    whevent.on(signal.EDEN_CHOSEN, this.onEdenChosen, this);
-    whevent.on(signal.CHOOSE_FOR_EDEN, this.onChooseForEden, this);
+    whevent.on(signal.EDEN_CHOSEN, this.onSendToSpecificPlayer, this);
+    whevent.on(signal.CHOOSE_FOR_EDEN, this.onSendToSpecificPlayer, this);
 
     //Action Lable
 
-    whevent.on(signal.ACTION_MASSAGE, this.onActionMassage, this);
+    whevent.on(signal.ACTION_MASSAGE, this.onBroadcastExceptOrigin, this);
 
+  }
+
+  onBroadcastExceptOrigin({ player, data }) {
+    player.match.broadcastExept(player, data.signal, data)
+  }
+
+  onSendToSpecificPlayer({ player, data }) {
+    let playerToSendToId: number = data.data.playerId
+
+    player.match.broadcastToPlayer(playerToSendToId, data.signal, data)
   }
 
 
@@ -183,6 +210,8 @@ export default class Server {
     }
   }
 
+
+
   onFinishLoad({ player, data }) {
 
     player.match.loadedPlayers += 1;
@@ -194,9 +223,6 @@ export default class Server {
     }
   }
 
-  onUpdateActions({ player, data }) {
-    player.match.broadcastExept(player, signal.UPDATE_ACTIONS)
-  }
 
   moveToTable({ player, data }) {
     console.log("Move to table request from players");
@@ -206,36 +232,9 @@ export default class Server {
     });
   }
 
-  onEdenChosen({ player, data }) {
-    let playerToSendToId: number = data.data.sendToPlayerId
-    console.log(playerToSendToId);
 
-    player.match.broadcastToPlayer(playerToSendToId, signal.EDEN_CHOSEN, data)
-  }
-  onChooseForEden({ player, data }) {
-    let playerToSendToId: number = data.data.playerId
-    console.log(playerToSendToId);
 
-    player.match.broadcastToPlayer(playerToSendToId, signal.CHOOSE_FOR_EDEN, data)
-  }
 
-  onTurnPlayerDoStackEffect({ player, data }) {
-    let playerToSendToId: number = data.data.playerId
-
-    player.match.broadcastToPlayer(playerToSendToId, signal.TURN_PLAYER_DO_STACK_EFFECT, data)
-
-  }
-
-  onStartTurn({ player, data }) {
-    let playerToSendToId: number = data.data.playerId
-
-    player.match.broadcastToPlayer(playerToSendToId, signal.START_TURN, data)
-
-  }
-
-  onActionMassage({ player, data }) {
-    player.match.broadcastExept(player, signal.ACTION_MASSAGE, data)
-  }
 
 
 
@@ -243,65 +242,9 @@ export default class Server {
   //Stack events
 
 
-  onGetReaction({ player, data }) {
-    let playerToSendToId: number = data.data.nextPlayerId
-    console.log(playerToSendToId);
-
-    player.match.broadcastToPlayer(playerToSendToId, signal.GET_REACTION, data);
-  }
-
-  onFinishDoStackEffect({ player, data }) {
-
-    let playerToSendToId: number = data.data.playerId
-    player.match.broadcastToPlayer(playerToSendToId, signal.FINISH_DO_STACK_EFFECT, data);
-  }
-  onDoStackEffect({ player, data }) {
-    let playerToSendToId: number = data.data.playerId
-    player.match.broadcastToPlayer(playerToSendToId, signal.DO_STACK_EFFECT, data);
-  }
-
-  onUpdateStackVis({ player, data }) {
-    player.match.broadcastExept(player, signal.UPDATE_STACK_VIS, data);
-  }
-
-  onNextStackId({ player, data }) {
-    player.match.broadcastExept(player, signal.NEXT_STACK_ID, data)
-  }
-
-
-  onRespondTo({ player, data }) {
-    let playerToSendToId: number = data.data.playerId;
-    player.match.broadcastToPlayer(playerToSendToId, signal.RESPOND_TO, data);
-  }
-
-  onReplaceStack({ player, data }) {
-    player.match.broadcastExept(player, signal.REPLACE_STACK, data);
-  }
-  onRemoveFromStack({ player, data }) {
-    player.match.broadcastExept(player, signal.REMOVE_FROM_STACK, data);
-  }
-
-  onAddToStack({ player, data }) {
-    player.match.broadcastExept(player, signal.ADD_TO_STACK, data);
-  }
-
-  onAddToResolvingStack({ player, data }) {
-    player.match.broadcastExept(player, signal.ADD_RESOLVING_STACK_EFFECT, data);
-  }
-  onRemoveFromResolvingStack({ player, data }) {
-    player.match.broadcastExept(player, signal.REMOVE_RESOLVING_STACK_EFFECT, data);
-  }
-
-
-  onGivePlayerPriority({ player, data }) {
-    player.match.broadcastExept(player, signal.GIVE_PLAYER_PRIORITY, data);
-  }
 
   //END
 
-  onSetMoney({ player, data }) {
-    player.match.broadcastExept(player, signal.SET_MONEY, data);
-  }
 
   onResolveActions({ player, data }) {
     let firstPlayer = player.match.getPlayerById(data.data.originalPlayer);
@@ -313,235 +256,6 @@ export default class Server {
       data
     );
     //add broadcast to other players with diffrent signal to exceute "other side action stack"
-  }
-
-  onCardDrawed({ player, data }) {
-    player.match.broadcastExept(player, signal.CARD_DRAWN, data);
-  }
-
-  onRegisterPassive({ player, data }) {
-    player.match.broadcastExept(player, signal.REGISTER_PASSIVE_ITEM, data);
-  }
-  onUpdatePassiveOver({ player, data }) {
-    player.match.broadcastExept(player, signal.UPDATE_PASSIVES_OVER, data);
-  }
-
-  //board events
-
-  onAssignChar({ player, data }) {
-    player.match.broadcastExept(player, signal.ASSIGN_CHAR_TO_PLAYER, data);
-  }
-
-
-  onNewMonsterPlace({ player, data }) {
-    player.match.broadcastExept(player, signal.NEW_MONSTER_PLACE, data);
-  }
-
-
-  onSetTurn({ player, data }) {
-    player.match.broadcastExept(player, signal.SET_TURN, data);
-  }
-  onCancelAttack({ player, data }) {
-    player.match.broadcastExept(player, signal.CANCEL_ATTACK, data);
-  }
-
-  onCardGetCounter({ player, data }) {
-    player.match.broadcastExept(player, signal.CARD_GET_COUNTER, data);
-  }
-
-  onEndRollAction({ player, data }) {
-    player.match.broadcastExept(player, signal.END_ROLL_ACTION, data);
-  }
-  onCardMove({ player, data }) {
-    player.match.broadcastExept(player, signal.MOVE_CARD, data);
-  }
-  onCardMoveEnd({ player, data }) {
-    let playerToSendToId: number = data.data.playerId
-    player.match.broadcastToPlayer(playerToSendToId, signal.MOVE_CARD_END, data);
-  }
-
-  onRechargeItem({ player, data }) {
-    player.match.broadcastExept(player, signal.RECHARGE_ITEM, data);
-  }
-  onRotateItem({ player, data }) {
-    player.match.broadcastExept(player, signal.USE_ITEM, data);
-  }
-
-  onFlipCard({ player, data }) {
-    player.match.broadcastExept(player, signal.FLIP_CARD, data);
-  }
-
-  onBuyItemFromShop({ player, data }) {
-    player.match.broadcastExept(player, signal.BUY_ITEM_FROM_SHOP, data);
-  }
-
-  onUpdatePassiveData({ player, data }) {
-    player.match.broadcastExept(player, signal.UPDATE_PASSIVE_DATA, data);
-  }
-
-
-  //
-
-  //monster events
-  onMonsterGainDMG({ player, data }) {
-    player.match.broadcastExept(player, signal.MONSTER_GAIN_DMG, data);
-  }
-  onMonsterGainHp({ player, data }) {
-    player.match.broadcastExept(player, signal.MONSTER_GAIN_HP, data);
-  }
-  onMonsterGainRollBonus({ player, data }) {
-    player.match.broadcastExept(player, signal.MONSTER_GAIN_ROLL_BONUS, data);
-  }
-  onMonsterGetDamaged({ player, data }) {
-    player.match.broadcastExept(player, signal.MONSTER_GET_DAMAGED, data);
-  }
-
-
-  onMonsterHeal({ player, data }) {
-    player.match.broadcastExept(player, signal.MONSTER_HEAL, data);
-  }
-
-  //monster events end
-
-
-  //player events
-
-  onPlayerHeal({ player, data }) {
-    player.match.broadcastExept(player, signal.PLAYER_HEAL, data);
-  }
-
-  onPlayerGainLoot({ player, data }) {
-    player.match.broadcastExept(player, signal.PLAYER_GET_LOOT, data);
-  }
-
-  onPlayerGainAttackRollBonus({ player, data }) {
-    player.match.broadcastExept(player, signal.PLAYER_GAIN_ATTACK_ROLL_BONUS, data);
-  }
-  onPlayerGainDMG({ player, data }) {
-    player.match.broadcastExept(player, signal.PLAYER_GAIN_DMG, data);
-  }
-  onPlayerGainFirstAttackRollBonus({ player, data }) {
-    player.match.broadcastExept(player, signal.PLAYER_GAIN_FIRST_ATTACK_ROLL_BONUS, data);
-  }
-  onPlayerGainHp({ player, data }) {
-    player.match.broadcastExept(player, signal.PLAYER_GAIN_HP, data);
-  }
-  onPlayerGainRollBonus({ player, data }) {
-    player.match.broadcastExept(player, signal.PLAYER_GAIN_ROLL_BONUS, data);
-  }
-  onPlayerGetHit({ player, data }) {
-    player.match.broadcastExept(player, signal.PLAYER_GET_HIT, data);
-  }
-  onPlayerRechargeItem({ player, data }) {
-    player.match.broadcastExept(player, signal.PLAYER_RECHARGE_ITEM, data);
-  }
-
-  onPlayerLoseCard({ player, data }) {
-    player.match.broadcastExept(player, signal.PLAYER_LOSE_LOOT, data);
-  }
-
-
-
-  //player events end
-
-  //deck events start
-
-  onAddToStoreCard({ player, data }) {
-    player.match.broadcastExept(player, signal.ADD_STORE_CARD, data);
-  }
-
-  onRegisterOneTurnPassive({ player, data }) {
-    player.match.broadcastExept(player, signal.REGISTER_ONE_TURN_PASSIVE_EFFECT, data);
-  }
-
-  onDeckAddToTop({ player, data }) {
-    player.match.broadcastExept(player, signal.DECK_ADD_TO_TOP, data);
-  }
-
-  onDeckAddToBottom({ player, data }) {
-    player.match.broadcastExept(player, signal.DECK_ADD_TO_BOTTOM, data);
-  }
-
-
-  onDeckArrangement({ player, data }) {
-    player.match.broadcastExept(player, signal.DECK_ARRAGMENT, data)
-  }
-
-
-  //
-
-
-  onChangeMoney({ player, data }) {
-    player.match.broadcastExept(player, signal.CHANGE_MONEY, data);
-  }
-
-
-  onDrawCard({ player, data }) {
-    player.match.broadcastExept(player, signal.DRAW_CARD, data);
-  }
-
-
-  onGetSoul({ player, data }) {
-    player.match.broadcastExept(player, signal.GET_SOUL, data);
-  }
-
-  onLoseSoul({ player, data }) {
-    player.match.broadcastExept(player, signal.LOSE_SOUL, data);
-  }
-
-  onRemoveMonster({ player, data }) {
-    player.match.broadcastExept(player, signal.REMOVE_MONSTER, data);
-  }
-  onAddMonster({ player, data }) {
-    player.match.broadcastExept(player, signal.ADD_MONSTER, data);
-  }
-
-
-  onRollDiceEnded({ player, data }) {
-    player.match.broadcastExept(player, signal.ROLL_DICE_ENDED, data);
-  }
-
-  onGetNextMonster({ player, data }) {
-    player.match.broadcastExept(player, signal.GET_NEXT_MONSTER, data);
-  }
-  onMoveCardToPile({ player, data }) {
-    player.match.broadcastExept(player, signal.MOVE_CARD_TO_PILE, data);
-  }
-
-  onRollDice({ player, data }) {
-    player.match.broadcastExept(player, signal.ROLL_DICE, data);
-  }
-
-  onShowCardPreview({ player, data }) {
-    player.match.broadcastExept(player, signal.SHOW_CARD_PREVIEW, data);
-  }
-
-  onNewActiveMonster({ player, data }) {
-    player.match.broadcastExept(player, signal.NEW_MONSTER_ON_PLACE, data);
-  }
-
-  onActivateItem({ player, data }) {
-    player.match.broadcastExept(player, signal.ACTIVATE_ITEM, data);
-  }
-
-  onDeclareAttack({ player, data }) {
-    player.match.broadcastExept(player, signal.DECLARE_ATTACK, data);
-  }
-
-  onLootCardPlayed({ player, data }) {
-    player.match.broadcastExept(player, signal.PLAY_LOOT_CARD, data);
-  }
-
-  onDiscardLoot({ player, data }) {
-    player.match.broadcastExept(player, signal.DISCARD_LOOT, data);
-  }
-
-  onAddItem({ player, data }) {
-    player.match.broadcastExept(player, signal.ADD_AN_ITEM, data);
-  }
-
-  nextTurn({ player, data }) {
-    player.match.broadcastExept(player, signal.NEXT_TURN, data);
   }
 
   onValidate({ player, data }) {

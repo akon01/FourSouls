@@ -157,7 +157,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "StartTurn",
+    "_name": "PlayerAddThisItem",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -216,14 +216,14 @@
     "_id": ""
   },
   {
-    "__type__": "13e64JpKQhN/qJu243GaUX+",
+    "__type__": "0e7c6gxW/ZIgail5cFkXhII",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 3
     },
     "_enabled": true,
-    "isOwnerOnly": true,
+    "dataCollector": null,
     "_id": ""
   },
   {
@@ -234,7 +234,7 @@
     "asset": {
       "__uuid__": "1c4873e8-652c-434b-9a48-15d377d4ade8"
     },
-    "fileId": "78wGcvms9Es616jXWS+2Zm",
+    "fileId": "79elWqsUdFlZPOQ7su1zsb",
     "sync": false
   },
   {
@@ -252,7 +252,7 @@
         "__id__": 4
       }
     ],
-    "passiveType": 1,
+    "passiveType": 2,
     "passiveEffectToAdd": null,
     "dataCollector": [],
     "_effectCard": null,
@@ -269,7 +269,7 @@
     "asset": {
       "__uuid__": "1c4873e8-652c-434b-9a48-15d377d4ade8"
     },
-    "fileId": "59tugpLE9LDpsmuCMaC1Zw",
+    "fileId": "54NBUj/MRLObtrzS1Xe7wM",
     "sync": false
   },
   {
@@ -338,14 +338,14 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "PlayerAddThisItem",
+    "_name": "PlayerLoseThisItem",
     "_objFlags": 0,
     "_parent": {
       "__id__": 8
     },
     "_children": [],
     "_active": true,
-    "_level": 3,
+    "_level": 4,
     "_components": [
       {
         "__id__": 10
@@ -397,7 +397,7 @@
     "_id": ""
   },
   {
-    "__type__": "0e7c6gxW/ZIgail5cFkXhII",
+    "__type__": "ef91eRCnkxC4INnxPpiSJgk",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -415,7 +415,7 @@
     "asset": {
       "__uuid__": "1c4873e8-652c-434b-9a48-15d377d4ade8"
     },
-    "fileId": "79elWqsUdFlZPOQ7su1zsb",
+    "fileId": "7bTauXCP5OTbrPycj7YvME",
     "sync": false
   },
   {
@@ -439,7 +439,7 @@
     "_effectCard": null,
     "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
-    "numOfTimes": 1,
+    "numOfTimes": -1,
     "_id": ""
   },
   {
@@ -450,7 +450,7 @@
     "asset": {
       "__uuid__": "1c4873e8-652c-434b-9a48-15d377d4ade8"
     },
-    "fileId": "54NBUj/MRLObtrzS1Xe7wM",
+    "fileId": "ac25/x5hBFl6R+hPe+1I9Z",
     "sync": false
   },
   {
@@ -1065,6 +1065,9 @@
     },
     "_enabled": true,
     "cardName": "Belly Button",
+    "makeMultiCards": false,
+    "numOfCopies": 2,
+    "copiesSprites": [],
     "_cardId": 0,
     "_isInHand": false,
     "_isOnDesk": false,
@@ -1087,6 +1090,7 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
+    "availableParticles": [],
     "_id": ""
   },
   {

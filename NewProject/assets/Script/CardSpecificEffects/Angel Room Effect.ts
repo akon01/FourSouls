@@ -28,7 +28,7 @@ export default class AngelRoomEffect extends Effect {
   ) {
     let activatingPlayer = PlayerManager.getPlayerById(
       data.cardPlayerId
-    ).getComponent(Player);
+    )
     let trasureTopCard = CardManager.treasureDeck.getComponent(Deck).topBlankCard;
     let lootDeck = CardManager.lootDeck;
 

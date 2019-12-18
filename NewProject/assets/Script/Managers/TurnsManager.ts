@@ -73,7 +73,6 @@ export default class TurnsManager extends cc.Component {
     }
     if (turn.PlayerId != 0) {
       turn.refreshTurn();
-      cc.log(`after refresh turn`)
       TurnsManager.currentTurn = turn;
       if (sendToServer) turn.startTurn();
     }
@@ -90,13 +89,16 @@ export default class TurnsManager extends cc.Component {
         player.tempFirstAttackRollBonus = 0
         player._lootCardsPlayedThisTurn = [];
         player._thisTurnKiller = null
-        await player.heal(player.character.getComponent(Character).Hp + player._hpBonus, true)
+        player._isFirstTimeGettingMoney = true;
+        player._isFirstAttackRollOfTurn = true
+        player._isDead = false;
+        await player.heal(player.character.getComponent(Character).Hp + player._hpBonus, true, true)
       }
       for (const monster of MonsterField.activeMonsters.map(monster => monster.getComponent(Monster))) {
         monster.rollBonus = 0;
         monster.bonusDamage = 0;
         monster._thisTurnKiller = null;
-        await monster.heal(monster.HP, true)
+        await monster.heal(monster.HP, true, true)
       }
 
     }

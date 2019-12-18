@@ -20,6 +20,8 @@ export default class BattleManager extends cc.Component {
 
   static firstAttack: boolean = true;
 
+  static inBattle: boolean = false;
+
   static async declareAttackOnMonster(monsterCard: cc.Node) {
     // 
     BattleManager.currentlyAttackedMonsterNode = monsterCard;
@@ -27,7 +29,7 @@ export default class BattleManager extends cc.Component {
     // ;
 
 
-    ParticleManager.activateParticleEffect(monsterCard, PARTICLE_TYPES.MONSTER_IN_BATTLE)
+    ParticleManager.activateParticleEffect(monsterCard, PARTICLE_TYPES.MONSTER_IN_BATTLE, true)
 
     // let part = monsterCard.getComponent(Card).availableParticles.find(particle => particle.name == 'monsterInFight')
 
@@ -39,10 +41,11 @@ export default class BattleManager extends cc.Component {
 
 
     TurnsManager.currentTurn.battlePhase = true;
+    this.inBattle = true
 
-    let turnPlayer = PlayerManager.getPlayerById(
-      TurnsManager.currentTurn.PlayerId
-    );
+    // let turnPlayer = PlayerManager.getPlayerById(
+    //   TurnsManager.currentTurn.PlayerId
+    // );
 
     await ActionManager.updateActions();
   }
@@ -52,7 +55,8 @@ export default class BattleManager extends cc.Component {
     BattleManager.currentlyAttackedMonster = null;
     BattleManager.currentlyAttackedMonsterNode = null;
     TurnsManager.currentTurn.battlePhase = false;
-    ParticleManager.disableParticleEffect(monsterCard, PARTICLE_TYPES.MONSTER_IN_BATTLE)
+    ParticleManager.disableParticleEffect(monsterCard, PARTICLE_TYPES.MONSTER_IN_BATTLE, true)
+    this.inBattle = false;
   }
 
   static async cancelAttack(sendToServer: boolean) {
@@ -76,9 +80,9 @@ export default class BattleManager extends cc.Component {
   ////@printMethodStarted(COLORS.RED)
   static async rollOnMonster(rollValue: number, sendToServer?: boolean) {
     let monsterRollValue = this.currentlyAttackedMonster.rollValue + this.currentlyAttackedMonster.rollBonus;
-    let turnPlayer = PlayerManager.getPlayerById(
-      TurnsManager.currentTurn.PlayerId
-    ).getComponent(Player);
+    // let turnPlayer = PlayerManager.getPlayerById(
+    //   TurnsManager.currentTurn.PlayerId
+    // )
     if (this.firstAttack) {
       this.firstAttack = false;
     }

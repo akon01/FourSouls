@@ -34,7 +34,7 @@ export default class ChainEffects extends Effect {
       const effect = this.effectsToChain[i];
       // cc.log(effect.effectData)
       if (effect.hasPlayerChoiceToActivateInChainEffects) {
-        let yesOrNo = await PlayerManager.getPlayerById(cardEffectComp.cardPlayerId).getComponent(Player).giveYesNoChoice()
+        let yesOrNo = await PlayerManager.getPlayerById(cardEffectComp.cardPlayerId).giveYesNoChoice()
         if (yesOrNo) {
 
           await effect.doEffect(

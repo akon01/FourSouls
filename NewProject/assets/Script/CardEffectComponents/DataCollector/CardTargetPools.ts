@@ -6,6 +6,8 @@ import { EffectTarget } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "./DataCollector";
 import TurnsManager from "../../Managers/TurnsManager";
+import BattleManager from "../../Managers/BattleManager";
+import Store from "../../Entites/GameEntities/Store";
 
 
 
@@ -29,6 +31,8 @@ export default class CardTargetPools extends DataCollector {
         switch (this.targetPool) {
             case CARD_POOLS.ACTIVE_MONSTERS:
                 return MonsterField.activeMonsters.map(monster => new EffectTarget(monster))
+            case CARD_POOLS.ACTIVE_MONSTERS_NOT_ATTACKED:
+                return MonsterField.activeMonsters.map(monster => new EffectTarget(monster)).filter(monster => monster.effectTargetCard != BattleManager.currentlyAttackedMonsterNode)
             case CARD_POOLS.YOUR_HAND:
                 return PlayerManager.mePlayer.getComponent(Player).handCards.map(card => new EffectTarget(card))
             case CARD_POOLS.YOUR_CHARACTER:
@@ -46,6 +50,8 @@ export default class CardTargetPools extends DataCollector {
                 players = PlayerManager.players
                 if (TurnsManager.currentTurn.battlePhase) players.filter(player => player != TurnsManager.currentTurn.getTurnPlayer().node)
                 return players.map(player => new EffectTarget(player.getComponent(Player).character))
+            case CARD_POOLS.STORE_CARDS:
+                return Store.storeCards
             default:
                 break;
         }

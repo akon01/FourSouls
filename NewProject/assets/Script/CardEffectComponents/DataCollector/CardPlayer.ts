@@ -21,7 +21,7 @@ export default class CardPlayer extends DataCollector {
      */
     collectData(data) {
         let player = PlayerManager.getPlayerById(data.cardPlayerId);
-        let playerCard = player.getComponent(Player).character;
+        let playerCard = player.character;
         let effectTarget = new EffectTarget(playerCard)
         let data2 = { cardPlayer: data.cardPlayerId }
         return effectTarget

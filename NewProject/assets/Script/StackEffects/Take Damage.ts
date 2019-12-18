@@ -31,12 +31,14 @@ export default class TakeDamage implements StackEffectInterface {
 
     constructor(creatorCardId: number, entityToTakeDamageCard: cc.Node, entityToDoDamageCard: cc.Node, damageToDo: number, entityId?: number) {
         if (entityId) {
+            this.nonOriginal = true
             this.entityId = entityId
         } else {
             this.entityId = Stack.getNextStackEffectId()
         }
 
         this.creatorCardId = creatorCardId;
+        this.creationTurnId = TurnsManager.currentTurn.turnId;
         this.entityToTakeDamageCard = entityToTakeDamageCard;
         if (this.entityToDoDamageCard.getComponent(Monster) != null) {
             this.isPlayerDoDamage = true
@@ -69,7 +71,7 @@ export default class TakeDamage implements StackEffectInterface {
         switch (this.isPlayerTakeDamage) {
             case true:
                 let player = PlayerManager.getPlayerByCard(this.entityToTakeDamageCard)
-                await player.getHit(this.damage, true, this.entityToDoDamageCard)
+                await player.takeDamage(this.damage, true, this.entityToDoDamageCard)
                 if (player._Hp == 0) {
                     await player.killPlayer(true, true, this)
                 }
@@ -77,7 +79,7 @@ export default class TakeDamage implements StackEffectInterface {
             case false:
                 player = PlayerManager.getPlayerByCard(this.entityToDoDamageCard);
                 let monster = this.entityToTakeDamageCard.getComponent(Monster)
-                await monster.getDamaged(this.damage, true, this.entityToDoDamageCard)
+                await monster.takeDamaged(this.damage, true, this.entityToDoDamageCard)
                 if (monster.currentHp == 0) {
                     await monster.kill(true, this)
                 }

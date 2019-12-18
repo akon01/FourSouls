@@ -7,5 +7,7 @@ export default interface ConditionInterface {
   event: PASSIVE_EVENTS
   events: PASSIVE_EVENTS[];
   conditionData: any;
+  isAddPassiveEffect: boolean
+  needsDataCollector: boolean
 
 }

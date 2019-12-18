@@ -6,6 +6,7 @@ import ChooseCard from "../DataCollector/ChooseCard";
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
 import Effect from "./Effect";
 import Player from "../../Entites/GameEntities/Player";
+import Stack from "../../Entites/Stack";
 
 
 const { ccclass, property } = cc._decorator;
@@ -54,15 +55,16 @@ export default class SwtichItemWithPlayer extends Effect {
       let cardToGive = CardManager.getCardById(chosenData.cardChosenId, true)
       cc.log(`card to give is ${cardToGive.name}`)
 
-      await playerToTakeFrom.loseItem(cardToTake)
+      await playerToTakeFrom.loseItem(cardToTake, true)
       await playerToGiveTo.addItem(cardToTake, true, true)
 
-      await playerToGiveTo.loseItem(cardToGive)
+      await playerToGiveTo.loseItem(cardToGive, true)
 
       await playerToTakeFrom.addItem(cardToGive, true, true)
 
     }
+
     if (data instanceof PassiveEffectData) return data
-    return stack
+    return Stack._currentStack
   }
 }

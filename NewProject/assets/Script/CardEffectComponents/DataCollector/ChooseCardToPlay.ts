@@ -22,28 +22,25 @@ export default class SelectLootToPlay extends DataCollector {
     whevent.emit(GAME_EVENTS.SELECT_LOOT_TO_PLAY_CARD_CHOSEN, boolean)
   }
 
-
   /**
    *
    * @param data cardPlayerId:Player who played the card
    * @returns {target:cc.node of the player who played the card}
    */
 
-  async collectData(data): Promise<Object> {
-    let player = PlayerManager.getPlayerById(data.cardPlayerId).getComponent(
-      Player
-    );
+  // tslint:disable-next-line: ban-types
+  async collectData(data): Promise<EffectTarget> {
+    const player = PlayerManager.getPlayerById(data.cardPlayerId)
     this.playerId = data.cardPlayerId;
     //what cards to choose from
-    let chooseType = this.node.parent.getComponent(Effect).chooseType;
-    let cardsToChooseFrom = this.getCardsToChoose(chooseType, player);
-    let cardPlayedData = await this.requireChoosingACard(cardsToChooseFrom);
+    const chooseType = this.node.parent.getComponent(Effect).chooseType;
+    const cardsToChooseFrom = this.getCardsToChoose(chooseType, player);
+    const cardPlayedData = await this.requireChoosingACard(cardsToChooseFrom);
     cc.log(cardPlayedData)
-    let cardPlayed = CardManager.getCardById(cardPlayedData.cardPlayedId, true);
+    const cardPlayed = CardManager.getCardById(cardPlayedData.cardPlayedId, true);
     cc.log(cardPlayed.name)
 
-
-    let target = new EffectTarget(cardPlayed)
+    const target = new EffectTarget(cardPlayed)
     cc.log(target)
     cc.log(`chosen ${target.effectTargetCard.name}`)
     return target;
@@ -52,7 +49,7 @@ export default class SelectLootToPlay extends DataCollector {
   getCardsToChoose(chooseType: CHOOSE_CARD_TYPE, player: Player) {
     switch (chooseType) {
       case CHOOSE_CARD_TYPE.ALL_PLAYERS:
-        let playerCards: cc.Node[] = [];
+        const playerCards: cc.Node[] = [];
         for (let index = 0; index < PlayerManager.players.length; index++) {
           const player = PlayerManager.players[index].getComponent(Player);
           playerCards.push(player.character);
@@ -77,13 +74,13 @@ export default class SelectLootToPlay extends DataCollector {
       CardManager.makeRequiredForDataCollector(this, card);
     }
 
-    let cardPlayed = await this.waitForCardPlay();
+    const cardPlayed = await this.waitForCardPlay();
 
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];
-      CardManager.unRequiredForDataCollector(card);
+      await CardManager.unRequiredForDataCollector(card);
     }
-    let cardId = cardPlayed.getComponent(Card)._cardId;
+    const cardId = cardPlayed.getComponent(Card)._cardId;
 
     return new Promise((resolve, reject) => {
       resolve({ cardPlayedId: cardId, playerId: this.playerId });

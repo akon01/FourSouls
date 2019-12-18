@@ -35,9 +35,9 @@ export default class DealDamage extends Effect {
     }
     if (isPlayer) {
       let owner = CardManager.getCardOwner(this.node.parent)
-      await PlayerManager.getPlayerByCard(entityToHit as cc.Node).getHit(this.damageToDeal, true, owner)
+      await PlayerManager.getPlayerByCard(entityToHit as cc.Node).takeDamage(this.damageToDeal, true, owner)
     } else {
-      await (entityToHit as cc.Node).getComponent(Monster).getDamaged(this.damageToDeal, true)
+      await (entityToHit as cc.Node).getComponent(Monster).takeDamaged(this.damageToDeal, true)
     }
 
     return data

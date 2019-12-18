@@ -5,11 +5,13 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class Condition extends cc.Component
   implements ConditionInterface {
-  events: import("../../Constants").PASSIVE_EVENTS[] = [];
+  isAddPassiveEffect: boolean = false;;
+  events: Array<import("../../Constants").PASSIVE_EVENTS> = [];
   event: import("../../Constants").PASSIVE_EVENTS;
   conditionData: any;
   dataCollector: import("../DataCollector/DataCollector").default;
+  needsDataCollector: boolean = true
   async testCondition(data?: any): Promise<boolean> {
-    return true;
+    return false;
   }
 }

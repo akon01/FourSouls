@@ -1,8 +1,8 @@
-import { CARD_TYPE, CARD_WIDTH, CARD_HEIGHT } from "../../Constants";
-import CardManager from "../../Managers/CardManager";
-import DataCollector from "../../CardEffectComponents/DataCollector/DataCollector";
-import ServerClient from "../../../ServerClient/ServerClient";
 import Signal from "../../../Misc/Signal";
+import ServerClient from "../../../ServerClient/ServerClient";
+import DataCollector from "../../CardEffectComponents/DataCollector/DataCollector";
+import { CARD_HEIGHT, CARD_TYPE, CARD_WIDTH } from "../../Constants";
+import CardManager from "../../Managers/CardManager";
 import Card from "./Card";
 
 const { ccclass, property } = cc._decorator;
@@ -10,7 +10,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class Deck extends cc.Component {
   @property({
-    type: cc.Enum(CARD_TYPE)
+    type: cc.Enum(CARD_TYPE),
   })
   deckType: CARD_TYPE = CARD_TYPE.LOOT;
 
@@ -22,7 +22,6 @@ export default class Deck extends cc.Component {
 
   @property
   suffleInTheStart: boolean = false;
-
 
   @property([cc.Prefab])
   cardsPrefab: cc.Prefab[] = [];
@@ -42,11 +41,11 @@ export default class Deck extends cc.Component {
   addToDeckOnTop(card: cc.Node, sendToServer: boolean) {
     this._cards.push(card);
     CardManager.inDecksCards.push(card);
-    //CardManager.monsterCardPool.put(card);
+    // CardManager.monsterCardPool.put(card);
     card.setParent(null)
-    let serverData = {
+    const serverData = {
       signal: Signal.DECK_ADD_TO_TOP,
-      srvData: { deckType: this.deckType, cardId: card.getComponent(Card)._cardId }
+      srvData: { deckType: this.deckType, cardId: card.getComponent(Card)._cardId },
     };
     if (sendToServer) {
       ServerClient.$.send(serverData.signal, serverData.srvData)
@@ -54,12 +53,11 @@ export default class Deck extends cc.Component {
   }
   drawCard(sendToServer: boolean): cc.Node {
     if (this._cards.length != 0) {
-      let newCard = this._cards.pop();
+      const newCard = this._cards.pop();
 
-
-      if (!newCard.getComponent(Card)._isFlipped) newCard.getComponent(Card).flipCard(false)
+      if (!newCard.getComponent(Card)._isFlipped) { newCard.getComponent(Card).flipCard(false) }
       if (newCard.parent == null) {
-        newCard.parent = cc.find('Canvas')
+        newCard.parent = cc.find("Canvas")
         newCard.setPosition(this.node.getPosition())
       }
       CardManager.removeFromInAllDecksCards(newCard);
@@ -74,12 +72,11 @@ export default class Deck extends cc.Component {
 
   drawSpecificCard(cardToDraw: cc.Node, sendToServer: boolean): cc.Node {
     if (this._cards.length != 0) {
-      let newCard = this._cards.splice(this._cards.indexOf(cardToDraw));
-      cc.log(`${newCard[0].name} was drawn from its deck`)
+      const newCard = this._cards.splice(this._cards.indexOf(cardToDraw), 1);
 
-      if (!newCard[0].getComponent(Card)._isFlipped) newCard[0].getComponent(Card).flipCard(false)
+      if (!newCard[0].getComponent(Card)._isFlipped) { newCard[0].getComponent(Card).flipCard(false) }
       if (newCard[0].parent == null) {
-        newCard[0].parent = cc.find('Canvas')
+        newCard[0].parent = cc.find("Canvas")
         newCard[0].setPosition(this.node.getPosition())
       }
       CardManager.removeFromInAllDecksCards(newCard[0]);
@@ -97,9 +94,9 @@ export default class Deck extends cc.Component {
     this._cards.unshift(card);
     CardManager.inDecksCards.push(card);
     card.setParent(null)
-    let serverData = {
+    const serverData = {
       signal: Signal.DECK_ADD_TO_BOTTOM,
-      srvData: { deckType: this.deckType, cardId: card.getComponent(Card)._cardId }
+      srvData: { deckType: this.deckType, cardId: card.getComponent(Card)._cardId },
     };
     if (sendToServer) {
       ServerClient.$.send(serverData.signal, serverData.srvData)
@@ -107,7 +104,7 @@ export default class Deck extends cc.Component {
   }
 
   shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length, temporaryValue, randomIndex;
 
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
@@ -126,8 +123,8 @@ export default class Deck extends cc.Component {
   }
 
   shuffleDeck() {
-    let randomSeed = Math.floor(Math.log(new Date().getTime()))
-    let randomTimes = Math.random() * randomSeed
+    const randomSeed = Math.floor(Math.log(new Date().getTime()))
+    const randomTimes = Math.random() * randomSeed
     for (let i = 0; i < randomTimes; i++) {
       this._cards = this.shuffle(this._cards)
     }
@@ -149,7 +146,8 @@ export default class Deck extends cc.Component {
     this.node.width = CARD_WIDTH;
     this.node.height = CARD_HEIGHT;
 
-    let sprite = this.topBlankCard.getComponent(cc.Sprite);
+    const sprite = this.topBlankCard.getComponent(cc.Sprite);
+    if (this.topBlankCard.getComponent(Card)._isFlipped) { this.topBlankCard.getComponent(Card).flipCard(false) }
     sprite.enabled = false;
 
   }

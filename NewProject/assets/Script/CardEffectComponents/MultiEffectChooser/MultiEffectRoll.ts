@@ -36,7 +36,7 @@ export default class MultiEffectRoll extends DataCollector {
     cardPlayerId: number;
   }): Promise<Effect> {
     let card = data.cardPlayed;
-    let player = PlayerManager.getPlayerById(data.cardPlayerId).getComponent(Player)
+    let player = PlayerManager.getPlayerById(data.cardPlayerId)
     let currentStackEffect = Stack.getCurrentResolvingStackEffect()
     let diceRoll = new RollDiceStackEffect(player.character.getComponent(Card)._cardId, currentStackEffect)
     // let diceRoll = new RollDice();
@@ -79,7 +79,8 @@ export default class MultiEffectRoll extends DataCollector {
 
     }
     if (!chosenEffect) {
-      throw `No effect was chosen with the number rolled ${numberRolled}`
+      cc.log(this.effectsAndNumbers.map(ean => ean.effect.name + '' + ean.numbers))
+      throw new Error(`No effect was chosen with the number rolled ${numberRolled}`)
     }
     cc.log(chosenEffect.name)
     return chosenEffect;

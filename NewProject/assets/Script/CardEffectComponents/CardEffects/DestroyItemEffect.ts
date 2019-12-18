@@ -4,6 +4,7 @@ import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpre
 import PlayerManager from "../../Managers/PlayerManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import Effect from "./Effect";
+import Stack from "../../Entites/Stack";
 
 const { ccclass, property } = cc._decorator;
 
@@ -33,7 +34,8 @@ export default class DestroyItemEffect extends Effect {
       }
     }
 
+
     if (data instanceof PassiveEffectData) return data
-    return stack
+    return Stack._currentStack
   }
 }

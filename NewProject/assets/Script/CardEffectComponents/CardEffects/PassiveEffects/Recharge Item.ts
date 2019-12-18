@@ -3,6 +3,7 @@ import Effect from "../Effect";
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "../../../Constants";
 import StackEffectInterface from "../../../StackEffects/StackEffectInterface";
 import PlayerManager from "../../../Managers/PlayerManager";
+import Stack from "../../../Entites/Stack";
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,7 +27,8 @@ export default class RechargeItem extends Effect {
       await cardPlayer.rechargeItem(targetItem, true);
     }
 
+
     if (data instanceof PassiveEffectData) return data
-    return stack
+    return Stack._currentStack
   }
 }

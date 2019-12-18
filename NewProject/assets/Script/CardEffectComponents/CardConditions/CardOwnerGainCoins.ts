@@ -9,13 +9,14 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class CardOwnerGainCoin extends Condition {
 
-
   event = PASSIVE_EVENTS.PLAYER_CHANGE_MONEY
 
+  needsDataCollector = false;
+
   async testCondition(meta: PassiveMeta) {
-    let player: Player = meta.methodScope.getComponent(Player);
-    let thisCard = this.node.parent.parent;
-    let cardOwner = PlayerManager.getPlayerByCard(thisCard);
+    const player: Player = meta.methodScope.getComponent(Player);
+    const thisCard = this.node.parent.parent;
+    const cardOwner = PlayerManager.getPlayerByCard(thisCard);
     if (
       player instanceof Player &&
       player.name == cardOwner.name &&

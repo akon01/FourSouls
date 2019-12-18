@@ -21,6 +21,9 @@
         "__id__": 2
       },
       {
+        "__id__": 7
+      },
+      {
         "__id__": 17
       }
     ],
@@ -95,16 +98,13 @@
     "_children": [
       {
         "__id__": 3
-      },
-      {
-        "__id__": 6
       }
     ],
     "_active": true,
     "_level": 2,
     "_components": [
       {
-        "__id__": 15
+        "__id__": 6
       }
     ],
     "_prefab": {
@@ -234,29 +234,58 @@
     "sync": false
   },
   {
+    "__type__": "14c08BFzyhOxqINw7BkOwhA",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "cost": null,
+    "preCondition": null,
+    "conditions": [],
+    "passiveType": 1,
+    "passiveEffectToAdd": null,
+    "dataCollector": [
+      {
+        "__id__": 4
+      }
+    ],
+    "_effectCard": null,
+    "optional": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "itemEffectToAdd": {
+      "__id__": 7
+    },
+    "itemEffectsToAdd": [],
+    "addMuiliEffect": false,
+    "multiEffectCollector": null,
+    "_id": ""
+  },
+  {
     "__type__": "cc.Node",
     "_name": "Deal Damage",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 2
+      "__id__": 1
     },
     "_children": [
       {
-        "__id__": 7
+        "__id__": 8
       },
       {
-        "__id__": 10
+        "__id__": 11
       }
     ],
     "_active": true,
-    "_level": 3,
+    "_level": 2,
     "_components": [
       {
-        "__id__": 13
+        "__id__": 14
       }
     ],
     "_prefab": {
-      "__id__": 14
+      "__id__": 15
     },
     "_opacity": 255,
     "_color": {
@@ -305,18 +334,18 @@
     "_name": "ChooseCard",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 6
+      "__id__": 7
     },
     "_children": [],
     "_active": true,
     "_level": 4,
     "_components": [
       {
-        "__id__": 8
+        "__id__": 9
       }
     ],
     "_prefab": {
-      "__id__": 9
+      "__id__": 10
     },
     "_opacity": 255,
     "_color": {
@@ -365,7 +394,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 7
+      "__id__": 8
     },
     "_enabled": true,
     "multiType": false,
@@ -381,7 +410,7 @@
     "asset": {
       "__uuid__": "e548c55b-6f4f-42cd-9b4b-a42e7c95230a"
     },
-    "fileId": "d1S6j5CTRME45YIh9iICsk",
+    "fileId": "00xvP3RKFAbJ3uYy6Z79uc",
     "sync": false
   },
   {
@@ -389,18 +418,18 @@
     "_name": "CardOwnerMissAttack",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 6
+      "__id__": 7
     },
     "_children": [],
     "_active": true,
     "_level": 4,
     "_components": [
       {
-        "__id__": 11
+        "__id__": 12
       }
     ],
     "_prefab": {
-      "__id__": 12
+      "__id__": 13
     },
     "_opacity": 255,
     "_color": {
@@ -449,7 +478,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 10
+      "__id__": 11
     },
     "_enabled": true,
     "isSpecificRoll": false,
@@ -464,7 +493,7 @@
     "asset": {
       "__uuid__": "e548c55b-6f4f-42cd-9b4b-a42e7c95230a"
     },
-    "fileId": "25DFfPFZBFnIOeQLH3u1H3",
+    "fileId": "a10wlPhylFOrf47IfDUOEq",
     "sync": false
   },
   {
@@ -472,20 +501,20 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 6
+      "__id__": 7
     },
     "_enabled": true,
     "cost": null,
     "preCondition": null,
     "conditions": [
       {
-        "__id__": 11
+        "__id__": 12
       }
     ],
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "dataCollector": {
-      "__id__": 8
+      "__id__": 9
     },
     "_effectCard": null,
     "optional": false,
@@ -501,37 +530,8 @@
     "asset": {
       "__uuid__": "e548c55b-6f4f-42cd-9b4b-a42e7c95230a"
     },
-    "fileId": "12i5wx1jNGeZ00Sp3DWD2I",
+    "fileId": "c0VyzehnFGv4rkUs6uZYHS",
     "sync": false
-  },
-  {
-    "__type__": "14c08BFzyhOxqINw7BkOwhA",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
-    },
-    "_enabled": true,
-    "cost": null,
-    "preCondition": null,
-    "conditions": [],
-    "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "dataCollector": [
-      {
-        "__id__": 4
-      }
-    ],
-    "_effectCard": null,
-    "optional": false,
-    "hasPlayerChoiceToActivateInChainEffects": false,
-    "itemEffectToAdd": {
-      "__id__": 6
-    },
-    "itemEffectsToAdd": [],
-    "addMuiliEffect": false,
-    "multiEffectCollector": null,
-    "_id": ""
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -888,6 +888,9 @@
     },
     "_enabled": true,
     "cardName": "Tape Worm",
+    "makeMultiCards": false,
+    "numOfCopies": 2,
+    "copiesSprites": [],
     "_cardId": 0,
     "_isInHand": false,
     "_isOnDesk": false,
@@ -910,6 +913,7 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
+    "availableParticles": [],
     "_id": ""
   },
   {
@@ -920,6 +924,7 @@
       "__id__": 1
     },
     "_enabled": true,
+    "hasDestroySelfEffect": false,
     "conditions": [],
     "activeEffects": [
       {

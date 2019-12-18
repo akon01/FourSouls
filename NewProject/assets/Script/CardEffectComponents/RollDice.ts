@@ -27,9 +27,7 @@ export default class RollDice extends DataCollector {
     cardId;
   }): Promise<Number> {
 
-    let player = PlayerManager.getPlayerById(data.cardPlayerId).getComponent(
-      Player
-    );
+    let player = PlayerManager.getPlayerById(data.cardPlayerId)
     let numberRolled;
 
     let cardPlayed = CardManager.getCardById(data.cardId, true);

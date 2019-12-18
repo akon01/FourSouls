@@ -6,6 +6,10 @@ import PlayerManager from "../../Managers/PlayerManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import Effect from "./Effect";
 import DataCollector from "../DataCollector/DataCollector";
+import ServerClient from "../../../ServerClient/ServerClient";
+import Signal from "../../../Misc/Signal";
+import Card from "../../Entites/GameEntities/Card";
+import Stack from "../../Entites/Stack";
 
 
 const { ccclass, property } = cc._decorator;
@@ -49,24 +53,35 @@ export default class AddTrinket extends Effect {
     } else {
       if (targetPlayerCard instanceof cc.Node) {
         let player: Player = PlayerManager.getPlayerByCard(targetPlayerCard);
+        this.removeAddTrinketEffect()
+        ServerClient.$.send(Signal.CARD_ADD_TRINKET, { cardId: this.node.parent.getComponent(Card)._cardId, playerId: player.playerId, addMuiliEffect: this.addMuiliEffect })
         await player.addItem(this.node.parent, true, true);
-        let thisCardEffect = this.node.parent.getComponent(CardEffect)
-        thisCardEffect.activeEffects.pop();
-        if (this.addMuiliEffect) {
-          for (let i = 0; i < this.itemEffectsToAdd.length; i++) {
-            const effect = this.itemEffectsToAdd[i];
-            thisCardEffect.passiveEffects.push(effect)
-          }
-          thisCardEffect.multiEffectCollector = this.multiEffectCollector;
-          thisCardEffect.hasMultipleEffects = true;
-        } else {
-          thisCardEffect.passiveEffects.push(this.itemEffectToAdd)
-        }
-        this.node.removeComponent(this)
       }
     }
 
+
     if (data instanceof PassiveEffectData) return data
-    return stack
+    return Stack._currentStack
   }
+
+  removeAddTrinketEffect() {
+    let thisCardEffect = this.node.parent.getComponent(CardEffect)
+    //Remove this Effect!
+    thisCardEffect.activeEffects.pop();
+    if (this.addMuiliEffect) {
+      for (let i = 0; i < this.itemEffectsToAdd.length; i++) {
+        const effect = this.itemEffectsToAdd[i];
+        thisCardEffect.passiveEffects.push(effect)
+      }
+      if (this.multiEffectCollector) {
+        thisCardEffect.multiEffectCollector = this.multiEffectCollector;
+        thisCardEffect.hasMultipleEffects = true;
+      }
+    } else {
+      thisCardEffect.passiveEffects.push(this.itemEffectToAdd)
+    }
+    this.node.removeComponent(this)
+
+  }
+
 }

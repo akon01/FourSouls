@@ -31,7 +31,7 @@ export default class TheHangedManEffect extends Effect {
 
     let targetCards = data.getTargets(TARGETTYPE.CARD)
     if (targetCards == null || targetCards.length == 0) {
-      throw 'no targets'
+      throw new Error('no targets')
     } else {
       let selectedToPutOnBottom = await CardPreviewManager.selectFromCards(targetCards as cc.Node[], 3)
       for (let i = 0; i < selectedToPutOnBottom.length; i++) {

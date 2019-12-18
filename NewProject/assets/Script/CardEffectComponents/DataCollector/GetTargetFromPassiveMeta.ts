@@ -38,6 +38,7 @@ export default class GetTargetFromPassiveMeta extends DataCollector {
     cc.log(`this meta index ${this.metaIndex}`)
     if (!this.metaIndex) throw `no MetaIndex`
     this.isAfterActivation == true ? passiveMeta = PassiveManager.afterActivationMap.get(this.metaIndex) : passiveMeta = PassiveManager.beforeActivationMap.get(this.metaIndex)
+    cc.log(passiveMeta)
     switch (this.passiveComponent) {
       case PASSIVE_META_COMPONENTS.SCOPE:
         if (passiveMeta.methodScope.getComponent(Player)) {
@@ -54,6 +55,8 @@ export default class GetTargetFromPassiveMeta extends DataCollector {
       default:
         break;
     }
+
+    this.cardChosen = target.effectTargetCard
 
     return target;
   }

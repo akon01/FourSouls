@@ -46,7 +46,7 @@ export default class ServerActivateItem implements ServerStackEffectInterface {
 
     convertToStackEffect() {
         let itemToActivate = CardManager.getCardById(this.itemToPlayCardId, true)
-        const playerCharacterCard = PlayerManager.getPlayerById(this.itemPlayerId).getComponent(Player).character;
+        const playerCharacterCard = PlayerManager.getPlayerById(this.itemPlayerId).character;
         let activateItem = new ActivateItem(this.creatorCardId, this.hasLockingStackEffect, itemToActivate, playerCharacterCard, this.hasDataBeenCollectedYet)
         activateItem.LockingResolve = this.LockingResolve;
         if (this.effectToDoData != null) {

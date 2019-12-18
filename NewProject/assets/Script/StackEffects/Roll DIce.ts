@@ -1,4 +1,4 @@
-import { ROLL_TYPE, STACK_EFFECT_TYPE, PASSIVE_EVENTS } from "../Constants";
+import { ROLL_TYPE, STACK_EFFECT_TYPE, PASSIVE_EVENTS, GAME_EVENTS } from "../Constants";
 import Stack from "../Entites/Stack";
 import CardManager from "../Managers/CardManager";
 import PlayerManager from "../Managers/PlayerManager";
@@ -22,13 +22,35 @@ export default class RollDiceStackEffect implements StackEffectInterface {
     lockingStackEffect: StackEffectInterface;
     LockingResolve: any;
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.ROLL_DICE;
+    _lable: string;
+
+    set lable(text: string) {
+        this._lable = text
+        if (!this.nonOriginal) whevent.emit(GAME_EVENTS.LABLE_CHANGE)
+    }
+
+    isToBeFizzled: boolean = false;
+
+    creationTurnId: number
 
 
+    checkForFizzle() {
+        if (this.creationTurnId != TurnsManager.currentTurn.turnId) return true
+        if (this.isToBeFizzled) return true
+        if (!Stack._currentStack.includes(this.stackEffectToLock)) {
+            this.isToBeFizzled = true
+            return true
+        }
+        return false
+    }
+
+    nonOriginal: boolean = false;
 
     numberRolled: number
 
     constructor(creatorId: number, stackEffectToLock: StackEffectInterface, entityId?: number) {
         if (entityId) {
+            this.nonOriginal = true
             this.entityId = entityId
         } else {
             this.entityId = Stack.getNextStackEffectId()
@@ -40,34 +62,49 @@ export default class RollDiceStackEffect implements StackEffectInterface {
         let playerCard = CardManager.getCardById(this.creatorCardId, true);
         let player = PlayerManager.getPlayerByCard(playerCard);
         this.visualRepesentation = new DiceRollVis(player.dice.node.getComponent(cc.Sprite).spriteFrame, `player ${player.playerId} is rolling dice`)
+        this.lable = `Player ${player.playerId} roll a dice`
     }
 
     async putOnStack() {
+        cc.error(`put on stack of roll dice`)
         let playerCard = CardManager.getCardById(this.creatorCardId, true);
         let player = PlayerManager.getPlayerByCard(playerCard);
+        cc.error(`roll dice put on stack b4 roll dice`)
         let numberRolled = await player.rollDice(ROLL_TYPE.EFFECT)
+        cc.error(`roll dice put on stack after ${numberRolled}`)
         this.numberRolled = numberRolled
         this.visualRepesentation.flavorText = `player ${player.playerId} rolled ${numberRolled}`
+        this.lable = `Player ${player.playerId} rolled ${numberRolled}`
         let turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
         turnPlayer.givePriority(true)
         //add Passive Check for all the +X/-X To dice rolls to add on top of the stack
     }
 
     async resolve() {
-        cc.log('resolve roll dice')
+        cc.error(`resolve of roll dice`)
         let playerCard = CardManager.getCardById(this.creatorCardId, true);
         let player = PlayerManager.getPlayerByCard(playerCard);
-        cc.log(`roll b4 modifires ${this.numberRolled}`)
         let playerRollValue = player.calculateFinalRoll(this.numberRolled, ROLL_TYPE.EFFECT)
-        cc.log(`roll after modifires ${playerRollValue}`)
-        ActionLable.$.publishMassage(`Added ${player.nonAttackRollBonus} to original roll`, 3)
+
+        if (this.numberRolled != playerRollValue) {
+            if (this.numberRolled < playerRollValue) {
+                this.lable = `Player ${player.playerId} added ${playerRollValue - this.numberRolled} to its original roll, rolled ${playerRollValue}`
+                ActionLable.$.publishMassage(`Added ${playerRollValue - this.numberRolled} to original roll`, 3)
+            } else {
+                ActionLable.$.publishMassage(`Decreased ${this.numberRolled - playerRollValue} from original roll`, 3)
+                this.lable = `Player ${player.playerId} decreased ${this.numberRolled - playerRollValue} from its original roll, rolled ${playerRollValue}`
+            }
+        }
+
+
         playerRollValue = await player.dice.setRoll(playerRollValue)
-        let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_ROLL_DICE, [playerRollValue, ROLL_TYPE.EFFECT], null, player.node)
+        let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_ROLL_DICE, [playerRollValue, ROLL_TYPE.EFFECT], null, player.node, this.entityId)
+        cc.error(`player roll value b4 passive ${playerRollValue}`)
         let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
         playerRollValue = afterPassiveMeta.args[0]
+        cc.error(`player roll value after passive ${playerRollValue}`)
         if (Stack._currentStack.includes(this.stackEffectToLock) && this.stackEffectToLock.hasLockingStackEffectResolved == false) {
             let stackEffectToLock = Stack._currentStack[Stack._currentStack.indexOf(this.stackEffectToLock)];
-            cc.log(`setting stackEffect ${stackEffectToLock.entityId} locking resolve as ${playerRollValue}`)
             stackEffectToLock.LockingResolve = playerRollValue
             stackEffectToLock.hasLockingStackEffectResolved = true;
         } else {

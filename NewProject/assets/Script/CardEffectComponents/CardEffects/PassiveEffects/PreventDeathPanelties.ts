@@ -25,7 +25,6 @@ export default class PreventDeathPenalties extends Effect {
    */
   async doEffect(stack: StackEffectInterface[], data?: PassiveEffectData) {
 
-    cc.log(data.effectTargets)
     let targetPlayer = data.getTarget(TARGETTYPE.PLAYER)
     if (!targetPlayer) throw `No target player found`
     let playerPenaltiesStackEffect = Stack._currentStack.find(effect => {

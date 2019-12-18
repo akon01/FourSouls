@@ -1,4 +1,4 @@
-import { STACK_EFFECT_TYPE, PASSIVE_EVENTS, CHOOSE_CARD_TYPE } from "../Constants";
+import { STACK_EFFECT_TYPE, PASSIVE_EVENTS, CHOOSE_CARD_TYPE, GAME_EVENTS } from "../Constants";
 import Player from "../Entites/GameEntities/Player";
 import Stack from "../Entites/Stack";
 import TurnsManager from "../Managers/TurnsManager";
@@ -29,47 +29,71 @@ export default class DeclareAttack implements StackEffectInterface {
     lockingStackEffect: StackEffectInterface;
     LockingResolve: any;
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.DECLARE_ATTACK;
+    _lable: string;
 
+    set lable(text: string) {
+        this._lable = text
+        if (!this.nonOriginal) whevent.emit(GAME_EVENTS.LABLE_CHANGE)
+    }
+
+    isToBeFizzled: boolean = false;
+
+    creationTurnId: number
+
+
+    checkForFizzle() {
+        if (this.creationTurnId != TurnsManager.currentTurn.turnId) return true
+        if (this.isToBeFizzled) return true
+        if (!MonsterField.activeMonsters.includes(this.cardBeingAttacked)) {
+            cc.log(this.cardBeingAttacked)
+            cc.log(MonsterField.activeMonsters)
+            this.isToBeFizzled = true
+            return true
+        }
+        return false
+    }
+
+    nonOriginal: boolean = false;
     attackingPlayer: Player
     cardBeingAttacked: cc.Node
 
 
     constructor(creatorCardId: number, attackingPlayer: Player, cardBeingAttacked: cc.Node, entityId?: number) {
         if (entityId) {
+            this.nonOriginal = true
             this.entityId = entityId
         } else {
             this.entityId = Stack.getNextStackEffectId()
         }
 
         this.creatorCardId = creatorCardId;
+        this.creationTurnId = TurnsManager.currentTurn.turnId;
         this.attackingPlayer = attackingPlayer;
         this.cardBeingAttacked = cardBeingAttacked;
         this.visualRepesentation = new DeclareAttackVis(this.cardBeingAttacked.getComponent(cc.Sprite).spriteFrame)
         this.visualRepesentation.flavorText = `player ${this.attackingPlayer.playerId} has declared an attack on ${this.cardBeingAttacked.name}`
+        this.lable = `Player ${this.attackingPlayer.playerId}  declared attack on ${this.cardBeingAttacked.name}`
     }
 
     async putOnStack() {
-        cc.log(`player ${this.attackingPlayer.playerId} has declared an attack on ${this.cardBeingAttacked.name}`)
         let turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
         turnPlayer.givePriority(true)
     }
 
 
     async resolve() {
-        cc.log('resolve declare attack')
 
-        let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_DECLARE_ATTACK, [], null, this.attackingPlayer.node)
+        let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_DECLARE_ATTACK, [], null, this.attackingPlayer.node, this.entityId)
         let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+        cc.log(`after passive meta of declare attack`)
+        cc.log(afterPassiveMeta)
+        if (!afterPassiveMeta.continue) return
         passiveMeta.args = afterPassiveMeta.args;
         TurnsManager.currentTurn.attackPlays -= 1;
 
-        let monsterField = cc
-            .find("Canvas/MonsterField")
-            .getComponent(MonsterField);
-        let monsterId;
+
         let monsterDeck = CardManager.monsterDeck.getComponent(Deck);
         let monsterCardHolder: MonsterCardHolder;
-        let attackedMonster;
         let newMonster = this.cardBeingAttacked;
         if (this.cardBeingAttacked == monsterDeck.topBlankCard) {
             cc.log(`chosen card is top deck ${this.cardBeingAttacked.name}`)
@@ -80,7 +104,6 @@ export default class DeclareAttack implements StackEffectInterface {
             chooseCard.chooseType = CHOOSE_CARD_TYPE.MONSTER_PLACES
             let monsterInSpotChosen = await chooseCard.collectData({ cardPlayerId: this.attackingPlayer.playerId })
             let activeMonsterSelected = monsterInSpotChosen.effectTargetCard.getComponent(Monster)
-            cc.log(activeMonsterSelected.name)
             monsterCardHolder = MonsterField.getMonsterPlaceById(
                 activeMonsterSelected.monsterPlace.id
             );

@@ -3,6 +3,7 @@ import Card from "../../Entites/GameEntities/Card";
 import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import Effect from "./Effect";
+import Stack from "../../Entites/Stack";
 
 const { ccclass, property } = cc._decorator;
 
@@ -18,14 +19,15 @@ export default class PutCounter extends Effect {
    * @param data {target:PlayerId}
    */
   async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
-    let targetItem
-    targetItem = data.getTarget(TARGETTYPE.ITEM)
+
+    let targetItem = data.getTarget(TARGETTYPE.ITEM)
     if (targetItem == null) {
       cc.log(`no item to put counter on`)
     } else {
-      await targetItem.getComponent(Card).PutCounter(this.howManyCountersToAdd)
+      await (targetItem as cc.Node).getComponent(Card).putCounter(this.howManyCountersToAdd)
     }
+
     if (data instanceof PassiveEffectData) return data
-    return stack
+    return Stack._currentStack
   }
 }

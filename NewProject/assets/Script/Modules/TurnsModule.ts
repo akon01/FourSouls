@@ -6,6 +6,7 @@ import PlayerManager from "../Managers/PlayerManager";
 import CardManager from "../Managers/CardManager";
 import Player from "../Entites/GameEntities/Player";
 import Signal from "../../Misc/Signal";
+import TurnsManager from "../Managers/TurnsManager";
 
 //make the turns ininitally
 export function makeNextTurn(currentTurn: Turn): Turn[] {
@@ -31,6 +32,7 @@ export function getCurrentPlayer(players: cc.Node[], turn: Turn) {
 //Turn class
 export class Turn {
   PlayerId: number;
+  turnId: number
 
   battlePhase: boolean = false;
   lootCardPlays: number = 1;
@@ -45,23 +47,25 @@ export class Turn {
   refreshTurn() {
     let player: Player = PlayerManager.getPlayerById(
       this.PlayerId
-    ).getComponent(Player);
+    )
     this.lootCardPlays = player.lootCardPlays;
     this.drawPlays = player.drawPlays;
     this.buyPlays = player.buyPlays;
     this.attackPlays = player.attackPlays;
     this.battlePhase = false;
+    this.turnId = ++TurnsManager.turnId
+
   }
 
   getTurnPlayer() {
-    return PlayerManager.getPlayerById(this.PlayerId).getComponent(Player)
+    return PlayerManager.getPlayerById(this.PlayerId)
   }
 
   async startTurn() {
     cc.log(`start turn`)
     let player: Player = PlayerManager.getPlayerById(
       this.PlayerId
-    ).getComponent(Player);
+    )
     cc.log(`turn player ${player.name}`)
     cc.log(`me player ${PlayerManager.mePlayer.name}`)
     if (player.node.name == PlayerManager.mePlayer.name) {

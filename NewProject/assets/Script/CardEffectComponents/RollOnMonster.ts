@@ -1,13 +1,11 @@
-import Effect from "./CardEffects/Effect";
-import DataCollector from "./DataCollector/DataCollector";
-import { ServerEffect } from "../Entites/ServerCardEffect";
-import PlayerManager from "../Managers/PlayerManager";
-import Player from "../Entites/GameEntities/Player";
+import Stack from "../Entites/Stack";
 import BattleManager from "../Managers/BattleManager";
-import TurnsManager from "../Managers/TurnsManager";
-
-import StackEffectInterface from "../StackEffects/StackEffectInterface";
 import { ActiveEffectData, PassiveEffectData } from "../Managers/DataInterpreter";
+import PlayerManager from "../Managers/PlayerManager";
+import TurnsManager from "../Managers/TurnsManager";
+import StackEffectInterface from "../StackEffects/StackEffectInterface";
+import Effect from "./CardEffects/Effect";
+
 
 const { ccclass, property } = cc._decorator;
 
@@ -25,16 +23,16 @@ export default class RollOnMonster extends Effect {
     stack: StackEffectInterface[],
     data?: ActiveEffectData | PassiveEffectData
   ) {
-    let numberRolled = data.numberRolled;
+    let numberRolled = (data as ActiveEffectData).numberRolled;
     let turnPlayer = PlayerManager.getPlayerById(
       TurnsManager.currentTurn.PlayerId
-    ).getComponent(Player);
+    )
     let playerHitMonster = await BattleManager.rollOnMonster(numberRolled, true);
     if (playerHitMonster == true) {
       let damage = turnPlayer.calculateDamage();
       // 
       // 
-      await BattleManager.currentlyAttackedMonster.getDamaged(damage, true, turnPlayer.character);
+      await BattleManager.currentlyAttackedMonster.takeDamaged(damage, true, turnPlayer.character);
       // 
     } else {
       let damage = BattleManager.currentlyAttackedMonster.calculateDamage();
@@ -42,13 +40,14 @@ export default class RollOnMonster extends Effect {
       // 
 
 
-      let o = await turnPlayer.getHit(damage, true, BattleManager.currentlyAttackedMonster.node);
+      let o = await turnPlayer.takeDamage(damage, true, BattleManager.currentlyAttackedMonster.node);
 
       // 
     }
 
 
+
     if (data instanceof PassiveEffectData) return data
-    return stack
+    return Stack._currentStack
   }
 }

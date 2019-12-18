@@ -1,11 +1,12 @@
 import Effect from "../CardEffectComponents/CardEffects/Effect";
 import MultiEffectChoose from "../CardEffectComponents/MultiEffectChooser/MultiEffectChoose";
 import MultiEffectRoll from "../CardEffectComponents/MultiEffectChooser/MultiEffectRoll";
-import { CARD_TYPE, STACK_EFFECT_TYPE } from "../Constants";
+import { CARD_TYPE, GAME_EVENTS, STACK_EFFECT_TYPE } from "../Constants";
 import CardEffect from "../Entites/CardEffect";
 import Item from "../Entites/CardTypes/Item";
 import Card from "../Entites/GameEntities/Card";
 import Player from "../Entites/GameEntities/Player";
+import { Logger } from "../Entites/Logger";
 import Stack from "../Entites/Stack";
 import CardManager from "../Managers/CardManager";
 import PileManager from "../Managers/PileManager";
@@ -15,8 +16,6 @@ import RollDiceStackEffect from "./Roll DIce";
 import ServerPlayLootCard from "./ServerSideStackEffects/Server Play Loot Card ";
 import StackEffectInterface from "./StackEffectInterface";
 import { PlayLootCardVis } from "./StackEffectVisualRepresentation/Play Loot Card Vis";
-import { Logger } from "../Entites/Logger";
-
 
 export default class PlayLootCardStackEffect implements StackEffectInterface {
     visualRepesentation: PlayLootCardVis;
@@ -30,36 +29,52 @@ export default class PlayLootCardStackEffect implements StackEffectInterface {
     lockingStackEffect: StackEffectInterface;
     LockingResolve: any;
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.PLAY_LOOT_CARD;
+    _lable: string;
+
+    set lable(text: string) {
+        this._lable = text
+        if (!this.nonOriginal) { whevent.emit(GAME_EVENTS.LABLE_CHANGE) }
+    }
+
+    isToBeFizzled: boolean = false;
+
+    creationTurnId: number
+
+    checkForFizzle() {
+        if (this.creationTurnId != TurnsManager.currentTurn.turnId) { return true }
+        return false
+    }
+
+    nonOriginal: boolean = false;
 
     lootPlayer: Player;
     lootToPlay: cc.Node;
     effectToDo: Effect;
     hasDataBeenCollectedYet: boolean;
 
-
     constructor(creatorCardId: number, hasLockingStackEffect: boolean, lootToPlay: cc.Node, lootPlayerCard: cc.Node, hasDataBeenCollectedYet: boolean, hasLockingStackEffectResolved: boolean, entityId?: number) {
         if (entityId) {
+            this.nonOriginal = true
             this.entityId = entityId
         } else {
             this.entityId = Stack.getNextStackEffectId()
         }
 
         this.creatorCardId = creatorCardId;
+        this.creationTurnId = TurnsManager.currentTurn.turnId;
         this.hasLockingStackEffect = hasLockingStackEffect;
         this.lootToPlay = lootToPlay;
         this.lootPlayer = PlayerManager.getPlayerByCard(lootPlayerCard)
         this.hasDataBeenCollectedYet = hasDataBeenCollectedYet;
         this.hasLockingStackEffectResolved = hasLockingStackEffectResolved
         this.visualRepesentation = new PlayLootCardVis(this.lootToPlay.getComponent(cc.Sprite).spriteFrame)
+        this.lable = `Player ${this.lootPlayer.playerId} play ${lootToPlay.name} `
     }
-
-
 
     async putOnStack() {
 
-        let card = this.lootToPlay.getComponent(Card);
-        let cardEffect = this.lootToPlay.getComponent(CardEffect)
-
+        const card = this.lootToPlay.getComponent(Card);
+        const cardEffect = this.lootToPlay.getComponent(CardEffect)
 
         await this.lootPlayer.loseLoot(this.lootToPlay, true)
         await CardManager.moveCardTo(this.lootToPlay, PileManager.lootPlaceTest, true, true)
@@ -68,35 +83,34 @@ export default class PlayLootCardStackEffect implements StackEffectInterface {
         if (cardEffect.hasMultipleEffects) {
             //if the card has multiple effects and the player needs to choose
             if (cardEffect.multiEffectCollector instanceof MultiEffectChoose) {
-                let effectChosen = await cardEffect.multiEffectCollector.collectData({ cardPlayed: this.lootToPlay, cardPlayerId: this.lootPlayer.playerId })
+                const effectChosen = await cardEffect.multiEffectCollector.collectData({ cardPlayed: this.lootToPlay, cardPlayerId: this.lootPlayer.playerId })
                 this.effectToDo = effectChosen;
-                cc.log(this.effectToDo)
+                this.lable = `Player ${this.lootPlayer.playerId} play ${this.lootToPlay.name}: ${this.effectToDo.effectName}`
             }
         } else {
-            cc.log(`only has one effect`)
-            this.effectToDo = cardEffect.getOnlyEffect()
+            this.effectToDo = cardEffect.activeEffects[0].getComponent(Effect)
+            this.lable = `Player ${this.lootPlayer.playerId} play ${this.lootToPlay.name}: ${this.effectToDo.effectName}`
         }
         //if the effect is chosen already and the player needs to choose targets, let him now.
         if (this.effectToDo != null) {
-            let collectedData = await cardEffect.collectEffectData(this.effectToDo, { cardId: this.lootToPlay.getComponent(Card)._cardId, cardPlayerId: this.lootPlayer.playerId })
+            this.lable = `Player ${this.lootPlayer.playerId} play ${this.lootToPlay.name}: ${this.effectToDo.effectName}`
+            const collectedData = await cardEffect.collectEffectData(this.effectToDo, { cardId: this.lootToPlay.getComponent(Card)._cardId, cardPlayerId: this.lootPlayer.playerId })
             cardEffect.effectData = collectedData;
             this.hasDataBeenCollectedYet = true;
         }
 
-        let turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
+        const turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
         turnPlayer.givePriority(true)
 
     }
 
     async resolve() {
         let selectedEffect: Effect = null;
-        let cardEffect = this.lootToPlay.getComponent(CardEffect)
+        const cardEffect = this.lootToPlay.getComponent(CardEffect)
         this.lootPlayer._lootCardsPlayedThisTurn.push(this.lootToPlay)
         if (this.effectToDo == null) {
-            cc.log(`no chosen effect to do yet`)
             //if this effect has locking stack effect (first only "roll:" for a dice roll) and it has not yet resolved
             if (this.hasLockingStackEffect && this.hasLockingStackEffectResolved == false) {
-                cc.log(`need lock, lock isnt resolved, add lock`)
                 let lockingStackEffect: StackEffectInterface
                 if (cardEffect.multiEffectCollector instanceof MultiEffectRoll) {
                     lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
@@ -104,7 +118,6 @@ export default class PlayLootCardStackEffect implements StackEffectInterface {
                 }
                 //TODO add put on stack when the method is complete
                 await Stack.addToStack(lockingStackEffect, true)
-
 
                 //if this effect has locking stack effect (first only "roll:" for a dice roll) and it has resolved
             }
@@ -116,8 +129,8 @@ export default class PlayLootCardStackEffect implements StackEffectInterface {
         } else {
             selectedEffect = this.effectToDo;
         }
-        cc.log(selectedEffect)
         let newStack
+        this.lable = `Player ${this.lootPlayer.playerId} play ${this.lootToPlay.name}: ${selectedEffect.effectName}`
         if (!selectedEffect) {
             cc.error(`no selected effect where should be!`)
         } else {
@@ -141,31 +154,31 @@ export default class PlayLootCardStackEffect implements StackEffectInterface {
     }
 
     async doCardEffect(effect: Effect, hasDataBeenCollectedYet: boolean) {
-        let cardEffect = this.lootToPlay.getComponent(CardEffect)
+        const cardEffect = this.lootToPlay.getComponent(CardEffect)
 
-        let serverEffect = await cardEffect.getServerEffect(effect, this.lootPlayer.playerId, !hasDataBeenCollectedYet)
+        const serverEffect = await cardEffect.getServerEffect(effect, this.lootPlayer.playerId, !hasDataBeenCollectedYet)
 
         if (hasDataBeenCollectedYet) {
             serverEffect.cardEffectData = cardEffect.effectData
         }
         //change in every effect that it recives the current stack (maybe not needed cuz stack is static) so that effects that affect the stack (butter bean) can cancel them
         //  (build an interpreter that can take a StackEffect and check in what state it is , what is the chosen effect is and what can change it)
-        let newStack = await cardEffect.doServerEffect2(serverEffect, Stack._currentStack)
+        const newStack = await cardEffect.doServerEffect2(serverEffect, Stack._currentStack)
         return newStack;
     }
 
     convertToServerStackEffect() {
-        let serverPlayLoot = new ServerPlayLootCard(this);
+        const serverPlayLoot = new ServerPlayLootCard(this);
         return serverPlayLoot;
     }
 
     toString() {
         let endString = `id:${this.entityId}\ntype: Play Loot Card\nCreator Card: ${CardManager.getCardById(this.creatorCardId).name}\n`
-        if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
-        if (this.effectToDo) endString = endString + `Effect:${this.effectToDo.name}\n`
-        if (this.lootPlayer) endString = endString + `Player:${this.lootPlayer.name}\n`
-        if (this.lootToPlay) endString = endString + `Loot To Play:${this.lootToPlay.name}\n`
-        if (this.stackEffectToLock) endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n`
+        if (this.LockingResolve) { endString = endString + `Lock Result: ${this.LockingResolve}\n` }
+        if (this.effectToDo) { endString = endString + `Effect:${this.effectToDo.name}\n` }
+        if (this.lootPlayer) { endString = endString + `Player:${this.lootPlayer.name}\n` }
+        if (this.lootToPlay) { endString = endString + `Loot To Play:${this.lootToPlay.name}\n` }
+        if (this.stackEffectToLock) { endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n` }
         return endString
     }
 

@@ -8,6 +8,7 @@ import MultiEffectRoll from "../MultiEffectChooser/MultiEffectRoll";
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
 import Effect from "./Effect";
 import Card from "../../Entites/GameEntities/Card";
+import MultiEffectChoose from "../MultiEffectChooser/MultiEffectChoose";
 
 
 
@@ -26,10 +27,9 @@ export default class PlayLootCard extends Effect {
     stack: StackEffectInterface[],
     data?: ActiveEffectData | PassiveEffectData
   ) {
-    cc.log(data)
     let hasLockingEffect;
     let collector = this.node.parent.getComponent(CardEffect).multiEffectCollector;
-    if (collector != null && collector instanceof MultiEffectRoll) {
+    if (collector != null && !(collector instanceof MultiEffectChoose)) {
       hasLockingEffect = true;
     } else hasLockingEffect = false;
     let player = PlayerManager.getPlayerByCard(data.effectCard)
@@ -40,7 +40,8 @@ export default class PlayLootCard extends Effect {
       await Stack.addToStackBelow(playLoot, Stack._currentStack[Stack._currentStack.length - 1], false)
     }
 
+
     if (data instanceof PassiveEffectData) return data
-    return stack
+    return Stack._currentStack
   }
 }

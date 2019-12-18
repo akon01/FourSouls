@@ -5,6 +5,7 @@ import PlayerManager from "../../Managers/PlayerManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import Effect from "./Effect";
 import TurnsManager from "../../Managers/TurnsManager";
+import Stack from "../../Entites/Stack";
 
 
 const { ccclass, property } = cc._decorator;
@@ -33,8 +34,9 @@ export default class AddAttackOpportunity extends Effect {
       TurnsManager.currentTurn.attackPlays = player.attackPlays;
     }
 
+
     if (data instanceof PassiveEffectData) return data
-    return stack
+    return Stack._currentStack
   }
 
 }

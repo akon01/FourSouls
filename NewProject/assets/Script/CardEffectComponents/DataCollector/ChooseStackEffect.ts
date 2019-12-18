@@ -35,9 +35,7 @@ export default class ChooseStackEffect extends DataCollector {
     cardPlayerId;
   }): Promise<EffectTarget> {
     cc.log(`stack choose stack effect`)
-    let player = PlayerManager.getPlayerById(data.cardPlayerId).getComponent(
-      Player
-    );
+    let player = PlayerManager.getPlayerById(data.cardPlayerId)
     this.playerId = data.cardPlayerId;
     let stackEffectsToChooseFrom = []
     for (let i = 0; i < this.chooseTypes.length; i++) {
@@ -45,7 +43,7 @@ export default class ChooseStackEffect extends DataCollector {
       stackEffectsToChooseFrom.push(...this.getStackEffectsToChoose(chooseType, player));
     }
     if (stackEffectsToChooseFrom.length == 0) {
-      throw 'No Stack Effects To Choose From!'
+      throw new Error('No Stack Effects To Choose From!')
     }
 
     cc.log(`b4 require choosing an effect`)

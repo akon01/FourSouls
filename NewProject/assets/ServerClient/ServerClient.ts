@@ -30,12 +30,21 @@ export default class ServerClient extends cc.Component {
 
     whevent.on(Signal.MOVE_TO_TABLE, this.onMoveToTable, this);
     whevent.on(Signal.NEXT_TURN, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.END_GAME, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.GAME_HAS_STARTED, this.onPlayerActionFromServer, this);
     whevent.on(Signal.UUID, this.onUUID, this);
     whevent.on(Signal.JOIN, this.onJoin, this);
     whevent.on(Signal.START_GAME, this.onStartGame, this);
     whevent.on(Signal.LEAVE, this.onLeave, this);
     whevent.on(Signal.FINISH_LOAD, this.onFinishLoad, this);
     whevent.on(Signal.UPDATE_ACTIONS, this.onUpdateActions, this);
+
+
+    whevent.on(Signal.CARD_ADD_TRINKET, this.onPlayerActionFromServer, this)
+
+    whevent.on(Signal.ACTIVATE_PARTICLE_EFFECT, this.onPlayerActionFromServer, this)
+    whevent.on(Signal.DISABLE_PARTICLE_EFFECT, this.onPlayerActionFromServer, this)
+
     whevent.on(Signal.PLAY_LOOT_CARD, this.onPlayerActionFromServer, this);
     whevent.on(Signal.DECLARE_ATTACK, this.onPlayerActionFromServer, this);
     whevent.on(Signal.ADD_AN_ITEM, this.onPlayerActionFromServer, this);
@@ -63,8 +72,10 @@ export default class ServerClient extends cc.Component {
     whevent.on(Signal.FIRST_GET_REACTION, this.onPlayerActionFromServer, this);
     whevent.on(Signal.CHANGE_MONEY, this.onPlayerActionFromServer, this);
     whevent.on(Signal.ADD_STORE_CARD, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.SET_MAX_ITEMS_STORE, this.onPlayerActionFromServer, this);
     whevent.on(Signal.UPDATE_PASSIVES_OVER, this.onPlayerActionFromServer, this);
     whevent.on(Signal.REGISTER_PASSIVE_ITEM, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.REMOVE_FROM_PASSIVE_MANAGER, this.onPlayerActionFromServer, this);
     whevent.on(Signal.REGISTER_ONE_TURN_PASSIVE_EFFECT, this.onPlayerActionFromServer, this);
     whevent.on(Signal.SET_MONEY, this.onPlayerActionFromServer, this);
 
@@ -101,6 +112,7 @@ export default class ServerClient extends cc.Component {
     //board events
     whevent.on(Signal.MOVE_CARD, this.onPlayerActionFromServer, this);
     whevent.on(Signal.MOVE_CARD_END, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.SOUL_CARD_MOVE_END, this.onPlayerActionFromServer, this);
     whevent.on(Signal.NEW_MONSTER_ON_PLACE, this.onPlayerActionFromServer, this);
     whevent.on(Signal.GET_NEXT_MONSTER, this.onPlayerActionFromServer, this);
     whevent.on(Signal.RECHARGE_ITEM, this.onPlayerActionFromServer, this);
@@ -108,7 +120,7 @@ export default class ServerClient extends cc.Component {
     whevent.on(Signal.SET_TURN, this.onPlayerActionFromServer, this);
     whevent.on(Signal.ASSIGN_CHAR_TO_PLAYER, this.onPlayerActionFromServer, this);
     whevent.on(Signal.FLIP_CARD, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.BUY_ITEM_FROM_SHOP, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.REMOVE_ITEM_FROM_SHOP, this.onPlayerActionFromServer, this);
     whevent.on(Signal.CARD_GET_COUNTER, this.onPlayerActionFromServer, this);
     whevent.on(Signal.NEW_MONSTER_PLACE, this.onPlayerActionFromServer, this);
 
@@ -131,6 +143,7 @@ export default class ServerClient extends cc.Component {
     whevent.on(Signal.REMOVE_RESOLVING_STACK_EFFECT, this.onPlayerActionFromServer, this);
     whevent.on(Signal.UPDATE_STACK_VIS, this.onPlayerActionFromServer, this);
     whevent.on(Signal.NEXT_STACK_ID, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.UPDATE_STACK_LABLE, this.onPlayerActionFromServer, this);
 
     //Eden events
     whevent.on(Signal.EDEN_CHOSEN, this.onPlayerActionFromServer, this);
@@ -142,8 +155,8 @@ export default class ServerClient extends cc.Component {
 
 
 
-  onPlayerActionFromServer({ signal, data }) {
-    ActionManager.getActionFromServer(signal, data);
+  onPlayerActionFromServer(data: { signal, data }) {
+    ActionManager.getActionFromServer(data.signal, data.data);
   }
 
   onMoveToTable({ playerID, numOfPlayers }) {

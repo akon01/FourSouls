@@ -38,7 +38,7 @@ export default class MultiEffectDestroyThisThenRoll extends DataCollector {
 
     let thisCard = this.node.parent;
     let thisOwner = PlayerManager.getPlayerByCard(thisCard)
-    await thisOwner.loseItem(thisCard)
+    await thisOwner.loseItem(thisCard, true)
     await PileManager.addCardToPile(thisCard.getComponent(Card).type, thisCard, true)
 
 
@@ -64,7 +64,8 @@ export default class MultiEffectDestroyThisThenRoll extends DataCollector {
 
     }
     if (!chosenEffect) {
-      throw `No effect was chosen!`
+      cc.log(this.effectsAndNumbers.map(ean => ean.effect.name + '' + ean.numbers))
+      throw new Error(`No effect was chosen with the number rolled ${numberRolled}`)
     }
     cc.log(chosenEffect.name)
     return chosenEffect;

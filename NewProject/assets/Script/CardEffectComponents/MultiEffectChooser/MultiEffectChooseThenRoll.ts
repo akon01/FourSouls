@@ -106,7 +106,8 @@ export default class MultiEffectChooseThenRoll extends DataCollector {
 
     }
     if (!chosenEffect) {
-      throw `No effect was chosen!`
+      cc.log(this.effectsAndNumbers.map(ean => ean.effect.name + '' + ean.numbers))
+      throw new Error(`No effect was chosen with the number rolled ${numberRolled}`)
     }
     cc.log(chosenEffect.name)
     return chosenEffect;

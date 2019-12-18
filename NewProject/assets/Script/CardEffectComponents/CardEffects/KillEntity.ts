@@ -7,6 +7,7 @@ import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import { TARGETTYPE } from "./../../Constants";
 import Effect from "./Effect";
 import CardManager from "../../Managers/CardManager";
+import Stack from "../../Entites/Stack";
 
 const { ccclass, property } = cc._decorator;
 
@@ -34,13 +35,13 @@ export default class KillEntity extends Effect {
       if (targetEntity == null) { targetEntity = data.getTarget(TARGETTYPE.MONSTER) }
 
       if (targetEntity == null) {
-        throw 'no target entity to kill'
+        throw new Error('no target entity to kill')
       } else {
         let entityComp;
         entityComp = (targetEntity as cc.Node).getComponent(Character);
         let owner = CardManager.getCardOwner(this.node.parent)
         if (entityComp == null) {
-          entityComp = (targetEntity as cc.Node).getComponent(Monster)
+          entityComp = (targetEntity as cc.Node).getComponent(Monster);
           await (targetEntity as cc.Node).getComponent(Monster).kill(owner)
         } else {
           if (entityComp instanceof Character) {
@@ -50,8 +51,9 @@ export default class KillEntity extends Effect {
       }
     }
 
+
     if (data instanceof PassiveEffectData) return data
-    return stack
+    return Stack._currentStack
   }
 
   async doForMultipleTargets(data: ActiveEffectData | PassiveEffectData) {
@@ -72,7 +74,7 @@ export default class KillEntity extends Effect {
           await PlayerManager.getPlayerByCard(entityComp.node).killPlayer(true, owner)
         }
       } else {
-        entityComp = (targetEntity as cc.Node).getComponent(Monster)
+        entityComp = (targetEntity as cc.Node).getComponent(Monster);
         await (targetEntity as cc.Node).getComponent(Monster).kill(owner)
       }
     }

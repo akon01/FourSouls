@@ -154,7 +154,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "StartTurn",
+    "_name": "PlayerAddThisItem",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -213,14 +213,14 @@
     "_id": ""
   },
   {
-    "__type__": "13e64JpKQhN/qJu243GaUX+",
+    "__type__": "0e7c6gxW/ZIgail5cFkXhII",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 3
     },
     "_enabled": true,
-    "isOwnerOnly": true,
+    "dataCollector": null,
     "_id": ""
   },
   {
@@ -231,7 +231,7 @@
     "asset": {
       "__uuid__": "e597e935-3f35-43ee-b276-2242d3f38545"
     },
-    "fileId": "98gMMpJwFAZ5/6paVauWQK",
+    "fileId": "a53pdxJttB6b4ZHY5jEygA",
     "sync": false
   },
   {
@@ -249,7 +249,7 @@
         "__id__": 4
       }
     ],
-    "passiveType": 1,
+    "passiveType": 2,
     "passiveEffectToAdd": null,
     "dataCollector": [],
     "_effectCard": null,
@@ -281,7 +281,7 @@
     "asset": {
       "__uuid__": "e597e935-3f35-43ee-b276-2242d3f38545"
     },
-    "fileId": "b14ZuePNpFXansyP0vGZBw",
+    "fileId": "2eNeGtODdK7Kw9vuMvOq8j",
     "sync": false
   },
   {
@@ -350,7 +350,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "PlayerAddThisItem",
+    "_name": "PlayerLoseThisItem",
     "_objFlags": 0,
     "_parent": {
       "__id__": 8
@@ -409,7 +409,7 @@
     "_id": ""
   },
   {
-    "__type__": "0e7c6gxW/ZIgail5cFkXhII",
+    "__type__": "ef91eRCnkxC4INnxPpiSJgk",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -427,7 +427,7 @@
     "asset": {
       "__uuid__": "e597e935-3f35-43ee-b276-2242d3f38545"
     },
-    "fileId": "d6rR1XkY1N5IDxaVK440bp",
+    "fileId": "d3j+DsFxBJNJ7k2qucepGS",
     "sync": false
   },
   {
@@ -462,7 +462,7 @@
     "rollBonusToGain": 0,
     "rollBonusTemp": false,
     "gainAttackRollBonus": true,
-    "attackRollBonusToGain": 1,
+    "attackRollBonusToGain": -1,
     "attackRollBonusTemp": false,
     "gainFirstAttackRollBonus": false,
     "firstAttackRollBonusToGain": 0,
@@ -477,7 +477,7 @@
     "asset": {
       "__uuid__": "e597e935-3f35-43ee-b276-2242d3f38545"
     },
-    "fileId": "a59WF8p1FG47C4ZL3ppZS6",
+    "fileId": "belmc12w9A47oFQS5TJE53",
     "sync": false
   },
   {
@@ -824,6 +824,9 @@
     },
     "_enabled": true,
     "cardName": "Synthoil",
+    "makeMultiCards": false,
+    "numOfCopies": 2,
+    "copiesSprites": [],
     "_cardId": 0,
     "_isInHand": false,
     "_isOnDesk": false,
@@ -846,6 +849,7 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
+    "availableParticles": [],
     "_id": ""
   },
   {

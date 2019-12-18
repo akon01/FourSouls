@@ -2,6 +2,7 @@ import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpre
 import TurnsManager from "../../Managers/TurnsManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import Effect from "./Effect";
+import Stack from "../../Entites/Stack";
 
 
 const { ccclass, property } = cc._decorator;
@@ -30,8 +31,9 @@ export default class AddPlayLootOpportunity extends Effect {
     TurnsManager.currentTurn.lootCardPlays = TurnsManager.currentTurn.lootCardPlays + this.numOfTimes
     cc.log(`after plays" ${TurnsManager.currentTurn.lootCardPlays}`)
     //  }
+
     if (data instanceof PassiveEffectData) return data
-    return stack
+    return Stack._currentStack
   }
 
 }

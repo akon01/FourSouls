@@ -15,7 +15,7 @@ export default class PlayerPayPenalties extends Condition {
 
   conditionData: ActiveEffectData | PassiveEffectData = null;
 
-  @property({ type: DataCollector, tooltip: 'Only Put If Not In "Add Passive Effect" Active effect' })
+  @property({ type: DataCollector, tooltip: 'If In "Add Passive Effect" No Need' })
   dataCollector: DataCollector = null
 
   async testCondition(meta: PassiveMeta) {
@@ -41,7 +41,5 @@ export default class PlayerPayPenalties extends Condition {
         }
       }
     }
-    cc.log(selectedPlayerCard)
-
   }
 }

@@ -1,4 +1,4 @@
-import { CARD_TYPE, STACK_EFFECT_TYPE } from "../Constants";
+import { CARD_TYPE, STACK_EFFECT_TYPE, GAME_EVENTS } from "../Constants";
 import Monster from "../Entites/CardTypes/Monster";
 import Player from "../Entites/GameEntities/Player";
 import Stack from "../Entites/Stack";
@@ -22,35 +22,53 @@ export default class MonsterEndDeath implements StackEffectInterface {
     lockingStackEffect: StackEffectInterface;
     LockingResolve: any;
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.MONSTER_END_DEATH;
+    _lable: string;
 
+    set lable(text: string) {
+        this._lable = text
+        if (!this.nonOriginal) whevent.emit(GAME_EVENTS.LABLE_CHANGE)
+    }
+
+    isToBeFizzled: boolean = false;
+
+    creationTurnId: number
+
+
+    checkForFizzle() {
+        if (this.creationTurnId != TurnsManager.currentTurn.turnId) return true
+        return false
+    }
+
+    nonOriginal: boolean = false;
 
     monsterWhoDied: Monster;
 
 
     constructor(creatorCardId: number, monsterWhoDied: cc.Node, entityId?: number) {
         if (entityId) {
+            this.nonOriginal = true
             this.entityId = entityId
         } else {
             this.entityId = Stack.getNextStackEffectId()
         }
 
         this.creatorCardId = creatorCardId;
+        this.creationTurnId = TurnsManager.currentTurn.turnId;
         this.monsterWhoDied = monsterWhoDied.getComponent(Monster)
         this.visualRepesentation = new MonsterDeathVis(this.monsterWhoDied.name)
         this.visualRepesentation.stackEffectType = this.stackEffectType;
+        this.lable = `${monsterWhoDied.name} death`
 
     }
 
     async putOnStack() {
-        cc.log(`put monster end death on the stack`)
         let turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
         turnPlayer.givePriority(true)
 
     }
 
     async resolve() {
-        cc.log('resolve monster end death')
-        let turnPlayer = PlayerManager.getPlayerById(TurnsManager.currentTurn.PlayerId).getComponent(Player)
+        let turnPlayer = PlayerManager.getPlayerById(TurnsManager.currentTurn.PlayerId)
         if (this.monsterWhoDied.souls > 0) {
             await turnPlayer.getSoulCard(this.monsterWhoDied.node, true)
         } else {

@@ -1,11 +1,10 @@
-import StackEffectInterface from "../StackEffectInterface";
-import PlayLootCardStackEffect from "../Play Loot Card";
+import Signal from "../../../Misc/Signal";
+import ServerClient from "../../../ServerClient/ServerClient";
 import ActivateItem from "../Activate Item";
 import ActivatePassiveEffect from "../Activate Passive Effect";
-import ServerClient from "../../../ServerClient/ServerClient";
-import Signal from "../../../Misc/Signal";
+import PlayLootCardStackEffect from "../Play Loot Card";
+import StackEffectInterface from "../StackEffectInterface";
 import { ServerStackVisualisation } from "./Server Stack Vis";
-
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,13 +15,13 @@ export default class StackEffectPreview extends cc.Component {
     flavorTextLable: cc.Label = null;
 
     @property
-    flavorText: string = '';
+    flavorText: string = "";
 
     @property(cc.Label)
     nameLable: cc.Label = null;
 
     @property
-    nameText: string = '';
+    nameText: string = "";
 
     @property(cc.Node)
     imageArea: cc.Node = null;
@@ -36,11 +35,9 @@ export default class StackEffectPreview extends cc.Component {
     @property
     isShowExtraInfo: boolean = false;
 
-
-
     setStackEffect(stackEffect: StackEffectInterface) {
         this.stackEffect = stackEffect;
-        let stackEffectVis = stackEffect.visualRepesentation
+        const stackEffectVis = stackEffect.visualRepesentation
         if (stackEffect instanceof PlayLootCardStackEffect) {
             this.node.getComponent(cc.Sprite).spriteFrame = stackEffect.lootToPlay.getComponent(cc.Sprite).spriteFrame
             this.hideExtraInfo()
@@ -53,8 +50,8 @@ export default class StackEffectPreview extends cc.Component {
         } else {
             this.showExtraInfo()
             this.node.getComponent(cc.Sprite).spriteFrame = stackEffectVis.baseSprite;
-            this.nameLable.string = stackEffectVis.stackEffectType.valueOf()
-            if (stackEffectVis.flavorText != '') {
+            this.nameLable.string = stackEffectVis.stackEffectType.valueOf().toString()
+            if (stackEffectVis.flavorText != "") {
                 this.flavorTextLable.string = stackEffectVis.flavorText;
             }
             if (stackEffectVis.extraSprite != null) {
@@ -67,17 +64,17 @@ export default class StackEffectPreview extends cc.Component {
     updateInfo(sendToServer: boolean) {
         cc.log(`update info`)
         this.stackEffect.visualRepesentation.hasBeenUpdated = false;
-        let stackEffectVis = this.stackEffect.visualRepesentation;
+        const stackEffectVis = this.stackEffect.visualRepesentation;
         this.node.getComponent(cc.Sprite).spriteFrame = stackEffectVis.baseSprite;
-        this.nameLable.string = stackEffectVis.stackEffectType.valueOf()
-        if (stackEffectVis.flavorText != '') {
+        this.nameLable.string = stackEffectVis.stackEffectType.valueOf().toString()
+        if (stackEffectVis.flavorText != "") {
             this.flavorTextLable.string = stackEffectVis.flavorText;
         }
         if (stackEffectVis.extraSprite != null) {
             this.imageArea.getComponent(cc.Sprite).spriteFrame = stackEffectVis.extraSprite
         }
         if (sendToServer) {
-            let serverEffectVis = new ServerStackVisualisation(stackEffectVis)
+            const serverEffectVis = new ServerStackVisualisation(stackEffectVis)
             ServerClient.$.send(Signal.UPDATE_STACK_VIS, { stackId: this.stackEffect.entityId, stackVis: serverEffectVis })
         }
     }
@@ -108,10 +105,10 @@ export default class StackEffectPreview extends cc.Component {
     update(dt) {
         if (this.stackEffect.visualRepesentation.hasBeenUpdated) {
             if (this.isShowExtraInfo) {
-                let stackEffectVis = this.stackEffect.visualRepesentation
+                const stackEffectVis = this.stackEffect.visualRepesentation
                 this.node.getComponent(cc.Sprite).spriteFrame = stackEffectVis.baseSprite;
-                this.nameLable.string = stackEffectVis.stackEffectType.valueOf()
-                if (stackEffectVis.flavorText != '123') {
+                this.nameLable.string = stackEffectVis.stackEffectType.valueOf().toString()
+                if (stackEffectVis.flavorText != "123") {
                     this.flavorTextLable.string = stackEffectVis.flavorText;
                 }
                 if (stackEffectVis.extraSprite != null) {

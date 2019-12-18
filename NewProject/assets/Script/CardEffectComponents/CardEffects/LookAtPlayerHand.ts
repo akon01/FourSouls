@@ -6,6 +6,7 @@ import PlayerManager from "../../Managers/PlayerManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import { CHOOSE_CARD_TYPE } from "./../../Constants";
 import Effect from "./Effect";
+import Stack from "../../Entites/Stack";
 
 
 const { ccclass, property } = cc._decorator;
@@ -41,7 +42,7 @@ export default class LookAtPlayerHand extends Effect {
         let players = (playersCards as cc.Node[]).map(card => PlayerManager.getPlayerByCard(card))
         for (let i = 0; i < players.length; i++) {
           const player = players[i];
-          CardPreviewManager.getPreviews(player.handCards, true)
+          await CardPreviewManager.getPreviews(player.handCards, true)
           await originalPlayer.giveNextClick()
           CardPreviewManager.removeFromCurrentPreviews(player.handCards)
         }
@@ -62,7 +63,8 @@ export default class LookAtPlayerHand extends Effect {
       }
     }
     cc.log(`end of look at player hand`)
+
     if (data instanceof PassiveEffectData) return data
-    return stack
+    return Stack._currentStack
   }
 }

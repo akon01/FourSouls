@@ -37,7 +37,7 @@ export default class ServerStackEffectConverter {
             case STACK_EFFECT_TYPE.ACTIVATE_ITEM:
 
                 let itemToActivate = CardManager.getCardById(serverStackEffectData.itemToPlayCardId, true)
-                const charCard = PlayerManager.getPlayerById(serverStackEffectData.itemPlayerId).getComponent(Player).character;
+                const charCard = PlayerManager.getPlayerById(serverStackEffectData.itemPlayerId).character;
                 let activateItem = new ActivateItem(serverStackEffectData.creatorCardId, serverStackEffectData.hasLockingStackEffect, itemToActivate, charCard, serverStackEffectData.hasDataBeenCollectedYet, serverStackEffectData.entityId)
                 activateItem.LockingResolve = serverStackEffectData.LockingResolve;
                 if (serverStackEffectData.effectToDoData != null) {
@@ -85,7 +85,7 @@ export default class ServerStackEffectConverter {
                 return monsterReward
             case STACK_EFFECT_TYPE.PLAY_LOOT_CARD:
                 let lootToPlay = CardManager.getCardById(serverStackEffectData.lootToPlayCardId, true)
-                const playerCharacterCard = PlayerManager.getPlayerById(serverStackEffectData.lootPlayerId).getComponent(Player).character;
+                const playerCharacterCard = PlayerManager.getPlayerById(serverStackEffectData.lootPlayerId).character;
 
                 let playLoot = new PlayLootCardStackEffect(serverStackEffectData.creatorCardId, serverStackEffectData.hasLockingStackEffect, lootToPlay, playerCharacterCard, serverStackEffectData.hasDataBeenCollectedYet, serverStackEffectData.hasLockingStackEffectResolved, serverStackEffectData.entityId)
                 playLoot.LockingResolve = serverStackEffectData.LockingResolve;
@@ -114,26 +114,26 @@ export default class ServerStackEffectConverter {
                     rollAttackDice.numberRolled = serverStackEffectData.numberRolled;
                 }
                 return rollDice;
-            case STACK_EFFECT_TYPE.TAKE_DAMAGE:
-                let entityToDoDamage: cc.Node;
-                if (serverStackEffectData.isPlayerDoDamage) {
-                    entityToDoDamageTo = PlayerManager.getPlayerByCardId(serverStackEffectData.entityToDoDamageCardId).node
-                } else {
-                    entityToDoDamageTo = CardManager.getCardById(serverStackEffectData.entityToDoDamageCardId)
-                }
-                let entityToTakeDamage: cc.Node;
-                if (serverStackEffectData.isPlayerTakeDamage) {
-                    entityToTakeDamageFrom = PlayerManager.getPlayerByCardId(serverStackEffectData.entityToTakeDamageCardId).node
-                } else {
-                    entityToTakeDamageFrom = CardManager.getCardById(serverStackEffectData.entityToTakeDamageCardId)
-                }
-                let takeDamage = new TakeDamage(serverStackEffectData.creatorCardId, entityToTakeDamageFrom, entityToDoDamageTo, serverStackEffectData.damage, serverStackEffectData.entityId)
-                return takeDamage;
+            // case STACK_EFFECT_TYPE.TAKE_DAMAGE:
+            //     let entityToDoDamage: cc.Node;
+            //     if (serverStackEffectData.isPlayerDoDamage) {
+            //         entityToDoDamageTo = PlayerManager.getPlayerByCardId(serverStackEffectData.entityToDoDamageCardId).node
+            //     } else {
+            //         entityToDoDamageTo = CardManager.getCardById(serverStackEffectData.entityToDoDamageCardId)
+            //     }
+            //     let entityToTakeDamage: cc.Node;
+            //     if (serverStackEffectData.isPlayerTakeDamage) {
+            //         entityToTakeDamageFrom = PlayerManager.getPlayerByCardId(serverStackEffectData.entityToTakeDamageCardId).node
+            //     } else {
+            //         entityToTakeDamageFrom = CardManager.getCardById(serverStackEffectData.entityToTakeDamageCardId)
+            //     }
+            //     let takeDamage = new TakeDamage(serverStackEffectData.creatorCardId, entityToTakeDamageFrom, entityToDoDamageTo, serverStackEffectData.damage, serverStackEffectData.entityId)
+            //     return takeDamage;
             case STACK_EFFECT_TYPE.START_TURN_LOOT:
                 let startLootTurn = new StartTurnLoot(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.turnPlayerCardId, true), serverStackEffectData.entityId)
                 return startLootTurn;
             case STACK_EFFECT_TYPE.ACTIVATE_PASSIVE_EFFECT:
-                cc.log(serverStackEffectData)
+
                 let card = CardManager.getCardById(serverStackEffectData.cardWithEffectId)
                 let effect = null
                 if (serverStackEffectData.effectToDo) {
@@ -159,7 +159,6 @@ export default class ServerStackEffectConverter {
                     serverPassiveMeta.scopeIsPlayer = serverStackEffectData.effectPassiveMeta.scopeIsPlayer
                     activatePassive.effectPassiveMeta = serverPassiveMeta.convertToPassiveMeta()
                 }
-                cc.log(activatePassive.effectToDo)
                 return activatePassive;
             case STACK_EFFECT_TYPE.PLAYER_DEATH:
                 let playerDeath = new PlayerDeath(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.playerToDieCardId), CardManager.getCardById(serverStackEffectData.killerId), serverStackEffectData.entityId)

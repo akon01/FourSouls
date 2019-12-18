@@ -1,14 +1,10 @@
-import PlayerManager from "../../Managers/PlayerManager";
-import DataCollector from "../DataCollector/DataCollector";
-import { ServerEffect } from "./../../Entites/ServerCardEffect";
-import Effect from "./Effect";
+import { TARGETTYPE } from "../../Constants";
 import Player from "../../Entites/GameEntities/Player";
-import CardManager from "../../Managers/CardManager";
-import { CHOOSE_CARD_TYPE, TARGETTYPE } from "../../Constants";
-import ChooseCard from "../DataCollector/ChooseCard";
-import { Turn } from "../../Modules/TurnsModule";
+import Stack from "../../Entites/Stack";
 import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
+import PlayerManager from "../../Managers/PlayerManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
+import Effect from "./Effect";
 
 const { ccclass, property } = cc._decorator;
 
@@ -41,7 +37,8 @@ export default class RechargeItems extends Effect {
       }
     }
 
+
     if (data instanceof PassiveEffectData) return data
-    return stack
+    return Stack._currentStack
   }
 }

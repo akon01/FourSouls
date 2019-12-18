@@ -1,10 +1,9 @@
-import CardManager from "../../Managers/CardManager";
+import Stack from "../../Entites/Stack";
 import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
-import PlayerManager from "../../Managers/PlayerManager";
 import AttackRoll from "../../StackEffects/Attack Roll";
 import RollDiceStackEffect from "../../StackEffects/Roll DIce";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
-import { CHOOSE_CARD_TYPE, ROLL_TYPE, TARGETTYPE } from "./../../Constants";
+import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
 import Effect from "./Effect";
 
 const { ccclass, property } = cc._decorator;
@@ -42,7 +41,8 @@ export default class SetDice extends Effect {
       }
     }
 
+
     if (data instanceof PassiveEffectData) return data
-    return stack
+    return Stack._currentStack
   }
 }

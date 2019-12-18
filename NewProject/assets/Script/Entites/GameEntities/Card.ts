@@ -13,6 +13,9 @@ export default class Card extends cc.Component {
   cardName: string = "";
 
   @property
+  doNotMake: boolean = false;
+
+  @property
   makeMultiCards: boolean = false;
 
   @property({
@@ -40,6 +43,9 @@ export default class Card extends cc.Component {
 
   @property
   _originalParent: cc.Node = null;
+
+  @property
+  _originalWidth: number = null;
 
   @property(cc.Node)
   topDeckof: cc.Node = null;
@@ -137,6 +143,7 @@ export default class Card extends cc.Component {
   onLoad() {
     this.node.height = CARD_HEIGHT;
     this.node.width = CARD_WIDTH;
+    this._originalWidth = this.node.width
     if (this.topDeckof != null) {
       this.frontSprite = this.node.getComponent(cc.Sprite).spriteFrame;
     }
@@ -147,7 +154,7 @@ export default class Card extends cc.Component {
 
         this._effectCounterLable = this.node.getChildByName('EffectCounter').getComponent(cc.Label)
       } catch (error) {
-        cc.error(`card should have a counter, no counter found!`)
+        cc.error(`card ${this.cardName} should have a counter, no counter found!`)
       }
 
     }

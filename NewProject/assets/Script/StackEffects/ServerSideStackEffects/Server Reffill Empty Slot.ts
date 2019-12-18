@@ -32,13 +32,17 @@ export default class ServerRefillEmptySlot implements ServerStackEffectInterface
         this.hasLockingStackEffect = stackEffect.hasLockingStackEffect;
         this.hasLockingStackEffectResolved = stackEffect.hasLockingStackEffectResolved;
         this.slotType = stackEffect.slotType;
-        if (stackEffect.slotToFill.getComponent(MonsterCardHolder) != null) {
+        if (stackEffect.slotToFill) {
             this.slotToFillId = stackEffect.slotToFill.getComponent(MonsterCardHolder).id
         } else {
-            if (stackEffect.slotToFill.getComponent(Store) != null) {
-                this.slotToFillId = 0;
-            }
+            this.slotToFillId = 0;
         }
+        // if (stackEffect.slotToFill.getComponent(MonsterCardHolder) != null) {
+        // } else {
+        //     if (stackEffect.slotToFill.getComponent(Store) != null) {
+        //         this.slotToFillId = 0;
+        //     }
+        // }
         this.slotType = stackEffect.slotType;
         this.stackEffectType = stackEffect.stackEffectType;
     }

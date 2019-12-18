@@ -11,14 +11,15 @@ export default class ActivateItemCondition extends Condition {
 
   event = PASSIVE_EVENTS.PLAYER_ACTIVATE_ITEM
 
-
   @property
   isOwnerOnly: boolean = true;
 
+  needsDataCollector = false;
+
   async testCondition(meta: PassiveMeta) {
-    let player: Player = meta.methodScope.getComponent(Player);
-    let thisCard = this.node.parent.parent;
-    let cardOwner = PlayerManager.getPlayerByCard(thisCard);
+    const player: Player = meta.methodScope.getComponent(Player);
+    const thisCard = this.node.parent.parent;
+    const cardOwner = PlayerManager.getPlayerByCard(thisCard);
     let answer = false;
     if (
       player instanceof Player &&
@@ -27,7 +28,7 @@ export default class ActivateItemCondition extends Condition {
       //meta.passiveEvent == PASSIVE_EVENTS.PLAYER_ACTIVATE_ITEM
     ) {
       if (this.isOwnerOnly) {
-        if (player.name == cardOwner.name) answer = true
+        if (player.name == cardOwner.name) { answer = true }
       } else {
         answer = true;
       }

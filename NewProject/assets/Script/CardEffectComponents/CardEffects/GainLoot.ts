@@ -29,13 +29,12 @@ export default class GainLoot extends Effect {
         cc.log(`no targets`)
         return
       }
-
       for (let i = 0; i < targets.length; i++) {
         const target = targets[i];
-        await PlayerManager.getPlayerByCard(target as cc.Node).drawCard(CardManager.lootDeck, true)
-
+        for (let j = 0; j < this.numOfLoot; j++) {
+          await PlayerManager.getPlayerByCard(target as cc.Node).drawCard(CardManager.lootDeck, true)
+        }
       }
-
 
     } else {
       let targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER);

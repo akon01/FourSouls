@@ -13,13 +13,15 @@ export default class CardHasCounters extends Condition {
   @property
   thisCardOnly: boolean = false;
 
+  needsDataCollector = false;
+
   async testCondition(meta: PassiveMeta) {
 
-    let card = meta.methodScope.getComponent(Card);
-    let thisCard = this.node.parent.parent;
+    const card = meta.methodScope.getComponent(Card);
+    const thisCard = this.node.parent.parent;
     let answer = true
     if (this.thisCardOnly) {
-      if (!(thisCard.name == card.node.name)) answer = false
+      if (!(thisCard.name == card.node.name)) { answer = false }
     }
     return answer
   }

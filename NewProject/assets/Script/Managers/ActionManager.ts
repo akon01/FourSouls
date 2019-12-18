@@ -1,8 +1,9 @@
 
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
+import AddTrinket from "../CardEffectComponents/CardEffects/AddTrinket";
 import Effect from "../CardEffectComponents/CardEffects/Effect";
-import { CARD_TYPE, ROLL_TYPE, BUTTON_STATE, GAME_EVENTS } from "../Constants";
+import { BUTTON_STATE, GAME_EVENTS, ROLL_TYPE } from "../Constants";
 import CardEffect from "../Entites/CardEffect";
 import { CardLayout } from "../Entites/CardLayout";
 import Item from "../Entites/CardTypes/Item";
@@ -17,6 +18,7 @@ import MonsterCardHolder from "../Entites/MonsterCardHolder";
 import MonsterField from "../Entites/MonsterField";
 import Stack from "../Entites/Stack";
 import ActionLable from "../LableScripts/Action Lable";
+import StackLable from "../LableScripts/StackLable";
 import MainScript from "../MainScript";
 import { getCurrentPlayer, Turn } from "../Modules/TurnsModule";
 import ServerStackEffectConverter from "../StackEffects/ServerSideStackEffects/ServerStackEffectConverter";
@@ -25,16 +27,15 @@ import BattleManager from "./BattleManager";
 import ButtonManager from "./ButtonManager";
 import CardManager from "./CardManager";
 import CardPreviewManager from "./CardPreviewManager";
-import DataInterpreter, { ActiveEffectData, PassiveEffectData } from "./DataInterpreter";
+import DataInterpreter, { } from "./DataInterpreter";
+import ParticleManager from "./ParticleManager";
 import PassiveManager, { ServerPassiveMeta } from "./PassiveManager";
 import PileManager from "./PileManager";
 import PlayerManager from "./PlayerManager";
 import StackEffectVisManager from "./StackEffectVisManager";
 import TurnsManager from "./TurnsManager";
 
-
-const { ccclass, property } = cc._decorator;
-
+const { ccclass } = cc._decorator;
 
 @ccclass
 export default class ActionManager extends cc.Component {
@@ -51,70 +52,65 @@ export default class ActionManager extends cc.Component {
   static noMoreActionsBool: boolean = false;
   static inReactionPhase: boolean = false;
 
-
-
-  //test only!!
+  // test only!!
   static reactionChainNum: number = 0;
 
-  static lootPlayedInAction(playerId: any, cardId: any) {
-    let card: Card = CardManager.getCardById(cardId).getComponent(Card);
+  static lootPlayedInAction(cardId: any) {
   }
-
 
   static updateActionsForTurnPlayer(player: cc.Node) {
     this.decks = CardManager.getAllDecks();
-    let lootDeck = CardManager.lootDeck.getComponent(Deck);
-    let treasureDeck = CardManager.treasureDeck.getComponent(Deck);
-    let monsterDeck = CardManager.monsterDeck.getComponent(Deck);
-    let monsterTopCard = monsterDeck.topBlankCard;
-    //set up components
-    var currentPlayerComp: Player = player.getComponent(Player);
-    var currentPlayerHand: cc.Node = currentPlayerComp.hand.node
-    var currentPlayerHandComp: CardLayout = currentPlayerHand.getComponent(
-      CardLayout
+    const treasureDeck = CardManager.treasureDeck.getComponent(Deck);
+    const monsterDeck = CardManager.monsterDeck.getComponent(Deck);
+    const monsterTopCard = monsterDeck.topBlankCard;
+    // set up components
+    const currentPlayerComp: Player = player.getComponent(Player);
+    const currentPlayerHand: cc.Node = currentPlayerComp.hand.node
+    const currentPlayerHandComp: CardLayout = currentPlayerHand.getComponent(
+      CardLayout,
     );
-
+    const allFlippedCards = CardManager.allCards.filter(card => !card.getComponent(Card)._isFlipped);
 
     cc.log(`attack plays: ${TurnsManager.currentTurn.attackPlays}`)
     cc.log(`buy plays: ${TurnsManager.currentTurn.buyPlays}`)
     cc.log(`loot plays ${TurnsManager.currentTurn.lootCardPlays}`)
-    cc.log('in Battle Phase:' + TurnsManager.currentTurn.battlePhase)
+    cc.log("in Battle Phase:" + TurnsManager.currentTurn.battlePhase)
     if (Stack._currentStack.length == 0 && currentPlayerComp._Hp > 0) {
-      //if (!ActionManager.inReactionPhase && currentPlayerComp.Hp > 0) {
+      // if (!ActionManager.inReactionPhase && currentPlayerComp.Hp > 0) {
 
-      //make next turn btn available 
+      // make next turn btn available
       ButtonManager.enableButton(ButtonManager.$.nextTurnButton, BUTTON_STATE.ENABLED)
       // ButtonManager.nextTurnButton.getComponent(cc.Button).interactable = true;
 
-      //update player available reactions
+      // update player available reactions
       currentPlayerComp.calculateReactions();
 
-      //make all table cards not moveable but available for preview
-      if (CardManager.onTableCards.length != 0) {
-        for (let i = 0; i < CardManager.onTableCards.length; i++) {
-          const card = CardManager.onTableCards[i];
-
+      // make all table cards not moveable but available for preview
+      if (CardManager.allCards.length != 0) {
+        for (let i = 0; i < allFlippedCards.length; i++) {
+          const card = allFlippedCards[i]
           CardManager.disableCardActions(card);
           CardManager.makeCardPreviewable(card);
         }
       }
 
-      //if not in battle pahse allow other actions (buying,playing turnLoot,activating itmes,attacking a monster)
-      if (!TurnsManager.currentTurn.battlePhase) {
-        //make store cards buyable (add check for money)
+      // if not in battle phase allow other actions (buying,playing turnLoot,activating items,attacking a monster)
+      if (!TurnsManager.currentTurn.battlePhase || Stack._currentStack.length > 0) {
+        // make store cards buyable (add check for money)
         if (
-          TurnsManager.currentTurn.buyPlays > 0
-          //&& player.getComponent(Player).coins >= 10
+
+          /// TODO change to 1 and enable
+          TurnsManager.currentTurn.buyPlays > -50
         ) {
           for (let i = 0; i < Store.storeCards.length; i++) {
             const storeCard = Store.storeCards[i];
-            if (player.getComponent(Player).coins >= Store.storeCardsCost) {
-              CardManager.makeItemBuyable(storeCard, currentPlayerComp);
-            }
+            // if (player.getComponent(Player).coins >= Store.storeCardsCost) {
+            CardManager.makeItemBuyable(storeCard, currentPlayerComp);
+            // }
           }
 
           if (treasureDeck.topBlankCard != null) {
-            let treasureDeckTopCard = treasureDeck.topBlankCard;
+            const treasureDeckTopCard = treasureDeck.topBlankCard;
             if (player.getComponent(Player).coins >= Store.topCardCost) {
 
               CardManager.makeItemBuyable(treasureDeckTopCard, currentPlayerComp);
@@ -126,12 +122,12 @@ export default class ActionManager extends cc.Component {
               CardManager.makeCardPreviewable(storeCard);
             }
             if (treasureDeck.topBlankCard != null) {
-              let treasureDeckTopCard = treasureDeck.topBlankCard;
+              const treasureDeckTopCard = treasureDeck.topBlankCard;
               CardManager.disableCardActions(treasureDeckTopCard);
             }
           }
         }
-        //make monster cards attackable
+        // make monster cards attackable
         if (TurnsManager.currentTurn.attackPlays > 0) {
           for (let i = 0; i < MonsterField.activeMonsters.length; i++) {
             const activeMonster = MonsterField.activeMonsters[i];
@@ -146,7 +142,7 @@ export default class ActionManager extends cc.Component {
           }
           CardManager.disableCardActions(monsterTopCard);
         }
-        //make current player loot card playable
+        // make current player loot card playable
         if (TurnsManager.currentTurn.lootCardPlays > 0) {
           for (let i = 0; i < currentPlayerHandComp.layoutCards.length; i++) {
             const card = currentPlayerHandComp.layoutCards[i];
@@ -161,8 +157,8 @@ export default class ActionManager extends cc.Component {
             CardManager.makeCardPreviewable(card);
           }
         }
-        //if Items are charged make them playable
-        let playerItems = player.getComponent(Player).activeItems;
+        // if Items are charged make them playable
+        const playerItems = player.getComponent(Player).activeItems;
         for (let i = 0; i < playerItems.length; i++) {
           const item = playerItems[i].getComponent(Item);
           try {
@@ -180,16 +176,16 @@ export default class ActionManager extends cc.Component {
         }
         player.getComponent(Player).dice.getComponent(Dice).disableRoll();
 
-        //if in battle phase do battle
-      } else {
+        // if in battle phase do battle
+      } else if (TurnsManager.currentTurn.battlePhase) {
         cc.log(`in battle phase do battle`)
 
-        //if the monster is not dead
-        // 
-        //enable activating items
+        // if the monster is not dead
+        //
+        // enable activating items
         ButtonManager.enableButton(ButtonManager.$.nextTurnButton, BUTTON_STATE.DISABLED)
         if (BattleManager.currentlyAttackedMonster.currentHp > 0) {
-          let playerItems = player.getComponent(Player).activeItems;
+          const playerItems = player.getComponent(Player).activeItems;
           for (let i = 0; i < playerItems.length; i++) {
             const item = playerItems[i].getComponent(Item);
             if (item.activated == false) {
@@ -199,7 +195,7 @@ export default class ActionManager extends cc.Component {
 
             }
           }
-          //enable playing loot if you havnet already
+          // enable playing loot if you havnet already
           if (TurnsManager.currentTurn.lootCardPlays > 0) {
             for (let i = 0; i < currentPlayerComp.handCards.length; i++) {
               const card = currentPlayerComp.handCards[i];
@@ -214,57 +210,52 @@ export default class ActionManager extends cc.Component {
               CardManager.makeCardPreviewable(card);
             }
           }
-          //if its a first attack
+          // if its a first attack
           if (BattleManager.firstAttack) {
-            //allow rolling of a dice
-            player
-              .getComponent(Player).dice
-              .addRollAction(ROLL_TYPE.FIRST_ATTACK);
-            //if its not the first attack
+            // allow rolling of a dice
+            player.getComponent(Player).dice.addRollAction(ROLL_TYPE.FIRST_ATTACK);
+            // if its not the first attack
           } else {
             player.getComponent(Player).dice.addRollAction(ROLL_TYPE.ATTACK);
           }
 
-
         } else {
           cc.log(`currently attacked monster has 0 hp`)
-
-          ActionManager.inReactionPhase
           ButtonManager.enableButton(ButtonManager.$.nextTurnButton, BUTTON_STATE.DISABLED)
 
         }
-        return new Promise((resolve, reject) => {
-          resolve(true)
-        })
+        // return new Promise((resolve, reject) => {
+        //   resolve(true)
+        // })
+      } else {
+        ButtonManager.enableButton(ButtonManager.$.nextTurnButton, BUTTON_STATE.DISABLED)
       }
     }
   }
 
-
   static updateActionsForNotTurnPlayer(player: cc.Node) {
     this.decks = CardManager.getAllDecks();
-    let lootDeck = CardManager.lootDeck.getComponent(Deck);
 
-    //update player reactions:
+    // update player reactions:
     player.getComponent(Player).calculateReactions();
-    //disable buying items by removing their draggableComp
+
     for (let i = 0; i < Store.storeCards.length; i++) {
       const storeCard = Store.storeCards[i];
       CardManager.disableCardActions(storeCard);
       CardManager.makeCardPreviewable(storeCard);
     }
     if (!ActionManager.inReactionPhase) {
-
-      //make all table cards not moveable but available for preview
-      if (CardManager.onTableCards.length != 0) {
-        for (let i = 0; i < CardManager.onTableCards.length; i++) {
-          const card = CardManager.onTableCards[i];
+      const allFlippedCards = CardManager.allCards.filter(card => !card.getComponent(Card)._isFlipped);
+      // make all table cards not moveable but available for preview
+      if (allFlippedCards.length != 0) {
+        for (let i = 0; i < allFlippedCards.length; i++) {
+          const card = allFlippedCards[i];
 
           CardManager.disableCardActions(card);
           CardManager.makeCardPreviewable(card);
         }
       }
-      //disable playing loot
+      // disable playing loot
       for (
         let i = 0;
         i < player.getComponent(Player).hand.layoutCards.length;
@@ -275,43 +266,70 @@ export default class ActionManager extends cc.Component {
         CardManager.makeCardPreviewable(card);
       }
     }
-    //make other players cards invisible and not moveable
-    let otherPlayersHandCards: cc.Node[] = CardManager.getOtherPlayersHandCards(
-      player
+    // make other players cards invisible and not moveable
+    const otherPlayersHandCards: cc.Node[] = CardManager.getOtherPlayersHandCards(
+      player,
     );
     if (otherPlayersHandCards.length != 0) {
       for (let i = 0; i < otherPlayersHandCards.length; i++) {
         const card = otherPlayersHandCards[i].getComponent(Card);
-        if (!card._isFlipped) card.flipCard(false)
+        if (!card._isFlipped) { card.flipCard(false) }
         CardManager.disableCardActions(card.node);
       }
     }
 
-    //set up components
-    //disable next turn btn
+    // set up components
+    // disable next turn btn
     ButtonManager.enableButton(ButtonManager.$.nextTurnButton, BUTTON_STATE.DISABLED)
 
-    //Set up listener to card selected
+    // Set up listener to card selected
     return true
   }
 
+  static checkingForDeadEntities: boolean = false;
+
+  static waitForCheckingDeadEntities() {
+    return new Promise((resolve) => {
+      whevent.onOnce(GAME_EVENTS.CHECK_FOR_DEAD_ENTITIES, () => {
+        resolve();
+      })
+    });
+  }
+
+  static async checkForDeadEntities() {
+    if (ActionManager.checkingForDeadEntities) { return }
+    ActionManager.checkingForDeadEntities = true
+    for (let i = 0; i < PlayerManager.players.length; i++) {
+      const player = PlayerManager.players[i].getComponent(Player);
+      if (player._Hp == 0 && !player._isDead) {
+        await player.killPlayer(true, player._killer)
+        player._killer = null;
+      }
+    }
+    for (let i = 0; i < MonsterField.activeMonsters.length; i++) {
+      const activeMonster = MonsterField.activeMonsters[i].getComponent(Monster);
+      if (activeMonster.currentHp == 0 && !activeMonster._isDead) {
+        await activeMonster.kill(activeMonster.killer)
+        activeMonster.killer = null;
+      }
+    }
+    ActionManager.checkingForDeadEntities = false
+    whevent.emit(GAME_EVENTS.CHECK_FOR_DEAD_ENTITIES)
+  }
 
   static isUpdateActionsRunning = false;
 
   static async updateActions() {
 
-
-    await CardManager.updatePlayerCards();
+    // await CardManager.updatePlayerCards();
 
     await CardManager.updateOnTableCards();
 
-    await CardManager.checkForEmptyFields();
-
-
+    // await CardManager.checkForEmptyFields();
 
     if (TurnsManager.getCurrentTurn().getTurnPlayer().playerId == PlayerManager.mePlayer.getComponent(Player).playerId) {
 
-      await CardManager.updatePassiveListeners();
+      // await CardManager.updatePassiveListeners();
 
       await this.updateActionsForTurnPlayer(TurnsManager.getCurrentTurn().getTurnPlayer().node);
 
@@ -324,33 +342,29 @@ export default class ActionManager extends cc.Component {
   }
 
   async updateAfterTurnChange() {
-    let currentTurnLableComp = cc
+    const currentTurnLableComp = cc
       .find("Canvas")
       .getChildByName("current Turn")
       .getComponent(cc.Label);
-    //setting current player of the turn.
+    // setting current player of the turn.
     MainScript.currentPlayerNode = getCurrentPlayer(
       PlayerManager.players,
-      TurnsManager.currentTurn
+      TurnsManager.currentTurn,
     );
     MainScript.currentPlayerComp = MainScript.currentPlayerNode.getComponent(
-      Player
+      Player,
     );
-    //setting turn lable to updated turn
+    // setting turn lable to updated turn
     currentTurnLableComp.string =
       "current turn is:" + TurnsManager.getCurrentTurn().PlayerId;
     await ActionManager.updateActions();
   }
 
-
   static cardEffectToDo: { playedCard: cc.Node, playerId: number, passiveIndex?: number } = null;
-
 
   static waitForAllEffectsOn: boolean = false;
 
-
   static inRollAction = false;
-
 
   static async getActionFromServer(signal, data) {
     Logger.printMethodSignal([signal, data], false)
@@ -362,82 +376,70 @@ export default class ActionManager extends cc.Component {
     let place: cc.Node;
     let converter = new ServerStackEffectConverter();
     switch (signal) {
-      //Actions from a player,without reaction
+      case Signal.END_GAME:
+        MainScript.endGame(data.playerId, false)
+        break;
+      case Signal.GAME_HAS_STARTED:
+        MainScript.gameHasStarted = true
+        break;
       case Signal.DISCARD_LOOT:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(
-          Player
-        );
+        player = PlayerManager.getPlayerById(data.playerId)
         card = CardManager.getCardById(data.cardId, true);
         await player.discardLoot(card, false);
         // ActionManager.updateActions();
         break;
       case Signal.NEW_MONSTER_ON_PLACE:
-        let monsterField = cc
-          .find("Canvas/MonsterField")
-          .getComponent(MonsterField);
-        let newMonster = CardManager.getCardById(data.cardId, true);
-        let monsterDeck = CardManager.monsterDeck.getComponent(Deck);
-        let monsterIndex = monsterDeck._cards.indexOf(newMonster)
+        const newMonster = CardManager.getCardById(data.cardId, true);
+        const monsterDeck = CardManager.monsterDeck.getComponent(Deck);
+        const monsterIndex = monsterDeck._cards.indexOf(newMonster)
         if (monsterIndex != -1) {
           monsterDeck._cards.splice(monsterIndex, 1);
         }
-        MonsterField.addMonsterToExsistingPlace(
-          data.monsterPlaceId,
-          newMonster,
-          false
-        );
+        await MonsterField.addMonsterToExsistingPlace(data.monsterPlaceId, newMonster, false);
         break;
       case Signal.SHOW_CARD_PREVIEW:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(
-          Player
-        );
+        player = PlayerManager.getPlayerById(data.playerId)
         card = CardManager.getCardById(data.cardToShowId, true);
-        //add a lable with who is selecting.
-        CardPreviewManager.getPreviews(Array.of(card), true);
+        // add a lable with who is selecting.
+        await CardPreviewManager.getPreviews(Array.of(card), true);
         break;
       case Signal.ACTIVATE_ITEM:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(
-          Player
-        );
+        player = PlayerManager.getPlayerById(data.playerId)
         card = CardManager.getCardById(data.cardId);
         cc.log(`should not happen`)
         //  let itemActivated = await player.activateItem(card, false);
         break;
       case Signal.ROLL_DICE:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(
-          Player
-        );
+        player = PlayerManager.getPlayerById(data.playerId)
         player.dice.activateRollAnimation();
         break;
       case Signal.ROLL_DICE_ENDED:
 
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(
-          Player
-        );
+        player = PlayerManager.getPlayerById(data.playerId)
         player.dice.endRollAnimation();
         player.dice.setRoll(data.numberRolled);
         break;
       case Signal.MOVE_CARD:
         card = CardManager.getCardById(data.cardId, true)
-
-        place = PlayerManager.getPlayerById(data.placeID)
-
-        if (place != null) {
-          if (card.getComponent(Card).type == CARD_TYPE.LOOT) {
-            place = place.getComponent(Player).hand.node;
-          } else {
-            place = place.getComponent(Player).desk.node;
-          }
+        switch (data.placeType) {
+          case `Hand`:
+            place = PlayerManager.getPlayerById(data.placeID).hand.node
+            break;
+          case `Desk`:
+            place = PlayerManager.getPlayerById(data.placeID).desk.node
+          case `soulsLayout`:
+            place = PlayerManager.getPlayerById(data.placeID).desk.soulsLayout
+            break
+          case `Card`:
+            place = CardManager.getCardById(data.placeID, true)
+            break;
+          default:
+            break;
         }
-        if (place == null) {
-          place = CardManager.getCardById(data.placeID, true)
-
-        }
-
         await CardManager.moveCardTo(card, place, false, data.flipIfFlipped, data.moveIndex, data.firstPos, data.playerId)
         break;
-      case Signal.MOVE_CARD_END:
-        CardManager.receiveMoveCardEnd(data.moveIndex)
+      case Signal.SOUL_CARD_MOVE_END:
+        whevent.emit(GAME_EVENTS.SOUL_CARD_MOVE_END)
         break;
       case Signal.USE_ITEM:
         card = CardManager.getCardById(data.cardId)
@@ -453,32 +455,34 @@ export default class ActionManager extends cc.Component {
 
       case Signal.NEXT_TURN:
         ActionManager.inReactionPhase = false;
-        let currentTurnPlayer = PlayerManager.getPlayerById(
-          TurnsManager.getCurrentTurn().PlayerId
+        const currentTurnPlayer = PlayerManager.getPlayerById(
+          TurnsManager.getCurrentTurn().PlayerId,
         );
-        currentTurnPlayer.getComponent(Player).endTurn(false);
+        await currentTurnPlayer.getComponent(Player).endTurn(false);
         break;
       case Signal.MOVE_CARD_TO_PILE:
         card = CardManager.getCardById(data.cardId, true);
-        PileManager.addCardToPile(data.type, card, false);
+        await PileManager.addCardToPile(data.type, card, false);
         break;
       case Signal.GET_SOUL:
         card = CardManager.getCardById(data.cardId, true);
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
-        player.getSoulCard(card, false)
+        player = PlayerManager.getPlayerById(data.playerId)
+        await player.getSoulCard(card, false)
+        card.setParent(player.soulsLayout)
+        card.setPosition(0, 0)
         break;
       case Signal.LOSE_SOUL:
         card = CardManager.getCardById(data.cardId, true);
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
-        player.loseSoul(card, false)
+        player = PlayerManager.getPlayerById(data.playerId)
+        await player.loseSoul(card, false)
         break;
 
-      //On Monster Events
+      // On Monster Events
       case Signal.MONSTER_GET_DAMAGED:
         monster = CardManager.getCardById(data.cardId, true).getComponent(Monster);
         let damageDealer = CardManager.getCardById(data.damageDealerId)
         monster.currentHp = data.hpLeft
-        // await monster.getDamaged(data.damage, false, damageDealer) 
+        // await monster.getDamaged(data.damage, false, damageDealer)
         break;
       case Signal.MONSTER_GAIN_HP:
         monster = CardManager.getCardById(data.cardId, true).getComponent(Monster);
@@ -502,33 +506,28 @@ export default class ActionManager extends cc.Component {
         await monster.addDamagePrevention(data.dmgToPrevent, false)
         break;
 
-
-      //Monster holder actions
+      // Monster holder actions
       case Signal.GET_NEXT_MONSTER:
         monsterHolder = MonsterField.getMonsterPlaceById(data.monsterPlaceId);
-        monsterHolder.getNextMonster(false);
+        await monsterHolder.getNextMonster(false);
         break;
       case Signal.ADD_MONSTER:
-        cc.log(data)
         monsterHolder = MonsterField.getMonsterPlaceById(data.monsterPlaceId);
-
         card = CardManager.getCardById(data.monsterId, true)
-        monsterHolder.addToMonsters(card, false);
+        await monsterHolder.addToMonsters(card, false);
         break;
       case Signal.REMOVE_MONSTER:
         monsterHolder = MonsterField.getMonsterPlaceById(data.holderId);
         card = CardManager.getCardById(data.monsterId, true)
-        monsterHolder.removeMonster(card, false);
+        await monsterHolder.removeMonster(card, false);
         break;
 
       // Deck actions
       case Signal.CARD_DRAWN:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(
-          Player
-        );
+        player = PlayerManager.getPlayerById(data.playerId)
         card = CardManager.getCardById(data.drawnCardId, true)
         deck = CardManager.getDeckByType(data.deckType).getComponent(Deck);
-        player.drawCard(deck.node, false, card);
+        await player.drawCard(deck.node, false, card);
         break;
       case Signal.DECK_ADD_TO_TOP:
         deck = CardManager.getDeckByType(data.deckType).getComponent(Deck)
@@ -547,168 +546,144 @@ export default class ActionManager extends cc.Component {
       case Signal.ADD_STORE_CARD:
         card = CardManager.getCardById(data.cardId, true)
         Store.$.addStoreCard(false, card);
-
         break;
-      case Signal.BUY_ITEM_FROM_SHOP:
+      case Signal.SET_MAX_ITEMS_STORE:
+        Store.addMaxNumOfItems(data.number, false);
+        break;
+      case Signal.REMOVE_ITEM_FROM_SHOP:
         card = CardManager.getCardById(data.cardId, true)
-        Store.$.buyItemFromShop(card, false);
-
+        await Store.$.removeFromStore(card, false);
         break;
 
       // OnPlayer actions
 
       case Signal.PLAY_LOOT_CARD:
-
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(
-          Player
-        );
+        player = PlayerManager.getPlayerById(data.playerId)
         card = CardManager.getCardById(data.cardId, true);
-        player.playLootCard(card, false);
+        await player.playLootCard(card, false);
         break;
-      // case Signal.PLAY_LOOT_CARD:
-
-      //   player = PlayerManager.getPlayerById(data.playerId).getComponent(
-      //     Player
-      //   );
-      //   card = CardManager.getCardById(data.cardId, true);
-      //   player.loseLoot(card, false);
-      //   break;
-
+      case Signal.CARD_ADD_TRINKET:
+        player = PlayerManager.getPlayerById(data.playerId)
+        card = CardManager.getCardById(data.cardId)
+        const addTrinketEffect = card.getComponent(CardEffect).activeEffects[0].getComponent(AddTrinket)
+        addTrinketEffect.removeAddTrinketEffect()
+        break;
       case Signal.ADD_AN_ITEM:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(
-          Player
-        );
+        player = PlayerManager.getPlayerById(data.playerId)
         card = CardManager.getCardById(data.cardId, true);
         await player.addItem(card, false, data.isReward);
         break;
       case Signal.PLAYER_RECHARGE_ITEM:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(
-          Player
-        );
+        player = PlayerManager.getPlayerById(data.playerId)
         card = CardManager.getCardById(data.cardId, true);
-        player.rechargeItem(card, false);
+        await player.rechargeItem(card, false);
         break;
       case Signal.DECLARE_ATTACK:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(
-          Player
-        );
-        let attackedMonster = CardManager.getCardById(
+        player = PlayerManager.getPlayerById(data.playerId)
+        const attackedMonster = CardManager.getCardById(
           data.attackedMonsterId,
-          true
+          true,
         );
-        player.declareAttack(attackedMonster, false, data.cardHolderId);
+        await player.declareAttack(attackedMonster, false);
         break;
       case Signal.PLAYER_GET_LOOT:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        player = PlayerManager.getPlayerById(data.playerId)
         card = CardManager.getCardById(data.cardId, true);
-        player.gainLoot(card, false)
+        await player.gainLoot(card, false)
         break;
       case Signal.PLAYER_LOSE_LOOT:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        player = PlayerManager.getPlayerById(data.playerId)
         card = CardManager.getCardById(data.cardId, true);
-        player.loseLoot(card, false)
+        await player.loseLoot(card, false)
         break;
       case Signal.CHANGE_MONEY:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
-        player.changeMoney(data.numOfCoins, false)
+        player = PlayerManager.getPlayerById(data.playerId)
+        await player.changeMoney(data.numOfCoins, false, data.isStartGame)
         break;
       case Signal.SET_MONEY:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        player = PlayerManager.getPlayerById(data.playerId)
         player.setMoney(data.numOfCoins, false)
         break;
       case Signal.PLAYER_GAIN_HP:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        player = PlayerManager.getPlayerById(data.playerId)
         await player.gainHeartContainer(data.hpToGain, data.isTemp, false)
         break;
       case Signal.PLAYER_GAIN_DMG:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        player = PlayerManager.getPlayerById(data.playerId)
         await player.gainDMG(data.DMGToGain, data.isTemp, false)
         break;
       case Signal.PLAYER_GAIN_ROLL_BONUS:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        player = PlayerManager.getPlayerById(data.playerId)
         await player.gainRollBonus(data.bonusToGain, data.isTemp, false)
         break;
 
       case Signal.PLAYER_GAIN_ATTACK_ROLL_BONUS:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        player = PlayerManager.getPlayerById(data.playerId)
         await player.gainAttackRollBonus(data.bonusToGain, data.isTemp, false)
         break;
 
       case Signal.PLAYER_GAIN_FIRST_ATTACK_ROLL_BONUS:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        player = PlayerManager.getPlayerById(data.playerId)
         await player.gainFirstAttackRollBonus(data.bonusToGain, data.isTemp, false)
         break;
 
       case Signal.PLAYER_GET_HIT:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        player = PlayerManager.getPlayerById(data.playerId)
         damageDealer = CardManager.getCardById(data.damageDealerId, true)
-        await player.getHit(data.damage, false, damageDealer)
+        await player.takeDamage(data.damage, false, damageDealer)
         break;
       case Signal.PLAYER_HEAL:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        player = PlayerManager.getPlayerById(data.playerId)
         await player.heal(data.hpToHeal, false)
         break;
       case Signal.START_TURN:
-        // player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
-        TurnsManager.currentTurn.startTurn()
+        await TurnsManager.currentTurn.startTurn()
         break;
       case Signal.PLAYER_ADD_DMG_PREVENTION:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        player = PlayerManager.getPlayerById(data.playerId)
         await player.addDamagePrevention(data.dmgToPrevent, false)
         break;
-      //PassiveManager actions.
-      case Signal.REGISTER_PASSIVE_ITEM:
-        card = CardManager.getCardById(data.cardId, true)
-        if (card != null) PassiveManager.registerPassiveItem(card, false);
+      // PassiveManager actions.
+      case Signal.REMOVE_FROM_PASSIVE_MANAGER:
+        try {
+          card = CardManager.getCardById(data.cardId, true)
+        } catch (error) { }
+        if (card != null) { PassiveManager.removePassiveItemEffects(card, false); }
         break;
-
+      case Signal.REGISTER_PASSIVE_ITEM:
+        try {
+          card = CardManager.getCardById(data.cardId, true)
+        } catch (error) { }
+        if (card != null) { await PassiveManager.registerPassiveItem(card, false); }
+        break;
       case Signal.REGISTER_ONE_TURN_PASSIVE_EFFECT:
         card = CardManager.getCardById(data.cardId);
-        let cardEffect = card.getComponent(CardEffect).toAddPassiveEffects[data.effectIndex.index].getComponent(Effect)
-        let conditionsData = [];
+        const cardEffect = card.getComponent(CardEffect).toAddPassiveEffects[data.effectIndex.index].getComponent(Effect)
         for (let i = 0; i < cardEffect.conditions.length; i++) {
-          const condition = cardEffect.conditions[i];
-          let conditionData = data.conditionData[i];
-          //conditionsData.push(DataInterpreter.convertToEffectData(conditionData))
-          let t = DataInterpreter.convertToEffectData(conditionData);
-          cc.error(`register one turn passive, condition ${condition.name}`)
-          cc.log(t)
+          const conditionData = data.conditionData[i];
+          const t = DataInterpreter.convertToEffectData(conditionData);
           cardEffect.conditions[i].conditionData = t
         }
-        //  let conditionData = DataInterpreter.convertToActiveEffectData(data.conditionData)
-        //cardEffect.conditions.conditionData = conditionData;
-        PassiveManager.registerOneTurnPassiveEffect(cardEffect, false)
+        await PassiveManager.registerOneTurnPassiveEffect(cardEffect, false)
         break;
-
-      //Part of Reaction system. get reaction from a player
       case Signal.END_ROLL_ACTION:
         ActionManager.inReactionPhase = false;
         break;
-
       case Signal.GIVE_PLAYER_PRIORITY:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
+        player = PlayerManager.getPlayerById(data.playerId)
         await player.givePriority(false)
         break;
       case Signal.GET_REACTION:
-
-        let me = PlayerManager.mePlayer.getComponent(Player);
-
+        const me = PlayerManager.mePlayer.getComponent(Player);
         await me.getResponse(data.activePlayerId)
         break;
       case Signal.RESPOND_TO:
         Stack.hasOtherPlayerRespond = data.stackEffectResponse;
         whevent.emit(GAME_EVENTS.PLAYER_RESPOND)
-        //Stack.hasOtherPlayerRespondedYet = true;
         break;
       case Signal.DO_STACK_EFFECT:
-
         Stack.replaceStack(data.currentStack.map(stackEffect => converter.convertToStackEffect(stackEffect)), false)
-        cc.log(`stack after replacing`)
-        cc.log(Stack._currentStack)
-        let newStack = await Stack.doStackEffectFromTop(false)
-        cc.log(`new stack after doing effect`)
-        cc.log(newStack)
-        cc.log(Stack._currentStack)
+        const newStack = await Stack.doStackEffectFromTop(false)
         if (newStack != undefined) {
           ServerClient.$.send(Signal.FINISH_DO_STACK_EFFECT, { playerId: data.originPlayerId, newStack: newStack.map(effect => effect.convertToServerStackEffect()) })
         } else {
@@ -718,29 +693,25 @@ export default class ActionManager extends cc.Component {
       case Signal.TURN_PLAYER_DO_STACK_EFFECT:
         await ActionManager.updateActions()
         break;
-
       case Signal.ADD_RESOLVING_STACK_EFFECT:
-        let stackEffectToAdd = converter.convertToStackEffect(data.stackEffect)
+        const stackEffectToAdd = converter.convertToStackEffect(data.stackEffect)
         await Stack.addToCurrentStackEffectResolving(stackEffectToAdd, false)
         break
       case Signal.REMOVE_RESOLVING_STACK_EFFECT:
-        let stackEffectToRemove = converter.convertToStackEffect(data.stackEffect)
+        const stackEffectToRemove = converter.convertToStackEffect(data.stackEffect)
         await Stack.removeFromCurrentStackEffectResolving(stackEffectToRemove, false)
         break
       case Signal.FINISH_DO_STACK_EFFECT:
-        // await Stack.replaceStack(data.newStack.map(stackEffect => converter.convertToStackEffect(stackEffect)), true)
         Stack.newStack = data.newStack.map(stackEffect => converter.convertToStackEffect(stackEffect));
         whevent.emit(GAME_EVENTS.STACK_STACK_EFFECT_RESOLVED_AT_OTHER_PLAYER)
         Stack.hasStackEffectResolvedAtAnotherPlayer = true;
         break;
+      case Signal.UPDATE_STACK_LABLE:
+        StackLable.updateText(data.stackText)
+        break;
       case Signal.ACTIVATE_PASSIVE:
-        let cardActivated = CardManager.getCardById(data.cardId);
-        let passiveIndex = data.passiveIndex;
-        let cardActivator = CardManager.getCardById(data.cardActivator);
+        const cardActivator = CardManager.getCardById(data.cardActivator);
         if (cardActivator == null) {
-          let playerActivator = PlayerManager.getPlayerByCardId(
-            data.cardActivator
-          );
           cc.log(`shuold not happen!`)
           //   playerActivator.activatePassive(cardActivated, false, passiveIndex);
         } else {
@@ -749,8 +720,7 @@ export default class ActionManager extends cc.Component {
 
         break;
 
-
-      //Stack Signals:
+      // Stack Signals:
       case Signal.NEXT_STACK_ID:
         Stack.stackEffectsIds += 1;
         break;
@@ -758,43 +728,39 @@ export default class ActionManager extends cc.Component {
         await Stack.replaceStack(data.currentStack.map(stackEffect => converter.convertToStackEffect(stackEffect)), false)
         break;
       case Signal.REMOVE_FROM_STACK:
-        // await Stack.removeFromTopOfStack(false)
         converter = new ServerStackEffectConverter();
         let stackEffect = converter.convertToStackEffect(data.stackEffect)
         await Stack.removeAfterResolve(stackEffect, false)
         break;
-
       case Signal.ADD_TO_STACK:
         converter = new ServerStackEffectConverter();
-        // let stackEffectType = data.stackEffect.stackEffectType
         stackEffect = converter.convertToStackEffect(data.stackEffect)
         await Stack.addToStack(stackEffect, false)
         break;
       case Signal.UPDATE_STACK_VIS:
-        let stackEffectToUpdate = Stack._currentStack.find(effect => effect.entityId == data.stackId)
+        const stackEffectToUpdate = Stack._currentStack.find(effect => effect.entityId == data.stackId)
         stackEffectToUpdate.visualRepesentation.flavorText = data.stackVis.flavorText;
-        let stackPreview = StackEffectVisManager.$.getPreviewByStackId(stackEffectToUpdate.entityId)
+        const stackPreview = StackEffectVisManager.$.getPreviewByStackId(stackEffectToUpdate.entityId)
         stackPreview.stackEffect = stackEffectToUpdate
         stackPreview.updateInfo(false)
-
         break
       //
-      //Board signals
+
+      // Board signals
       case Signal.SET_TURN:
-        let turn = TurnsManager.getTurnByPlayerId(data.playerId)
+        const turn = TurnsManager.getTurnByPlayerId(data.playerId)
         TurnsManager.setCurrentTurn(turn, false)
         break;
       case Signal.ASSIGN_CHAR_TO_PLAYER:
-        player = PlayerManager.getPlayerById(data.playerId).getComponent(Player)
-        let charCard = CardManager.getCardById(data.charCardId, true)
-        let itemCard = CardManager.getCardById(data.itemCardId, true)
+        player = PlayerManager.getPlayerById(data.playerId)
+        const charCard = CardManager.getCardById(data.charCardId, true)
+        const itemCard = CardManager.getCardById(data.itemCardId, true)
         itemCard.getComponent(Item).eternal = true
-        player.assignChar(charCard, itemCard)
+        await player.assignChar(charCard, itemCard)
         break
       case Signal.NEW_MONSTER_PLACE:
         MonsterField.addMonsterToNewPlace(false)
         break;
-
       case Signal.FLIP_CARD:
         card = CardManager.getCardById(data.cardId, true)
         card.getComponent(Card).flipCard(false)
@@ -804,41 +770,65 @@ export default class ActionManager extends cc.Component {
         break
       //
 
-
-      //eden signals
+      // eden signals
       case Signal.CHOOSE_FOR_EDEN:
         CardManager.treasureDeck.getComponent(Deck).shuffleDeck()
-        let cardsToChooseFrom = CardManager.treasureDeck.getComponent(Deck)._cards.filter((card, index, array) => { if (index == array.length - 1 || index == array.length - 2 || index == array.length - 3) return true })
-        let chosenCards = await CardPreviewManager.selectFromCards(cardsToChooseFrom, 1)
-        let chosen = chosenCards.pop()
+
+        // filter eden available cards:
+        let cardsNotFiltered = true
+        const cardsToChooseFrom: cc.Node[] = []
+        let i = 0
+        do {
+          const cardToChoose = CardManager.treasureDeck.getComponent(Deck)._cards[i];
+          if (cardToChoose.getComponent(CardEffect).hasDestroySelfEffect) {
+          } else {
+            cardsToChooseFrom.push(cardToChoose)
+            if (cardsToChooseFrom.length == 3) {
+              cardsNotFiltered = true;
+              break;
+            }
+          }
+          i++;
+          if (i > CardManager.treasureDeck.getComponent(Deck)._cards.length - 1) { cc.error(`i is bigger than cards length, not possible!`) }
+        } while (cardsNotFiltered);
+        const chosenCards = await CardPreviewManager.selectFromCards(cardsToChooseFrom, 1)
+        const chosen = chosenCards.pop()
         if (chosen) {
-          ServerClient.$.send(Signal.EDEN_CHOSEN, { cardId: chosen.getComponent(Card)._cardId, sendToPlayerId: data.originPlayerId })
+          ServerClient.$.send(Signal.EDEN_CHOSEN, { cardId: chosen.getComponent(Card)._cardId, playerId: data.originPlayerId })
         }
-        //  player = PlayerManager.getPlayerById(data.originalPlayerId).getComponent(Player)
         break;
       case Signal.EDEN_CHOSEN:
         card = CardManager.getCardById(data.cardId)
-        //  player = PlayerManager.getPlayerById(data.originalPlayerId).getComponent(Player)
         PlayerManager.edenChosenCard = card;
         PlayerManager.edenChosen = true
         whevent.emit(GAME_EVENTS.EDEN_WAS_CHOSEN)
         break;
 
+      ///
 
-      //Action Lable Signals
+      // Action Lable Signals
       case Signal.ACTION_MASSAGE:
-        let massage = data.massage;
-        let time = data.timeToDisappear;
+        const massage = data.massage;
+        const time = data.timeToDisappear;
         ActionLable.$.putMassage(massage, time)
         break;
       ///
 
+      // Particle Effect Signals
+      case Signal.ACTIVATE_PARTICLE_EFFECT:
+        card = CardManager.getCardById(data.cardId)
+        ParticleManager.activateParticleEffect(card, data.particleType, false)
+        break;
+      case Signal.DISABLE_PARTICLE_EFFECT:
+        card = CardManager.getCardById(data.cardId)
+        ParticleManager.disableParticleEffect(card, data.particleType, false)
+        break;
 
-
+      // Passive Effects Signals
       case Signal.UPDATE_PASSIVE_DATA:
-        let newData = data.passiveData;
+        const newData = data.passiveData;
         if (newData) {
-          let serverPassiveData = new ServerPassiveMeta
+          const serverPassiveData = new ServerPassiveMeta()
           serverPassiveData.args = newData.args
           serverPassiveData.methodScopeId = newData.methodScopeId
           serverPassiveData.passiveEvent = newData.passiveEvent
@@ -850,17 +840,16 @@ export default class ActionManager extends cc.Component {
           PassiveManager.updatePassiveMethodData(null, data.isAfterActivation, false)
         }
         break;
-
       case Signal.CLEAR_PASSIVE_DATA:
         PassiveManager.clearPassiveMethodData(data.index, data.isAfterActivation, false)
         break;
+      ///
 
       case Signal.DECK_ARRAGMENT:
-        let cards = data.arrangement.map(id => CardManager.getCardById(id, true))
-        let deckToSet = CardManager.getDeckByType(data.deckType)
+        const cards = data.arrangement.map(id => CardManager.getCardById(id, true))
+        const deckToSet = CardManager.getDeckByType(data.deckType)
         deckToSet.getComponent(Deck).setDeckCards(cards)
         break;
-
       case Signal.CARD_GET_COUNTER:
         card = CardManager.getCardById(data.cardId, true)
         card.getComponent(Card)._counters += data.numOfCounters
@@ -869,13 +858,8 @@ export default class ActionManager extends cc.Component {
 
         break;
     }
-    //this.updateActions()
+
   }
-
-
-
-
-
 
   // LIFE-CYCLE CALLBACKS:
 
@@ -886,29 +870,19 @@ export default class ActionManager extends cc.Component {
 
     ActionManager.cardManager = cc.find("MainScript/CardManager");
 
-
     ActionManager.decks = CardManager.getAllDecks();
 
     ActionManager.ButtonManager = cc.find("MainScript/ButtonManager");
 
     ActionManager.pileManager = cc.find("MainScript/PileManager");
 
-    let currentTurnLableComp = cc
-      .find("Canvas")
-      .getChildByName("current Turn")
-      .getComponent(cc.Label);
-    let playerManagerComp: PlayerManager = ActionManager.playersManager.getComponent(
-      "PlayerManager"
-    );
-    let turnsManagerComp: TurnsManager = ActionManager.turnsManager.getComponent(
-      "TurnsManager"
-    );
-
     // //set up turn change listener
     this.node.parent.on("turnChanged", this.updateAfterTurnChange, this);
 
-    //TODO expand to includ all of the turn plays (buying,fighting,playing loot card)
-    //TODO dont forget to exlude all available reactions from all other players when available!
+    // whevent.on(GAME_EVENTS.STACK_EMPTIED, ActionManager.checkForDeadEntities)
+
+    // TODO expand to includ all of the turn plays (buying,fighting,playing loot card)
+    // TODO dont forget to exlude all available reactions from all other players when available!
   }
 
   start() { }

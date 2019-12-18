@@ -1,16 +1,19 @@
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
+import Effect from "../CardEffectComponents/CardEffects/Effect";
 import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
-import { BLINKING_SPEED, CARD_TYPE, TIME_TO_BUY, TIME_TO_DRAW, GAME_EVENTS } from "../Constants";
+import { BLINKING_SPEED, CARD_TYPE, GAME_EVENTS, PARTICLE_TYPES, TIME_TO_BUY, TIME_TO_DRAW } from "../Constants";
 import CardEffect from "../Entites/CardEffect";
 import { CardLayout } from "../Entites/CardLayout";
 import Character from "../Entites/CardTypes/Character";
+import Item from "../Entites/CardTypes/Item";
 import Monster from "../Entites/CardTypes/Monster";
 import Card from "../Entites/GameEntities/Card";
 import Deck from "../Entites/GameEntities/Deck";
 import Dice from "../Entites/GameEntities/Dice";
 import Player from "../Entites/GameEntities/Player";
 import Store from "../Entites/GameEntities/Store";
+import { Logger } from "../Entites/Logger";
 import MonsterCardHolder from "../Entites/MonsterCardHolder";
 import MonsterField from "../Entites/MonsterField";
 import Pile from "../Entites/Pile";
@@ -19,14 +22,11 @@ import { ServerEffect } from "../Entites/ServerCardEffect";
 import Stack from "../Entites/Stack";
 import RefillEmptySlot from "../StackEffects/Refill Empty Slot";
 import CardPreviewManager from "./CardPreviewManager";
+import ParticleManager from "./ParticleManager";
 import PassiveManager from "./PassiveManager";
 import PileManager from "./PileManager";
 import PlayerManager from "./PlayerManager";
 import TurnsManager from "./TurnsManager";
-import Item from "../Entites/CardTypes/Item";
-import { Logger } from "../Entites/Logger";
-
-
 
 const { ccclass, property } = cc._decorator;
 
@@ -58,7 +58,7 @@ export default class CardManager extends cc.Component {
 
   static treasureDeck: cc.Node = null;
 
-  static characterDeck: { char: cc.Node; item: cc.Node }[] = [];
+  static characterDeck: Array<{ char: cc.Node; item: cc.Node }> = [];
 
   static characterItemDeck: cc.NodePool = null;
 
@@ -105,7 +105,7 @@ export default class CardManager extends cc.Component {
   static CharItemCardPool: cc.NodePool = null;
 
   static async init() {
-    let loaded = await this.preLoadPrefabs();
+    const loaded = await this.preLoadPrefabs();
     CardManager.treasureDeck = cc.find("Canvas/TreasureDeck");
     CardManager.CharItemCardPool = new cc.NodePool();
     CardManager.extraSoulsCardPool = new cc.NodePool();
@@ -114,11 +114,11 @@ export default class CardManager extends cc.Component {
     CardManager.monsterCardPool = new cc.NodePool();
     CardManager.treasureCardPool = new cc.NodePool();
 
-    var lootDeckComp: Deck = CardManager.lootDeck.getComponent(Deck);
-    var treasureDeckComp: Deck = CardManager.treasureDeck.getComponent(Deck);
-    var monsterDeckComp: Deck = CardManager.monsterDeck.getComponent(Deck);
+    const lootDeckComp: Deck = CardManager.lootDeck.getComponent(Deck);
+    const treasureDeckComp: Deck = CardManager.treasureDeck.getComponent(Deck);
+    const monsterDeckComp: Deck = CardManager.monsterDeck.getComponent(Deck);
 
-    let decks: Deck[] = [lootDeckComp, treasureDeckComp, monsterDeckComp];
+    const decks: Deck[] = [lootDeckComp, treasureDeckComp, monsterDeckComp];
 
     for (let i = 0; i < decks.length; i++) {
       const deck = decks[i];
@@ -171,11 +171,11 @@ export default class CardManager extends cc.Component {
                   break;
               }
             }
-            cc.loader.loadResDir('Prefabs/LootCards', cc.Prefab, (err, rsc, urls) => {
+            cc.loader.loadResDir("Prefabs/LootCards", cc.Prefab, (err, rsc, urls) => {
               CardManager.lootDeck.getComponent(Deck).cardsPrefab.push(...rsc)
-              cc.loader.loadResDir('Prefabs/TreasureCards', cc.Prefab, (err, rsc, urls) => {
+              cc.loader.loadResDir("Prefabs/TreasureCards", cc.Prefab, (err, rsc, urls) => {
                 CardManager.treasureDeck.getComponent(Deck).cardsPrefab.push(...rsc)
-                cc.loader.loadResDir('Prefabs/Complete Monster Cards', cc.Prefab, (err, rsc, urls) => {
+                cc.loader.loadResDir("Prefabs/Complete Monster Cards", cc.Prefab, (err, rsc, urls) => {
                   CardManager.monsterDeck.getComponent(Deck).cardsPrefab.push(...rsc)
                   whevent.emit(GAME_EVENTS.CARD_MANAGER_LOAD_PREFAB)
                   // CardManager.prefabLoaded = true;
@@ -187,7 +187,7 @@ export default class CardManager extends cc.Component {
       });
     });
 
-    let loaded = await this.waitForPrefabLoad();
+    const loaded = await this.waitForPrefabLoad();
     return loaded;
   }
 
@@ -222,48 +222,48 @@ export default class CardManager extends cc.Component {
       default:
         break;
     }
+    throw new Error(`No deck found with type ${deckType}`)
   }
 
   static isCheckingForEmptyFields: boolean = false;
 
-  static async checkForEmptyFields() {
-    if (
-      PlayerManager.mePlayer ==
-      PlayerManager.getPlayerById(TurnsManager.currentTurn.PlayerId)
-    ) {
-      if (this.isCheckingForEmptyFields) {
-        //let over = await this.waitForCheck()
-        return
-      }
-      this.isCheckingForEmptyFields = true;
-      let monsterField = this.monsterField.getComponent(MonsterField)
-      MonsterField.updateActiveMonsters();
-      if (MonsterField.monsterCardHolders.length > MonsterField.activeMonsters.length) {
-        let emptyHolders = MonsterField.monsterCardHolders.filter(
-          holder => holder.getComponent(MonsterCardHolder).monsters.length == 0
-        );
-        for (let i = 0; i < emptyHolders.length; i++) {
-          const holder = emptyHolders[i];
-          let refillEmptySlot = new RefillEmptySlot(PlayerManager.mePlayer.getComponent(Player).character.getComponent(Card)._cardId, holder.node, CARD_TYPE.MONSTER)
-          await Stack.addToStack(refillEmptySlot, true)
-          // let newMonster = this.monsterDeck.getComponent(Deck).drawCard(true)
-          // let over = await holder.getComponent(MonsterCardHolder).addToMonsters(newMonster, true) 
-        }
-      }
+  // static async checkForEmptyFields() {
+  //   if (
+  //     PlayerManager.mePlayer ==
+  //     PlayerManager.getPlayerById(TurnsManager.currentTurn.PlayerId).node
+  //   ) {
+  //     if (this.isCheckingForEmptyFields) {
+  //       // let over = await this.waitForCheck()
+  //       return
+  //     }
+  //     this.isCheckingForEmptyFields = true;
+  //     const monsterField = this.monsterField.getComponent(MonsterField)
+  //     MonsterField.updateActiveMonsters();
+  //     if (MonsterField.monsterCardHolders.length > MonsterField.activeMonsters.length) {
+  //       const emptyHolders = MonsterField.monsterCardHolders.filter(
+  //         holder => holder.getComponent(MonsterCardHolder).monsters.length == 0,
+  //       );
+  //       for (let i = 0; i < emptyHolders.length; i++) {
+  //         const holder = emptyHolders[i];
+  //         const refillEmptySlot = new RefillEmptySlot(PlayerManager.mePlayer.getComponent(Player).character.getComponent(Card)._cardId, holder.node, CARD_TYPE.MONSTER)
+  //         await Stack.addToStack(refillEmptySlot, true)
+  //         // let newMonster = this.monsterDeck.getComponent(Deck).drawCard(true)
+  //         // let over = await holder.getComponent(MonsterCardHolder).addToMonsters(newMonster, true)
+  //       }
+  //     }
 
-      if (Store.storeCards.length < Store.maxNumOfItems) {
-        let diff = Store.maxNumOfItems - Store.storeCards.length;
-        for (let i = 0; i < diff; i++) {
-          let refillEmptySlot = new RefillEmptySlot(PlayerManager.mePlayer.getComponent(Player).character.getComponent(Card)._cardId, Store.$.node, CARD_TYPE.TREASURE)
-          await Stack.addToStack(refillEmptySlot, true)
-          //Store.$.addStoreCard(true);
-        }
+  //     if (Store.storeCards.length < Store.maxNumOfItems) {
+  //       const diff = Store.maxNumOfItems - Store.storeCards.length;
+  //       for (let i = 0; i < diff; i++) {
+  //         const refillEmptySlot = new RefillEmptySlot(PlayerManager.mePlayer.getComponent(Player).character.getComponent(Card)._cardId, Store.$.node, CARD_TYPE.TREASURE)
+  //         await Stack.addToStack(refillEmptySlot, true)
+  //         // Store.$.addStoreCard(true);
+  //       }
 
-      }
-      this.isCheckingForEmptyFields = false;
-    }
-  }
-
+  //     }
+  //     this.isCheckingForEmptyFields = false;
+  //   }
+  // }
 
   /**
    * Search in allCards and Decks for a matching card/Deck
@@ -315,6 +315,7 @@ export default class CardManager extends cc.Component {
           return card.node;
         }
       }
+
     }
 
     //  if (includeInDecksCards) {
@@ -326,20 +327,18 @@ export default class CardManager extends cc.Component {
       }
     }
     // }
-    cc.error(`no card found for id ${cardId}`)
-    return null;
+    throw new Error(`No card found with id ${cardId}`)
 
   }
 
   static getCardByName(name: string) {
-    let regEx: RegExp = new RegExp(name, 'i')
+    const regEx: RegExp = new RegExp(name, "i")
     for (let i = 0; i < CardManager.allCards.length; i++) {
       const card: Card = CardManager.allCards[i].getComponent(Card);
       if (card.name.search(regEx) != -1) {
         return card.node;
       }
     }
-
 
     for (let i = 0; i < PlayerManager.players.map(player => player.getComponent(Player)).length; i++) {
       const player = PlayerManager.players.map(player => player.getComponent(Player))[i];
@@ -376,7 +375,7 @@ export default class CardManager extends cc.Component {
   }
 
   static addCardToDeck(card: cc.Node, deck: Deck) {
-    let cardComp: Card = card.getComponent(Card);
+    const cardComp: Card = card.getComponent(Card);
     switch (deck.deckType) {
       case CARD_TYPE.LOOT:
         cardComp.backSprite = CardManager.lootCardBack;
@@ -399,7 +398,6 @@ export default class CardManager extends cc.Component {
     }
     cardComp._cardId = ++CardManager.cardsId;
 
-
     cardComp.flipCard(false);
     deck.addToDeckOnTop(card, false);
   }
@@ -407,16 +405,20 @@ export default class CardManager extends cc.Component {
   static makeDeckCards(deck: Deck) {
     deck._cardId = ++this.cardsId
     deck.node.getComponent(Card)._cardId = ++this.cardsId
-    let cardsToBeMade: cc.Prefab[] = deck.cardsPrefab;
+    const cardsToBeMade: cc.Prefab[] = deck.cardsPrefab;
     for (let i = 0; i < cardsToBeMade.length; i++) {
-      let newCard: cc.Node = cc.instantiate(cardsToBeMade[i]);
+      const newCard: cc.Node = cc.instantiate(cardsToBeMade[i]);
 
-      let cardComp: Card = newCard.getComponent(Card);
+      const cardComp: Card = newCard.getComponent(Card);
+      if (cardComp.doNotMake) {
+        newCard.destroy()
+        continue
+      }
       newCard.getComponent(Card).frontSprite = newCard.getComponent(cc.Sprite).spriteFrame;
       this.addCardToDeck(newCard, deck)
       if (cardComp.makeMultiCards) {
         for (let j = 0; j < cardComp.numOfCopies; j++) {
-          let copyCard = cc.instantiate(newCard);
+          const copyCard = cc.instantiate(newCard);
           if (cardComp.copiesSprites[j]) {
             copyCard.getComponent(Card).frontSprite = cardComp.copiesSprites[j]
           } else {
@@ -427,37 +429,8 @@ export default class CardManager extends cc.Component {
           this.addCardToDeck(copyCard, deck)
         }
       }
-      // switch (deck.deckType) {
-      //   case CARD_TYPE.LOOT:
-      //     cardComp.backSprite = CardManager.lootCardBack;
-      //     CardManager.lootCardPool.put(newCard);
-      //     break;
-      //   case CARD_TYPE.MONSTER:
-      //     cardComp.backSprite = CardManager.monsterCardBack;
-
-      //     break;
-      //   case CARD_TYPE.TREASURE:
-      //     cardComp.backSprite = CardManager.treasureCardBack;
-      //     CardManager.treasureCardPool.put(newCard);
-      //     break;
-      //   default:
-      //     break;
-      // }
-      // if (deck._cardId == -1) {
-
-      //   deck._cardId = ++CardManager.cardsId;
-      // }
-      // cardComp._cardId = ++CardManager.cardsId;
-
-
-      // cardComp.flipCard(false);
-      // deck.addToDeckOnTop(newCard, false);
     }
-
-    // if (deck.suffleInTheStart) deck.shuffleDeck();
-
   }
-
 
   static makeCharDeck() {
     let characterNode: cc.Node;
@@ -477,22 +450,23 @@ export default class CardManager extends cc.Component {
         characterItemNode.getComponent(Card).frontSprite = characterItemNode.getComponent(cc.Sprite).spriteFrame;
         characterItemNode.parent = cc.director.getScene();
       }
-      let fullCharCards: { char: cc.Node; item: cc.Node } = {
+      const fullCharCards: { char: cc.Node; item: cc.Node } = {
         char: characterNode,
         item: characterItemNode
       };
       characterNode.parent = cc.director.getScene();
       CardManager.characterDeck.push(fullCharCards);
       CardManager.allCards.push(fullCharCards.char)
+      cc.log(fullCharCards)
       if (fullCharCards.item) {
         CardManager.allCards.push(fullCharCards.item)
       }
-      //CardManager.characterItemDeck.put(characterItemNode)
+      // CardManager.characterItemDeck.put(characterItemNode)
     }
   }
 
   static makeMonsterAttackable(monsterCard: cc.Node) {
-    let cardComp = monsterCard.getComponent(Card);
+    const cardComp = monsterCard.getComponent(Card);
     if (!cardComp._isAttackable) {
       cardComp._hasEventsBeenModified = true;
     }
@@ -501,17 +475,17 @@ export default class CardManager extends cc.Component {
   }
 
   static makeItemBuyable(itemCard: cc.Node, player: Player) {
-    let cardComp = itemCard.getComponent(Card);
+    const cardComp = itemCard.getComponent(Card);
     if (!cardComp._isBuyable) {
       cardComp._hasEventsBeenModified = true;
     }
     cardComp._isBuyable = true;
-    itemCard.off(cc.Node.EventType.TOUCH_START);
+    // itemCard.off(cc.Node.EventType.TOUCH_START);
     this.makeCardPreviewable(itemCard);
   }
 
   static makeLootPlayable(lootCard: cc.Node, player: Player) {
-    let cardComp = lootCard.getComponent(Card);
+    const cardComp = lootCard.getComponent(Card);
     if (!cardComp._isPlayable) {
       cardComp._hasEventsBeenModified = true;
     }
@@ -520,8 +494,8 @@ export default class CardManager extends cc.Component {
   }
 
   static makeItemActivateable(item: cc.Node) {
-    let cardComp = item.getComponent(Card);
-    let cardEffectComp = item.getComponent(CardEffect);
+    const cardComp = item.getComponent(Card);
+    const cardEffectComp = item.getComponent(CardEffect);
     if (!cardComp._isActivateable) {
       cardComp._hasEventsBeenModified = true;
     }
@@ -530,8 +504,8 @@ export default class CardManager extends cc.Component {
   }
 
   static makeCardReactable(card: cc.Node, reactablePlayer: cc.Node) {
-    let cardComp = card.getComponent(Card);
-    let cardEffectComp = card.getComponent(CardEffect);
+    const cardComp = card.getComponent(Card);
+    const cardEffectComp = card.getComponent(CardEffect);
     try {
       if (cardEffectComp.testEffectsPreConditions()) {
         if (!cardComp._isReactable) {
@@ -544,7 +518,7 @@ export default class CardManager extends cc.Component {
       cc.error(error)
       Logger.error(error)
     }
-    //change to show card preview.
+    // change to show card preview.
     this.makeCardPreviewable(card);
 
   }
@@ -554,26 +528,27 @@ export default class CardManager extends cc.Component {
     card.off(cc.Node.EventType.TOUCH_START);
     card.on(
       cc.Node.EventType.TOUCH_START,
-      () => {
-        CardPreviewManager.getPreviews(Array.of(card), true)
-        //cardPreview.showCardPreview2(card);
+      async () => {
+        await CardPreviewManager.getPreviews(Array.of(card), true)
+        // cardPreview.showCardPreview2(card);
       },
-      this
+      this,
     );
-    try {
-      CardPreviewManager.updatePreviewsEvents()
-    } catch (error) {
-      cc.error(error)
-      Logger.error(error)
-    }
+    // try {
+    //   CardPreviewManager.updatePreviewsEvents()
+    // } catch (error) {
+    //   cc.error(error)
+    //   Logger.error(error)
+    // }
   }
 
-
-
   static disableCardActions(card: cc.Node) {
+    if (card == CardManager.treasureDeck.getComponent(Deck).topBlankCard) {
+      cc.log(`disable top of shop card actions`)
+    }
     card.off(cc.Node.EventType.TOUCH_START);
     if (card.getComponent(Deck) == null) {
-      let cardComp = card.getComponent(Card);
+      const cardComp = card.getComponent(Card);
       if (cardComp._isActivateable || cardComp._isAttackable || cardComp._isBuyable || cardComp._isPlayable || cardComp._isReactable || cardComp._isRequired) {
         cardComp._hasEventsBeenModified = true
       }
@@ -582,11 +557,11 @@ export default class CardManager extends cc.Component {
       cardComp._isBuyable = false;
       cardComp._isPlayable = false;
       cardComp._isReactable = false;
-      cardComp._isRequired = false;
-      cardComp._requiredFor = null;
+      // cardComp._isRequired = false;
+      // cardComp._requiredFor = null;
       this.makeCardPreviewable(card);
     } else {
-      let comp = card.getComponent(Deck).topBlankCard.getComponent(Card)
+      const comp = card.getComponent(Deck).topBlankCard.getComponent(Card)
       if (comp._isActivateable || comp._isAttackable || comp._isBuyable || comp._isPlayable || comp._isReactable || comp._isRequired) {
         comp._hasEventsBeenModified = true
       }
@@ -595,36 +570,32 @@ export default class CardManager extends cc.Component {
       comp._isBuyable = false;
       comp._isPlayable = false;
       comp._isReactable = false;
-      comp._isRequired = false;
-      comp._requiredFor = null;
+      // comp._isRequired = false;
+      // comp._requiredFor = null;
       this.makeCardPreviewable(card);
     }
   }
 
   static makeRequiredForDataCollector(
     dataCollector: DataCollector,
-    card: cc.Node
+    card: cc.Node,
   ) {
-    let p = card.getComponentInChildren(cc.ParticleSystem);
-    p.resetSystem()
 
-    // card.runAction(
-    //   cc
-    //     .sequence(cc.fadeTo(BLINKING_SPEED, 50), cc.fadeTo(BLINKING_SPEED, 255))
-    //     .repeatForever()
-    // );
+    ParticleManager.activateParticleEffect(card, PARTICLE_TYPES.CHOOSE_CARD, false)
+    // let p = card.getComponentInChildren(cc.ParticleSystem);
+    // p.resetSystem()
 
     this.disableCardActions(card);
     if (card.getComponent(Deck) == null) {
 
-      let cardComp = card.getComponent(Card);
+      const cardComp = card.getComponent(Card);
       if (!cardComp._isRequired) {
         cardComp._hasEventsBeenModified = true;
       }
       cardComp._isRequired = true;
       cardComp._requiredFor = dataCollector;
     } else {
-      let deckComp = card.getComponent(Deck);
+      const deckComp = card.getComponent(Deck);
       deckComp.topBlankCard.off(cc.Node.EventType.TOUCH_START)
       if (!deckComp._isRequired) {
         deckComp._hasEventsBeenModified = true;
@@ -633,52 +604,47 @@ export default class CardManager extends cc.Component {
       deckComp._requiredFor = dataCollector;
     }
 
-    ///change to show preview for comfirmation!
-    // CardPreviewManager.addPreview(card) 
+    /// change to show preview for comfirmation!
+    // CardPreviewManager.addPreview(card)
     this.makeCardPreviewable(card);
-
-
 
   }
 
-  static unRequiredForDataCollector(card: cc.Node) {
-    card.stopAllActions();
-    card.runAction(cc.fadeTo(BLINKING_SPEED, 255));
-    let p = card.getComponentInChildren(cc.ParticleSystem);
-    p.stopSystem();
-
-    let cardPreview = CardPreviewManager.getPreviewByCard(card)
+  static async unRequiredForDataCollector(card: cc.Node) {
+    ParticleManager.disableParticleEffect(card, PARTICLE_TYPES.CHOOSE_CARD, false)
+    const cardPreview = CardPreviewManager.getPreviewByCard(card)
     if (cardPreview != null) {
-      CardPreviewManager.removeFromCurrentPreviews(Array.of(card))
+      await CardPreviewManager.removeFromCurrentPreviews(Array.of(card))
       // CardPreviewManager.removeFromCurrentPreviews(Array.of(cardPreview.node))
     }
-    this.disableCardActions(card)
+    card.getComponent(Card)._isRequired = false;
+    card.getComponent(Card)._requiredFor = null;
     card.off(cc.Node.EventType.TOUCH_START);
+    this.makeCardPreviewable(card);
   }
 
   static requireLootPlay(cards: cc.Node[]) { }
 
   /**
-   * 
+   *
    * @param card card to get the owner of
    * @returns character if owned by player, monster card if not.
    */
   static getCardOwner(card: cc.Node) {
     let owner: cc.Node
-    let player = PlayerManager.getPlayerByCard(card)
+    const player = PlayerManager.getPlayerByCard(card)
     if (player) {
       owner = player.character;
     } else if (card.getComponent(Monster)) {
       owner = card
     } else if (card.getComponent(Item)) {
       owner = card.getComponent(Item).lastOwnedBy.character
-    } else owner = null
+    } else { owner = null }
     return owner;
   }
 
-
   static updatePlayerCards() {
-    let players = PlayerManager.players;
+    const players = PlayerManager.players;
     for (let i = 0; i < players.length; i++) {
       const player = players[i].getComponent(Player);
       player.handCards = [];
@@ -686,7 +652,7 @@ export default class CardManager extends cc.Component {
       player.handCards = player.handCards.concat(player.hand.layoutCards);
       player.deskCards = player.deskCards.concat(
         player.desk.activeItemLayout.getComponent(CardLayout).layoutCards,
-        player.desk.passiveItemLayout.getComponent(CardLayout).layoutCards
+        player.desk.passiveItemLayout.getComponent(CardLayout).layoutCards,
       );
       player.deskCards.push(player.characterItem);
       player.deskCards.push(player.character);
@@ -700,27 +666,26 @@ export default class CardManager extends cc.Component {
     }
   }
 
-  static activeMoveAnimations: { index: number, endBools: boolean[] }[] = []
+  static activeMoveAnimations: Array<{ index: number, endBools: boolean[] }> = []
   static moveAnimationIndex: number = 0;
 
   static async moveCardTo(card: cc.Node, placeToMove: cc.Node, sendToServer: boolean, flipIfFlipped: boolean, moveIndex?: number, firstPos?, playerId?: number) {
 
-    let canvas = cc.find('Canvas')
+    const canvas = cc.find("Canvas")
     if (firstPos != null && sendToServer == false) {
       card.setParent(canvas)
       card.setPosition(firstPos)
     }
 
-
-    //only for test!
+    // only for test!
 
     if (card.parent == null) {
       card.parent = canvas
     }
 
-    let originalPos = canvas.convertToNodeSpaceAR(card.parent.convertToWorldSpaceAR(card.getPosition()));
-    let movePos = canvas.convertToNodeSpaceAR(placeToMove.parent.convertToWorldSpaceAR(placeToMove.getPosition()))
-    let moveAction = cc.moveTo(TIME_TO_DRAW, movePos);
+    const originalPos = canvas.convertToNodeSpaceAR(card.parent.convertToWorldSpaceAR(card.getPosition()));
+    const movePos = canvas.convertToNodeSpaceAR(placeToMove.parent.convertToWorldSpaceAR(placeToMove.getPosition()))
+    const moveAction = cc.moveTo(TIME_TO_DRAW, movePos);
     let animationIndex: number
     if (moveIndex == null || moveIndex == -1) {
       animationIndex = ++this.moveAnimationIndex
@@ -729,22 +694,29 @@ export default class CardManager extends cc.Component {
       this.moveAnimationIndex = moveIndex;
     }
 
-    let bools: boolean[] = []
-    let moveAnimation = { index: animationIndex, endBools: bools }
+    const bools: boolean[] = []
+    const moveAnimation = { index: animationIndex, endBools: bools }
     this.activeMoveAnimations.push(moveAnimation)
     let placeId: number
+    let placeType
 
     if (sendToServer == true) {
-      if (placeToMove.name.includes('Hand')) {
+      if (placeToMove.name.includes("Hand")) {
         placeId = placeToMove.getComponent(CardLayout).playerId;
-      } else if (placeToMove.name.includes('Desk')) {
+        placeType = `Hand`
+      } else if (placeToMove.name.includes("Desk")) {
         placeId = placeToMove.getComponent(PlayerDesk)._playerId
+        placeType = `Desk`
+      } else if (placeToMove.name.includes("SoulsLayout")) {
+        placeId = placeToMove.parent.getComponent(PlayerDesk)._playerId
+        placeType = `soulsLayout`
       } else {
         placeId = placeToMove.getComponent(Card)._cardId
+        placeType = `Card`
       }
-      let serverData = {
+      const serverData = {
         signal: Signal.MOVE_CARD,
-        srvData: { moveIndex: animationIndex, cardId: card.getComponent(Card)._cardId, placeID: placeId, flipIfFlipped: flipIfFlipped, firstPos: firstPos, playerId: PlayerManager.mePlayer.getComponent(Player).playerId }
+        srvData: { moveIndex: animationIndex, cardId: card.getComponent(Card)._cardId, placeID: placeId, flipIfFlipped: flipIfFlipped, firstPos: firstPos, playerId: PlayerManager.mePlayer.getComponent(Player).playerId, placeType: placeType },
       };
       card.runAction(cc.spawn(moveAction, cc.callFunc(() => {
         ServerClient.$.send(serverData.signal, serverData.srvData)
@@ -756,9 +728,9 @@ export default class CardManager extends cc.Component {
       }
       return true
     } else {
-      let serverData = {
+      const serverData = {
         signal: Signal.MOVE_CARD_END,
-        srvData: { moveIndex: animationIndex, cardId: card.getComponent(Card)._cardId, flipIfFlipped: flipIfFlipped, playerId: playerId }
+        srvData: { moveIndex: animationIndex, cardId: card.getComponent(Card)._cardId, flipIfFlipped: flipIfFlipped, playerId: playerId },
       };
       if (moveIndex == null) {
         serverData.signal = Signal.MOVE_CARD
@@ -775,13 +747,16 @@ export default class CardManager extends cc.Component {
     }
   }
 
-
   static receiveMoveCardEnd(moveIndex: number) {
-    let moveAnim = this.activeMoveAnimations.find(moveAnim => {
+    const moveAnim = this.activeMoveAnimations.find(moveAnim => {
       if (moveAnim.index == moveIndex) {
         return true;
       }
     })
+    if (!moveAnim) {
+      cc.log(this.activeMoveAnimations)
+      throw new Error(`No Active move animation for index ${moveIndex}`)
+    }
     moveAnim.endBools.push(true)
     if (moveAnim.endBools.length == PlayerManager.players.length - 1) {
       this.removeMoveAnimation(moveIndex)
@@ -825,20 +800,20 @@ export default class CardManager extends cc.Component {
         MonsterField.activeMonsters,
         PileManager.lootCardPile.getCards(),
         PileManager.treasureCardPile.getCards(),
-        PileManager.monsterCardPile.getCards()
+        PileManager.monsterCardPile.getCards(),
       );
 
     } else {
-      let lootPile = cc.find("Canvas/LootCardPile").getComponent(Pile)
-      let treasurePile = cc.find("Canvas/TreasureCardPile").getComponent(Pile)
-      let monsterPile = cc.find("Canvas/MonsterCardPile").getComponent(Pile)
+      const lootPile = cc.find("Canvas/LootCardPile").getComponent(Pile)
+      const treasurePile = cc.find("Canvas/TreasureCardPile").getComponent(Pile)
+      const monsterPile = cc.find("Canvas/MonsterCardPile").getComponent(Pile)
 
       this.onTableCards = this.onTableCards.concat(
         Store.storeCards,
         MonsterField.activeMonsters,
         lootPile.getCards(),
         treasurePile.getCards(),
-        monsterPile.getCards()
+        monsterPile.getCards(),
       );
     }
 
@@ -853,51 +828,36 @@ export default class CardManager extends cc.Component {
     }
   }
 
-  static updatePassiveListeners() {
-    // PassiveManager.clearAllListeners();
-    for (let i = 0; i < PlayerManager.players.length; i++) {
-      const player = PlayerManager.players[i].getComponent(Player);
-      for (let j = 0; j < player.deskCards.length; j++) {
-        const item = player.deskCards[j];
-        PassiveManager.registerPassiveItem(item, true);
-      }
-      //PassiveManager.registerPassiveItem(player.characterItem);
-    }
-    MonsterField.updateActiveMonsters()
+  // static updatePassiveListeners() {
+  //   // PassiveManager.clearAllListeners();
+  //   for (let i = 0; i < PlayerManager.players.length; i++) {
+  //     const player = PlayerManager.players[i].getComponent(Player);
+  //     for (let j = 0; j < player.deskCards.length; j++) {
+  //       const item = player.deskCards[j];
+  //       PassiveManager.registerPassiveItem(item, true);
+  //     }
+  //     // PassiveManager.registerPassiveItem(player.characterItem);
+  //   }
+  //   MonsterField.updateActiveMonsters()
 
-  }
+  // }
 
-  static moveCardToSoulsSpot(cardToMove: cc.Node, soulsLayout: cc.Node, sendToServer: boolean) {
-    // let character = soulsLayout.children[0]
-    let layoutPos = soulsLayout.parent.convertToWorldSpaceAR(soulsLayout.getPosition())
-    let conv = cardToMove.convertToNodeSpaceAR(layoutPos)
-    let action = (cc.moveTo(TIME_TO_BUY, conv))
-    if (cardToMove.angle != 0) cardToMove.angle = 0;
-    cardToMove.runAction(cc.sequence(action, cc.callFunc(() => {
-      cardToMove.setParent(soulsLayout);
-      let cardWidget = cardToMove.addComponent(cc.Widget)
-      cardWidget.alignMode = cc.Widget.AlignMode.ALWAYS;
-      cardWidget.isAlignRight = true;
-      cardWidget.right = 0;
-      cardToMove.y = 0;
-      cardToMove.x = 0
+  static async moveCardToSoulsSpot(cardToMove: cc.Node, playerNode: cc.Node, sendToServer: boolean) {
+    const soulsLayout = playerNode.getComponent(Player).soulsLayout
+    if (sendToServer) { await CardManager.moveCardTo(cardToMove, soulsLayout, sendToServer, true) }
+    if (cardToMove.angle != 0) { cardToMove.angle = 0; }
 
-      let monsterComp = cardToMove.getComponent(Monster)
-      return true
-    }, this)))
-    // setTimeout(() => {
-    // }, TIMETOBUY + 0.1 * 1000);
-
-
-
+    cardToMove.setPosition(0, 0)
+    cardToMove.setParent(soulsLayout);
+    cc.log(soulsLayout.parent)
   }
 
   static getAllDecks() {
-    let decks: cc.Node[] = [];
+    const decks: cc.Node[] = [];
     decks.push(
       CardManager.lootDeck,
       CardManager.monsterDeck,
-      CardManager.treasureDeck
+      CardManager.treasureDeck,
     );
     return decks;
   }
@@ -905,26 +865,27 @@ export default class CardManager extends cc.Component {
   static setOriginalSprites(cards: cc.Node[]) {
     for (let i = 0; i < cards.length; i++) {
       const cardNode = cards[i];
-      let cardComp: Card = cardNode.getComponent(Card);
-      let cardSprite: cc.Sprite = cardNode.getComponent(cc.Sprite);
+      const cardComp: Card = cardNode.getComponent(Card);
+      const cardSprite: cc.Sprite = cardNode.getComponent(cc.Sprite);
       cardSprite.spriteFrame = cardComp.frontSprite;
     }
   }
 
   static removeFromInAllDecksCards(cardToRemove: cc.Node) {
-    let index = this.inDecksCards.indexOf(cardToRemove);
+    const index = this.inDecksCards.indexOf(cardToRemove);
     if (this.inDecksCards.length < index) {
       this.inDecksCards.splice(index, 1);
     }
   }
 
   static getOtherPlayersHandCards(player: cc.Node) {
-    let otherPlayersHandCards: cc.Node[] = [];
+    const otherPlayersHandCards: cc.Node[] = [];
 
     for (let i = 0; i < PlayerManager.players.length; i++) {
       const otherPlayer = PlayerManager.players[i].getComponent(Player);
-      if (player.getComponent(Player).playerId != otherPlayer.playerId)
+      if (player.getComponent(Player).playerId != otherPlayer.playerId) {
         otherPlayersHandCards.concat(otherPlayer.handCards);
+      }
     }
 
     return otherPlayersHandCards;

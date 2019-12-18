@@ -1,10 +1,14 @@
-import Card from "./Card";
-import { CardLayout } from "../CardLayout";
-import CardManager from "../../Managers/CardManager";
-import Deck from "./Deck";
-import ServerClient from "../../../ServerClient/ServerClient";
 import Signal from "../../../Misc/Signal";
+import ServerClient from "../../../ServerClient/ServerClient";
+import { CARD_TYPE } from "../../Constants";
+import CardManager from "../../Managers/CardManager";
+import TurnsManager from "../../Managers/TurnsManager";
+import RefillEmptySlot from "../../StackEffects/Refill Empty Slot";
+import { CardLayout } from "../CardLayout";
 import Item from "../CardTypes/Item";
+import Stack from "../Stack";
+import Card from "./Card";
+import Deck from "./Deck";
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,6 +27,12 @@ export default class Store extends cc.Component {
   @property
   layout: cc.Layout = null;
 
+  static addMaxNumOfItems(maxNumToSet: number, sendToServer: boolean) {
+    Store.maxNumOfItems = maxNumToSet;
+    if (sendToServer) {
+      ServerClient.$.send(Signal.SET_MAX_ITEMS_STORE, { number: maxNumToSet })
+    }
+  }
 
   addStoreCard(sendToServer: boolean, cardToAdd?: cc.Node) {
     if (Store.maxNumOfItems > Store.storeCards.length) {
@@ -30,7 +40,6 @@ export default class Store extends cc.Component {
       if (cardToAdd != null) {
         newTreasure = cardToAdd
       } else {
-
         newTreasure = CardManager.treasureDeck.getComponent(Deck).drawCard(sendToServer);
       }
       if (newTreasure.getComponent(Card)._isFlipped) {
@@ -39,38 +48,42 @@ export default class Store extends cc.Component {
       CardManager.allCards.push(newTreasure);
       CardManager.onTableCards.push(newTreasure);
       Store.storeCards.push(newTreasure);
-      newTreasure.parent = this.node
       newTreasure.setPosition(0, 0)
-      cc.log(this.layout.node.children)
-      this.layout.updateLayout();
-      cc.log(this.layout.node.children)
+      newTreasure.setParent(this.node)
       //this.node.addChild(newTreasure);
-      let cardId = newTreasure.getComponent(Card)._cardId
-
+      this.layout.updateLayout();
+      const cardId = newTreasure.getComponent(Card)._cardId
       if (sendToServer) {
         ServerClient.$.send(Signal.ADD_STORE_CARD, { cardId: cardId })
       }
-    } else cc.error(`already max store cards`)
+    } else { cc.error(`already max store cards`) }
   }
 
-  buyItemFromShop(itemToBuy: cc.Node, sendToServer: boolean) {
-    if (itemToBuy.getComponent(Card).topDeckof == null) {
-      cc.log(`buy item ${itemToBuy.name} from the shop`)
-      Store.storeCards.splice(Store.storeCards.indexOf(itemToBuy), 1)
-      if (sendToServer) {
-        ServerClient.$.send(Signal.BUY_ITEM_FROM_SHOP, { cardId: itemToBuy.getComponent(Card)._cardId })
-      }
-    }
-  }
+  // async buyItemFromShop(itemToBuy: cc.Node, sendToServer: boolean) {
+  //   if (itemToBuy.getComponent(Card).topDeckof == null) {
+  //     cc.log(`buy item ${itemToBuy.name} from the shop`)
+  //     if (sendToServer) {
+  //       await this.removeFromStore(itemToBuy, true)
+  //     }
+  //   }
+  //   cc.error(`after buy from shop ${Store.storeCards.map(card => card.name)}`)
+  // }
 
-  discardStoreCard(storeItem: cc.Node, sendToserver: boolean) {
-    let cardIndex;
+  async removeFromStore(storeItem: cc.Node, sendToserver: boolean) {
     if (
-      (cardIndex = Store.storeCards.findIndex(card => card == storeItem) != -1)
+      ((Store.storeCards.findIndex(card => card == storeItem, this) != -1))
     ) {
-      Store.storeCards.splice(cardIndex, 1);
-      this.addStoreCard(sendToserver);
-    } else throw "o Store item received wasn't found to discard";
+      Store.storeCards.splice(Store.storeCards.indexOf(storeItem), 1);
+      if (sendToserver) {
+        ServerClient.$.send(Signal.REMOVE_ITEM_FROM_SHOP, { cardId: storeItem.getComponent(Card)._cardId })
+        const refillStoreSE = new RefillEmptySlot(TurnsManager.currentTurn.getTurnPlayer().character.getComponent(Card)._cardId, null, CARD_TYPE.TREASURE)
+        await Stack.addToStackAbove(refillStoreSE)
+      }
+      // this.addStoreCard(sendToserver);
+    } else if (storeItem == CardManager.treasureDeck.getComponent(Deck).topBlankCard) {
+    } else {
+      throw new Error(`${storeItem.name} was not in the store cards ${Store.storeCards.map(card => card.name)}`)
+    }
   }
 
   // LIFE-CYCLE CALLBACKS:

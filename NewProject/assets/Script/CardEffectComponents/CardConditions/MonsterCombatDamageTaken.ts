@@ -2,6 +2,7 @@ import { PASSIVE_EVENTS } from "../../Constants";
 import Monster from "../../Entites/CardTypes/Monster";
 import { PassiveMeta } from "../../Managers/PassiveManager";
 import Condition from "./Condition";
+import Card from "../../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
@@ -27,6 +28,8 @@ export default class MonsterCombatDamageTaken extends Condition {
     let answer = false;
     if (monster instanceof Monster) answer = true;
     if (this.isSpecificToEntityTakesDamage) {
+      cc.log(`who took dmg ${meta.args[3].name}`)
+      cc.log(`this enttiy ${this.entityWhoTookDamage.name}`)
       if (this.entityWhoTookDamage != meta.args[3]) answer = false;
     }
     return answer

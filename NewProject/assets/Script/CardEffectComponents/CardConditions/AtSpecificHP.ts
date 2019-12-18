@@ -22,17 +22,17 @@ export default class AtSpecificHp extends Condition {
   isActive: boolean = false;
 
   async testCondition(meta: PassiveMeta) {
-    let subject = meta.methodScope;;
+    const subject = meta.methodScope;
 
-    let thisCard = this.node.parent.parent;
+    const thisCard = this.node.parent.parent;
 
     let cardOwner: any = PlayerManager.getPlayerByCard(thisCard);
     if (cardOwner == null) {
       cardOwner = thisCard;
     }
 
-    let subjectName: string = subject.name
-    let nameArray = subjectName.split('<')
+    const subjectName: string = subject.name
+    const nameArray = subjectName.split("<")
     if (subject.getComponent(Monster) != null && nameArray[0] == cardOwner.name && meta.passiveEvent == PASSIVE_EVENTS.MONSTER_GET_HIT) {
       if (subject.getComponent(Monster).currentHp == this.specificHp) {
         this.isActive = true

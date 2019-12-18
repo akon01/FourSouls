@@ -1,15 +1,11 @@
-import CardManager from "../../Managers/CardManager";
-import PlayerManager from "../../Managers/PlayerManager";
-import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_CARD_TYPE, TARGETTYPE, CARD_TYPE } from "./../../Constants";
-import { ServerEffect } from "./../../Entites/ServerCardEffect";
-import Effect from "./Effect";
-import Player from "../../Entites/GameEntities/Player";
-import ChooseCard from "../DataCollector/ChooseCard";
 import Card from "../../Entites/GameEntities/Card";
-import Deck from "../../Entites/GameEntities/Deck";
+import Stack from "../../Entites/Stack";
+import CardManager from "../../Managers/CardManager";
 import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
+import ChooseCard from "../DataCollector/ChooseCard";
+import { CARD_TYPE, CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
+import Effect from "./Effect";
 
 
 const { ccclass, property } = cc._decorator;
@@ -56,7 +52,8 @@ export default class TakeLootFromPlayer extends Effect {
       await CardManager.moveCardTo(cardToTake as cc.Node, playerToGiveTo.hand.node, true, false)
       await playerToGiveTo.gainLoot(cardToTake, true)
     }
+
     if (data instanceof PassiveEffectData) return data
-    return stack
+    return Stack._currentStack
   }
 }

@@ -24,6 +24,9 @@ export default class ButtonManager extends cc.Component {
   nextTurnButton: cc.Node = null;
 
   @property(cc.Node)
+  NoButton: cc.Node = null;
+
+  @property(cc.Node)
   clearPreviewsButton: cc.Node = null;
 
   @property(cc.Layout)
@@ -56,9 +59,18 @@ export default class ButtonManager extends cc.Component {
 
   static enableButton(button: cc.Node, state: BUTTON_STATE, extra?: any[]) {
     let btn = button.getComponent(cc.Button)
+    //makes sure that if any other states run, the button will be enabled
     if (btn.interactable == false && state != BUTTON_STATE.DISABLED && state != BUTTON_STATE.ENABLED) this.enableButton(btn.node, BUTTON_STATE.ENABLED)
+
     switch (state) {
       case BUTTON_STATE.ENABLED:
+
+        //special case :
+        //skip button shuold not appare if the player isnt in get response
+        if (button == this.$.skipButton && !PlayerManager.mePlayer.getComponent(Player)._inGetResponse) {
+          break;
+        }
+
         btn.interactable = true;
         btn.node.active = true;
 
@@ -110,11 +122,11 @@ export default class ButtonManager extends cc.Component {
 
       //SKIP BUTTON ONLY //
       case BUTTON_STATE.SKIP_SKIP_RESPONSE:
-        btn.node.on(cc.Node.EventType.TOUCH_START, () => {
+        btn.node.once(cc.Node.EventType.TOUCH_START, () => {
+          let player: Player = extra[1]
           clearTimeout(extra[0]);
-          extra[1].respondWithNoAction(
-            extra[2],
-            extra[3]
+          player.respondWithNoAction(
+            extra[2]
           )
         }, extra[1])
         if (CardPreviewManager.isOpen) {

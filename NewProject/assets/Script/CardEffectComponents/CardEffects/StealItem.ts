@@ -5,6 +5,7 @@ import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
 import Effect from "./Effect";
 import Store from "../../Entites/GameEntities/Store";
+import Stack from "../../Entites/Stack";
 
 const { ccclass, property } = cc._decorator;
 
@@ -34,16 +35,16 @@ export default class StealItem extends Effect {
       } else {
         let player = PlayerManager.getPlayerByCard(itemToSteal)
         if (player != null) {
-          player.loseItem(itemToSteal)
+          player.loseItem(itemToSteal, true)
           await stealer.addItem(itemToSteal, true, true)
         } else {
-          await Store.$.buyItemFromShop(itemToSteal, true)
+          await Store.$.removeFromStore(itemToSteal, true)
           await stealer.addItem(itemToSteal, true, true)
         }
       }
     }
 
     if (data instanceof PassiveEffectData) return data
-    return stack;
+    return Stack._currentStack
   }
 }

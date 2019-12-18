@@ -1,19 +1,18 @@
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
-import { CARD_TYPE, PASSIVE_EVENTS, ROLL_TYPE } from "../Constants";
-import CardManager from "../Managers/CardManager";
+import { CARD_TYPE, PASSIVE_EVENTS } from "../Constants";
+import BattleManager from "../Managers/BattleManager";
+import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
 import PileManager from "../Managers/PileManager";
+import PlayerManager from "../Managers/PlayerManager";
+import TurnsManager from "../Managers/TurnsManager";
+import RefillEmptySlot from "../StackEffects/Refill Empty Slot";
+import CardEffect from "./CardEffect";
 import Monster from "./CardTypes/Monster";
 import Card from "./GameEntities/Card";
-import Deck from "./GameEntities/Deck";
-import MonsterField from "./MonsterField";
-import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
-import RefillEmptySlot from "../StackEffects/Refill Empty Slot";
-import PlayerManager from "../Managers/PlayerManager";
 import Player from "./GameEntities/Player";
+import MonsterField from "./MonsterField";
 import Stack from "./Stack";
-import TurnsManager from "../Managers/TurnsManager";
-import BattleManager from "../Managers/BattleManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -21,30 +20,6 @@ const { ccclass, property } = cc._decorator;
 export default class MonsterCardHolder extends cc.Component {
   @property
   id: number = null;
-
-  @property
-  private _activeMonster: cc.Node = null;
-
-
-  public set activeMonster(v: cc.Node) {
-    let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.NEW_ACTIVE_MONSTER, [v], null, v)
-    if (PlayerManager.mePlayer == TurnsManager.currentTurn.getTurnPlayer().node) {
-      let afterPassiveMetaPromise = PassiveManager.checkB4Passives(passiveMeta)
-      afterPassiveMetaPromise.then((afterPassiveMeta) => {
-        v = afterPassiveMeta.args[0]
-        this._activeMonster = v;
-      })
-    } else {
-      this._activeMonster = v;
-    }
-  }
-
-
-  public get activeMonster(): cc.Node {
-    return this._activeMonster
-  }
-
-
 
   @property
   monsters: cc.Node[] = [];
@@ -58,30 +33,83 @@ export default class MonsterCardHolder extends cc.Component {
   @property
   dmgLable: cc.Label = null;
 
+  @property
+  private _activeMonster: cc.Node = null;
+
+  // public set activeMonster(v: cc.Node) {
+  //   const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.NEW_ACTIVE_MONSTER, [v], null, v);
+  //   if (PlayerManager.mePlayer == TurnsManager.currentTurn.getTurnPlayer().node) {
+  //     const afterPassiveMetaPromise = PassiveManager.checkB4Passives(passiveMeta);
+  //     // tslint:disable-next-line: no-floating-promises
+  //     afterPassiveMetaPromise.then((afterPassiveMeta) => {
+  //       v = afterPassiveMeta.args[0];
+  //       this._activeMonster = v;
+  //     });
+  //   } else {
+  //     this._activeMonster = v;
+  //   }
+  // }
+
+  public get activeMonster(): cc.Node {
+    return this._activeMonster;
+  }
+
+  async setActiveMonster(monsterCard: cc.Node, sendToServer: boolean) {
+    if (sendToServer) {
+      if (this.activeMonster && MonsterField.activeMonsters.includes(this.activeMonster)) {
+        MonsterField.activeMonsters.splice(MonsterField.activeMonsters.indexOf(this.activeMonster), 1)
+        PassiveManager.removePassiveItemEffects(monsterCard, sendToServer)
+      }
+    }
+    cc.log(monsterCard)
+    const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.NEW_ACTIVE_MONSTER, [monsterCard], null, monsterCard);
+    if (PlayerManager.mePlayer == TurnsManager.currentTurn.getTurnPlayer().node) {
+      const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta);
+      monsterCard = afterPassiveMeta.args[0];
+      this._activeMonster = monsterCard;
+    } else {
+      this._activeMonster = monsterCard;
+    }
+    cc.log(this.activeMonster)
+    const monster = monsterCard.getComponent(Monster);
+    monster.currentHp = monster.HP;
+    monster.monsterPlace = this;
+
+    if (monsterCard.active == false) {
+      monsterCard.active = true;
+    }
+    this.spriteFrame = null;
+    monsterCard.setParent(this.node);
+    //  this.node.addChild(monsterCard, 0);
+    monsterCard.setPosition(0, 0);
+
+    this.node.width = monsterCard.width;
+    this.node.height = monsterCard.height;
+
+    MonsterField.activeMonsters.push(monsterCard)
+
+    const monsterEffect = this.activeMonster.getComponent(CardEffect)
+    if (monsterEffect != null && monsterEffect.passiveEffects.length > 0 && !PassiveManager.isCardRegistered(this.activeMonster)) {
+
+      if (TurnsManager.isCurrentPlayer(PlayerManager.mePlayer)) {
+        await PassiveManager.registerPassiveItem(this.activeMonster, true)
+      }
+    }
+  }
 
   async getNextMonster(sendToServer: boolean) {
     if (this.monsters.length > 0) {
-      this._activeMonster = this.monsters[this.monsters.length - 1]
-      this._activeMonster.active = true
-      this.spriteFrame = this._activeMonster.getComponent(cc.Sprite).spriteFrame;
+      await this.setActiveMonster(this.monsters[this.monsters.length - 1], sendToServer);
       if (sendToServer) {
         ServerClient.$.send(Signal.GET_NEXT_MONSTER, { monsterPlaceId: this.id });
       }
-      //return this.activeMonster;
     } else {
-
       if (sendToServer) {
-        let refillEmptySlot = new RefillEmptySlot(PlayerManager.mePlayer.getComponent(Player).character.getComponent(Card)._cardId, this.node, CARD_TYPE.MONSTER)
-        await Stack.addToStack(refillEmptySlot, true)
-        // let drawnMonster = await CardManager.monsterDeck.getComponent(Deck).drawCard(sendToServer);
-        // if (drawnMonster.getComponent(Card)._isFlipped) {
-        //   drawnMonster.getComponent(Card).flipCard(sendToServer);
-        // }
-
-        // await this.addToMonsters(drawnMonster, sendToServer);
+        const refillEmptySlot = new RefillEmptySlot(PlayerManager.mePlayer.getComponent(Player).character.getComponent(Card)._cardId, this.node, CARD_TYPE.MONSTER);
+        await Stack.addToStack(refillEmptySlot, true);
       }
     }
-    MonsterField.updateActiveMonsters();
+
   }
   /**
    * add a monster to the place and set it as active
@@ -98,49 +126,34 @@ export default class MonsterCardHolder extends cc.Component {
     }
     this.monsters.push(monsterCard);
 
-    this._activeMonster = monsterCard;
-    let monster = this._activeMonster.getComponent(Monster);
-    monster.currentHp = monster.HP;
-    monster.monsterPlace = this;
+    await this.setActiveMonster(monsterCard, sendToServer);
 
-    if (monsterCard.active == false) {
-      monsterCard.active = true;
-    }
-    this.spriteFrame = null;
-    monsterCard.setParent(this.node)
-    //  this.node.addChild(monsterCard, 0);
-    monsterCard.setPosition(0, 0);
-
-    this.node.width = monsterCard.width;
-    this.node.height = monsterCard.height;
     if (sendToServer) {
       ServerClient.$.send(Signal.ADD_MONSTER, { monsterPlaceId: this.id, monsterId: monsterCard.getComponent(Card)._cardId });
     }
-    MonsterField.updateActiveMonsters();
+
   }
 
   async discardTopMonster(sendToServer: boolean) {
 
-    let monster = this._activeMonster;
-    this.removeMonster(monster, sendToServer)
-    await PileManager.addCardToPile(CARD_TYPE.MONSTER, monster, sendToServer)
-    cc.log(`discard top`)
-    //this.monsters.length > 0 ? this.activeMonster = this.monsters.pop() : this.activeMonster = null;
-    await this.getNextMonster(true)
-
-
-
-
-
+    const monster = this._activeMonster;
+    await PileManager.addCardToPile(CARD_TYPE.MONSTER, monster, sendToServer);
+    await this.removeMonster(monster, sendToServer);
+    cc.log(`discard top`);
+    // this.monsters.length > 0 ? this.activeMonster = this.monsters.pop() : this.activeMonster = null;
+    // await this.getNextMonster(true)
 
   }
 
-
-  removeMonster(monster: cc.Node, sendToServer: boolean) {
+  async removeMonster(monster: cc.Node, sendToServer: boolean) {
     this.monsters.splice(this.monsters.indexOf(monster));
+    if (MonsterField.activeMonsters.includes(monster)) {
+      MonsterField.activeMonsters.splice(MonsterField.activeMonsters.indexOf(monster), 1)
+    }
 
     if (sendToServer) {
       ServerClient.$.send(Signal.REMOVE_MONSTER, { holderId: this.id, monsterId: monster.getComponent(Card)._cardId });
+      await this.getNextMonster(true);
     }
     // this.getNextMonster(sendToServer);
   }
@@ -180,13 +193,8 @@ export default class MonsterCardHolder extends cc.Component {
         this.dmgLable.enabled = false;
       }
 
-      if (BattleManager.currentlyAttackedMonsterNode == this.activeMonster) {
-
-      }
-
-
     } else {
-      this.hpLable.string = '';
+      this.hpLable.string = "";
       this.dmgLable.enabled = false;
       // this.dmgLable.string = "dmg:" + 0;
     }

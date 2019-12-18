@@ -25,12 +25,10 @@ export default class Item extends cc.Component {
   lastOwnedBy: Player = null
 
 
-  async rechargeItem(sendToServer: boolean) {
+  rechargeItem(sendToServer: boolean) {
     if (sendToServer) {
-      //   cc.log(this.node.getComponent("Card"))
       let id = this.node.getComponent("Card")._cardId
       ServerClient.$.send(Signal.RECHARGE_ITEM, { cardId: id })
-      cc.log(Signal.RECHARGE_ITEM)
     }
     this.node.runAction(cc.rotateTo(TIME_TO_ROTATE_ACTIVATION, 0));
     this.activated = false;

@@ -26,11 +26,20 @@ export default interface StackEffectInterface {
 
     stackEffectType: STACK_EFFECT_TYPE;
 
+    _lable: string;
+
+    isToBeFizzled: boolean
+
+    creationTurnId: number
+
+
     resolve()
 
     putOnStack()
 
     convertToServerStackEffect();
+
+    checkForFizzle()
 
 }
 

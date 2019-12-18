@@ -17,10 +17,12 @@ export default class CardOwnerEndTurnWithAmountOfResource extends Condition {
   @property({ type: cc.Enum(PLAYER_RESOURCES) })
   resource: PLAYER_RESOURCES = PLAYER_RESOURCES.MONEY;
 
+  needsDataCollector = false;
+
   async testCondition(meta: PassiveMeta) {
-    let player: Player = meta.methodScope.getComponent(Player);
-    let thisCard = this.node.parent.parent;
-    let cardOwner = PlayerManager.getPlayerByCard(thisCard);
+    const player: Player = meta.methodScope.getComponent(Player);
+    const thisCard = this.node.parent.parent;
+    const cardOwner = PlayerManager.getPlayerByCard(thisCard);
     if (
       player instanceof Player &&
       player.name == cardOwner.name &&

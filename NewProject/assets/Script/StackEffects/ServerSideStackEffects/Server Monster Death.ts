@@ -25,6 +25,7 @@ export default class ServerMonsterDeath implements ServerStackEffectInterface {
         this.creatorCardId = stackEffect.creatorCardId;
         this.monsterToDieCardId = stackEffect.monsterToDie.node.getComponent(Card)._cardId
         this.stackEffectType = stackEffect.stackEffectType;
+        cc.log(stackEffect.killer)
         this.killerId = stackEffect.killer.getComponent(Card)._cardId
     }
 

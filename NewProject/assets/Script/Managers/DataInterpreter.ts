@@ -14,12 +14,10 @@ import StackEffectPreview from "../StackEffects/StackEffectVisualRepresentation/
 import CardManager from "./CardManager";
 import PlayerManager from "./PlayerManager";
 
-
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class DataInterpreter {
-
 
     static makeEffectData(data, effectCard, cardPlayerId, isActive: boolean, isChainCollectorData: boolean): ActiveEffectData | PassiveEffectData {
 
@@ -31,8 +29,14 @@ export default class DataInterpreter {
                     effectData.chainEffectsData = data;
                 } else {
                     if (Array.isArray(data)) {
-
-                        effectData.effectTargets = data;
+                        if (data[0] instanceof EffectTarget) {
+                            effectData.effectTargets = data;
+                        } else if (data[0] instanceof cc.Node) {
+                            effectData.effectTargets = data.map(node => new EffectTarget(node))
+                        } else {
+                            cc.error(data)
+                            throw new Error(`when making effect data, data was not of required type (effectTarget[]/cc.node[])`)
+                        }
                     }
                     if (data instanceof EffectTarget) {
                         effectData.effectTargets.push(data)
@@ -46,7 +50,7 @@ export default class DataInterpreter {
                 }
                 if (data.cardPlayer != null) {
 
-                    effectData.effectCardPlayer = PlayerManager.getPlayerById(data.cardPlayer).getComponent(Player).character
+                    effectData.effectCardPlayer = PlayerManager.getPlayerById(data.cardPlayer).character
                 }
             }
         } else {
@@ -74,7 +78,7 @@ export default class DataInterpreter {
         effectData.effectCard = effectCard;
 
         if (effectData.effectCardOwner == null) {
-            let owner = PlayerManager.getPlayerByCard(effectCard);
+            const owner = PlayerManager.getPlayerByCard(effectCard);
             if (owner != null) {
                 effectData.effectCardOwner = owner.character
             } else {
@@ -85,8 +89,6 @@ export default class DataInterpreter {
         if (effectData.effectCardPlayer == null) {
             effectData.effectCardPlayer = effectData.effectCardOwner
         }
-
-
 
         return effectData
     }
@@ -147,15 +149,17 @@ export default class DataInterpreter {
         if (effectData == null) {
             return
         }
-        let serverEffectData = new ServerEffectData()
+        const serverEffectData = new ServerEffectData()
         if (effectData instanceof ActiveEffectData) {
             serverEffectData.isPassive = false;
             if (effectData.effectTargets.length > 0) {
                 serverEffectData.effectTargets = effectData.effectTargets.map((target) => {
-                    if (target.effectTargetCard.getComponent(StackEffectPreview) != null) {
-                        serverEffectData.isTargetStackEffect = true
-                        return target.effectTargetCard.getComponent(StackEffectPreview).stackEffect.entityId
-                    } else return target.effectTargetCard.getComponent(Card)._cardId
+                    if (target.effectTargetStackEffectId != null) {
+                        serverEffectData.isTargetStackEffect = true;
+                        return target.effectTargetStackEffectId.entityId
+                    } else {
+                        return target.effectTargetCard.getComponent(Card)._cardId
+                    }
                 })
             }
             if (effectData.effectCard != null) {
@@ -182,7 +186,6 @@ export default class DataInterpreter {
                 serverEffectData.terminateOriginal = effectData.terminateOriginal
             }
             if (effectData.effectTargets.length > 0) {
-
                 serverEffectData.effectTargets = effectData.effectTargets.map((target) => {
                     if (target.effectTargetCard.getComponent(StackEffectPreview) != null) {
                         serverEffectData.isTargetStackEffect = true
@@ -196,7 +199,7 @@ export default class DataInterpreter {
         }
         if (effectData.chainEffectsData != null) {
             for (const chainEffectData of effectData.chainEffectsData) {
-                let newData: ServerEffectData[] = [];
+                const newData: ServerEffectData[] = [];
                 for (let i = 0; i < chainEffectData.data.length; i++) {
                     const data = chainEffectData.data[i];
                     newData.push(DataInterpreter.convertToServerData(data))
@@ -216,7 +219,6 @@ export default class DataInterpreter {
         return serverEffectData;
     }
 
-
     static getNodeFromData(data) {
 
         if (data != null) {
@@ -224,15 +226,15 @@ export default class DataInterpreter {
                 return CardManager.getCardById(data.cardActivated, true)
             }
             if (data.cardOwner != null) {
-                return PlayerManager.getPlayerById(data.cardOwner);
+                return PlayerManager.getPlayerById(data.cardOwner).node;
 
             }
             if (data.cardPlayer != null) {
-                return PlayerManager.getPlayerById(data.cardPlayer);
+                return PlayerManager.getPlayerById(data.cardPlayer).node;
 
             }
             if (data.cardsIds != null) {
-                let cards = [];
+                const cards = [];
                 for (const id of data.cardsIds) {
                     cards.push(CardManager.getCardById(id, true))
                 }
@@ -242,7 +244,7 @@ export default class DataInterpreter {
                 let card;
                 card = CardManager.getCardById(data.cardChosenId, true)
                 if (card == null) {
-                    card = PlayerManager.getPlayerById(data.cardChosenId)
+                    card = PlayerManager.getPlayerById(data.cardChosenId).node
                 }
                 return card
             }
@@ -254,23 +256,32 @@ export class EffectData {
     effectCard: cc.Node;
     effectCardOwner: cc.Node;
     effectCardPlayer: cc.Node;
-    chainEffectsData: { effectIndex: number, data: ActiveEffectData[] | PassiveEffectData[] }[] = [];
+    chainEffectsData: Array<{ effectIndex: number, data: ActiveEffectData[] | PassiveEffectData[] }> = [];
+    effectTargets: EffectTarget[] = [];
+
+    addTarget(target) {
+        if (target instanceof EffectTarget) {
+            this.effectTargets.push(target)
+        } else {
+            const newTarget = new EffectTarget(target);
+            this.effectTargets.push(newTarget)
+        }
+    }
 }
 
 export class PassiveEffectData extends EffectData {
     methodArgs: any[] = [];
     terminateOriginal: boolean = false;
-    effectTargets: EffectTarget[] = [];
 
     getTargets(targetType: TARGETTYPE) {
-        let targets: EffectTarget[] = []
+        const targets: EffectTarget[] = []
         for (const target of this.effectTargets) {
-            if (target.targetType == targetType) targets.push(target)
+            if (target.targetType == targetType) { targets.push(target) }
         }
         if (targetType != TARGETTYPE.STACK_EFFECT) {
 
             return targets.map(target => target.effectTargetCard);
-        } else return targets.map(target => target.effectTargetStackEffectId);
+        } else { return targets.map(target => target.effectTargetStackEffectId); }
     }
     getTarget(targetType: TARGETTYPE) {
         if (targetType == TARGETTYPE.STACK_EFFECT) {
@@ -290,32 +301,41 @@ export class PassiveEffectData extends EffectData {
                     }
                 }
             }
-        cc.error('no target was found')
         return null
     }
 
-    addTarget(target) {
-        let newTarget = new EffectTarget(target);
-        this.effectTargets.push(newTarget)
-    }
+    // addTarget(target) {
+    //     cc.log(target)
+    //     let newTarget: EffectTarget;
+    //     if (target instanceof EffectTarget) {
+    //         this.effectTargets.push(target)
+    //     } else {
+    //         let newTarget = new EffectTarget(target);
+    //         this.effectTargets.push(newTarget)
+    //     }
+    // }
 
 }
 
 export class ActiveEffectData extends EffectData {
-    effectTargets: EffectTarget[] = [];
+
     effectOriginPlayer: cc.Node;
     cardEffect: ServerEffect;
     numberRolled: number;
 
     getTargets(targetType: TARGETTYPE) {
-        let targets: EffectTarget[] = []
+        const targets: EffectTarget[] = []
         for (const target of this.effectTargets) {
-            if (target.targetType == targetType) targets.push(target)
+            if (target.targetType == targetType) {
+                targets.push(target)
+            } else if (targetType == TARGETTYPE.CARD && target.targetType != TARGETTYPE.STACK_EFFECT) {
+                targets.push(target)
+            }
         }
         if (targetType != TARGETTYPE.STACK_EFFECT) {
 
             return targets.map(target => target.effectTargetCard);
-        } else return targets.map(target => target.effectTargetStackEffectId);
+        } else { return targets.map(target => target.effectTargetStackEffectId); }
     }
     getTarget(targetType: TARGETTYPE) {
         if (targetType == TARGETTYPE.STACK_EFFECT) {
@@ -333,20 +353,24 @@ export class ActiveEffectData extends EffectData {
                 }
             }
         }
-        cc.error('no target was found')
+        cc.error("no target was found")
         return null
     }
 
-
-    addTarget(target) {
-        let newTarget = new EffectTarget(target);
-        this.effectTargets.push(newTarget)
-    }
+    // addTarget(target) {
+    //     cc.log(`add target`)
+    //     cc.log(target)
+    //     let newTarget: EffectTarget;
+    //     if (target instanceof EffectTarget) {
+    //         cc.log(`target is type EffectTarget,just push`)
+    //         this.effectTargets.push(target)
+    //     } else {
+    //         let newTarget = new EffectTarget(target);
+    //         this.effectTargets.push(newTarget)
+    //     }
+    // }
 
 }
-
-
-
 
 export class ServerEffectData {
 
@@ -359,10 +383,10 @@ export class ServerEffectData {
     effectCardPlayer: number;
     cardEffect: ServerEffect;
     numberRolled: number;
-    chainEffectsData: {
+    chainEffectsData: Array<{
         effectIndex: number,
         data: any[];
-    }[] = []
+    }> = []
     methodArgs: any[] = [];
     terminateOriginal: boolean
     isPassive: boolean
@@ -381,7 +405,6 @@ export class EffectTarget {
         }
     }
 
-
     effectTargetStackEffectId: StackEffectInterface
     effectTargetCard: cc.Node;
     targetType: TARGETTYPE;
@@ -390,13 +413,13 @@ export class EffectTarget {
 
         if (targetNode != undefined) {
 
-            if (targetNode.getComponent(Character) != null) return TARGETTYPE.PLAYER
-            if (targetNode.getComponent(Item) != null) return TARGETTYPE.ITEM
-            if (targetNode.getComponent(Monster) != null) return TARGETTYPE.MONSTER
-            if (targetNode.getComponent(Pile) != null) return TARGETTYPE.PILE
-            if (targetNode.getComponent(Deck) != null) return TARGETTYPE.DECK
-            if (targetNode.getComponent(Card) != null) return TARGETTYPE.CARD
-            if (targetNode.getComponent(StackEffectPreview) != null) return TARGETTYPE.STACK_EFFECT
+            if (targetNode.getComponent(Character) != null) { return TARGETTYPE.PLAYER }
+            if (targetNode.getComponent(Item) != null) { return TARGETTYPE.ITEM }
+            if (targetNode.getComponent(Monster) != null) { return TARGETTYPE.MONSTER }
+            if (targetNode.getComponent(Pile) != null) { return TARGETTYPE.PILE }
+            if (targetNode.getComponent(Deck) != null) { return TARGETTYPE.DECK }
+            if (targetNode.getComponent(Card) != null) { return TARGETTYPE.CARD }
+            if (targetNode.getComponent(StackEffectPreview) != null) { return TARGETTYPE.STACK_EFFECT }
         }
     }
 

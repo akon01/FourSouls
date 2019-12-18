@@ -24,7 +24,7 @@ export default class CardPlayerItems extends DataCollector {
      * @returns {target:cc.node of the player who played the card}
      */
     collectData(data) {
-        let player = PlayerManager.getPlayerById(data.cardPlayerId).getComponent(Player)
+        let player = PlayerManager.getPlayerById(data.cardPlayerId)
         let cards: cc.Node[] = []
         switch (this.ItemsToGet) {
             case CHOOSE_CARD_TYPE.MY_ITEMS:

@@ -41,7 +41,7 @@ export default class MultiEffectRollEffect extends Effect {
 
     }
     if (!chosenEffect) {
-      throw `No effect was chosen!`
+      throw new Error(`No effect was chosen!`)
     }
     cc.log(chosenEffect.name)
     return chosenEffect;

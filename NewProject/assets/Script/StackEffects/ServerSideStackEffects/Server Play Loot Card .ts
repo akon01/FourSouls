@@ -53,7 +53,7 @@ export default class ServerPlayLootCard implements ServerStackEffectInterface {
 
     convertToStackEffect() {
         let lootToPlay = CardManager.getCardById(this.lootToPlayCardId, true)
-        const playerCharacterCard = PlayerManager.getPlayerById(this.lootPlayerId).getComponent(Player).character;
+        const playerCharacterCard = PlayerManager.getPlayerById(this.lootPlayerId).character;
         let playLoot = new PlayLootCardStackEffect(this.creatorCardId, this.hasLockingStackEffect, lootToPlay, playerCharacterCard, this.hasDataBeenCollectedYet, this.hasLockingStackEffectResolved)
         playLoot.LockingResolve = this.LockingResolve;
         if (this.effectToDo != null) {

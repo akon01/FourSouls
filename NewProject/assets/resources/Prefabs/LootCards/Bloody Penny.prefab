@@ -345,7 +345,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 10
+      "__id__": 13
     },
     "_opacity": 255,
     "_color": {
@@ -397,19 +397,20 @@
       "__id__": 8
     },
     "_enabled": true,
-    "dataCollector": null,
+    "dataCollector": {
+      "__id__": 10
+    },
     "_id": ""
   },
   {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
+    "__type__": "1d1ecf8dolI9JOwSEDLfemj",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 11
     },
-    "asset": {
-      "__uuid__": "24048e7b-6db5-4d8c-b047-1574c56490a1"
-    },
-    "fileId": "02g8OAnzxHoacn1q8drJm+",
-    "sync": false
+    "_enabled": true,
+    "_id": ""
   },
   {
     "__type__": "cc.Node",
@@ -423,11 +424,11 @@
     "_level": 3,
     "_components": [
       {
-        "__id__": 12
+        "__id__": 10
       }
     ],
     "_prefab": {
-      "__id__": 13
+      "__id__": 12
     },
     "_opacity": 255,
     "_color": {
@@ -472,14 +473,15 @@
     "_id": ""
   },
   {
-    "__type__": "1d1ecf8dolI9JOwSEDLfemj",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 11
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
     },
-    "_enabled": true,
-    "_id": ""
+    "asset": {
+      "__uuid__": "24048e7b-6db5-4d8c-b047-1574c56490a1"
+    },
+    "fileId": "a0jibRwZREfZG2lTHBUnOI",
+    "sync": false
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -489,7 +491,7 @@
     "asset": {
       "__uuid__": "24048e7b-6db5-4d8c-b047-1574c56490a1"
     },
-    "fileId": "a0jibRwZREfZG2lTHBUnOI",
+    "fileId": "02g8OAnzxHoacn1q8drJm+",
     "sync": false
   },
   {
@@ -511,7 +513,7 @@
     "passiveEffectToAdd": null,
     "dataCollector": [
       {
-        "__id__": 12
+        "__id__": 10
       }
     ],
     "_effectCard": null,
@@ -887,10 +889,14 @@
     },
     "_enabled": true,
     "cardName": "Bloody Penny",
+    "makeMultiCards": false,
+    "numOfCopies": 2,
+    "copiesSprites": [],
     "_cardId": 0,
     "_isInHand": false,
     "_isOnDesk": false,
     "_originalParent": null,
+    "_originalWidth": null,
     "topDeckof": null,
     "souls": 0,
     "type": 1,
@@ -909,6 +915,7 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
+    "availableParticles": [],
     "_id": ""
   },
   {
@@ -919,6 +926,7 @@
       "__id__": 1
     },
     "_enabled": true,
+    "hasDestroySelfEffect": false,
     "conditions": [],
     "activeEffects": [
       {

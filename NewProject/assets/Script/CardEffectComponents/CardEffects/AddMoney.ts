@@ -4,6 +4,7 @@ import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpre
 import PlayerManager from "../../Managers/PlayerManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import Effect from "./Effect";
+import Stack from "../../Entites/Stack";
 
 
 const { ccclass, property } = cc._decorator;
@@ -48,8 +49,9 @@ export default class AddMoney extends Effect {
         await player.changeMoney(this.numOfCoins, true);
       }
 
-      if (data instanceof PassiveEffectData) return data
-      return stack
     }
+
+    if (data instanceof PassiveEffectData) return data
+    return Stack._currentStack
   }
 }

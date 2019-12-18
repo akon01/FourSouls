@@ -1,8 +1,9 @@
 import Effect from "../CardEffectComponents/CardEffects/Effect";
 import CardPreviewManager from "../Managers/CardPreviewManager";
-import { TIME_TO_HIDE_PREVIEW, GAME_EVENTS } from "./../Constants";
+import { TIME_TO_HIDE_PREVIEW, GAME_EVENTS, BUTTON_STATE } from "./../Constants";
 import CardEffect from "./CardEffect";
 import Item from "./CardTypes/Item";
+import ButtonManager from "../Managers/ButtonManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -113,6 +114,7 @@ export default class CardPreview extends cc.Component {
     //  this.showCardPreview(card, false);
     CardPreviewManager.openPreview(this.node)
     this.exitButton.getComponent(cc.Button).interactable = false;
+    let index = CardPreviewManager.previewsToChooseFrom.push(this.node) - 1
     let cardEffects = card.getComponent(CardEffect).paidEffects
     // let cardEffects = card.getComponent(CardEffect).activeEffects;
     //cardEffects = cardEffects.concat(card.getComponent(CardEffect).paidEffects)
@@ -160,7 +162,7 @@ export default class CardPreview extends cc.Component {
 
 
     let chosenEffect = await this.testForEffectChosen();
-    ;
+    CardPreviewManager.previewsToChooseFrom.splice(index, 1)
     //disable effects be chosen on click
     for (let i = 0; i < cardEffects.length; i++) {
       const effect = cardEffects[i];

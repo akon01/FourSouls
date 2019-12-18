@@ -1,13 +1,15 @@
 import Effect from "../CardEffectComponents/CardEffects/Effect";
+import PassiveEffect from "../CardEffectComponents/CardEffects/PassiveEffect";
 import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
+import { CARD_TYPE, TARGETTYPE } from "../Constants";
 import Deck from "../Entites/GameEntities/Deck";
+import MonsterCardHolder from "../Entites/MonsterCardHolder";
 import MonsterField from "../Entites/MonsterField";
 import BattleManager from "../Managers/BattleManager";
 import CardManager from "../Managers/CardManager";
-import StackEffectInterface from "../StackEffects/StackEffectInterface";
-import MonsterCardHolder from "../Entites/MonsterCardHolder";
+import { ActiveEffectData, PassiveEffectData } from "../Managers/DataInterpreter";
 import PileManager from "../Managers/PileManager";
-import { CARD_TYPE } from "../Constants";
+import StackEffectInterface from "../StackEffects/StackEffectInterface";
 
 const { ccclass, property } = cc._decorator;
 
@@ -18,43 +20,27 @@ export default class EhwazEffect extends Effect {
   @property({ type: DataCollector, override: true })
   dataCollector = null;
 
-
   /**
    *
    * @param data {target:PlayerId}
    */
   async doEffect(
     stack: StackEffectInterface[],
-    data
+    data: ActiveEffectData | PassiveEffectData
   ) {
 
-    let activeMonsters = MonsterField.activeMonsters
-    let monsterPlaces = MonsterField.monsterCardHolders;
+    const monsterPlaces = MonsterField.monsterCardHolders;
 
     for (let i = 0; i < monsterPlaces.length; i++) {
       const monsterHolder = monsterPlaces[i];
       if (BattleManager.currentlyAttackedMonsterNode != monsterHolder.activeMonster) {
         cc.log(`move ${monsterHolder.activeMonster.name} to discard pile`)
 
-        let monster = monsterHolder.getComponent(MonsterCardHolder).activeMonster;
-        monsterHolder.removeMonster(monster, true)
-        await PileManager.addCardToPile(CARD_TYPE.MONSTER, monster, true)
+        const monster = monsterHolder.getComponent(MonsterCardHolder).activeMonster;
+        await monsterHolder.discardTopMonster(true)
+        //await PileManager.addCardToPile(CARD_TYPE.MONSTER, monster, true)
       }
     }
-
-    for (let i = 0; i < monsterPlaces.length; i++) {
-      const monsterHolder = monsterPlaces[i];
-      if (BattleManager.currentlyAttackedMonsterNode != monsterHolder.activeMonster) {
-        cc.log(CardManager.monsterDeck.getComponent(Deck)._cards.map(card => card.name))
-        let newMonster = CardManager.monsterDeck.getComponent(Deck).drawCard(true)
-        cc.log(`add new monster ${newMonster.name}`)
-        await MonsterField.addMonsterToExsistingPlace(monsterHolder.getComponent(MonsterCardHolder).id, newMonster, true)
-        //  await monsterHolder.addToMonsters(newMonster, true)
-      }
-    }
-
-
-
 
     return stack
   }

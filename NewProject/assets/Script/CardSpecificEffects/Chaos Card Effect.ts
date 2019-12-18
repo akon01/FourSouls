@@ -44,9 +44,9 @@ export default class ChaosCardEffect extends Effect {
         await (target as cc.Node).getComponent(Monster).kill(CardManager.getCardOwner(this.node.parent))
       } else if ((target as cc.Node).getComponent(Item)) {
         if (!CardManager.getCardOwner(target as cc.Node)) {
-          await Store.$.discardStoreCard(target as cc.Node, true)
+          await Store.$.removeFromStore(target as cc.Node, true)
         }
-        await PlayerManager.getPlayerByCard(target as cc.Node).loseItem(target as cc.Node)
+        await PlayerManager.getPlayerByCard(target as cc.Node).loseItem(target as cc.Node, true)
       }
     }
 

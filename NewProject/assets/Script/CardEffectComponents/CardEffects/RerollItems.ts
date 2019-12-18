@@ -1,13 +1,12 @@
-import CardManager from "../../Managers/CardManager";
-import PlayerManager from "../../Managers/PlayerManager";
-import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
-import { ServerEffect } from "./../../Entites/ServerCardEffect";
-import Effect from "./Effect";
-import Player from "../../Entites/GameEntities/Player";
 import Deck from "../../Entites/GameEntities/Deck";
+import Player from "../../Entites/GameEntities/Player";
+import Stack from "../../Entites/Stack";
+import CardManager from "../../Managers/CardManager";
 import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
+import PlayerManager from "../../Managers/PlayerManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
+import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
+import Effect from "./Effect";
 
 const { ccclass, property } = cc._decorator;
 
@@ -44,7 +43,8 @@ export default class RerollItems extends Effect {
       }
     }
 
+
     if (data instanceof PassiveEffectData) return data
-    return stack
+    return Stack._currentStack
   }
 }

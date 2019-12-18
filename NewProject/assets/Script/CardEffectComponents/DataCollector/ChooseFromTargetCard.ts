@@ -1,15 +1,14 @@
+import { GAME_EVENTS } from "../../Constants";
 import Character from "../../Entites/CardTypes/Character";
 import Card from "../../Entites/GameEntities/Card";
 import Deck from "../../Entites/GameEntities/Deck";
 import Player from "../../Entites/GameEntities/Player";
 import ActionManager from "../../Managers/ActionManager";
 import CardManager from "../../Managers/CardManager";
+import CardPreviewManager from "../../Managers/CardPreviewManager";
 import { EffectTarget } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "./DataCollector";
-import { GAME_EVENTS } from "../../Constants";
-
-
 
 const { ccclass, property } = cc._decorator;
 
@@ -35,11 +34,19 @@ export default class ChooseFromTargetCard extends DataCollector {
   @property
   isRandom: boolean = false;
 
+  @property
+  isMultiCardChoice: boolean = false;
+
+  @property({
+    visible: function (this: ChooseFromTargetCard) {
+      if (this.isMultiCardChoice) { return true }
+    }
+    , tooltip: "set to 0 for as many as you would like to choose"
+  })
+  numberOfCardsToChoose: number = -1;
 
   @property(DataCollector)
   dataCollectorToRun: DataCollector = null
-
-
 
   /**
    *  @throws when there are no cards to choose from in the choose type
@@ -49,11 +56,7 @@ export default class ChooseFromTargetCard extends DataCollector {
 
   async collectData(data: {
     cardPlayerId;
-  }): Promise<EffectTarget> {
-    let player = PlayerManager.getPlayerById(data.cardPlayerId).getComponent(
-      Player
-    );
-    this.playerId = data.cardPlayerId;
+  }): Promise<EffectTarget | EffectTarget[]> {
     let cardsToChooseFrom: cc.Node[] = []
     let target: EffectTarget
     if (this.dataCollectorToRun.cardChosen) {
@@ -61,46 +64,48 @@ export default class ChooseFromTargetCard extends DataCollector {
     } else {
       target = await this.dataCollectorToRun.collectData(data)
     }
-    let targetPlayer = PlayerManager.getPlayerByCard(target.effectTargetCard)
-    if (this.isItems) cardsToChooseFrom.concat(targetPlayer.deskCards.filter(card => {
-      if (card.getComponent(Character)) return false;
-    }))
-    if (this.isLootCards) cardsToChooseFrom.concat(targetPlayer.handCards)
-
+    const targetPlayer = PlayerManager.getPlayerByCard(target.effectTargetCard)
+    if (this.isItems) {
+      cardsToChooseFrom = cardsToChooseFrom.concat(targetPlayer.deskCards.filter(card => {
+        if (card.getComponent(Character)) { return false; }
+      }))
+    }
+    if (this.isLootCards) { cardsToChooseFrom = cardsToChooseFrom.concat(targetPlayer.handCards) }
     if (cardsToChooseFrom.length == 0) {
-      throw 'No Cards To Choose From!'
+      cc.log(targetPlayer)
+      throw new Error("No Cards To Choose From!")
     }
     if (!this.isRandom) {
-      let cardChosenData: {
-        cardChosenId: number;
-        playerId: number;
-      } = await this.requireChoosingACard(cardsToChooseFrom);
-      target = new EffectTarget(CardManager.getCardById(cardChosenData.cardChosenId, true))
-      cc.log(`chosen ${target.effectTargetCard.name}`)
+      if (this.isMultiCardChoice) {
+        const cardsChosenNodes = await CardPreviewManager.selectFromCards(cardsToChooseFrom, this.numberOfCardsToChoose)
+        const cardsChosenTargets = cardsChosenNodes.map(card => new EffectTarget(card))
+        return cardsChosenTargets
+      } else {
+        const cardChosenId = await this.requireChoosingACard(cardsToChooseFrom);
+        target = new EffectTarget(CardManager.getCardById(cardChosenId, true))
+        cc.log(`chosen ${target.effectTargetCard.name}`)
+      }
     } else {
-      let randIndex = Math.random() * cardsToChooseFrom.length
+      const randIndex = Math.random() * cardsToChooseFrom.length
       target = new EffectTarget(cardsToChooseFrom[randIndex])
     }
     return target;
   }
 
-
-
-
   async requireChoosingACard(
     cards: cc.Node[]
-  ): Promise<{ cardChosenId: number; playerId: number }> {
+  ): Promise<number> {
     ActionManager.inReactionPhase = true;
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];
       CardManager.disableCardActions(card);
       CardManager.makeRequiredForDataCollector(this, card);
     }
-    let cardPlayed = await this.waitForCardToBeChosen();
+    const cardPlayed = await this.waitForCardToBeChosen();
     //   let cardServerEffect = await CardManager.getCardEffect(cardPlayed,this.playerId)
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];
-      CardManager.unRequiredForDataCollector(card);
+      await CardManager.unRequiredForDataCollector(card);
       //  CardManager.disableCardActions(card);
     }
     let cardId;
@@ -110,7 +115,7 @@ export default class ChooseFromTargetCard extends DataCollector {
       cardId = cardPlayed.getComponent(Deck)._cardId;
     }
     ActionManager.inReactionPhase = false;
-    return { cardChosenId: cardId, playerId: this.playerId }
+    return cardId
   }
 
   async waitForCardToBeChosen(): Promise<cc.Node> {

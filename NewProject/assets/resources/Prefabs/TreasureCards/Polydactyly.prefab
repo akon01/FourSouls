@@ -157,7 +157,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "StartTurn",
+    "_name": "PlayerAddThisItem",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -216,14 +216,14 @@
     "_id": ""
   },
   {
-    "__type__": "13e64JpKQhN/qJu243GaUX+",
+    "__type__": "0e7c6gxW/ZIgail5cFkXhII",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 3
     },
     "_enabled": true,
-    "isOwnerOnly": true,
+    "dataCollector": null,
     "_id": ""
   },
   {
@@ -234,7 +234,7 @@
     "asset": {
       "__uuid__": "89ead156-89bb-468b-9353-e52158f633b0"
     },
-    "fileId": "78wGcvms9Es616jXWS+2Zm",
+    "fileId": "79elWqsUdFlZPOQ7su1zsb",
     "sync": false
   },
   {
@@ -252,7 +252,7 @@
         "__id__": 4
       }
     ],
-    "passiveType": 1,
+    "passiveType": 2,
     "passiveEffectToAdd": null,
     "dataCollector": [],
     "_effectCard": null,
@@ -269,7 +269,7 @@
     "asset": {
       "__uuid__": "89ead156-89bb-468b-9353-e52158f633b0"
     },
-    "fileId": "59tugpLE9LDpsmuCMaC1Zw",
+    "fileId": "54NBUj/MRLObtrzS1Xe7wM",
     "sync": false
   },
   {
@@ -338,7 +338,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "PlayerAddThisItem",
+    "_name": "PlayerLoseThisItem",
     "_objFlags": 0,
     "_parent": {
       "__id__": 8
@@ -397,7 +397,7 @@
     "_id": ""
   },
   {
-    "__type__": "0e7c6gxW/ZIgail5cFkXhII",
+    "__type__": "ef91eRCnkxC4INnxPpiSJgk",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -415,7 +415,7 @@
     "asset": {
       "__uuid__": "89ead156-89bb-468b-9353-e52158f633b0"
     },
-    "fileId": "79elWqsUdFlZPOQ7su1zsb",
+    "fileId": "53UN+OQIFOB60W2rBRCnS4",
     "sync": false
   },
   {
@@ -433,13 +433,13 @@
         "__id__": 10
       }
     ],
-    "passiveType": 1,
+    "passiveType": 2,
     "passiveEffectToAdd": null,
     "dataCollector": [],
     "_effectCard": null,
     "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
-    "numOfTimes": 1,
+    "numOfTimes": -1,
     "_id": ""
   },
   {
@@ -450,7 +450,7 @@
     "asset": {
       "__uuid__": "89ead156-89bb-468b-9353-e52158f633b0"
     },
-    "fileId": "54NBUj/MRLObtrzS1Xe7wM",
+    "fileId": "28u5UlOGJFIqZVKqAmKgL0",
     "sync": false
   },
   {
@@ -950,7 +950,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "4d081679-27ba-4564-9fc3-07f8ab929a9a"
+      "__uuid__": "836fcc9d-ac3e-42ea-bbd7-3c772f06b514"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -963,7 +963,9 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "d1548a15-58ae-4e4f-aea6-51b1fb672222"
+    },
     "_id": ""
   },
   {
@@ -975,6 +977,9 @@
     },
     "_enabled": true,
     "cardName": "Polydactyly",
+    "makeMultiCards": false,
+    "numOfCopies": 2,
+    "copiesSprites": [],
     "_cardId": 0,
     "_isInHand": false,
     "_isOnDesk": false,
@@ -997,6 +1002,7 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
+    "availableParticles": [],
     "_id": ""
   },
   {
@@ -1021,6 +1027,7 @@
       "__id__": 1
     },
     "_enabled": true,
+    "hasDestroySelfEffect": false,
     "conditions": [],
     "activeEffects": [],
     "passiveEffects": [

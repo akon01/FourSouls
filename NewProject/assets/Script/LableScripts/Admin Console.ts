@@ -7,6 +7,8 @@ import ActionManager from "../Managers/ActionManager";
 import CardManager from "../Managers/CardManager";
 import PlayerManager from "../Managers/PlayerManager";
 import Item from "../Entites/CardTypes/Item";
+import Deck from "../Entites/GameEntities/Deck";
+import Monster from "../Entites/CardTypes/Monster";
 
 const { ccclass, property } = cc._decorator;
 
@@ -62,6 +64,13 @@ export default class AdminConsole extends cc.Component {
             case 'hp':
                 await mePlayer.gainHeartContainer(Number.parseInt(commandText), true, true)
                 break;
+            case `soul`:
+                let soulCard = CardManager.monsterDeck.getComponent(Deck).drawSpecificCard(CardManager.monsterDeck.getComponent(Deck)._cards.filter(card => card.getComponent(Monster).souls > 0)[0], true)
+                await mePlayer.getSoulCard(soulCard, true)
+                break
+            case `dmg`:
+                await mePlayer.gainDMG(Number.parseInt(commandText), true, true)
+                break
             case 'heal':
                 await mePlayer.heal(Number.parseInt(commandText), true)
                 break;
@@ -100,8 +109,18 @@ export default class AdminConsole extends cc.Component {
                 }
                 break
             case 'help':
-                cc.log('available commands:  log,coins,heal,hp,dice,roll,card,run')
+                cc.log('available commands:  log,coins X,heal X,hp X,dmg X,dice X,soul,charge,roll +/-X,card "Name",run,stack')
                 break;
+            case 'charge':
+                for (let i = 0; i < mePlayer.activeItems.length; i++) {
+                    const item = mePlayer.activeItems[i];
+                    await item.getComponent(Item).rechargeItem(true)
+                }
+                ActionManager.updateActions()
+                break;
+            case 'stack':
+                cc.error(`stack trace`)
+                break
             case 'char':
                 //let mePlayer = PlayerManager.mePlayer.getComponent(Player)
                 mePlayer.activeItems.splice(mePlayer.activeItems.indexOf(mePlayer.character))
@@ -122,6 +141,9 @@ export default class AdminConsole extends cc.Component {
                     default:
                         break;
                 }
+                break;
+            case 'diceNum':
+                mePlayer.dice.changeSprite(Number.parseInt(commandText))
                 break;
             default:
                 this.consoleEditBox.placeholder = 'Unknown command, try help'

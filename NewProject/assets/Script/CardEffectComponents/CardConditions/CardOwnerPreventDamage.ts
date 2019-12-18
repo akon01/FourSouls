@@ -14,10 +14,12 @@ export default class PreventDamage extends Condition {
   @property
   isOwnerOnly: boolean = false;
 
+  needsDataCollector = false;
+
   async testCondition(meta: PassiveMeta) {
-    let player: Player = meta.methodScope.getComponent(Player);
-    let thisCard = this.node.parent.parent;
-    let cardOwner = PlayerManager.getPlayerByCard(thisCard);
+    const player: Player = meta.methodScope.getComponent(Player);
+    const thisCard = this.node.parent.parent;
+    const cardOwner = PlayerManager.getPlayerByCard(thisCard);
     let answer = false
     if (
       player instanceof Player &&

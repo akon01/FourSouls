@@ -1,16 +1,12 @@
 import CardManager from "../../Managers/CardManager";
-import PlayerManager from "../../Managers/PlayerManager";
-import DataCollector from "../DataCollector/DataCollector";
-import { CHOOSE_CARD_TYPE, TARGETTYPE, ROLL_TYPE } from "./../../Constants";
-import { ServerEffect } from "./../../Entites/ServerCardEffect";
-import Effect from "./Effect";
-import Player from "../../Entites/GameEntities/Player";
-import Deck from "../../Entites/GameEntities/Deck";
 import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
-import StackEffectInterface from "../../StackEffects/StackEffectInterface";
-import StackEffectPreview from "../../StackEffects/StackEffectVisualRepresentation/StackEffectPreview";
-import RollDiceStackEffect from "../../StackEffects/Roll DIce";
+import PlayerManager from "../../Managers/PlayerManager";
 import AttackRoll from "../../StackEffects/Attack Roll";
+import RollDiceStackEffect from "../../StackEffects/Roll DIce";
+import StackEffectInterface from "../../StackEffects/StackEffectInterface";
+import { CHOOSE_CARD_TYPE, ROLL_TYPE, TARGETTYPE } from "./../../Constants";
+import Effect from "./Effect";
+import Stack from "../../Entites/Stack";
 
 const { ccclass, property } = cc._decorator;
 
@@ -48,7 +44,8 @@ export default class RerollDice extends Effect {
       }
     }
 
+
     if (data instanceof PassiveEffectData) return data
-    return stack
+    return Stack._currentStack
   }
 }

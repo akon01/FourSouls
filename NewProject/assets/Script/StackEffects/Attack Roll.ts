@@ -9,10 +9,11 @@ import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
 import TurnsManager from "../Managers/TurnsManager";
 import CombatDamage from "./Combat Damage";
 import ServerAttackRoll from "./ServerSideStackEffects/Server Attack Roll";
+import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { AttackRollVis } from "./StackEffectVisualRepresentation/Attack Roll Vis";
 
-export default class AttackRoll implements StackEffectInterface {
+export default class AttackRoll extends StackEffectConcrete {
     visualRepesentation: AttackRollVis;
 
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.ATTACK_ROLL;
@@ -37,10 +38,10 @@ export default class AttackRoll implements StackEffectInterface {
 
     checkForFizzle() {
         cc.log(`check for fizzle`)
-        cc.log(this.creationTurnId)
-        cc.log(TurnsManager.currentTurn.turnId)
-        if (this.creationTurnId != TurnsManager.currentTurn.turnId) { return true }
-        if (this.isToBeFizzled) { return true }
+        if (super.checkForFizzle()) {
+            this.isToBeFizzled = true
+            return true
+        }
         if (this.rollingPlayer._isDead || this.rollingPlayer._Hp == 0 || this.attackedMonster._isDead || this.attackedMonster.currentHp == 0 || BattleManager.currentlyAttackedMonster != this.attackedMonster) {
             this.isToBeFizzled = true
             return true
@@ -54,15 +55,8 @@ export default class AttackRoll implements StackEffectInterface {
     attackedMonster: Monster
 
     constructor(creatorCardId: number, rollingPlayer: cc.Node, attackedMonsterCard: cc.Node, entityId?: number) {
-        if (entityId) {
-            this.nonOriginal = true
-            this.entityId = entityId
-        } else {
-            this.entityId = Stack.getNextStackEffectId()
-        }
+        super(creatorCardId, entityId)
 
-        this.creatorCardId = creatorCardId;
-        this.creationTurnId = TurnsManager.currentTurn.turnId;
         this.rollingPlayer = rollingPlayer.getComponent(Player)
         this.attackedMonster = attackedMonsterCard.getComponent(Monster)
         const dice = this.rollingPlayer.dice
@@ -88,7 +82,6 @@ export default class AttackRoll implements StackEffectInterface {
     async resolve() {
         let attackType;
         this.rollingPlayer._isFirstAttackRollOfTurn == true ? attackType = ROLL_TYPE.FIRST_ATTACK : attackType = ROLL_TYPE.ATTACK;
-        if (this.rollingPlayer._isFirstAttackRollOfTurn) { this.rollingPlayer._isFirstAttackRollOfTurn = false; }
 
         let monsterEvasion = this.attackedMonster.rollValue + this.attackedMonster.rollBonus;
 
@@ -102,6 +95,8 @@ export default class AttackRoll implements StackEffectInterface {
         if (!afterPassiveMeta.continue) { return }
         playerRollValue = afterPassiveMeta.args[0]
         monsterEvasion = afterPassiveMeta.args[2]
+        passiveMeta.args[0] = afterPassiveMeta.args[0]
+        passiveMeta.args[2] = afterPassiveMeta.args[2]
         //add the check if its the first attack roll, and first roll of the turn. and add the bonus.
         //if()
         //player hit monster.
@@ -124,6 +119,9 @@ export default class AttackRoll implements StackEffectInterface {
             }
 
         }
+
+        await PassiveManager.testForPassiveAfter(passiveMeta)
+
     }
 
     convertToServerStackEffect() {

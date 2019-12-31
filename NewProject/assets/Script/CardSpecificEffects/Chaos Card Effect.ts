@@ -34,20 +34,46 @@ export default class ChaosCardEffect extends Effect {
     if (!target) {
       throw `no target found`
     } else {
-      if (PlayerManager.getPlayerByCard(target as cc.Node)) {
-        await PlayerManager.getPlayerByCard(target as cc.Node).killPlayer(true, CardManager.getCardOwner(this.node.parent))
-      } else if (PlayerManager.isAOwnedSoul(target as cc.Node)) {
+      if (PlayerManager.isAOwnedSoul(target as cc.Node)) {
         //Card Should Be Soul Card
         await PlayerManager.getPlayerByCard(target as cc.Node).loseSoul(target as cc.Node, true)
         await PileManager.addCardToPile((target as cc.Node).getComponent(Card).type, target as cc.Node, true)
-      } else if ((target as cc.Node).getComponent(Monster)) {
-        await (target as cc.Node).getComponent(Monster).kill(CardManager.getCardOwner(this.node.parent))
-      } else if ((target as cc.Node).getComponent(Item)) {
+        if (data instanceof PassiveEffectData) {
+          return data
+        }
+        return stack
+      }
+      if ((target as cc.Node).getComponent(Monster)) {
+        await this.killMonster(target as cc.Node)
+        await PileManager.addCardToPile((target as cc.Node).getComponent(Card).type, target as cc.Node, true)
+        if (data instanceof PassiveEffectData) {
+          return data
+        }
+        return stack
+      }
+      if ((target as cc.Node).getComponent(Item)) {
+        const cardOwner = PlayerManager.getPlayerByCard(target as cc.Node);
         if (!CardManager.getCardOwner(target as cc.Node)) {
           await Store.$.removeFromStore(target as cc.Node, true)
+          await PileManager.addCardToPile((target as cc.Node).getComponent(Card).type, target as cc.Node, true)
+        } else if (!((target as cc.Node) == cardOwner.character || (target as cc.Node) == cardOwner.characterItem)) {
+          await cardOwner.loseItem(target as cc.Node, true)
+          await PileManager.addCardToPile((target as cc.Node).getComponent(Card).type, target as cc.Node, true)
+          if (data instanceof PassiveEffectData) {
+            return data
+          }
+          return stack
         }
-        await PlayerManager.getPlayerByCard(target as cc.Node).loseItem(target as cc.Node, true)
       }
+      if (PlayerManager.getPlayerByCard(target as cc.Node)) {
+        await PlayerManager.getPlayerByCard(target as cc.Node).killPlayer(true, CardManager.getCardOwner(this.node.parent))
+        if (data instanceof PassiveEffectData) {
+          return data
+        }
+        return stack
+      }
+
+
     }
 
     if (data instanceof PassiveEffectData) {
@@ -55,4 +81,9 @@ export default class ChaosCardEffect extends Effect {
     }
     return stack
   }
+
+  async killMonster(monster: cc.Node) {
+    await monster.getComponent(Monster).kill(CardManager.getCardOwner(Card.getCardNodeByChild(this.node)))
+  }
+
 }

@@ -1,6 +1,8 @@
+import { STACK_EFFECT_TYPE } from "../Constants";
+import Stack from "../Entites/Stack";
+import TurnsManager from "../Managers/TurnsManager";
 import StackEffectInterface from "./StackEffectInterface";
 import { StackEffectVisualRepresentation } from "./StackEffectVisualRepresentation/Stack Vis Interface";
-import { STACK_EFFECT_TYPE } from "../Constants";
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,6 +22,20 @@ export default class StackEffectConcrete implements StackEffectInterface {
     _lable: string;
     isToBeFizzled: boolean;
     creationTurnId: number;
+    nonOriginal: boolean = false;
+
+
+    constructor(creatorCardId: number, entityId?: number) {
+        if (entityId) {
+            this.nonOriginal = true
+            this.entityId = entityId
+        } else {
+            this.entityId = Stack.getNextStackEffectId()
+        }
+        this.creatorCardId = creatorCardId;
+        this.creationTurnId = TurnsManager.currentTurn.turnId;
+    }
+
     resolve() {
         throw new Error("Method not implemented.");
     }
@@ -30,10 +46,11 @@ export default class StackEffectConcrete implements StackEffectInterface {
         throw new Error("Method not implemented.");
     }
     checkForFizzle() {
-        throw new Error("Method not implemented.");
+        cc.log(this)
+        if (this.isToBeFizzled) { return true }
+        if (Stack._currentStack.findIndex(se => { if (se.entityId == this.entityId) { return true } }) == -1) { return true }
+        if (this.creationTurnId != TurnsManager.currentTurn.turnId) { return true }
     }
-
-
 
     // LIFE-CYCLE CALLBACKS:
 

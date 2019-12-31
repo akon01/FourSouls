@@ -229,6 +229,8 @@
     "isItems": false,
     "isLootCards": true,
     "isRandom": false,
+    "isMultiCardChoice": false,
+    "numberOfCardsToChoose": -1,
     "dataCollectorToRun": {
       "__id__": 5
     },
@@ -426,7 +428,7 @@
         "__id__": 10
       }
     ],
-    "passiveType": 1,
+    "passiveType": 2,
     "passiveEffectToAdd": null,
     "dataCollector": [
       {
@@ -880,6 +882,7 @@
     },
     "_enabled": true,
     "cardName": "Cursed Fatty",
+    "doNotMake": false,
     "makeMultiCards": false,
     "numOfCopies": 2,
     "copiesSprites": [],
@@ -887,6 +890,7 @@
     "_isInHand": false,
     "_isOnDesk": false,
     "_originalParent": null,
+    "_originalWidth": null,
     "topDeckof": null,
     "souls": 0,
     "type": 2,
@@ -932,6 +936,8 @@
     "reward": {
       "__id__": 15
     },
+    "killer": null,
+    "_isDead": false,
     "_id": ""
   },
   {
@@ -942,6 +948,7 @@
       "__id__": 1
     },
     "_enabled": true,
+    "hasDestroySelfEffect": false,
     "conditions": [],
     "activeEffects": [],
     "passiveEffects": [

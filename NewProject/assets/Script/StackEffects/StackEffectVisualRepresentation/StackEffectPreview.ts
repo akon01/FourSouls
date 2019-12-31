@@ -5,6 +5,8 @@ import ActivatePassiveEffect from "../Activate Passive Effect";
 import PlayLootCardStackEffect from "../Play Loot Card";
 import StackEffectInterface from "../StackEffectInterface";
 import { ServerStackVisualisation } from "./Server Stack Vis";
+import ParticleManager from "../../Managers/ParticleManager";
+import { PARTICLE_TYPES } from "../../Constants";
 
 const { ccclass, property } = cc._decorator;
 
@@ -29,6 +31,15 @@ export default class StackEffectPreview extends cc.Component {
     @property
     imageSprite: cc.SpriteFrame = null;
 
+    @property(cc.Sprite)
+    templateBottom: cc.Sprite = null
+
+    @property(cc.Node)
+    bottomMaskNode: cc.Node = null;
+
+    @property(cc.Sprite)
+    topOriginSprite: cc.Sprite = null;
+
     @property
     stackEffect: StackEffectInterface = null
 
@@ -50,7 +61,7 @@ export default class StackEffectPreview extends cc.Component {
         } else {
             this.showExtraInfo()
             this.node.getComponent(cc.Sprite).spriteFrame = stackEffectVis.baseSprite;
-            this.nameLable.string = stackEffectVis.stackEffectType.valueOf().toString()
+            this.nameLable.string = stackEffect.constructor.name + stackEffect.entityId
             if (stackEffectVis.flavorText != "") {
                 this.flavorTextLable.string = stackEffectVis.flavorText;
             }
@@ -66,7 +77,7 @@ export default class StackEffectPreview extends cc.Component {
         this.stackEffect.visualRepesentation.hasBeenUpdated = false;
         const stackEffectVis = this.stackEffect.visualRepesentation;
         this.node.getComponent(cc.Sprite).spriteFrame = stackEffectVis.baseSprite;
-        this.nameLable.string = stackEffectVis.stackEffectType.valueOf().toString()
+        this.nameLable.string = this.stackEffect.constructor.name + this.stackEffect.entityId
         if (stackEffectVis.flavorText != "") {
             this.flavorTextLable.string = stackEffectVis.flavorText;
         }
@@ -93,9 +104,33 @@ export default class StackEffectPreview extends cc.Component {
         this.isShowExtraInfo = true;
     }
 
+    // showTargets() {
+    //     if (this.stackEffect instanceof ActivateItem || this.stackEffect instanceof PlayLootCardStackEffect) {
+    //         const effectToDo = this.stackEffect.effectToDo;
+    //         if (effectToDo) {
+    //             cc.log(effectToDo)
+    //             const effectData = effectToDo.effectData
+    //             if (effectData) {
+    //                 cc.log(effectData)
+    //                 const targets = effectData.effectTargets
+    //                 cc.log(targets)
+    //                 for (const target of targets) {
+    //                     if (target.effectTargetCard) {
+    //                         ParticleManager.runParticleOnce(target.effectTargetCard, PARTICLE_TYPES.ACTIVATE_EFFECT)
+    //                     }
+
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
+        // this.node.on(cc.Node.EventType.TOUCH_END, () => {
+        //     this.showTargets()
+        // }, this)
     }
 
     start() {
@@ -107,7 +142,7 @@ export default class StackEffectPreview extends cc.Component {
             if (this.isShowExtraInfo) {
                 const stackEffectVis = this.stackEffect.visualRepesentation
                 this.node.getComponent(cc.Sprite).spriteFrame = stackEffectVis.baseSprite;
-                this.nameLable.string = stackEffectVis.stackEffectType.valueOf().toString()
+                this.nameLable.string = this.stackEffect.constructor.name + this.stackEffect.entityId
                 if (stackEffectVis.flavorText != "123") {
                     this.flavorTextLable.string = stackEffectVis.flavorText;
                 }

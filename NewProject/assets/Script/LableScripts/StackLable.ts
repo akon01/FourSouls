@@ -1,13 +1,11 @@
+import Signal from "../../Misc/Signal";
+import ServerClient from "../../ServerClient/ServerClient";
 import { GAME_EVENTS } from "../Constants";
-import CardManager from "../Managers/CardManager";
 import Stack from "../Entites/Stack";
-import ActivateItem from "../StackEffects/Activate Item";
+import CardManager from "../Managers/CardManager";
 import PlayerManager from "../Managers/PlayerManager";
 import TurnsManager from "../Managers/TurnsManager";
-import ServerClient from "../../ServerClient/ServerClient";
-import Signal from "../../Misc/Signal";
-
-
+import ActivateItem from "../StackEffects/Activate Item";
 
 const { ccclass, property } = cc._decorator;
 
@@ -24,14 +22,14 @@ export default class StackLable extends cc.Component {
             this.$.label.string = "Empty Stack"
             ServerClient.$.send(Signal.UPDATE_STACK_LABLE, { stackText: "Empty Stack" })
         } else {
-            let stackText: string = '';
+            let stackText: string = "";
             for (let i = 0; i < Stack._currentStack.length; i++) {
-                let stackEffect = Stack._currentStack[i]
+                const stackEffect = Stack._currentStack[i]
                 let type: string;
                 let text: string;
                 switch (stackEffect.stackEffectType) {
                     case 1:
-                        let ai: ActivateItem = stackEffect as ActivateItem
+                        const ai: ActivateItem = stackEffect as ActivateItem
                         type = "ACTIVATE ITEM"
                         break;
                     case 2:

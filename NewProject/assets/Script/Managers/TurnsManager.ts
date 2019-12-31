@@ -1,13 +1,13 @@
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
-import PlayerManager from "./PlayerManager";
-import Player from "../Entites/GameEntities/Player";
-import Character from "../Entites/CardTypes/Character";
-import MonsterField from "../Entites/MonsterField";
-import Monster from "../Entites/CardTypes/Monster";
-import Stack from "../Entites/Stack";
 import { MAX_TURNID } from "../Constants";
+import Character from "../Entites/CardTypes/Character";
+import Monster from "../Entites/CardTypes/Monster";
+import Player from "../Entites/GameEntities/Player";
+import MonsterField from "../Entites/MonsterField";
+import Stack from "../Entites/Stack";
 import { Turn } from "../Modules/TurnsModule";
+import PlayerManager from "./PlayerManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -44,7 +44,7 @@ export default class TurnsManager extends cc.Component {
     cc.log(`searching for turn ${playerId}`)
     for (const turn of this.turns) {
       cc.log(turn)
-      if (turn.PlayerId == playerId) return turn;
+      if (turn.PlayerId == playerId) { return turn; }
     }
   }
 
@@ -54,11 +54,16 @@ export default class TurnsManager extends cc.Component {
    */
   static async nextTurn(sendToServer?: boolean) {
 
-    // await Stack.replaceStack([], false)
+    if (Stack._currentStack.length > 0) {
+      cc.log(`wait for stack to be emptied`)
+      cc.log(Stack._currentStack)
+      await Stack.waitForStackEmptied()
+    }
+    await Stack.replaceStack([], true)
 
-    await this.endTurn();
+    await this.endTurn(true);
 
-    this.setCurrentTurn(TurnsManager.getNextTurn(TurnsManager.currentTurn, this.turns), true);
+    await this.setCurrentTurn(TurnsManager.getNextTurn(TurnsManager.currentTurn, this.turns), true);
 
     cc.find("MainScript").dispatchEvent(
       new cc.Event.EventCustom("turnChanged", true)
@@ -66,7 +71,7 @@ export default class TurnsManager extends cc.Component {
     //  this.node.dispatchEvent(new cc.Event.EventCustom('turnChanged', true))
   }
 
-  static setCurrentTurn(turn: Turn, sendToServer: boolean) {
+  static async setCurrentTurn(turn: Turn, sendToServer: boolean) {
 
     if (sendToServer) {
       ServerClient.$.send(Signal.SET_TURN, { playerId: turn.PlayerId })
@@ -74,11 +79,11 @@ export default class TurnsManager extends cc.Component {
     if (turn.PlayerId != 0) {
       turn.refreshTurn();
       TurnsManager.currentTurn = turn;
-      if (sendToServer) turn.startTurn();
+      if (sendToServer) { await turn.startTurn(); }
     }
   }
 
-  static async endTurn() {
+  static async endTurn(sendToServer: boolean) {
     if (
       this.getNextTurn(TurnsManager.currentTurn, TurnsManager.turns).PlayerId != 0
     ) {
@@ -88,25 +93,30 @@ export default class TurnsManager extends cc.Component {
         player.tempNonAttackRollBonus = 0
         player.tempFirstAttackRollBonus = 0
         player._lootCardsPlayedThisTurn = [];
+        player.itemsLostThisTurn = []
         player._thisTurnKiller = null
         player._isFirstTimeGettingMoney = true;
         player._isFirstAttackRollOfTurn = true
         player._isDead = false;
-        await player.heal(player.character.getComponent(Character).Hp + player._hpBonus, true, true)
+        // player.broadcastUpdateProperites({ _tempHpBonus: player._tempHpBonus, tempAttackRollBonus: player.tempAttackRollBonus})
+        await player.heal(player.character.getComponent(Character).Hp + player._hpBonus, false, true)
       }
       for (const monster of MonsterField.activeMonsters.map(monster => monster.getComponent(Monster))) {
         monster.rollBonus = 0;
         monster.bonusDamage = 0;
         monster._thisTurnKiller = null;
-        await monster.heal(monster.HP, true, true)
+        await monster.heal(monster.HP, false, true)
       }
-
+      if (sendToServer) {
+        ServerClient.$.send(Signal.END_TURN)
+      }
     }
+
   }
 
   static getNextTurn(currentTurn: Turn, turns: Turn[]): Turn {
     for (let i = 0; i < turns.length; i++) {
-      let nextTurn = turns[i];
+      const nextTurn = turns[i];
       if (currentTurn.PlayerId == PlayerManager.players.length) {
         if (nextTurn.PlayerId == 1) {
           return nextTurn;
@@ -119,13 +129,12 @@ export default class TurnsManager extends cc.Component {
     return null;
   }
 
-
   static setTurns(turns2: Turn[]) {
     TurnsManager.turns = turns2;
   }
 
   static isCurrentPlayer(player: cc.Node): boolean {
-    let playerId = player.getComponent(Player).playerId
+    const playerId = player.getComponent(Player).playerId
     if (TurnsManager.currentTurn.PlayerId == playerId) {
       return true;
     }

@@ -1,7 +1,9 @@
 import Signal from "../../../Misc/Signal";
 import ServerClient from "../../../ServerClient/ServerClient";
 import ChooseCard from "../../CardEffectComponents/DataCollector/ChooseCard";
+import { IMultiEffectRollAndCollect } from "../../CardEffectComponents/MultiEffectChooser/IMultiEffectRollAndCollect";
 import MultiEffectChoose from "../../CardEffectComponents/MultiEffectChooser/MultiEffectChoose";
+import MultiEffectRoll from "../../CardEffectComponents/MultiEffectChooser/MultiEffectRoll";
 import RollDice from "../../CardEffectComponents/RollDice";
 import { BUTTON_STATE, CARD_TYPE, CHOOSE_CARD_TYPE, GAME_EVENTS, ITEM_TYPE, PARTICLE_TYPES, PASSIVE_EVENTS, ROLL_TYPE, TIME_TO_REACT_ON_ACTION } from "../../Constants";
 import BattleManager from "../../Managers/BattleManager";
@@ -190,7 +192,7 @@ export default class Player extends cc.Component {
   _dmgPrevention: number[] = [];
 
   @property
-  _isFirstAttackRollOfTurn: boolean = false;
+  _isFirstAttackRollOfTurn: boolean = true;
 
   @property
   _isFirstTimeGettingMoney: boolean = true;
@@ -205,6 +207,24 @@ export default class Player extends cc.Component {
   _isDead: boolean = false;
 
   /// Admin Methods Only!
+
+  broadcastUpdateProperites(propertiesToChange) {
+    ServerClient.$.send(Signal.PLAYER_PROP_UPDATE, { properties: propertiesToChange, playerId: this.playerId })
+  }
+
+  updateProperties(propertiesToChange) {
+
+    for (const key of Object.keys(propertiesToChange)) {
+      for (const key2 of Object.keys(this)) {
+        if (key == key2) {
+          cc.log(this[key2])
+          this[key2] = propertiesToChange[key]
+          break
+        }
+      }
+    }
+
+  }
 
   async giveCard(card: cc.Node) {
     card.parent = cc.find(`Canvas`)
@@ -508,6 +528,8 @@ export default class Player extends cc.Component {
       ServerClient.$.send(serverData.signal, serverData.srvData)
     }
     await this.desk.addToDesk(itemToAdd.getComponent(Card))
+    CardManager.makeCardPreviewable(itemToAdd)
+    CardManager.makeItemActivateable(itemToAdd)
     passiveMeta.result = true
 
     // do passive effects after!
@@ -584,10 +606,12 @@ export default class Player extends cc.Component {
       );
       const chosenData = await chooseCard.requireChoosingACard(cardToChooseFrom)
       const chosenCard = CardManager.getCardById(chosenData.cardChosenId);
+      await this.loseLoot(chosenCard, true)
+      await PileManager.addCardToPile(CARD_TYPE.LOOT, chosenCard, true)
     }
 
     const nonEternalItems = this.deskCards.filter(
-      card => !card.getComponent(Item).eternal,
+      card => (!card.getComponent(Item).eternal)
     );
     // lose 1 non-eternal item if you have any
     if (nonEternalItems.length > 0) {
@@ -599,7 +623,8 @@ export default class Player extends cc.Component {
       const chosenData = await chooseCard.requireChoosingACard(cardToChooseFrom);
 
       const chosenCard = CardManager.getCardById(chosenData.cardChosenId);
-
+      await this.loseItem(chosenCard, true)
+      await PileManager.addCardToPile(chosenCard.getComponent(Card).type, chosenCard, true)
     }
 
     this.activeItems.forEach(item => item.getComponent(Item).useItem(true))
@@ -612,24 +637,34 @@ export default class Player extends cc.Component {
     await PileManager.addCardToPile(CARD_TYPE.TREASURE, itemToDestroy, sendToServer);
   }
 
+  itemsLostThisTurn: cc.Node[] = []
+
   async loseItem(itemToLose: cc.Node, sendToServer: boolean) {
+    let passiveMeta: PassiveMeta
     if (sendToServer) {
-      const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_LOSE_ITEM, [itemToLose], null, this.node)
+      passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_LOSE_ITEM, [itemToLose], null, this.node)
       const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
       passiveMeta.args = afterPassiveMeta.args;
       itemToLose = afterPassiveMeta.args[0]
     }
-
+    this.itemsLostThisTurn.push(itemToLose)
+    this.deskCards = this.deskCards.filter(item => item != itemToLose)
     this.activeItems = this.activeItems.filter(item => item != itemToLose)
     this.passiveItems = this.passiveItems.filter(item => item != itemToLose)
     if (sendToServer) {
       PassiveManager.removePassiveItemEffects(itemToLose, true)
+    }
+
+    if (sendToServer) {
+      await PassiveManager.testForPassiveAfter(passiveMeta)
     }
   }
 
   async startTurn(numOfCardToDraw: number, numberOfItemsToCharge: number, sendToServer: boolean) {
 
     if (Stack._currentStack.length > 0) {
+      cc.log(`wait for stack to be emptied`)
+      cc.log(Stack._currentStack)
       await Stack.waitForStackEmptied()
     }
 
@@ -679,8 +714,13 @@ export default class Player extends cc.Component {
    * @async dont put await before this function, this will run only when the stack was emptied.
    * @param sendToServer
    */
+
+  isEndTurnRunning: boolean = false;
+
   async endTurn(sendToServer: boolean) {
 
+    if (this.isEndTurnRunning) { return }
+    this.isEndTurnRunning = true
     if (Stack._currentStack.length > 0) {
       await Stack.waitForStackEmptied()
     }
@@ -696,8 +736,9 @@ export default class Player extends cc.Component {
       PassiveManager.oneTurnAfterEffects = [];
       PassiveManager.oneTurnBeforeEffects = [];
     }
+    cc.log(Stack._currentStack)
     await TurnsManager.nextTurn();
-
+    this.isEndTurnRunning = false
     /// add a check if you have more than 10 cards discard to 10.
     return true
   }
@@ -1014,7 +1055,7 @@ export default class Player extends cc.Component {
       }
 
       if (sendToServer) {
-        ServerClient.$.send(Signal.CHANGE_MONEY, { playerId: this.playerId, numOfCoins: numOfCoins, isStartGame: isStartGame })
+        ServerClient.$.send(Signal.SET_MONEY, { playerId: this.playerId, numOfCoins: this.coins })
       }
     }
     // set the retun value of the original function as the result
@@ -1122,7 +1163,7 @@ export default class Player extends cc.Component {
     ButtonManager.enableButton(ButtonManager.$.skipButton, BUTTON_STATE.DISABLED)
     // cc.find('Canvas/SkipButton').off(cc.Node.EventType.TOUCH_START)
     if (askingPlayerId != this.playerId) { ServerClient.$.send(Signal.RESPOND_TO, { playerId: askingPlayerId, stackEffectResponse: false }) }
-    this._askingPlayerId = -1
+    // this._askingPlayerId = -1
   }
 
   @property
@@ -1132,6 +1173,9 @@ export default class Player extends cc.Component {
   _responseTimeout: NodeJS.Timeout = null;
 
   async getResponse(askingPlayerId: number) {
+    if (askingPlayerId == -1) {
+      throw new Error(`Get Response asked from id -1, shuold not happen`)
+    }
     this._askingPlayerId = askingPlayerId
     this._inGetResponse = true
     Stack.hasAnyoneResponded = false;

@@ -9,10 +9,11 @@ import BattleManager from "../Managers/BattleManager";
 import CardManager from "../Managers/CardManager";
 import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
 import ServerCombatDamage from "./ServerSideStackEffects/Server Combat Damage";
+import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { CombatDamageVis } from "./StackEffectVisualRepresentation/Combat Damage Vis";
 
-export default class CombatDamage implements StackEffectInterface {
+export default class CombatDamage extends StackEffectConcrete {
     visualRepesentation: CombatDamageVis;
 
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.COMBAT_DAMAGE;
@@ -36,10 +37,13 @@ export default class CombatDamage implements StackEffectInterface {
     creationTurnId: number;
 
     checkForFizzle() {
-        if (this.creationTurnId != TurnsManager.currentTurn.turnId) { return true; }
-        if (this.isToBeFizzled) { return true; }
+        if (super.checkForFizzle()) {
+            this.isToBeFizzled = true
+            return true
+        }
         let player: Player;
         let monster: Monster;
+
         if (this.isPlayerDoDamage) {
             player = PlayerManager.getPlayerByCard(this.entityToDoDamageCard);
             monster = this.entityToTakeDamageCard.getComponent(Monster);
@@ -48,9 +52,11 @@ export default class CombatDamage implements StackEffectInterface {
             player = PlayerManager.getPlayerByCard(this.entityToTakeDamageCard);
             monster = this.entityToDoDamageCard.getComponent(Monster);
         }
-        if (player._isDead || player._Hp == 0 || monster.currentHp == 0 || monster._isDead || monster != BattleManager.currentlyAttackedMonster) {
-            this.isToBeFizzled = true;
-            return true;
+        if (player || monster) {
+            if (player._isDead || player._Hp == 0 || monster.currentHp == 0 || monster._isDead || monster != BattleManager.currentlyAttackedMonster) {
+                this.isToBeFizzled = true;
+                return true;
+            }
         }
         return false;
     }
@@ -67,15 +73,7 @@ export default class CombatDamage implements StackEffectInterface {
     numberRolled: number;
 
     constructor(creatorCardId: number, entityToTakeDamageCard: cc.Node, entityToDoDamageCard: cc.Node, entityId?: number) {
-        if (entityId) {
-            this.nonOriginal = true;
-            this.entityId = entityId;
-        } else {
-            this.entityId = Stack.getNextStackEffectId();
-        }
-
-        this.creatorCardId = creatorCardId;
-        this.creationTurnId = TurnsManager.currentTurn.turnId;
+        super(creatorCardId, entityId)
         this.entityToTakeDamageCard = entityToTakeDamageCard;
         if (this.entityToTakeDamageCard.getComponent(Monster) != null) {
             this.isPlayerDoDamage = true;
@@ -146,8 +144,7 @@ export default class CombatDamage implements StackEffectInterface {
             const thisResult = await PassiveManager.testForPassiveAfter(passiveMeta);
 
         }
-
-
+        if (player._isFirstAttackRollOfTurn) { player._isFirstAttackRollOfTurn = false; }
     }
 
     convertToServerStackEffect() {

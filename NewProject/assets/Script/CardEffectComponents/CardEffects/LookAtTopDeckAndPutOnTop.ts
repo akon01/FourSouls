@@ -7,7 +7,6 @@ import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import { CHOOSE_CARD_TYPE } from "./../../Constants";
 import Effect from "./Effect";
 
-
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -15,8 +14,6 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
   chooseType = CHOOSE_CARD_TYPE.DECKS;
 
   effectName = "LookAtTopDeckAndPutOnTop";
-
-
 
   @property(Number)
   numOfCardsToSee: number = 0;
@@ -29,7 +26,6 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
 
   @property
   putOnBottomOfDeck: boolean = false;
-
 
   @property({ type: cc.Enum(CARD_TYPE) })
   deckType: CARD_TYPE = CARD_TYPE.CHAR;
@@ -62,20 +58,17 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
 
       deck = (data.getTarget(TARGETTYPE.DECK) as cc.Node).getComponent(Deck)
     }
-    let cardsToSee = [];
+    const cardsToSee = [];
     for (let i = 0; i < this.numOfCardsToSee; i++) {
       if (deck._cards.length > i) {
-        let card = deck._cards[deck._cards.length - 1 - i]
+        const card = deck._cards[deck._cards.length - 1 - i]
         cc.log(card)
         cardsToSee.push(card);
       }
     }
     cc.log(cardsToSee)
 
-    let selectedQueue = await CardPreviewManager.selectFromCards(cardsToSee, this.numOfCardsToPut)
-
-
-
+    const selectedQueue = await CardPreviewManager.selectFromCards(cardsToSee, this.numOfCardsToPut)
 
     if (!this.putOnBottomOfDeck) {
       for (let i = 0; i < selectedQueue.length; i++) {
@@ -105,6 +98,6 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
 
     if (this.conditions.length > 0) {
       return data;
-    } else return stack
+    } else { return stack }
   }
 }

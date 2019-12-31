@@ -16,6 +16,7 @@ import Player from "./GameEntities/Player";
 import { Logger } from "./Logger";
 import { ServerEffect } from "./ServerCardEffect";
 import Stack from "./Stack";
+import ChainEffects from "../CardEffectComponents/CardEffects/ChainEffects";
 
 const { ccclass, property } = cc._decorator;
 
@@ -251,7 +252,6 @@ export default class CardEffect extends cc.Component {
       }
       cc.error(error)
       cc.error(effectData)
-      cc.error(error.stack)
 
       Logger.error(error)
     }
@@ -311,12 +311,14 @@ export default class CardEffect extends cc.Component {
 
   async collectEffectData(
     effect: Effect,
-    oldData: { cardPlayerId: number; cardId: number }
+    oldData: { cardPlayerId: number; cardId: number },
+    isFromChainCollector?: boolean
   ) {
     let data: ServerEffectData;
     let endData: ActiveEffectData | PassiveEffectData = null;
 
-    const isActive = (this.getEffectIndexAndType(effect).type == ITEM_TYPE.ACTIVE) ? true : false
+    // const isActive = (this.getEffectIndexAndType(effect).type == ITEM_TYPE.ACTIVE) ? true : false
+    const isActive = effect.conditions.length == 0 ? true : false
 
     if (effect.dataCollector != null) {
 
@@ -334,14 +336,20 @@ export default class CardEffect extends cc.Component {
             cc.error(error)
             Logger.error(error)
           }
+          cc.log(`data collected from ${dataCollector.collectorName}`)
+          cc.log(data)
           if (endData == null) {
+            cc.log(`first data collected in ${effect.effectName} which have ${effect.dataCollector.length} collectors`)
             if (dataCollector instanceof ChainCollector) {
               endData = DataInterpreter.makeEffectData(data, this.node, oldData.cardPlayerId, isActive, true)
             } else {
               endData = DataInterpreter.makeEffectData(data, this.node, oldData.cardPlayerId, isActive, false)
             }
           } else {
+            cc.log(`Not first collector , end data is `)
+            cc.log(endData)
             endData.addTarget(data)
+            cc.log(endData)
           }
         }
       }
@@ -349,7 +357,13 @@ export default class CardEffect extends cc.Component {
       throw new Error(`tring to collect data for ${effect.effectName} but it has no data collector`)
     }
     // if (endData instanceof ActiveEffectData) data = DataInterpreter.convertToServerData(endData)
-    data = DataInterpreter.convertToServerData(endData)
+    try {
+
+      data = DataInterpreter.convertToServerData(endData)
+    } catch (error) {
+      cc.error(error)
+      Logger.error(error)
+    }
     //  data = await effect.dataCollector.collectData(oldData);
     return data;
   }

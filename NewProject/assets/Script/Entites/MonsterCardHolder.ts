@@ -13,6 +13,7 @@ import Card from "./GameEntities/Card";
 import Player from "./GameEntities/Player";
 import MonsterField from "./MonsterField";
 import Stack from "./Stack";
+import CardManager from "../Managers/CardManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -58,10 +59,10 @@ export default class MonsterCardHolder extends cc.Component {
     if (sendToServer) {
       if (this.activeMonster && MonsterField.activeMonsters.includes(this.activeMonster)) {
         MonsterField.activeMonsters.splice(MonsterField.activeMonsters.indexOf(this.activeMonster), 1)
+        this.activeMonster.getComponent(Monster).monsterPlace = null;
         PassiveManager.removePassiveItemEffects(monsterCard, sendToServer)
       }
     }
-    cc.log(monsterCard)
     const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.NEW_ACTIVE_MONSTER, [monsterCard], null, monsterCard);
     if (PlayerManager.mePlayer == TurnsManager.currentTurn.getTurnPlayer().node) {
       const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta);
@@ -70,7 +71,6 @@ export default class MonsterCardHolder extends cc.Component {
     } else {
       this._activeMonster = monsterCard;
     }
-    cc.log(this.activeMonster)
     const monster = monsterCard.getComponent(Monster);
     monster.currentHp = monster.HP;
     monster.monsterPlace = this;
@@ -87,6 +87,7 @@ export default class MonsterCardHolder extends cc.Component {
     this.node.height = monsterCard.height;
 
     MonsterField.activeMonsters.push(monsterCard)
+    CardManager.makeCardPreviewable(monsterCard)
 
     const monsterEffect = this.activeMonster.getComponent(CardEffect)
     if (monsterEffect != null && monsterEffect.passiveEffects.length > 0 && !PassiveManager.isCardRegistered(this.activeMonster)) {
@@ -139,7 +140,6 @@ export default class MonsterCardHolder extends cc.Component {
     const monster = this._activeMonster;
     await PileManager.addCardToPile(CARD_TYPE.MONSTER, monster, sendToServer);
     await this.removeMonster(monster, sendToServer);
-    cc.log(`discard top`);
     // this.monsters.length > 0 ? this.activeMonster = this.monsters.pop() : this.activeMonster = null;
     // await this.getNextMonster(true)
 
@@ -149,6 +149,8 @@ export default class MonsterCardHolder extends cc.Component {
     this.monsters.splice(this.monsters.indexOf(monster));
     if (MonsterField.activeMonsters.includes(monster)) {
       MonsterField.activeMonsters.splice(MonsterField.activeMonsters.indexOf(monster), 1)
+      monster.getComponent(Monster).monsterPlace = null;
+      PassiveManager.removePassiveItemEffects(monster, sendToServer)
     }
 
     if (sendToServer) {

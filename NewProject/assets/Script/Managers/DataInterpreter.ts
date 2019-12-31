@@ -9,10 +9,12 @@ import Player from "../Entites/GameEntities/Player";
 import Pile from "../Entites/Pile";
 import { ServerEffect } from "../Entites/ServerCardEffect";
 import Stack from "../Entites/Stack";
+import StackEffectConcrete from "../StackEffects/StackEffectConcrete";
 import StackEffectInterface from "../StackEffects/StackEffectInterface";
 import StackEffectPreview from "../StackEffects/StackEffectVisualRepresentation/StackEffectPreview";
 import CardManager from "./CardManager";
 import PlayerManager from "./PlayerManager";
+import { Logger } from "../Entites/Logger";
 
 const { ccclass, property } = cc._decorator;
 
@@ -154,6 +156,7 @@ export default class DataInterpreter {
             serverEffectData.isPassive = false;
             if (effectData.effectTargets.length > 0) {
                 serverEffectData.effectTargets = effectData.effectTargets.map((target) => {
+                    cc.log(target)
                     if (target.effectTargetStackEffectId != null) {
                         serverEffectData.isTargetStackEffect = true;
                         return target.effectTargetStackEffectId.entityId
@@ -202,7 +205,13 @@ export default class DataInterpreter {
                 const newData: ServerEffectData[] = [];
                 for (let i = 0; i < chainEffectData.data.length; i++) {
                     const data = chainEffectData.data[i];
-                    newData.push(DataInterpreter.convertToServerData(data))
+                    try {
+
+                        newData.push(DataInterpreter.convertToServerData(data))
+                    } catch (error) {
+                        cc.error(error)
+                        Logger.error(error)
+                    }
                 }
                 serverEffectData.chainEffectsData.push(
                     { effectIndex: chainEffectData.effectIndex, data: newData }
@@ -304,17 +313,6 @@ export class PassiveEffectData extends EffectData {
         return null
     }
 
-    // addTarget(target) {
-    //     cc.log(target)
-    //     let newTarget: EffectTarget;
-    //     if (target instanceof EffectTarget) {
-    //         this.effectTargets.push(target)
-    //     } else {
-    //         let newTarget = new EffectTarget(target);
-    //         this.effectTargets.push(newTarget)
-    //     }
-    // }
-
 }
 
 export class ActiveEffectData extends EffectData {
@@ -357,19 +355,6 @@ export class ActiveEffectData extends EffectData {
         return null
     }
 
-    // addTarget(target) {
-    //     cc.log(`add target`)
-    //     cc.log(target)
-    //     let newTarget: EffectTarget;
-    //     if (target instanceof EffectTarget) {
-    //         cc.log(`target is type EffectTarget,just push`)
-    //         this.effectTargets.push(target)
-    //     } else {
-    //         let newTarget = new EffectTarget(target);
-    //         this.effectTargets.push(newTarget)
-    //     }
-    // }
-
 }
 
 export class ServerEffectData {
@@ -401,6 +386,10 @@ export class EffectTarget {
         }
         if (targetCard instanceof StackEffectPreview) {
             this.effectTargetStackEffectId = targetCard.stackEffect;
+            this.targetType = TARGETTYPE.STACK_EFFECT
+        }
+        if (targetCard instanceof StackEffectConcrete) {
+            this.effectTargetStackEffectId = targetCard;
             this.targetType = TARGETTYPE.STACK_EFFECT
         }
     }

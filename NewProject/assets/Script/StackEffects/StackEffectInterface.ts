@@ -31,6 +31,8 @@ export default interface StackEffectInterface {
     isToBeFizzled: boolean
 
     creationTurnId: number
+    nonOriginal: boolean;
+
 
 
     resolve()

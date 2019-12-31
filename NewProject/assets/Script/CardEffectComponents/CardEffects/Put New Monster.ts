@@ -1,16 +1,15 @@
 import { CARD_TYPE, TARGETTYPE } from "../../Constants";
+import Monster from "../../Entites/CardTypes/Monster";
+import Card from "../../Entites/GameEntities/Card";
 import Deck from "../../Entites/GameEntities/Deck";
+import MonsterCardHolder from "../../Entites/MonsterCardHolder";
+import MonsterField from "../../Entites/MonsterField";
 import CardManager from "../../Managers/CardManager";
 import CardPreviewManager from "../../Managers/CardPreviewManager";
 import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import { CHOOSE_CARD_TYPE } from "./../../Constants";
 import Effect from "./Effect";
-import Card from "../../Entites/GameEntities/Card";
-import Monster from "../../Entites/CardTypes/Monster";
-import MonsterCardHolder from "../../Entites/MonsterCardHolder";
-import MonsterField from "../../Entites/MonsterField";
-
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,11 +19,8 @@ export default class PutNewMonster extends Effect {
 
   effectName = "PutNewMonster";
 
-
-
   @property
   discardOldMonster: boolean = false;
-
 
   /**
    *
@@ -37,23 +33,28 @@ export default class PutNewMonster extends Effect {
     data?: ActiveEffectData | PassiveEffectData
   ) {
     cc.log(data)
-    let cardTarget = data.getTarget(TARGETTYPE.MONSTER)
+    const cardTarget = data.getTarget(TARGETTYPE.MONSTER)
     if (cardTarget == null) {
-      throw `no target in ${this.name}`
+      throw new Error(`no target in ${this.name}`)
     } else {
-      let holderId = (cardTarget as cc.Node).getComponent(Monster).monsterPlace.getComponent(MonsterCardHolder).id
-      let newMonster = await CardManager.monsterDeck.getComponent(Deck).drawCard(true)
-
+      const holderId = (cardTarget as cc.Node).getComponent(Monster).monsterPlace.getComponent(MonsterCardHolder).id
+      const newMonster = await CardManager.monsterDeck.getComponent(Deck).drawCard(true)
+      let doNotAdd = false
       if (this.discardOldMonster) {
-        await (cardTarget as cc.Node).getComponent(Monster).monsterPlace.getComponent(MonsterCardHolder).discardTopMonster(true)
+        const monsterCardHolder = (cardTarget as cc.Node).getComponent(Monster).monsterPlace.getComponent(MonsterCardHolder);
+        if (monsterCardHolder.monsters.length == 1) {
+          doNotAdd = true
+        }
+        await monsterCardHolder.discardTopMonster(true)
       }
-      await MonsterField.addMonsterToExsistingPlace(holderId, newMonster, true)
+      if (!doNotAdd) {
+        await MonsterField.addMonsterToExsistingPlace(holderId, newMonster, true)
+      }
 
     }
 
-
     if (data instanceof PassiveEffectData) {
       return data;
-    } else return stack
+    } else { return stack }
   }
 }

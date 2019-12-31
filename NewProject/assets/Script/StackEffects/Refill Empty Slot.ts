@@ -7,10 +7,11 @@ import Stack from "../Entites/Stack";
 import CardManager from "../Managers/CardManager";
 import TurnsManager from "../Managers/TurnsManager";
 import ServerRefillEmptySlot from "./ServerSideStackEffects/Server Reffill Empty Slot";
+import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { RefillEmptySlotVis } from "./StackEffectVisualRepresentation/Refill Empty Slot Vis";
 
-export default class RefillEmptySlot implements StackEffectInterface {
+export default class RefillEmptySlot extends StackEffectConcrete {
     visualRepesentation: RefillEmptySlotVis;
 
     entityId: number;
@@ -34,7 +35,10 @@ export default class RefillEmptySlot implements StackEffectInterface {
     creationTurnId: number
 
     checkForFizzle() {
-        if (this.creationTurnId != TurnsManager.currentTurn.turnId) { return true }
+        if (super.checkForFizzle()) {
+            this.isToBeFizzled = true
+            return true
+        }
         switch (this.slotType) {
             case CARD_TYPE.TREASURE:
                 if (Store.storeCards.length == Store.maxNumOfItems) {
@@ -60,15 +64,9 @@ export default class RefillEmptySlot implements StackEffectInterface {
     slotType: CARD_TYPE
 
     constructor(creatorCardId: number, slotToFill: cc.Node, slotType: CARD_TYPE, entityId?: number) {
-        if (entityId) {
-            this.nonOriginal = true
-            this.entityId = entityId
-        } else {
-            this.entityId = Stack.getNextStackEffectId()
-        }
-
-        this.creatorCardId = creatorCardId;
-        this.creationTurnId = TurnsManager.currentTurn.turnId;
+        super(creatorCardId, entityId)
+        
+        
         this.slotToFill = slotToFill;
         this.slotType = slotType
         this.visualRepesentation = new RefillEmptySlotVis(this.slotType)

@@ -1,0 +1,58 @@
+Start Log 
+ Player 1 11:13:52 $START_GAME:  
+ Player 1 11:13:52 $MOVE_TO_TABLE:  
+ Player 1 11:14:00 $FINISH_LOAD:  
+ {"id":1,"turnPlayerId":2} 
+ Player 1 11:14:01 $UPDATE_PASSIVE_DATA:  
+ {"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":261}],"result":true,"preventMethod":false,"methodScopeId":260,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+ Player 1 11:14:01 $MOVE_CARD_END:  
+ {"moveIndex":1,"cardId":137,"flipIfFlipped":false,"playerId":2} 
+ Player 1 11:14:02 $MOVE_CARD_END:  
+ {"moveIndex":2,"cardId":114,"flipIfFlipped":false,"playerId":2} 
+ Player 1 11:14:02 $MOVE_CARD_END:  
+ {"moveIndex":3,"cardId":17,"flipIfFlipped":false,"playerId":2} 
+ Player 1 11:14:03 $MOVE_CARD_END:  
+ {"moveIndex":4,"cardId":141,"flipIfFlipped":false,"playerId":2} 
+ Player 1 11:14:03 $MOVE_CARD_END:  
+ {"moveIndex":5,"cardId":28,"flipIfFlipped":false,"playerId":2} 
+ Player 1 11:14:04 $MOVE_CARD_END:  
+ {"moveIndex":6,"cardId":142,"flipIfFlipped":false,"playerId":2} 
+ Player 1 11:14:04 $UPDATE_STACK_LABLE:  
+ {"stackText":"Empty Stack"} 
+ Player 1 11:14:04 $UPDATE_STACK_LABLE:  
+ {"stackText":"Empty Stack"} 
+ Player 1 11:14:04 $UPDATE_STACK_LABLE:  
+ {"stackText":" \n1:Player 2 start turn loot"} 
+ Player 1 11:14:04 $UPDATE_STACK_LABLE:  
+ {"stackText":" \n1:Player 2 start turn loot"} 
+ Player 1 11:14:04 $RESPOND_TO:  
+ {"playerId":2,"stackEffectResponse":false} 
+ Player 1 11:14:05 $MOVE_CARD_END:  
+ {"moveIndex":7,"cardId":115,"flipIfFlipped":false,"playerId":2} 
+ Player 1 11:14:05 $UPDATE_STACK_LABLE:  
+ {"stackText":" \n1:Player 2 start turn loot"} 
+ Player 1 11:14:05 $UPDATE_STACK_LABLE:  
+ {"stackText":" \n1:Player 2 start turn loot"} 
+ Player 1 11:14:05 $UPDATE_STACK_LABLE:  
+ {"stackText":" \n1:Player 2 start turn loot"} 
+ Player 1 11:14:05 $UPDATE_STACK_LABLE:  
+ {"stackText":" \n1:Player 2 start turn loot"} 
+ Player 1 11:14:05 $RESPOND_TO:  
+ {"playerId":2,"stackEffectResponse":false} 
+ Player 1 11:14:08 $LOG_ERROR:  
+ {"message":"\"test message\"","stack":"\"Error: test message\\n    at AdminConsole.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/LableScripts/Admin%20Console.js:203:37)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\\n    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\\n    at new Promise (<anonymous>)\\n    at 418.window.__awaiter (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89784:14)\\n    at AdminConsole.doCommand (http://localhost:7456/preview-scripts/assets/Script/LableScripts/Admin%20Console.js:38:16)\\n    at AdminCommandButton.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Admin/Admin%20Command%20Button.js:65:72)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\""} 
+//////Error From Player 1////
+ "\"test message\""
+
+ + "\"Error: test message\
+    at AdminConsole.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/LableScripts/Admin%20Console.js:203:37)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\
+    at 418.window.__awaiter (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89784:14)\
+    at AdminConsole.doCommand (http://localhost:7456/preview-scripts/assets/Script/LableScripts/Admin%20Console.js:38:16)\
+    at AdminCommandButton.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Admin/Admin%20Command%20Button.js:65:72)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\""
+//////

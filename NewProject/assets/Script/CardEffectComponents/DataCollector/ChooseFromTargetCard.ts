@@ -62,9 +62,17 @@ export default class ChooseFromTargetCard extends DataCollector {
     if (this.dataCollectorToRun.cardChosen) {
       target = new EffectTarget(this.dataCollectorToRun.cardChosen)
     } else {
+      cc.log(`in Choose From Target Card collect data of ${this.dataCollectorToRun.collectorName}`)
       target = await this.dataCollectorToRun.collectData(data)
     }
+    if (!target) {
+      throw new Error(`No target from dataCollectorToRun ${this.dataCollectorToRun.collectorName}`)
+    }
+    if (Array.isArray(target)) {
+      target = target[0]
+    }
     const targetPlayer = PlayerManager.getPlayerByCard(target.effectTargetCard)
+
     if (this.isItems) {
       cardsToChooseFrom = cardsToChooseFrom.concat(targetPlayer.deskCards.filter(card => {
         if (card.getComponent(Character)) { return false; }
@@ -86,8 +94,13 @@ export default class ChooseFromTargetCard extends DataCollector {
         cc.log(`chosen ${target.effectTargetCard.name}`)
       }
     } else {
-      const randIndex = Math.random() * cardsToChooseFrom.length
-      target = new EffectTarget(cardsToChooseFrom[randIndex])
+      const randIndex = Math.floor(Math.random() * cardsToChooseFrom.length)
+      if (randIndex != 0) {
+        target = new EffectTarget(cardsToChooseFrom[randIndex - 1])
+      } else {
+        target = new EffectTarget(cardsToChooseFrom[0])
+      }
+
     }
     return target;
   }

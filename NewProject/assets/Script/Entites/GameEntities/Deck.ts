@@ -4,6 +4,7 @@ import DataCollector from "../../CardEffectComponents/DataCollector/DataCollecto
 import { CARD_HEIGHT, CARD_TYPE, CARD_WIDTH } from "../../Constants";
 import CardManager from "../../Managers/CardManager";
 import Card from "./Card";
+import { CardSet } from "../Card Set";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,8 +18,8 @@ export default class Deck extends cc.Component {
   @property(cc.Node)
   topBlankCard: cc.Node = null;
 
-  @property([cc.Node])
-  _cards: cc.Node[] = [];
+  @property
+  _cards: CardSet = new CardSet();
 
   @property
   suffleInTheStart: boolean = false;
@@ -133,7 +134,7 @@ export default class Deck extends cc.Component {
 
   }
 
-  setDeckCards(cards: cc.Node[]) {
+  setDeckCards(cards: CardSet) {
     this._cards = cards
   }
 

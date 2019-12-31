@@ -3,14 +3,14 @@ import { MAX_PLAYERS, MAX_TURNID } from "../Constants";
 import ServerClient from "../../ServerClient/ServerClient";
 import PlayerManager from "../Managers/PlayerManager";
 
-import CardManager from "../Managers/CardManager";
-import Player from "../Entites/GameEntities/Player";
 import Signal from "../../Misc/Signal";
+import Player from "../Entites/GameEntities/Player";
+import CardManager from "../Managers/CardManager";
 import TurnsManager from "../Managers/TurnsManager";
 
 //make the turns ininitally
 export function makeNextTurn(currentTurn: Turn): Turn[] {
-  var turns: Turn[] = [];
+  let turns: Turn[] = [];
 
   for (let i = 1; i < ServerClient.numOfPlayers + 1; i++) {
     turns.push(new Turn(i));
@@ -20,8 +20,8 @@ export function makeNextTurn(currentTurn: Turn): Turn[] {
 
 export function getCurrentPlayer(players: cc.Node[], turn: Turn) {
   for (let i = 0; i < players.length; i++) {
-    let player = players[i];
-    let playerComp: Player = player.getComponent(Player);
+    const player = players[i];
+    const playerComp: Player = player.getComponent(Player);
     if (playerComp.playerId == turn.PlayerId) {
       return player;
     }
@@ -45,7 +45,7 @@ export class Turn {
   }
 
   refreshTurn() {
-    let player: Player = PlayerManager.getPlayerById(
+    const player: Player = PlayerManager.getPlayerById(
       this.PlayerId
     )
     this.lootCardPlays = player.lootCardPlays;
@@ -63,7 +63,7 @@ export class Turn {
 
   async startTurn() {
     cc.log(`start turn`)
-    let player: Player = PlayerManager.getPlayerById(
+    const player: Player = PlayerManager.getPlayerById(
       this.PlayerId
     )
     cc.log(`turn player ${player.name}`)

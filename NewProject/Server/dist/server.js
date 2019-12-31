@@ -42,11 +42,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var ws_1 = require("ws");
 var player_1 = require("./entities/player");
-var whevent = require("whevent");
 var fs = require("fs");
-var signal_1 = require("./enums/signal");
+var whevent = require("whevent");
 var match_1 = require("./entities/match");
-var Logger_1 = require("./utils/Logger");
+var signal_1 = require("./enums/signal");
 var Server = /** @class */ (function () {
     function Server() {
         this.wss = null;
@@ -69,7 +68,6 @@ var Server = /** @class */ (function () {
                         console.log("Setting up server...");
                         this.setupWebSocket();
                         this.bindEvents();
-                        this.logger = new Logger_1.Logger();
                         return [2 /*return*/];
                 }
             });
@@ -102,6 +100,7 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].ROLL_DICE_ENDED, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].GET_NEXT_MONSTER, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].MOVE_CARD_TO_PILE, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].REMOVE_FROM_PILE, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].GET_SOUL, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].LOSE_SOUL, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].ADD_MONSTER, this.onBroadcastExceptOrigin, this);
@@ -122,7 +121,8 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].REMOVE_ITEM_FROM_SHOP, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].UPDATE_PASSIVE_DATA, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].CARD_GET_COUNTER, this.onBroadcastExceptOrigin, this);
-        whevent.on(signal_1["default"].CANCEL_ATTACK, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].END_BATTLE, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].END_TURN, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].NEW_MONSTER_PLACE, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].CHANGE_MONEY, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].ADD_STORE_CARD, this.onBroadcastExceptOrigin, this);
@@ -139,10 +139,12 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].REMOVE_RESOLVING_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].UPDATE_STACK_VIS, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].UPDATE_STACK_LABLE, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].UPDATE_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].NEXT_STACK_ID, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].GIVE_PLAYER_PRIORITY, this.onBroadcastExceptOrigin, this);
         //player events
         whevent.on(signal_1["default"].SET_MONEY, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].PLAYER_PROP_UPDATE, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].PLAYER_GAIN_ATTACK_ROLL_BONUS, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].PLAYER_GAIN_DMG, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].PLAYER_GAIN_FIRST_ATTACK_ROLL_BONUS, this.onBroadcastExceptOrigin, this);
@@ -155,6 +157,7 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].PLAYER_LOSE_LOOT, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].PLAYER_HEAL, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].PLAYER_ADD_DMG_PREVENTION, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].PLAYER_DIED, this.onBroadcastExceptOrigin, this);
         //
         //monster events
         whevent.on(signal_1["default"].MONSTER_GAIN_DMG, this.onBroadcastExceptOrigin, this);
@@ -178,7 +181,8 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].EDEN_CHOSEN, this.onSendToSpecificPlayer, this);
         whevent.on(signal_1["default"].CHOOSE_FOR_EDEN, this.onSendToSpecificPlayer, this);
         //Action Lable
-        whevent.on(signal_1["default"].ACTION_MASSAGE, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].ACTION_MASSAGE_ADD, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].ACTION_MASSAGE_REMOVE, this.onBroadcastExceptOrigin, this);
     };
     Server.prototype.onBroadcastExceptOrigin = function (_a) {
         var player = _a.player, data = _a.data;
@@ -217,7 +221,7 @@ var Server = /** @class */ (function () {
         player.match.loadedPlayers += 1;
         player.match.firstPlayerId = data.data.turnPlayerId;
         if (player.match.loadedPlayers == player.match.players.length) {
-            console.log('on finish load');
+            console.log("on finish load");
             player.match.broadcast(signal_1["default"].FINISH_LOAD, { id: player.match.firstPlayerId });
         }
     };
@@ -274,18 +278,6 @@ var Server = /** @class */ (function () {
             });
         });
     };
-    Server.prototype.loadWords = function () {
-        return new Promise(function (resolve, reject) {
-            fs.readFile("./resources/words.json", function (err, data) {
-                if (err) {
-                    reject(err);
-                }
-                else {
-                    resolve(JSON.parse(data.toString()));
-                }
-            });
-        });
-    };
     Server.prototype.onConnection = function (player) {
         console.log("Player " + player.uuid + " has connected!");
         player.send(signal_1["default"].UUID, player.uuid);
@@ -302,7 +294,9 @@ var Server = /** @class */ (function () {
             var data = JSON.parse(Buffer.from(message, "base64").toString());
             console.log("Player " + player.uuid + ": ", data);
             var id = player.uuid;
-            this.logger.logFromServer(id, data);
+            if (this.logger) {
+                this.logger.logFromServer(id, data);
+            }
             whevent.emit(data.signal, { player: player, data: data });
         }
         catch (ex) {

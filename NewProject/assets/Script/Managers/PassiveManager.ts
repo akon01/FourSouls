@@ -173,11 +173,17 @@ export default class PassiveManager extends cc.Component {
 
     if (sendToServer) {
       const card = effect.node.parent.getComponent(Card)
+      if (!card) { effect.node.parent.parent.getComponent(Card) }
       const effectIndex = card.node.getComponent(CardEffect).getEffectIndexAndType(effect)
       const conditionsData: ServerEffectData[] = [];
       for (let i = 0; i < effect.conditions.length; i++) {
         const condition = effect.conditions[i];
-        conditionsData.push(DataInterpreter.convertToServerData(condition.conditionData))
+        try {
+          conditionsData.push(DataInterpreter.convertToServerData(condition.conditionData))
+        } catch (error) {
+          cc.error(error)
+          Logger.error(error)
+        }
 
       }
       // let serverEffectData = DataInterpreter.convertToServerData(effect.conditions.conditionData)
@@ -246,13 +252,15 @@ export default class PassiveManager extends cc.Component {
           throw new Error(`Effect ${passiveEffect.effectName} is an "Add Passive Effect", its condition ${condition.name} doesn't have condition data`)
         }
 
-        if (isTrue) { cc.log(`test condition for ${passiveEffect.name} on ${effectCard.name} card`) }
+        if (isTrue) { cc.log(`test condition ${condition.name} for ${passiveEffect.name} on ${effectCard.name} card`) }
         try {
           if (isTrue && (await condition.testCondition(passiveMeta) == false)) { isTrue = false; }
         } catch (error) {
           cc.error(error)
           Logger.error(error)
           isTrue = false
+          cc.log(`Condition was tested with passive meta`)
+          cc.log(passiveMeta)
         }
         if (isTrue == false) { break; }
       }
@@ -290,18 +298,23 @@ export default class PassiveManager extends cc.Component {
       newPassiveMeta = await this.activateB4Passives(passiveMeta, allPassivesToActivate)
       if (originalStackEffect) {
         if (originalStackEffect.checkForFizzle()) {
+          cc.log(`1`)
           methodData.continue = false
+          methodData.args = newPassiveMeta.args;
         } else {
+          cc.log(`2`)
           methodData.continue = !newPassiveMeta.preventMethod
           methodData.args = newPassiveMeta.args;
           cc.log(methodData)
         }
       } else {
+        cc.log(`3`)
         methodData.continue = !newPassiveMeta.preventMethod
         methodData.args = newPassiveMeta.args;
         cc.log(methodData)
       }
     } else {
+      cc.log(`4`)
       methodData.continue = true
       methodData.args = passiveMeta.args;
     }
@@ -310,7 +323,6 @@ export default class PassiveManager extends cc.Component {
     // }
     whevent.emit(GAME_EVENTS.PASSIVE_MAN_PASSIVE_PHASE_OVER)
     PassiveManager.inPassivePhase = false;
-
     return methodData;
   }
 
@@ -332,6 +344,7 @@ export default class PassiveManager extends cc.Component {
         .getComponent(CardEffect)
         .getEffectIndexAndType(effect);
       if (cardToActivate.getComponent(Monster) == null) {
+        cc.log(`${cardToActivate.name} is not a monster `)
         const player = PlayerManager.getPlayerByCard(cardToActivate);
         cardActivatorId = player.playerId;
         isPlayer = true
@@ -353,6 +366,7 @@ export default class PassiveManager extends cc.Component {
       } else { hasDataBeenColleced = false }
       if (isPlayer) {
         const player = PlayerManager.getPlayerByCard(cardToActivate);
+        if (!player) { throw new Error(`no player was found for card ${cardToActivate.name}, can't make new ActivatePassiveEffect of the card`) }
 
         activatePassiveEffect = new ActivatePassiveEffect(player.character.getComponent(Card)._cardId, hasLockingEffect, cardActivatorId, cardToActivate, effect, hasDataBeenColleced, false, index)
 
@@ -363,13 +377,11 @@ export default class PassiveManager extends cc.Component {
       if (passivesToActivate.length - i == 1) {
 
         // if (Stack._currentStackEffectsResolving.length == 0) {
-        cc.error(`add ${activatePassiveEffect.constructor.name} to stack`)
         await Stack.addToStack(activatePassiveEffect, true)
         // } else {
         //   await Stack.addToStackAbove(activatePassiveEffect)
         // }
       } else {
-        cc.error(`add ${activatePassiveEffect.constructor.name} to stack above`)
         await Stack.addToStackAbove(activatePassiveEffect)
       }
 
@@ -381,6 +393,7 @@ export default class PassiveManager extends cc.Component {
   static async testForPassiveAfter(meta: PassiveMeta) {
 
     //  if (!PlayerManager.mePlayer.getComponent(Player)._hasPriority) return meta.result;
+    const originalStackEffect = Stack._currentStack.find(effect => effect.entityId == meta.originStackId)
 
     const index = this.updatePassiveMethodData(meta, true, true)
     meta.index = index

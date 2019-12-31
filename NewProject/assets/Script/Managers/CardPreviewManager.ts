@@ -11,6 +11,7 @@ import ButtonManager from "./ButtonManager";
 import CardManager from "./CardManager";
 import PlayerManager from "./PlayerManager";
 import TurnsManager from "./TurnsManager";
+import Player from "../Entites/GameEntities/Player";
 
 const { ccclass, property } = cc._decorator;
 
@@ -34,6 +35,9 @@ export default class CardPreviewManager extends cc.Component {
 
     static isOpen: boolean = false;
 
+    @property(cc.Node)
+    contentNode: cc.Node = null
+
     static setCurrentPreviews(previews: cc.Node[]) {
         this.currentPreviews = previews;
     }
@@ -47,7 +51,6 @@ export default class CardPreviewManager extends cc.Component {
             if (!this.previewsToChooseFrom.includes(preview)) { return true }
         })
         const cardsToRemove = removeablePreviews.map(preview => preview.getComponent(CardPreview).card)
-        cc.log(cardsToRemove.map(card => card.name))
         await this.removeFromCurrentPreviews(cardsToRemove)
 
         // this.currentPreviews = this.currentPreviews.filter(preview => {
@@ -93,9 +96,30 @@ export default class CardPreviewManager extends cc.Component {
         //throw `no preview with ${card.name} found`
     }
 
+    static disableAllCardsActions() {
+        if (CardManager.allCards.length != 0) {
+            const cards = CardManager.onTableCards.concat(...PlayerManager.players.map(player => {
+                return player.getComponent(Player).handCards
+            })).filter(card => {
+                if (card.parent != null) return true
+            })
+            //  const allFlippedCards = CardManager.allCards.filter(card => (!card.getComponent(Card)._isFlipped));
+            for (let i = 0; i < cards.length; i++) {
+                const card = cards[i]
+                CardManager.disableCardActions(card);
+                for (const preview of this.currentPreviews) {
+                    this.updatePreview(preview.getComponent(CardPreview))
+                }
+                // CardManager.makeCardPreviewable(card);
+            }
+        }
+
+    }
+
     static updatePreview(preview: CardPreview) {
         preview.node.off(cc.Node.EventType.TOUCH_END)
         preview.node.once(cc.Node.EventType.TOUCH_END, async () => {
+
             if (this.previewsToChooseFrom.includes(preview.node)) {
                 return;
             }
@@ -114,14 +138,14 @@ export default class CardPreviewManager extends cc.Component {
                 } else {
                     throw new Error("card has Requierd For Flag, but no data collector set as requiredFor.");
                 }
-                CardManager.disableCardActions(card)
+                this.disableAllCardsActions()
                 this.hidePreviewManager()
             } else if (cardComp instanceof Card) {
                 if (cardComp._isReactable) {
                     const cardPlayer = PlayerManager.getPlayerById(
                         (cardComp as Card)._cardHolderId
                     )
-                    CardManager.disableCardActions(card)
+                    this.disableAllCardsActions()
                     if (!card.getComponent(CardEffect).hasMultipleEffects) {
                         await preview.getComponent(CardPreview).hideCardPreview();
                     }
@@ -133,7 +157,7 @@ export default class CardPreviewManager extends cc.Component {
                     const cardPlayer = PlayerManager.getPlayerById(
                         TurnsManager.currentTurn.PlayerId
                     )
-                    CardManager.disableCardActions(card)
+                    this.disableAllCardsActions()
                     if (!card.getComponent(CardEffect).hasMultipleEffects) {
                         await preview.getComponent(CardPreview).hideCardPreview();
                     }
@@ -144,7 +168,7 @@ export default class CardPreviewManager extends cc.Component {
                         TurnsManager.currentTurn.PlayerId
                     )
                     await preview.getComponent(CardPreview).hideCardPreview();
-                    CardManager.disableCardActions(card)
+                    this.disableAllCardsActions()
                     this.hidePreviewManager()
                     await cardPlayer.playLootCard(card, true);
                 } else if (cardComp._isAttackable) {
@@ -153,7 +177,7 @@ export default class CardPreviewManager extends cc.Component {
                         TurnsManager.currentTurn.PlayerId
                     )
                     await preview.getComponent(CardPreview).hideCardPreview();
-                    CardManager.disableCardActions(card)
+                    this.disableAllCardsActions()
                     this.hidePreviewManager()
                     await cardPlayer.declareAttack(card, true);
 
@@ -163,127 +187,13 @@ export default class CardPreviewManager extends cc.Component {
                         TurnsManager.currentTurn.PlayerId
                     )
                     await preview.getComponent(CardPreview).hideCardPreview();
-                    CardManager.disableCardActions(card)
+                    this.disableAllCardsActions()
                     this.hidePreviewManager()
-                    cardPlayer.buyItem(card, true);
+                    await cardPlayer.buyItem(card, true);
 
                 }
             }
         }, this)
-    }
-
-    static updatePreviewsEvents() {
-        this.currentPreviews.forEach(preview => {
-            if (this.previewsToChooseFrom.includes(preview)) {
-                //   cc.log(`previews to choose from includes ${preview.name}`)
-                return;
-            }
-
-            let cardComp: Deck | Card;
-            const card = preview.getComponent(CardPreview).card
-            cardComp = card.getComponent(Deck)
-            if (cardComp == null) {
-                cardComp = card.getComponent(Card)
-            }
-
-            if (cardComp._hasEventsBeenModified || !preview.getComponent(CardPreview).hasTouchProperty) {
-                const previewComp = preview.getComponent(CardPreview)
-                if (cardComp._isRequired) {
-                    //  cc.log(`${cardComp.name} is required`)
-                    if (card.getComponent(Deck) == null) {
-                    }
-                    previewComp.hasTouchProperty = true
-                    preview.on(cc.Node.EventType.TOUCH_START, async () => {
-                        await preview.getComponent(CardPreview).hideCardPreview();
-                        if (cardComp._requiredFor) {
-                            cardComp._requiredFor.cardChosen = card;
-                            //cc.log(cardComp._requiredFor)
-                            cardComp._requiredFor.isCardChosen = true
-                        } else {
-                            throw new Error("card has Requierd For Flag, but no data collector set as requiredFor.");
-                        }
-                        CardManager.disableCardActions(card)
-                        this.hidePreviewManager()
-                    });
-                } else if (cardComp instanceof Card) {
-                    if (cardComp._isReactable) {
-                        previewComp.hasTouchProperty = true
-                        preview.once(cc.Node.EventType.TOUCH_START, async () => {
-                            const cardPlayer = PlayerManager.getPlayerById(
-                                (cardComp as Card)._cardHolderId
-                            )
-                            CardManager.disableCardActions(card)
-                            if (!card.getComponent(CardEffect).hasMultipleEffects) {
-                                await preview.getComponent(CardPreview).hideCardPreview();
-                            }
-                            this.hidePreviewManager()
-                            cardPlayer.activatedCard = card;
-                            whevent.emit(GAME_EVENTS.PLAYER_CARD_ACTIVATED, card)
-                            cardPlayer.cardActivated = true;
-                            // if (card.getComponent(Item) != null) {
-                            //     cardPlayer.activateCard(card, false);
-                            // } else {
-
-                            //     cardPlayer.playLootCard(card, true)
-                            // }
-
-                        });
-                    } else if (cardComp._isActivateable) {
-                        previewComp.hasTouchProperty = true
-                        preview.on(cc.Node.EventType.TOUCH_START, async () => {
-                            const cardPlayer = PlayerManager.getPlayerById(
-                                TurnsManager.currentTurn.PlayerId
-                            )
-                            CardManager.disableCardActions(card)
-                            if (!card.getComponent(CardEffect).hasMultipleEffects) {
-                                await preview.getComponent(CardPreview).hideCardPreview();
-                            }
-                            this.hidePreviewManager()
-                            cardPlayer.activateCard(card);
-                        });
-                    } else if (cardComp._isPlayable) {
-                        previewComp.hasTouchProperty = true
-                        preview.on(cc.Node.EventType.TOUCH_START, async () => {
-                            const cardPlayer = PlayerManager.getPlayerById(
-                                TurnsManager.currentTurn.PlayerId
-                            )
-                            await preview.getComponent(CardPreview).hideCardPreview();
-                            CardManager.disableCardActions(card)
-                            this.hidePreviewManager()
-                            cardPlayer.playLootCard(card, true);
-                        });
-                    } else if (cardComp._isAttackable) {
-                        previewComp.hasTouchProperty = true
-                        preview.on(cc.Node.EventType.TOUCH_START, async () => {
-
-                            const cardPlayer = PlayerManager.getPlayerById(
-                                TurnsManager.currentTurn.PlayerId
-                            )
-                            await preview.getComponent(CardPreview).hideCardPreview();
-                            CardManager.disableCardActions(card)
-                            this.hidePreviewManager()
-                            cardPlayer.declareAttack(card, true);
-                        });
-                    } else if (cardComp._isBuyable) {
-                        previewComp.hasTouchProperty = true
-                        preview.on(cc.Node.EventType.TOUCH_START, async () => {
-                            const cardPlayer = PlayerManager.getPlayerById(
-                                TurnsManager.currentTurn.PlayerId
-                            )
-                            await preview.getComponent(CardPreview).hideCardPreview();
-                            CardManager.disableCardActions(card)
-                            this.hidePreviewManager()
-                            cardPlayer.buyItem(card, true);
-                        });
-                    } else {
-                        previewComp.hasTouchProperty = false
-                        preview.off(cc.Node.EventType.TOUCH_START)
-                    }
-                }
-                cardComp._hasEventsBeenModified = false;
-            }
-        })
-
     }
 
     static $: CardPreviewManager = null
@@ -347,15 +257,11 @@ export default class CardPreviewManager extends cc.Component {
             preview.on(cc.Node.EventType.TOUCH_START, () => {
                 //if the preview is already selected,disable its selection
 
-                if (previewComp.isSelected) {
+                if (this.selectQueue.includes(preview)) {
                     previewComp.counterLable.enabled = false;
-                    this.selectQueue.splice(this.selectQueue.indexOf(preview))
+                    this.selectQueue.splice(this.selectQueue.indexOf(preview), 1)
 
-                    for (let i = 0; i < this.selectQueue.length; i++) {
-                        const previewInQueue = this.selectQueue[i].getComponent(CardPreview);
-                        previewInQueue.counterLable.string = (i + 1).toString();
 
-                    }
                     previewComp.isSelected = false;
                     //if not:
                     //special case: number of cards to select is any number
@@ -382,9 +288,14 @@ export default class CardPreviewManager extends cc.Component {
                 } else {
                     ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.SET_NOT_YET_AVAILABLE)
                 }
+                for (let i = 0; i < this.selectQueue.length; i++) {
+                    const previewInQueue = this.selectQueue[i].getComponent(CardPreview);
+                    previewInQueue.counterLable.string = (i + 1).toString();
+
+                }
             }, this)
         }
-        const selectedQueue = await this.waitForSelect()
+        let selectedQueue = await this.waitForSelect()
         for (let i = 0; i < selectedQueue.length; i++) {
             const preview = selectedQueue[i].getComponent(CardPreview);
             preview.counterLable.string = "";
@@ -393,8 +304,10 @@ export default class CardPreviewManager extends cc.Component {
         ButtonManager.enableButton(ButtonManager.$.togglePreviewManagerButton, BUTTON_STATE.ENABLED)
         // this.exitButton.enabled = true;
         this.previewsToChooseFrom = []
-        this.removeFromCurrentPreviews(previews.map(preview => preview.getComponent(CardPreview).card))
-        return selectedQueue.map(preview => preview.getComponent(CardPreview).card);
+        selectedQueue = selectedQueue.map(preview => preview.getComponent(CardPreview).card);
+        await this.removeFromCurrentPreviews(previews.map(preview => preview.getComponent(CardPreview).card))
+
+        return selectedQueue;
     }
 
     static async waitForSelect(): Promise<cc.Node[]> {
@@ -493,6 +406,9 @@ export default class CardPreviewManager extends cc.Component {
     }
 
     static showPreviewManager() {
+        CardPreviewManager.scrollView.content.active = false
+        CardPreviewManager.scrollView.content = CardPreviewManager.$.contentNode
+        CardPreviewManager.scrollView.content.active = true
         try {
             for (const preview of CardPreviewManager.currentPreviews) {
                 CardPreviewManager.updatePreview(preview.getComponent(CardPreview))
@@ -528,6 +444,8 @@ export default class CardPreviewManager extends cc.Component {
             CardPreviewManager.makeCardsOpaqe();
             CardPreviewManager.isOpen = true
         }, CardPreviewManager)))
+        const t = cc.find('Canvas')
+        CardPreviewManager.scrollView.node.zIndex = 1
     }
 
     static hidePreviewManager(event?) {
@@ -576,8 +494,8 @@ export default class CardPreviewManager extends cc.Component {
             CardPreviewManager.cardPreviewPool.put(preview)
         }
 
-        this.node.on("previewRemoved", (previewToRemove: cc.Node) => {
-            CardPreviewManager.removeFromCurrentPreviews(Array.of(previewToRemove.getComponent(CardPreview).card))
+        this.node.on("previewRemoved", async (previewToRemove: cc.Node) => {
+            await CardPreviewManager.removeFromCurrentPreviews(Array.of(previewToRemove.getComponent(CardPreview).card))
             if (CardPreviewManager.currentPreviews.length == 0) {
                 CardPreviewManager.hidePreviewManager()
             }

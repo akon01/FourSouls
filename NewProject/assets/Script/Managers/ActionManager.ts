@@ -4,6 +4,7 @@ import ServerClient from "../../ServerClient/ServerClient";
 import AddTrinket from "../CardEffectComponents/CardEffects/AddTrinket";
 import Effect from "../CardEffectComponents/CardEffects/Effect";
 import { BUTTON_STATE, GAME_EVENTS, ROLL_TYPE } from "../Constants";
+import ActionMessage from "../Entites/Action Message";
 import CardEffect from "../Entites/CardEffect";
 import { CardLayout } from "../Entites/CardLayout";
 import Item from "../Entites/CardTypes/Item";
@@ -34,6 +35,7 @@ import PileManager from "./PileManager";
 import PlayerManager from "./PlayerManager";
 import StackEffectVisManager from "./StackEffectVisManager";
 import TurnsManager from "./TurnsManager";
+import { CardSet } from "../Entites/Card Set";
 
 const { ccclass } = cc._decorator;
 
@@ -69,7 +71,7 @@ export default class ActionManager extends cc.Component {
     const currentPlayerHandComp: CardLayout = currentPlayerHand.getComponent(
       CardLayout,
     );
-    const allFlippedCards = CardManager.allCards.filter(card => !card.getComponent(Card)._isFlipped);
+    const allFlippedCards = CardManager.allCards.filter(card => (!card.getComponent(Card)._isFlipped));
 
     cc.log(`attack plays: ${TurnsManager.currentTurn.attackPlays}`)
     cc.log(`buy plays: ${TurnsManager.currentTurn.buyPlays}`)
@@ -104,9 +106,9 @@ export default class ActionManager extends cc.Component {
         ) {
           for (let i = 0; i < Store.storeCards.length; i++) {
             const storeCard = Store.storeCards[i];
-            // if (player.getComponent(Player).coins >= Store.storeCardsCost) {
-            CardManager.makeItemBuyable(storeCard, currentPlayerComp);
-            // }
+            if (player.getComponent(Player).coins >= Store.storeCardsCost) {
+              CardManager.makeItemBuyable(storeCard, currentPlayerComp);
+            }
           }
 
           if (treasureDeck.topBlankCard != null) {
@@ -163,12 +165,13 @@ export default class ActionManager extends cc.Component {
           const item = playerItems[i].getComponent(Item);
           try {
 
-            if (item.getComponent(CardEffect).testEffectsPreConditions()) {
-              CardManager.makeItemActivateable(item.node);
-            } else {
-              CardManager.disableCardActions(item.node);
+            // if () {
+            //  cc.log(`make ${item.name} acitvatable`)
+            CardManager.makeItemActivateable(item.node);
+            // } else {
+            //   CardManager.disableCardActions(item.node);
 
-            }
+            // }
           } catch (error) {
             cc.error(error)
             Logger.error(error)
@@ -460,9 +463,16 @@ export default class ActionManager extends cc.Component {
         );
         await currentTurnPlayer.getComponent(Player).endTurn(false);
         break;
+      case Signal.END_TURN:
+        await TurnsManager.endTurn(false)
+        break;
       case Signal.MOVE_CARD_TO_PILE:
         card = CardManager.getCardById(data.cardId, true);
         await PileManager.addCardToPile(data.type, card, false);
+        break;
+      case Signal.REMOVE_FROM_PILE:
+        card = CardManager.getCardById(data.cardId, true);
+        await PileManager.removeFromPile(card, false);
         break;
       case Signal.GET_SOUL:
         card = CardManager.getCardById(data.cardId, true);
@@ -476,7 +486,6 @@ export default class ActionManager extends cc.Component {
         player = PlayerManager.getPlayerById(data.playerId)
         await player.loseSoul(card, false)
         break;
-
       // On Monster Events
       case Signal.MONSTER_GET_DAMAGED:
         monster = CardManager.getCardById(data.cardId, true).getComponent(Monster);
@@ -579,12 +588,15 @@ export default class ActionManager extends cc.Component {
         await player.rechargeItem(card, false);
         break;
       case Signal.DECLARE_ATTACK:
-        player = PlayerManager.getPlayerById(data.playerId)
         const attackedMonster = CardManager.getCardById(
           data.attackedMonsterId,
           true,
         );
-        await player.declareAttack(attackedMonster, false);
+        await BattleManager.declareAttackOnMonster(attackedMonster, false)
+        break;
+      case Signal.PLAYER_PROP_UPDATE:
+        player = PlayerManager.getPlayerById(data.playerId)
+        player.updateProperties(data.properties)
         break;
       case Signal.PLAYER_GET_LOOT:
         player = PlayerManager.getPlayerById(data.playerId)
@@ -643,6 +655,10 @@ export default class ActionManager extends cc.Component {
         player = PlayerManager.getPlayerById(data.playerId)
         await player.addDamagePrevention(data.dmgToPrevent, false)
         break;
+      case Signal.PLAYER_DIED:
+        player = PlayerManager.getPlayerById(data.playerId)
+        player._isDead = true
+        break;
       // PassiveManager actions.
       case Signal.REMOVE_FROM_PASSIVE_MANAGER:
         try {
@@ -675,7 +691,12 @@ export default class ActionManager extends cc.Component {
         break;
       case Signal.GET_REACTION:
         const me = PlayerManager.mePlayer.getComponent(Player);
-        await me.getResponse(data.activePlayerId)
+        try {
+          await me.getResponse(data.activePlayerId)
+        } catch (error) {
+          cc.error(error)
+          Logger.error(error)
+        }
         break;
       case Signal.RESPOND_TO:
         Stack.hasOtherPlayerRespond = data.stackEffectResponse;
@@ -744,12 +765,18 @@ export default class ActionManager extends cc.Component {
         stackPreview.stackEffect = stackEffectToUpdate
         stackPreview.updateInfo(false)
         break
+      case Signal.UPDATE_STACK_EFFECT:
+        converter = new ServerStackEffectConverter();
+        stackEffect = converter.convertToStackEffect(data.stackEffect)
+        cc.log(stackEffect)
+        Stack._currentStack.splice(Stack._currentStack.findIndex(stackE => stackE.entityId == stackEffect.entityId), 1, stackEffect)
+        break
       //
 
       // Board signals
       case Signal.SET_TURN:
         const turn = TurnsManager.getTurnByPlayerId(data.playerId)
-        TurnsManager.setCurrentTurn(turn, false)
+        await TurnsManager.setCurrentTurn(turn, false)
         break;
       case Signal.ASSIGN_CHAR_TO_PLAYER:
         player = PlayerManager.getPlayerById(data.playerId)
@@ -759,14 +786,14 @@ export default class ActionManager extends cc.Component {
         await player.assignChar(charCard, itemCard)
         break
       case Signal.NEW_MONSTER_PLACE:
-        MonsterField.addMonsterToNewPlace(false)
+        await MonsterField.addMonsterToNewPlace(false)
         break;
       case Signal.FLIP_CARD:
         card = CardManager.getCardById(data.cardId, true)
         card.getComponent(Card).flipCard(false)
         break;
-      case Signal.CANCEL_ATTACK:
-        await BattleManager.cancelAttack(false)
+      case Signal.END_BATTLE:
+        await BattleManager.endBattle(false)
         break
       //
 
@@ -795,6 +822,8 @@ export default class ActionManager extends cc.Component {
         const chosen = chosenCards.pop()
         if (chosen) {
           ServerClient.$.send(Signal.EDEN_CHOSEN, { cardId: chosen.getComponent(Card)._cardId, playerId: data.originPlayerId })
+        } else {
+          cc.error(`No card was chosen for eden`)
         }
         break;
       case Signal.EDEN_CHOSEN:
@@ -807,10 +836,12 @@ export default class ActionManager extends cc.Component {
       ///
 
       // Action Lable Signals
-      case Signal.ACTION_MASSAGE:
-        const massage = data.massage;
-        const time = data.timeToDisappear;
-        ActionLable.$.putMassage(massage, time)
+      case Signal.ACTION_MASSAGE_ADD:
+        const massage = new ActionMessage(data.massage._id, data.massage._text);
+        ActionLable.$.putMassage(massage, data.childOfId)
+        break;
+      case Signal.ACTION_MASSAGE_REMOVE:
+        ActionLable.$.removeMessage(data.id, false)
         break;
       ///
 
@@ -846,7 +877,8 @@ export default class ActionManager extends cc.Component {
       ///
 
       case Signal.DECK_ARRAGMENT:
-        const cards = data.arrangement.map(id => CardManager.getCardById(id, true))
+        let cards = new CardSet()
+        data.arrangement.map(id => cards.push(CardManager.getCardById(id, true)))
         const deckToSet = CardManager.getDeckByType(data.deckType)
         deckToSet.getComponent(Deck).setDeckCards(cards)
         break;

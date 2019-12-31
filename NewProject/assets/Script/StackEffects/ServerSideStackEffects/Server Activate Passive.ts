@@ -52,7 +52,9 @@ export default class ServerActivatePassive implements ServerStackEffectInterface
         this.isAfterActivation = stackEffect.isAfterActivation;
         this.index = stackEffect.index
         this.hasDataBeenCollectedYet = stackEffect.hasDataBeenCollectedYet;
-        if (this.hasDataBeenCollectedYet) { this.effectCollectedData = stackEffect.effectCollectedData }
+        if (this.hasDataBeenCollectedYet) {
+            this.effectCollectedData = stackEffect.effectCollectedData
+        }
         this.stackEffectType = stackEffect.stackEffectType;
     }
 

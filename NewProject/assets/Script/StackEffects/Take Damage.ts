@@ -37,8 +37,8 @@ export default class TakeDamage implements StackEffectInterface {
             this.entityId = Stack.getNextStackEffectId()
         }
 
-        this.creatorCardId = creatorCardId;
-        this.creationTurnId = TurnsManager.currentTurn.turnId;
+        
+        
         this.entityToTakeDamageCard = entityToTakeDamageCard;
         if (this.entityToDoDamageCard.getComponent(Monster) != null) {
             this.isPlayerDoDamage = true

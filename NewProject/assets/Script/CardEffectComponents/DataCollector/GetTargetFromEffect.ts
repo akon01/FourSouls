@@ -2,7 +2,6 @@ import { COLLECTORTYPE } from "../../Constants";
 import Effect from "../CardEffects/Effect";
 import DataCollector from "./DataCollector";
 
-
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -20,11 +19,7 @@ export default class GetTargetFromEffect extends DataCollector {
    */
   collectData(data) {
 
-    let effectData = this.effectToGetTargetsFrom.effectData
-
-
-
-
+    const effectData = this.effectToGetTargetsFrom.effectData
 
     // let player = PlayerManager.getPlayerByCard(this.node.parent.parent).character
     // let target = new EffectTarget(player)

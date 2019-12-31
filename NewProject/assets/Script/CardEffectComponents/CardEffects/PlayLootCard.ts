@@ -1,16 +1,15 @@
 import CardEffect from "../../Entites/CardEffect";
+import Card from "../../Entites/GameEntities/Card";
 import Stack from "../../Entites/Stack";
 import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
 import PlayLootCardStackEffect from "../../StackEffects/Play Loot Card";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
+import MultiEffectChoose from "../MultiEffectChooser/MultiEffectChoose";
 import MultiEffectRoll from "../MultiEffectChooser/MultiEffectRoll";
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
 import Effect from "./Effect";
-import Card from "../../Entites/GameEntities/Card";
-import MultiEffectChoose from "../MultiEffectChooser/MultiEffectChoose";
-
-
+import { IMultiEffectRollAndCollect } from "../MultiEffectChooser/IMultiEffectRollAndCollect";
 
 const { ccclass, property } = cc._decorator;
 
@@ -28,20 +27,19 @@ export default class PlayLootCard extends Effect {
     data?: ActiveEffectData | PassiveEffectData
   ) {
     let hasLockingEffect;
-    let collector = this.node.parent.getComponent(CardEffect).multiEffectCollector;
+    const collector = this.node.parent.getComponent(CardEffect).multiEffectCollector;
     if (collector != null && !(collector instanceof MultiEffectChoose)) {
       hasLockingEffect = true;
-    } else hasLockingEffect = false;
-    let player = PlayerManager.getPlayerByCard(data.effectCard)
-    let card = data.getTarget(TARGETTYPE.CARD)
+    } else { hasLockingEffect = false; }
+    const player = PlayerManager.getPlayerByCard(data.effectCard)
+    const card = data.getTarget(TARGETTYPE.CARD)
     if (card != null && card instanceof cc.Node) {
-      let playLoot = new PlayLootCardStackEffect(player.character.getComponent(Card)._cardId, hasLockingEffect, card, player.character, false, false)
+      const playLoot = new PlayLootCardStackEffect(player.character.getComponent(Card)._cardId, hasLockingEffect, card, player.character, false, false)
 
       await Stack.addToStackBelow(playLoot, Stack._currentStack[Stack._currentStack.length - 1], false)
     }
 
-
-    if (data instanceof PassiveEffectData) return data
+    if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack
   }
 }

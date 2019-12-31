@@ -85,7 +85,7 @@ export default class MonsterField extends cc.Component {
     }
   }
 
-  static addMonsterToNewPlace(sendToServer: boolean) {
+  static async addMonsterToNewPlace(sendToServer: boolean) {
     const newMonsterHolder = this.getNewMonsterHolder();
     const layout = this.$.node.getComponent(cc.Layout);
     newMonsterHolder.setParent(layout.node)
@@ -93,6 +93,7 @@ export default class MonsterField extends cc.Component {
 
     if (sendToServer) {
       ServerClient.$.send(Signal.NEW_MONSTER_PLACE)
+      await newMonsterHolder.getComponent(MonsterCardHolder).getNextMonster(true)
     }
     // this.addMonsterToExsistingPlace(
     //   newMonsterHolder.getComponent(MonsterCardHolder).id,

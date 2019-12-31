@@ -171,7 +171,11 @@ export default class MainScript extends cc.Component {
     const turnPlayerId = TurnsManager.currentTurn.PlayerId
     ServerClient.$.send(Signal.FINISH_LOAD, { id: playerId, turnPlayerId: turnPlayerId })
 
-    whevent.on(GAME_EVENTS.GAME_OVER, (playerWhoWonId => {
+    whevent.on(GAME_EVENTS.GAME_OVER, (async playerWhoWonId => {
+      for (let i = 0; i < Stack._currentStack.length; i++) {
+        const se = Stack._currentStack[i];
+        await Stack.fizzleStackEffect(se, true)
+      }
       MainScript.endGame(playerWhoWonId, true)
     }))
 
@@ -262,7 +266,7 @@ export default class MainScript extends cc.Component {
     }
     MainScript.gameHasStarted = true
     ServerClient.$.send(Signal.GAME_HAS_STARTED)
-    TurnsManager.setCurrentTurn(firstTurn, true)
+    await TurnsManager.setCurrentTurn(firstTurn, true)
 
   }
 

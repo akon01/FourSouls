@@ -1,11 +1,11 @@
 import { PASSIVE_EVENTS, TARGETTYPE } from "../../Constants";
 import Player from "../../Entites/GameEntities/Player";
+import Store from "../../Entites/GameEntities/Store";
 import { ActiveEffectData } from "../../Managers/DataInterpreter";
 import { PassiveMeta } from "../../Managers/PassiveManager";
-import Condition from "./Condition";
 import PlayerManager from "../../Managers/PlayerManager";
-import Store from "../../Entites/GameEntities/Store";
 import DataCollector from "../DataCollector/DataCollector";
+import Condition from "./Condition";
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,28 +16,31 @@ export default class PlayerBuyFromShop extends Condition {
 
   conditionData: ActiveEffectData = null;
 
-  @property
+  @property()
   isSpecificPlayerOnly: boolean = true;
+
+  @property()
+  needsDataCollector: boolean = true;
 
   @property({
     type: DataCollector, visible: function (this: PlayerBuyFromShop) {
-      if (this.isSpecificPlayerOnly) return true
+      if (this.isSpecificPlayerOnly) { return true }
     }, tooltip: 'Only Put If Not In "Add Passive Effect" Active effect'
   })
   dataCollector: DataCollector = null
 
   async testCondition(meta: PassiveMeta) {
 
-    let player: Player = meta.methodScope.getComponent(Player);
-    let thisCard = this.node.parent.parent;
-    //   let playerName = PlayerManager.getPlayerByCardId(this.conditionData.cardChosenId).name; 
+    const player: Player = meta.methodScope.getComponent(Player);
+    const thisCard = this.node.parent.parent;
+    //   let playerName = PlayerManager.getPlayerByCardId(this.conditionData.cardChosenId).name;
     if (this.isSpecificPlayerOnly) {
-      let selectedPlayerCard = this.conditionData.getTarget(TARGETTYPE.PLAYER)
+      const selectedPlayerCard = this.conditionData.getTarget(TARGETTYPE.PLAYER)
       if (selectedPlayerCard == null) {
-        cc.log('no selected player')
+        cc.log("no selected player")
       } else {
         if (selectedPlayerCard instanceof cc.Node) {
-          let selectedPlayer = PlayerManager.getPlayerByCard(selectedPlayerCard)
+          const selectedPlayer = PlayerManager.getPlayerByCard(selectedPlayerCard)
           if (
             player instanceof Player &&
             player.playerId == selectedPlayer.playerId &&
@@ -53,7 +56,7 @@ export default class PlayerBuyFromShop extends Condition {
     } else {
       if (player instanceof Player && Store.storeCards.includes(meta.args[1])) {
         return true
-      } else return false
+      } else { return false }
     }
   }
 }

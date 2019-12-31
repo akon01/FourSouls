@@ -1,31 +1,25 @@
-import { ITEM_TYPE, CARD_TYPE } from "../../Constants";
+import { CARD_TYPE, ITEM_TYPE } from "../../Constants";
 import EffectsAndNumbers from "../../EffectsAndNumbers";
 import CardEffect from "../../Entites/CardEffect";
+import Card from "../../Entites/GameEntities/Card";
+import PileManager from "../../Managers/PileManager";
 import PlayerManager from "../../Managers/PlayerManager";
 import Effect from "../CardEffects/Effect";
 import DataCollector from "../DataCollector/DataCollector";
-import PileManager from "../../Managers/PileManager";
-import Card from "../../Entites/GameEntities/Card";
-
-
-
+import MultiEffectRoll from "./MultiEffectRoll";
+import { IMultiEffectRollAndCollect } from "./IMultiEffectRollAndCollect";
 
 const { ccclass, property } = cc._decorator;
 
-
-
 @ccclass
-export default class MultiEffectDestroyThisThenRoll extends DataCollector {
+export default class MultiEffectDestroyThisThenRoll extends IMultiEffectRollAndCollect {
   collectorName = "MultiEffectDestroyThisThenRoll";
-
 
   @property({ type: cc.Enum(ITEM_TYPE) })
   effectsType: ITEM_TYPE = ITEM_TYPE.ACTIVE;
 
   @property({ type: [EffectsAndNumbers], multiline: true })
   effectsAndNumbers: EffectsAndNumbers[] = [];
-
-
 
   /**
    *
@@ -36,26 +30,22 @@ export default class MultiEffectDestroyThisThenRoll extends DataCollector {
     cardPlayerId: number;
   }): Promise<Effect> {
 
-    let thisCard = this.node.parent;
-    let thisOwner = PlayerManager.getPlayerByCard(thisCard)
+    const thisCard = this.node.parent;
+    const thisOwner = PlayerManager.getPlayerByCard(thisCard)
     await thisOwner.loseItem(thisCard, true)
     await PileManager.addCardToPile(thisCard.getComponent(Card).type, thisCard, true)
-
-
 
     return null
   }
 
-
-
   getEffectByNumberRolled(numberRolled: number, cardPlayed: cc.Node) {
-    let cardEffectComp = cardPlayed.getComponent(CardEffect);
+    const cardEffectComp = cardPlayed.getComponent(CardEffect);
     let effects: cc.Node[] = [];
     effects = effects.concat(cardEffectComp.activeEffects, cardEffectComp.paidEffects, cardEffectComp.passiveEffects)
     let chosenEffect: Effect = null;
     for (let i = 0; i < this.effectsAndNumbers.length; i++) {
       const eAn = this.effectsAndNumbers[i];
-      let index = eAn.numbers.find((number) => { if (number == numberRolled) return true })
+      const index = eAn.numbers.find((number) => { if (number == numberRolled) { return true } })
       if (index != null) {
         chosenEffect = eAn.effect
 
@@ -64,7 +54,7 @@ export default class MultiEffectDestroyThisThenRoll extends DataCollector {
 
     }
     if (!chosenEffect) {
-      cc.log(this.effectsAndNumbers.map(ean => ean.effect.name + '' + ean.numbers))
+      cc.log(this.effectsAndNumbers.map(ean => ean.effect.name + "" + ean.numbers))
       throw new Error(`No effect was chosen with the number rolled ${numberRolled}`)
     }
     cc.log(chosenEffect.name)

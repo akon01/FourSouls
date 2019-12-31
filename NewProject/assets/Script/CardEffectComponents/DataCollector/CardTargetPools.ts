@@ -1,28 +1,28 @@
 
 import { CARD_POOLS, COLLECTORTYPE } from "../../Constants";
 import Player from "../../Entites/GameEntities/Player";
+import Store from "../../Entites/GameEntities/Store";
 import MonsterField from "../../Entites/MonsterField";
+import BattleManager from "../../Managers/BattleManager";
 import { EffectTarget } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
-import DataCollector from "./DataCollector";
 import TurnsManager from "../../Managers/TurnsManager";
-import BattleManager from "../../Managers/BattleManager";
-import Store from "../../Entites/GameEntities/Store";
-
-
+import DataCollector from "./DataCollector";
+import CardManager from "../../Managers/CardManager";
+import Deck from "../../Entites/GameEntities/Deck";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class CardTargetPools extends DataCollector {
     type = COLLECTORTYPE.AUTO;
-    collectorName = 'CardTargetPools';
+    collectorName = "CardTargetPools";
 
     @property({ type: cc.Enum(CARD_POOLS) })
     targetPool: CARD_POOLS = 1;
 
     /**
-     * 
+     *
      * @param data cardPlayerId:Player who played the card
      * @returns {target:cc.node of the player who played the card}
      */
@@ -48,14 +48,18 @@ export default class CardTargetPools extends DataCollector {
                 return players.map(player => new EffectTarget(player.getComponent(Player).character))
             case CARD_POOLS.PLAYERS_EXCEPT_ATTAKING:
                 players = PlayerManager.players
-                if (TurnsManager.currentTurn.battlePhase) players.filter(player => player != TurnsManager.currentTurn.getTurnPlayer().node)
+                if (TurnsManager.currentTurn.battlePhase) { players.filter(player => player != TurnsManager.currentTurn.getTurnPlayer().node) }
                 return players.map(player => new EffectTarget(player.getComponent(Player).character))
             case CARD_POOLS.STORE_CARDS:
                 return Store.storeCards
+            case CARD_POOLS.TOP_OF_DECKS:
+                let cards = [CardManager.treasureDeck.getComponent(Deck)._cards[CardManager.treasureDeck.getComponent(Deck)._cards.length - 1],
+                CardManager.monsterDeck.getComponent(Deck)._cards[CardManager.monsterDeck.getComponent(Deck)._cards.length - 1],
+                CardManager.lootDeck.getComponent(Deck)._cards[CardManager.lootDeck.getComponent(Deck)._cards.length - 1]]
+                return cards.map(card => new EffectTarget(card))
             default:
                 break;
         }
-
 
     }
 

@@ -3,12 +3,13 @@
  * @author wheatup
  */
 
-import ServerPlayer from "./player";
 import signal from "../enums/signal";
-import Utils from "../utils/utils";
 import Server from "../server";
+import { Logger } from "../utils/Logger";
+import Utils from "../utils/utils";
+import ServerPlayer from "./player";
 
-let MIID = 0;
+const MIID = 0;
 export default class Match {
   static pendingMatches: Match[] = [];
 
@@ -16,7 +17,8 @@ export default class Match {
     if (Match.pendingMatches.length > 0) {
       return Match.pendingMatches[0];
     } else {
-      let match = new Match();
+      const match = new Match();
+      Server.$.logger = new Logger();
       Match.pendingMatches.push(match);
       return match;
     }
@@ -35,9 +37,9 @@ export default class Match {
   constructor() { }
 
   broadcast(signal: string, data?: any) {
-    let totalPlayers = this.players.length;
+    const totalPlayers = this.players.length;
     for (let i = totalPlayers - 1; i >= 0; i--) {
-      let player = this.players[i];
+      const player = this.players[i];
       if (player) {
         player.send(signal, data);
       }
@@ -60,7 +62,7 @@ export default class Match {
   }
 
   broadcastToPlayer(playerIdToSendTo: number, signal: string, data?: any) {
-    let player = this.getPlayerById(playerIdToSendTo);
+    const player = this.getPlayerById(playerIdToSendTo);
     if (player) {
       player.send(signal, data);
     }
@@ -71,14 +73,14 @@ export default class Match {
     signal: string,
     data?: any
   ) {
-    let totalPlayers = this.players.length;
+    const totalPlayers = this.players.length;
     console.log(currentPlayer.uuid);
     let currentPlayerUuid = currentPlayer.uuid;
     if (currentPlayer.uuid == totalPlayers) {
       currentPlayerUuid = 0;
     }
     for (let i = totalPlayers - 1; i >= 0; i--) {
-      let player = this.players[i];
+      const player = this.players[i];
       console.log("chekcing for player " + player.uuid);
       if (player.uuid == currentPlayerUuid + 1) {
         player.send(signal, data);
@@ -88,9 +90,9 @@ export default class Match {
   }
 
   broadcastExept(excludedPlayer: ServerPlayer, signal: string, data?: any) {
-    let totalPlayers = this.players.length;
+    const totalPlayers = this.players.length;
     for (let i = totalPlayers - 1; i >= 0; i--) {
-      let player = this.players[i];
+      const player = this.players[i];
       if (player !== excludedPlayer) {
         player.send(signal, data);
       }
@@ -150,9 +152,9 @@ export default class Match {
       text += this.letters[id];
     });
     if (Utils.isWord(text.toLowerCase())) {
-      let letters = Utils.generateLetters2(ids);
-      let lettersArr = this.letters.split("");
-      let score =
+      const letters = Utils.generateLetters2(ids);
+      const lettersArr = this.letters.split("");
+      const score =
         Server.$.config.scoreMap[
         text.length < Server.$.config.scoreMap.length
           ? text.length

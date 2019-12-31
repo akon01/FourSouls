@@ -2,7 +2,7 @@ import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
 import Effect from "../CardEffectComponents/CardEffects/Effect";
 import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
-import { BLINKING_SPEED, CARD_TYPE, GAME_EVENTS, PARTICLE_TYPES, TIME_TO_BUY, TIME_TO_DRAW } from "../Constants";
+import { BLINKING_SPEED, CARD_TYPE, GAME_EVENTS, PARTICLE_TYPES, TIME_TO_BUY, TIME_TO_DRAW, ITEM_TYPE } from "../Constants";
 import CardEffect from "../Entites/CardEffect";
 import { CardLayout } from "../Entites/CardLayout";
 import Character from "../Entites/CardTypes/Character";
@@ -106,7 +106,6 @@ export default class CardManager extends cc.Component {
 
   static async init() {
     const loaded = await this.preLoadPrefabs();
-    CardManager.treasureDeck = cc.find("Canvas/TreasureDeck");
     CardManager.CharItemCardPool = new cc.NodePool();
     CardManager.extraSoulsCardPool = new cc.NodePool();
     CardManager.lootCardPool = new cc.NodePool();
@@ -172,6 +171,7 @@ export default class CardManager extends cc.Component {
               }
             }
             cc.loader.loadResDir("Prefabs/LootCards", cc.Prefab, (err, rsc, urls) => {
+              cc.log(CardManager.lootDeck)
               CardManager.lootDeck.getComponent(Deck).cardsPrefab.push(...rsc)
               cc.loader.loadResDir("Prefabs/TreasureCards", cc.Prefab, (err, rsc, urls) => {
                 CardManager.treasureDeck.getComponent(Deck).cardsPrefab.push(...rsc)
@@ -457,7 +457,6 @@ export default class CardManager extends cc.Component {
       characterNode.parent = cc.director.getScene();
       CardManager.characterDeck.push(fullCharCards);
       CardManager.allCards.push(fullCharCards.char)
-      cc.log(fullCharCards)
       if (fullCharCards.item) {
         CardManager.allCards.push(fullCharCards.item)
       }
@@ -494,12 +493,19 @@ export default class CardManager extends cc.Component {
   }
 
   static makeItemActivateable(item: cc.Node) {
+    if (!(item.getComponent(Item).type == ITEM_TYPE.ACTIVE || item.getComponent(Item).type == ITEM_TYPE.BOTH || item.getComponent(Item).type == ITEM_TYPE.PAID)) { return }
+    //&& !item.getComponent(Item).activated) { return }
+    if (!item.getComponent(CardEffect).testEffectsPreConditions()) {
+      cc.log(`${item.name} hasent passed precondition test to make actiavtable`);
+      return
+    }
     const cardComp = item.getComponent(Card);
     const cardEffectComp = item.getComponent(CardEffect);
     if (!cardComp._isActivateable) {
       cardComp._hasEventsBeenModified = true;
     }
     cardComp._isActivateable = true;
+
     this.makeCardPreviewable(item);
   }
 
@@ -524,6 +530,8 @@ export default class CardManager extends cc.Component {
   }
 
   static makeCardPreviewable(card: cc.Node) {
+
+    // if (card.name.includes("Deck")) { card = card.getComponent(Deck).topBlankCard }
 
     card.off(cc.Node.EventType.TOUCH_START);
     card.on(
@@ -894,9 +902,11 @@ export default class CardManager extends cc.Component {
   // LIFE-CYCLE CALLBACKS:
 
   onLoad() {
-    CardManager.lootDeck = cc.find("Canvas/LootDeck");
-    CardManager.monsterDeck = cc.find("Canvas/MonsterDeck");
-    CardManager.treasureDeck = cc.find("Canvas/TreasureDeck");
+    cc.log(`1`)
+    CardManager.lootDeck = cc.find("Canvas/Loot Deck");
+    cc.log(CardManager.lootDeck)
+    CardManager.monsterDeck = cc.find("Canvas/Monster Deck");
+    CardManager.treasureDeck = cc.find("Canvas/Treasure Deck");
     CardManager.store = cc.find("Canvas/Store");
     CardManager.monsterField = cc.find("Canvas/MonsterField");
   }

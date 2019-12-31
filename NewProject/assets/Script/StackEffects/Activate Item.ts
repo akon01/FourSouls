@@ -19,9 +19,10 @@ import PlayerManager from "../Managers/PlayerManager";
 import TurnsManager from "../Managers/TurnsManager";
 import RollDiceStackEffect from "./Roll DIce";
 import ServerActivateItem from "./ServerSideStackEffects/Server Activate Item";
+import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { ActivateItemVis } from "./StackEffectVisualRepresentation/Activate Item Vis";
-import StackEffectConcrete from "./StackEffectConcrete";
+import { IMultiEffectRollAndCollect } from "../CardEffectComponents/MultiEffectChooser/IMultiEffectRollAndCollect";
 
 export default class ActivateItem extends StackEffectConcrete {
     visualRepesentation: ActivateItemVis;
@@ -47,7 +48,10 @@ export default class ActivateItem extends StackEffectConcrete {
     creationTurnId: number
 
     checkForFizzle() {
-        if (this.creationTurnId != TurnsManager.currentTurn.turnId) { return true }
+        if (super.checkForFizzle()) {
+            this.isToBeFizzled = true
+            return true
+        }
         return false
     }
 
@@ -59,15 +63,8 @@ export default class ActivateItem extends StackEffectConcrete {
     hasDataBeenCollectedYet: boolean = false;
 
     constructor(creatorCardId: number, hasLockingStackEffect: boolean, itemToActivate: cc.Node, itemPlayerCard: cc.Node, hasDataBeenCollectedYet: boolean, entityId?: number) {
-        super()
-        if (entityId) {
-            this.nonOriginal = true
-            this.entityId = entityId
-        } else {
-            this.entityId = Stack.getNextStackEffectId()
-        }
-        this.creatorCardId = creatorCardId;
-        this.creationTurnId = TurnsManager.currentTurn.turnId;
+        super(creatorCardId, entityId)
+
         this.hasLockingStackEffect = hasLockingStackEffect;
         if (this.hasLockingStackEffect) { this.hasLockingStackEffectResolved = false; }
         this.itemToActivate = itemToActivate;
@@ -90,8 +87,11 @@ export default class ActivateItem extends StackEffectConcrete {
 
             }
         } else {
-
-            this.effectToDo = cardEffect.activeEffects[0].getComponent(Effect)
+            if (cardEffect.activeEffects[0]) {
+                this.effectToDo = cardEffect.activeEffects[0].getComponent(Effect)
+            } else if (cardEffect.paidEffects[0]) {
+                this.effectToDo = cardEffect.paidEffects[0].getComponent(Effect)
+            }
         }
         //if the effect is chosen already and the player needs to choose targets, let him now.
         if (this.effectToDo != null) {
@@ -127,13 +127,12 @@ export default class ActivateItem extends StackEffectConcrete {
                 if (cardEffect.multiEffectCollector instanceof MultiEffectRoll) {
                     lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
                 }
-                if (cardEffect.multiEffectCollector instanceof MultiEffectChooseThenRoll || cardEffect.multiEffectCollector instanceof MultiEffectDestroyThisThenRoll) {
+                if (cardEffect.multiEffectCollector instanceof IMultiEffectRollAndCollect) {
                     await cardEffect.multiEffectCollector.collectData({ cardPlayed: this.itemToActivate, cardPlayerId: this.itemPlayer.playerId })
                     lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
                 }
 
                 lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
-                cc.error(`add to stack :${lockingStackEffect._lable}`)
                 await Stack.addToStack(lockingStackEffect, true)
 
                 //if this effect has locking stack effect (first only "roll:" for a dice roll) and it has resolved
@@ -141,13 +140,12 @@ export default class ActivateItem extends StackEffectConcrete {
 
             if (this.hasLockingStackEffect && this.hasLockingStackEffectResolved == true) {
 
-                if (cardEffect.multiEffectCollector instanceof MultiEffectRoll || cardEffect.multiEffectCollector instanceof MultiEffectChooseThenRoll || cardEffect.multiEffectCollector instanceof MultiEffectDestroyThisThenRoll) {
-                    const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_ROLL_DICE, [this.LockingResolve, ROLL_TYPE.EFFECT], null, this.itemPlayer.node, this.entityId)
-                    const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
-                    this.LockingResolve = afterPassiveMeta.args[0]
+                if (cardEffect.multiEffectCollector instanceof MultiEffectRoll || cardEffect.multiEffectCollector instanceof IMultiEffectRollAndCollect) {
+                    // const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_ROLL_DICE, [this.LockingResolve, ROLL_TYPE.EFFECT], null, this.itemPlayer.node, this.entityId)
+                    // const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+                    // this.LockingResolve = afterPassiveMeta.args[0]
                     try {
                         selectedEffect = cardEffect.multiEffectCollector.getEffectByNumberRolled(this.LockingResolve, this.itemToActivate)
-                        cc.log(`selected effect from roll is ${selectedEffect.name}`)
                     } catch (error) {
                         cc.error(error)
                         Logger.error(error)
@@ -170,7 +168,7 @@ export default class ActivateItem extends StackEffectConcrete {
         //     Stack.replaceStack(newStack, true)
 
         //if the "item" is a non-monster monster card, move it to monster discard pile
-        if (this.itemToActivate.getComponent(Monster) != null) {
+        if (this.itemToActivate.getComponent(Monster) != null && this.itemToActivate.getComponent(Monster).monsterPlace) {
 
             await this.itemToActivate.getComponent(Monster).monsterPlace.discardTopMonster(true)
             // await PileManager.addCardToPile(CARD_TYPE.MONSTER, this.itemToActivate, true)

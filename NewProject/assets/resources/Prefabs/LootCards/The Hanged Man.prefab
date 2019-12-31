@@ -277,9 +277,11 @@
     "conditions": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
-    "dataCollector": {
-      "__id__": 10
-    },
+    "dataCollector": [
+      {
+        "__id__": 10
+      }
+    ],
     "_effectCard": null,
     "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
@@ -351,7 +353,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "CardPlayer",
+    "_name": "CardTargetPools",
     "_objFlags": 0,
     "_parent": {
       "__id__": 8
@@ -410,13 +412,14 @@
     "_id": ""
   },
   {
-    "__type__": "1d1ecf8dolI9JOwSEDLfemj",
+    "__type__": "22913nx12JFp5jamWHfq9bu",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 9
     },
     "_enabled": true,
+    "targetPool": 9,
     "_id": ""
   },
   {
@@ -427,7 +430,7 @@
     "asset": {
       "__uuid__": "75fa5da0-4d18-4a15-bb61-968312ef9d9c"
     },
-    "fileId": "07QLdN4YFAiqovr3JUGR/1",
+    "fileId": "59woC4SGtCPolqE98ItlcL",
     "sync": false
   },
   {
@@ -977,10 +980,15 @@
     },
     "_enabled": true,
     "cardName": "The Hanged Man",
+    "doNotMake": false,
+    "makeMultiCards": false,
+    "numOfCopies": 2,
+    "copiesSprites": [],
     "_cardId": 0,
     "_isInHand": false,
     "_isOnDesk": false,
     "_originalParent": null,
+    "_originalWidth": null,
     "topDeckof": null,
     "souls": 0,
     "type": 1,
@@ -999,6 +1007,7 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
+    "availableParticles": [],
     "_id": ""
   },
   {
@@ -1009,6 +1018,7 @@
       "__id__": 1
     },
     "_enabled": true,
+    "hasDestroySelfEffect": false,
     "conditions": [],
     "activeEffects": [
       {

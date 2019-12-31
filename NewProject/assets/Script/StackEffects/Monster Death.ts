@@ -8,10 +8,11 @@ import PlayerManager from "../Managers/PlayerManager";
 import TurnsManager from "../Managers/TurnsManager";
 import MonsterRewardStackEffect from "./Monster Reward";
 import ServerMonsterDeath from "./ServerSideStackEffects/Server Monster Death";
+import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { MonsterDeathVis } from "./StackEffectVisualRepresentation/Monster Death Vis";
 
-export default class MonsterDeath implements StackEffectInterface {
+export default class MonsterDeath extends StackEffectConcrete {
     visualRepesentation: MonsterDeathVis;
 
     entityId: number;
@@ -35,7 +36,10 @@ export default class MonsterDeath implements StackEffectInterface {
     creationTurnId: number
 
     checkForFizzle() {
-        if (this.creationTurnId != TurnsManager.currentTurn.turnId) { return true }
+        if (super.checkForFizzle()) {
+            this.isToBeFizzled = true
+            return true
+        }
         return false;
     }
 
@@ -45,15 +49,8 @@ export default class MonsterDeath implements StackEffectInterface {
     killer: cc.Node
 
     constructor(creatorCardId: number, monsterToDieCard: cc.Node, killerCard: cc.Node, entityId?: number) {
-        if (entityId) {
-            this.nonOriginal = true
-            this.entityId = entityId
-        } else {
-            this.entityId = Stack.getNextStackEffectId()
-        }
+        super(creatorCardId, entityId)
         this.killer = killerCard
-        this.creatorCardId = creatorCardId;
-        this.creationTurnId = TurnsManager.currentTurn.turnId;
         this.monsterToDie = monsterToDieCard.getComponent(Monster)
         this.visualRepesentation = new MonsterDeathVis(this.monsterToDie.name)
         this.lable = `${this.monsterToDie} killed by ${killerCard.name}`
@@ -67,7 +64,7 @@ export default class MonsterDeath implements StackEffectInterface {
 
     async resolve() {
         if (BattleManager.currentlyAttackedMonster != null && this.monsterToDie.node == BattleManager.currentlyAttackedMonster.node) {
-            BattleManager.endBattle()
+            await BattleManager.cancelAttack(true)
         }
         this.monsterToDie._thisTurnKiller = this.killer
         const turnPlayerCard = PlayerManager.getPlayerById(TurnsManager.currentTurn.PlayerId).character

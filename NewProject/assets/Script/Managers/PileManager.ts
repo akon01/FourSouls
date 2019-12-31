@@ -1,13 +1,12 @@
-import PlayerManager from "./PlayerManager";
-import Player from "../Entites/GameEntities/Player";
-import { CARD_TYPE, TIME_FOR_MONSTER_DISCARD, GAME_EVENTS } from "../Constants";
-import CardManager from "./CardManager";
-import Monster from "../Entites/CardTypes/Monster";
-import ServerClient from "../../ServerClient/ServerClient";
 import Signal from "../../Misc/Signal";
+import ServerClient from "../../ServerClient/ServerClient";
+import { CARD_TYPE, GAME_EVENTS, TIME_FOR_MONSTER_DISCARD } from "../Constants";
+import Monster from "../Entites/CardTypes/Monster";
 import Card from "../Entites/GameEntities/Card";
+import Player from "../Entites/GameEntities/Player";
 import Pile from "../Entites/Pile";
-
+import CardManager from "./CardManager";
+import PlayerManager from "./PlayerManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,19 +25,19 @@ export default class PileManager extends cc.Component {
   static treasureCardPile: Pile = null;
   static isOver: boolean = false;
 
-  static lootPlaceTest: cc.Node = null;
+  static lootPlayPile: Pile = null;
 
   static init() {
 
-    PileManager.lootPlaceTest.getComponent(Card)._cardId = ++CardManager.cardsId
+    PileManager.lootPlayPile.getComponent(Card)._cardId = ++CardManager.cardsId
     PileManager.lootCardPileNode.getComponent(Card)._cardId = ++CardManager.cardsId
     PileManager.treasureCardPileNode.getComponent(Card)._cardId = ++CardManager.cardsId
     PileManager.monsterCardPileNode.getComponent(Card)._cardId = ++CardManager.cardsId
-    CardManager.allCards.push(PileManager.lootPlaceTest, PileManager.lootCardPileNode, PileManager.treasureCardPileNode, PileManager.monsterCardPileNode)
+    CardManager.allCards.push(PileManager.lootPlayPile.node, PileManager.lootCardPileNode, PileManager.treasureCardPileNode, PileManager.monsterCardPileNode)
   }
 
   static getTopCardOfPiles() {
-    let topCards: cc.Node[] = [
+    const topCards: cc.Node[] = [
       this.lootCardPile[this.lootCardPile.getCards().length - 1],
       this.monsterCardPile[this.monsterCardPile.getCards().length - 1],
       this.treasureCardPile[this.treasureCardPile.getCards().length - 1]
@@ -47,6 +46,36 @@ export default class PileManager extends cc.Component {
 
   }
 
+  static getPileByCard(card: cc.Node) {
+    for (const pileCard of this.lootCardPile.getCards()) {
+      if (pileCard == card) {
+        return this.lootCardPile
+      }
+    }
+    for (const pileCard of this.lootPlayPile.getCards()) {
+      if (pileCard == card) {
+        return this.lootPlayPile
+      }
+    }
+    for (const pileCard of this.monsterCardPile.getCards()) {
+      if (pileCard == card) {
+        return this.lootCardPile
+      }
+    }
+    for (const pileCard of this.treasureCardPile.getCards()) {
+      if (pileCard == card) {
+        return this.lootCardPile
+      }
+    }
+  }
+
+  static removeFromPile(card: cc.Node, sendToServer: boolean) {
+    const pile = this.getPileByCard(card)
+    pile.removeFromPile(card)
+    if (sendToServer) {
+      ServerClient.$.send(Signal.REMOVE_FROM_PILE, { cardId: card.getComponent(Card)._cardId });
+    }
+  }
 
   static async addCardToPile(type: CARD_TYPE, card: cc.Node, sendToServer: boolean) {
     switch (type) {
@@ -59,9 +88,15 @@ export default class PileManager extends cc.Component {
           await CardManager.moveCardTo(card, PileManager.lootCardPileNode, sendToServer, true)
         }
         PileManager.lootCardPile.addCardToTopPile(card)
-        //    card.parent = this.lootCardPileNode;
-        //card.setPosition(0, 0);
-        //this.isOver = true
+        break;
+      case CARD_TYPE.LOOT_PLAY:
+        CardManager.onTableCards.push(card);
+
+        if (sendToServer) {
+
+          await CardManager.moveCardTo(card, PileManager.lootPlayPile.node, sendToServer, true)
+        }
+        PileManager.lootPlayPile.addCardToTopPile(card)
         break;
       case CARD_TYPE.MONSTER:
         CardManager.onTableCards.push(card);
@@ -71,13 +106,7 @@ export default class PileManager extends cc.Component {
           await CardManager.moveCardTo(card, PileManager.monsterCardPileNode, sendToServer, true)
         }
         PileManager.monsterCardPile.addCardToTopPile(card);
-        // card.parent = this.monsterCardPileNode;
         if (card.getComponent(Monster).monsterPlace != null) {
-          // if (sendToServer) {
-          //   card.getComponent(Monster).monsterPlace.removeMonster(card, sendToServer); 
-          //   card.getComponent(Monster).monsterPlace.getNextMonster(sendToServer);
-          //   //this.isOver = true;
-          // }
         }
 
         break;
@@ -103,7 +132,7 @@ export default class PileManager extends cc.Component {
     CardManager.makeCardPreviewable(card);
     //await this.waitForCardMovement()
     if (sendToServer) {
-      let srvData = { type: type, cardId: card.getComponent(Card)._cardId };
+      const srvData = { type: type, cardId: card.getComponent(Card)._cardId };
       ServerClient.$.send(Signal.MOVE_CARD_TO_PILE, srvData);
     }
   }
@@ -113,11 +142,12 @@ export default class PileManager extends cc.Component {
     PileManager.lootCardPileNode = cc.find("Canvas/LootCardPile");
     PileManager.treasureCardPileNode = cc.find("Canvas/TreasureCardPile");
     PileManager.monsterCardPileNode = cc.find("Canvas/MonsterCardPile");
-    PileManager.lootPlaceTest = cc.find('Canvas/lootTest')
+
 
     PileManager.lootCardPile = PileManager.lootCardPileNode.getComponent(Pile)
     PileManager.treasureCardPile = PileManager.treasureCardPileNode.getComponent(Pile)
     PileManager.monsterCardPile = PileManager.monsterCardPileNode.getComponent(Pile)
+    PileManager.lootPlayPile = cc.find("Canvas/LootPlayPile").getComponent(Pile)
 
   }
 

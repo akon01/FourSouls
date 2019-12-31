@@ -509,10 +509,15 @@
     },
     "_enabled": true,
     "cardName": "Conjoined Fatty",
+    "doNotMake": false,
+    "makeMultiCards": false,
+    "numOfCopies": 2,
+    "copiesSprites": [],
     "_cardId": 0,
     "_isInHand": false,
     "_isOnDesk": false,
     "_originalParent": null,
+    "_originalWidth": null,
     "topDeckof": null,
     "souls": 0,
     "type": 2,
@@ -531,6 +536,7 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
+    "availableParticles": [],
     "_id": ""
   },
   {
@@ -554,7 +560,11 @@
     "souls": 0,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
-    "reward": null,
+    "reward": {
+      "__id__": 3
+    },
+    "killer": null,
+    "_isDead": false,
     "_id": ""
   },
   {

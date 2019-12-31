@@ -6,10 +6,10 @@
 import WebSocket, { Server as WebSocketServer } from "ws";
 import ServerPlayer from "./entities/player";
 
-import * as whevent from "whevent";
 import * as fs from "fs";
-import signal from "./enums/signal";
+import * as whevent from "whevent";
 import Match from "./entities/match";
+import signal from "./enums/signal";
 import { Logger } from "./utils/Logger";
 
 declare const Buffer;
@@ -33,7 +33,7 @@ export default class Server {
     console.log("Setting up server...");
     this.setupWebSocket();
     this.bindEvents();
-    this.logger = new Logger();
+
   }
 
   bindEvents() {
@@ -66,6 +66,7 @@ export default class Server {
     whevent.on(signal.ROLL_DICE_ENDED, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.GET_NEXT_MONSTER, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.MOVE_CARD_TO_PILE, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.REMOVE_FROM_PILE, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.GET_SOUL, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.LOSE_SOUL, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.ADD_MONSTER, this.onBroadcastExceptOrigin, this);
@@ -74,7 +75,6 @@ export default class Server {
     whevent.on(signal.ACTIVATE_PARTICLE_EFFECT, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.DISABLE_PARTICLE_EFFECT, this.onBroadcastExceptOrigin, this);
     //
-
 
     //BOARD SIGANL
     whevent.on(signal.REMOVE_MONSTER, this.onBroadcastExceptOrigin, this);
@@ -90,10 +90,9 @@ export default class Server {
 
     whevent.on(signal.UPDATE_PASSIVE_DATA, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.CARD_GET_COUNTER, this.onBroadcastExceptOrigin, this);
-    whevent.on(signal.CANCEL_ATTACK, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.END_BATTLE, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.END_TURN, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.NEW_MONSTER_PLACE, this.onBroadcastExceptOrigin, this);
-
-
 
     whevent.on(signal.CHANGE_MONEY, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.ADD_STORE_CARD, this.onBroadcastExceptOrigin, this);
@@ -112,12 +111,13 @@ export default class Server {
     whevent.on(signal.REMOVE_RESOLVING_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.UPDATE_STACK_VIS, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.UPDATE_STACK_LABLE, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.UPDATE_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.NEXT_STACK_ID, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.GIVE_PLAYER_PRIORITY, this.onBroadcastExceptOrigin, this);
 
-
     //player events
     whevent.on(signal.SET_MONEY, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.PLAYER_PROP_UPDATE, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.PLAYER_GAIN_ATTACK_ROLL_BONUS, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.PLAYER_GAIN_DMG, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.PLAYER_GAIN_FIRST_ATTACK_ROLL_BONUS, this.onBroadcastExceptOrigin, this);
@@ -130,6 +130,7 @@ export default class Server {
     whevent.on(signal.PLAYER_LOSE_LOOT, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.PLAYER_HEAL, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.PLAYER_ADD_DMG_PREVENTION, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.PLAYER_DIED, this.onBroadcastExceptOrigin, this);
     //
 
     //monster events
@@ -155,14 +156,14 @@ export default class Server {
     whevent.on(signal.SOUL_CARD_MOVE_END, this.onSendToSpecificPlayer, this);
     whevent.on(signal.CARD_ADD_TRINKET, this.onBroadcastExceptOrigin, this);
 
-
     //eden events
     whevent.on(signal.EDEN_CHOSEN, this.onSendToSpecificPlayer, this);
     whevent.on(signal.CHOOSE_FOR_EDEN, this.onSendToSpecificPlayer, this);
 
     //Action Lable
 
-    whevent.on(signal.ACTION_MASSAGE, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.ACTION_MASSAGE_ADD, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.ACTION_MASSAGE_REMOVE, this.onBroadcastExceptOrigin, this);
 
   }
 
@@ -171,13 +172,10 @@ export default class Server {
   }
 
   onSendToSpecificPlayer({ player, data }) {
-    let playerToSendToId: number = data.data.playerId
+    const playerToSendToId: number = data.data.playerId
 
     player.match.broadcastToPlayer(playerToSendToId, data.signal, data)
   }
-
-
-
 
   logFromPlayer({ player, data }) {
     this.logger.logFromPlayer(player.uuid, data)
@@ -187,14 +185,10 @@ export default class Server {
     this.logger.logErrorFromPlayer(player.uuid, data)
   }
 
-
-
-
-
   onRequestMatch({ player, data }) {
 
     if (ServerPlayer.players.length >= 2) {
-      let match = Match.getMatch();
+      const match = Match.getMatch();
       match.join(player);
       this.logger.addAPlayerToMatch(player.uuid)
     }
@@ -210,19 +204,16 @@ export default class Server {
     }
   }
 
-
-
   onFinishLoad({ player, data }) {
 
     player.match.loadedPlayers += 1;
     player.match.firstPlayerId = data.data.turnPlayerId
 
     if (player.match.loadedPlayers == player.match.players.length) {
-      console.log('on finish load')
+      console.log("on finish load")
       player.match.broadcast(signal.FINISH_LOAD, { id: player.match.firstPlayerId })
     }
   }
-
 
   moveToTable({ player, data }) {
     console.log("Move to table request from players");
@@ -232,22 +223,12 @@ export default class Server {
     });
   }
 
-
-
-
-
-
-
-
   //Stack events
-
-
 
   //END
 
-
   onResolveActions({ player, data }) {
-    let firstPlayer = player.match.getPlayerById(data.data.originalPlayer);
+    const firstPlayer = player.match.getPlayerById(data.data.originalPlayer);
 
     firstPlayer.send(signal.RESOLVE_ACTIONS, data);
     player.match.broadcastExept(
@@ -259,7 +240,7 @@ export default class Server {
   }
 
   onValidate({ player, data }) {
-    let match: Match = player.match;
+    const match: Match = player.match;
     if (match && match.running) {
       match.validate(player, data.data);
     }
@@ -273,7 +254,7 @@ export default class Server {
         `Websocket server listening on port ${this.config.port}...`
       );
       this.wss.on("connection", ws => {
-        let player = ServerPlayer.getPlayer(ws);
+        const player = ServerPlayer.getPlayer(ws);
         this.onConnection(player);
         ws.on("message", (message: string) => {
           this.onMessage(player, message);
@@ -288,18 +269,6 @@ export default class Server {
   loadConfig(): Promise<any> {
     return new Promise((resolve, reject) => {
       fs.readFile("./resources/config.json", (err, data) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(JSON.parse(data.toString()));
-        }
-      });
-    });
-  }
-
-  loadWords(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      fs.readFile("./resources/words.json", (err, data) => {
         if (err) {
           reject(err);
         } else {
@@ -325,11 +294,12 @@ export default class Server {
 
   onMessage(player: ServerPlayer, message: string) {
     try {
-      let data = JSON.parse(Buffer.from(message, "base64").toString());
+      const data = JSON.parse(Buffer.from(message, "base64").toString());
       console.log(`Player ${player.uuid}: `, data);
-      let id = player.uuid;
-
-      this.logger.logFromServer(id, data)
+      const id = player.uuid;
+      if (this.logger) {
+        this.logger.logFromServer(id, data)
+      }
       whevent.emit(data.signal, { player, data });
     } catch (ex) {
       console.error(ex);

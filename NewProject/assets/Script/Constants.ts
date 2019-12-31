@@ -1,6 +1,6 @@
 import { afterMethod, beforeMethod } from "kaop-ts";
-import CardManager from "./Managers/CardManager";
 import Signal from "../Misc/Signal";
+import CardManager from "./Managers/CardManager";
 
 export const MAX_PLAYERS = 2;
 
@@ -31,7 +31,8 @@ export enum CARD_TYPE {
   CHAR = 3,
   CHARITEM = 4,
   TREASURE = 5,
-  EXTRASOUL = 6
+  EXTRASOUL = 6,
+  LOOT_PLAY = 7,
 }
 
 export enum STACK_EFFECT_TYPE {
@@ -59,7 +60,6 @@ export enum ROLL_TYPE {
   EFFECT = 3,
   EFFECT_ROLL = 4
 }
-
 
 export enum STATS {
   HP = 1,
@@ -109,12 +109,37 @@ export enum CONDITION_TYPE {
   BOTH
 }
 
-
 export enum PLAYER_RESOURCES {
   MONEY = 1,
   LOOT = 2
 }
 
+export enum ADMIN_COMMANDS {
+  LOG,
+  COINS,
+  HEAL,
+  HP,
+  DMG,
+  DICE,
+  SOUL,
+  CHARGE,
+  ROLL,
+  CARD,
+  RUN,
+  STACKTRACE,
+  STACK
+}
+
+export enum ADMIN_COMMANDS2 {
+  LOG = "LOG",
+
+}
+
+export enum INPUT_TYPE {
+  TEXT_INPUT,
+  NUMBER_INPUT,
+  NONE
+}
 
 export enum CHOOSE_CARD_TYPE {
   ALL_PLAYERS = 1,
@@ -150,6 +175,7 @@ export enum CARD_POOLS {
   PLAYERS_EXCEPT_ATTAKING = 6,
   ACTIVE_MONSTERS_NOT_ATTACKED = 7,
   STORE_CARDS = 8,
+  TOP_OF_DECKS
 }
 
 export enum BUTTON_STATE {
@@ -157,7 +183,7 @@ export enum BUTTON_STATE {
   DISABLED,
   SKIP_SKIP_RESPONSE,
   /**
-   * extra - textToChangeTo:string 
+   * extra - textToChangeTo:string
    */
   CHANGE_TEXT,
   PLAYER_CHOOSE_NO,
@@ -199,7 +225,9 @@ export enum GAME_EVENTS {
   STACK_CHANGED,
   LABLE_CHANGE,
   GAME_OVER,
-  SOUL_CARD_MOVE_END
+  SOUL_CARD_MOVE_END,
+  STACK_EFFECT_CHANGE,
+  ACTION_LABLE_UPDATE
 }
 
 export class SIGNAL_GROUPS {
@@ -207,15 +235,16 @@ export class SIGNAL_GROUPS {
   STACK = [Signal.ADD_TO_STACK, Signal.REMOVE_FROM_STACK, Signal.UPDATE_STACK_LABLE, Signal.REPLACE_STACK]
   CARD_MOVEMENT = [Signal.SOUL_CARD_MOVE_END, Signal.MOVE_CARD, Signal.MOVE_CARD_END]
   PARTICLE = [Signal.ACTIVATE_PARTICLE_EFFECT, Signal.DISABLE_PARTICLE_EFFECT]
-  TESTG = [].concat(this.STACK, this.PARTICLE, this.CARD_MOVEMENT, [Signal.ACTION_MASSAGE])
+  ACTION_MESSAGE = [Signal.ACTION_MASSAGE_ADD, Signal.ACTION_MASSAGE_REMOVE];
+
+  TESTG = [].concat(this.PARTICLE, this.CARD_MOVEMENT, this.ACTION_MESSAGE, this.STACK, this.REACTION)
   //[Signal.ADD_TO_STACK, Signal.REMOVE_FROM_STACK, Signal.RESPOND_TO, Signal.GET_REACTION, Signal.GIVE_PLAYER_PRIORITY, Signal.ACTION_MASSAGE, Signal]
 
-
   getGroup(type: string) {
-    if (type == 'test') return this.TESTG
-    if (this.REACTION.includes(type)) return this.REACTION;
-    if (this.STACK.includes(type)) return this.STACK
-    if (this.PARTICLE.includes(type)) return this.STACK
+    if (type == "test") { return this.TESTG }
+    if (this.REACTION.includes(type)) { return this.REACTION; }
+    if (this.STACK.includes(type)) { return this.STACK }
+    if (this.PARTICLE.includes(type)) { return this.STACK }
   }
 
 }
@@ -225,7 +254,6 @@ export enum PARTICLE_TYPES {
   CARD_CHOSEN, CHOOSE_CARD, OPTIONAL_CHOOSE_CARD, MONSTER_GET_HIT, PLAYER_GET_HIT, MONSTER_IN_BATTLE, ACTIVATE_EFFECT
 }
 
-
 export enum TARGETTYPE {
 
   PLAYER, MONSTER, ITEM, PILE, DECK, CARD, STACK_EFFECT
@@ -234,55 +262,53 @@ export enum TARGETTYPE {
 export enum PASSIVE_EVENTS {
 
   /**
-   * scope - 
+   * scope -
    */
-  PLAYER_MISS_ATTACK = 'PLAYER_MISS_ATTACK',
+  PLAYER_MISS_ATTACK = "PLAYER_MISS_ATTACK",
   /**
    * args = damage,damageDealer
    */
-  PLAYER_GET_HIT = 'PLAYER_GET_HIT',
-  PLAYER_ACTIVATE_ITEM = 'PLAYER_ACTIVATE_ITEM',
-  PLAYER_PREVENT_DAMAGE = 'PLAYER_PREVENT_DAMAGE',
+  PLAYER_GET_HIT = "PLAYER_GET_HIT",
+  PLAYER_ACTIVATE_ITEM = "PLAYER_ACTIVATE_ITEM",
+  PLAYER_PREVENT_DAMAGE = "PLAYER_PREVENT_DAMAGE",
   /**
    * args = [damage taken,num of missed dice roll,entity who dealt damage:cc.node]
    */
-  PLAYER_COMBAT_DAMAGE_TAKEN = 'PLAYER_COMBAT_DAMAGE_TAKEN',
+  PLAYER_COMBAT_DAMAGE_TAKEN = "PLAYER_COMBAT_DAMAGE_TAKEN",
   /**
+   * scope: player node
    * args = [damage taken,num of missed dice roll,entity who dealt damage:cc.node,entity who took damage:cc.Node]
    */
-  PLAYER_COMBAT_DAMAGE_GIVEN = 'PLAYER_COMBAT_DAMAGE_GIVEN',
+  PLAYER_COMBAT_DAMAGE_GIVEN = "PLAYER_COMBAT_DAMAGE_GIVEN",
   /**
    * args = [number of coins]
    */
-  PLAYER_CHANGE_MONEY = 'PLAYER_CHANGE_MONEY',
+  PLAYER_CHANGE_MONEY = "PLAYER_CHANGE_MONEY",
   /**
    * scope:the player who will pay the panelties
    */
-  PLAYER_PAY_DEATH_PANELTIES = 'PLAYER_PAY_DEATH_PANELTIES',
-  PLAYER_LOSE_ITEM = 'PLAYER_LOSE_ITEM',
-  PLAYER_ROLL_DICE = 'PLAYER_ROLL_DICE',
-  PLAYER_END_TURN = 'PLAYER_END_TURN',
-  PLAYER_START_TURN = 'PLAYER_START_TURN',
-  PLAYER_BUY_ITEM = 'PLAYER_BUY_ITEM',
-  PLAYER_DECLARE_ATTACK = 'PLAYER_DECLARE_ATTACK',
-  PLAYER_FIRST_ATTACK_ROLL_OF_TURN = 'PLAYER_FIRST_ATTACK_ROLL_OF_TURN',
-  PLAYER_ADD_ITEM = 'PLAYER_ADD_ITEM',
+  PLAYER_PAY_DEATH_PANELTIES = "PLAYER_PAY_DEATH_PANELTIES",
+  PLAYER_LOSE_ITEM = "PLAYER_LOSE_ITEM",
+  PLAYER_ROLL_DICE = "PLAYER_ROLL_DICE",
+  PLAYER_END_TURN = "PLAYER_END_TURN",
+  PLAYER_START_TURN = "PLAYER_START_TURN",
+  PLAYER_BUY_ITEM = "PLAYER_BUY_ITEM",
+  PLAYER_DECLARE_ATTACK = "PLAYER_DECLARE_ATTACK",
+  PLAYER_FIRST_ATTACK_ROLL_OF_TURN = "PLAYER_FIRST_ATTACK_ROLL_OF_TURN",
+  PLAYER_ADD_ITEM = "PLAYER_ADD_ITEM",
   /**
      * args = damage,damageDealer
      */
-  MONSTER_GET_HIT = 'MONSTER_GET_HIT',
+  MONSTER_GET_HIT = "MONSTER_GET_HIT",
   /**
    * scope : the monster who was killed
    */
-  MONSTER_IS_KILLED = 'MONSTER_IS_KILLED',
-  NEW_ACTIVE_MONSTER = 'NEW_ACTIVE_MONSTER',
-  MONSTER_PREVENT_DAMAGE = 'MONSTER_PREVENT_DAMAGE',
+  MONSTER_IS_KILLED = "MONSTER_IS_KILLED",
+  NEW_ACTIVE_MONSTER = "NEW_ACTIVE_MONSTER",
+  MONSTER_PREVENT_DAMAGE = "MONSTER_PREVENT_DAMAGE",
 
-
-  CARD_GAINS_COUNTER = 'CARD_GAINS_COUNTER',
+  CARD_GAINS_COUNTER = "CARD_GAINS_COUNTER",
 }
-
-
 
 export enum COLORS {
   GREEN = "35%, 75%, 10%",
@@ -300,7 +326,7 @@ export const TIME_TO_PLAY_LOOT = 0.4;
 export const TIME_TO_SHOW_PREVIEW = 0.5;
 export const TIME_TO_HIDE_PREVIEW = 0.5;
 export const TIME_TO_ROTATE_ACTIVATION = 0.3;
-export const TIME_TO_REACT_ON_ACTION = 15;
+export const TIME_TO_REACT_ON_ACTION = 90;
 export const TIME_FOR_DICE_ROLL = 0.3;
 export const TIME_FOR_MONSTER_DISCARD = 1;
 export const TIME_FOR_TREASURE_DISCARD = 2;
@@ -309,13 +335,9 @@ export const EFFECT_ANIMATION_TIME = 2
 
 export let ServerIp = "localhost:7456/"
 
-
-
-
-
 export const checkIfPlayerIsDead = afterMethod(async meta => {
-  let player = meta.scope;
-  let isDead = await player.checkIfDead();
+  const player = meta.scope;
+  const isDead = await player.checkIfDead();
 
   meta.commit();
 });

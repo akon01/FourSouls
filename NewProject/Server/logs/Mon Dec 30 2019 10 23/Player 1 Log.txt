@@ -1,0 +1,124 @@
+Start Log 
+ Player 1 10:23:03 $START_GAME:  
+ Player 1 10:23:03 $MOVE_TO_TABLE:  
+ Player 1 10:23:11 $FINISH_LOAD:  
+ {"id":1,"turnPlayerId":2} 
+ Player 1 10:23:11 $UPDATE_PASSIVE_DATA:  
+ {"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":263}],"result":true,"preventMethod":false,"methodScopeId":262,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+ Player 1 10:23:17 $MOVE_CARD_END:  
+ {"moveIndex":1,"cardId":18,"flipIfFlipped":false,"playerId":2} 
+ Player 1 10:23:17 $MOVE_CARD_END:  
+ {"moveIndex":2,"cardId":53,"flipIfFlipped":false,"playerId":2} 
+ Player 1 10:23:18 $MOVE_CARD_END:  
+ {"moveIndex":3,"cardId":14,"flipIfFlipped":false,"playerId":2} 
+ Player 1 10:23:18 $MOVE_CARD_END:  
+ {"moveIndex":4,"cardId":51,"flipIfFlipped":false,"playerId":2} 
+ Player 1 10:23:19 $MOVE_CARD_END:  
+ {"moveIndex":5,"cardId":16,"flipIfFlipped":false,"playerId":2} 
+ Player 1 10:23:19 $MOVE_CARD_END:  
+ {"moveIndex":6,"cardId":101,"flipIfFlipped":false,"playerId":2} 
+ Player 1 10:23:19 $GIVE_PLAYER_PRIORITY:  
+ {"playerId":1} 
+ Player 1 10:23:19 $NEXT_STACK_ID:  
+ Player 1 10:23:19 $UPDATE_STACK_LABLE:  
+ {"stackText":"Empty Stack"} 
+ Player 1 10:23:19 $UPDATE_STACK_LABLE:  
+ {"stackText":" \n1:Player 1 start turn loot"} 
+ Player 1 10:23:19 $ADD_TO_STACK:  
+ {"stackEffect":{"entityId":1,"creatorCardId":262,"turnPlayerCardId":262,"stackEffectType":13}} 
+ Player 1 10:23:19 $ACTION_MASSAGE_ADD:  
+ {"massage":{"_id":0,"_text":"Add StartTurnLoot 1 "}} 
+ Player 1 10:23:20 $GIVE_PLAYER_PRIORITY:  
+ {"playerId":1} 
+ Player 1 10:23:20 $ACTION_MASSAGE_REMOVE:  
+ {"id":0} 
+ Player 1 10:23:20 $UPDATE_STACK_LABLE:  
+ {"stackText":" \n1:Player 1 start turn loot"} 
+ Player 1 10:23:20 $UPDATE_STACK_EFFECT:  
+ {"stackEffect":{"entityId":1,"creatorCardId":262,"turnPlayerCardId":262,"stackEffectType":13}} 
+ Player 1 10:23:20 $ACTION_MASSAGE_ADD:  
+ {"massage":{"_id":1,"_text":"Response Adding StartTurnLoot 1"},"childOfId":0} 
+ Player 1 10:23:20 $ACTION_MASSAGE_ADD:  
+ {"massage":{"_id":2,"_text":"Wait For Response From Player 1 "},"childOfId":0} 
+ Player 1 10:23:20 $GIVE_PLAYER_PRIORITY:  
+ {"playerId":1} 
+ Player 1 10:23:20 $ACTION_MASSAGE_REMOVE:  
+ {"id":2} 
+ Player 1 10:23:20 $ACTION_MASSAGE_ADD:  
+ {"massage":{"_id":3,"_text":"Wait For Response From Player 2 "},"childOfId":0} 
+ Player 1 10:23:20 $GIVE_PLAYER_PRIORITY:  
+ {"playerId":2} 
+ Player 1 10:23:20 $GET_REACTION:  
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 10:23:20 $ACTION_MASSAGE_REMOVE:  
+ {"id":3} 
+ Player 1 10:23:20 $ACTION_MASSAGE_REMOVE:  
+ {"id":1} 
+ Player 1 10:23:20 $ACTION_MASSAGE_ADD:  
+ {"massage":{"_id":4,"_text":"Resolve StartTurnLoot 1 "}} 
+ Player 1 10:23:20 $DRAW_CARD:  
+ {"deckType":1} 
+ Player 1 10:23:20 $MOVE_CARD:  
+ {"moveIndex":7,"cardId":73,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":1,"placeType":"Hand"} 
+ Player 1 10:23:20 $CARD_DRAWN:  
+ {"playerId":1,"deckType":1,"drawnCardId":73} 
+ Player 1 10:23:20 $FLIP_CARD:  
+ {"cardId":73} 
+ Player 1 10:23:21 $PLAYER_GET_LOOT:  
+ {"playerId":1,"cardId":73} 
+ Player 1 10:23:21 $UPDATE_STACK_LABLE:  
+ {"stackText":" \n1:Player 1 start turn loot"} 
+ Player 1 10:23:21 $UPDATE_STACK_EFFECT:  
+ {"stackEffect":{"entityId":1,"creatorCardId":262,"turnPlayerCardId":262,"stackEffectType":13}} 
+ Player 1 10:23:21 $ACTION_MASSAGE_REMOVE:  
+ {"id":4} 
+ Player 1 10:23:21 $ACTION_MASSAGE_ADD:  
+ {"massage":{"_id":5,"_text":"Remove After Resolve StartTurnLoot 1  "}} 
+ Player 1 10:23:21 $UPDATE_STACK_LABLE:  
+ {"stackText":"Empty Stack"} 
+ Player 1 10:23:21 $REMOVE_FROM_STACK:  
+ {"stackEffect":{"entityId":1,"creatorCardId":262,"turnPlayerCardId":262,"stackEffectType":13}} 
+ Player 1 10:23:21 $ACTION_MASSAGE_ADD:  
+ {"massage":{"_id":6,"_text":"Response Remove After Resolve StartTurnLoot 1"},"childOfId":5} 
+ Player 1 10:23:21 $ACTION_MASSAGE_ADD:  
+ {"massage":{"_id":7,"_text":"Wait For Response From Player 2 "},"childOfId":5} 
+ Player 1 10:23:21 $GIVE_PLAYER_PRIORITY:  
+ {"playerId":2} 
+ Player 1 10:23:21 $GET_REACTION:  
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 10:23:21 $ACTION_MASSAGE_REMOVE:  
+ {"id":7} 
+ Player 1 10:23:21 $ACTION_MASSAGE_ADD:  
+ {"massage":{"_id":8,"_text":"Wait For Response From Player 1 "},"childOfId":5} 
+ Player 1 10:23:21 $GIVE_PLAYER_PRIORITY:  
+ {"playerId":1} 
+ Player 1 10:23:21 $ACTION_MASSAGE_REMOVE:  
+ {"id":8} 
+ Player 1 10:23:21 $ACTION_MASSAGE_REMOVE:  
+ {"id":6} 
+ Player 1 10:23:21 $ACTION_MASSAGE_ADD:  
+ {"massage":{"_id":9,"_text":"Stack Was Emptied "}} 
+ Player 1 10:23:21 $UPDATE_STACK_LABLE:  
+ {"stackText":"Empty Stack"} 
+ Player 1 10:23:21 $ACTION_MASSAGE_REMOVE:  
+ {"id":0} 
+ Player 1 10:23:21 $ACTION_MASSAGE_REMOVE:  
+ {"id":1} 
+ Player 1 10:23:21 $ACTION_MASSAGE_REMOVE:  
+ {"id":2} 
+ Player 1 10:23:21 $ACTION_MASSAGE_REMOVE:  
+ {"id":3} 
+ Player 1 10:23:21 $ACTION_MASSAGE_REMOVE:  
+ {"id":4} 
+ Player 1 10:23:21 $ACTION_MASSAGE_REMOVE:  
+ {"id":5} 
+ Player 1 10:23:21 $ACTION_MASSAGE_REMOVE:  
+ {"id":9} 
+ Player 1 10:23:22 $ACTION_MASSAGE_REMOVE:  
+ {"id":9} 
+ Player 1 10:23:23 $ACTION_MASSAGE_REMOVE:  
+ {"id":5} 
+ Player 1 10:23:26 $LOG_ERROR:  
+ {"message":"\"test message\"","stack":"\"Error: test message\\n    at AdminConsole.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/LableScripts/Admin%20Console.js:203:37)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\\n    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\\n    at new Promise (<anonymous>)\\n    at 418.window.__awaiter (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89784:14)\\n    at AdminConsole.doCommand (http://localhost:7456/preview-scripts/assets/Script/LableScripts/Admin%20Console.js:38:16)\\n    at AdminCommandButton.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Admin/Admin%20Command%20Button.js:65:72)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\""} 
+ Player 1 10:23:26 $LOG_ERROR:  
+ {"message":"\"test message\"","stack":"\"Error: test message\\n    at AdminConsole.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/LableScripts/Admin%20Console.js:203:37)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\\n    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\\n    at new Promise (<anonymous>)\\n    at 418.window.__awaiter (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89784:14)\\n    at AdminConsole.doCommand (http://localhost:7456/preview-scripts/assets/Script/LableScripts/Admin%20Console.js:38:16)\\n    at AdminCommandButton.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Admin/Admin%20Command%20Button.js:65:72)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\""}

@@ -15,10 +15,11 @@ import PlayerManager from "../Managers/PlayerManager";
 import TurnsManager from "../Managers/TurnsManager";
 import RollDiceStackEffect from "./Roll DIce";
 import ServerActivatePassive from "./ServerSideStackEffects/Server Activate Passive";
+import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { ActivatePassiveItemVis } from "./StackEffectVisualRepresentation/Activate Passive Item Vis";
 
-export default class ActivatePassiveEffect implements StackEffectInterface {
+export default class ActivatePassiveEffect extends StackEffectConcrete {
 
     visualRepesentation: ActivatePassiveItemVis;
 
@@ -43,7 +44,10 @@ export default class ActivatePassiveEffect implements StackEffectInterface {
     creationTurnId: number
 
     checkForFizzle() {
-        if (this.creationTurnId != TurnsManager.currentTurn.turnId) { return true }
+        if (super.checkForFizzle()) {
+            this.isToBeFizzled = true
+            return true
+        }
         return false
     }
 
@@ -58,15 +62,7 @@ export default class ActivatePassiveEffect implements StackEffectInterface {
     isAfterActivation: boolean = null
 
     constructor(creatorCardId: number, hasLockingStackEffect: boolean, cardActivatorId: number, cardWithEffect: cc.Node, effectToDo: Effect, hasDataBeenCollectedYet: boolean, isAfterActivation: boolean, index?: number, entityId?: number) {
-        if (entityId) {
-            this.nonOriginal = true
-            this.entityId = entityId
-        } else {
-            this.entityId = Stack.getNextStackEffectId()
-        }
-
-        this.creatorCardId = creatorCardId;
-        this.creationTurnId = TurnsManager.currentTurn.turnId;
+        super(creatorCardId, entityId)
         this.hasLockingStackEffect = hasLockingStackEffect;
         this.effectToDo = effectToDo;
         this.cardActivatorId = cardActivatorId;
@@ -149,15 +145,16 @@ export default class ActivatePassiveEffect implements StackEffectInterface {
                     specialDataCollector.metaIndex = this.index
                     specialDataCollector.isAfterActivation = this.isAfterActivation
                 }
-                cc.error(`test test `)
                 const collectedData = await cardEffect.collectEffectData(this.effectToDo, { cardId: this.cardWithEffect.getComponent(Card)._cardId, cardPlayerId: id })
-                cc.error(collectedData)
                 cardEffect.effectData = collectedData;
                 this.effectCollectedData = collectedData;
                 this.hasDataBeenCollectedYet = true;
             }
         }
+        if (this.effectToDo) {
 
+            this.lable = `Activate ${this.cardWithEffect.name} effect ${this.effectToDo.name}`
+        } else { this.lable = `Activate ${this.cardWithEffect.name} ` }
     }
 
     async resolve() {
@@ -183,9 +180,9 @@ export default class ActivatePassiveEffect implements StackEffectInterface {
 
             if (this.hasLockingStackEffect && this.hasLockingStackEffectResolved == true) {
                 const owner = PlayerManager.getPlayerByCard(CardManager.getCardOwner(this.cardWithEffect))
-                const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_ROLL_DICE, [this.LockingResolve, ROLL_TYPE.EFFECT], null, owner.node, this.entityId)
-                const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
-                this.LockingResolve = afterPassiveMeta.args[0]
+                // const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_ROLL_DICE, [this.LockingResolve, ROLL_TYPE.EFFECT], null, owner.node, this.entityId)
+                // const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+                // this.LockingResolve = afterPassiveMeta.args[0]
                 try {
                     selectedEffect = (this.effectToDo as MultiEffectRollEffect).getEffectByNumberRolled(this.LockingResolve, this.cardWithEffect)
                 } catch (error) {

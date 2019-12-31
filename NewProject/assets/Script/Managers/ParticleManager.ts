@@ -1,14 +1,12 @@
-import { PARTICLE_TYPES } from "../Constants";
-import ServerClient from "../../ServerClient/ServerClient";
-import Signal from "../../Misc/Signal";
-import Card from "../Entites/GameEntities/Card";
 import { Server } from "net";
-
-
+import Signal from "../../Misc/Signal";
+import ServerClient from "../../ServerClient/ServerClient";
+import { PARTICLE_TYPES } from "../Constants";
+import Card from "../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass('EffectMap')
+@ccclass("EffectMap")
 class EffectMap {
 
     @property({ type: cc.Enum(PARTICLE_TYPES) })
@@ -22,7 +20,6 @@ class EffectMap {
 @ccclass
 export default class ParticleManager extends cc.Component {
 
-
     @property({ type: [EffectMap], multiline: true })
     particleEffects: EffectMap[] = [];
 
@@ -30,13 +27,18 @@ export default class ParticleManager extends cc.Component {
 
     static activateParticleEffect(card: cc.Node, particleType: PARTICLE_TYPES, sendToServer: boolean) {
 
-        let particleSys: cc.ParticleSystem = card.getComponentInChildren(cc.ParticleSystem)
-        let particle = this.$.particleEffects.find(particle => particle.name == particleType)
-        if (!particle) throw new Error('No particle found by type')
+        //cc.log(card)
+        if (card == undefined || card == null) {
+            throw new Error(`No card to activate particle effect on`)
+        }
+
+        const particleSys: cc.ParticleSystem = card.getComponentInChildren(cc.ParticleSystem)
+        const particle = this.$.particleEffects.find(particle => particle.name == particleType)
+        if (!particle) { throw new Error("No particle found by type") }
 
         particleSys.stopSystem()
         particleSys.file = particle.effect as unknown as string
-        let activeCardEffects = this.$.activatedEffects.get(card)
+        const activeCardEffects = this.$.activatedEffects.get(card)
         if (activeCardEffects) {
             activeCardEffects.push(particle.name)
             this.$.activatedEffects.set(card, activeCardEffects)
@@ -51,9 +53,12 @@ export default class ParticleManager extends cc.Component {
     }
 
     static disableParticleEffect(card: cc.Node, particleType: PARTICLE_TYPES, sendToServer: boolean) {
-        let particleSys: cc.ParticleSystem = card.getComponentInChildren(cc.ParticleSystem)
-        let particle = this.$.particleEffects.find(particle => particle.name == particleType)
-        if (!particle) throw new Error('No particle found by type')
+        if (!card) {
+            throw new Error("No Card with particle");
+        }
+        const particleSys: cc.ParticleSystem = card.getComponentInChildren(cc.ParticleSystem)
+        const particle = this.$.particleEffects.find(particle => particle.name == particleType)
+        if (!particle) { throw new Error("No particle found by type") }
         if (particleSys.file == particle.effect as unknown as string) {
             particleSys.stopSystem()
             let activeCardEffects = this.$.activatedEffects.get(card)
@@ -76,16 +81,15 @@ export default class ParticleManager extends cc.Component {
 
     static runParticleOnce(card: cc.Node, particleType: PARTICLE_TYPES) {
         let particleSys = card.getComponentInChildren(cc.ParticleSystem)
-        let particle = this.$.particleEffects.find(particle => particle.name == particleType)
-        let parent = particleSys.node.parent.parent;
-        let newSys = cc.instantiate(particleSys.node);
+        const particle = this.$.particleEffects.find(particle => particle.name == particleType)
+        const parent = particleSys.node.parent.parent;
+        const newSys = cc.instantiate(particleSys.node);
         newSys.name = particleSys.node.name + (parent.childrenCount + 1)
         particleSys = newSys.getComponent(cc.ParticleSystem)
         particleSys.autoRemoveOnFinish = true;
         particleSys.file = particle.effect as unknown as string;
         parent.addChild(newSys)
         particleSys.resetSystem()
-
 
     }
 

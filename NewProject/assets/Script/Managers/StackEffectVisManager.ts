@@ -10,6 +10,9 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class StackEffectVisManager extends cc.Component {
 
+    @property(cc.Node)
+    contentNode: cc.Node = null
+
     @property(cc.SpriteFrame)
     lootBaseSprite: cc.SpriteFrame = null;
 
@@ -108,6 +111,9 @@ export default class StackEffectVisManager extends cc.Component {
 
     previewHolderLayout: cc.Node = null
 
+    @property(cc.ScrollView)
+    scrollView: cc.ScrollView = null
+
     previewPool: cc.NodePool = null
 
     currentPreviews: StackEffectPreview[] = [];
@@ -125,56 +131,63 @@ export default class StackEffectVisManager extends cc.Component {
     updateAvailablePreviews() {
         const i = cc.macro.MIN_ZINDEX
         let y = 0;
-        // for (const preview of this.currentPreviews) {
-        //     if (Stack._currentStack.find(stackEffect => stackEffect.entityId == preview.stackEffect.entityId) == undefined) {
-        //         cc.log(`preview of ${preview.stackEffect.stackEffectType} is no longer in current stack, remove it`)
-        //         this.removePreview(preview.stackEffect)
-        //         return;
-        //     }
-        // }
 
         for (const stackEffect of Stack._currentStack) {
-
-            let preview = this.getPreviewByStackId(stackEffect.entityId)
-            if (preview == null) {
-                const newPreview = this.previewPool.get()
-                newPreview.getComponent(StackEffectPreview).setStackEffect(stackEffect)
-                this.currentPreviews.push(newPreview.getComponent(StackEffectPreview))
-                preview = newPreview.getComponent(StackEffectPreview)
+            const preview = this.getPreviewByStackId(stackEffect.entityId)
+            if (preview != null) {
+                // preview = this.addPreview(stackEffect)
+                preview.node.zIndex = i + y
+                y++
             }
-            preview.node.parent = this.previewHolderLayout;
-            preview.node.zIndex = i + y
-            y++
         }
     }
 
     addPreview(stackEffect: StackEffectInterface) {
+        // cc.error(`add preview of ${stackEffect.constructor.name} ${stackEffect.entityId}`)
+        let preview = this.getPreviewByStackId(stackEffect.entityId)
+        if (preview == null) {
+            const newPreview = this.previewPool.get()
+            newPreview.getComponent(StackEffectPreview).setStackEffect(stackEffect)
+            this.currentPreviews.push(newPreview.getComponent(StackEffectPreview))
+            preview = newPreview.getComponent(StackEffectPreview)
+        } else {
+            return preview
+        }
+        preview.node.setParent(this.previewHolderLayout);
 
-        const preview = this.previewPool.get()
-        preview.getComponent(StackEffectPreview).setStackEffect(stackEffect)
-        this.currentPreviews.push(preview.getComponent(StackEffectPreview))
         this.updateAvailablePreviews()
+        return preview
 
+    }
+
+    setPreviews(stackEffects: StackEffectInterface[]) {
+        this.clearPreviews()
+        for (const stackEffect of stackEffects) {
+            this.addPreview(stackEffect)
+        }
     }
 
     clearPreviews() {
 
         for (const preview of this.currentPreviews) {
-            this.previewPool.put(preview.node)
+            this.removePreview(preview.stackEffect)
         }
         this.currentPreviews = []
     }
 
     removePreview(stackEffect: StackEffectInterface) {
-
+        //  cc.error(`remove preview of ${stackEffect.constructor.name}`)
         const preview = this.currentPreviews.find(preview => preview.stackEffect.entityId == stackEffect.entityId)
         if (preview != null) {
-            this.currentPreviews.splice(this.currentPreviews.indexOf(preview))
+            this.currentPreviews.splice(this.currentPreviews.indexOf(preview), 1)
             this.previewPool.put(preview.node)
             this.updateAvailablePreviews()
         }
         if (this.currentPreviews.length == 0) { this.hidePreviews() }
-
+        // cc.error(`current previews`)
+        // cc.log(this.currentPreviews)
+        // cc.log(`current stack`)
+        // cc.log(Stack._currentStack)
     }
 
     makeRequiredForDataCollector(stackPreview: StackEffectPreview, dataCollector: DataCollector) {
@@ -206,22 +219,31 @@ export default class StackEffectVisManager extends cc.Component {
     }
 
     hidePreviews() {
+        cc.log(`hide previews`)
         this.previewHolderLayout.active = false;
         this.showStackButton.off(cc.Node.EventType.TOUCH_START)
         this.showStackButton.getComponentInChildren(cc.Label).string = "Stack+"
         this.showStackButton.on(cc.Node.EventType.TOUCH_START, this.showPreviews.bind(this))
+        this.scrollView.node.active = false
     }
 
     showPreviews() {
+        this.scrollView.content.active = false;
+        this.scrollView.content = this.contentNode
+        this.scrollView.content.active = true;
         this.previewHolderLayout.active = true
         this.showStackButton.off(cc.Node.EventType.TOUCH_START)
         this.showStackButton.getComponentInChildren(cc.Label).string = "Stack-"
         this.showStackButton.on(cc.Node.EventType.TOUCH_START, this.hidePreviews.bind(this))
+        this.scrollView.node.active = true
+        this.scrollView.node.zIndex = 1
+        const t = cc.find('Canvas')
+        cc.log(t.children.map(item => ({ name: item.name, zIndex: item.zIndex })))
     }
 
     onLoad() {
         StackEffectVisManager.$ = this;
-        this.previewHolderLayout = this.previewHolder.getChildByName("layout")
+        this.previewHolderLayout = this.previewHolder
         this.showStackButton.getComponentInChildren(cc.Label).string = "Stack+"
         this.showStackButton.on(cc.Node.EventType.TOUCH_START, this.showPreviews.bind(this))
         this.previewPool = new cc.NodePool()

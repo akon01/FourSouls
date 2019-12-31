@@ -1,7 +1,7 @@
-import Player from "../Entites/GameEntities/Player";
 import { BUTTON_STATE, GAME_EVENTS } from "../Constants";
-import PlayerManager from "./PlayerManager";
+import Player from "../Entites/GameEntities/Player";
 import CardPreviewManager from "./CardPreviewManager";
+import PlayerManager from "./PlayerManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -52,15 +52,15 @@ export default class ButtonManager extends cc.Component {
   }
 
   static moveButton(button: cc.Node, layout: cc.Layout) {
-    if (button.parent != layout.node)
+    if (button.parent != layout.node) {
       button.setParent(layout.node)
+    }
   }
 
-
   static enableButton(button: cc.Node, state: BUTTON_STATE, extra?: any[]) {
-    let btn = button.getComponent(cc.Button)
+    const btn = button.getComponent(cc.Button)
     //makes sure that if any other states run, the button will be enabled
-    if (btn.interactable == false && state != BUTTON_STATE.DISABLED && state != BUTTON_STATE.ENABLED) this.enableButton(btn.node, BUTTON_STATE.ENABLED)
+    if (btn.interactable == false && state != BUTTON_STATE.DISABLED && state != BUTTON_STATE.ENABLED) { this.enableButton(btn.node, BUTTON_STATE.ENABLED) }
 
     switch (state) {
       case BUTTON_STATE.ENABLED:
@@ -80,16 +80,17 @@ export default class ButtonManager extends cc.Component {
         if (button == this.$.yesButton || button == this.$.skipButton) {
           if (CardPreviewManager.isOpen) {
             this.moveButton(btn.node, this.$.cardPreviewButtonLayout)
-          } else this.moveButton(btn.node, this.$.playerButtonLayout)
+          } else { this.moveButton(btn.node, this.$.playerButtonLayout) }
         }
         break;
       case BUTTON_STATE.DISABLED:
         btn.interactable = false;
         let makeDisapper = false;
-        if (button != this.$.nextTurnButton && button != this.$.clearPreviewsButton) makeDisapper = true;
-        if (button == this.$.skipButton && !PlayerManager.mePlayer.getComponent(Player)._reactionToggle.isChecked) makeDisapper = true
-        if (makeDisapper)
+        if (button != this.$.nextTurnButton && button != this.$.clearPreviewsButton) { makeDisapper = true; }
+        if (button == this.$.skipButton && !PlayerManager.mePlayer.getComponent(Player)._reactionToggle.isChecked) { makeDisapper = true }
+        if (makeDisapper) {
           btn.node.active = false;
+        }
         break;
       case BUTTON_STATE.CHANGE_TEXT:
         btn.node.getComponentInChildren(cc.Label).string = extra[0]
@@ -123,7 +124,7 @@ export default class ButtonManager extends cc.Component {
       //SKIP BUTTON ONLY //
       case BUTTON_STATE.SKIP_SKIP_RESPONSE:
         btn.node.once(cc.Node.EventType.TOUCH_START, () => {
-          let player: Player = extra[1]
+          const player: Player = extra[1]
           clearTimeout(extra[0]);
           player.respondWithNoAction(
             extra[2]
@@ -131,23 +132,23 @@ export default class ButtonManager extends cc.Component {
         }, extra[1])
         if (CardPreviewManager.isOpen) {
           this.moveButton(btn.node, this.$.cardPreviewButtonLayout)
-        } else this.moveButton(btn.node, this.$.playerButtonLayout)
+        } else { this.moveButton(btn.node, this.$.playerButtonLayout) }
         break;
 
       //SKIP BUTTON ONLY END //
 
       //Toggle Card Preview Button //
       case BUTTON_STATE.TOGGLE_TO_OPEN_PREVIEWS:
-        ButtonManager.enableButton(ButtonManager.$.togglePreviewManagerButton, BUTTON_STATE.CHANGE_TEXT, ['+'])
+        ButtonManager.enableButton(ButtonManager.$.togglePreviewManagerButton, BUTTON_STATE.CHANGE_TEXT, ["+"])
         this.moveButton(ButtonManager.$.togglePreviewManagerButton, this.$.playerButtonLayout)
         btn.node.off(cc.Node.EventType.TOUCH_START)
-        btn.node.on(cc.Node.EventType.TOUCH_START, CardPreviewManager.showPreviewManager)
+        btn.node.on(cc.Node.EventType.TOUCH_START, CardPreviewManager.showPreviewManager, CardPreviewManager)
         break;
       case BUTTON_STATE.TOGGLE_TO_CLOSE_PREVIEWS:
-        ButtonManager.enableButton(ButtonManager.$.togglePreviewManagerButton, BUTTON_STATE.CHANGE_TEXT, ['-'])
+        ButtonManager.enableButton(ButtonManager.$.togglePreviewManagerButton, BUTTON_STATE.CHANGE_TEXT, ["-"])
         this.moveButton(ButtonManager.$.togglePreviewManagerButton, this.$.cardPreviewButtonLayout)
         btn.node.off(cc.Node.EventType.TOUCH_START)
-        btn.node.on(cc.Node.EventType.TOUCH_START, CardPreviewManager.hidePreviewManager)
+        btn.node.on(cc.Node.EventType.TOUCH_START, CardPreviewManager.hidePreviewManager, CardPreviewManager)
         break;
       //Toggle Card Preview Button //
 
@@ -163,16 +164,16 @@ export default class ButtonManager extends cc.Component {
         //   this.moveButton(btn.node, this.$.cardPreviewButtonLayout)
         // } else this.moveButton(btn.node, this.$.playerButtonLayout)
         let eventHandler = new cc.Component.EventHandler();
-        eventHandler.component = 'CardPreviewManager'
-        eventHandler.handler = 'confirmSelect'
+        eventHandler.component = "CardPreviewManager"
+        eventHandler.handler = "confirmSelect"
         eventHandler.target = CardPreviewManager.$.node;
         btn.clickEvents.push(eventHandler)
         // btn.node.on(cc.Node.EventType.TOUCH_START, CardPreviewManager.confirmSelect)
         break;
       case BUTTON_STATE.REMOVE_CONFIRM_SELECT:
         eventHandler = new cc.Component.EventHandler();
-        eventHandler.component = 'CardPreviewManager'
-        eventHandler.handler = 'confirmSelect'
+        eventHandler.component = "CardPreviewManager"
+        eventHandler.handler = "confirmSelect"
         eventHandler.target = CardPreviewManager.$.node;
         btn.clickEvents.splice(btn.clickEvents.indexOf(eventHandler))
         break
@@ -188,8 +189,6 @@ export default class ButtonManager extends cc.Component {
         break;
     }
   }
-
-
 
   onLoad() {
     ButtonManager.$ = this;

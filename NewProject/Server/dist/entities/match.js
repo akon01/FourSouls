@@ -5,8 +5,9 @@
  */
 exports.__esModule = true;
 var signal_1 = require("../enums/signal");
-var utils_1 = require("../utils/utils");
 var server_1 = require("../server");
+var Logger_1 = require("../utils/Logger");
+var utils_1 = require("../utils/utils");
 var MIID = 0;
 var Match = /** @class */ (function () {
     function Match() {
@@ -25,6 +26,7 @@ var Match = /** @class */ (function () {
         }
         else {
             var match = new Match();
+            server_1["default"].$.logger = new Logger_1.Logger();
             Match.pendingMatches.push(match);
             return match;
         }

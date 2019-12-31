@@ -11,6 +11,9 @@ import PlayerManager from "../../Managers/PlayerManager";
 import { CARD_TYPE, CHOOSE_CARD_TYPE, GAME_EVENTS } from "./../../Constants";
 import MonsterField from "./../../Entites/MonsterField";
 import DataCollector from "./DataCollector";
+import Stack from "../../Entites/Stack";
+import ActivateItem from "../../StackEffects/Activate Item";
+import Monster from "../../Entites/CardTypes/Monster";
 
 const { ccclass, property } = cc._decorator;
 
@@ -60,9 +63,11 @@ export default class ChooseCard extends DataCollector {
     if (this.multiType) {
       for (const type of this.chooseTypes) {
         const tempCards = this.getCardsToChoose(type, player)
-        tempCards.forEach(card => {
-          if (card) { cardsToChooseFrom.push(card) }
-        })
+        if (tempCards) {
+          tempCards.forEach(card => {
+            if (card) { cardsToChooseFrom.push(card) }
+          })
+        }
         //cardToChooseFrom.add(tempCards)
         //  cardsToChooseFrom = cardsToChooseFrom.concat(this.getCardsToChoose(type, player))
 
@@ -74,6 +79,9 @@ export default class ChooseCard extends DataCollector {
     }
     if (cardsToChooseFrom.length == 0) {
       throw new Error("No Cards To Choose From!")
+    }
+    if (cardsToChooseFrom.length == 1) {
+      return new EffectTarget(cardsToChooseFrom[0])
     }
     const cardChosenData: {
       cardChosenId: number;
@@ -148,7 +156,13 @@ export default class ChooseCard extends DataCollector {
         return monsterPlaces;
       case CHOOSE_CARD_TYPE.NON_ATTACKED_ACTIVE_MONSTERS:
         return MonsterField.activeMonsters.filter(monster => {
-          if (BattleManager.currentlyAttackedMonsterNode != monster) { return true }
+          if (BattleManager.currentlyAttackedMonsterNode != monster || Stack._currentStack.findIndex(se => {
+            if (se instanceof ActivateItem &&
+              se.itemToActivate.getComponent(Monster) != null &&
+              se.itemToActivate == monster) {
+              return true
+            }
+          }) != -1) { return true }
         })
 
       case CHOOSE_CARD_TYPE.MY_NON_ETERNALS:
@@ -162,7 +176,7 @@ export default class ChooseCard extends DataCollector {
         for (const player of players) {
           //    let activeItems = player.activeItems.map(activeItem => { if (activeItem.getComponent(Item).activated) return activeItem })
           //
-          cardsToReturn = cardsToReturn.concat(player.activeItems)
+          cardsToReturn = cardsToReturn.concat(player.activeItems, player.passiveItems)
         }
         return cardsToReturn;
       case CHOOSE_CARD_TYPE.ALL_PLAYERS_ACTIVATED_ITEMS:
@@ -232,10 +246,11 @@ export default class ChooseCard extends DataCollector {
         return cardsToReturn;
       case CHOOSE_CARD_TYPE.ALL_PLAYERS_NON_ETERNAL_ITEMS:
         PlayerManager.players.forEach(player => {
-          cardsToReturn.concat((player.getComponent(Player).deskCards.filter(card => {
+          cardsToReturn = cardsToReturn.concat((player.getComponent(Player).deskCards.filter(card => {
             if (!card.getComponent(Item).eternal) { return true; }
           })))
         })
+        cc.error(cardsToReturn)
         return cardsToReturn;
       case CHOOSE_CARD_TYPE.STORE_CARDS:
         return Store.storeCards;

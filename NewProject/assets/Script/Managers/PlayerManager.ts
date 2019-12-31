@@ -299,6 +299,8 @@ export default class PlayerManager extends cc.Component {
       const handWidget: cc.Widget = handNode.getComponent(cc.Widget);
       const deskWidget: cc.Widget = deskNode.getComponent(cc.Widget);
       handWidget.alignMode = cc.Widget.AlignMode.ONCE;
+      let moneyLable: cc.Node
+      let hpLable: cc.Node
       switch (i) {
         case 0:
           playerNode = PlayerManager.mePlayer;
@@ -306,7 +308,7 @@ export default class PlayerManager extends cc.Component {
           playerComp._putCharLeft = true;
           // //position hand
 
-          playerComp._reactionToggle = cc.find("Canvas/Reaction Toggle").getComponent(cc.Toggle);
+          playerComp._reactionToggle = cc.find("Canvas/Player Button Layout/Reaction Toggle").getComponent(cc.Toggle);
 
           playerComp._reactionToggle.node.on(cc.Node.EventType.TOUCH_START, async () => {
             let event;
@@ -316,32 +318,39 @@ export default class PlayerManager extends cc.Component {
 
           ButtonManager.enableButton(ButtonManager.$.NoButton, BUTTON_STATE.DISABLED);
 
+          moneyLable = cc
+            .find("Canvas/RBMoneyLable");
           // attach money lable to player
-          cc
-            .find("Canvas/RBMoneyLable")
-            .getComponent(StatLable).player = playerComp;
+          moneyLable.getComponent(StatLable).player = playerComp;
+          moneyLable.active = true
 
-          cc.find(`Canvas/P1 HP`).getComponent(StatLable).player = playerComp;
+          hpLable = cc.find(`Canvas/P1 HP`);
+          hpLable.getComponent(StatLable).player = playerComp;
+          hpLable.active = true
           break;
         case 1:
           playerNode = PlayerManager.getPlayerById(meId + 1).node;
           playerComp = playerNode.getComponent(Player);
 
           // attach money lable to player
-          cc
-            .find("Canvas/LBMoneyLable")
-            .getComponent(StatLable).player = playerComp;
-          cc.find(`Canvas/P2 HP`).getComponent(StatLable).player = playerComp;
+          moneyLable = cc.find("Canvas/LBMoneyLable")
+          moneyLable.getComponent(StatLable).player = playerComp;
+          moneyLable.active = true
+          hpLable = cc.find(`Canvas/P2 HP`)
+          hpLable.getComponent(StatLable).player = playerComp;
+          hpLable.active = true
           break;
         case 2:
           playerNode = PlayerManager.getPlayerById(meId + 2).node;
           playerComp = playerNode.getComponent(Player);
 
           // attach money lable to player
-          cc
-            .find("Canvas/LTMoneyLable")
-            .getComponent(StatLable).player = playerComp;
-          cc.find(`Canvas/P3 HP`).getComponent(StatLable).player = playerComp;
+          moneyLable = cc.find("Canvas/LTMoneyLable")
+          moneyLable.getComponent(StatLable).player = playerComp;
+          moneyLable.active = true
+          hpLable = cc.find(`Canvas/P3 HP`)
+          hpLable.getComponent(StatLable).player = playerComp;
+          hpLable.active = true
           break;
         case 3:
           playerNode = PlayerManager.getPlayerById(meId + 3).node;
@@ -349,10 +358,12 @@ export default class PlayerManager extends cc.Component {
           playerComp._putCharLeft = true;
 
           // attach money lable to player
-          cc
-            .find("Canvas/RTMoneyLable")
-            .getComponent(StatLable).player = playerComp;
-          cc.find(`Canvas/P4 HP`).getComponent(StatLable).player = playerComp;
+          moneyLable = cc.find("Canvas/RTMoneyLable")
+          moneyLable.getComponent(StatLable).player = playerComp;
+          moneyLable.active = true
+          hpLable = cc.find(`Canvas/P4 HP`)
+          hpLable.getComponent(StatLable).player = playerComp;
+          hpLable.active = true
           break;
         default:
           break;
@@ -440,6 +451,9 @@ export default class PlayerManager extends cc.Component {
         for (const soulCard of player.soulsLayout.children) {
           if (card == soulCard) { return player; }
         }
+      }
+      for (const itemLost of player.itemsLostThisTurn) {
+        if (card == itemLost) { return player }
       }
     }
 

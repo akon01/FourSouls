@@ -1,12 +1,12 @@
 import Character from "../../Entites/CardTypes/Character";
 import Monster from "../../Entites/CardTypes/Monster";
+import Stack from "../../Entites/Stack";
+import CardManager from "../../Managers/CardManager";
 import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import { TARGETTYPE } from "./../../Constants";
 import Effect from "./Effect";
-import CardManager from "../../Managers/CardManager";
-import Stack from "../../Entites/Stack";
 
 const { ccclass, property } = cc._decorator;
 
@@ -31,10 +31,9 @@ export default class DealDamage extends Effect {
     data?: ActiveEffectData | PassiveEffectData
   ) {
 
-
     if (this.multipleTargets) {
       let targets = data.getTargets(TARGETTYPE.PLAYER)
-      if (targets.length == 0) targets = data.getTargets(TARGETTYPE.MONSTER)
+      if (targets.length == 0) { targets = data.getTargets(TARGETTYPE.MONSTER) }
       if (targets.length == 0) {
         cc.log(`no targets`)
         return
@@ -47,10 +46,9 @@ export default class DealDamage extends Effect {
 
       }
 
-
     } else {
       let targetEntity = data.getTarget(TARGETTYPE.PLAYER)
-      if (targetEntity == null) targetEntity = data.getTarget(TARGETTYPE.MONSTER);
+      if (targetEntity == null) { targetEntity = data.getTarget(TARGETTYPE.MONSTER); }
       if (targetEntity == null) {
         cc.log(`target is null`)
         return
@@ -59,13 +57,13 @@ export default class DealDamage extends Effect {
       await this.hitAnEntity(targetEntity as cc.Node)
     }
 
-    if (data instanceof PassiveEffectData) return data
+    if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack
   }
 
   async hitAnEntity(targetEntity: cc.Node) {
     let entityComp;
-    let damageDealer = CardManager.getCardOwner(this.node.parent)
+    const damageDealer = CardManager.getCardOwner(this.node.parent)
     entityComp = targetEntity.getComponent(Character);
     //Entity is Monster
     if (entityComp == null) {

@@ -10,10 +10,11 @@ import PlayerManager from "../Managers/PlayerManager";
 import TurnsManager from "../Managers/TurnsManager";
 import RollDiceStackEffect from "./Roll DIce";
 import ServerMonsterReward from "./ServerSideStackEffects/Server Monster Reward";
+import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { MonsterRewardVis } from "./StackEffectVisualRepresentation/Monster Reward Vis";
 
-export default class MonsterRewardStackEffect implements StackEffectInterface {
+export default class MonsterRewardStackEffect extends StackEffectConcrete {
     visualRepesentation: MonsterRewardVis;
 
     entityId: number;
@@ -37,7 +38,10 @@ export default class MonsterRewardStackEffect implements StackEffectInterface {
     creationTurnId: number
 
     checkForFizzle() {
-        if (this.creationTurnId != TurnsManager.currentTurn.turnId) { return true }
+        if (super.checkForFizzle()) {
+            this.isToBeFizzled = true
+            return true
+        }
         return false
     }
 
@@ -47,18 +51,13 @@ export default class MonsterRewardStackEffect implements StackEffectInterface {
     playerToReward: Player
 
     constructor(creatorCardId: number, monsterToGetRewardFrom: cc.Node, playerToRewardCard: cc.Node, entityId?: number) {
-        if (entityId) {
-            this.nonOriginal = true
-            this.entityId = entityId
-        } else {
-            this.entityId = Stack.getNextStackEffectId()
-        }
+        super(creatorCardId, entityId)
 
-        this.creatorCardId = creatorCardId;
-        this.creationTurnId = TurnsManager.currentTurn.turnId;
+
 
         this.monsterWithReward = monsterToGetRewardFrom.getComponent(Monster)
         this.monsterReward = this.monsterWithReward.reward;
+        if (!this.monsterReward) { throw new Error(`No Monster Reward on ${this.monsterWithReward.name}`) }
         this.playerToReward = PlayerManager.getPlayerByCard(playerToRewardCard)
         if (this.monsterReward.hasRoll) {
             this.hasLockingStackEffect = true;
@@ -89,6 +88,8 @@ export default class MonsterRewardStackEffect implements StackEffectInterface {
         await this.monsterReward.rewardPlayer(this.playerToReward.node, true)
         const cardComp = this.monsterWithReward.node.getComponent(Card)
         this.monsterWithReward._isDead = true
+        const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.MONSTER_IS_KILLED, [], null, this.monsterWithReward.node, this.entityId)
+        await PassiveManager.testForPassiveAfter(passiveMeta)
         await Stack.fizzleStackEffect(this, true)
         if (cardComp.souls == 0) {
             await this.monsterWithReward.monsterPlace.discardTopMonster(true)

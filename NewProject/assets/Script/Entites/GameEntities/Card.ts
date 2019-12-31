@@ -2,8 +2,8 @@ import Signal from "../../../Misc/Signal";
 import ServerClient from "../../../ServerClient/ServerClient";
 import DataCollector from "../../CardEffectComponents/DataCollector/DataCollector";
 import { CARD_HEIGHT, CARD_TYPE, CARD_WIDTH, PASSIVE_EVENTS, ROLL_TYPE } from "../../Constants";
-import Player from "./Player";
 import PassiveManager, { PassiveMeta } from "../../Managers/PassiveManager";
+import Player from "./Player";
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,14 +20,14 @@ export default class Card extends cc.Component {
 
   @property({
     visible: function (this: Card) {
-      if (this.makeMultiCards) return true
+      if (this.makeMultiCards) { return true }
     }, type: cc.Integer, min: 2
   })
   numOfCopies: number = 2;
 
   @property({
     type: [cc.SpriteFrame], visible: function (this: Card) {
-      if (this.makeMultiCards) return true
+      if (this.makeMultiCards) { return true }
     }
   })
   copiesSprites: cc.SpriteFrame[] = []
@@ -111,6 +111,12 @@ export default class Card extends cc.Component {
   @property({ type: [cc.ParticleAsset] })
   availableParticles: cc.ParticleAsset[] = [];
 
+  static getCardNodeByChild(childNode: cc.Node): cc.Node {
+    if (childNode.getComponent(Card) != null) {
+      return childNode
+    }
+    return Card.getCardNodeByChild(childNode.parent)
+  }
 
   flipCard(sendToServer: boolean) {
     this._isFlipped = !this._isFlipped;
@@ -126,8 +132,8 @@ export default class Card extends cc.Component {
 
   async putCounter(numOfCounters: number) {
 
-    let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.CARD_GAINS_COUNTER, [numOfCounters], null, this.node)
-    let afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+    const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.CARD_GAINS_COUNTER, [numOfCounters], null, this.node)
+    const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
     numOfCounters = afterPassiveMeta.args[0]
 
     this._counters += numOfCounters;
@@ -135,8 +141,6 @@ export default class Card extends cc.Component {
     ServerClient.$.send(Signal.CARD_GET_COUNTER, { cardId: this._cardId, numOfCounters: numOfCounters })
 
   }
-
-
 
   // LIFE-CYCLE CALLBACKS:
 
@@ -152,7 +156,7 @@ export default class Card extends cc.Component {
     } else {
       try {
 
-        this._effectCounterLable = this.node.getChildByName('EffectCounter').getComponent(cc.Label)
+        this._effectCounterLable = this.node.getChildByName("EffectCounter").getComponent(cc.Label)
       } catch (error) {
         cc.error(`card ${this.cardName} should have a counter, no counter found!`)
       }
@@ -167,6 +171,5 @@ export default class Card extends cc.Component {
       this._effectCounterLable.string = this._counters.toString();
     }
   }
-
 
 }

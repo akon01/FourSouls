@@ -6,10 +6,10 @@ import Events from "../Misc/Events";
 import Config from "./Config";
 
 import Signal from "../Misc/Signal";
-import ActionManager from "../Script/Managers/ActionManager";
 import Player from "../Script/Entites/GameEntities/Player";
-import MainScript from "../Script/MainScript";
 import { Logger } from "../Script/Entites/Logger";
+import MainScript from "../Script/MainScript";
+import ActionManager from "../Script/Managers/ActionManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,13 +32,14 @@ export default class ServerClient extends cc.Component {
     whevent.on(Signal.NEXT_TURN, this.onPlayerActionFromServer, this);
     whevent.on(Signal.END_GAME, this.onPlayerActionFromServer, this);
     whevent.on(Signal.GAME_HAS_STARTED, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.END_TURN, this.onPlayerActionFromServer, this);
+
     whevent.on(Signal.UUID, this.onUUID, this);
     whevent.on(Signal.JOIN, this.onJoin, this);
     whevent.on(Signal.START_GAME, this.onStartGame, this);
     whevent.on(Signal.LEAVE, this.onLeave, this);
     whevent.on(Signal.FINISH_LOAD, this.onFinishLoad, this);
     whevent.on(Signal.UPDATE_ACTIONS, this.onUpdateActions, this);
-
 
     whevent.on(Signal.CARD_ADD_TRINKET, this.onPlayerActionFromServer, this)
 
@@ -65,6 +66,7 @@ export default class ServerClient extends cc.Component {
     whevent.on(Signal.ROLL_DICE_ENDED, this.onPlayerActionFromServer, this);
 
     whevent.on(Signal.MOVE_CARD_TO_PILE, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.REMOVE_FROM_PILE, this.onPlayerActionFromServer, this);
 
     whevent.on(Signal.REMOVE_MONSTER, this.onPlayerActionFromServer, this);
     whevent.on(Signal.ADD_MONSTER, this.onPlayerActionFromServer, this);
@@ -89,6 +91,7 @@ export default class ServerClient extends cc.Component {
     whevent.on(Signal.PLAYER_GAIN_ROLL_BONUS, this.onPlayerActionFromServer, this);
     whevent.on(Signal.PLAYER_GET_HIT, this.onPlayerActionFromServer, this);
     whevent.on(Signal.PLAYER_RECHARGE_ITEM, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYER_DIED, this.onPlayerActionFromServer, this);
     whevent.on(Signal.PLAY_LOOT_CARD, this.onPlayerActionFromServer, this);
     whevent.on(Signal.PLAYER_GET_LOOT, this.onPlayerActionFromServer, this);
     whevent.on(Signal.PLAYER_LOSE_LOOT, this.onPlayerActionFromServer, this);
@@ -100,14 +103,12 @@ export default class ServerClient extends cc.Component {
     whevent.on(Signal.START_TURN, this.onPlayerActionFromServer, this);
     whevent.on(Signal.PLAYER_HEAL, this.onPlayerActionFromServer, this);
 
-
     //monster events
     whevent.on(Signal.MONSTER_GAIN_DMG, this.onPlayerActionFromServer, this);
     whevent.on(Signal.MONSTER_GAIN_HP, this.onPlayerActionFromServer, this);
     whevent.on(Signal.MONSTER_GAIN_ROLL_BONUS, this.onPlayerActionFromServer, this);
     whevent.on(Signal.MONSTER_GET_DAMAGED, this.onPlayerActionFromServer, this);
     whevent.on(Signal.MONSTER_HEAL, this.onPlayerActionFromServer, this);
-
 
     //board events
     whevent.on(Signal.MOVE_CARD, this.onPlayerActionFromServer, this);
@@ -123,10 +124,7 @@ export default class ServerClient extends cc.Component {
     whevent.on(Signal.REMOVE_ITEM_FROM_SHOP, this.onPlayerActionFromServer, this);
     whevent.on(Signal.CARD_GET_COUNTER, this.onPlayerActionFromServer, this);
     whevent.on(Signal.NEW_MONSTER_PLACE, this.onPlayerActionFromServer, this);
-
-
-
-
+    whevent.on(Signal.END_BATTLE, this.onPlayerActionFromServer, this)
     whevent.on(Signal.UPDATE_PASSIVE_DATA, this.onPlayerActionFromServer, this);
 
     //deck event
@@ -144,18 +142,19 @@ export default class ServerClient extends cc.Component {
     whevent.on(Signal.UPDATE_STACK_VIS, this.onPlayerActionFromServer, this);
     whevent.on(Signal.NEXT_STACK_ID, this.onPlayerActionFromServer, this);
     whevent.on(Signal.UPDATE_STACK_LABLE, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.UPDATE_STACK_EFFECT, this.onPlayerActionFromServer, this);
 
     //Eden events
     whevent.on(Signal.EDEN_CHOSEN, this.onPlayerActionFromServer, this);
     whevent.on(Signal.CHOOSE_FOR_EDEN, this.onPlayerActionFromServer, this);
 
     //Action Lable
-    whevent.on(Signal.ACTION_MASSAGE, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.ACTION_MASSAGE_ADD, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.ACTION_MASSAGE_REMOVE, this.onPlayerActionFromServer, this);
   }
 
-
-
   onPlayerActionFromServer(data: { signal, data }) {
+    // tslint:disable-next-line: no-floating-promises
     ActionManager.getActionFromServer(data.signal, data.data);
   }
 
@@ -167,12 +166,13 @@ export default class ServerClient extends cc.Component {
   }
 
   onFinishLoad({ id }) {
-    cc.log('on finish load')
+    cc.log("on finish load")
+    // tslint:disable-next-line: no-floating-promises
     MainScript.makeFirstUpdateActions(id)
   }
 
   async onUpdateActions() {
-    cc.log('update actions from server')
+    cc.log("update actions from server")
     await ActionManager.updateActions()
   }
 
@@ -186,16 +186,16 @@ export default class ServerClient extends cc.Component {
   connect() {
     //	whevent.emit(Events.TIP, {message: 'Connecting...', time: 0});
     if (this.ws == null) {
-      let serverLable = cc.find('Canvas/ServerIP').getComponent(cc.EditBox)
-      let serverIp = "ws://" + serverLable.string + ':2333';
+      const serverLable = cc.find("Canvas/ServerIP").getComponent(cc.EditBox)
+      const serverIp = "ws://" + serverLable.string + ":2333";
 
       this.ws = new WebSocket(serverIp);
 
     }
 
-    let onOpen = this.onOpen.bind(this);
-    let onMessage = this.onMessage.bind(this);
-    let onClose = this.onClose.bind(this);
+    const onOpen = this.onOpen.bind(this);
+    const onMessage = this.onMessage.bind(this);
+    const onClose = this.onClose.bind(this);
 
     this.ws.onopen = onOpen;
     this.ws.onmessage = onMessage;
@@ -208,7 +208,7 @@ export default class ServerClient extends cc.Component {
 
   onOpen() {
     cc.log("Connected to the server!");
-    cc.find(`Canvas/Server Connection`).getComponent(cc.Label).string = 'Connected to the Server'
+    cc.find(`Canvas/Server Connection`).getComponent(cc.Label).string = "Connected to the Server"
   }
 
   onClose() {
@@ -221,7 +221,7 @@ export default class ServerClient extends cc.Component {
   }
 
   onMessage({ data }) {
-    let pack = JSON.parse(atob(data));
+    const pack = JSON.parse(atob(data));
     whevent.emit(pack.signal, pack.data);
     if (
       pack.signal == Signal.REACTION ||
@@ -236,7 +236,7 @@ export default class ServerClient extends cc.Component {
     if (signal == Signal.REACTION || signal == Signal.FIRST_GET_REACTION) {
       //cc.log(this.reactionCounter);
     }
-    let time = new Date().toTimeString().substring(0, 8)
+    const time = new Date().toTimeString().substring(0, 8)
     Logger.printMethodSignal([signal, data], true)
     // cc.log("%cSENDING:", "color:#36F;", signal, time);
     // cc.log(data)
@@ -244,14 +244,14 @@ export default class ServerClient extends cc.Component {
   }
 
   onUUID(uuid: number) {
-    let player: Player = new Player();
+    const player: Player = new Player();
     player.playerId = uuid;
   }
 
   onJoin(uuid) {
     cc.log(uuid);
-    let lable = cc.find(`Canvas/Match Players`).getComponent(cc.Label)
-    let string = lable.string + `\nPlayer ${uuid.uuid}`;
+    const lable = cc.find(`Canvas/Match Players`).getComponent(cc.Label)
+    const string = lable.string + `\nPlayer ${uuid.uuid}`;
 
     cc.find(`Canvas/Match Players`).getComponent(cc.Label).string = string
   }

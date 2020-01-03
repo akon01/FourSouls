@@ -1,9 +1,12 @@
 import Effect from "../CardEffectComponents/CardEffects/Effect";
+import ButtonManager from "../Managers/ButtonManager";
 import CardPreviewManager from "../Managers/CardPreviewManager";
-import { TIME_TO_HIDE_PREVIEW, GAME_EVENTS, BUTTON_STATE } from "./../Constants";
+import { BUTTON_STATE, GAME_EVENTS, TIME_TO_HIDE_PREVIEW } from "./../Constants";
 import CardEffect from "./CardEffect";
 import Item from "./CardTypes/Item";
-import ButtonManager from "../Managers/ButtonManager";
+import Card from "./GameEntities/Card";
+import Deck from "./GameEntities/Deck";
+import Pile from "./Pile";
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,8 +29,20 @@ export default class CardPreview extends cc.Component {
   @property
   counterLable: cc.Label = null;
 
+  @property(cc.Node)
+  counter: cc.Node = null
+
+  @property(cc.Node)
+  extraInfo: cc.Node = null
+
+  @property
+  extraLable: cc.Label = null
+
   @property
   effectChildren: cc.Node[] = [];
+
+  @property(cc.Sprite)
+  cardSprite: cc.Sprite = null
 
   @property
   hideThisTimeOut = null;
@@ -35,30 +50,64 @@ export default class CardPreview extends cc.Component {
   @property
   hasTouchProperty: boolean = false;
 
+  @property
+  _groupUuid: string = null
+
   unuse() {
     this.node.active = true;
     this.node.opacity = 255;
+    this.removeGroup()
+
   }
 
+  reuse() {
+    this.cardSprite = this.node.getChildByName('CardPreview').getComponent(cc.Sprite)
+  }
+
+  setGroup(groupUuid: string) {
+    this._groupUuid = groupUuid
+    this.node.color = CardPreviewManager.groups.get(groupUuid)
+  }
+
+  removeGroup() {
+    this._groupUuid = null
+    this.node.color = cc.Color.WHITE
+  }
+
+  setCard(cardToSet: cc.Node) {
+    this.card = cardToSet;
+    const cardComp = cardToSet.getComponent(Card)
+
+    if (cardToSet.getComponent(Deck) != null || cardComp.topDeckof != null) {
+
+      this.cardSprite.spriteFrame = cardToSet.getComponent(cc.Sprite).spriteFrame;
+    } else if (cardToSet.getComponent(Pile) != null) {
+
+      this.cardSprite.spriteFrame = cardToSet.getComponent(Pile).pileSprite.spriteFrame;
+    } else {
+
+      this.cardSprite.spriteFrame = cardComp.frontSprite;
+    }
+  }
 
   async hideCardPreview(event?) {
     if (event) {
       event.stopPropagation();
     }
-
     this.node.off(cc.Node.EventType.TOUCH_START);
+    const cardNode = this.node.getChildByName(`CardPreview`)
     for (let o = 0; o < this.effectChildren.length; o++) {
       const child = this.effectChildren[o];
-      this.node.removeChild(child);
+      cardNode.removeChild(child);
     }
-    let func = cc.callFunc(() => {
+    const func = cc.callFunc(() => {
       // this.node.setSiblingIndex(0);
       this.card = null;
       this.hasTouchProperty = false
-      this.node.getComponent(cc.Sprite).spriteFrame = null;
+      this.cardSprite.spriteFrame = null;
       this.node.active = false;
       whevent.emit(GAME_EVENTS.CARD_PREVIEW_HIDE_OVER)
-      CardPreviewManager.$.node.emit('previewRemoved', this.node)
+      CardPreviewManager.$.node.emit("previewRemoved", this.node)
     }, this)
     this.node.runAction(cc.sequence(cc.fadeTo(TIME_TO_HIDE_PREVIEW, 0), func));
     //this.hideThisTimeOut = setTimeout(hideTimeOut, TIME_TO_HIDE_PREVIEW * 1000);
@@ -73,30 +122,28 @@ export default class CardPreview extends cc.Component {
     });
   }
 
-
   addEffectToPreview(effect: cc.Node) {
-    let originalParent = effect.parent;
-    let originalY = effect.y;
+    const originalParent = effect.parent;
+    const originalY = effect.y;
 
-    let parentHeight = originalParent.height;
+    const parentHeight = originalParent.height;
+    const cardNode = this.node.getChildByName(`CardPreview`)
+    const yPositionScale = cardNode.height / parentHeight;
 
-    let yPositionScale = this.node.height / parentHeight;
+    const heightScale = effect.height / parentHeight;
+    const widthScale = cardNode.width / originalParent.width;
 
-    let heightScale = effect.height / parentHeight;
-    let widthScale = this.node.width / originalParent.width;
-
-    let name = effect.name + ' ' + this.node.childrenCount
-    this.node.addChild(cc.instantiate(effect), 1, name);
-    let newEffect = this.node.getChildByName(name);
+    const name = effect.name + " " + cardNode.childrenCount
+    cardNode.addChild(cc.instantiate(effect), 1, name);
+    const newEffect = cardNode.getChildByName(name);
     newEffect.getComponent(Effect)._effectCard = originalParent;
     this.effectChildren.push(newEffect);
 
-    newEffect.width = this.node.width;
+    newEffect.width = cardNode.width;
 
-    newEffect.height = this.node.height * heightScale;
+    newEffect.height = cardNode.height * heightScale;
 
-
-    let newY = originalY * yPositionScale;
+    const newY = originalY * yPositionScale;
 
     newEffect.setPosition(0, newY);
 
@@ -114,19 +161,18 @@ export default class CardPreview extends cc.Component {
     //  this.showCardPreview(card, false);
     CardPreviewManager.openPreview(this.node)
     this.exitButton.getComponent(cc.Button).interactable = false;
-    let index = CardPreviewManager.previewsToChooseFrom.push(this.node) - 1
+    const index = CardPreviewManager.previewsToChooseFrom.push(this.node) - 1
     let cardEffects = card.getComponent(CardEffect).paidEffects
     // let cardEffects = card.getComponent(CardEffect).activeEffects;
     //cardEffects = cardEffects.concat(card.getComponent(CardEffect).paidEffects)
     //let effects be chosen on click
     for (let i = 0; i < cardEffects.length; i++) {
       const effect = cardEffects[i];
-      let preCondition = effect.getComponent(Effect).preCondition
+      const preCondition = effect.getComponent(Effect).preCondition
       if (preCondition != null && preCondition.testCondition()) {
 
         this.addEffectToPreview(effect);
-      }
-      else if (preCondition == null) {
+      } else if (preCondition == null) {
 
         this.addEffectToPreview(effect)
       }
@@ -136,16 +182,15 @@ export default class CardPreview extends cc.Component {
     for (let i = 0; i < cardEffects.length; i++) {
       const effect = cardEffects[i];
       cc.log(effect)
-      let preCondition = effect.getComponent(Effect).preCondition
-      let itemComp = card.getComponent(Item)
+      const preCondition = effect.getComponent(Effect).preCondition
+      const itemComp = card.getComponent(Item)
       if (itemComp != null) {
         if (!itemComp.activated) {
 
           if (preCondition != null && preCondition.testCondition()) {
 
             this.addEffectToPreview(effect);
-          }
-          else if (preCondition == null) {
+          } else if (preCondition == null) {
 
             this.addEffectToPreview(effect)
           }
@@ -153,15 +198,13 @@ export default class CardPreview extends cc.Component {
       } else {
         if (preCondition != null && preCondition.testCondition()) {
           this.addEffectToPreview(effect);
-        }
-        else if (preCondition == null) {
+        } else if (preCondition == null) {
           this.addEffectToPreview(effect)
         }
       }
     }
 
-
-    let chosenEffect = await this.testForEffectChosen();
+    const chosenEffect = await this.testForEffectChosen();
     CardPreviewManager.previewsToChooseFrom.splice(index, 1)
     //disable effects be chosen on click
     for (let i = 0; i < cardEffects.length; i++) {
@@ -201,8 +244,12 @@ export default class CardPreview extends cc.Component {
 
   onLoad() {
     this.node.opacity = 255;
-    this.counterLable = this.node.getChildByName('Counter').getComponent(cc.Label);
-    this.counterLable.enabled = false;
+    this.counterLable = this.counter.getComponentInChildren(cc.Label);
+    this.extraLable = this.extraInfo.getComponentInChildren(cc.Label);
+    this.extraInfo.active = false
+    this.counterLable.string = ""
+    this.cardSprite = this.node.getChildByName('CardPreview').getComponent(cc.Sprite)
+    this.counter.active = false;
     CardPreview.$ = this;
   }
 
@@ -210,5 +257,13 @@ export default class CardPreview extends cc.Component {
     // CardPreview.$ = this;
   }
 
-  // update (dt) {}
+  update(dt) {
+    if (this.card != null && this.card.getComponent(Card)._counters > 0) {
+      this.counter.active = true;
+      this.counterLable.string = this.card.getComponent(Card)._counters.toString()
+    } else {
+      this.counter.active = false;
+      this.counterLable.string = ""
+    }
+  }
 }

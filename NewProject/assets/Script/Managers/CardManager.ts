@@ -282,9 +282,7 @@ export default class CardManager extends cc.Component {
       if (deck._cardId == cardId) {
         return deck.node;
       } else {
-        if (deck.topBlankCard.getComponent(Card)._cardId == cardId) {
-          return deck.topBlankCard;
-        } else if (deck.node.getComponent(Card)._cardId == cardId) {
+        if (deck.node.getComponent(Card)._cardId == cardId) {
           return deck.node;
         }
       }
@@ -529,15 +527,18 @@ export default class CardManager extends cc.Component {
 
   }
 
-  static makeCardPreviewable(card: cc.Node) {
+  static makeCardPreviewable(card: cc.Node, groupUuid?: string) {
 
+    const cardPreview = CardPreviewManager.getPreviewByCard(card);
     // if (card.name.includes("Deck")) { card = card.getComponent(Deck).topBlankCard }
-
+    if (cardPreview != null) {
+      CardPreviewManager.setGroup(cardPreview, groupUuid)
+    }
     card.off(cc.Node.EventType.TOUCH_START);
     card.on(
       cc.Node.EventType.TOUCH_START,
       async () => {
-        await CardPreviewManager.getPreviews(Array.of(card), true)
+        await CardPreviewManager.getPreviews(Array.of(card), true, groupUuid)
         // cardPreview.showCardPreview2(card);
       },
       this,
@@ -551,9 +552,9 @@ export default class CardManager extends cc.Component {
   }
 
   static disableCardActions(card: cc.Node) {
-    if (card == CardManager.treasureDeck.getComponent(Deck).topBlankCard) {
-      cc.log(`disable top of shop card actions`)
-    }
+    // if (card == CardManager.treasureDeck.getComponent(Deck).topBlankCard) {
+    //   cc.log(`disable top of shop card actions`)
+    // }
     card.off(cc.Node.EventType.TOUCH_START);
     if (card.getComponent(Deck) == null) {
       const cardComp = card.getComponent(Card);
@@ -569,7 +570,8 @@ export default class CardManager extends cc.Component {
       // cardComp._requiredFor = null;
       this.makeCardPreviewable(card);
     } else {
-      const comp = card.getComponent(Deck).topBlankCard.getComponent(Card)
+      // const comp = card.getComponent(Deck).topBlankCard.getComponent(Card)
+      const comp = card.getComponent(Card)
       if (comp._isActivateable || comp._isAttackable || comp._isBuyable || comp._isPlayable || comp._isReactable || comp._isRequired) {
         comp._hasEventsBeenModified = true
       }
@@ -587,6 +589,7 @@ export default class CardManager extends cc.Component {
   static makeRequiredForDataCollector(
     dataCollector: DataCollector,
     card: cc.Node,
+    // dataCollectorUuid:string
   ) {
 
     ParticleManager.activateParticleEffect(card, PARTICLE_TYPES.CHOOSE_CARD, false)
@@ -604,7 +607,7 @@ export default class CardManager extends cc.Component {
       cardComp._requiredFor = dataCollector;
     } else {
       const deckComp = card.getComponent(Deck);
-      deckComp.topBlankCard.off(cc.Node.EventType.TOUCH_START)
+      deckComp.node.off(cc.Node.EventType.TOUCH_START)
       if (!deckComp._isRequired) {
         deckComp._hasEventsBeenModified = true;
       }
@@ -614,7 +617,7 @@ export default class CardManager extends cc.Component {
 
     /// change to show preview for comfirmation!
     // CardPreviewManager.addPreview(card)
-    this.makeCardPreviewable(card);
+    this.makeCardPreviewable(card, dataCollector.uuid);
 
   }
 
@@ -622,6 +625,7 @@ export default class CardManager extends cc.Component {
     ParticleManager.disableParticleEffect(card, PARTICLE_TYPES.CHOOSE_CARD, false)
     const cardPreview = CardPreviewManager.getPreviewByCard(card)
     if (cardPreview != null) {
+      cardPreview.removeGroup()
       await CardPreviewManager.removeFromCurrentPreviews(Array.of(card))
       // CardPreviewManager.removeFromCurrentPreviews(Array.of(cardPreview.node))
     }

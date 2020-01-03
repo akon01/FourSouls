@@ -64,7 +64,7 @@ export default class ActionManager extends cc.Component {
     this.decks = CardManager.getAllDecks();
     const treasureDeck = CardManager.treasureDeck.getComponent(Deck);
     const monsterDeck = CardManager.monsterDeck.getComponent(Deck);
-    const monsterTopCard = monsterDeck.topBlankCard;
+    // const monsterTopCard = monsterDeck.topBlankCard;
     // set up components
     const currentPlayerComp: Player = player.getComponent(Player);
     const currentPlayerHand: cc.Node = currentPlayerComp.hand.node
@@ -111,22 +111,22 @@ export default class ActionManager extends cc.Component {
             }
           }
 
-          if (treasureDeck.topBlankCard != null) {
-            const treasureDeckTopCard = treasureDeck.topBlankCard;
-            if (player.getComponent(Player).coins >= Store.topCardCost) {
-
-              CardManager.makeItemBuyable(treasureDeckTopCard, currentPlayerComp);
-            }
-          } else {
+          // if (treasureDeck.topBlankCard != null) {
+          //   const treasureDeckTopCard = treasureDeck.topBlankCard;
+          if (player.getComponent(Player).coins >= Store.topCardCost) {
+            CardManager.makeItemBuyable(treasureDeck.node, currentPlayerComp);
+          }
+          // }
+          else {
             for (let i = 0; i < Store.storeCards.length; i++) {
               const storeCard = Store.storeCards[i];
               CardManager.disableCardActions(storeCard);
               CardManager.makeCardPreviewable(storeCard);
             }
-            if (treasureDeck.topBlankCard != null) {
-              const treasureDeckTopCard = treasureDeck.topBlankCard;
-              CardManager.disableCardActions(treasureDeckTopCard);
-            }
+            // if (treasureDeck.topBlankCard != null) {
+            //   const treasureDeckTopCard = treasureDeck.topBlankCard;
+            //   CardManager.disableCardActions(treasureDeckTopCard);
+            // }
           }
         }
         // make monster cards attackable
@@ -136,13 +136,13 @@ export default class ActionManager extends cc.Component {
             CardManager.disableCardActions(activeMonster);
             CardManager.makeMonsterAttackable(activeMonster);
           }
-          CardManager.makeMonsterAttackable(monsterTopCard);
+          CardManager.makeMonsterAttackable(monsterDeck.node);
         } else {
           for (let i = 0; i < MonsterField.activeMonsters.length; i++) {
             const activeMonster = MonsterField.activeMonsters[i];
             CardManager.disableCardActions(activeMonster);
           }
-          CardManager.disableCardActions(monsterTopCard);
+          CardManager.disableCardActions(monsterDeck.node);
         }
         // make current player loot card playable
         if (TurnsManager.currentTurn.lootCardPlays > 0) {
@@ -806,7 +806,7 @@ export default class ActionManager extends cc.Component {
         const cardsToChooseFrom: cc.Node[] = []
         let i = 0
         do {
-          const cardToChoose = CardManager.treasureDeck.getComponent(Deck)._cards[i];
+          const cardToChoose = CardManager.treasureDeck.getComponent(Deck)._cards.getCard(i);
           if (cardToChoose.getComponent(CardEffect).hasDestroySelfEffect) {
           } else {
             cardsToChooseFrom.push(cardToChoose)

@@ -1,10 +1,6 @@
-import CostInterface from "./CostInterface";
-import Cost from "./Cost";
-import Card from "../../Entites/GameEntities/Card";
-import Effect from "../CardEffects/Effect";
 import PlayerManager from "../../Managers/PlayerManager";
-import ChooseCard from "../DataCollector/ChooseCard";
-import { CHOOSE_CARD_TYPE } from "../../Constants";
+import Effect from "../CardEffects/Effect";
+import Cost from "./Cost";
 
 
 const { ccclass, property } = cc._decorator;

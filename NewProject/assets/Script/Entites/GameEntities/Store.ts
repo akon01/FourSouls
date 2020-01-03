@@ -80,7 +80,7 @@ export default class Store extends cc.Component {
         await Stack.addToStackAbove(refillStoreSE)
       }
       // this.addStoreCard(sendToserver);
-    } else if (storeItem == CardManager.treasureDeck.getComponent(Deck).topBlankCard) {
+    } else if (storeItem == CardManager.treasureDeck) {
     } else {
       throw new Error(`${storeItem.name} was not in the store cards ${Store.storeCards.map(card => card.name)}`)
     }

@@ -3,6 +3,7 @@ import Player from "../../Entites/GameEntities/Player";
 import { PassiveMeta } from "../../Managers/PassiveManager";
 import PlayerManager from "../../Managers/PlayerManager";
 import Condition from "./Condition";
+import Card from "../../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
@@ -12,9 +13,9 @@ export default class TakeDamage extends Condition {
   event = PASSIVE_EVENTS.PLAYER_GET_HIT
 
   async testCondition(meta: PassiveMeta) {
-    let player: Player = meta.methodScope.getComponent(Player);
-    let thisCard = this.node.parent.parent;
-    let cardOwner = PlayerManager.getPlayerByCard(thisCard);
+    const player: Player = meta.methodScope.getComponent(Player);
+    const thisCard = Card.getCardNodeByChild(this.node);
+    const cardOwner = PlayerManager.getPlayerByCard(thisCard);
     if (
       player instanceof Player &&
       player.name == cardOwner.name

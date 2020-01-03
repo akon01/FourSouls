@@ -40,6 +40,7 @@ export default class SwtichItemWithPlayer extends Effect {
       throw `one of the players is null`
     } else {
       let chooseCard = new ChooseCard();
+      chooseCard.flavorText = "Choose Item To Take"
       //taker chooses what to take 
       chooseCard.chooseType = CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_ITEMS_WITHOUT_ETERNALS
       let playerToTakeFromItems = chooseCard.getCardsToChoose(CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_ITEMS, null, playerToTakeFrom)
@@ -51,6 +52,7 @@ export default class SwtichItemWithPlayer extends Effect {
 
       //p1 choose which loot to get.  
       let playerToGiveToItems = chooseCard.getCardsToChoose(CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_ITEMS_WITHOUT_ETERNALS, null, playerToGiveTo)
+      chooseCard.flavorText = "Choose Item To Give"
       chosenData = await chooseCard.requireChoosingACard(playerToGiveToItems)
       let cardToGive = CardManager.getCardById(chosenData.cardChosenId, true)
       cc.log(`card to give is ${cardToGive.name}`)

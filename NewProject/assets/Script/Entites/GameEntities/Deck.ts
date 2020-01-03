@@ -3,8 +3,8 @@ import ServerClient from "../../../ServerClient/ServerClient";
 import DataCollector from "../../CardEffectComponents/DataCollector/DataCollector";
 import { CARD_HEIGHT, CARD_TYPE, CARD_WIDTH } from "../../Constants";
 import CardManager from "../../Managers/CardManager";
-import Card from "./Card";
 import { CardSet } from "../Card Set";
+import Card from "./Card";
 
 const { ccclass, property } = cc._decorator;
 
@@ -15,11 +15,11 @@ export default class Deck extends cc.Component {
   })
   deckType: CARD_TYPE = CARD_TYPE.LOOT;
 
-  @property(cc.Node)
-  topBlankCard: cc.Node = null;
+  // @property(cc.Node)
+  // topBlankCard: cc.Node = null;
 
   @property
-  _cards: CardSet = new CardSet();
+  _cards: CardSet = null
 
   @property
   suffleInTheStart: boolean = false;
@@ -104,7 +104,8 @@ export default class Deck extends cc.Component {
     }
   }
 
-  shuffle(array) {
+  shuffle(cardSet: CardSet) {
+    let array = cardSet.getCards()
     let currentIndex = array.length, temporaryValue, randomIndex;
 
     // While there remain elements to shuffle...
@@ -127,7 +128,7 @@ export default class Deck extends cc.Component {
     const randomSeed = Math.floor(Math.log(new Date().getTime()))
     const randomTimes = Math.random() * randomSeed
     for (let i = 0; i < randomTimes; i++) {
-      this._cards = this.shuffle(this._cards)
+      this._cards.set(this.shuffle(this._cards))
     }
 
     ServerClient.$.send(Signal.DECK_ARRAGMENT, { deckType: this.deckType, arrangement: this._cards.map(card => card.getComponent(Card)._cardId) })
@@ -146,10 +147,10 @@ export default class Deck extends cc.Component {
 
     this.node.width = CARD_WIDTH;
     this.node.height = CARD_HEIGHT;
-
-    const sprite = this.topBlankCard.getComponent(cc.Sprite);
-    if (this.topBlankCard.getComponent(Card)._isFlipped) { this.topBlankCard.getComponent(Card).flipCard(false) }
-    sprite.enabled = false;
+    this._cards = new CardSet()
+    // const sprite = this.topBlankCard.getComponent(cc.Sprite);
+    // if (this.topBlankCard.getComponent(Card)._isFlipped) { this.topBlankCard.getComponent(Card).flipCard(false) }
+    // sprite.enabled = false;
 
   }
 

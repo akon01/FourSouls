@@ -70,7 +70,7 @@ export default class ServerStackEffectConverter {
                 const declareAttack = new DeclareAttack(serverStackEffectData.creatorCardId, PlayerManager.getPlayerByCardId(serverStackEffectData.attackingPlayerCardId).getComponent(Player), CardManager.getCardById(serverStackEffectData.idOfCardBeingAttacked, true), serverStackEffectData.entityId)
                 return declareAttack;
             case STACK_EFFECT_TYPE.MONSTER_DEATH:
-                const monsterDeath = new MonsterDeath(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.monsterToDieCardId), serverStackEffectData.killerId, serverStackEffectData.entityId)
+                const monsterDeath = new MonsterDeath(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.monsterToDieCardId), CardManager.getCardById(serverStackEffectData.killerId), serverStackEffectData.entityId)
                 return monsterDeath;
             case STACK_EFFECT_TYPE.MONSTER_END_DEATH:
                 const monsterEndDeath = new MonsterEndDeath(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.monsterWhoDiedCardId), serverStackEffectData.entityId)

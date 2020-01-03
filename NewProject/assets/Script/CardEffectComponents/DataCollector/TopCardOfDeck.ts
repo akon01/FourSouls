@@ -26,11 +26,11 @@ export default class TopCardOfDeck extends DataCollector {
     collectData(data) {
         switch (this.deckType) {
             case CARD_TYPE.LOOT:
-                return new EffectTarget(CardManager.lootDeck.getComponent(Deck)._cards[CardManager.lootDeck.getComponent(Deck)._cards.length - 1])
+                return new EffectTarget(CardManager.lootDeck.getComponent(Deck)._cards.getCard(CardManager.lootDeck.getComponent(Deck)._cards.length - 1))
             case CARD_TYPE.MONSTER:
-                return new EffectTarget(CardManager.monsterDeck.getComponent(Deck)._cards[CardManager.monsterDeck.getComponent(Deck)._cards.length - 1])
+                return new EffectTarget(CardManager.monsterDeck.getComponent(Deck)._cards.getCard(CardManager.monsterDeck.getComponent(Deck)._cards.length - 1))
             case CARD_TYPE.TREASURE:
-                return new EffectTarget(CardManager.treasureDeck.getComponent(Deck)._cards[CardManager.treasureDeck.getComponent(Deck)._cards.length - 1])
+                return new EffectTarget(CardManager.treasureDeck.getComponent(Deck)._cards.getCard(CardManager.treasureDeck.getComponent(Deck)._cards.length - 1))
             default:
                 break;
         }

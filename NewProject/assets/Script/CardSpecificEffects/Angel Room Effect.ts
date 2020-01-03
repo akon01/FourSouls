@@ -26,23 +26,23 @@ export default class AngelRoomEffect extends Effect {
     stack: StackEffectInterface[],
     data: { numberRolled: number; cardPlayerId: number }
   ) {
-    let activatingPlayer = PlayerManager.getPlayerById(
+    const activatingPlayer = PlayerManager.getPlayerById(
       data.cardPlayerId
     )
-    let trasureTopCard = CardManager.treasureDeck.getComponent(Deck).topBlankCard;
-    let lootDeck = CardManager.lootDeck;
+    const trasureDeck = CardManager.treasureDeck;
+    const lootDeck = CardManager.lootDeck;
 
     switch (data.numberRolled) {
       case 1:
         for (let i = 0; i < 2; i++) {
 
-          let over = await activatingPlayer.addItem(trasureTopCard, true, true);
+          const over = await activatingPlayer.addItem(trasureDeck, true, true);
 
         }
         break;
       case 2:
       case 3:
-        activatingPlayer.addItem(trasureTopCard, true, true);
+        await activatingPlayer.addItem(trasureDeck, true, true);
         break;
       case 4:
       case 5:
@@ -58,7 +58,6 @@ export default class AngelRoomEffect extends Effect {
         // }
         break;
     }
-
 
     return stack
   }

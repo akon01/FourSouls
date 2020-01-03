@@ -5,7 +5,7 @@ export class Logger {
 
     currentLogFolderPath: string = ""
     currentServerLogFilePath: string = "";
-    currentClientsLogFilePaths: { path: string, uuid: number }[] = [];
+    currentClientsLogFilePaths: Array<{ path: string, uuid: number }> = [];
 
     constructor() {
         const d = new Date()
@@ -21,8 +21,6 @@ export class Logger {
         this.currentServerLogFilePath = this.currentLogFolderPath + "/" + logName + ".txt";
 
     }
-
-
 
     logFromServer(playerUuid: number, logData) {
         const d = new Date()
@@ -81,7 +79,6 @@ export class Logger {
                 let stack = JSON.stringify(logData.data.stack)
 
                 stack = stack.replace(new RegExp("\\\\n", "g"), "\n")
-
 
                 fs.appendFileSync(this.currentServerLogFilePath, " \n//////Error From Player " + playerUuid + "////\n\n " + message + "\n\n + " + stack + "\n\n//////")
                 if (playerPath) {

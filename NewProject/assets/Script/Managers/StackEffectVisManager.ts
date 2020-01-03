@@ -1,5 +1,5 @@
 import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
-import { BLINKING_SPEED } from "../Constants";
+import { BLINKING_SPEED, GAME_EVENTS } from "../Constants";
 import Stack from "../Entites/Stack";
 import StackEffectInterface from "../StackEffects/StackEffectInterface";
 import { StackEffectVisualRepresentation } from "../StackEffects/StackEffectVisualRepresentation/Stack Vis Interface";
@@ -237,8 +237,7 @@ export default class StackEffectVisManager extends cc.Component {
         this.showStackButton.on(cc.Node.EventType.TOUCH_START, this.hidePreviews.bind(this))
         this.scrollView.node.active = true
         this.scrollView.node.zIndex = 1
-        const t = cc.find('Canvas')
-        cc.log(t.children.map(item => ({ name: item.name, zIndex: item.zIndex })))
+        whevent.emit(GAME_EVENTS.PREVIEW_MANAGER_OPEN)
     }
 
     onLoad() {

@@ -22,20 +22,19 @@ export default class RerollItem extends Effect {
     stack: StackEffectInterface[],
     data?: ActiveEffectData | PassiveEffectData
   ) {
-    let cardChosen = data.getTarget(TARGETTYPE.ITEM)
+    const cardChosen = data.getTarget(TARGETTYPE.ITEM)
     if (cardChosen == null) {
       cc.log(`no item to reroll`)
     } else {
       if (cardChosen instanceof cc.Node) {
-        let player = PlayerManager.getPlayerByCard(cardChosen)
+        const player = PlayerManager.getPlayerByCard(cardChosen)
         await player.destroyItem(cardChosen, true);
-        let treasureTopDeck = CardManager.treasureDeck.getComponent(Deck).topBlankCard;
+        const treasureTopDeck = CardManager.treasureDeck;
         await player.addItem(treasureTopDeck, true, true);
       }
     }
 
-
-    if (data instanceof PassiveEffectData) return data
+    if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack
   }
 }

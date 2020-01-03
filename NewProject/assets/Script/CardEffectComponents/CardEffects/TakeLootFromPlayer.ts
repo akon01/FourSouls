@@ -3,7 +3,6 @@ import Stack from "../../Entites/Stack";
 import CardManager from "../../Managers/CardManager";
 import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
-import ChooseCard from "../DataCollector/ChooseCard";
 import { CARD_TYPE, CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
 import Effect from "./Effect";
 import Player from "../../Entites/GameEntities/Player";

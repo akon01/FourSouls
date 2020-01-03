@@ -1,4 +1,5 @@
 import Effect from "../CardEffectComponents/CardEffects/Effect";
+import { IMultiEffectRollAndCollect } from "../CardEffectComponents/MultiEffectChooser/IMultiEffectRollAndCollect";
 import MultiEffectChoose from "../CardEffectComponents/MultiEffectChooser/MultiEffectChoose";
 import MultiEffectRoll from "../CardEffectComponents/MultiEffectChooser/MultiEffectRoll";
 import { CARD_TYPE, GAME_EVENTS, STACK_EFFECT_TYPE } from "../Constants";
@@ -17,7 +18,6 @@ import ServerPlayLootCard from "./ServerSideStackEffects/Server Play Loot Card "
 import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { PlayLootCardVis } from "./StackEffectVisualRepresentation/Play Loot Card Vis";
-import { IMultiEffectRollAndCollect } from "../CardEffectComponents/MultiEffectChooser/IMultiEffectRollAndCollect";
 
 export default class PlayLootCardStackEffect extends StackEffectConcrete {
     visualRepesentation: PlayLootCardVis;
@@ -60,7 +60,6 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
     constructor(creatorCardId: number, hasLockingStackEffect: boolean, lootToPlay: cc.Node, lootPlayerCard: cc.Node, hasDataBeenCollectedYet: boolean, hasLockingStackEffectResolved: boolean, entityId?: number) {
         super(creatorCardId, entityId)
 
-
         this.hasLockingStackEffect = hasLockingStackEffect;
         this.lootToPlay = lootToPlay;
         this.lootPlayer = PlayerManager.getPlayerByCard(lootPlayerCard)
@@ -78,7 +77,6 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
         await this.lootPlayer.loseLoot(this.lootToPlay, true)
         //await CardManager.moveCardTo(this.lootToPlay, PileManager.lootPlayPile, true, true)
         await PileManager.addCardToPile(CARD_TYPE.LOOT_PLAY, this.lootToPlay, true)
-
 
         //let player choose effect b4 going in the stack
         if (cardEffect.hasMultipleEffects) {
@@ -125,7 +123,6 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
 
                 lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
                 await Stack.addToStack(lockingStackEffect, true)
-
 
                 // let lockingStackEffect: StackEffectInterface
                 // if (cardEffect.multiEffectCollector instanceof MultiEffectRoll || cardEffect.multiEffectCollector instanceof IMultiEffectRollAndCollect) {

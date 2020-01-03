@@ -38,6 +38,9 @@ export default class MultiEffectChooseThenRoll extends IMultiEffectRollAndCollec
   })
   chooseTypes: CHOOSE_CARD_TYPE[] = []
 
+  @property
+  flavorText: string = ''
+
   /**
    *
    * @param data {cardPlayed}
@@ -48,6 +51,7 @@ export default class MultiEffectChooseThenRoll extends IMultiEffectRollAndCollec
   }): Promise<Effect> {
 
     const chooseCard = new ChooseCard()
+    chooseCard.flavorText = this.flavorText
     if (this.multiType) {
       chooseCard.multiType = true
       chooseCard.chooseTypes = this.chooseTypes

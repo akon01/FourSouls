@@ -54,8 +54,9 @@ export default class CardTargetPools extends DataCollector {
                 return Store.storeCards
             case CARD_POOLS.TOP_OF_DECKS:
                 let cards = [CardManager.treasureDeck.getComponent(Deck)._cards[CardManager.treasureDeck.getComponent(Deck)._cards.length - 1],
-                CardManager.monsterDeck.getComponent(Deck)._cards[CardManager.monsterDeck.getComponent(Deck)._cards.length - 1],
-                CardManager.lootDeck.getComponent(Deck)._cards[CardManager.lootDeck.getComponent(Deck)._cards.length - 1]]
+                CardManager.monsterDeck.getComponent(Deck)._cards.getCard(CardManager.monsterDeck.getComponent(Deck)._cards.length - 1),
+                CardManager.lootDeck.getComponent(Deck)._cards.getCard(CardManager.lootDeck.getComponent(Deck)._cards.length - 1)
+                ]
                 return cards.map(card => new EffectTarget(card))
             default:
                 break;

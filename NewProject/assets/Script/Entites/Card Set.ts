@@ -1,5 +1,10 @@
 export class CardSet implements Iterable<cc.Node> {
 
+    constructor() {
+        this.cardSet = new Set();
+        this.cardArray = new Array()
+    }
+
     [Symbol.iterator](): Iterator<cc.Node, cc.Node, cc.Node> {
         return {
             next() {
@@ -16,9 +21,9 @@ export class CardSet implements Iterable<cc.Node> {
 
     private pointer = 0
 
-    private cardSet: Set<cc.Node> = new Set();
+    private cardSet: Set<cc.Node> = null
 
-    private cardArray: cc.Node[] = new Array()
+    private cardArray: cc.Node[] = null
 
     length: number = 0
 
@@ -33,6 +38,23 @@ export class CardSet implements Iterable<cc.Node> {
         }
     }
 
+    clear() {
+        this.cardSet = new Set()
+        this.cardArray = new Array()
+        this.length = 0
+    }
+
+    set(cards: cc.Node[]) {
+        this.clear()
+        cards.forEach(card => {
+            this.push(card)
+        });
+    }
+
+    getCards() {
+        return this.cardArray
+    }
+
     filter(filterFun: (i) => any) {
         return this.cardArray.filter(filterFun)
     }
@@ -41,7 +63,11 @@ export class CardSet implements Iterable<cc.Node> {
         if (this.cardArray.includes(card)) {
             return true
         }
-        return flase
+        return false
+    }
+
+    getCard(index: number) {
+        return this.cardArray[index]
     }
 
     pop() {
@@ -64,7 +90,7 @@ export class CardSet implements Iterable<cc.Node> {
         return this.cardArray.indexOf(card)
     }
 
-    map(mapFunc: (i) => any) {
+    map(mapFunc: (i: cc.Node) => any) {
         return this.cardArray.map(mapFunc)
     }
 

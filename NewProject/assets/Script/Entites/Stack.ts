@@ -18,6 +18,7 @@ import Card from "./GameEntities/Card";
 import Player from "./GameEntities/Player";
 import { Logger } from "./Logger";
 import CardManager from "../Managers/CardManager";
+import StackEffectConcrete from "../StackEffects/StackEffectConcrete";
 
 const { ccclass, property } = cc._decorator;
 
@@ -66,9 +67,7 @@ export default class Stack extends cc.Component {
             lastPlayer = nextPlayer
 
             const amId = ActionLable.$.publishMassage(`Wait For Response From Player ${nextPlayer.playerId} `, 0, true, actionMessageId)
-            cc.error(`publish get response amId ${amId}`)
             const hasOtherPlayerResponded = await this.givePlayerPriority(nextPlayer)
-            cc.log(`remove get response `)
             ActionLable.$.removeMessage(amId, true)
 
             // if player did respond
@@ -156,6 +155,14 @@ export default class Stack extends cc.Component {
                 const stackEffectToRemove = Stack._currentStack.find(effect => effect.entityId == stackEffect.entityId)
 
                 // await this.removeFromTopOfStack(sendToServer)
+
+
+                /**
+                 * Test Use next Stack Effect to Be Resolved To Send A New Signal To The next stackEffectPlayer To Remove and continue the loop,
+                 * should keep the needed data at the correct player
+                 */
+
+
 
                 await this.removeAfterResolve(stackEffectToRemove, sendToServer)
             } else {
@@ -374,7 +381,18 @@ export default class Stack extends cc.Component {
         //  cc.log(`update actions after removal of stack effect`)
     }
 
-    static replaceStack(newStack: StackEffectInterface[], sendToServer: boolean) {
+    static replaceStack(newStack: StackEffectConcrete[], sendToServer: boolean) {
+
+        let continu = true;
+        newStack.forEach(effect => {
+            if (!(effect instanceof StackEffectConcrete)) {
+                continu = false
+            }
+        });
+        if (!continu) {
+            Logger.error(newStack)
+            throw new Error(`New Stack in Replace Stack is Not StackEffectConcrete`)
+        }
 
         this._currentStack = []
         if (Array.isArray(newStack)) {
@@ -392,6 +410,7 @@ export default class Stack extends cc.Component {
         // }
         // StackEffectVisManager.$.updateAvailablePreviews();
         StackEffectVisManager.$.setPreviews(this._currentStack)
+
         if (sendToServer) {
             const serverStack = this._currentStack.map(stackEffect => stackEffect.convertToServerStackEffect())
             ServerClient.$.send(Signal.REPLACE_STACK, { currentStack: serverStack })

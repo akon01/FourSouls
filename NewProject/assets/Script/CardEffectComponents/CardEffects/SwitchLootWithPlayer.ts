@@ -39,6 +39,7 @@ export default class SwtichLootWithPlayer extends Effect {
       throw `one of the players is null`
     } else {
       let chooseCard = new ChooseCard();
+      chooseCard.flavorText = "Choose Loot To Give"
       //p1 choose witch loot to give
       chooseCard.chooseType = CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND
       let playerToGiveToHand = chooseCard.getCardsToChoose(CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND, null, playerToGiveTo)
@@ -50,6 +51,7 @@ export default class SwtichLootWithPlayer extends Effect {
 
       //p1 choose which loot to get.  
       let playerToTakeFromHand = chooseCard.getCardsToChoose(CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND, null, playerToTakeFrom)
+      chooseCard.flavorText = "Choose Loot To Take"
       chosenData = await chooseCard.requireChoosingACard(playerToTakeFromHand)
       let cardToTake = CardManager.getCardById(chosenData.cardChosenId, true)
       cc.log(`card to take is ${cardToTake.name}`)

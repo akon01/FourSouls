@@ -179,8 +179,6 @@ export default class Player extends cc.Component {
     whevent.emit(GAME_EVENTS.PLAYER_SELECTED_YES_NO, bool)
   }
 
-  @property
-  _playerYesNoDecision: boolean = false;
 
   @property
   _curses: cc.Node[] = [];
@@ -223,6 +221,15 @@ export default class Player extends cc.Component {
         }
       }
     }
+
+  }
+
+  chooseYesNo(event: cc.Event, choice: string) {
+    //this._playerYesNoDecision = isYes
+
+    let bool: boolean
+    choice == "False" ? bool = false : bool = true
+    whevent.emit(GAME_EVENTS.PLAYER_SELECTED_YES_NO, bool)
 
   }
 
@@ -300,26 +307,16 @@ export default class Player extends cc.Component {
   }
 
   async giveYesNoChoice() {
+    ButtonManager.enableButton(ButtonManager.$.NoButton, BUTTON_STATE.ENABLED)
+    ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.ENABLED)
 
-    if (CardPreviewManager.isOpen) {
-
-      ButtonManager.moveButton(ButtonManager.$.NoButton, ButtonManager.$.cardPreviewButtonLayout)
-      ButtonManager.moveButton(ButtonManager.$.yesButton, ButtonManager.$.cardPreviewButtonLayout)
-    } else {
-
-      ButtonManager.moveButton(ButtonManager.$.NoButton, ButtonManager.$.playerButtonLayout)
-      ButtonManager.moveButton(ButtonManager.$.yesButton, ButtonManager.$.playerButtonLayout)
-    }
-
-    ButtonManager.enableButton(ButtonManager.$.NoButton, BUTTON_STATE.CHANGE_TEXT, ["No"])
-    ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.CHANGE_TEXT, ["Yes"])
 
     ButtonManager.enableButton(ButtonManager.$.NoButton, BUTTON_STATE.PLAYER_CHOOSE_NO, [this])
     ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.PLAYER_CHOOSE_YES, [this])
 
     const choice = await this.waitForPlayerYesNoSelection()
 
-    ButtonManager.enableButton(ButtonManager.$.NoButton, BUTTON_STATE.CHANGE_TEXT, ["SKIP"])
+    //  ButtonManager.enableButton(ButtonManager.$.NoButton, BUTTON_STATE.CHANGE_TEXT, ["SKIP"])
     ButtonManager.enableButton(ButtonManager.$.NoButton, BUTTON_STATE.DISABLED)
     ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.DISABLED)
     return choice;
@@ -327,11 +324,15 @@ export default class Player extends cc.Component {
 
   async giveNextClick() {
 
-    ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.CHANGE_TEXT, ["Next"])
-    ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.PLAYER_CLICKS_NEXT)
+    ButtonManager.enableButton(ButtonManager.$.nextButton, BUTTON_STATE.ENABLED)
+    ButtonManager.enableButton(ButtonManager.$.nextButton, BUTTON_STATE.PLAYER_CLICKS_NEXT, [this])
     await this.waitForNextClick()
-    ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.DISABLED)
+    ButtonManager.enableButton(ButtonManager.$.nextButton, BUTTON_STATE.DISABLED)
 
+  }
+
+  clickNext() {
+    whevent.emit(GAME_EVENTS.PLAYER_CLICKED_NEXT)
   }
 
   async waitForNextClick() {
@@ -347,8 +348,9 @@ export default class Player extends cc.Component {
 
     return new Promise((resolve) => {
       whevent.onOnce(GAME_EVENTS.PLAYER_SELECTED_YES_NO, (data: any) => {
+        cc.log(`wait for player yes no selection ${data}`)
         if (data) {
-          resolve(this._playerYesNoDecision);
+          resolve(data);
         }
       });
 
@@ -485,7 +487,7 @@ export default class Player extends cc.Component {
 
     let itemCardComp: Card = itemToAdd.getComponent(Card);
     const treasureDeck = CardManager.treasureDeck;
-    if (itemToAdd == treasureDeck.getComponent(Deck).topBlankCard) {
+    if (itemToAdd == treasureDeck) {
       itemToAdd = treasureDeck.getComponent(Deck).drawCard(sendToServer);
       itemCardComp = itemToAdd.getComponent(Card);
     }
@@ -600,6 +602,7 @@ export default class Player extends cc.Component {
     // lose 1 loot if you have any
     if (this.handCards.length > 0) {
       const chooseCard = new ChooseCard();
+      chooseCard.flavorText = "Choose A Loot To Discard"
       const cardToChooseFrom = chooseCard.getCardsToChoose(
         CHOOSE_CARD_TYPE.MY_HAND,
         this,
@@ -616,6 +619,7 @@ export default class Player extends cc.Component {
     // lose 1 non-eternal item if you have any
     if (nonEternalItems.length > 0) {
       const chooseCard = new ChooseCard();
+      chooseCard.flavorText = "Choose An Item To Destroy"
       const cardToChooseFrom = chooseCard.getCardsToChoose(
         CHOOSE_CARD_TYPE.MY_NON_ETERNALS,
         this,
@@ -679,6 +683,7 @@ export default class Player extends cc.Component {
         }
       } else {
         const chooseCard = new ChooseCard();
+        chooseCard.flavorText = "Choose Item To Recharge"
         for (let i = 0; i < numberOfItemsToCharge; i++) {
           const cardChosenData = await chooseCard.requireChoosingACard(this.activeItems)
           const item = CardManager.getCardById(cardChosenData.cardChosenId, true).getComponent(Item)
@@ -706,6 +711,7 @@ export default class Player extends cc.Component {
         await Stack.addToStack(turnDraw, true)
         // await this.drawCard(CardManager.lootDeck, sendToServer)
       }
+      ButtonManager.enableButton(ButtonManager.$.nextTurnButton, BUTTON_STATE.ENABLED)
     }
 
   }
@@ -735,6 +741,7 @@ export default class Player extends cc.Component {
       // effect that last to end of turn wear off.
       PassiveManager.oneTurnAfterEffects = [];
       PassiveManager.oneTurnBeforeEffects = [];
+      ButtonManager.enableButton(ButtonManager.$.nextTurnButton, BUTTON_STATE.DISABLED)
     }
     cc.log(Stack._currentStack)
     await TurnsManager.nextTurn();
@@ -1149,6 +1156,12 @@ export default class Player extends cc.Component {
     }
   }
 
+  skipButtonClicked(event: cc.Event, askingPlayerId: number) {
+    cc.log(event)
+    cc.log(askingPlayerId)
+    this.respondWithNoAction(askingPlayerId)
+  }
+
   respondWithNoAction(askingPlayerId: number) {
     this.hideAvailableReactions()
     if (this._inGetResponse) {
@@ -1180,12 +1193,6 @@ export default class Player extends cc.Component {
     this._inGetResponse = true
     Stack.hasAnyoneResponded = false;
     this.calculateReactions();
-    if (this._reactionToggle.isChecked) {
-      this._reactionToggle.node.once(cc.Node.EventType.TOUCH_START, () => {
-        this.respondWithNoAction(this._askingPlayerId)
-      })
-    }
-
     // nothing to respond with or switch is off
     if (this.reactCardNode.length == 0 || !this._reactionToggle.isChecked || this._isDead) {
       if (this._askingPlayerId == this.playerId) {
@@ -1204,6 +1211,12 @@ export default class Player extends cc.Component {
         );
       }
     } else {
+      if (this._reactionToggle.isChecked) {
+        ButtonManager.enableButton(ButtonManager.$.skipButton, BUTTON_STATE.ENABLED)
+        this._reactionToggle.node.once(cc.Node.EventType.TOUCH_START, () => {
+          this.respondWithNoAction(this._askingPlayerId)
+        })
+      }
       const blockReactions = this.respondWithNoAction.bind(this)
       // if time is out send a no reaction taken message
       this._responseTimeout = setTimeout(
@@ -1220,6 +1233,7 @@ export default class Player extends cc.Component {
         CardManager.makeCardReactable(card, this.node);
       }
       const activatedCard = await this.waitForCardActivation();
+      ButtonManager.enableButton(ButtonManager.$.skipButton, BUTTON_STATE.DISABLED)
       if (!activatedCard) { return false }
       if (activatedCard != null) {
         clearTimeout(this._responseTimeout);
@@ -1227,7 +1241,6 @@ export default class Player extends cc.Component {
           ServerClient.$.send(Signal.RESPOND_TO, { playerId: this._askingPlayerId, stackEffectResponse: true })
         }
         this._askingPlayerId = -1;
-        ButtonManager.enableButton(ButtonManager.$.skipButton, BUTTON_STATE.DISABLED)
         this.hideAvailableReactions();
 
         if (activatedCard.getComponent(Item) != null) {

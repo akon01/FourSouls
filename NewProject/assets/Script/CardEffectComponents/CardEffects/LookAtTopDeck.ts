@@ -44,7 +44,7 @@ export default class LookAtTopDeck extends Effect {
       let cardsToSee: cc.Node[] = [];
       for (let i = 1; i <= this.numOfCards; i++) {
         if (deck._cards.length > i) {
-          cardsToSee.push(deck._cards[deck._cards.length - i]);
+          cardsToSee.push(deck._cards.getCard(deck._cards.length - i))// []);
           //now only log, do multiple card previews!
         }
       }

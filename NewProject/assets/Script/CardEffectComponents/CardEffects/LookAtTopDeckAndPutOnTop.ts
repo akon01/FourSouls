@@ -61,18 +61,19 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
     const cardsToSee = [];
     for (let i = 0; i < this.numOfCardsToSee; i++) {
       if (deck._cards.length > i) {
-        const card = deck._cards[deck._cards.length - 1 - i]
-        cc.log(card)
+        const card = deck._cards.getCard(deck._cards.length - 1 - i)// []
         cardsToSee.push(card);
       }
     }
-    cc.log(cardsToSee)
+
+    let text = "Order Cards To Put On"
+    this.putOnBottomOfDeck == true ? text = text + ` Bottom` : text = text + ` Top`
 
     const selectedQueue = await CardPreviewManager.selectFromCards(cardsToSee, this.numOfCardsToPut)
 
     if (!this.putOnBottomOfDeck) {
       for (let i = 0; i < selectedQueue.length; i++) {
-        const selectedCard = selectedQueue[i];
+        const selectedCard = selectedQueue[selectedQueue.length - i - 1];
         deck.addToDeckOnTop(selectedCard, true)
       }
       let notSelectedCards: cc.Node[] = [];

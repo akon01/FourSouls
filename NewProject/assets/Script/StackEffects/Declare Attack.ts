@@ -85,9 +85,10 @@ export default class DeclareAttack extends StackEffectConcrete {
         const monsterDeck = CardManager.monsterDeck.getComponent(Deck);
         let monsterCardHolder: MonsterCardHolder;
         let newMonster = this.cardBeingAttacked;
-        if (this.cardBeingAttacked == monsterDeck.topBlankCard) {
+        if (this.cardBeingAttacked == monsterDeck.node) {
             cc.log(`chosen card is top deck ${this.cardBeingAttacked.name}`)
             const chooseCard = new ChooseCard();
+            chooseCard.flavorText = "Choose A Monster To Cover"
             newMonster = monsterDeck.drawCard(true);
             await CardPreviewManager.getPreviews(Array.of(newMonster), true)
             CardPreviewManager.showToOtherPlayers(newMonster);

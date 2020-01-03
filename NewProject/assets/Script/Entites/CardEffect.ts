@@ -168,6 +168,7 @@ export default class CardEffect extends cc.Component {
     effectData: any) {
     let serverEffectStack = null;
     let chosenEffect: Effect
+    cc.log(`test3!`)
     switch (type) {
       case ITEM_TYPE.ACTIVE:
         for (let i = 0; i < this.activeEffects.length; i++) {
@@ -495,6 +496,7 @@ export default class CardEffect extends cc.Component {
 
     await this.doEffectAnimation()
 
+    cc.log(`test!`)
     //interpret data --- not for chainEffect effectData
     let effectData
     if (currentServerEffect.cardEffectData != null) {
@@ -509,6 +511,7 @@ export default class CardEffect extends cc.Component {
     this.cardPlayerId = currentServerEffect.cardPlayerId;
     let newStack;
 
+    cc.log(`test2!`)
     // if (currentServerEffect.effctType == ITEM_TYPE.ACTIVE) {
     newStack = await this.doEffectByNumAndType(
       currentServerEffect.cardEffectNum,

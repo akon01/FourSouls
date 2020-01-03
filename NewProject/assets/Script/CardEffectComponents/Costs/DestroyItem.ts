@@ -20,6 +20,7 @@ export default class DestroyItemCost extends Cost {
         let cardComp = thisCard.getComponent(Card)
         let player = PlayerManager.getPlayerByCard(thisCard)
         let chooseCard = new ChooseCard();
+        chooseCard.flavorText = "Choose Item To Destroy"
         chooseCard.chooseType = CHOOSE_CARD_TYPE.MY_ITEMS
         let chosenItem = await chooseCard.collectData({ cardPlayerId: player.playerId })
         await player.destroyItem(chosenItem.effectTargetCard, true)

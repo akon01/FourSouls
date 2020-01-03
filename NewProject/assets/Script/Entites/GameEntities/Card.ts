@@ -168,7 +168,12 @@ export default class Card extends cc.Component {
 
   update(dt) {
     if (this._effectCounterLable != null) {
-      this._effectCounterLable.string = this._counters.toString();
+      if (this._counters > 0) {
+        this._effectCounterLable.node.active = true
+        this._effectCounterLable.string = this._counters.toString();
+      } else {
+        this._effectCounterLable.node.active = false
+      }
     }
   }
 

@@ -14,6 +14,7 @@ import DataCollector from "./DataCollector";
 import Stack from "../../Entites/Stack";
 import ActivateItem from "../../StackEffects/Activate Item";
 import Monster from "../../Entites/CardTypes/Monster";
+import CardPreviewManager from "../../Managers/CardPreviewManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -46,6 +47,9 @@ export default class ChooseCard extends DataCollector {
     }
   })
   chooseTypes: CHOOSE_CARD_TYPE[] = []
+
+  @property
+  flavorText: string = ''
 
   /**
    *  @throws when there are no cards to choose from in the choose type
@@ -270,17 +274,18 @@ export default class ChooseCard extends DataCollector {
     }
 
     cc.log(cards)
-
+    // const id = this.node.uuid
     cards.forEach(card => {
       CardManager.disableCardActions(card);
       CardManager.makeRequiredForDataCollector(this, card);
     })
-
+    CardPreviewManager.setFalvorText(this.flavorText)
     // for (let i = 0; i < cards.size; i++) {
     //   const card = cards[i];
 
     // }
     const cardPlayed = await this.waitForCardToBeChosen();
+    CardPreviewManager.setFalvorText("")
     //   let cardServerEffect = await CardManager.getCardEffect(cardPlayed,this.playerId)
     cards.forEach(async card => {
       await CardManager.unRequiredForDataCollector(card);

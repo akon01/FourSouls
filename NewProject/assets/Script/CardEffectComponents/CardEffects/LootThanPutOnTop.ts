@@ -33,6 +33,7 @@ export default class LootThenPutOnTop extends Effect {
         await player.drawCard(CardManager.lootDeck, true);
         let cardChoose = new ChooseCard();
         cardChoose.chooseType = CHOOSE_CARD_TYPE.MY_HAND;
+        cardChoose.flavorText = "Choose Loot To Put On Top"
         let chosenData = await cardChoose.collectData({ cardPlayerId: player.playerId })
         // let chosenCard = CardManager.getCardById(chosenData.cardChosenId, true)
         let chosenCard = chosenData.effectTargetCard;

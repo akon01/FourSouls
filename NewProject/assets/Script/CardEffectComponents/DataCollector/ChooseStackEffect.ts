@@ -5,10 +5,8 @@ import PlayerManager from "../../Managers/PlayerManager";
 import StackEffectVisManager from "../../Managers/StackEffectVisManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import StackEffectPreview from "../../StackEffects/StackEffectVisualRepresentation/StackEffectPreview";
-import { STACK_EFFECT_TYPE, GAME_EVENTS } from "./../../Constants";
+import { GAME_EVENTS, STACK_EFFECT_TYPE } from "./../../Constants";
 import DataCollector from "./DataCollector";
-
-
 
 const { ccclass, property } = cc._decorator;
 
@@ -35,43 +33,38 @@ export default class ChooseStackEffect extends DataCollector {
     cardPlayerId;
   }): Promise<EffectTarget> {
     cc.log(`stack choose stack effect`)
-    let player = PlayerManager.getPlayerById(data.cardPlayerId)
+    const player = PlayerManager.getPlayerById(data.cardPlayerId)
     this.playerId = data.cardPlayerId;
-    let stackEffectsToChooseFrom = []
+    const stackEffectsToChooseFrom = []
     for (let i = 0; i < this.chooseTypes.length; i++) {
       const chooseType = this.chooseTypes[i];
       stackEffectsToChooseFrom.push(...this.getStackEffectsToChoose(chooseType, player));
     }
     if (stackEffectsToChooseFrom.length == 0) {
-      throw new Error('No Stack Effects To Choose From!')
+      throw new Error("No Stack Effects To Choose From!")
     }
 
     cc.log(`b4 require choosing an effect`)
-    let chosenStackEffect = await this.requireChoosingAnEffect(stackEffectsToChooseFrom);
+    const chosenStackEffect = await this.requireChoosingAnEffect(stackEffectsToChooseFrom);
     cc.log(`after require choosing an effect`)
 
-    let target = new EffectTarget(chosenStackEffect.getComponent(StackEffectPreview))
+    const target = new EffectTarget(chosenStackEffect.getComponent(StackEffectPreview))
     cc.log(target)
     // cc.log(`chosen ${target.effectTargetCard.name}`)
 
     return target;
 
-
   }
 
-
-
   getStackEffectsToChoose(chooseType: STACK_EFFECT_TYPE, mePlayer?: Player, player?: Player) {
-    let stackEffectsToReturn: StackEffectInterface[] = [];
+    const stackEffectsToReturn: StackEffectInterface[] = [];
     let players
-
 
     return Stack._currentStack.filter(effect => {
       if (effect.stackEffectType == chooseType) {
         return true
       }
     })
-
 
   }
 
@@ -90,14 +83,14 @@ export default class ChooseStackEffect extends DataCollector {
 
     stackEffectsPreviews = stackEffectsToChooseFrom.map(stackEffect => StackEffectVisManager.$.getPreviewByStackId(stackEffect.entityId))
     stackEffectsPreviews = stackEffectsPreviews.filter(preview => {
-      if (preview != undefined) return true
+      if (preview != undefined) { return true }
     })
     for (const stackEffectPreview of stackEffectsPreviews) {
       StackEffectVisManager.$.makeRequiredForDataCollector(stackEffectPreview, this)
     }
     StackEffectVisManager.$.showPreviews()
     cc.log(`wait for effect to be chosen `)
-    let stackEffectChosen = await this.waitForEffectToBeChosen()
+    const stackEffectChosen = await this.waitForEffectToBeChosen()
     cc.log(`effect chosen is ${stackEffectChosen}`)
     for (const stackEffectPreview of stackEffectsPreviews) {
       StackEffectVisManager.$.makeNotRequiredForDataCollector(stackEffectPreview)

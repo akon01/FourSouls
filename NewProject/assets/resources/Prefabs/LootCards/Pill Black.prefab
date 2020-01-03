@@ -343,6 +343,7 @@
     "multiType": false,
     "chooseType": 1,
     "chooseTypes": [],
+    "flavorText": "Choose A Player To Hit",
     "_id": ""
   },
   {
@@ -537,6 +538,7 @@
     "multiType": false,
     "chooseType": 4,
     "chooseTypes": [],
+    "flavorText": "Choose A Monster To Hit",
     "_id": ""
   },
   {
@@ -1107,10 +1109,15 @@
     },
     "_enabled": true,
     "cardName": "Pill Black",
+    "doNotMake": false,
+    "makeMultiCards": false,
+    "numOfCopies": 2,
+    "copiesSprites": [],
     "_cardId": 0,
     "_isInHand": false,
     "_isOnDesk": false,
     "_originalParent": null,
+    "_originalWidth": null,
     "topDeckof": null,
     "souls": 0,
     "type": 1,
@@ -1129,6 +1136,7 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
+    "availableParticles": [],
     "_id": ""
   },
   {
@@ -1139,6 +1147,7 @@
       "__id__": 1
     },
     "_enabled": true,
+    "hasDestroySelfEffect": false,
     "conditions": [],
     "activeEffects": [
       {

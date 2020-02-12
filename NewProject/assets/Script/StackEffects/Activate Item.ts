@@ -23,6 +23,7 @@ import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { ActivateItemVis } from "./StackEffectVisualRepresentation/Activate Item Vis";
 import { IMultiEffectRollAndCollect } from "../CardEffectComponents/MultiEffectChooser/IMultiEffectRollAndCollect";
+import StackEffectVisManager from "../Managers/StackEffectVisManager";
 
 export default class ActivateItem extends StackEffectConcrete {
     visualRepesentation: ActivateItemVis;
@@ -84,7 +85,6 @@ export default class ActivateItem extends StackEffectConcrete {
             if (cardEffect.multiEffectCollector instanceof MultiEffectChoose) {
                 const effectChosen = await cardEffect.multiEffectCollector.collectData({ cardPlayed: this.itemToActivate, cardPlayerId: this.itemPlayer.playerId })
                 this.effectToDo = effectChosen;
-
             }
         } else {
             if (cardEffect.activeEffects[0]) {
@@ -95,17 +95,20 @@ export default class ActivateItem extends StackEffectConcrete {
         }
         //if the effect is chosen already and the player needs to choose targets, let him now.
         if (this.effectToDo != null) {
+            const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
+            if (prev) {
+                prev.addSelectedEffectHighlight(this.effectToDo.node)
+            }
             const collectedData = await cardEffect.collectEffectData(this.effectToDo, { cardId: this.itemToActivate.getComponent(Card)._cardId, cardPlayerId: this.itemPlayer.playerId })
             cardEffect.effectData = collectedData;
             this.hasDataBeenCollectedYet = true;
-        }
-        if (this.effectToDo) {
             const effectIndexType = cardEffect.getEffectIndexAndType(this.effectToDo)
             if (this.itemToActivate.getComponent(Item) != null && effectIndexType.type == ITEM_TYPE.ACTIVE) {
                 this.itemToActivate.getComponent(Item).useItem(true)
             }
-        } else {
-            if (this.itemToActivate.getComponent(Item) != null) {
+        }
+        else {
+            if (this.itemToActivate.getComponent(Item) != null && this.itemToActivate.getComponent(Item).type == ITEM_TYPE.ACTIVE) {
                 this.itemToActivate.getComponent(Item).useItem(true)
             }
         }
@@ -125,6 +128,9 @@ export default class ActivateItem extends StackEffectConcrete {
 
                 let lockingStackEffect: StackEffectInterface
                 if (cardEffect.multiEffectCollector instanceof MultiEffectRoll) {
+                    if (cardEffect.multiEffectCollector.cost != null) {
+                        await cardEffect.multiEffectCollector.cost.takeCost()
+                    }
                     lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
                 }
                 if (cardEffect.multiEffectCollector instanceof IMultiEffectRollAndCollect) {
@@ -156,6 +162,15 @@ export default class ActivateItem extends StackEffectConcrete {
             selectedEffect = this.effectToDo;
         }
         let newStack
+        const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
+        if (prev) {
+            cc.log(`add selected effect hightlight`)
+            prev.addSelectedEffectHighlight(selectedEffect.node)
+        } else {
+            cc.error(`no prev found`)
+            cc.log(StackEffectVisManager.$.currentPreviews)
+            cc.log(this.entityId)
+        }
         try {
             newStack = await this.doCardEffect(selectedEffect, this.hasDataBeenCollectedYet);
         } catch (error) {

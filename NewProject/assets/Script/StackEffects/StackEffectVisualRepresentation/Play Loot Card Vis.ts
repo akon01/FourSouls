@@ -1,5 +1,5 @@
 import { StackEffectVisualRepresentation } from "./Stack Vis Interface";
-import { STACK_EFFECT_TYPE } from "../../Constants";
+import { STACK_EFFECT_TYPE, STACK_EFFECT_VIS_TYPE } from "../../Constants";
 import Stack from "../../Entites/Stack";
 
 export class PlayLootCardVis implements StackEffectVisualRepresentation {
@@ -8,6 +8,7 @@ export class PlayLootCardVis implements StackEffectVisualRepresentation {
     flavorText: string;
     baseSprite: cc.SpriteFrame = null;
     hasBeenUpdated: boolean = false;
+    visType: STACK_EFFECT_VIS_TYPE = STACK_EFFECT_VIS_TYPE.BASIC
 
 
 

@@ -50,7 +50,7 @@ export default class MonsterEndDeath extends StackEffectConcrete {
 
 
         this.monsterWhoDied = monsterWhoDied.getComponent(Monster)
-        this.visualRepesentation = new MonsterDeathVis(this.monsterWhoDied.name)
+        this.visualRepesentation = new MonsterDeathVis(this.monsterWhoDied)
         this.visualRepesentation.stackEffectType = this.stackEffectType;
         this.lable = `${monsterWhoDied.name} death`
 

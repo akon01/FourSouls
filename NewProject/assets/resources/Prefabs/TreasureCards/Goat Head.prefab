@@ -63,7 +63,7 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": -178,
+      "x": 0,
       "y": 0,
       "z": 0
     },
@@ -123,8 +123,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
+      "width": 170,
+      "height": 80
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -133,8 +133,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 178,
-      "y": 0,
+      "x": 0,
+      "y": -80,
       "z": 0
     },
     "_scale": {
@@ -226,6 +226,7 @@
     "isItems": false,
     "isLootCards": true,
     "isRandom": false,
+    "flavorText": "Choose Cards To Redraw",
     "isMultiCardChoice": true,
     "numberOfCardsToChoose": 0,
     "dataCollectorToRun": {
@@ -432,6 +433,7 @@
     "_effectCard": null,
     "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
+    "optionalFlavorText": "",
     "_id": ""
   },
   {
@@ -789,6 +791,7 @@
     },
     "_enabled": true,
     "cardName": "Goat Head",
+    "doNotMake": false,
     "makeMultiCards": false,
     "numOfCopies": 2,
     "copiesSprites": [],

@@ -3,7 +3,9 @@ import TurnsManager from "../../Managers/TurnsManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import Effect from "./Effect";
 import Stack from "../../Entites/Stack";
-
+import Player from "../../Entites/GameEntities/Player";
+import { TARGETTYPE } from "../../Constants";
+import PlayerManager from "../../Managers/PlayerManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -14,25 +16,25 @@ export default class AddPlayLootOpportunity extends Effect {
   @property(Number)
   numOfTimes: number = 0;
 
-
   /**
    *
    * @param data {target:PlayerId}
    */
   async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
 
+    const playerCard = data.getTarget(TARGETTYPE.PLAYER) as cc.Node
+    if (!playerCard) {
+      throw new Error(`no Player to all loot plays to`)
+    }
+    const player = PlayerManager.getPlayerByCard(playerCard)
+    player.lootCardPlays += this.numOfTimes;
+    if (TurnsManager.isCurrentPlayer(player.node)) {
+      TurnsManager.currentTurn.lootCardPlays = TurnsManager.currentTurn.lootCardPlays + this.numOfTimes
+    }
 
-    // let targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER)
-    // if (targetPlayerCard == null) {
-    //   cc.log(`target player is null`)
-    //    } else {
-    //  let player: Player = PlayerManager.getPlayerByCard(targetPlayerCard as cc.Node)
-    cc.log(`current plays" ${TurnsManager.currentTurn.lootCardPlays}`)
-    TurnsManager.currentTurn.lootCardPlays = TurnsManager.currentTurn.lootCardPlays + this.numOfTimes
-    cc.log(`after plays" ${TurnsManager.currentTurn.lootCardPlays}`)
     //  }
 
-    if (data instanceof PassiveEffectData) return data
+    if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack
   }
 

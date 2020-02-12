@@ -36,6 +36,10 @@ import PlayerManager from "./PlayerManager";
 import StackEffectVisManager from "./StackEffectVisManager";
 import TurnsManager from "./TurnsManager";
 import { CardSet } from "../Entites/Card Set";
+import DecisionMarker from "../Entites/Decision Marker";
+import StackEffectConcrete from "../StackEffects/StackEffectConcrete";
+import AttackRoll from "../StackEffects/Attack Roll";
+import RollDiceStackEffect from "../StackEffects/Roll DIce";
 
 const { ccclass } = cc._decorator;
 
@@ -106,7 +110,9 @@ export default class ActionManager extends cc.Component {
         ) {
           for (let i = 0; i < Store.storeCards.length; i++) {
             const storeCard = Store.storeCards[i];
-            if (player.getComponent(Player).coins >= Store.storeCardsCost) {
+            cc.log(Store.storeCardsCost)
+            if (player.getComponent(Player).coins >= player.getComponent(Player).getStoreCost()) {
+              cc.log(`make ${storeCard.name} buyable`)
               CardManager.makeItemBuyable(storeCard, currentPlayerComp);
             }
           }
@@ -116,19 +122,18 @@ export default class ActionManager extends cc.Component {
           if (player.getComponent(Player).coins >= Store.topCardCost) {
             CardManager.makeItemBuyable(treasureDeck.node, currentPlayerComp);
           }
-          // }
-          else {
-            for (let i = 0; i < Store.storeCards.length; i++) {
-              const storeCard = Store.storeCards[i];
-              CardManager.disableCardActions(storeCard);
-              CardManager.makeCardPreviewable(storeCard);
-            }
-            // if (treasureDeck.topBlankCard != null) {
-            //   const treasureDeckTopCard = treasureDeck.topBlankCard;
-            //   CardManager.disableCardActions(treasureDeckTopCard);
-            // }
+        } else {
+          for (let i = 0; i < Store.storeCards.length; i++) {
+            const storeCard = Store.storeCards[i];
+            CardManager.disableCardActions(storeCard);
+            CardManager.makeCardPreviewable(storeCard);
           }
+          // if (treasureDeck.topBlankCard != null) {
+          //   const treasureDeckTopCard = treasureDeck.topBlankCard;
+          //   CardManager.disableCardActions(treasureDeckTopCard);
+          // }
         }
+
         // make monster cards attackable
         if (TurnsManager.currentTurn.attackPlays > 0) {
           for (let i = 0; i < MonsterField.activeMonsters.length; i++) {
@@ -241,6 +246,7 @@ export default class ActionManager extends cc.Component {
 
     // update player reactions:
     player.getComponent(Player).calculateReactions();
+    player.getComponent(Player).dice.getComponent(Dice).disableRoll();
 
     for (let i = 0; i < Store.storeCards.length; i++) {
       const storeCard = Store.storeCards[i];
@@ -377,6 +383,7 @@ export default class ActionManager extends cc.Component {
     let monsterHolder: MonsterCardHolder
     let monster: Monster
     let place: cc.Node;
+    let stackEffect: StackEffectConcrete
     let converter = new ServerStackEffectConverter();
     switch (signal) {
       case Signal.END_GAME:
@@ -646,7 +653,7 @@ export default class ActionManager extends cc.Component {
         break;
       case Signal.PLAYER_HEAL:
         player = PlayerManager.getPlayerById(data.playerId)
-        await player.heal(data.hpToHeal, false)
+        await player.heal(data.hpToHeal, data.healDown)
         break;
       case Signal.START_TURN:
         await TurnsManager.currentTurn.startTurn()
@@ -711,6 +718,12 @@ export default class ActionManager extends cc.Component {
           ServerClient.$.send(Signal.FINISH_DO_STACK_EFFECT, { playerId: data.originPlayerId, newStack: Stack._currentStack.map(effect => effect.convertToServerStackEffect()) })
         }
         break;
+      case Signal.FIZZLE_STACK_EFFECT:
+        stackEffect = Stack._currentStack.find(stackEffect => stackEffect.entityId == data.entityId)
+        if (stackEffect) {
+          await Stack.fizzleStackEffect(stackEffect, false)
+        }
+        break;
       case Signal.TURN_PLAYER_DO_STACK_EFFECT:
         await ActionManager.updateActions()
         break;
@@ -729,6 +742,19 @@ export default class ActionManager extends cc.Component {
         break;
       case Signal.UPDATE_STACK_LABLE:
         StackLable.updateText(data.stackText)
+        break;
+      case Signal.STACK_EMPTIED:
+        await Stack.$.onStackEmptied()
+        break;
+      case Signal.PUT_ON_STACK:
+        stackEffect = converter.convertToStackEffect(data.stackEffect)
+        player = PlayerManager.getPlayerById(data.originPlayerId)
+        await Stack.putOnStackFromServer(stackEffect, player)
+        // await Stack.$.onStackEmptied()
+        break;
+      case Signal.END_PUT_ON_STACK:
+        whevent.emit(GAME_EVENTS.PUT_ON_STACK_END)
+        // await Stack.$.onStackEmptied()
         break;
       case Signal.ACTIVATE_PASSIVE:
         const cardActivator = CardManager.getCardById(data.cardActivator);
@@ -750,7 +776,7 @@ export default class ActionManager extends cc.Component {
         break;
       case Signal.REMOVE_FROM_STACK:
         converter = new ServerStackEffectConverter();
-        let stackEffect = converter.convertToStackEffect(data.stackEffect)
+        stackEffect = converter.convertToStackEffect(data.stackEffect)
         await Stack.removeAfterResolve(stackEffect, false)
         break;
       case Signal.ADD_TO_STACK:
@@ -760,10 +786,18 @@ export default class ActionManager extends cc.Component {
         break;
       case Signal.UPDATE_STACK_VIS:
         const stackEffectToUpdate = Stack._currentStack.find(effect => effect.entityId == data.stackId)
-        stackEffectToUpdate.visualRepesentation.flavorText = data.stackVis.flavorText;
+        //  stackEffectToUpdate.visualRepesentation.flavorText = data.stackVis.flavorText;
         const stackPreview = StackEffectVisManager.$.getPreviewByStackId(stackEffectToUpdate.entityId)
         stackPreview.stackEffect = stackEffectToUpdate
-        stackPreview.updateInfo(false)
+        stackPreview.updateInfo(data.text, false)
+        break
+      case Signal.ADD_SE_VIS_PREV:
+        converter = new ServerStackEffectConverter();
+        StackEffectVisManager.$.addPreview(converter.convertToStackEffect(data.stackEffect), false)
+        break
+      case Signal.REMOVE_SE_VIS_PREV:
+        converter = new ServerStackEffectConverter();
+        StackEffectVisManager.$.removePreview(converter.convertToStackEffect(data.stackEffect), false)
         break
       case Signal.UPDATE_STACK_EFFECT:
         converter = new ServerStackEffectConverter();
@@ -780,10 +814,21 @@ export default class ActionManager extends cc.Component {
         break;
       case Signal.ASSIGN_CHAR_TO_PLAYER:
         player = PlayerManager.getPlayerById(data.playerId)
-        const charCard = CardManager.getCardById(data.charCardId, true)
-        const itemCard = CardManager.getCardById(data.itemCardId, true)
+        let charCard = CardManager.getCardById(data.charCardId, true)
+        let itemCard = CardManager.getCardById(data.itemCardId, true)
         itemCard.getComponent(Item).eternal = true
-        await player.assignChar(charCard, itemCard)
+        await player.setCharacter(charCard, itemCard, false)
+        break
+      case Signal.SET_CHAR:
+        player = PlayerManager.mePlayer.getComponent(Player)
+        charCard = CardManager.getCardById(data.charCardId, true)
+        itemCard = CardManager.getCardById(data.itemCardId, true)
+        itemCard.getComponent(Item).eternal = true
+        await player.setCharacter(charCard, itemCard, true)
+        ServerClient.$.send(Signal.SET_CHAR_END, { playerId: data.originPlayerId })
+        break
+      case Signal.SET_CHAR_END:
+        whevent.emit(GAME_EVENTS.END_SET_CHAR)
         break
       case Signal.NEW_MONSTER_PLACE:
         await MonsterField.addMonsterToNewPlace(false)
@@ -794,6 +839,17 @@ export default class ActionManager extends cc.Component {
         break;
       case Signal.END_BATTLE:
         await BattleManager.endBattle(false)
+        break
+      case Signal.SHOW_DECISION:
+        await DecisionMarker.$.showDecision(CardManager.getCardById(data.startCardId), CardManager.getCardById(data.endCardId), false, data.flipEndCard)
+        break
+      case Signal.SHOW_DICE_ROLL:
+        const diceRoll = Stack._currentStack.find(stack => stack.entityId == data.stackId) as AttackRoll | RollDiceStackEffect
+        diceRoll.visualRepesentation.extraSprite = PlayerManager.getPlayerByCardId(diceRoll.creatorCardId).dice.node.getComponent(cc.Sprite).spriteFrame
+        await DecisionMarker.$.showDiceRoll(diceRoll, false)
+        break
+      case Signal.SHOW_EFFECT_CHOSEN:
+        await DecisionMarker.$.showEffectFromServer(CardManager.getCardById(data.cardId), data.pos, data.size)
         break
       //
 
@@ -877,7 +933,7 @@ export default class ActionManager extends cc.Component {
       ///
 
       case Signal.DECK_ARRAGMENT:
-        let cards = new CardSet()
+        const cards = new CardSet()
         data.arrangement.map(id => cards.push(CardManager.getCardById(id, true)))
         const deckToSet = CardManager.getDeckByType(data.deckType)
         deckToSet.getComponent(Deck).setDeckCards(cards)

@@ -24,13 +24,13 @@ export default class DiscardAndDrawLoot extends Effect {
     data?: ActiveEffectData | PassiveEffectData
   ) {
 
-    let cardChosen = data.getTargets(TARGETTYPE.CARD)
+    const cardChosen = data.getTargets(TARGETTYPE.CARD)
     cc.log(cardChosen)
     if (cardChosen == null) {
       //cc.log(`target card is null`)
     } else {
       if (cardChosen instanceof cc.Node) {
-        let player = PlayerManager.getPlayerByCard(cardChosen)
+        const player = PlayerManager.getPlayerByCard(cardChosen)
         // player.getComponent(Player).playLootCard(cardPlayed, true);
         await player.discardLoot(cardChosen, true);
         await player.drawCard(CardManager.lootDeck, true);
@@ -38,7 +38,7 @@ export default class DiscardAndDrawLoot extends Effect {
         if (cardChosen instanceof Array) {
           for (let i = 0; i < cardChosen.length; i++) {
             const card = cardChosen[i];
-            let player = PlayerManager.getPlayerByCard(card as cc.Node)
+            const player = PlayerManager.getPlayerByCard(card as cc.Node)
             // player.getComponent(Player).playLootCard(cardPlayed, true);
             await player.discardLoot(card as cc.Node, true);
             await player.drawCard(CardManager.lootDeck, true);
@@ -47,8 +47,7 @@ export default class DiscardAndDrawLoot extends Effect {
       }
     }
 
-
-    if (data instanceof PassiveEffectData) return data
+    if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack
   }
 }

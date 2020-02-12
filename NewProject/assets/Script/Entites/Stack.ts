@@ -1,24 +1,21 @@
 
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
-import Effect from "../CardEffectComponents/CardEffects/Effect";
 import { CARD_TYPE, GAME_EVENTS } from "../Constants";
 import ActionLable from "../LableScripts/Action Lable";
 import MainScript from "../MainScript";
 import ActionManager from "../Managers/ActionManager";
-import PassiveManager from "../Managers/PassiveManager";
 import PileManager from "../Managers/PileManager";
 import PlayerManager from "../Managers/PlayerManager";
 import StackEffectVisManager from "../Managers/StackEffectVisManager";
 import TurnsManager from "../Managers/TurnsManager";
 import PlayLootCardStackEffect from "../StackEffects/Play Loot Card";
-import ServerStackEffectInterface from "../StackEffects/ServerSideStackEffects/ServerStackEffectInterface";
+import StackEffectConcrete from "../StackEffects/StackEffectConcrete";
 import StackEffectInterface from "../StackEffects/StackEffectInterface";
 import Card from "./GameEntities/Card";
 import Player from "./GameEntities/Player";
 import { Logger } from "./Logger";
-import CardManager from "../Managers/CardManager";
-import StackEffectConcrete from "../StackEffects/StackEffectConcrete";
+import DecisionMarker from "./Decision Marker";
 
 const { ccclass, property } = cc._decorator;
 
@@ -48,6 +45,8 @@ export default class Stack extends cc.Component {
     }
 
     static checkColor = 0;
+
+    static $: Stack = null
 
     static async startResponseCheck(actionMessageId?: number) {
         if (!MainScript.gameHasStarted) { return false }
@@ -156,13 +155,10 @@ export default class Stack extends cc.Component {
 
                 // await this.removeFromTopOfStack(sendToServer)
 
-
                 /**
                  * Test Use next Stack Effect to Be Resolved To Send A New Signal To The next stackEffectPlayer To Remove and continue the loop,
                  * should keep the needed data at the correct player
                  */
-
-
 
                 await this.removeAfterResolve(stackEffectToRemove, sendToServer)
             } else {
@@ -228,27 +224,41 @@ export default class Stack extends cc.Component {
         return this.hasOtherPlayerRespond
     }
 
+    static async putOnStackFromServer(stackEffect: StackEffectConcrete, playerToSendEnd: Player) {
+        await stackEffect.putOnStack()
+        ServerClient.$.send(Signal.UPDATE_STACK_EFFECT, { stackEffect: stackEffect.convertToServerStackEffect() })
+        ServerClient.$.send(Signal.END_PUT_ON_STACK, { playerId: playerToSendEnd.playerId })
+    }
+
     /**
      * will end after all available StackEffects are resolved.
      * @param stackEffect
      */
-    static async addToStack(stackEffect: StackEffectInterface, sendToServer: boolean) {
+    static async addToStack(stackEffect: StackEffectConcrete, sendToServer: boolean) {
         //cc.error(`add ${stackEffect.constructor.name} ${stackEffect.entityId} to stack`)
         this._currentStack.push(stackEffect)
+        ActionManager.updateActionsForNotTurnPlayer(PlayerManager.mePlayer)
         if (sendToServer) {
             ServerClient.$.send(Signal.ADD_TO_STACK, { stackEffect: stackEffect.convertToServerStackEffect() })
+            StackEffectVisManager.$.addPreview(stackEffect, true)
+            DecisionMarker.$.setStackIcon(StackEffectVisManager.$.stackIcons[0])
+            await DecisionMarker.$.showStackEffect(stackEffect.entityId)
         }
-        StackEffectVisManager.$.addPreview(stackEffect)
 
         if (sendToServer) {
 
             //disable all card actions until the stack ends
 
-
             const amId = ActionLable.$.publishMassage(`Add ${stackEffect.constructor.name} ${stackEffect.entityId} `, 0)
-            await stackEffect.putOnStack()
+            const otherPlayer = PlayerManager.getPlayerByCardId(stackEffect.creatorCardId)
+            if (stackEffect.creatorCardId != PlayerManager.mePlayer.getComponent(Player).character.getComponent(Card)._cardId && otherPlayer != null) {
+                ServerClient.$.send(Signal.PUT_ON_STACK, { stackEffect: stackEffect.convertToServerStackEffect(), playerId: otherPlayer.playerId, originPlayerId: PlayerManager.mePlayer.getComponent(Player).playerId })
+                await this.waitForPutOnStack()
+            } else {
+                await stackEffect.putOnStack()
+                ServerClient.$.send(Signal.UPDATE_STACK_EFFECT, { stackEffect: stackEffect.convertToServerStackEffect() })
+            }
             ActionLable.$.removeMessage(amId, true)
-            ServerClient.$.send(Signal.UPDATE_STACK_EFFECT, { stackEffect: stackEffect.convertToServerStackEffect() })
             // const serverStackEffect: ServerStackEffectInterface = stackEffect.convertToServerStackEffect()
             // ServerClient.$.send(Signal.ADD_TO_STACK, { stackEffect: serverStackEffect })
             // do check for responses.
@@ -279,20 +289,22 @@ export default class Stack extends cc.Component {
         this._currentStackEffectsResolving = this._currentStackEffectsResolving.filter(effect => {
             if (effect != stackEffect.entityId) { return true; }
         })
-        StackEffectVisManager.$.removePreview(stackEffect)
         if (sendToServer) {
+            StackEffectVisManager.$.removePreview(stackEffect, true)
             ActionLable.$.publishMassage(`Fizzle ${stackEffect.constructor.name} ${stackEffect.entityId}`, 3)
             if (stackEffect instanceof PlayLootCardStackEffect) {
+                PileManager.removeFromPile(stackEffect.lootToPlay, true)
                 await PileManager.addCardToPile(CARD_TYPE.LOOT, stackEffect.lootToPlay, true)
             }
+            ServerClient.$.send(Signal.FIZZLE_STACK_EFFECT, { entityId: stackEffect.entityId })
         }
         // throw `implement fizzle stack effect`
     }
 
     static async removeFromTopOfStack(sendToServer: boolean) {
         const lastOfStack = this._currentStack.pop();
-        StackEffectVisManager.$.removePreview(lastOfStack)
         if (sendToServer) {
+            StackEffectVisManager.$.removePreview(lastOfStack, true)
             const amId = ActionLable.$.publishMassage(`Remove ${lastOfStack.constructor.name} ${lastOfStack.entityId}`, 3)
             ServerClient.$.send(Signal.REMOVE_FROM_STACK)
             const amId2 = ActionLable.$.publishMassage(`Response Removing ${lastOfStack.constructor.name} ${lastOfStack.entityId}`, 0, true, amId)
@@ -325,16 +337,22 @@ export default class Stack extends cc.Component {
     static hasAnyoneResponded: boolean = false;
 
     static async removeAfterResolve(stackEffectToRemove: StackEffectInterface, sendToServer: boolean) {
+
+
         // cc.error(`remove ${stackEffectToRemove.constructor.name} ${stackEffectToRemove.entityId} after resolve`)
         //    cc.log(`remove stack effect:\n${stackEffectToRemove.toString()}`)
         //  cc.log(`current stack:\n${Stack._currentStack.map(effect => effect.toString())}`)
-        if (Stack._currentStack.map(effect => effect.entityId).includes(stackEffectToRemove.entityId)) {
+        if (stackEffectToRemove != null && Stack._currentStack.map(effect => effect.entityId).includes(stackEffectToRemove.entityId)) {
             const lastOfStack = Stack._currentStack.find((effect) => effect.entityId == stackEffectToRemove.entityId);
             const index = Stack._currentStack.indexOf(lastOfStack)
             //    cc.log(`index of the stack effect in current stack is ${index}`)
-            Stack._currentStack.splice(index, 1)
+            if (sendToServer) {
+                DecisionMarker.$.setStackIcon(StackEffectVisManager.$.stackIcons[1])
+                await DecisionMarker.$.showStackEffect(stackEffectToRemove.entityId)
+                StackEffectVisManager.$.removePreview(lastOfStack, true)
+            }
             //  cc.log(`current stack after removal:\n${Stack._currentStack.map(effect => effect.toString())}`)
-            StackEffectVisManager.$.removePreview(lastOfStack)
+            Stack._currentStack.splice(index, 1)
             if (sendToServer) {
                 const amId = ActionLable.$.publishMassage(`Remove After Resolve ${lastOfStack.constructor.name} ${lastOfStack.entityId}  `, 3)
                 ServerClient.$.send(Signal.REMOVE_FROM_STACK, { stackEffect: lastOfStack.convertToServerStackEffect() })
@@ -409,12 +427,22 @@ export default class Stack extends cc.Component {
         //     StackEffectVisManager.$.addPreview(stackEffect)
         // }
         // StackEffectVisManager.$.updateAvailablePreviews();
-        StackEffectVisManager.$.setPreviews(this._currentStack)
 
         if (sendToServer) {
+            StackEffectVisManager.$.setPreviews(this._currentStack, true)
             const serverStack = this._currentStack.map(stackEffect => stackEffect.convertToServerStackEffect())
             ServerClient.$.send(Signal.REPLACE_STACK, { currentStack: serverStack })
         }
+    }
+
+
+    static waitForPutOnStack(): Promise<boolean> {
+
+        return new Promise((resolve, reject) => {
+            whevent.onOnce(GAME_EVENTS.PUT_ON_STACK_END, () => {
+                resolve();
+            });
+        })
     }
 
     static waitForPlayerReaction(): Promise<boolean> {
@@ -425,6 +453,7 @@ export default class Stack extends cc.Component {
             });
         })
     }
+
     static waitForStackEmptied(): Promise<boolean> {
         if (this._currentStack.length == 0) { return }
         return new Promise((resolve, reject) => {
@@ -443,14 +472,23 @@ export default class Stack extends cc.Component {
         });
     }
     onLoad() {
+        Stack.$ = this
         whevent.on(GAME_EVENTS.STACK_EMPTIED, async () => {
-            // PassiveManager.afterActivationMap.clear()
-            // PassiveManager.beforeActivationMap.clear()
-            cc.log(`Stack emptied`)
-            if (TurnsManager.currentTurn.getTurnPlayer()._isDead && TurnsManager.currentTurn.getTurnPlayer().me) {
+            cc.log(`on stack Emptied`)
+            await this.onStackEmptied()
+        }, this)
+    }
+
+    async onStackEmptied() {
+        cc.log(`Stack emptied`)
+        if (TurnsManager.currentTurn.getTurnPlayer().me) {
+            if ((TurnsManager.currentTurn.getTurnPlayer()._endTurnFlag || TurnsManager.currentTurn.getTurnPlayer()._isDead) && TurnsManager.currentTurn.getTurnPlayer().me) {
                 await TurnsManager.currentTurn.getTurnPlayer().endTurn(true)
+                //TurnsManager.currentTurn.getTurnPlayer()._endTurnFlag = true
             }
-        })
+        } else {
+            ServerClient.$.send(Signal.STACK_EMPTIED, { playerId: TurnsManager.currentTurn.getTurnPlayer().playerId })
+        }
     }
 
 }

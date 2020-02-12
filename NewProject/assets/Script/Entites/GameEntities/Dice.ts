@@ -4,6 +4,8 @@ import {
   TIME_FOR_DICE_ROLL
 } from "../../Constants";
 import Player from "./Player";
+import DecisionMarker from "../Decision Marker";
+import SoundManager from "../../Managers/SoundManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -52,14 +54,19 @@ export default class Dice extends cc.Component {
     }
     this.rollOver = false;
 
+
     this.doRoll();
     await this.waitForDiceRoll()
+
     switch (this.rollType) {
       case ROLL_TYPE.ATTACK:
         if ((this.currentRolledNumber + player.attackRollBonus) <= 6) {
           this.currentRolledNumber += player.attackRollBonus;
         } else {
           this.currentRolledNumber = 6
+        }
+        if (this.currentRolledNumber + player.attackRollBonus < 1) {
+          this.currentRolledNumber = 1
         }
         break;
       case ROLL_TYPE.FIRST_ATTACK:
@@ -70,6 +77,9 @@ export default class Dice extends cc.Component {
         } else {
           this.currentRolledNumber = 6
         }
+        if (this.currentRolledNumber + player.attackRollBonus + player.firstAttackRollBonus < 1) {
+          this.currentRolledNumber = 1
+        }
         break;
       case ROLL_TYPE.EFFECT:
       case ROLL_TYPE.EFFECT_ROLL:
@@ -79,10 +89,14 @@ export default class Dice extends cc.Component {
         } else {
           this.currentRolledNumber = 6;
         }
+        if (this.currentRolledNumber + player.nonAttackRollBonus < 1) {
+          this.currentRolledNumber = 1
+        }
         break;
       default:
         break;
     }
+    // DecisionMarker.$.showDecision() 
 
     return this.currentRolledNumber;
   }
@@ -115,7 +129,7 @@ export default class Dice extends cc.Component {
   }
 
   doRoll() {
-
+    const clipId = SoundManager.$.playLoopedSound(SoundManager.$.rollDice)
     const timesToRoll = Math.floor(Math.random() * 5) + 4;
     let i = 0;
     const check = () => {
@@ -127,6 +141,7 @@ export default class Dice extends cc.Component {
         }, TIME_FOR_DICE_ROLL * 1000);
       } else {
         whevent.emit(GAME_EVENTS.DICE_ROLL_OVER)
+        SoundManager.$.stopLoopedSound(clipId)
         this.rollOver = true;
       }
     }

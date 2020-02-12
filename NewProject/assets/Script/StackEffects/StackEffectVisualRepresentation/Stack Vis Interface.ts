@@ -1,4 +1,4 @@
-import { STACK_EFFECT_TYPE } from "../../Constants";
+import { STACK_EFFECT_TYPE, STACK_EFFECT_VIS_TYPE } from "../../Constants";
 
 export interface StackEffectVisualRepresentation {
 
@@ -7,5 +7,6 @@ export interface StackEffectVisualRepresentation {
     baseSprite: cc.SpriteFrame
     extraSprite: cc.SpriteFrame
     hasBeenUpdated: boolean
+    visType: STACK_EFFECT_VIS_TYPE
 
 }

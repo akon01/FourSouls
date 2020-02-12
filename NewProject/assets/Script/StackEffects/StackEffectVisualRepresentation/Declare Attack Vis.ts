@@ -1,6 +1,7 @@
-import { STACK_EFFECT_TYPE } from "../../Constants";
+import { STACK_EFFECT_TYPE, STACK_EFFECT_VIS_TYPE } from "../../Constants";
 import StackEffectVisManager from "../../Managers/StackEffectVisManager";
 import { StackEffectVisualRepresentation } from "./Stack Vis Interface";
+import Player from "../../Entites/GameEntities/Player";
 
 export class DeclareAttackVis implements StackEffectVisualRepresentation {
     extraSprite: cc.SpriteFrame = StackEffectVisManager.$.combatDamageToBe;
@@ -8,9 +9,10 @@ export class DeclareAttackVis implements StackEffectVisualRepresentation {
     flavorText: string;
     baseSprite: cc.SpriteFrame = StackEffectVisManager.$.happeningBaseSprite;
     hasBeenUpdated: boolean = false;
+    visType: STACK_EFFECT_VIS_TYPE = STACK_EFFECT_VIS_TYPE.PLAYER_ACTION
 
 
-    constructor(monsterToAttack: cc.SpriteFrame) {
+    constructor(attackingPlayer: Player, monsterBeingAttacked: cc.Node, monsterToAttack: cc.SpriteFrame) {
 
     }
 

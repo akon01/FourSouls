@@ -6,6 +6,7 @@ import PlayerManager from "../../Managers/PlayerManager";
 import Effect from "../CardEffects/Effect";
 import { CHOOSE_CARD_TYPE, GAME_EVENTS } from "./../../Constants";
 import DataCollector from "./DataCollector";
+import DecisionMarker from "../../Entites/Decision Marker";
 
 const { ccclass, property } = cc._decorator;
 
@@ -36,12 +37,9 @@ export default class SelectLootToPlay extends DataCollector {
     const chooseType = this.node.parent.getComponent(Effect).chooseType;
     const cardsToChooseFrom = this.getCardsToChoose(chooseType, player);
     const cardPlayedData = await this.requireChoosingACard(cardsToChooseFrom);
-    cc.log(cardPlayedData)
     const cardPlayed = CardManager.getCardById(cardPlayedData.cardPlayedId, true);
-    cc.log(cardPlayed.name)
-
+    await DecisionMarker.$.showDecision(player.character, cardPlayed, true, true)
     const target = new EffectTarget(cardPlayed)
-    cc.log(target)
     cc.log(`chosen ${target.effectTargetCard.name}`)
     return target;
   }

@@ -5,6 +5,8 @@ import { PassiveMeta } from "../../Managers/PassiveManager";
 import TurnsManager from "../../Managers/TurnsManager";
 import DataCollector from "../DataCollector/DataCollector";
 import Condition from "./Condition";
+import Card from "../../Entites/GameEntities/Card";
+import PlayerManager from "../../Managers/PlayerManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -13,11 +15,35 @@ export default class PlayerRollNumber extends Condition {
 
   event = PASSIVE_EVENTS.PLAYER_ROLL_DICE
 
+  needsDataCollector = false
+
   @property
+  isMultiNumber: boolean = false
+
+  @property({
+    type: [cc.Integer],
+    visible: function (this: PlayerRollNumber) {
+      if (this.isMultiNumber) {
+        return true
+      }
+    }
+  })
+  numbers: number[] = []
+
+  @property({
+    visible: function (this: PlayerRollNumber) {
+      if (!this.isMultiNumber) {
+        return true
+      }
+    }
+  })
   numberRoll: number = 1;
 
   @property
   isOnlyAttackingPlayer: boolean = false;
+
+  @property
+  isOwnerOnly: boolean = false;
 
   // cardChosenId: number;
   // playerId: number;
@@ -29,18 +55,33 @@ export default class PlayerRollNumber extends Condition {
   async testCondition(meta: PassiveMeta) {
 
     const player: Player = meta.methodScope.getComponent(Player);
-    const thisCard = this.node.parent.parent;
-    cc.log(meta)
-    const c = meta.args[0]
+    const thisCard = Card.getCardNodeByChild(this.node)
+    const numberRolled = meta.args[0]
     let answer = false;
-    cc.log(`player ${player.name} rolled ${c}, this numberRoll is ${this.numberRoll}`)
+    cc.log(`player ${player.name} rolled ${numberRolled}, this numberRoll is ${this.numberRoll}`)
     //  let playerName = PlayerManager.getPlayerByCardId(this.conditionData.cardChosenId).name;
     if (
-      player instanceof Player &&
-      this.numberRoll == c
-    ) { answer = true }
+      player instanceof Player
+
+    ) {
+
+      if (this.isMultiNumber) {
+        this.numbers.forEach(number => {
+          if (number == numberRolled) {
+            answer = true
+          }
+        })
+      } else if (this.numberRoll == numberRolled) {
+        answer = true
+      }
+    }
     if (this.isOnlyAttackingPlayer) {
       if (!(BattleManager.currentlyAttackedMonsterNode != null && player == TurnsManager.currentTurn.getTurnPlayer())) {
+        answer = false;
+      }
+    }
+    if (this.isOwnerOnly) {
+      if (PlayerManager.getPlayerByCard(thisCard) != player) {
         answer = false;
       }
     }

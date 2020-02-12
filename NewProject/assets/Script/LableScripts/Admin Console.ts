@@ -16,6 +16,9 @@ import CardManager from "../Managers/CardManager";
 import PlayerManager from "../Managers/PlayerManager";
 import Menu from "./Menu";
 import StackLable from "./StackLable";
+import Character from "../Entites/CardTypes/Character";
+import Signal from "../../Misc/Signal";
+import ServerClient from "../../ServerClient/ServerClient";
 
 const { ccclass, property } = cc._decorator;
 
@@ -158,6 +161,12 @@ export default class AdminConsole extends cc.Component {
                     case "test":
                         this.testForEmptyEffects()
                         break;
+                    case "char":
+                        const charAndItem = CardManager.characterDeck.find(item => item.char.getComponent(Card).cardName.toLowerCase() == flag.toLowerCase())
+                        PlayerManager.mePlayer.getComponent(Player).character.setParent(null)
+                        PlayerManager.mePlayer.getComponent(Player).characterItem.setParent(null)
+                        await PlayerManager.mePlayer.getComponent(Player).setCharacter(charAndItem.char, charAndItem.item)
+                        ServerClient.$.send(Signal.ASSIGN_CHAR_TO_PLAYER, { playerId: PlayerManager.mePlayer.getComponent(Player).playerId, charCardId: charAndItem.char.getComponent(Card)._cardId, itemCardId: charAndItem.item.getComponent(Card)._cardId });
                     case "test2":
                         mePlayer.updateProperties({ _isDead: true })
                         break;
@@ -172,7 +181,6 @@ export default class AdminConsole extends cc.Component {
                         break
                     case "error":
                         const e = new Error('test message')
-
                         Logger.error(e)
                     //  Logger.error(JSON.stringify(e.stack))
                     //  Logger.error({ test: true })
@@ -183,6 +191,7 @@ export default class AdminConsole extends cc.Component {
             default:
                 this.consoleEditBox.placeholder = "Unknown command, try help"
                 break;
+                ActionManager.updateActions()
         }
     }
 
@@ -295,6 +304,8 @@ export default class AdminConsole extends cc.Component {
                     char: cc.Node;
                     item: cc.Node;
                 } = CardManager.characterDeck.find(char => char.char.name == commandText)
+                mePlayer.character.setParent(null)
+                mePlayer.characterItem.setParent(null)
                 await PlayerManager.assignCharacterToPlayer(fullCharCard, mePlayer, true)
                 break
             case "run":

@@ -12,6 +12,7 @@ import ServerCombatDamage from "./ServerSideStackEffects/Server Combat Damage";
 import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { CombatDamageVis } from "./StackEffectVisualRepresentation/Combat Damage Vis";
+import StackEffectVisManager from "../Managers/StackEffectVisManager";
 
 export default class CombatDamage extends StackEffectConcrete {
     visualRepesentation: CombatDamageVis;
@@ -90,7 +91,7 @@ export default class CombatDamage extends StackEffectConcrete {
             this.isPlayerDoDamage = false;
             this.isMonsterTakeDamage = true;
         }
-        this.visualRepesentation = new CombatDamageVis(0, `${this.entityToDoDamageCard.name} is going to hurt ${this.entityToTakeDamageCard.name} `);
+        this.visualRepesentation = new CombatDamageVis(this.entityToDoDamageCard, this.entityToTakeDamageCard, 0, `${this.entityToDoDamageCard.name} is going to hurt ${this.entityToTakeDamageCard.name} `);
         this.lable = `${this.entityToDoDamageCard.name} combat damage to ${this.entityToTakeDamageCard.name}`;
     }
 
@@ -114,9 +115,9 @@ export default class CombatDamage extends StackEffectConcrete {
             passiveMeta.args = afterPassiveMeta.args;
             damage = afterPassiveMeta.args[0];
             this.numberRolled = afterPassiveMeta.args[1];
-
             this.visualRepesentation.changeDamage(damage);
-            this.visualRepesentation.flavorText = `${this.entityToDoDamageCard.name} will deal ${damage} combat damage to ${this.entityToTakeDamageCard.name}`;
+            StackEffectVisManager.$.updatePreviewByStackId(this.entityId, `${this.entityToDoDamageCard.name} will deal ${damage} combat damage to ${this.entityToTakeDamageCard.name}`)
+            //this.visualRepesentation.flavorText = `${this.entityToDoDamageCard.name} will deal ${damage} combat damage to ${this.entityToTakeDamageCard.name}`;
             this.lable = `${this.entityToDoDamageCard.name} ${damage} combat damage to ${this.entityToTakeDamageCard.name}`;
             const isPlayerTookDamage = await player.takeDamage(damage, true, this.entityToDoDamageCard);
             if (isPlayerTookDamage) {
@@ -137,7 +138,8 @@ export default class CombatDamage extends StackEffectConcrete {
             damage = afterPassiveMeta.args[0];
 
             const monster = this.entityToTakeDamageCard.getComponent(Monster);
-            this.visualRepesentation.flavorText = `${this.entityToDoDamageCard.name} will deal ${damage} combat damage to ${this.entityToTakeDamageCard.name}`;
+            StackEffectVisManager.$.updatePreviewByStackId(this.entityId, `${this.entityToDoDamageCard.name} will deal ${damage} combat damage to ${this.entityToTakeDamageCard.name}`)
+            //this.visualRepesentation.flavorText = `${this.entityToDoDamageCard.name} will deal ${damage} combat damage to ${this.entityToTakeDamageCard.name}`;
             await monster.takeDamaged(damage, true, this.entityToDoDamageCard);
             // add death check!
 

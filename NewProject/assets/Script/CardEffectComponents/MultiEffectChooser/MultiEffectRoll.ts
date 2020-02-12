@@ -9,6 +9,8 @@ import RollDiceStackEffect from "../../StackEffects/Roll DIce";
 import Effect from "../CardEffects/Effect";
 import DataCollector from "../DataCollector/DataCollector";
 import RollDice from "../RollDice";
+import Cost from "../Costs/Cost";
+import DecisionMarker from "../../Entites/Decision Marker";
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,11 +18,15 @@ const { ccclass, property } = cc._decorator;
 export default class MultiEffectRoll extends DataCollector {
   collectorName = "MultiEffectRoll";
 
+  @property(Cost)
+  cost: Cost = null
+
   @property({ type: cc.Enum(ITEM_TYPE) })
   effectsType: ITEM_TYPE = ITEM_TYPE.ACTIVE;
 
   @property({ type: [EffectsAndNumbers], multiline: true })
   effectsAndNumbers: EffectsAndNumbers[] = [];
+
 
   /**
    *
@@ -52,6 +58,7 @@ export default class MultiEffectRoll extends DataCollector {
       }
 
     }
+    await DecisionMarker.$.showEffectChosen(Card.getCardNodeByChild(this.node), chosenEffect.node)
     cc.log(chosenEffect.name)
     return chosenEffect;
   }

@@ -114,8 +114,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 70,
-      "height": 35
+      "width": 150,
+      "height": 25
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -125,7 +125,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -29.4,
+      "y": -70,
       "z": 0
     },
     "_scale": {
@@ -607,6 +607,7 @@
     },
     "_enabled": true,
     "cardName": "4 Cents",
+    "doNotMake": false,
     "makeMultiCards": true,
     "numOfCopies": 13,
     "copiesSprites": [],
@@ -614,6 +615,7 @@
     "_isInHand": false,
     "_isOnDesk": false,
     "_originalParent": null,
+    "_originalWidth": null,
     "topDeckof": null,
     "souls": 0,
     "type": 1,
@@ -632,6 +634,7 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
+    "availableParticles": [],
     "_id": ""
   },
   {
@@ -642,6 +645,7 @@
       "__id__": 1
     },
     "_enabled": true,
+    "hasDestroySelfEffect": false,
     "conditions": [],
     "activeEffects": [
       {

@@ -24,28 +24,27 @@ export default class LootThenPutOnTop extends Effect {
     stack: StackEffectInterface[],
     data?: ActiveEffectData | PassiveEffectData
   ) {
-    let playerCard = data.getTarget(TARGETTYPE.PLAYER)
+    const playerCard = data.getTarget(TARGETTYPE.PLAYER)
     if (playerCard instanceof cc.Node) {
-      let player = PlayerManager.getPlayerByCard(playerCard)
+      const player = PlayerManager.getPlayerByCard(playerCard)
       if (player == null) {
         cc.log(`no player to loot`)
       } else {
         await player.drawCard(CardManager.lootDeck, true);
-        let cardChoose = new ChooseCard();
+        const cardChoose = new ChooseCard();
         cardChoose.chooseType = CHOOSE_CARD_TYPE.MY_HAND;
         cardChoose.flavorText = "Choose Loot To Put On Top"
-        let chosenData = await cardChoose.collectData({ cardPlayerId: player.playerId })
+        const chosenData = await cardChoose.collectData({ cardPlayerId: player.playerId })
         // let chosenCard = CardManager.getCardById(chosenData.cardChosenId, true)
-        let chosenCard = chosenData.effectTargetCard;
-        let lootDeck = CardManager.lootDeck.getComponent(Deck);
+        const chosenCard = chosenData.effectTargetCard;
+        const lootDeck = CardManager.lootDeck.getComponent(Deck);
         await CardManager.moveCardTo(chosenCard, lootDeck.node, true, false);
         await player.loseLoot(chosenCard, true)
         await lootDeck.addToDeckOnTop(chosenCard, true)
       }
     }
 
-
-    if (data instanceof PassiveEffectData) return data
+    if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack
   }
 }

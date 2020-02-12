@@ -18,6 +18,7 @@ import ServerPlayLootCard from "./ServerSideStackEffects/Server Play Loot Card "
 import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { PlayLootCardVis } from "./StackEffectVisualRepresentation/Play Loot Card Vis";
+import StackEffectVisManager from "../Managers/StackEffectVisManager";
 
 export default class PlayLootCardStackEffect extends StackEffectConcrete {
     visualRepesentation: PlayLootCardVis;
@@ -84,6 +85,7 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
             if (cardEffect.multiEffectCollector instanceof MultiEffectChoose) {
                 const effectChosen = await cardEffect.multiEffectCollector.collectData({ cardPlayed: this.lootToPlay, cardPlayerId: this.lootPlayer.playerId })
                 this.effectToDo = effectChosen;
+
                 //this.lable = `Player ${this.lootPlayer.playerId} play ${this.lootToPlay.name}: ${this.effectToDo.effectName}`
             }
         } else {
@@ -92,6 +94,10 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
         }
         //if the effect is chosen already and the player needs to choose targets, let him now.
         if (this.effectToDo != null) {
+            const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
+            if (prev) {
+                prev.addSelectedEffectHighlight(this.effectToDo.node)
+            }
             this.lable = `Player ${this.lootPlayer.playerId} play ${this.lootToPlay.name}: ${this.effectToDo.effectName}`
             const collectedData = await cardEffect.collectEffectData(this.effectToDo, { cardId: this.lootToPlay.getComponent(Card)._cardId, cardPlayerId: this.lootPlayer.playerId })
             cardEffect.effectData = collectedData;
@@ -107,13 +113,16 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
         let selectedEffect: Effect = null;
         const cardEffect = this.lootToPlay.getComponent(CardEffect)
         this.lootPlayer._lootCardsPlayedThisTurn.push(this.lootToPlay)
+        cc.log(`this loot card has locking stack effect ${this.hasLockingStackEffect}`)
         if (this.effectToDo == null) {
-            cc.log(this.hasLockingStackEffect)
             //if this effect has locking stack effect (first only "roll:" for a dice roll) and it has not yet resolved
             if (this.hasLockingStackEffect && this.hasLockingStackEffectResolved == false) {
 
                 let lockingStackEffect: StackEffectInterface
                 if (cardEffect.multiEffectCollector instanceof MultiEffectRoll) {
+                    if (cardEffect.multiEffectCollector.cost != null) {
+                        await cardEffect.multiEffectCollector.cost.takeCost()
+                    }
                     lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
                 }
                 if (cardEffect.multiEffectCollector instanceof IMultiEffectRollAndCollect) {
@@ -123,14 +132,6 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
 
                 lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
                 await Stack.addToStack(lockingStackEffect, true)
-
-                // let lockingStackEffect: StackEffectInterface
-                // if (cardEffect.multiEffectCollector instanceof MultiEffectRoll || cardEffect.multiEffectCollector instanceof IMultiEffectRollAndCollect) {
-                //     lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
-                //     this.lockingStackEffect = lockingStackEffect;
-                // }
-                // //TODO add put on stack when the method is complete
-                // await Stack.addToStack(lockingStackEffect, true)
 
                 //if this effect has locking stack effect (first only "roll:" for a dice roll) and it has resolved
             }
@@ -151,6 +152,10 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
         if (!selectedEffect) {
             throw new Error(`no selected effect where should be!`)
         } else {
+            const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
+            if (prev) {
+                prev.addSelectedEffectHighlight(selectedEffect.node)
+            }
             this.lable = `Player ${this.lootPlayer.playerId} play ${this.lootToPlay.name}: ${selectedEffect.effectName}`
             try {
                 newStack = await this.doCardEffect(selectedEffect, this.hasDataBeenCollectedYet);

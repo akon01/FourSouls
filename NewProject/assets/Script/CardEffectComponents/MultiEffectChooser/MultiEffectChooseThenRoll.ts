@@ -6,6 +6,8 @@ import ChooseCard from "../DataCollector/ChooseCard";
 import DataCollector from "../DataCollector/DataCollector";
 import MultiEffectRoll from "./MultiEffectRoll";
 import { IMultiEffectRollAndCollect } from "./IMultiEffectRollAndCollect";
+import DecisionMarker from "../../Entites/Decision Marker";
+import Card from "../../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
@@ -61,6 +63,7 @@ export default class MultiEffectChooseThenRoll extends IMultiEffectRollAndCollec
 
     const chooseData = await chooseCard.collectData({ cardPlayerId: data.cardPlayerId })
     this.cardChosen = chooseData.effectTargetCard
+    await DecisionMarker.$.showDecision(Card.getCardNodeByChild(this.node), this.cardChosen, true)
 
     // let card = data.cardPlayed;
     //  let activatingPlayer = PlayerManager.getPlayerById(data.cardPlayerId).getComponent(Player)

@@ -1,0 +1,82 @@
+Start Log 
+ Player 1 17:51:35 $START_GAME:  
+ Player 1 17:51:35 $MOVE_TO_TABLE:  
+ Player 1 17:51:44 $FINISH_LOAD:  
+
+ {"id":1,"turnPlayerId":2} 
+ Player 1 17:51:44 $DECK_ARRAGMENT:  
+
+ {"deckType":5,"arrangement":[194,219,207,171,178,154,157,212,164,189,177,190,151,146,186,220,218,147,215,224,167,187,176,149,181,155,160,180,222,148,158,217,156,221,168,174,209,191,196,150,175,162,199,183,216,169,204,145,225,210,153,179,200,182,202,161,188,201,152,195,159,214,173,193,203,208,184,166,206,185,165,205,170,198,172,163,223,197,192,213,211]} 
+ Player 1 17:51:51 $EDEN_CHOSEN:  
+
+ {"cardId":207,"playerId":2} 
+ Player 1 17:51:52 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":207}],"result":true,"preventMethod":false,"methodScopeId":288,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+ Player 1 17:51:52 $NEXT_STACK_ID:  
+ Player 1 17:51:52 $UPDATE_STACK_LABLE:  
+
+ {"stackText":"Empty Stack"} 
+ Player 1 17:51:52 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Activate Skeleton Key effect AddAttackOpportunity<AddAttackOpportunity>"} 
+ Player 1 17:51:52 $ADD_TO_STACK:  
+
+ {"stackEffect":{"effectCollectedData":null,"entityId":1,"creatorCardId":288,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":207,"effectToDo":{"effectName":"AddAttackOpportunity","cardEffectNum":0,"cardPlayerId":1,"cardId":207,"effctType":0},"isAfterActivation":true,"index":1,"hasDataBeenCollectedYet":false,"stackEffectType":14}} 
+ Player 1 17:51:52 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Activate Skeleton Key effect AddAttackOpportunity<AddAttackOpportunity>"} 
+ Player 1 17:51:52 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"effectCollectedData":null,"entityId":1,"creatorCardId":288,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":207,"effectToDo":{"effectName":"AddAttackOpportunity","cardEffectNum":0,"cardPlayerId":1,"cardId":207,"effctType":0},"isAfterActivation":true,"index":1,"hasDataBeenCollectedYet":false,"stackEffectType":14}} 
+ Player 1 17:51:52 $MOVE_CARD_END:  
+
+ {"moveIndex":1,"cardId":11,"flipIfFlipped":false,"playerId":2} 
+ Player 1 17:51:53 $MOVE_CARD_END:  
+
+ {"moveIndex":2,"cardId":60,"flipIfFlipped":false,"playerId":2} 
+ Player 1 17:51:53 $MOVE_CARD_END:  
+
+ {"moveIndex":3,"cardId":69,"flipIfFlipped":false,"playerId":2} 
+ Player 1 17:51:54 $MOVE_CARD_END:  
+
+ {"moveIndex":4,"cardId":113,"flipIfFlipped":false,"playerId":2} 
+ Player 1 17:51:54 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":0,"_text":"Add ActivatePassiveEffect 1 "}} 
+ Player 1 17:51:54 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Activate Skeleton Key effect AddAttackOpportunity<AddAttackOpportunity>"} 
+ Player 1 17:51:54 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Activate Skeleton Key effect AddAttackOpportunity<AddAttackOpportunity>"} 
+ Player 1 17:51:54 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"effectCollectedData":{"effectTargets":[288],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":288,"effectCardPlayer":288},"entityId":1,"creatorCardId":288,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":207,"effectToDo":{"effectName":"AddAttackOpportunity","cardEffectNum":0,"cardPlayerId":1,"cardId":207,"effctType":0},"isAfterActivation":true,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14}} 
+ Player 1 17:51:54 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":1,"_text":"Response Adding ActivatePassiveEffect 1"},"childOfId":0} 
+ Player 1 17:51:54 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":2,"_text":"Resolve ActivatePassiveEffect 1 "}} 
+ Player 1 17:51:54 $ACTIVATE_PARTICLE_EFFECT:  
+
+ {"cardId":207,"particleType":6} 
+ Player 1 17:51:54 $MOVE_CARD_END:  
+
+ {"moveIndex":5,"cardId":32,"flipIfFlipped":false,"playerId":2} 
+ Player 1 17:51:55 $MOVE_CARD_END:  
+
+ {"moveIndex":6,"cardId":47,"flipIfFlipped":false,"playerId":2} 
+ Player 1 17:51:56 $DISABLE_PARTICLE_EFFECT:  
+
+ {"cardId":207,"particleType":6} 
+ Player 1 17:51:56 $LOG_ERROR:  
+
+ "error while resolving stack effect 1" 
+//////Error From Player 1////
+ [object Object]
+////// 
+ Player 1 17:51:56 $LOG_ERROR:  
+
+ {"message":"\"Cannot read property 'getComponent' of null\"","stack":"\"TypeError: Cannot read property 'getComponent' of null\\n    at PassiveMeta.convertToServerPassiveMeta (http://localhost:7456/preview-scripts/assets/Script/Managers/PassiveManager.js:627:30)\\n    at Function.PassiveManager.updatePassiveMethodData (http://localhost:7456/preview-scripts/assets/Script/Managers/PassiveManager.js:46:38)\\n    at ActivatePassiveEffect.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/StackEffects/Activate%20Passive%20Effect.js:287:50)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\\n    at fulfilled (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89787:28)\""}

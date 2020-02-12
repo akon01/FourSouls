@@ -15,8 +15,6 @@ export default class StealItem extends Effect {
 
   effectName = "StealItem";
 
-
-
   /**
    *
    * @param data {target:PlayerId}
@@ -27,15 +25,15 @@ export default class StealItem extends Effect {
     data?: ActiveEffectData | PassiveEffectData
   ) {
     cc.log(data)
-    let stealer = PlayerManager.getPlayerByCard(data.effectCardPlayer)
-    let itemToSteal = data.getTarget(TARGETTYPE.ITEM)
+    const stealer = PlayerManager.getPlayerByCard(data.effectCardPlayer)
+    const itemToSteal = data.getTarget(TARGETTYPE.ITEM)
     if (itemToSteal instanceof cc.Node) {
       if (itemToSteal == null) {
         cc.log(`no target player available`)
       } else {
-        let player = PlayerManager.getPlayerByCard(itemToSteal)
+        const player = PlayerManager.getPlayerByCard(itemToSteal)
         if (player != null) {
-          player.loseItem(itemToSteal, true)
+          await player.loseItem(itemToSteal, true)
           await stealer.addItem(itemToSteal, true, true)
         } else {
           await Store.$.removeFromStore(itemToSteal, true)
@@ -44,7 +42,7 @@ export default class StealItem extends Effect {
       }
     }
 
-    if (data instanceof PassiveEffectData) return data
+    if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack
   }
 }

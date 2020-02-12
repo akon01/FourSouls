@@ -92,6 +92,8 @@ export default class TurnsManager extends cc.Component {
         player.tempAttackRollBonus = 0
         player.tempNonAttackRollBonus = 0
         player.tempFirstAttackRollBonus = 0
+        player.lastAttackRoll = 0
+        player.lastRoll = 0
         player._lootCardsPlayedThisTurn = [];
         player.itemsLostThisTurn = []
         player._thisTurnKiller = null

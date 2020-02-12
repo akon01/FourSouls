@@ -11,6 +11,7 @@ import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import Card from "../GameEntities/Card";
 import MonsterCardHolder from "../MonsterCardHolder";
 import Stack from "../Stack";
+import SoundManager from "../../Managers/SoundManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -104,18 +105,21 @@ export default class Monster extends cc.Component {
           this.currentHp -= damage;
         }
 
-        const cardId = this.node.getComponent(Card)._cardId
-        const serverData = {
-          signal: Signal.MONSTER_GET_DAMAGED,
-          srvData: { cardId: cardId, hpLeft: this.currentHp, damageDealerId: damageDealer.getComponent(Card)._cardId }
-        };
-        //ParticleManager.activateParticleEffect(this.node, PARTICLE_TYPES.MONSTER_GET_HIT)
-        ParticleManager.runParticleOnce(this.node, PARTICLE_TYPES.MONSTER_GET_HIT)
-        if (sendToServer) {
-          ServerClient.$.send(serverData.signal, serverData.srvData)
-          if (this.currentHp == 0) {
-            this.killer = damageDealer
-            await this.kill(damageDealer)
+        if (damage > 0) {
+          const cardId = this.node.getComponent(Card)._cardId
+          const serverData = {
+            signal: Signal.MONSTER_GET_DAMAGED,
+            srvData: { cardId: cardId, hpLeft: this.currentHp, damageDealerId: damageDealer.getComponent(Card)._cardId }
+          };
+          //ParticleManager.activateParticleEffect(this.node, PARTICLE_TYPES.MONSTER_GET_HIT)
+          ParticleManager.runParticleOnce(this.node, PARTICLE_TYPES.MONSTER_GET_HIT)
+          SoundManager.$.playSound(SoundManager.$.monsterGetHit)
+          if (sendToServer) {
+            ServerClient.$.send(serverData.signal, serverData.srvData)
+            if (this.currentHp == 0) {
+              this.killer = damageDealer
+              await this.kill(damageDealer)
+            }
           }
         }
       }

@@ -4,7 +4,6 @@ import PassiveManager, { PassiveMeta } from "../../Managers/PassiveManager";
 import DataCollector from "./DataCollector";
 import Player from "../../Entites/GameEntities/Player";
 
-
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -20,15 +19,14 @@ export default class GetTargetFromPassiveMeta extends DataCollector {
 
   @property({
     type: cc.Integer, visible: function (this: GetTargetFromPassiveMeta) {
-      if (this.passiveComponent == 2) return true
+      if (this.passiveComponent == 2) { return true }
     }
   })
   argsIndex = 0;
 
-
   /**
    *
-   * @param data cardId:card id 
+   * @param data cardId:card id
    * @returns {target:cc.node of the card that was played}
    */
   collectData(data) {
@@ -36,7 +34,7 @@ export default class GetTargetFromPassiveMeta extends DataCollector {
     let passiveMeta: PassiveMeta;
     let target: EffectTarget;
     cc.log(`this meta index ${this.metaIndex}`)
-    if (!this.metaIndex) throw `no MetaIndex`
+    if (!this.metaIndex) { throw new Error(`no MetaIndex`) }
     this.isAfterActivation == true ? passiveMeta = PassiveManager.afterActivationMap.get(this.metaIndex) : passiveMeta = PassiveManager.beforeActivationMap.get(this.metaIndex)
     cc.log(passiveMeta)
     switch (this.passiveComponent) {

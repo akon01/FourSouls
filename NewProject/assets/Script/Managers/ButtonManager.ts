@@ -67,15 +67,11 @@ export default class ButtonManager extends cc.Component {
   }
 
   static moveAvailableButtonsTo(layout: cc.Layout) {
-    if (this.$.NoButton.node.active) {
-      this.moveButton(this.$.NoButton, layout)
-    }
-    if (this.$.yesButton.node.active) {
-      this.moveButton(this.$.yesButton, layout)
-    }
-    if (this.$.nextButton.node.active) {
-      this.moveButton(this.$.nextButton, layout)
-    }
+    cc.log(`move buttons to ${layout.name}`)
+    this.moveButton(this.$.NoButton, layout)
+    this.moveButton(this.$.yesButton, layout)
+    this.moveButton(this.$.nextButton, layout)
+
   }
 
   static enableButton(button: cc.Button, state: BUTTON_STATE, extra?: any[]) {
@@ -98,14 +94,14 @@ export default class ButtonManager extends cc.Component {
         btn.node.getComponentInChildren(cc.Label).string = extra[0]
         break
 
-      //PLAYER AFFECTING//
+      //PLAYER AFFECTING// 
       case BUTTON_STATE.PLAYER_CHOOSE_NO:
         btn.clickEvents = []
         eventHandler.component = "Player"
         eventHandler.handler = "chooseYesNo"
         player = extra[0]
         eventHandler.target = player.node
-        eventHandler.customEventData = "True"
+        eventHandler.customEventData = "False"
         btn.clickEvents.push(eventHandler)
         break;
 
@@ -115,7 +111,7 @@ export default class ButtonManager extends cc.Component {
         eventHandler.handler = "chooseYesNo"
         player = extra[0]
         eventHandler.target = player.node
-        eventHandler.customEventData = "False"
+        eventHandler.customEventData = "True"
         btn.clickEvents.push(eventHandler)
         break;
 

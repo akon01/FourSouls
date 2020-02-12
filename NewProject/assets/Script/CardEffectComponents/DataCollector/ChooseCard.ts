@@ -15,6 +15,7 @@ import Stack from "../../Entites/Stack";
 import ActivateItem from "../../StackEffects/Activate Item";
 import Monster from "../../Entites/CardTypes/Monster";
 import CardPreviewManager from "../../Managers/CardPreviewManager";
+import DecisionMarker from "../../Entites/Decision Marker";
 
 const { ccclass, property } = cc._decorator;
 
@@ -49,7 +50,7 @@ export default class ChooseCard extends DataCollector {
   chooseTypes: CHOOSE_CARD_TYPE[] = []
 
   @property
-  flavorText: string = ''
+  flavorText: string = ""
 
   /**
    *  @throws when there are no cards to choose from in the choose type
@@ -263,9 +264,7 @@ export default class ChooseCard extends DataCollector {
     }
   }
 
-  async requireChoosingACard(
-    cardsToChooseFrom: cc.Node[]
-  ): Promise<{ cardChosenId: number; playerId: number }> {
+  async requireChoosingACard(cardsToChooseFrom: cc.Node[]): Promise<{ cardChosenId: number; playerId: number }> {
     ActionManager.inReactionPhase = true;
 
     const cards = new Set<cc.Node>();
@@ -275,8 +274,13 @@ export default class ChooseCard extends DataCollector {
 
     cc.log(cards)
     // const id = this.node.uuid
+    let flippedCards: cc.Node[] = []
     cards.forEach(card => {
       CardManager.disableCardActions(card);
+      if (card.getComponent(Card)._isFlipped) {
+        card.getComponent(Card).flipCard(false)
+        flippedCards.push(card)
+      }
       CardManager.makeRequiredForDataCollector(this, card);
     })
     CardPreviewManager.setFalvorText(this.flavorText)
@@ -290,6 +294,10 @@ export default class ChooseCard extends DataCollector {
     cards.forEach(async card => {
       await CardManager.unRequiredForDataCollector(card);
     })
+    if (this.node) {
+      await DecisionMarker.$.showDecision(Card.getCardNodeByChild(this.node), cardPlayed, true)
+    }
+    flippedCards.forEach(card => card.getComponent(Card).flipCard(false))
     // for (let i = 0; i < cards.size; i++) {
     //   const card = cards[i];
     //   //  CardManager.disableCardActions(card);
@@ -312,5 +320,20 @@ export default class ChooseCard extends DataCollector {
         }
       })
     })
+  }
+
+  makeArrow(cardChosen: cc.Node) {
+    const thisCard = Card.getCardNodeByChild(this.node);
+    const canvas = cc.find("Canvas")
+    const arrowGfx = cc.find("Canvas/ArrowGFX")
+    const arrowOrigin = canvas.convertToNodeSpaceAR(thisCard.convertToWorldSpaceAR(new cc.Vec2(thisCard.x + thisCard.width / 2, thisCard.x)))
+    const arrowEndPoint = canvas.convertToNodeSpaceAR(cardChosen.convertToWorldSpaceAR(new cc.Vec2(cardChosen.x - cardChosen.width / 2, cardChosen.x)))
+    const graphics = arrowGfx.getComponent(cc.Graphics)
+    cc.log(`origin x:${arrowOrigin.x} y:${arrowOrigin.y}`)
+    cc.log(`end x:${arrowEndPoint.x} y:${arrowEndPoint.y}`)
+    graphics.lineWidth = 60
+    graphics.moveTo(arrowOrigin.x, arrowOrigin.y)
+    graphics.lineTo(arrowEndPoint.x, arrowEndPoint.y)
+    graphics.stroke()
   }
 }

@@ -21,24 +21,24 @@
         "__id__": 2
       },
       {
-        "__id__": 5
+        "__id__": 8
       }
     ],
     "_active": true,
     "_level": 1,
     "_components": [
       {
-        "__id__": 12
+        "__id__": 15
       },
       {
-        "__id__": 13
+        "__id__": 16
       },
       {
-        "__id__": 14
+        "__id__": 17
       }
     ],
     "_prefab": {
-      "__id__": 15
+      "__id__": 18
     },
     "_opacity": 255,
     "_color": {
@@ -89,16 +89,80 @@
     "_parent": {
       "__id__": 1
     },
-    "_children": [],
-    "_active": true,
-    "_level": 2,
-    "_components": [
+    "_children": [
       {
         "__id__": 3
       }
     ],
+    "_active": true,
+    "_level": 2,
+    "_components": [
+      {
+        "__id__": 6
+      }
+    ],
     "_prefab": {
-      "__id__": 4
+      "__id__": 7
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 150,
+      "height": 70
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_position": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": -75.169,
+      "z": 0
+    },
+    "_scale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "ADeck",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 2
+    },
+    "_children": [],
+    "_active": true,
+    "_level": 3,
+    "_components": [
+      {
+        "__id__": 4
+      }
+    ],
+    "_prefab": {
+      "__id__": 5
     },
     "_opacity": 255,
     "_color": {
@@ -121,7 +185,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 0,
+      "y": 75.169,
       "z": 0
     },
     "_scale": {
@@ -143,6 +207,28 @@
     "_id": ""
   },
   {
+    "__type__": "0ebe8KNJ2FAHYG5MM+cUvm4",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 3
+    },
+    "_enabled": true,
+    "deckType": 1,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "bc333521-f31a-4f8b-a1eb-a7000dc61905"
+    },
+    "fileId": "767R5Cyz5KH6ncLWvNjrQO",
+    "sync": false
+  },
+  {
     "__type__": "04486UjdN1GU7Ky21MNkxD4",
     "_name": "",
     "_objFlags": 0,
@@ -155,13 +241,18 @@
     "conditions": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
-    "dataCollector": [],
+    "dataCollector": [
+      {
+        "__id__": 4
+      }
+    ],
     "_effectCard": null,
     "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
+    "optionalFlavorText": "",
     "numOfCardsToSee": 5,
     "numOfCardsToPut": 1,
-    "reorderCards": false,
+    "isReorderOptional": false,
     "putOnBottomOfDeck": false,
     "deckType": 1,
     "_id": ""
@@ -186,21 +277,21 @@
     },
     "_children": [
       {
-        "__id__": 6
+        "__id__": 9
       }
     ],
     "_active": true,
     "_level": 2,
     "_components": [
       {
-        "__id__": 9
+        "__id__": 12
       },
       {
-        "__id__": 10
+        "__id__": 13
       }
     ],
     "_prefab": {
-      "__id__": 11
+      "__id__": 14
     },
     "_opacity": 255,
     "_color": {
@@ -249,18 +340,18 @@
     "_name": "Particle",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 5
+      "__id__": 8
     },
     "_children": [],
     "_active": true,
     "_level": 3,
     "_components": [
       {
-        "__id__": 7
+        "__id__": 10
       }
     ],
     "_prefab": {
-      "__id__": 8
+      "__id__": 11
     },
     "_opacity": 255,
     "_color": {
@@ -309,7 +400,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 6
+      "__id__": 9
     },
     "_enabled": true,
     "_materials": [
@@ -425,7 +516,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 5
+      "__id__": 8
     },
     "_enabled": true,
     "_materials": [
@@ -445,7 +536,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 5
+      "__id__": 8
     },
     "_enabled": true,
     "alignMode": 1,
@@ -521,10 +612,15 @@
     },
     "_enabled": true,
     "cardName": "The Moon",
+    "doNotMake": false,
+    "makeMultiCards": false,
+    "numOfCopies": 2,
+    "copiesSprites": [],
     "_cardId": 0,
     "_isInHand": false,
     "_isOnDesk": false,
     "_originalParent": null,
+    "_originalWidth": null,
     "topDeckof": null,
     "souls": 0,
     "type": 1,
@@ -543,6 +639,7 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
+    "availableParticles": [],
     "_id": ""
   },
   {
@@ -553,6 +650,7 @@
       "__id__": 1
     },
     "_enabled": true,
+    "hasDestroySelfEffect": false,
     "conditions": [],
     "activeEffects": [
       {

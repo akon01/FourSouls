@@ -16,7 +16,7 @@ import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { DeclareAttackVis } from "./StackEffectVisualRepresentation/Declare Attack Vis";
 
-export default class DeclareAttack extends StackEffectConcrete {
+export default class DeclareAttack extends StackEffectConcrete { 
     visualRepesentation: DeclareAttackVis;
 
     entityId: number;
@@ -62,7 +62,7 @@ export default class DeclareAttack extends StackEffectConcrete {
 
         this.attackingPlayer = attackingPlayer;
         this.cardBeingAttacked = cardBeingAttacked;
-        this.visualRepesentation = new DeclareAttackVis(this.cardBeingAttacked.getComponent(cc.Sprite).spriteFrame)
+        this.visualRepesentation = new DeclareAttackVis(attackingPlayer, cardBeingAttacked, this.cardBeingAttacked.getComponent(cc.Sprite).spriteFrame)
         this.visualRepesentation.flavorText = `player ${this.attackingPlayer.playerId} has declared an attack on ${this.cardBeingAttacked.name}`
         this.lable = `Player ${this.attackingPlayer.playerId}  declared attack on ${this.cardBeingAttacked.name}`
     }
@@ -76,8 +76,6 @@ export default class DeclareAttack extends StackEffectConcrete {
 
         const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_DECLARE_ATTACK, [], null, this.attackingPlayer.node, this.entityId)
         const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
-        cc.log(`after passive meta of declare attack`)
-        cc.log(afterPassiveMeta)
         if (!afterPassiveMeta.continue) { return }
         passiveMeta.args = afterPassiveMeta.args;
         TurnsManager.currentTurn.attackPlays -= 1;

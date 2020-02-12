@@ -1,4 +1,4 @@
-import { CARD_TYPE, STACK_EFFECT_TYPE } from "../../Constants";
+import { CARD_TYPE, STACK_EFFECT_TYPE, STACK_EFFECT_VIS_TYPE } from "../../Constants";
 import StackEffectVisManager from "../../Managers/StackEffectVisManager";
 import { StackEffectVisualRepresentation } from "./Stack Vis Interface";
 
@@ -8,6 +8,7 @@ export class RefillEmptySlotVis implements StackEffectVisualRepresentation {
     flavorText: string;
     baseSprite: cc.SpriteFrame = StackEffectVisManager.$.happeningBaseSprite;
     hasBeenUpdated: boolean = false;
+    visType: STACK_EFFECT_VIS_TYPE = STACK_EFFECT_VIS_TYPE.BASIC
 
 
     constructor(slotType: CARD_TYPE) {

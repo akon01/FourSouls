@@ -5,16 +5,14 @@ import PlayLootCard from "./CardEffectComponents/CardEffects/PlayLootCard";
 import PlayerManager from "./Managers/PlayerManager";
 import Player from "./Entites/GameEntities/Player";
 
-
-
 const { ccclass, property } = cc._decorator;
 
-var id = 1;
+let id = 1;
 
-var cardId = 1;
+let cardId = 1;
 
 @ccclass
-export default class buttonScript extends cc.Component {
+export default class ButtonScript extends cc.Component {
   @property(cc.Prefab)
   cardPrefab: cc.Prefab = null;
 
@@ -38,13 +36,13 @@ export default class buttonScript extends cc.Component {
   }
 
   async nextTurnClick() {
-    let turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
-
+    const turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
+    //turnPlayer.getComponent(Player)._endTurnFlag = true
     await turnPlayer.getComponent(Player).endTurn(true);
   }
 
   addNewCard() {
-    let newCard = cc.instantiate(this.cardPrefab);
+    const newCard = cc.instantiate(this.cardPrefab);
     newCard.name = "card" + cardId;
     cardId++;
     cc.director

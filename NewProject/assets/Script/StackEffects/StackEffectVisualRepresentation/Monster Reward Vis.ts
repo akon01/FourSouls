@@ -1,4 +1,4 @@
-import { STACK_EFFECT_TYPE } from "../../Constants";
+import { STACK_EFFECT_TYPE, STACK_EFFECT_VIS_TYPE } from "../../Constants";
 import StackEffectVisManager from "../../Managers/StackEffectVisManager";
 import { StackEffectVisualRepresentation } from "./Stack Vis Interface";
 import Monster from "../../Entites/CardTypes/Monster";
@@ -9,10 +9,24 @@ export class MonsterRewardVis implements StackEffectVisualRepresentation {
     flavorText: string;
     baseSprite: cc.SpriteFrame = StackEffectVisManager.$.monsterBaseSprite;
     hasBeenUpdated: boolean = false;
+    visType: STACK_EFFECT_VIS_TYPE = null
 
 
     constructor(monsterWithReward: Monster) {
         this.flavorText = `${monsterWithReward.name} Reward, ${monsterWithReward.reward.name}`
+        switch (monsterWithReward.souls) {
+            case 0:
+                this.visType = STACK_EFFECT_VIS_TYPE.MONSTER_ACTION
+                break;
+            case 1:
+                this.visType = STACK_EFFECT_VIS_TYPE.BOSS_ACTION
+                break;
+            case 2:
+                this.visType = STACK_EFFECT_VIS_TYPE.MEGA_BOSS_ACTION
+                break
+            default:
+                break;
+        }
     }
 
 }

@@ -50,7 +50,6 @@ export default class PlayerDeathPenalties extends StackEffectConcrete {
     constructor(creatorCardId: number, playerToPayCard: cc.Node, entityId?: number) {
         super(creatorCardId, entityId)
 
-
         this.playerToPay = PlayerManager.getPlayerByCard(playerToPayCard)
         this.visualRepesentation = new PlayerDeathPenaltiesVis(this.playerToPay.getComponent(Player))
         this.lable = `Player ${this.playerToPay.playerId} is about to pay death penalties`

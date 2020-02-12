@@ -7,6 +7,8 @@ import Item from "./CardTypes/Item";
 import Card from "./GameEntities/Card";
 import Deck from "./GameEntities/Deck";
 import Pile from "./Pile";
+import DecisionMarker from "./Decision Marker";
+import PlayerManager from "../Managers/PlayerManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -61,7 +63,7 @@ export default class CardPreview extends cc.Component {
   }
 
   reuse() {
-    this.cardSprite = this.node.getChildByName('CardPreview').getComponent(cc.Sprite)
+    this.cardSprite = this.node.getChildByName("CardPreview").getComponent(cc.Sprite)
   }
 
   setGroup(groupUuid: string) {
@@ -74,10 +76,12 @@ export default class CardPreview extends cc.Component {
     this.node.color = cc.Color.WHITE
   }
 
-  setCard(cardToSet: cc.Node) {
+  setCard(cardToSet: cc.Node, useFrontSprite: boolean) {
     this.card = cardToSet;
+    cc.log(this.card)
     const cardComp = cardToSet.getComponent(Card)
 
+    //  if (useFrontSprite) {
     if (cardToSet.getComponent(Deck) != null || cardComp.topDeckof != null) {
 
       this.cardSprite.spriteFrame = cardToSet.getComponent(cc.Sprite).spriteFrame;
@@ -86,8 +90,11 @@ export default class CardPreview extends cc.Component {
       this.cardSprite.spriteFrame = cardToSet.getComponent(Pile).pileSprite.spriteFrame;
     } else {
 
-      this.cardSprite.spriteFrame = cardComp.frontSprite;
+      this.cardSprite.spriteFrame = cardComp.getComponent(Card).frontSprite;
     }
+    // } else {
+    // this.cardSprite.spriteFrame = cardComp.node.getComponent(cc.Sprite).spriteFrame;
+    //}
   }
 
   async hideCardPreview(event?) {
@@ -155,6 +162,7 @@ export default class CardPreview extends cc.Component {
       whevent.emit(GAME_EVENTS.CARD_PREVIEW_CHOOSE_EFFECT)
       //  CardPreview.wasEffectChosen = true;
     });
+    return newEffect
   }
 
   async chooseEffectFromCard(card: cc.Node): Promise<cc.Node> {
@@ -178,10 +186,8 @@ export default class CardPreview extends cc.Component {
       }
     }
     cardEffects = card.getComponent(CardEffect).activeEffects;
-    cc.log(cardEffects)
     for (let i = 0; i < cardEffects.length; i++) {
       const effect = cardEffects[i];
-      cc.log(effect)
       const preCondition = effect.getComponent(Effect).preCondition
       const itemComp = card.getComponent(Item)
       if (itemComp != null) {
@@ -205,6 +211,7 @@ export default class CardPreview extends cc.Component {
     }
 
     const chosenEffect = await this.testForEffectChosen();
+    await DecisionMarker.$.showEffectChosen(card, chosenEffect)
     CardPreviewManager.previewsToChooseFrom.splice(index, 1)
     //disable effects be chosen on click
     for (let i = 0; i < cardEffects.length; i++) {
@@ -240,6 +247,14 @@ export default class CardPreview extends cc.Component {
     // CardPreview.wasEffectChosen = true;
   }
 
+  disableExit() {
+    this.exitButton.interactable = false;
+  }
+
+  enableExit() {
+    this.exitButton.interactable = true
+  }
+
   // LIFE-CYCLE CALLBACKS:
 
   onLoad() {
@@ -248,7 +263,7 @@ export default class CardPreview extends cc.Component {
     this.extraLable = this.extraInfo.getComponentInChildren(cc.Label);
     this.extraInfo.active = false
     this.counterLable.string = ""
-    this.cardSprite = this.node.getChildByName('CardPreview').getComponent(cc.Sprite)
+    this.cardSprite = this.node.getChildByName("CardPreview").getComponent(cc.Sprite)
     this.counter.active = false;
     CardPreview.$ = this;
   }

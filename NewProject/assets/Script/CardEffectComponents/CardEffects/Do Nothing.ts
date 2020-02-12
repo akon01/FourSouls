@@ -23,7 +23,7 @@ export default class DoNothing extends Effect {
     cc.log(`do nothing Effect!`)
 
 
-    if (data instanceof PassiveEffectData) return data
+    if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack
   }
 }

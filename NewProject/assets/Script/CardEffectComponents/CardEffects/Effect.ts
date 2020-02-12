@@ -50,6 +50,8 @@ export default class Effect extends cc.Component implements EffectInterface {
   @property
   hasPlayerChoiceToActivateInChainEffects: boolean = false;
 
+  @property
+  optionalFlavorText: string = ''
   /**
    *
    * @param data {target:Player}

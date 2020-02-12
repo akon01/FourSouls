@@ -117,6 +117,8 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].USE_ITEM, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].SET_TURN, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].ASSIGN_CHAR_TO_PLAYER, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].SET_CHAR, this.onSendToSpecificPlayer, this);
+        whevent.on(signal_1["default"].SET_CHAR_END, this.onSendToSpecificPlayer, this);
         whevent.on(signal_1["default"].FLIP_CARD, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].REMOVE_ITEM_FROM_SHOP, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].UPDATE_PASSIVE_DATA, this.onBroadcastExceptOrigin, this);
@@ -131,13 +133,21 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].UPDATE_PASSIVES_OVER, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].REGISTER_ONE_TURN_PASSIVE_EFFECT, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].END_ROLL_ACTION, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].SHOW_DECISION, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].SHOW_DICE_ROLL, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].SHOW_EFFECT_CHOSEN, this.onBroadcastExceptOrigin, this);
         //stack events:
         whevent.on(signal_1["default"].REPLACE_STACK, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].REMOVE_FROM_STACK, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].FIZZLE_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].ADD_TO_STACK, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].PUT_ON_STACK, this.onSendToSpecificPlayer, this);
+        whevent.on(signal_1["default"].END_PUT_ON_STACK, this.onSendToSpecificPlayer, this);
         whevent.on(signal_1["default"].ADD_RESOLVING_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].REMOVE_RESOLVING_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].UPDATE_STACK_VIS, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].ADD_SE_VIS_PREV, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].REMOVE_SE_VIS_PREV, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].UPDATE_STACK_LABLE, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].UPDATE_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].NEXT_STACK_ID, this.onBroadcastExceptOrigin, this);
@@ -170,6 +180,7 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].RESPOND_TO, this.onSendToSpecificPlayer, this);
         whevent.on(signal_1["default"].FINISH_DO_STACK_EFFECT, this.onSendToSpecificPlayer, this);
         whevent.on(signal_1["default"].DO_STACK_EFFECT, this.onSendToSpecificPlayer, this);
+        whevent.on(signal_1["default"].STACK_EMPTIED, this.onSendToSpecificPlayer, this);
         whevent.on(signal_1["default"].TURN_PLAYER_DO_STACK_EFFECT, this.onSendToSpecificPlayer, this);
         whevent.on(signal_1["default"].START_TURN, this.onSendToSpecificPlayer, this);
         whevent.on(signal_1["default"].DECK_ARRAGMENT, this.onBroadcastExceptOrigin, this);

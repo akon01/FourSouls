@@ -34,6 +34,15 @@ export default class ChooseFromTargetCard extends DataCollector {
   @property
   isRandom: boolean = false;
 
+  @property({
+    visible: function (this: ChooseFromTargetCard) {
+      if (!this.isRandom) {
+        return true
+      }
+    }
+  })
+  flavorText: string = ''
+
   @property
   isMultiCardChoice: boolean = false;
 
@@ -84,6 +93,7 @@ export default class ChooseFromTargetCard extends DataCollector {
       throw new Error("No Cards To Choose From!")
     }
     if (!this.isRandom) {
+      CardPreviewManager.setFalvorText(this.flavorText)
       if (this.isMultiCardChoice) {
         const cardsChosenNodes = await CardPreviewManager.selectFromCards(cardsToChooseFrom, this.numberOfCardsToChoose)
         const cardsChosenTargets = cardsChosenNodes.map(card => new EffectTarget(card))

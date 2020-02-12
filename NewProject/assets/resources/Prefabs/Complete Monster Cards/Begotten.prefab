@@ -335,13 +335,14 @@
     "_effectCard": null,
     "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
+    "optionalFlavorText": "",
     "multiTarget": false,
     "gainHp": false,
     "hpToGain": 0,
     "hpTemp": false,
     "gainDMG": true,
     "DMGToGain": 1,
-    "dmgTemp": false,
+    "dmgTemp": true,
     "gainRollBonus": false,
     "rollBonusToGain": 0,
     "rollBonusTemp": false,
@@ -800,10 +801,15 @@
     },
     "_enabled": true,
     "cardName": "Begotten",
+    "doNotMake": false,
+    "makeMultiCards": false,
+    "numOfCopies": 2,
+    "copiesSprites": [],
     "_cardId": 0,
     "_isInHand": false,
     "_isOnDesk": false,
     "_originalParent": null,
+    "_originalWidth": null,
     "topDeckof": null,
     "souls": 0,
     "type": 2,
@@ -822,6 +828,7 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
+    "availableParticles": [],
     "_id": ""
   },
   {
@@ -848,6 +855,8 @@
     "reward": {
       "__id__": 3
     },
+    "killer": null,
+    "_isDead": false,
     "_id": ""
   },
   {
@@ -858,6 +867,7 @@
       "__id__": 1
     },
     "_enabled": true,
+    "hasDestroySelfEffect": false,
     "conditions": [
       null
     ],

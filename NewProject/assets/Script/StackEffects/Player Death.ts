@@ -52,7 +52,6 @@ export default class PlayerDeath extends StackEffectConcrete {
         super(creatorCardId, entityId)
         this.killer = killer
 
-
         this.playerToDie = PlayerManager.getPlayerByCard(playerToDieCard)
         this.visualRepesentation = new PlayerDeathVis(this.playerToDie)
         this.lable = `Player ${this.playerToDie.playerId} is about to die`

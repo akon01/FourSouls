@@ -24,6 +24,7 @@ import Deck from "./Entites/GameEntities/Deck";
 import Player from "./Entites/GameEntities/Player";
 import Store from "./Entites/GameEntities/Store";
 import Stack from "./Entites/Stack";
+import SoundManager from "./Managers/SoundManager";
 
 //( id represents a human player and it coresponds with playerID)
 // tslint:disable-next-line: prefer-const
@@ -254,6 +255,11 @@ export default class MainScript extends cc.Component {
     // await CardManager.checkForEmptyFields();
     // await CardManager.updateOnTableCards();
     // await CardManager.updatePlayerCards();
+
+    SoundManager.$.setBGVolume(1)
+    SoundManager.$.playBGMusic(SoundManager.$.BasicBGMusic)
+    SoundManager.$.stopBGMusic()
+    SoundManager.$.playBGMusic(SoundManager.$.BasicBGMusic)
 
     await ActionManager.updateActions()
     for (const player of PlayerManager.players) {

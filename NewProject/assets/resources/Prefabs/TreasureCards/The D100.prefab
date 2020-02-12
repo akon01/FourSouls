@@ -171,6 +171,7 @@
       "__id__": 2
     },
     "_enabled": true,
+    "cost": null,
     "effectsType": 1,
     "effectsAndNumbers": [
       {
@@ -224,6 +225,7 @@
     "_effectCard": null,
     "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
+    "optionalFlavorText": "",
     "numOfLoot": 1,
     "multiTarget": false,
     "_id": ""
@@ -260,8 +262,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
+      "width": 85,
+      "height": 10
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -270,8 +272,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
+      "x": -39.61,
+      "y": -53.694,
       "z": 0
     },
     "_scale": {
@@ -414,6 +416,7 @@
     "_effectCard": null,
     "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
+    "optionalFlavorText": "",
     "numOfLoot": 2,
     "multiTarget": false,
     "_id": ""
@@ -450,8 +453,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
+      "width": 85,
+      "height": 10
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -460,8 +463,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
+      "x": 42.222,
+      "y": -54.306,
       "z": 0
     },
     "_scale": {
@@ -604,6 +607,7 @@
     "_effectCard": null,
     "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
+    "optionalFlavorText": "",
     "numOfCoins": 3,
     "multiTarget": false,
     "_id": ""
@@ -640,8 +644,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
+      "width": 85,
+      "height": 12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -650,8 +654,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
+      "x": -36.998,
+      "y": -69.129,
       "z": 0
     },
     "_scale": {
@@ -794,6 +798,7 @@
     "_effectCard": null,
     "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
+    "optionalFlavorText": "",
     "numOfCoins": 4,
     "multiTarget": false,
     "_id": ""
@@ -830,8 +835,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
+      "width": 85,
+      "height": 13
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -840,8 +845,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
+      "x": 43.528,
+      "y": -69,
       "z": 0
     },
     "_scale": {
@@ -984,10 +989,11 @@
     "_effectCard": null,
     "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
+    "optionalFlavorText": "",
     "multiTarget": false,
     "gainHp": true,
     "hpToGain": 1,
-    "hpTemp": false,
+    "hpTemp": true,
     "gainDMG": false,
     "DMGToGain": 0,
     "dmgTemp": false,
@@ -1034,8 +1040,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
+      "width": 170,
+      "height": 20
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1045,7 +1051,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 0,
+      "y": -87.612,
       "z": 0
     },
     "_scale": {
@@ -1188,13 +1194,14 @@
     "_effectCard": null,
     "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
+    "optionalFlavorText": "",
     "multiTarget": false,
     "gainHp": false,
     "hpToGain": 0,
     "hpTemp": false,
     "gainDMG": true,
     "DMGToGain": 1,
-    "dmgTemp": false,
+    "dmgTemp": true,
     "gainRollBonus": false,
     "rollBonusToGain": 0,
     "rollBonusTemp": false,
@@ -1238,8 +1245,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
+      "width": 170,
+      "height": 23
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1249,7 +1256,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 0,
+      "y": -112.623,
       "z": 0
     },
     "_scale": {
@@ -1717,10 +1724,15 @@
     },
     "_enabled": true,
     "cardName": "The D100",
+    "doNotMake": false,
+    "makeMultiCards": false,
+    "numOfCopies": 2,
+    "copiesSprites": [],
     "_cardId": 0,
     "_isInHand": false,
     "_isOnDesk": false,
     "_originalParent": null,
+    "_originalWidth": null,
     "topDeckof": null,
     "souls": 0,
     "type": 5,
@@ -1739,6 +1751,7 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
+    "availableParticles": [],
     "_id": ""
   },
   {
@@ -1763,6 +1776,7 @@
       "__id__": 1
     },
     "_enabled": true,
+    "hasDestroySelfEffect": false,
     "conditions": [],
     "activeEffects": [
       {

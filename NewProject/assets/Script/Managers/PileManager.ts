@@ -7,6 +7,7 @@ import Player from "../Entites/GameEntities/Player";
 import Pile from "../Entites/Pile";
 import CardManager from "./CardManager";
 import PlayerManager from "./PlayerManager";
+import AnimationManager from "./Animation Manager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -33,7 +34,13 @@ export default class PileManager extends cc.Component {
     PileManager.lootCardPileNode.getComponent(Card)._cardId = ++CardManager.cardsId
     PileManager.treasureCardPileNode.getComponent(Card)._cardId = ++CardManager.cardsId
     PileManager.monsterCardPileNode.getComponent(Card)._cardId = ++CardManager.cardsId
-    CardManager.allCards.push(PileManager.lootPlayPile.node, PileManager.lootCardPileNode, PileManager.treasureCardPileNode, PileManager.monsterCardPileNode)
+    const piles = [PileManager.lootPlayPile.node, PileManager.lootCardPileNode, PileManager.treasureCardPileNode, PileManager.monsterCardPileNode]
+    CardManager.allCards.push(...piles)
+    piles.forEach(pile => {
+      cc.log(`add animation node to ${pile.name}`)
+      AnimationManager.addAnimationNode(pile)
+    });
+
   }
 
   static getTopCardOfPiles() {

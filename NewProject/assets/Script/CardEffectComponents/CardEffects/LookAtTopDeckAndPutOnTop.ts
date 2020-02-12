@@ -6,6 +6,9 @@ import { ActiveEffectData } from "../../Managers/DataInterpreter";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import { CHOOSE_CARD_TYPE } from "./../../Constants";
 import Effect from "./Effect";
+import PlayerManager from "../../Managers/PlayerManager";
+import Player from "../../Entites/GameEntities/Player";
+import DataCollector from "../DataCollector/DataCollector";
 
 const { ccclass, property } = cc._decorator;
 
@@ -22,7 +25,16 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
   numOfCardsToPut: number = 0;
 
   @property
-  reorderCards: boolean = false;
+  isReorderOptional: boolean = false;
+
+  @property({
+    override: true, visible: function (this: LookAtTopDeckAndPutOnTop) {
+      if (this.isReorderOptional) {
+        return true
+      }
+    }
+  })
+  optionalFlavorText: string = ''
 
   @property
   putOnBottomOfDeck: boolean = false;
@@ -40,8 +52,7 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
     data?: ActiveEffectData
   ) {
     let deck: Deck;
-    if (data == null) {
-
+    if (this.dataCollector instanceof Array && this.dataCollector.length < 0 || this.dataCollector == null) {
       switch (this.deckType) {
         case CARD_TYPE.LOOT:
           deck = CardManager.lootDeck.getComponent(Deck)
@@ -69,7 +80,16 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
     let text = "Order Cards To Put On"
     this.putOnBottomOfDeck == true ? text = text + ` Bottom` : text = text + ` Top`
 
+    await CardPreviewManager.getPreviews(cardsToSee, true)
+    let doEffect = true
+    if (this.isReorderOptional) {
+      const choice = PlayerManager.mePlayer.getComponent(Player).giveYesNoChoice(`Do You Want To Reorder the Cards?`)
+    }
     const selectedQueue = await CardPreviewManager.selectFromCards(cardsToSee, this.numOfCardsToPut)
+
+    // selectedQueue.forEach(card => {
+    //   deck.drawSpecificCard(card, true)
+    // })
 
     if (!this.putOnBottomOfDeck) {
       for (let i = 0; i < selectedQueue.length; i++) {

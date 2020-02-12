@@ -5,6 +5,7 @@ import { CARD_HEIGHT, CARD_TYPE, CARD_WIDTH } from "../../Constants";
 import CardManager from "../../Managers/CardManager";
 import { CardSet } from "../Card Set";
 import Card from "./Card";
+import PileManager from "../../Managers/PileManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -40,8 +41,13 @@ export default class Deck extends cc.Component {
   _hasEventsBeenModified: boolean = false;
 
   addToDeckOnTop(card: cc.Node, sendToServer: boolean) {
+
+    if (this._cards.includes(card)) {
+      this._cards.splice(this._cards.indexOf(card), 1)
+    } else {
+      CardManager.inDecksCards.push(card);
+    }
     this._cards.push(card);
-    CardManager.inDecksCards.push(card);
     // CardManager.monsterCardPool.put(card);
     card.setParent(null)
     const serverData = {
@@ -71,10 +77,19 @@ export default class Deck extends cc.Component {
     }
   }
 
+  async discardTopCard() {
+    const topCard = this._cards.getCard(this._cards.length - 1)
+    this.drawSpecificCard(topCard, true)
+    await PileManager.addCardToPile(this.deckType, topCard, true)
+
+  }
+
   drawSpecificCard(cardToDraw: cc.Node, sendToServer: boolean): cc.Node {
     if (this._cards.length != 0) {
+      cc.log(cardToDraw.getComponent(Card)._cardId)
+      cc.log(this._cards.map(card => card.getComponent(Card)._cardId))
       const newCard = this._cards.splice(this._cards.indexOf(cardToDraw), 1);
-
+      cc.log(this._cards.map(card => card.getComponent(Card)._cardId))
       if (!newCard[0].getComponent(Card)._isFlipped) { newCard[0].getComponent(Card).flipCard(false) }
       if (newCard[0].parent == null) {
         newCard[0].parent = cc.find("Canvas")
@@ -92,8 +107,12 @@ export default class Deck extends cc.Component {
   }
 
   addToDeckOnBottom(card: cc.Node, sendToServer: boolean) {
+    if (this._cards.includes(card)) {
+      this._cards.splice(this._cards.indexOf(card), 1)
+    } else {
+      CardManager.inDecksCards.push(card);
+    }
     this._cards.unshift(card);
-    CardManager.inDecksCards.push(card);
     card.setParent(null)
     const serverData = {
       signal: Signal.DECK_ADD_TO_BOTTOM,
@@ -105,7 +124,7 @@ export default class Deck extends cc.Component {
   }
 
   shuffle(cardSet: CardSet) {
-    let array = cardSet.getCards()
+    const array = cardSet.getCards()
     let currentIndex = array.length, temporaryValue, randomIndex;
 
     // While there remain elements to shuffle...

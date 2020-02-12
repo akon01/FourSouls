@@ -1,4 +1,4 @@
-import { STACK_EFFECT_TYPE } from "../../Constants";
+import { STACK_EFFECT_TYPE, STACK_EFFECT_VIS_TYPE } from "../../Constants";
 import Player from "../../Entites/GameEntities/Player";
 import StackEffectVisManager from "../../Managers/StackEffectVisManager";
 import { StackEffectVisualRepresentation } from "./Stack Vis Interface";
@@ -9,6 +9,7 @@ export class PurchaseItemVis implements StackEffectVisualRepresentation {
     flavorText: string;
     baseSprite: cc.SpriteFrame = StackEffectVisManager.$.happeningBaseSprite;
     hasBeenUpdated: boolean = false;
+    visType: STACK_EFFECT_VIS_TYPE = STACK_EFFECT_VIS_TYPE.PLAYER_ACTION
 
 
     constructor(itemToBuy: cc.Node, playerWhoBuys: Player, cost: number) {

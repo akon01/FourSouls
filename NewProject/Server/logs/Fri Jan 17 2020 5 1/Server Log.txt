@@ -1,0 +1,1361 @@
+Start Log 
+
+ Player 1 05:01:30 $MATCH:  
+
+ Player 1 05:01:30 $START_GAME:  
+
+ Player 1 05:01:30 $MOVE_TO_TABLE:  
+
+ Player 2 05:01:30 $MOVE_TO_TABLE:  
+
+ Player 2 05:01:38 $FINISH_LOAD:  
+{"id":2,"turnPlayerId":2} 
+
+ Player 1 05:01:39 $FINISH_LOAD:  
+{"id":1,"turnPlayerId":2} 
+
+ Player 2 05:01:39 $ASSIGN_CHAR_TO_PLAYER:  
+{"playerId":1,"charCardId":285,"itemCardId":286} 
+
+ Player 2 05:01:39 $CHOOSE_FOR_EDEN:  
+{"playerId":2,"originPlayerId":2} 
+
+ Player 2 05:01:39 $DECK_ARRAGMENT:  
+{"deckType":5,"arrangement":[205,201,160,175,159,150,166,164,162,219,214,204,157,198,158,185,153,155,217,178,179,187,191,196,199,206,147,218,203,184,161,152,213,169,190,154,165,193,195,207,170,188,168,173,151,209,182,212,174,183,186,177,171,148,181,215,176,210,216,194,146,167,149,197,220,189,202,163,180,172,156,192,208,211,200,145]} 
+
+ Player 1 05:01:39 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":286}],"result":true,"preventMethod":false,"methodScopeId":285,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+
+ Player 2 05:01:43 $EDEN_CHOSEN:  
+{"cardId":201,"playerId":2} 
+
+ Player 2 05:01:43 $DECK_ARRAGMENT:  
+{"deckType":5,"arrangement":[205,160,175,159,150,166,164,162,219,214,204,157,198,158,185,153,155,217,178,179,187,191,196,199,206,147,218,203,184,161,152,213,169,190,154,165,193,195,207,170,188,168,173,151,209,182,212,174,183,186,177,171,148,181,215,176,210,216,194,146,167,149,197,220,189,202,163,180,172,156,192,208,211,200,145]} 
+
+ Player 2 05:01:43 $FLIP_CARD:  
+{"cardId":201} 
+
+ Player 2 05:01:43 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":201}],"result":true,"preventMethod":false,"methodScopeId":283,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+
+ Player 2 05:01:43 $REGISTER_PASSIVE_ITEM:  
+{"cardId":201} 
+
+ Player 2 05:01:44 $ASSIGN_CHAR_TO_PLAYER:  
+{"playerId":2,"charCardId":283,"itemCardId":201} 
+
+ Player 2 05:01:44 $DECK_ARRAGMENT:  
+{"deckType":1,"arrangement":[34,77,19,131,73,42,135,18,62,9,46,95,91,132,78,97,44,71,136,25,102,138,38,104,100,65,66,47,109,137,33,69,10,88,76,139,49,84,86,134,20,11,17,39,70,60,43,57,120,142,54,117,68,55,122,7,111,119,45,101,123,16,96,90,98,63,113,75,23,128,92,8,52,37,13,67,99,89,140,30,127,108,141,83,121,126,107,58,72,116,32,118,85,105,53,35,133,114,81,110,56,93,130,79,82,80,48,94,124,40,21,129,115,36,61,103,12,22,87,29,74,125,28,106,27,26,51,41,31,14,64,50,59,15,112,24]} 
+
+ Player 2 05:01:44 $DECK_ARRAGMENT:  
+{"deckType":2,"arrangement":[267,228,226,249,263,229,268,230,253,236,240,254,275,245,259,244,246,237,231,251,223,235,276,241,252,239,260,262,265,271,255,270,274,266,234,233,243,225,238,273,248,224,257,242,261,227,250,256,264,247,269,258,232,272]} 
+
+ Player 2 05:01:44 $DECK_ARRAGMENT:  
+{"deckType":5,"arrangement":[173,155,204,206,163,156,153,211,208,174,177,170,148,200,189,152,181,198,161,190,212,199,183,192,202,207,217,162,185,214,213,218,210,209,187,179,205,171,172,178,159,203,169,191,158,164,145,150,184,166,182,157,176,180,168,215,160,175,220,219,147,167,151,154,216,195,197,186,196,165,149,194,146,188,193]} 
+
+ Player 2 05:01:44 $DRAW_CARD:  
+{"deckType":5} 
+
+ Player 2 05:01:44 $FLIP_CARD:  
+{"cardId":193} 
+
+ Player 2 05:01:44 $ADD_STORE_CARD:  
+{"cardId":193} 
+
+ Player 2 05:01:44 $DRAW_CARD:  
+{"deckType":5} 
+
+ Player 2 05:01:44 $FLIP_CARD:  
+{"cardId":188} 
+
+ Player 2 05:01:44 $ADD_STORE_CARD:  
+{"cardId":188} 
+
+ Player 2 05:01:44 $DRAW_CARD:  
+{"deckType":2} 
+
+ Player 2 05:01:44 $DECK_ADD_TO_BOTTOM:  
+{"deckType":2,"cardId":272} 
+
+ Player 2 05:01:44 $DRAW_CARD:  
+{"deckType":2} 
+
+ Player 2 05:01:44 $FLIP_CARD:  
+{"cardId":232} 
+
+ Player 2 05:01:44 $ADD_MONSTER:  
+{"monsterPlaceId":1,"monsterId":232} 
+
+ Player 2 05:01:44 $NEW_MONSTER_ON_PLACE:  
+{"cardId":232,"monsterPlaceId":1} 
+
+ Player 2 05:01:44 $DRAW_CARD:  
+{"deckType":2} 
+
+ Player 2 05:01:44 $FLIP_CARD:  
+{"cardId":258} 
+
+ Player 2 05:01:44 $ADD_MONSTER:  
+{"monsterPlaceId":2,"monsterId":258} 
+
+ Player 2 05:01:44 $NEW_MONSTER_ON_PLACE:  
+{"cardId":258,"monsterPlaceId":2} 
+
+ Player 2 05:01:44 $SET_MONEY:  
+{"playerId":1,"numOfCoins":3} 
+
+ Player 2 05:01:44 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":3}],"result":null,"preventMethod":false,"methodScopeId":285,"scopeIsPlayer":true,"index":2,"originStackId":-1},"isAfterActivation":true,"index":2} 
+
+ Player 2 05:01:44 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 05:01:44 $MOVE_CARD:  
+{"moveIndex":1,"cardId":24,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 05:01:44 $MOVE_CARD_END:  
+{"moveIndex":1,"cardId":24,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 05:01:44 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":24} 
+
+ Player 2 05:01:45 $FLIP_CARD:  
+{"cardId":24} 
+
+ Player 2 05:01:45 $FLIP_CARD:  
+{"cardId":24} 
+
+ Player 2 05:01:45 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":24} 
+
+ Player 2 05:01:45 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 05:01:45 $MOVE_CARD:  
+{"moveIndex":2,"cardId":112,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 05:01:45 $MOVE_CARD_END:  
+{"moveIndex":2,"cardId":112,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 05:01:45 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":112} 
+
+ Player 2 05:01:45 $FLIP_CARD:  
+{"cardId":112} 
+
+ Player 2 05:01:45 $FLIP_CARD:  
+{"cardId":112} 
+
+ Player 2 05:01:45 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":112} 
+
+ Player 2 05:01:45 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 05:01:45 $MOVE_CARD:  
+{"moveIndex":3,"cardId":15,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 05:01:46 $MOVE_CARD_END:  
+{"moveIndex":3,"cardId":15,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 05:01:46 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":15} 
+
+ Player 2 05:01:46 $FLIP_CARD:  
+{"cardId":15} 
+
+ Player 2 05:01:46 $FLIP_CARD:  
+{"cardId":15} 
+
+ Player 2 05:01:46 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":15} 
+
+ Player 2 05:01:46 $SET_MONEY:  
+{"playerId":2,"numOfCoins":3} 
+
+ Player 2 05:01:46 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":3}],"result":null,"preventMethod":false,"methodScopeId":283,"scopeIsPlayer":true,"index":3,"originStackId":-1},"isAfterActivation":true,"index":3} 
+
+ Player 2 05:01:46 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 05:01:46 $MOVE_CARD:  
+{"moveIndex":4,"cardId":59,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 05:01:46 $MOVE_CARD_END:  
+{"moveIndex":4,"cardId":59,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 05:01:46 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":59} 
+
+ Player 2 05:01:46 $FLIP_CARD:  
+{"cardId":59} 
+
+ Player 2 05:01:46 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":59} 
+
+ Player 2 05:01:46 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 05:01:46 $MOVE_CARD:  
+{"moveIndex":5,"cardId":50,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 05:01:47 $MOVE_CARD_END:  
+{"moveIndex":5,"cardId":50,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 05:01:47 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":50} 
+
+ Player 2 05:01:47 $FLIP_CARD:  
+{"cardId":50} 
+
+ Player 2 05:01:47 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":50} 
+
+ Player 2 05:01:47 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 05:01:47 $MOVE_CARD:  
+{"moveIndex":6,"cardId":64,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 05:01:47 $MOVE_CARD_END:  
+{"moveIndex":6,"cardId":64,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 05:01:47 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":64} 
+
+ Player 2 05:01:47 $FLIP_CARD:  
+{"cardId":64} 
+
+ Player 2 05:01:47 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":64} 
+
+ Player 2 05:01:47 $GAME_HAS_STARTED:  
+
+ Player 2 05:01:47 $SET_TURN:  
+{"playerId":2} 
+
+ Player 2 05:01:47 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 2 05:01:47 $NEXT_STACK_ID:  
+
+ Player 2 05:01:47 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 2 05:01:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 start turn loot"} 
+
+ Player 2 05:01:47 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":1,"creatorCardId":283,"turnPlayerCardId":283,"stackEffectType":13}} 
+
+ Player 2 05:01:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 start turn loot"} 
+
+ Player 2 05:01:47 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":1,"creatorCardId":283,"turnPlayerCardId":283,"stackEffectType":13}} 
+
+ Player 2 05:01:47 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":0,"_text":"Add StartTurnLoot 1 "}} 
+
+ Player 2 05:01:47 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 2 05:01:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 start turn loot"} 
+
+ Player 2 05:01:47 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":1,"creatorCardId":283,"turnPlayerCardId":283,"stackEffectType":13}} 
+
+ Player 2 05:01:48 $ACTION_MASSAGE_REMOVE:  
+{"id":0} 
+
+ Player 2 05:01:48 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":1,"_text":"Response Adding StartTurnLoot 1"},"childOfId":0} 
+
+ Player 2 05:01:48 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":2,"_text":"Wait For Response From Player 2 "},"childOfId":0} 
+
+ Player 2 05:01:48 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 2 05:01:48 $ACTION_MASSAGE_REMOVE:  
+{"id":2} 
+
+ Player 2 05:01:48 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":3,"_text":"Wait For Response From Player 1 "},"childOfId":0} 
+
+ Player 2 05:01:48 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 2 05:01:48 $GET_REACTION:  
+{"playerId":1,"activePlayerId":2} 
+
+ Player 1 05:01:48 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 1 05:01:48 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 1 05:01:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 start turn loot"} 
+
+ Player 1 05:01:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 start turn loot"} 
+
+ Player 1 05:01:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 start turn loot"} 
+
+ Player 1 05:01:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 start turn loot"} 
+
+ Player 1 05:01:48 $RESPOND_TO:  
+{"playerId":2,"stackEffectResponse":false} 
+
+ Player 2 05:01:48 $ACTION_MASSAGE_REMOVE:  
+{"id":3} 
+
+ Player 2 05:01:48 $ACTION_MASSAGE_REMOVE:  
+{"id":1} 
+
+ Player 2 05:01:48 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":4,"_text":"Resolve StartTurnLoot 1 "}} 
+
+ Player 2 05:01:48 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 05:01:48 $MOVE_CARD:  
+{"moveIndex":7,"cardId":14,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 05:01:48 $MOVE_CARD_END:  
+{"moveIndex":7,"cardId":14,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 05:01:48 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":14} 
+
+ Player 2 05:01:48 $FLIP_CARD:  
+{"cardId":14} 
+
+ Player 2 05:01:48 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":14} 
+
+ Player 2 05:01:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 start turn loot"} 
+
+ Player 2 05:01:48 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":1,"creatorCardId":283,"turnPlayerCardId":283,"stackEffectType":13}} 
+
+ Player 2 05:01:49 $ACTION_MASSAGE_REMOVE:  
+{"id":4} 
+
+ Player 2 05:01:49 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 2 05:01:49 $REMOVE_SE_VIS_PREV:  
+{"stackEffect":{"entityId":1,"creatorCardId":283,"turnPlayerCardId":283,"stackEffectType":13}} 
+
+ Player 2 05:01:49 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":5,"_text":"Remove After Resolve StartTurnLoot 1  "}} 
+
+ Player 2 05:01:49 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 2 05:01:49 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":1,"creatorCardId":283,"turnPlayerCardId":283,"stackEffectType":13}} 
+
+ Player 2 05:01:49 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":6,"_text":"Response Remove After Resolve StartTurnLoot 1"},"childOfId":5} 
+
+ Player 2 05:01:49 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":7,"_text":"Wait For Response From Player 1 "},"childOfId":5} 
+
+ Player 2 05:01:49 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 2 05:01:49 $GET_REACTION:  
+{"playerId":1,"activePlayerId":2} 
+
+ Player 1 05:01:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 start turn loot"} 
+
+ Player 1 05:01:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 start turn loot"} 
+
+ Player 1 05:01:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 start turn loot"} 
+
+ Player 1 05:01:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 start turn loot"} 
+
+ Player 1 05:01:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 start turn loot"} 
+
+ Player 1 05:01:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 start turn loot"} 
+
+ Player 1 05:01:49 $RESPOND_TO:  
+{"playerId":2,"stackEffectResponse":false} 
+
+ Player 2 05:01:49 $ACTION_MASSAGE_REMOVE:  
+{"id":7} 
+
+ Player 2 05:01:49 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":8,"_text":"Wait For Response From Player 2 "},"childOfId":5} 
+
+ Player 2 05:01:49 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 2 05:01:49 $ACTION_MASSAGE_REMOVE:  
+{"id":8} 
+
+ Player 2 05:01:49 $ACTION_MASSAGE_REMOVE:  
+{"id":6} 
+
+ Player 2 05:01:49 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":9,"_text":"Stack Was Emptied "}} 
+
+ Player 2 05:01:49 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 2 05:01:49 $ACTION_MASSAGE_REMOVE:  
+{"id":0} 
+
+ Player 2 05:01:49 $ACTION_MASSAGE_REMOVE:  
+{"id":1} 
+
+ Player 2 05:01:49 $ACTION_MASSAGE_REMOVE:  
+{"id":2} 
+
+ Player 2 05:01:49 $ACTION_MASSAGE_REMOVE:  
+{"id":3} 
+
+ Player 2 05:01:49 $ACTION_MASSAGE_REMOVE:  
+{"id":4} 
+
+ Player 2 05:01:49 $ACTION_MASSAGE_REMOVE:  
+{"id":5} 
+
+ Player 2 05:01:49 $ACTION_MASSAGE_REMOVE:  
+{"id":9} 
+
+ Player 2 05:01:49 $UPDATE_ACTIONS:  
+
+ Player 2 05:01:50 $ACTION_MASSAGE_REMOVE:  
+{"id":9} 
+
+ Player 2 05:01:51 $ACTION_MASSAGE_REMOVE:  
+{"id":5} 
+
+ Player 2 05:02:02 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":290}],"result":true,"preventMethod":false,"methodScopeId":289,"scopeIsPlayer":true,"index":4,"originStackId":-1},"isAfterActivation":true,"index":4} 
+
+ Player 2 05:02:02 $ASSIGN_CHAR_TO_PLAYER:  
+{"playerId":2,"charCardId":289,"itemCardId":290} 
+
+ Player 2 05:02:10 $LOG_ERROR:  
+{"message":"\"Cannot read property 'name' of null\"","stack":"\"TypeError: Cannot read property 'name' of null\\n    at ActivateItemCondition.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardConditions/ActivateItem.js:35:54)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\\n    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\\n    at new Promise (<anonymous>)\\n    at 418.window.__awaiter (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89784:14)\\n    at ActivateItemCondition.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardConditions/ActivateItem.js:22:16)\\n    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Managers/PassiveManager.js:298:56)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\""} 
+//////Error From Player 2////
+  
+
+ Player 2 05:02:10 $LOG_ERROR:  
+//////Error From Player 2////
+
+ "\"Cannot read property 'name' of null\""
+
+ + "\"TypeError: Cannot read property 'name' of null\
+    at ActivateItemCondition.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardConditions/ActivateItem.js:35:54)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\
+    at 418.window.__awaiter (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89784:14)\
+    at ActivateItemCondition.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardConditions/ActivateItem.js:22:16)\
+    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Managers/PassiveManager.js:298:56)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\""
+
+////// 
+//////Error From Player 2////
+
+ "\"Cannot read property 'name' of null\""
+
+ + "\"TypeError: Cannot read property 'name' of null\
+    at ActivateItemCondition.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardConditions/ActivateItem.js:35:54)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\
+    at 418.window.__awaiter (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89784:14)\
+    at ActivateItemCondition.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardConditions/ActivateItem.js:22:16)\
+    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Managers/PassiveManager.js:298:56)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\""
+
+////// 
+
+ Player 2 05:02:10 $LOG_ERROR:  
+{"message":"\"Cannot read property 'name' of null\"","stack":"\"TypeError: Cannot read property 'name' of null\\n    at ActivateItemCondition.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardConditions/ActivateItem.js:35:54)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\\n    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\\n    at new Promise (<anonymous>)\\n    at 418.window.__awaiter (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89784:14)\\n    at ActivateItemCondition.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardConditions/ActivateItem.js:22:16)\\n    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Managers/PassiveManager.js:298:56)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\""} 
+//////Error From Player 2////
+  
+
+ Player 2 05:02:10 $LOG_ERROR:  
+//////Error From Player 2////
+
+ "\"Cannot read property 'name' of null\""
+
+ + "\"TypeError: Cannot read property 'name' of null\
+    at ActivateItemCondition.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardConditions/ActivateItem.js:35:54)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\
+    at 418.window.__awaiter (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89784:14)\
+    at ActivateItemCondition.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardConditions/ActivateItem.js:22:16)\
+    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Managers/PassiveManager.js:298:56)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\""
+
+////// 
+//////Error From Player 2////
+
+ "\"Cannot read property 'name' of null\""
+
+ + "\"TypeError: Cannot read property 'name' of null\
+    at ActivateItemCondition.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardConditions/ActivateItem.js:35:54)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\
+    at 418.window.__awaiter (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89784:14)\
+    at ActivateItemCondition.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardConditions/ActivateItem.js:22:16)\
+    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Managers/PassiveManager.js:298:56)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\""
+
+////// 
+
+ Player 2 05:02:10 $LOG_ERROR:  
+{"message":"\"Cannot read property 'character' of null\"","stack":"\"TypeError: Cannot read property 'character' of null\\n    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\\n    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\\n    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\\n    at Player.calculateReactions (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:1368:61)\\n    at Function.ActionManager.updateActionsForNotTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:222:47)\\n    at DecisionMarker.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Decision%20Marker.js:107:49)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\\n    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\\n    at new Promise (<anonymous>)\""} 
+//////Error From Player 2////
+  
+
+ Player 2 05:02:10 $LOG_ERROR:  
+//////Error From Player 2////
+
+ "\"Cannot read property 'character' of null\""
+
+ + "\"TypeError: Cannot read property 'character' of null\
+    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\
+    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\
+    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\
+    at Player.calculateReactions (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:1368:61)\
+    at Function.ActionManager.updateActionsForNotTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:222:47)\
+    at DecisionMarker.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Decision%20Marker.js:107:49)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\""
+
+////// 
+//////Error From Player 2////
+
+ "\"Cannot read property 'character' of null\""
+
+ + "\"TypeError: Cannot read property 'character' of null\
+    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\
+    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\
+    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\
+    at Player.calculateReactions (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:1368:61)\
+    at Function.ActionManager.updateActionsForNotTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:222:47)\
+    at DecisionMarker.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Decision%20Marker.js:107:49)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\""
+
+////// 
+
+ Player 2 05:02:10 $SHOW_DECISION:  
+{"startCardId":289,"endCardId":283} 
+
+ Player 2 05:02:10 $LOG_ERROR:  
+{"message":"\"Cannot read property 'character' of null\"","stack":"\"TypeError: Cannot read property 'character' of null\\n    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\\n    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\\n    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\\n    at Player.calculateReactions (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:1368:61)\\n    at Function.ActionManager.updateActionsForNotTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:222:47)\\n    at DecisionMarker.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Decision%20Marker.js:107:49)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\\n    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\\n    at new Promise (<anonymous>)\""} 
+//////Error From Player 2////
+  
+
+ Player 2 05:02:10 $LOG_ERROR:  
+//////Error From Player 2////
+
+ "\"Cannot read property 'character' of null\""
+
+ + "\"TypeError: Cannot read property 'character' of null\
+    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\
+    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\
+    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\
+    at Player.calculateReactions (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:1368:61)\
+    at Function.ActionManager.updateActionsForNotTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:222:47)\
+    at DecisionMarker.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Decision%20Marker.js:107:49)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\""
+
+////// 
+//////Error From Player 2////
+
+ "\"Cannot read property 'character' of null\""
+
+ + "\"TypeError: Cannot read property 'character' of null\
+    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\
+    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\
+    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\
+    at Player.calculateReactions (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:1368:61)\
+    at Function.ActionManager.updateActionsForNotTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:222:47)\
+    at DecisionMarker.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Decision%20Marker.js:107:49)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\""
+
+////// 
+
+ Player 2 05:02:10 $SHOW_DECISION:  
+{"startCardId":289,"endCardId":283} 
+
+ Player 2 05:02:13 $NEXT_STACK_ID:  
+
+ Player 2 05:02:13 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 2 05:02:13 $LOG_ERROR:  
+{"message":"\"Cannot read property 'character' of null\"","stack":"\"TypeError: Cannot read property 'character' of null\\n    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\\n    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\\n    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\\n    at Player.calculateReactions (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:1368:61)\\n    at Function.ActionManager.updateActionsForNotTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:222:47)\\n    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Stack.js:308:49)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\\n    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\\n    at new Promise (<anonymous>)\""} 
+//////Error From Player 2////
+  
+
+ Player 2 05:02:13 $LOG_ERROR:  
+//////Error From Player 2////
+
+ "\"Cannot read property 'character' of null\""
+
+ + "\"TypeError: Cannot read property 'character' of null\
+    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\
+    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\
+    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\
+    at Player.calculateReactions (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:1368:61)\
+    at Function.ActionManager.updateActionsForNotTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:222:47)\
+    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Stack.js:308:49)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\""
+
+////// 
+//////Error From Player 2////
+
+ "\"Cannot read property 'character' of null\""
+
+ + "\"TypeError: Cannot read property 'character' of null\
+    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\
+    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\
+    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\
+    at Player.calculateReactions (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:1368:61)\
+    at Function.ActionManager.updateActionsForNotTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:222:47)\
+    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Stack.js:308:49)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\""
+
+////// 
+
+ Player 2 05:02:13 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden"} 
+
+ Player 2 05:02:13 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":2,"creatorCardId":289,"hasLockingStackEffect":false,"itemToPlayCardId":283,"itemPlayerId":2,"hasDataBeenCollectedYet":false,"stackEffectType":1}} 
+
+ Player 2 05:02:13 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden"} 
+
+ Player 2 05:02:13 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":2,"creatorCardId":289,"hasLockingStackEffect":false,"itemToPlayCardId":283,"itemPlayerId":2,"hasDataBeenCollectedYet":false,"stackEffectType":1}} 
+
+ Player 2 05:02:13 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":10,"_text":"Add ActivateItem 2 "}} 
+
+ Player 2 05:02:13 $NEXT_STACK_ID:  
+
+ Player 2 05:02:13 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden"} 
+
+ Player 2 05:02:13 $LOG_ERROR:  
+{"message":"\"Cannot read property 'character' of null\"","stack":"\"TypeError: Cannot read property 'character' of null\\n    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\\n    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\\n    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\\n    at Player.calculateReactions (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:1368:61)\\n    at Function.ActionManager.updateActionsForNotTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:222:47)\\n    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Stack.js:308:49)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\\n    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\\n    at new Promise (<anonymous>)\""} 
+//////Error From Player 2////
+  
+
+ Player 2 05:02:13 $LOG_ERROR:  
+//////Error From Player 2////
+
+ "\"Cannot read property 'character' of null\""
+
+ + "\"TypeError: Cannot read property 'character' of null\
+    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\
+    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\
+    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\
+    at Player.calculateReactions (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:1368:61)\
+    at Function.ActionManager.updateActionsForNotTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:222:47)\
+    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Stack.js:308:49)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\""
+
+////// 
+//////Error From Player 2////
+
+ "\"Cannot read property 'character' of null\""
+
+ + "\"TypeError: Cannot read property 'character' of null\
+    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\
+    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\
+    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\
+    at Player.calculateReactions (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:1368:61)\
+    at Function.ActionManager.updateActionsForNotTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:222:47)\
+    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Stack.js:308:49)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\""
+
+////// 
+
+ Player 2 05:02:13 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden \n2:Player 2 activated Eden"} 
+
+ Player 2 05:02:13 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":3,"creatorCardId":289,"hasLockingStackEffect":false,"itemToPlayCardId":283,"itemPlayerId":2,"hasDataBeenCollectedYet":false,"stackEffectType":1}} 
+
+ Player 2 05:02:13 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden \n2:Player 2 activated Eden"} 
+
+ Player 2 05:02:13 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":3,"creatorCardId":289,"hasLockingStackEffect":false,"itemToPlayCardId":283,"itemPlayerId":2,"hasDataBeenCollectedYet":false,"stackEffectType":1}} 
+
+ Player 2 05:02:13 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":11,"_text":"Add ActivateItem 3 "}} 
+
+ Player 1 05:02:13 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 1 05:02:13 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 1 05:02:13 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden"} 
+
+ Player 1 05:02:13 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden"} 
+
+ Player 1 05:02:13 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden"} 
+
+ Player 1 05:02:13 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden"} 
+
+ Player 1 05:02:13 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden \n2:Player 2 activated Eden"} 
+
+ Player 1 05:02:13 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden \n2:Player 2 activated Eden"} 
+
+ Player 2 05:02:18 $LOG_ERROR:  
+{"message":"\"Cannot read property 'character' of null\"","stack":"\"TypeError: Cannot read property 'character' of null\\n    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\\n    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\\n    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\\n    at Player.calculateReactions (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:1368:61)\\n    at Function.ActionManager.updateActionsForNotTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:222:47)\\n    at DecisionMarker.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Decision%20Marker.js:107:49)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\\n    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\\n    at new Promise (<anonymous>)\""} 
+//////Error From Player 2////
+  
+
+ Player 2 05:02:18 $LOG_ERROR:  
+//////Error From Player 2////
+
+ "\"Cannot read property 'character' of null\""
+
+ + "\"TypeError: Cannot read property 'character' of null\
+    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\
+    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\
+    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\
+    at Player.calculateReactions (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:1368:61)\
+    at Function.ActionManager.updateActionsForNotTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:222:47)\
+    at DecisionMarker.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Decision%20Marker.js:107:49)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\""
+
+////// 
+//////Error From Player 2////
+
+ "\"Cannot read property 'character' of null\""
+
+ + "\"TypeError: Cannot read property 'character' of null\
+    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\
+    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\
+    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\
+    at Player.calculateReactions (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:1368:61)\
+    at Function.ActionManager.updateActionsForNotTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:222:47)\
+    at DecisionMarker.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Decision%20Marker.js:107:49)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\""
+
+////// 
+
+ Player 2 05:02:19 $SHOW_DECISION:  
+{"startCardId":289,"endCardId":50,"flipEndCard":true} 
+
+ Player 2 05:02:19 $LOG_ERROR:  
+{"message":"\"Cannot read property 'character' of null\"","stack":"\"TypeError: Cannot read property 'character' of null\\n    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\\n    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\\n    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\\n    at Player.calculateReactions (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:1368:61)\\n    at Function.ActionManager.updateActionsForNotTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:222:47)\\n    at DecisionMarker.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Decision%20Marker.js:107:49)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\\n    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\\n    at new Promise (<anonymous>)\""} 
+//////Error From Player 2////
+  
+
+ Player 2 05:02:19 $LOG_ERROR:  
+//////Error From Player 2////
+
+ "\"Cannot read property 'character' of null\""
+
+ + "\"TypeError: Cannot read property 'character' of null\
+    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\
+    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\
+    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\
+    at Player.calculateReactions (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:1368:61)\
+    at Function.ActionManager.updateActionsForNotTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:222:47)\
+    at DecisionMarker.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Decision%20Marker.js:107:49)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\""
+
+////// 
+//////Error From Player 2////
+
+ "\"Cannot read property 'character' of null\""
+
+ + "\"TypeError: Cannot read property 'character' of null\
+    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\
+    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\
+    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\
+    at Player.calculateReactions (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:1368:61)\
+    at Function.ActionManager.updateActionsForNotTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:222:47)\
+    at DecisionMarker.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Decision%20Marker.js:107:49)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\""
+
+////// 
+
+ Player 2 05:02:19 $SHOW_DECISION:  
+{"startCardId":289,"endCardId":50,"flipEndCard":true} 
+
+ Player 2 05:02:21 $USE_ITEM:  
+{"cardId":283} 
+
+ Player 2 05:02:22 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 2 05:02:22 $USE_ITEM:  
+{"cardId":283} 
+
+ Player 2 05:02:22 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 2 05:02:22 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden \n2:Player 2 activated Eden"} 
+
+ Player 2 05:02:22 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":2,"creatorCardId":289,"hasLockingStackEffect":false,"itemToPlayCardId":283,"itemPlayerId":2,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":true,"stackEffectType":1}} 
+
+ Player 2 05:02:22 $ACTION_MASSAGE_REMOVE:  
+{"id":10} 
+
+ Player 2 05:02:22 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":12,"_text":"Response Adding ActivateItem 2"},"childOfId":10} 
+
+ Player 2 05:02:22 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":13,"_text":"Wait For Response From Player 2 "},"childOfId":10} 
+
+ Player 2 05:02:22 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 2 05:02:22 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden \n2:Player 2 activated Eden"} 
+
+ Player 2 05:02:22 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":3,"creatorCardId":289,"hasLockingStackEffect":false,"itemToPlayCardId":283,"itemPlayerId":2,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":true,"stackEffectType":1}} 
+
+ Player 2 05:02:22 $ACTION_MASSAGE_REMOVE:  
+{"id":11} 
+
+ Player 2 05:02:22 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":14,"_text":"Response Adding ActivateItem 3"},"childOfId":11} 
+
+ Player 2 05:02:22 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":15,"_text":"Wait For Response From Player 2 "},"childOfId":11} 
+
+ Player 2 05:02:22 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 2 05:02:22 $ACTION_MASSAGE_REMOVE:  
+{"id":13} 
+
+ Player 2 05:02:22 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":16,"_text":"Wait For Response From Player 1 "},"childOfId":10} 
+
+ Player 2 05:02:22 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 2 05:02:22 $GET_REACTION:  
+{"playerId":1,"activePlayerId":2} 
+
+ Player 2 05:02:22 $ACTION_MASSAGE_REMOVE:  
+{"id":15} 
+
+ Player 2 05:02:22 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":17,"_text":"Wait For Response From Player 1 "},"childOfId":11} 
+
+ Player 2 05:02:22 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 2 05:02:22 $GET_REACTION:  
+{"playerId":1,"activePlayerId":2} 
+
+ Player 1 05:02:22 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden \n2:Player 2 activated Eden"} 
+
+ Player 1 05:02:22 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden \n2:Player 2 activated Eden"} 
+
+ Player 1 05:02:22 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden \n2:Player 2 activated Eden"} 
+
+ Player 1 05:02:22 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden \n2:Player 2 activated Eden"} 
+
+ Player 1 05:02:23 $RESPOND_TO:  
+{"playerId":2,"stackEffectResponse":false} 
+
+ Player 1 05:02:23 $RESPOND_TO:  
+{"playerId":2,"stackEffectResponse":false} 
+
+ Player 2 05:02:23 $ACTION_MASSAGE_REMOVE:  
+{"id":16} 
+
+ Player 2 05:02:23 $ACTION_MASSAGE_REMOVE:  
+{"id":17} 
+
+ Player 2 05:02:23 $ACTION_MASSAGE_REMOVE:  
+{"id":12} 
+
+ Player 2 05:02:23 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":18,"_text":"Resolve ActivateItem 3 "}} 
+
+ Player 2 05:02:23 $ACTION_MASSAGE_REMOVE:  
+{"id":14} 
+
+ Player 2 05:02:23 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":19,"_text":"Resolve ActivateItem 3 "}} 
+
+ Player 2 05:02:23 $ACTIVATE_PARTICLE_EFFECT:  
+{"cardId":283,"particleType":6} 
+
+ Player 2 05:02:25 $DISABLE_PARTICLE_EFFECT:  
+{"cardId":283,"particleType":6} 
+
+ Player 2 05:02:25 $LOG_ERROR:  
+{"message":"\"Cannot read property 'character' of null\"","stack":"\"TypeError: Cannot read property 'character' of null\\n    at PlayLootCard.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardEffects/PlayLootCard.js:44:72)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\\n    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\\n    at new Promise (<anonymous>)\\n    at 418.window.__awaiter (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89784:14)\\n    at PlayLootCard.doEffect (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardEffects/PlayLootCard.js:29:16)\\n    at CardEffect.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:232:59)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\""} 
+//////Error From Player 2////
+  
+
+ Player 2 05:02:25 $LOG_ERROR:  
+//////Error From Player 2////
+
+ "\"Cannot read property 'character' of null\""
+
+ + "\"TypeError: Cannot read property 'character' of null\
+    at PlayLootCard.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardEffects/PlayLootCard.js:44:72)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\
+    at 418.window.__awaiter (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89784:14)\
+    at PlayLootCard.doEffect (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardEffects/PlayLootCard.js:29:16)\
+    at CardEffect.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:232:59)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\""
+
+////// 
+//////Error From Player 2////
+
+ "\"Cannot read property 'character' of null\""
+
+ + "\"TypeError: Cannot read property 'character' of null\
+    at PlayLootCard.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardEffects/PlayLootCard.js:44:72)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\
+    at 418.window.__awaiter (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89784:14)\
+    at PlayLootCard.doEffect (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardEffects/PlayLootCard.js:29:16)\
+    at CardEffect.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:232:59)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\""
+
+////// 
+
+ Player 2 05:02:25 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden \n2:Player 2 activated Eden"} 
+
+ Player 2 05:02:25 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":3,"creatorCardId":289,"hasLockingStackEffect":false,"itemToPlayCardId":283,"itemPlayerId":2,"hasDataBeenCollectedYet":true,"stackEffectType":1}} 
+
+ Player 2 05:02:25 $ACTION_MASSAGE_REMOVE:  
+{"id":18} 
+
+ Player 2 05:02:25 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden"} 
+
+ Player 2 05:02:25 $REMOVE_SE_VIS_PREV:  
+{"stackEffect":{"entityId":3,"creatorCardId":289,"hasLockingStackEffect":false,"itemToPlayCardId":283,"itemPlayerId":2,"hasDataBeenCollectedYet":true,"stackEffectType":1}} 
+
+ Player 2 05:02:25 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":20,"_text":"Remove After Resolve ActivateItem 3  "}} 
+
+ Player 2 05:02:25 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden"} 
+
+ Player 2 05:02:25 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":3,"creatorCardId":289,"hasLockingStackEffect":false,"itemToPlayCardId":283,"itemPlayerId":2,"hasDataBeenCollectedYet":true,"stackEffectType":1}} 
+
+ Player 2 05:02:25 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":21,"_text":"Response Remove After Resolve ActivateItem 3"},"childOfId":20} 
+
+ Player 2 05:02:25 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":22,"_text":"Wait For Response From Player 1 "},"childOfId":20} 
+
+ Player 2 05:02:25 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 2 05:02:25 $GET_REACTION:  
+{"playerId":1,"activePlayerId":2} 
+
+ Player 1 05:02:25 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden \n2:Player 2 activated Eden"} 
+
+ Player 1 05:02:26 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden \n2:Player 2 activated Eden"} 
+
+ Player 1 05:02:26 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden \n2:Player 2 activated Eden"} 
+
+ Player 1 05:02:26 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden \n2:Player 2 activated Eden"} 
+
+ Player 1 05:02:26 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden \n2:Player 2 activated Eden"} 
+
+ Player 1 05:02:26 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden \n2:Player 2 activated Eden"} 
+
+ Player 1 05:02:26 $RESPOND_TO:  
+{"playerId":2,"stackEffectResponse":false} 
+
+ Player 2 05:02:26 $ACTION_MASSAGE_REMOVE:  
+{"id":22} 
+
+ Player 2 05:02:26 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":23,"_text":"Wait For Response From Player 2 "},"childOfId":20} 
+
+ Player 2 05:02:26 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 2 05:02:26 $ACTION_MASSAGE_REMOVE:  
+{"id":23} 
+
+ Player 2 05:02:26 $ACTION_MASSAGE_REMOVE:  
+{"id":21} 
+
+ Player 2 05:02:26 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":24,"_text":"Resolve ActivateItem 2 "}} 
+
+ Player 2 05:02:26 $ACTIVATE_PARTICLE_EFFECT:  
+{"cardId":283,"particleType":6} 
+
+ Player 2 05:02:28 $ACTION_MASSAGE_REMOVE:  
+{"id":20} 
+
+ Player 2 05:02:28 $DISABLE_PARTICLE_EFFECT:  
+{"cardId":283,"particleType":6} 
+
+ Player 2 05:02:28 $LOG_ERROR:  
+{"message":"\"Cannot read property 'effectCard' of undefined\"","stack":"\"TypeError: Cannot read property 'effectCard' of undefined\\n    at PlayLootCard.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardEffects/PlayLootCard.js:41:79)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\\n    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\\n    at new Promise (<anonymous>)\\n    at 418.window.__awaiter (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89784:14)\\n    at PlayLootCard.doEffect (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardEffects/PlayLootCard.js:29:16)\\n    at CardEffect.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:232:59)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\""} 
+//////Error From Player 2////
+  
+
+ Player 2 05:02:28 $LOG_ERROR:  
+//////Error From Player 2////
+
+ "\"Cannot read property 'effectCard' of undefined\""
+
+ + "\"TypeError: Cannot read property 'effectCard' of undefined\
+    at PlayLootCard.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardEffects/PlayLootCard.js:41:79)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\
+    at 418.window.__awaiter (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89784:14)\
+    at PlayLootCard.doEffect (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardEffects/PlayLootCard.js:29:16)\
+    at CardEffect.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:232:59)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\""
+
+////// 
+//////Error From Player 2////
+
+ "\"Cannot read property 'effectCard' of undefined\""
+
+ + "\"TypeError: Cannot read property 'effectCard' of undefined\
+    at PlayLootCard.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardEffects/PlayLootCard.js:41:79)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89804:71\
+    at new Promise (<anonymous>)\
+    at 418.window.__awaiter (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89784:14)\
+    at PlayLootCard.doEffect (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardEffects/PlayLootCard.js:29:16)\
+    at CardEffect.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:232:59)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\""
+
+////// 
+
+ Player 2 05:02:28 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden"} 
+
+ Player 2 05:02:28 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":2,"creatorCardId":289,"hasLockingStackEffect":false,"itemToPlayCardId":283,"itemPlayerId":2,"hasDataBeenCollectedYet":true,"stackEffectType":1}} 
+
+ Player 2 05:02:28 $ACTION_MASSAGE_REMOVE:  
+{"id":24} 
+
+ Player 2 05:02:28 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 2 05:02:28 $REMOVE_SE_VIS_PREV:  
+{"stackEffect":{"entityId":2,"creatorCardId":289,"hasLockingStackEffect":false,"itemToPlayCardId":283,"itemPlayerId":2,"hasDataBeenCollectedYet":true,"stackEffectType":1}} 
+
+ Player 2 05:02:28 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":25,"_text":"Remove After Resolve ActivateItem 2  "}} 
+
+ Player 2 05:02:28 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 2 05:02:28 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":2,"creatorCardId":289,"hasLockingStackEffect":false,"itemToPlayCardId":283,"itemPlayerId":2,"hasDataBeenCollectedYet":true,"stackEffectType":1}} 
+
+ Player 2 05:02:28 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":26,"_text":"Response Remove After Resolve ActivateItem 2"},"childOfId":25} 
+
+ Player 2 05:02:28 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":27,"_text":"Wait For Response From Player 2 "},"childOfId":25} 
+
+ Player 2 05:02:28 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 2 05:02:28 $ACTION_MASSAGE_REMOVE:  
+{"id":27} 
+
+ Player 2 05:02:29 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":28,"_text":"Wait For Response From Player 1 "},"childOfId":25} 
+
+ Player 2 05:02:29 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 2 05:02:29 $GET_REACTION:  
+{"playerId":1,"activePlayerId":2} 
+
+ Player 1 05:02:29 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden"} 
+
+ Player 1 05:02:29 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden"} 
+
+ Player 1 05:02:29 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden"} 
+
+ Player 1 05:02:29 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden"} 
+
+ Player 1 05:02:29 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden"} 
+
+ Player 1 05:02:29 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 2 activated Eden"} 
+
+ Player 1 05:02:29 $RESPOND_TO:  
+{"playerId":2,"stackEffectResponse":false} 
+
+ Player 2 05:02:29 $ACTION_MASSAGE_REMOVE:  
+{"id":28} 
+
+ Player 2 05:02:29 $ACTION_MASSAGE_REMOVE:  
+{"id":26} 
+
+ Player 2 05:02:29 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":29,"_text":"Stack Was Emptied "}} 
+
+ Player 2 05:02:29 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 2 05:02:29 $ACTION_MASSAGE_REMOVE:  
+{"id":0} 
+
+ Player 2 05:02:29 $ACTION_MASSAGE_REMOVE:  
+{"id":1} 
+
+ Player 2 05:02:29 $ACTION_MASSAGE_REMOVE:  
+{"id":2} 
+
+ Player 2 05:02:29 $ACTION_MASSAGE_REMOVE:  
+{"id":3} 
+
+ Player 2 05:02:30 $ACTION_MASSAGE_REMOVE:  
+{"id":4} 
+
+ Player 2 05:02:30 $ACTION_MASSAGE_REMOVE:  
+{"id":5} 
+
+ Player 2 05:02:30 $ACTION_MASSAGE_REMOVE:  
+{"id":9} 
+
+ Player 2 05:02:30 $ACTION_MASSAGE_REMOVE:  
+{"id":10} 
+
+ Player 2 05:02:30 $ACTION_MASSAGE_REMOVE:  
+{"id":11} 
+
+ Player 2 05:02:30 $ACTION_MASSAGE_REMOVE:  
+{"id":18} 
+
+ Player 2 05:02:30 $ACTION_MASSAGE_REMOVE:  
+{"id":19} 
+
+ Player 2 05:02:30 $ACTION_MASSAGE_REMOVE:  
+{"id":20} 
+
+ Player 2 05:02:30 $ACTION_MASSAGE_REMOVE:  
+{"id":24} 
+
+ Player 2 05:02:30 $ACTION_MASSAGE_REMOVE:  
+{"id":25} 
+
+ Player 2 05:02:30 $ACTION_MASSAGE_REMOVE:  
+{"id":29} 
+
+ Player 2 05:02:30 $LOG_ERROR:  
+{"message":"\"Cannot read property 'character' of null\"","stack":"\"TypeError: Cannot read property 'character' of null\\n    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\\n    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\\n    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\\n    at Function.CardManager.makeItemActivateable (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:404:54)\\n    at Function.ActionManager.updateActionsForTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:150:47)\\n    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:329:51)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\\n    at fulfilled (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89787:28)\""} 
+//////Error From Player 2////
+  
+
+ Player 2 05:02:30 $LOG_ERROR:  
+//////Error From Player 2////
+
+ "\"Cannot read property 'character' of null\""
+
+ + "\"TypeError: Cannot read property 'character' of null\
+    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\
+    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\
+    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\
+    at Function.CardManager.makeItemActivateable (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:404:54)\
+    at Function.ActionManager.updateActionsForTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:150:47)\
+    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:329:51)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at fulfilled (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89787:28)\""
+
+////// 
+//////Error From Player 2////
+
+ "\"Cannot read property 'character' of null\""
+
+ + "\"TypeError: Cannot read property 'character' of null\
+    at Function.CardManager.getCardOwner (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:565:66)\
+    at HasLootCards.testCondition (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/PreConditions/Has%20Loot%20Cards.js:19:43)\
+    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:66:34)\
+    at Function.CardManager.makeItemActivateable (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:404:54)\
+    at Function.ActionManager.updateActionsForTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:150:47)\
+    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:329:51)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89882:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89826:18)\
+    at fulfilled (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:89787:28)\""
+
+////// 
+
+ Player 2 05:02:30 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 2 05:02:30 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 2 05:02:30 $ACTION_MASSAGE_REMOVE:  
+{"id":0} 
+
+ Player 2 05:02:30 $ACTION_MASSAGE_REMOVE:  
+{"id":1} 
+
+ Player 2 05:02:31 $ACTION_MASSAGE_REMOVE:  
+{"id":2} 
+
+ Player 2 05:02:31 $ACTION_MASSAGE_REMOVE:  
+{"id":3} 
+
+ Player 2 05:02:31 $ACTION_MASSAGE_REMOVE:  
+{"id":4} 
+
+ Player 2 05:02:31 $ACTION_MASSAGE_REMOVE:  
+{"id":5} 
+
+ Player 2 05:02:31 $ACTION_MASSAGE_REMOVE:  
+{"id":9} 
+
+ Player 2 05:02:31 $ACTION_MASSAGE_REMOVE:  
+{"id":10} 
+
+ Player 2 05:02:31 $ACTION_MASSAGE_REMOVE:  
+{"id":11} 
+
+ Player 2 05:02:31 $ACTION_MASSAGE_REMOVE:  
+{"id":18} 
+
+ Player 2 05:02:31 $ACTION_MASSAGE_REMOVE:  
+{"id":19} 
+
+ Player 2 05:02:31 $ACTION_MASSAGE_REMOVE:  
+{"id":20} 
+
+ Player 2 05:02:31 $ACTION_MASSAGE_REMOVE:  
+{"id":24} 
+
+ Player 2 05:02:31 $ACTION_MASSAGE_REMOVE:  
+{"id":25} 
+
+ Player 2 05:02:32 $ACTION_MASSAGE_REMOVE:  
+{"id":29} 
+
+ Player 2 05:02:32 $REPLACE_STACK:  
+{"currentStack":[]} 
+
+ Player 2 05:02:32 $END_TURN:  
+
+ Player 2 05:02:32 $SET_TURN:  
+{"playerId":1} 
+
+ Player 2 05:02:32 $START_TURN:  
+{"playerId":1}

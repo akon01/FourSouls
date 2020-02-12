@@ -102,6 +102,7 @@ export default class ServerClient extends cc.Component {
     whevent.on(Signal.TURN_PLAYER_DO_STACK_EFFECT, this.onPlayerActionFromServer, this);
     whevent.on(Signal.START_TURN, this.onPlayerActionFromServer, this);
     whevent.on(Signal.PLAYER_HEAL, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYER_ADD_DMG_PREVENTION, this.onPlayerActionFromServer, this);
 
     //monster events
     whevent.on(Signal.MONSTER_GAIN_DMG, this.onPlayerActionFromServer, this);
@@ -120,12 +121,17 @@ export default class ServerClient extends cc.Component {
     whevent.on(Signal.USE_ITEM, this.onPlayerActionFromServer, this);
     whevent.on(Signal.SET_TURN, this.onPlayerActionFromServer, this);
     whevent.on(Signal.ASSIGN_CHAR_TO_PLAYER, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.SET_CHAR, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.SET_CHAR_END, this.onPlayerActionFromServer, this);
     whevent.on(Signal.FLIP_CARD, this.onPlayerActionFromServer, this);
     whevent.on(Signal.REMOVE_ITEM_FROM_SHOP, this.onPlayerActionFromServer, this);
     whevent.on(Signal.CARD_GET_COUNTER, this.onPlayerActionFromServer, this);
     whevent.on(Signal.NEW_MONSTER_PLACE, this.onPlayerActionFromServer, this);
     whevent.on(Signal.END_BATTLE, this.onPlayerActionFromServer, this)
     whevent.on(Signal.UPDATE_PASSIVE_DATA, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.SHOW_DECISION, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.SHOW_DICE_ROLL, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.SHOW_EFFECT_CHOSEN, this.onPlayerActionFromServer, this);
 
     //deck event
     whevent.on(Signal.DECK_ADD_TO_TOP, this.onPlayerActionFromServer, this);
@@ -136,12 +142,18 @@ export default class ServerClient extends cc.Component {
     //stack events
     whevent.on(Signal.REPLACE_STACK, this.onPlayerActionFromServer, this);
     whevent.on(Signal.REMOVE_FROM_STACK, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.STACK_EMPTIED, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.FIZZLE_STACK_EFFECT, this.onPlayerActionFromServer, this);
     whevent.on(Signal.ADD_TO_STACK, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PUT_ON_STACK, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.END_PUT_ON_STACK, this.onPlayerActionFromServer, this);
     whevent.on(Signal.ADD_RESOLVING_STACK_EFFECT, this.onPlayerActionFromServer, this);
     whevent.on(Signal.REMOVE_RESOLVING_STACK_EFFECT, this.onPlayerActionFromServer, this);
     whevent.on(Signal.UPDATE_STACK_VIS, this.onPlayerActionFromServer, this);
     whevent.on(Signal.NEXT_STACK_ID, this.onPlayerActionFromServer, this);
     whevent.on(Signal.UPDATE_STACK_LABLE, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.ADD_SE_VIS_PREV, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.REMOVE_SE_VIS_PREV, this.onPlayerActionFromServer, this);
     whevent.on(Signal.UPDATE_STACK_EFFECT, this.onPlayerActionFromServer, this);
 
     //Eden events

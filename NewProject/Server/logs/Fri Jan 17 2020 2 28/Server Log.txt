@@ -1,0 +1,1402 @@
+Start Log 
+
+ Player 1 02:28:50 $MATCH:  
+
+ Player 1 02:28:50 $START_GAME:  
+
+ Player 2 02:28:50 $MOVE_TO_TABLE:  
+
+ Player 1 02:28:50 $MOVE_TO_TABLE:  
+
+ Player 2 02:28:58 $FINISH_LOAD:  
+{"id":2,"turnPlayerId":2} 
+
+ Player 1 02:28:58 $FINISH_LOAD:  
+{"id":1,"turnPlayerId":2} 
+
+ Player 2 02:28:58 $CHOOSE_FOR_EDEN:  
+{"playerId":1,"originPlayerId":2} 
+
+ Player 1 02:28:59 $DECK_ARRAGMENT:  
+{"deckType":5,"arrangement":[217,196,187,156,212,163,191,192,166,164,200,176,181,159,174,179,219,170,210,186,158,145,183,177,148,165,188,182,193,198,161,206,147,162,175,160,215,213,146,205,216,199,197,220,178,218,185,149,167,168,180,155,189,203,157,204,154,201,172,150,153,151,169,202,190,214,171,209,208,184,195,207,211,152,194,173]} 
+
+ Player 1 02:29:04 $EDEN_CHOSEN:  
+{"cardId":217,"playerId":2} 
+
+ Player 2 02:29:04 $DECK_ARRAGMENT:  
+{"deckType":5,"arrangement":[196,187,156,212,163,191,192,166,164,200,176,181,159,174,179,219,170,210,186,158,145,183,177,148,165,188,182,193,198,161,206,147,162,175,160,215,213,146,205,216,199,197,220,178,218,185,149,167,168,180,155,189,203,157,204,154,201,172,150,153,151,169,202,190,214,171,209,208,184,195,207,211,152,194,173]} 
+
+ Player 2 02:29:04 $FLIP_CARD:  
+{"cardId":217} 
+
+ Player 2 02:29:05 $REGISTER_PASSIVE_ITEM:  
+{"cardId":217} 
+
+ Player 2 02:29:05 $ASSIGN_CHAR_TO_PLAYER:  
+{"playerId":1,"charCardId":283,"itemCardId":217} 
+
+ Player 2 02:29:05 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":290}],"result":true,"preventMethod":false,"methodScopeId":289,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+
+ Player 2 02:29:05 $ASSIGN_CHAR_TO_PLAYER:  
+{"playerId":2,"charCardId":289,"itemCardId":290} 
+
+ Player 2 02:29:05 $DECK_ARRAGMENT:  
+{"deckType":1,"arrangement":[26,86,130,104,29,8,65,95,115,102,46,139,27,70,51,80,43,7,126,17,62,25,106,52,40,91,48,54,38,75,137,56,111,74,83,14,23,30,58,13,113,18,121,88,96,36,63,129,127,138,42,99,123,44,78,100,116,122,31,72,141,142,124,60,22,49,119,109,79,37,67,120,98,101,81,110,97,89,112,69,57,84,50,114,34,66,41,135,90,21,55,39,134,32,136,10,93,45,12,87,64,33,132,117,71,107,131,61,108,73,11,118,9,19,133,35,140,94,105,103,85,16,47,15,53,20,68,76,125,28,128,92,82,24,77,59]} 
+
+ Player 2 02:29:05 $DECK_ARRAGMENT:  
+{"deckType":2,"arrangement":[235,232,239,243,267,241,248,253,254,269,249,258,246,265,262,272,252,260,266,257,244,233,236,223,229,245,268,275,237,247,259,271,263,270,240,274,225,276,228,226,230,256,273,242,255,238,227,224,250,264,234,251,231,261]} 
+
+ Player 2 02:29:05 $DECK_ARRAGMENT:  
+{"deckType":5,"arrangement":[202,149,209,167,206,147,157,218,176,173,220,199,186,189,179,213,177,194,187,195,192,161,210,153,181,183,151,197,156,163,170,191,146,165,193,203,204,174,175,154,152,216,166,169,171,180,196,160,188,158,159,178,168,215,185,148,172,155,212,150,182,201,205,211,145,184,219,208,190,200,207,164,162,214,198]} 
+
+ Player 2 02:29:05 $DRAW_CARD:  
+{"deckType":5} 
+
+ Player 2 02:29:05 $FLIP_CARD:  
+{"cardId":198} 
+
+ Player 2 02:29:05 $ADD_STORE_CARD:  
+{"cardId":198} 
+
+ Player 2 02:29:05 $DRAW_CARD:  
+{"deckType":5} 
+
+ Player 2 02:29:05 $FLIP_CARD:  
+{"cardId":214} 
+
+ Player 2 02:29:05 $ADD_STORE_CARD:  
+{"cardId":214} 
+
+ Player 2 02:29:05 $DRAW_CARD:  
+{"deckType":2} 
+
+ Player 2 02:29:05 $FLIP_CARD:  
+{"cardId":261} 
+
+ Player 2 02:29:05 $REGISTER_PASSIVE_ITEM:  
+{"cardId":261} 
+
+ Player 2 02:29:05 $ADD_MONSTER:  
+{"monsterPlaceId":1,"monsterId":261} 
+
+ Player 2 02:29:05 $NEW_MONSTER_ON_PLACE:  
+{"cardId":261,"monsterPlaceId":1} 
+
+ Player 2 02:29:05 $DRAW_CARD:  
+{"deckType":2} 
+
+ Player 2 02:29:05 $FLIP_CARD:  
+{"cardId":231} 
+
+ Player 2 02:29:05 $ADD_MONSTER:  
+{"monsterPlaceId":2,"monsterId":231} 
+
+ Player 2 02:29:05 $NEW_MONSTER_ON_PLACE:  
+{"cardId":231,"monsterPlaceId":2} 
+
+ Player 2 02:29:05 $SET_MONEY:  
+{"playerId":1,"numOfCoins":3} 
+
+ Player 2 02:29:05 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":3}],"result":null,"preventMethod":false,"methodScopeId":283,"scopeIsPlayer":true,"index":2,"originStackId":-1},"isAfterActivation":true,"index":2} 
+
+ Player 2 02:29:05 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 02:29:05 $MOVE_CARD:  
+{"moveIndex":1,"cardId":59,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 02:29:05 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":217}],"result":true,"preventMethod":false,"methodScopeId":283,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+
+ Player 1 02:29:06 $MOVE_CARD_END:  
+{"moveIndex":1,"cardId":59,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 02:29:06 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":59} 
+
+ Player 2 02:29:06 $FLIP_CARD:  
+{"cardId":59} 
+
+ Player 2 02:29:06 $FLIP_CARD:  
+{"cardId":59} 
+
+ Player 2 02:29:06 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":59} 
+
+ Player 2 02:29:06 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 02:29:06 $MOVE_CARD:  
+{"moveIndex":2,"cardId":77,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 02:29:06 $MOVE_CARD_END:  
+{"moveIndex":2,"cardId":77,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 02:29:06 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":77} 
+
+ Player 2 02:29:06 $FLIP_CARD:  
+{"cardId":77} 
+
+ Player 2 02:29:06 $FLIP_CARD:  
+{"cardId":77} 
+
+ Player 2 02:29:06 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":77} 
+
+ Player 2 02:29:06 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 02:29:06 $MOVE_CARD:  
+{"moveIndex":3,"cardId":24,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 02:29:07 $MOVE_CARD_END:  
+{"moveIndex":3,"cardId":24,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 02:29:07 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":24} 
+
+ Player 2 02:29:07 $FLIP_CARD:  
+{"cardId":24} 
+
+ Player 2 02:29:07 $FLIP_CARD:  
+{"cardId":24} 
+
+ Player 2 02:29:07 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":24} 
+
+ Player 2 02:29:07 $SET_MONEY:  
+{"playerId":2,"numOfCoins":3} 
+
+ Player 2 02:29:07 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":3}],"result":null,"preventMethod":false,"methodScopeId":289,"scopeIsPlayer":true,"index":3,"originStackId":-1},"isAfterActivation":true,"index":3} 
+
+ Player 2 02:29:07 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 02:29:07 $MOVE_CARD:  
+{"moveIndex":4,"cardId":82,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 02:29:07 $MOVE_CARD_END:  
+{"moveIndex":4,"cardId":82,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 02:29:07 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":82} 
+
+ Player 2 02:29:07 $FLIP_CARD:  
+{"cardId":82} 
+
+ Player 2 02:29:07 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":82} 
+
+ Player 2 02:29:07 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 02:29:07 $MOVE_CARD:  
+{"moveIndex":5,"cardId":92,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 02:29:08 $MOVE_CARD_END:  
+{"moveIndex":5,"cardId":92,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 02:29:08 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":92} 
+
+ Player 2 02:29:08 $FLIP_CARD:  
+{"cardId":92} 
+
+ Player 2 02:29:08 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":92} 
+
+ Player 2 02:29:08 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 02:29:08 $MOVE_CARD:  
+{"moveIndex":6,"cardId":128,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 02:29:08 $MOVE_CARD_END:  
+{"moveIndex":6,"cardId":128,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 02:29:08 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":128} 
+
+ Player 2 02:29:08 $FLIP_CARD:  
+{"cardId":128} 
+
+ Player 2 02:29:08 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":128} 
+
+ Player 2 02:29:08 $GAME_HAS_STARTED:  
+
+ Player 2 02:29:08 $SET_TURN:  
+{"playerId":1} 
+
+ Player 2 02:29:08 $START_TURN:  
+{"playerId":1} 
+
+ Player 2 02:29:08 $UPDATE_ACTIONS:  
+
+ Player 1 02:29:08 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 02:29:08 $NEXT_STACK_ID:  
+
+ Player 1 02:29:08 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 1 02:29:08 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 1 02:29:08 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":1,"creatorCardId":283,"turnPlayerCardId":283,"stackEffectType":13}} 
+
+ Player 1 02:29:08 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 1 02:29:08 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":1,"creatorCardId":283,"turnPlayerCardId":283,"stackEffectType":13}} 
+
+ Player 1 02:29:08 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":0,"_text":"Add StartTurnLoot 1 "}} 
+
+ Player 1 02:29:08 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 02:29:08 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 1 02:29:09 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":1,"creatorCardId":283,"turnPlayerCardId":283,"stackEffectType":13}} 
+
+ Player 1 02:29:09 $ACTION_MASSAGE_REMOVE:  
+{"id":0} 
+
+ Player 1 02:29:09 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":1,"_text":"Response Adding StartTurnLoot 1"},"childOfId":0} 
+
+ Player 1 02:29:09 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":2,"_text":"Wait For Response From Player 1 "},"childOfId":0} 
+
+ Player 1 02:29:09 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 02:29:09 $ACTION_MASSAGE_REMOVE:  
+{"id":2} 
+
+ Player 1 02:29:09 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":3,"_text":"Wait For Response From Player 2 "},"childOfId":0} 
+
+ Player 1 02:29:09 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 02:29:09 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 02:29:09 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 2 02:29:09 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 2 02:29:09 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 2 02:29:09 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 2 02:29:09 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 2 02:29:09 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 2 02:29:09 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 02:29:09 $ACTION_MASSAGE_REMOVE:  
+{"id":3} 
+
+ Player 1 02:29:09 $ACTION_MASSAGE_REMOVE:  
+{"id":1} 
+
+ Player 1 02:29:09 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":4,"_text":"Resolve StartTurnLoot 1 "}} 
+
+ Player 1 02:29:09 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 1 02:29:09 $MOVE_CARD:  
+{"moveIndex":7,"cardId":28,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":1,"placeType":"Hand"} 
+
+ Player 2 02:29:09 $MOVE_CARD_END:  
+{"moveIndex":7,"cardId":28,"flipIfFlipped":false,"playerId":1} 
+
+ Player 1 02:29:09 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":28} 
+
+ Player 1 02:29:09 $FLIP_CARD:  
+{"cardId":28} 
+
+ Player 1 02:29:09 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":28} 
+
+ Player 1 02:29:09 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 1 02:29:09 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":1,"creatorCardId":283,"turnPlayerCardId":283,"stackEffectType":13}} 
+
+ Player 1 02:29:09 $ACTION_MASSAGE_REMOVE:  
+{"id":4} 
+
+ Player 1 02:29:10 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 1 02:29:10 $REMOVE_SE_VIS_PREV:  
+{"stackEffect":{"entityId":1,"creatorCardId":283,"turnPlayerCardId":283,"stackEffectType":13}} 
+
+ Player 1 02:29:10 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":5,"_text":"Remove After Resolve StartTurnLoot 1  "}} 
+
+ Player 1 02:29:10 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 1 02:29:10 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":1,"creatorCardId":283,"turnPlayerCardId":283,"stackEffectType":13}} 
+
+ Player 1 02:29:10 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":6,"_text":"Response Remove After Resolve StartTurnLoot 1"},"childOfId":5} 
+
+ Player 1 02:29:10 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":7,"_text":"Wait For Response From Player 2 "},"childOfId":5} 
+
+ Player 1 02:29:10 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 02:29:10 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 02:29:10 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 2 02:29:10 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 2 02:29:10 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 2 02:29:10 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 2 02:29:10 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 2 02:29:10 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 2 02:29:10 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 02:29:10 $ACTION_MASSAGE_REMOVE:  
+{"id":7} 
+
+ Player 1 02:29:10 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":8,"_text":"Wait For Response From Player 1 "},"childOfId":5} 
+
+ Player 1 02:29:10 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 02:29:10 $ACTION_MASSAGE_REMOVE:  
+{"id":8} 
+
+ Player 1 02:29:10 $ACTION_MASSAGE_REMOVE:  
+{"id":6} 
+
+ Player 1 02:29:10 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":9,"_text":"Stack Was Emptied "}} 
+
+ Player 1 02:29:10 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 1 02:29:10 $ACTION_MASSAGE_REMOVE:  
+{"id":0} 
+
+ Player 1 02:29:10 $ACTION_MASSAGE_REMOVE:  
+{"id":1} 
+
+ Player 1 02:29:10 $ACTION_MASSAGE_REMOVE:  
+{"id":2} 
+
+ Player 1 02:29:10 $ACTION_MASSAGE_REMOVE:  
+{"id":3} 
+
+ Player 1 02:29:10 $ACTION_MASSAGE_REMOVE:  
+{"id":4} 
+
+ Player 1 02:29:10 $ACTION_MASSAGE_REMOVE:  
+{"id":5} 
+
+ Player 1 02:29:10 $ACTION_MASSAGE_REMOVE:  
+{"id":9} 
+
+ Player 1 02:29:11 $ACTION_MASSAGE_REMOVE:  
+{"id":9} 
+
+ Player 1 02:29:12 $ACTION_MASSAGE_REMOVE:  
+{"id":5} 
+
+ Player 2 02:29:25 $MOVE_CARD:  
+{"moveIndex":8,"cardId":161,"placeID":2,"flipIfFlipped":true,"playerId":2,"placeType":"Hand"} 
+
+ Player 1 02:29:25 $MOVE_CARD_END:  
+{"moveIndex":8,"cardId":161,"flipIfFlipped":true,"playerId":2} 
+
+ Player 2 02:29:25 $REGISTER_PASSIVE_ITEM:  
+{"cardId":161} 
+
+ Player 2 02:29:25 $MOVE_CARD:  
+{"moveIndex":9,"cardId":161,"placeID":2,"flipIfFlipped":true,"playerId":2,"placeType":"Desk"} 
+
+ Player 1 02:29:25 $MOVE_CARD_END:  
+{"moveIndex":9,"cardId":161,"flipIfFlipped":true,"playerId":2} 
+
+ Player 2 02:29:25 $ADD_AN_ITEM:  
+{"playerId":2,"cardId":161,"isReward":true} 
+
+ Player 2 02:29:25 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":161}],"result":true,"preventMethod":false,"methodScopeId":289,"scopeIsPlayer":true,"index":4,"originStackId":-1},"isAfterActivation":true,"index":4} 
+
+ Player 1 02:29:30 $SHOW_DECISION:  
+{"startCardId":283,"endCardId":231} 
+
+ Player 1 02:29:33 $NEXT_STACK_ID:  
+
+ Player 1 02:29:33 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 1 02:29:33 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1  declared attack on Cod Worm"} 
+
+ Player 1 02:29:33 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":2,"creatorCardId":283,"attackingPlayerCardId":283,"idOfCardBeingAttacked":231,"stackEffectType":4}} 
+
+ Player 1 02:29:33 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1  declared attack on Cod Worm"} 
+
+ Player 1 02:29:33 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":2,"creatorCardId":283,"attackingPlayerCardId":283,"idOfCardBeingAttacked":231,"stackEffectType":4}} 
+
+ Player 1 02:29:33 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":10,"_text":"Add DeclareAttack 2 "}} 
+
+ Player 1 02:29:33 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 02:29:33 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1  declared attack on Cod Worm"} 
+
+ Player 1 02:29:33 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":2,"creatorCardId":283,"attackingPlayerCardId":283,"idOfCardBeingAttacked":231,"stackEffectType":4}} 
+
+ Player 1 02:29:33 $ACTION_MASSAGE_REMOVE:  
+{"id":10} 
+
+ Player 1 02:29:33 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":11,"_text":"Response Adding DeclareAttack 2"},"childOfId":10} 
+
+ Player 1 02:29:33 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":12,"_text":"Wait For Response From Player 1 "},"childOfId":10} 
+
+ Player 1 02:29:33 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 02:29:33 $ACTION_MASSAGE_REMOVE:  
+{"id":12} 
+
+ Player 1 02:29:33 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":13,"_text":"Wait For Response From Player 2 "},"childOfId":10} 
+
+ Player 1 02:29:33 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 02:29:33 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 02:29:33 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 2 02:29:33 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 2 02:29:33 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1  declared attack on Cod Worm"} 
+
+ Player 2 02:29:33 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1  declared attack on Cod Worm"} 
+
+ Player 2 02:29:33 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1  declared attack on Cod Worm"} 
+
+ Player 2 02:29:33 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1  declared attack on Cod Worm"} 
+
+ Player 2 02:29:33 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 02:29:33 $ACTION_MASSAGE_REMOVE:  
+{"id":13} 
+
+ Player 1 02:29:34 $ACTION_MASSAGE_REMOVE:  
+{"id":11} 
+
+ Player 1 02:29:34 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":14,"_text":"Resolve DeclareAttack 2 "}} 
+
+ Player 1 02:29:34 $ACTIVATE_PARTICLE_EFFECT:  
+{"cardId":231,"particleType":5} 
+
+ Player 1 02:29:34 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_DECLARE_ATTACK","args":[],"result":null,"preventMethod":false,"methodScopeId":283,"scopeIsPlayer":true,"index":2,"originStackId":2},"isAfterActivation":true,"index":2} 
+
+ Player 1 02:29:34 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1  declared attack on Cod Worm"} 
+
+ Player 1 02:29:34 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":2,"creatorCardId":283,"attackingPlayerCardId":283,"idOfCardBeingAttacked":231,"stackEffectType":4}} 
+
+ Player 1 02:29:34 $ACTION_MASSAGE_REMOVE:  
+{"id":14} 
+
+ Player 1 02:29:34 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 1 02:29:34 $REMOVE_SE_VIS_PREV:  
+{"stackEffect":{"entityId":2,"creatorCardId":283,"attackingPlayerCardId":283,"idOfCardBeingAttacked":231,"stackEffectType":4}} 
+
+ Player 1 02:29:34 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":15,"_text":"Remove After Resolve DeclareAttack 2  "}} 
+
+ Player 1 02:29:34 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 1 02:29:34 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":2,"creatorCardId":283,"attackingPlayerCardId":283,"idOfCardBeingAttacked":231,"stackEffectType":4}} 
+
+ Player 1 02:29:34 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":16,"_text":"Response Remove After Resolve DeclareAttack 2"},"childOfId":15} 
+
+ Player 1 02:29:34 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":17,"_text":"Wait For Response From Player 2 "},"childOfId":15} 
+
+ Player 1 02:29:34 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 02:29:34 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 02:29:34 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1  declared attack on Cod Worm"} 
+
+ Player 2 02:29:34 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1  declared attack on Cod Worm"} 
+
+ Player 2 02:29:34 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1  declared attack on Cod Worm"} 
+
+ Player 2 02:29:34 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1  declared attack on Cod Worm"} 
+
+ Player 2 02:29:34 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1  declared attack on Cod Worm"} 
+
+ Player 2 02:29:34 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1  declared attack on Cod Worm"} 
+
+ Player 2 02:29:34 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 02:29:34 $ACTION_MASSAGE_REMOVE:  
+{"id":17} 
+
+ Player 1 02:29:34 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":18,"_text":"Wait For Response From Player 1 "},"childOfId":15} 
+
+ Player 1 02:29:34 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 02:29:34 $ACTION_MASSAGE_REMOVE:  
+{"id":18} 
+
+ Player 1 02:29:34 $ACTION_MASSAGE_REMOVE:  
+{"id":16} 
+
+ Player 1 02:29:34 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":19,"_text":"Stack Was Emptied "}} 
+
+ Player 1 02:29:34 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 1 02:29:34 $ACTION_MASSAGE_REMOVE:  
+{"id":0} 
+
+ Player 1 02:29:34 $ACTION_MASSAGE_REMOVE:  
+{"id":1} 
+
+ Player 1 02:29:34 $ACTION_MASSAGE_REMOVE:  
+{"id":2} 
+
+ Player 1 02:29:35 $ACTION_MASSAGE_REMOVE:  
+{"id":3} 
+
+ Player 1 02:29:35 $ACTION_MASSAGE_REMOVE:  
+{"id":4} 
+
+ Player 1 02:29:35 $ACTION_MASSAGE_REMOVE:  
+{"id":5} 
+
+ Player 1 02:29:35 $ACTION_MASSAGE_REMOVE:  
+{"id":9} 
+
+ Player 1 02:29:35 $ACTION_MASSAGE_REMOVE:  
+{"id":10} 
+
+ Player 1 02:29:35 $ACTION_MASSAGE_REMOVE:  
+{"id":14} 
+
+ Player 1 02:29:35 $ACTION_MASSAGE_REMOVE:  
+{"id":15} 
+
+ Player 1 02:29:35 $ACTION_MASSAGE_REMOVE:  
+{"id":19} 
+
+ Player 1 02:29:35 $NEXT_STACK_ID:  
+
+ Player 1 02:29:35 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 1 02:29:35 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 1 02:29:35 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":3,"creatorCardId":283,"rollingPlayerCardId":283,"stackEffectType":2,"attackedMonsterCardId":231}} 
+
+ Player 1 02:29:35 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 1 02:29:35 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":3,"creatorCardId":283,"rollingPlayerCardId":283,"stackEffectType":2,"attackedMonsterCardId":231}} 
+
+ Player 1 02:29:35 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":20,"_text":"Add AttackRoll 3 "}} 
+
+ Player 1 02:29:35 $ROLL_DICE:  
+{"playerId":1} 
+
+ Player 2 02:29:35 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 2 02:29:35 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 2 02:29:35 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 2 02:29:35 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 1 02:29:36 $ACTION_MASSAGE_REMOVE:  
+{"id":19} 
+
+ Player 1 02:29:36 $ACTION_MASSAGE_REMOVE:  
+{"id":15} 
+
+ Player 1 02:29:37 $ROLL_DICE_ENDED:  
+{"playerId":1,"numberRolled":5} 
+
+ Player 1 02:29:37 $UPDATE_STACK_VIS:  
+{"stackId":3,"text":"player rolled 5 vs Cod Worm<Monster>"} 
+
+ Player 1 02:29:37 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 rolled 5 vs Cod Worm<Monster>"} 
+
+ Player 1 02:29:37 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 02:29:37 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 rolled 5 vs Cod Worm<Monster>"} 
+
+ Player 1 02:29:37 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":3,"creatorCardId":283,"numberRolled":5,"rollingPlayerCardId":283,"stackEffectType":2,"attackedMonsterCardId":231}} 
+
+ Player 1 02:29:37 $ACTION_MASSAGE_REMOVE:  
+{"id":20} 
+
+ Player 1 02:29:37 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":21,"_text":"Response Adding AttackRoll 3"},"childOfId":20} 
+
+ Player 1 02:29:37 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":22,"_text":"Wait For Response From Player 1 "},"childOfId":20} 
+
+ Player 1 02:29:37 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 02:29:37 $ACTION_MASSAGE_REMOVE:  
+{"id":22} 
+
+ Player 1 02:29:37 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":23,"_text":"Wait For Response From Player 2 "},"childOfId":20} 
+
+ Player 1 02:29:37 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 02:29:37 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 02:29:37 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 2 02:29:37 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 2 02:29:37 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 02:29:37 $ACTION_MASSAGE_REMOVE:  
+{"id":23} 
+
+ Player 1 02:29:37 $ACTION_MASSAGE_REMOVE:  
+{"id":21} 
+
+ Player 1 02:29:37 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":24,"_text":"Resolve AttackRoll 3 "}} 
+
+ Player 1 02:29:37 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":25,"_text":"Added 0 to original roll"}} 
+
+ Player 1 02:29:37 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_ROLL_DICE","args":[{"type":2,"number":3},{"type":2,"number":2},{"type":2,"number":5}],"result":null,"preventMethod":false,"methodScopeId":283,"scopeIsPlayer":true,"index":1,"originStackId":3},"isAfterActivation":false,"index":1} 
+
+ Player 1 02:29:37 $NEXT_STACK_ID:  
+
+ Player 1 02:29:37 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 rolled 5 vs Cod Worm<Monster>"} 
+
+ Player 1 02:29:37 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 rolled 5 vs Cod Worm<Monster> \n2:Activate Dead Bird effect LookAtPlayerHand<LookAtPlayerHand>"} 
+
+ Player 1 02:29:37 $ADD_TO_STACK:  
+{"stackEffect":{"effectCollectedData":null,"entityId":4,"creatorCardId":289,"hasLockingStackEffect":false,"cardActivatorId":2,"cardWithEffectId":161,"effectToDo":{"effectName":"LookAtPlayerHand","cardEffectNum":0,"cardPlayerId":2,"cardId":161,"effctType":0},"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":false,"stackEffectType":14}} 
+
+ Player 1 02:29:37 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 rolled 5 vs Cod Worm<Monster> \n2:Activate Dead Bird effect LookAtPlayerHand<LookAtPlayerHand>"} 
+
+ Player 1 02:29:37 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"effectCollectedData":null,"entityId":4,"creatorCardId":289,"hasLockingStackEffect":false,"cardActivatorId":2,"cardWithEffectId":161,"effectToDo":{"effectName":"LookAtPlayerHand","cardEffectNum":0,"cardPlayerId":2,"cardId":161,"effctType":0},"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":false,"stackEffectType":14}} 
+
+ Player 1 02:29:37 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":26,"_text":"Add ActivatePassiveEffect 4 "}} 
+
+ Player 1 02:29:37 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 rolled 5 vs Cod Worm<Monster> \n2:Activate Dead Bird effect LookAtPlayerHand<LookAtPlayerHand>"} 
+
+ Player 1 02:29:37 $PUT_ON_STACK:  
+{"stackEffect":{"effectCollectedData":null,"entityId":4,"creatorCardId":289,"hasLockingStackEffect":false,"cardActivatorId":2,"cardWithEffectId":161,"effectToDo":{"effectName":"LookAtPlayerHand","cardEffectNum":0,"cardPlayerId":2,"cardId":161,"effctType":0},"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":false,"stackEffectType":14},"playerId":2,"originPlayerId":1} 
+
+ Player 2 02:29:37 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 2 02:29:37 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 2 02:29:37 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:37 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:38 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:38 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:38 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:38 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:38 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"effectCollectedData":{"effectTargets":[283],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":289,"effectCardPlayer":289},"entityId":4,"creatorCardId":289,"hasLockingStackEffect":false,"cardActivatorId":2,"cardWithEffectId":161,"effectToDo":{"effectName":"LookAtPlayerHand","cardEffectNum":0,"cardPlayerId":2,"cardId":161,"effctType":0},"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14}} 
+
+ Player 2 02:29:38 $END_PUT_ON_STACK:  
+{"playerId":1} 
+
+ Player 1 02:29:38 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 rolled 5 vs Cod Worm<Monster> \n2:Activate Dead Bird effect LookAtPlayerHand<LookAtPlayerHand>"} 
+
+ Player 1 02:29:38 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 rolled 5 vs Cod Worm<Monster> \n2:Activate Dead Bird effect LookAtPlayerHand<LookAtPlayerHand>"} 
+
+ Player 1 02:29:38 $ACTION_MASSAGE_REMOVE:  
+{"id":26} 
+
+ Player 1 02:29:38 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":27,"_text":"Response Adding ActivatePassiveEffect 4"},"childOfId":26} 
+
+ Player 1 02:29:38 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":28,"_text":"Wait For Response From Player 2 "},"childOfId":26} 
+
+ Player 1 02:29:38 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 02:29:38 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 02:29:38 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 02:29:38 $ACTION_MASSAGE_REMOVE:  
+{"id":28} 
+
+ Player 1 02:29:38 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":29,"_text":"Wait For Response From Player 1 "},"childOfId":26} 
+
+ Player 1 02:29:38 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 02:29:38 $ACTION_MASSAGE_REMOVE:  
+{"id":29} 
+
+ Player 1 02:29:38 $ACTION_MASSAGE_REMOVE:  
+{"id":27} 
+
+ Player 1 02:29:38 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":30,"_text":"Resolve ActivatePassiveEffect 4 "}} 
+
+ Player 1 02:29:38 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 rolled 5 vs Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 1 02:29:38 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 rolled 5 vs Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 1 02:29:38 $DO_STACK_EFFECT:  
+{"originPlayerId":1,"playerId":2,"currentStack":[{"entityId":3,"creatorCardId":283,"numberRolled":5,"rollingPlayerCardId":283,"stackEffectType":2,"attackedMonsterCardId":231},{"effectCollectedData":{"effectTargets":[283],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":289,"effectCardPlayer":289},"entityId":4,"creatorCardId":289,"hasLockingStackEffect":false,"cardActivatorId":2,"cardWithEffectId":161,"effectToDo":{"effectName":"LookAtPlayerHand","cardEffectNum":0,"cardPlayerId":2,"cardId":161,"effctType":0},"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14}]} 
+
+ Player 2 02:29:38 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:38 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:38 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:38 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:38 $ACTIVATE_PARTICLE_EFFECT:  
+{"cardId":161,"particleType":6} 
+
+ Player 1 02:29:40 $ACTION_MASSAGE_REMOVE:  
+{"id":25} 
+
+ Player 2 02:29:40 $DISABLE_PARTICLE_EFFECT:  
+{"cardId":161,"particleType":6} 
+
+ Player 2 02:29:46 $PLAYER_LOSE_LOOT:  
+{"playerId":1,"cardId":77} 
+
+ Player 2 02:29:46 $MOVE_CARD:  
+{"moveIndex":10,"cardId":77,"placeID":2,"flipIfFlipped":false,"playerId":2,"placeType":"Hand"} 
+
+ Player 1 02:29:46 $MOVE_CARD_END:  
+{"moveIndex":10,"cardId":77,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 02:29:46 $FLIP_CARD:  
+{"cardId":77} 
+
+ Player 2 02:29:46 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":77} 
+
+ Player 2 02:29:46 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_ROLL_DICE","args":[{"type":2,"number":{"type":2,"number":3}},{"type":2,"number":{"type":2,"number":2}},{"type":2,"number":{"type":2,"number":5}}],"result":null,"preventMethod":false,"methodScopeId":283,"scopeIsPlayer":false,"index":1},"isAfterActivation":false,"index":1} 
+
+ Player 2 02:29:46 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:46 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"effectCollectedData":{"effectTargets":[283],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":289,"effectCardPlayer":289},"entityId":4,"creatorCardId":289,"hasLockingStackEffect":false,"cardActivatorId":2,"cardWithEffectId":161,"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14}} 
+
+ Player 2 02:29:46 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:46 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:47 $FINISH_DO_STACK_EFFECT:  
+{"playerId":1,"newStack":[{"entityId":3,"creatorCardId":283,"numberRolled":5,"rollingPlayerCardId":283,"stackEffectType":2,"attackedMonsterCardId":231},{"effectCollectedData":{"effectTargets":[283],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":289,"effectCardPlayer":289},"entityId":4,"creatorCardId":289,"hasLockingStackEffect":false,"cardActivatorId":2,"cardWithEffectId":161,"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14}]} 
+
+ Player 1 02:29:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 rolled 5 vs Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 1 02:29:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 rolled 5 vs Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 1 02:29:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 rolled 5 vs Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 1 02:29:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 rolled 5 vs Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 1 02:29:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 rolled 5 vs Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 1 02:29:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 rolled 5 vs Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 1 02:29:47 $ACTION_MASSAGE_REMOVE:  
+{"id":30} 
+
+ Player 1 02:29:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 1 02:29:47 $REMOVE_SE_VIS_PREV:  
+{"stackEffect":{"entityId":3,"creatorCardId":283,"numberRolled":5,"rollingPlayerCardId":283,"stackEffectType":2,"attackedMonsterCardId":231}} 
+
+ Player 1 02:29:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 1 02:29:47 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":3,"creatorCardId":283,"numberRolled":5,"rollingPlayerCardId":283,"stackEffectType":2,"attackedMonsterCardId":231}} 
+
+ Player 1 02:29:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 1 02:29:47 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"effectCollectedData":null,"entityId":4,"creatorCardId":289,"hasLockingStackEffect":false,"cardActivatorId":2,"cardWithEffectId":161,"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14}} 
+
+ Player 1 02:29:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 1 02:29:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 1 02:29:47 $REPLACE_STACK:  
+{"currentStack":[{"entityId":3,"creatorCardId":283,"numberRolled":5,"rollingPlayerCardId":283,"stackEffectType":2,"attackedMonsterCardId":231},{"effectCollectedData":null,"entityId":4,"creatorCardId":289,"hasLockingStackEffect":false,"cardActivatorId":2,"cardWithEffectId":161,"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14}]} 
+
+ Player 1 02:29:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 1 02:29:47 $REMOVE_SE_VIS_PREV:  
+{"stackEffect":{"effectCollectedData":null,"entityId":4,"creatorCardId":289,"hasLockingStackEffect":false,"cardActivatorId":2,"cardWithEffectId":161,"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14}} 
+
+ Player 1 02:29:47 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":31,"_text":"Remove After Resolve ActivatePassiveEffect 4  "}} 
+
+ Player 1 02:29:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 1 02:29:47 $REMOVE_FROM_STACK:  
+{"stackEffect":{"effectCollectedData":null,"entityId":4,"creatorCardId":289,"hasLockingStackEffect":false,"cardActivatorId":2,"cardWithEffectId":161,"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14}} 
+
+ Player 1 02:29:47 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":32,"_text":"Response Remove After Resolve ActivatePassiveEffect 4"},"childOfId":31} 
+
+ Player 1 02:29:47 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":33,"_text":"Wait For Response From Player 1 "},"childOfId":31} 
+
+ Player 1 02:29:47 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 02:29:47 $ACTION_MASSAGE_REMOVE:  
+{"id":33} 
+
+ Player 1 02:29:47 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":34,"_text":"Wait For Response From Player 2 "},"childOfId":31} 
+
+ Player 1 02:29:47 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 02:29:47 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 02:29:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:47 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster> \n2:Activate Dead Bird "} 
+
+ Player 2 02:29:48 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 02:29:48 $ACTION_MASSAGE_REMOVE:  
+{"id":34} 
+
+ Player 1 02:29:48 $ACTION_MASSAGE_REMOVE:  
+{"id":32} 
+
+ Player 1 02:29:48 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":35,"_text":"Resolve AttackRoll 3 "}} 
+
+ Player 1 02:29:48 $NEXT_STACK_ID:  
+
+ Player 1 02:29:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 1 02:29:48 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 02:29:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm \n2:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 1 02:29:48 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":5,"creatorCardId":283,"entityToDoDamageCardId":283,"entityToTakeDamageCardId":231,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3}} 
+
+ Player 1 02:29:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm \n2:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 1 02:29:48 $REMOVE_SE_VIS_PREV:  
+{"stackEffect":{"entityId":3,"creatorCardId":283,"numberRolled":5,"rollingPlayerCardId":283,"stackEffectType":2,"attackedMonsterCardId":231}} 
+
+ Player 1 02:29:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm \n2:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 1 02:29:48 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":5,"creatorCardId":283,"entityToDoDamageCardId":283,"entityToTakeDamageCardId":231,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3}} 
+
+ Player 1 02:29:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm \n2:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 1 02:29:48 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":3,"creatorCardId":283,"numberRolled":5,"rollingPlayerCardId":283,"stackEffectType":2,"attackedMonsterCardId":231}} 
+
+ Player 1 02:29:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm \n2:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 1 02:29:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm \n2:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 1 02:29:48 $REPLACE_STACK:  
+{"currentStack":[{"entityId":5,"creatorCardId":283,"entityToDoDamageCardId":283,"entityToTakeDamageCardId":231,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3},{"entityId":3,"creatorCardId":283,"numberRolled":5,"rollingPlayerCardId":283,"stackEffectType":2,"attackedMonsterCardId":231}]} 
+
+ Player 1 02:29:48 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_ROLL_DICE","args":[{"type":2,"number":{"type":2,"number":{"type":2,"number":3}}},{"type":2,"number":2},{"type":2,"number":{"type":2,"number":{"type":2,"number":5}}}],"result":null,"preventMethod":false,"methodScopeId":283,"scopeIsPlayer":true,"index":1,"originStackId":3},"isAfterActivation":true,"index":1} 
+
+ Player 1 02:29:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm \n2:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 1 02:29:48 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":3,"creatorCardId":283,"numberRolled":5,"rollingPlayerCardId":283,"stackEffectType":2,"attackedMonsterCardId":231}} 
+
+ Player 1 02:29:48 $ACTION_MASSAGE_REMOVE:  
+{"id":24} 
+
+ Player 1 02:29:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm"} 
+
+ Player 1 02:29:48 $REMOVE_SE_VIS_PREV:  
+{"stackEffect":{"entityId":3,"creatorCardId":283,"numberRolled":5,"rollingPlayerCardId":283,"stackEffectType":2,"attackedMonsterCardId":231}} 
+
+ Player 1 02:29:48 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":36,"_text":"Remove After Resolve AttackRoll 3  "}} 
+
+ Player 1 02:29:48 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm"} 
+
+ Player 1 02:29:48 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":3,"creatorCardId":283,"numberRolled":5,"rollingPlayerCardId":283,"stackEffectType":2,"attackedMonsterCardId":231}} 
+
+ Player 1 02:29:48 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":37,"_text":"Response Remove After Resolve AttackRoll 3"},"childOfId":36} 
+
+ Player 1 02:29:48 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":38,"_text":"Wait For Response From Player 1 "},"childOfId":36} 
+
+ Player 1 02:29:48 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 02:29:49 $ACTION_MASSAGE_REMOVE:  
+{"id":38} 
+
+ Player 1 02:29:49 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":39,"_text":"Wait For Response From Player 2 "},"childOfId":36} 
+
+ Player 1 02:29:49 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 02:29:49 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 2 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 2 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm"} 
+
+ Player 2 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm"} 
+
+ Player 2 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm"} 
+
+ Player 2 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm"} 
+
+ Player 2 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm"} 
+
+ Player 2 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm"} 
+
+ Player 2 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm"} 
+
+ Player 2 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm"} 
+
+ Player 2 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm"} 
+
+ Player 2 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm"} 
+
+ Player 2 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm \n2:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 2 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm \n2:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 2 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm \n2:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 2 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm \n2:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 2 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm \n2:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 2 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm \n2:Player 1 is rolling against Cod Worm<Monster>"} 
+
+ Player 2 02:29:49 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 02:29:49 $ACTION_MASSAGE_REMOVE:  
+{"id":39} 
+
+ Player 1 02:29:49 $ACTION_MASSAGE_REMOVE:  
+{"id":37} 
+
+ Player 1 02:29:49 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":40,"_text":"Resolve CombatDamage 5 "}} 
+
+ Player 1 02:29:49 $UPDATE_STACK_VIS:  
+{"stackId":5,"text":"Eden will deal 1 combat damage to Cod Worm"} 
+
+ Player 1 02:29:49 $MONSTER_GET_DAMAGED:  
+{"cardId":231,"hpLeft":1,"damageDealerId":283} 
+
+ Player 1 02:29:49 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"MONSTER_GET_HIT","args":[{"type":2,"number":1},{"type":0,"number":283}],"result":null,"preventMethod":false,"methodScopeId":231,"scopeIsPlayer":false,"index":3,"originStackId":-1},"isAfterActivation":true,"index":3} 
+
+ Player 1 02:29:49 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_COMBAT_DAMAGE_GIVEN","args":[{"type":2,"number":1},{"type":2,"number":{"type":2,"number":{"type":2,"number":3}}},{"type":0,"number":283},{"type":0,"number":231}],"result":null,"preventMethod":false,"methodScopeId":283,"scopeIsPlayer":true,"index":4,"originStackId":5},"isAfterActivation":true,"index":4} 
+
+ Player 1 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm"} 
+
+ Player 1 02:29:49 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":5,"creatorCardId":283,"entityToDoDamageCardId":283,"entityToTakeDamageCardId":231,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3}} 
+
+ Player 1 02:29:49 $ACTION_MASSAGE_REMOVE:  
+{"id":40} 
+
+ Player 1 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 1 02:29:49 $REMOVE_SE_VIS_PREV:  
+{"stackEffect":{"entityId":5,"creatorCardId":283,"entityToDoDamageCardId":283,"entityToTakeDamageCardId":231,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3}} 
+
+ Player 1 02:29:49 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":41,"_text":"Remove After Resolve CombatDamage 5  "}} 
+
+ Player 1 02:29:49 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 1 02:29:50 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":5,"creatorCardId":283,"entityToDoDamageCardId":283,"entityToTakeDamageCardId":231,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3}} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":42,"_text":"Response Remove After Resolve CombatDamage 5"},"childOfId":41} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":43,"_text":"Wait For Response From Player 2 "},"childOfId":41} 
+
+ Player 1 02:29:50 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 02:29:50 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":31} 
+
+ Player 2 02:29:50 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm"} 
+
+ Player 2 02:29:50 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm"} 
+
+ Player 2 02:29:50 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm"} 
+
+ Player 2 02:29:50 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm"} 
+
+ Player 2 02:29:50 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm"} 
+
+ Player 2 02:29:50 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Eden combat damage to Cod Worm"} 
+
+ Player 2 02:29:50 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":43} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":44,"_text":"Wait For Response From Player 1 "},"childOfId":41} 
+
+ Player 1 02:29:50 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":44} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":42} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":45,"_text":"Stack Was Emptied "}} 
+
+ Player 1 02:29:50 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":0} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":1} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":2} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":3} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":4} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":5} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":9} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":10} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":14} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":15} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":19} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":20} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":24} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":25} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":26} 
+
+ Player 1 02:29:50 $ACTION_MASSAGE_REMOVE:  
+{"id":30} 
+
+ Player 1 02:29:51 $ACTION_MASSAGE_REMOVE:  
+{"id":31} 
+
+ Player 1 02:29:51 $ACTION_MASSAGE_REMOVE:  
+{"id":35} 
+
+ Player 1 02:29:51 $ACTION_MASSAGE_REMOVE:  
+{"id":36} 
+
+ Player 1 02:29:51 $ACTION_MASSAGE_REMOVE:  
+{"id":40} 
+
+ Player 1 02:29:51 $ACTION_MASSAGE_REMOVE:  
+{"id":41} 
+
+ Player 1 02:29:51 $ACTION_MASSAGE_REMOVE:  
+{"id":45} 
+
+ Player 1 02:29:51 $ACTION_MASSAGE_REMOVE:  
+{"id":36} 
+
+ Player 1 02:29:51 $ACTION_MASSAGE_REMOVE:  
+{"id":45} 
+
+ Player 1 02:29:52 $ACTION_MASSAGE_REMOVE:  
+{"id":41} 
+
+ Player 2 02:30:42 $MATCH: 

@@ -2,6 +2,8 @@ import { ADMIN_COMMANDS, INPUT_TYPE } from "../Constants";
 import AdminCommandButton from "../Admin/Admin Command Button";
 import { start } from "repl";
 import AdminConsole from "./Admin Console";
+import ServerClient from "../../ServerClient/ServerClient";
+import SoundManager from "../Managers/SoundManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -11,6 +13,12 @@ export default class Menu extends cc.Component {
 
     @property
     currentMenu: string = ''
+
+    @property(cc.Slider)
+    BGsoundSlider: cc.Slider = null
+
+    @property(cc.Slider)
+    effectSoundSlider: cc.Slider = null
 
     setAdminMenu() {
         interface adminCommand { command: ADMIN_COMMANDS, input: INPUT_TYPE }
@@ -39,14 +47,26 @@ export default class Menu extends cc.Component {
             }
             adminC.setParent(this.node)
         })
+
+
+
         this.currentMenu = 'AdminMenu'
     }
 
-    setSettingsMenu() {
+    setBGSoundVolume() {
+        SoundManager.$.setBGVolume(this.BGsoundSlider.progress)
+    }
 
+    setEffectsSoundVolume() {
+        SoundManager.$.setEffectsVolume(this.BGsoundSlider.progress)
+    }
+
+
+    setSettingsMenu() {
     }
 
     quitGame() {
+        ServerClient.$.onClose()
         cc.director.end()
     }
     // LIFE-CYCLE CALLBACKS:

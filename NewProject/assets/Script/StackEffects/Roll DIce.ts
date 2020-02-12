@@ -9,6 +9,8 @@ import ServerRollDiceStackEffect from "./ServerSideStackEffects/Server Roll DIce
 import StackEffectInterface from "./StackEffectInterface";
 import { DiceRollVis } from "./StackEffectVisualRepresentation/Dice Roll Vis";
 import StackEffectConcrete from "./StackEffectConcrete";
+import StackEffectVisManager from "../Managers/StackEffectVisManager";
+import DecisionMarker from "../Entites/Decision Marker";
 
 export default class RollDiceStackEffect extends StackEffectConcrete {
 
@@ -55,7 +57,7 @@ export default class RollDiceStackEffect extends StackEffectConcrete {
         this.hasLockingStackEffect = false;
         const playerCard = CardManager.getCardById(this.creatorCardId, true);
         const player = PlayerManager.getPlayerByCard(playerCard);
-        this.visualRepesentation = new DiceRollVis(player.dice.node.getComponent(cc.Sprite).spriteFrame, `player ${player.playerId} is rolling dice`)
+        this.visualRepesentation = new DiceRollVis(player, player.dice.node.getComponent(cc.Sprite).spriteFrame, `player ${player.playerId} is rolling dice`)
         this.lable = `Player ${player.playerId} roll a dice`
     }
 
@@ -64,7 +66,10 @@ export default class RollDiceStackEffect extends StackEffectConcrete {
         const player = PlayerManager.getPlayerByCard(playerCard);
         const numberRolled = await player.rollDice(ROLL_TYPE.EFFECT)
         this.numberRolled = numberRolled
-        this.visualRepesentation.flavorText = `player ${player.playerId} rolled ${numberRolled}`
+        StackEffectVisManager.$.updatePreviewByStackId(this.entityId, `player ${player.playerId} rolled ${numberRolled}`)
+        this.visualRepesentation.extraSprite = player.dice.node.getComponent(cc.Sprite).spriteFrame
+        await DecisionMarker.$.showDiceRoll(this, true)
+        // this.visualRepesentation.flavorText =
         this.lable = `Player ${player.playerId} rolled ${numberRolled}`
         const turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
         turnPlayer.givePriority(true)
@@ -75,7 +80,7 @@ export default class RollDiceStackEffect extends StackEffectConcrete {
         const playerCard = CardManager.getCardById(this.creatorCardId, true);
         const player = PlayerManager.getPlayerByCard(playerCard);
         let playerRollValue = player.calculateFinalRoll(this.numberRolled, ROLL_TYPE.EFFECT)
-
+        this.visualRepesentation.extraSprite = player.dice.node.getComponent(cc.Sprite).spriteFrame
         if (this.numberRolled != playerRollValue) {
             if (this.numberRolled < playerRollValue) {
                 this.lable = `Player ${player.playerId} added ${playerRollValue - this.numberRolled} to its original roll, rolled ${playerRollValue}`
@@ -100,6 +105,7 @@ export default class RollDiceStackEffect extends StackEffectConcrete {
         }
 
         await PassiveManager.testForPassiveAfter(passiveMeta)
+        player.lastRoll = playerRollValue
     }
 
     convertToServerStackEffect() {

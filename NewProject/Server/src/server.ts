@@ -85,6 +85,8 @@ export default class Server {
     whevent.on(signal.USE_ITEM, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.SET_TURN, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.ASSIGN_CHAR_TO_PLAYER, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.SET_CHAR, this.onSendToSpecificPlayer, this);
+    whevent.on(signal.SET_CHAR_END, this.onSendToSpecificPlayer, this);
     whevent.on(signal.FLIP_CARD, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.REMOVE_ITEM_FROM_SHOP, this.onBroadcastExceptOrigin, this);
 
@@ -101,15 +103,23 @@ export default class Server {
     whevent.on(signal.UPDATE_PASSIVES_OVER, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.REGISTER_ONE_TURN_PASSIVE_EFFECT, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.END_ROLL_ACTION, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.SHOW_DECISION, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.SHOW_DICE_ROLL, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.SHOW_EFFECT_CHOSEN, this.onBroadcastExceptOrigin, this);
 
     //stack events:
 
     whevent.on(signal.REPLACE_STACK, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.REMOVE_FROM_STACK, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.FIZZLE_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.ADD_TO_STACK, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.PUT_ON_STACK, this.onSendToSpecificPlayer, this);
+    whevent.on(signal.END_PUT_ON_STACK, this.onSendToSpecificPlayer, this);
     whevent.on(signal.ADD_RESOLVING_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.REMOVE_RESOLVING_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.UPDATE_STACK_VIS, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.ADD_SE_VIS_PREV, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.REMOVE_SE_VIS_PREV, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.UPDATE_STACK_LABLE, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.UPDATE_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.NEXT_STACK_ID, this.onBroadcastExceptOrigin, this);
@@ -146,6 +156,7 @@ export default class Server {
     whevent.on(signal.RESPOND_TO, this.onSendToSpecificPlayer, this);
     whevent.on(signal.FINISH_DO_STACK_EFFECT, this.onSendToSpecificPlayer, this);
     whevent.on(signal.DO_STACK_EFFECT, this.onSendToSpecificPlayer, this);
+    whevent.on(signal.STACK_EMPTIED, this.onSendToSpecificPlayer, this);
     whevent.on(signal.TURN_PLAYER_DO_STACK_EFFECT, this.onSendToSpecificPlayer, this);
     whevent.on(signal.START_TURN, this.onSendToSpecificPlayer, this);
 
@@ -173,7 +184,6 @@ export default class Server {
 
   onSendToSpecificPlayer({ player, data }) {
     const playerToSendToId: number = data.data.playerId
-
     player.match.broadcastToPlayer(playerToSendToId, data.signal, data)
   }
 

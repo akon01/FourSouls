@@ -12,6 +12,7 @@ import { BUTTON_STATE, CARD_HEIGHT, CARD_WIDTH, GAME_EVENTS, ITEM_TYPE, PASSIVE_
 import ButtonManager from "./ButtonManager";
 import CardManager from "./CardManager";
 import PassiveManager, { PassiveMeta } from "./PassiveManager";
+import DecisionMarker from "../Entites/Decision Marker";
 
 const { ccclass } = cc._decorator;
 
@@ -191,25 +192,39 @@ export default class PlayerManager extends cc.Component {
       itemCard = fullCharCard.item;
       CardManager.onTableCards.push(charCard, itemCard);
     }
-    await player.setCharacter(charCard, itemCard);
-
-    player.activeItems.push(charCard);
-    if (
-      itemCard.getComponent(Item).type == ITEM_TYPE.ACTIVE ||
-      itemCard.getComponent(Item).type == ITEM_TYPE.BOTH
-    ) {
-      player.activeItems.push(itemCard);
+    if (player.node != this.mePlayer) {
+      ServerClient.$.send(Signal.SET_CHAR, { originPlayerId: this.mePlayer.getComponent(Player).playerId, playerId: player.playerId, charCardId: charCard.getComponent(Card)._cardId, itemCardId: itemCard.getComponent(Card)._cardId })
+      await this.waitForSetCharOver()
+      cc.log(`after set char end`)
     } else {
-      player.passiveItems.push(itemCard);
+      await player.setCharacter(charCard, itemCard, true);
     }
 
-    if ((itemCard.getComponent(Item).type == ITEM_TYPE.PASSIVE || itemCard.getComponent(Item).type == ITEM_TYPE.BOTH) && sendToServer) {
-      await PassiveManager.registerPassiveItem(itemCard, sendToServer);
-    }
+    // player.activeItems.push(charCard);
+    // if (
+    //   itemCard.getComponent(Item).type == ITEM_TYPE.ACTIVE ||
+    //   itemCard.getComponent(Item).type == ITEM_TYPE.BOTH
+    // ) {
+    //   player.activeItems.push(itemCard);
+    // } else {
+    //   player.passiveItems.push(itemCard);
+    // }
 
-    if (sendToServer) {
-      ServerClient.$.send(Signal.ASSIGN_CHAR_TO_PLAYER, { playerId: player.playerId, charCardId: charCard.getComponent(Card)._cardId, itemCardId: itemCard.getComponent(Card)._cardId });
-    }
+    // if ((itemCard.getComponent(Item).type == ITEM_TYPE.PASSIVE || itemCard.getComponent(Item).type == ITEM_TYPE.BOTH) && sendToServer) {
+    //   await PassiveManager.registerPassiveItem(itemCard, sendToServer);
+    // }
+
+    // if (sendToServer) {
+    //   ServerClient.$.send(Signal.ASSIGN_CHAR_TO_PLAYER, { playerId: player.playerId, charCardId: charCard.getComponent(Card)._cardId, itemCardId: itemCard.getComponent(Card)._cardId });
+    // }
+  }
+
+  static async waitForSetCharOver() {
+    return new Promise((resolve, reject) => {
+      whevent.onOnce(GAME_EVENTS.END_SET_CHAR, () => {
+        resolve()
+      })
+    })
   }
 
   static async assingCharacters(sendToServer: boolean) {
@@ -245,7 +260,10 @@ export default class PlayerManager extends cc.Component {
         edenPlayer = playerComp
         edenItem = fullCharCard.item
       }
+      cc.log(`assign ${fullCharCard.char.name} to playre ${playerComp.playerId}`)
       await this.assignCharacterToPlayer(fullCharCard, playerComp, sendToServer);
+
+
 
     }
     // special case: Eden

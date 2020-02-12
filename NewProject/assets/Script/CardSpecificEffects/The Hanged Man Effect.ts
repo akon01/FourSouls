@@ -32,6 +32,7 @@ export default class TheHangedManEffect extends Effect {
       const selectedToPutOnBottom = await CardPreviewManager.selectFromCards(targetCards as cc.Node[], 3)
       for (let i = 0; i < selectedToPutOnBottom.length; i++) {
         const card = selectedToPutOnBottom[i].getComponent(Card);
+
         switch (card.type) {
           case CARD_TYPE.LOOT:
             CardManager.lootDeck.getComponent(Deck).addToDeckOnBottom(card.node, true)
@@ -46,6 +47,7 @@ export default class TheHangedManEffect extends Effect {
         }
       }
     }
+    if (data instanceof PassiveEffectData) { return data }
     return stack
   }
 }

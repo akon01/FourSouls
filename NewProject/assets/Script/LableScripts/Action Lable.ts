@@ -88,13 +88,13 @@ export default class ActionLable extends cc.Component {
                 }
                 if (messageToRemove) {
                     actionHistoryMessage.removeMessage(id)
+                    whevent.emit(GAME_EVENTS.ACTION_LABLE_UPDATE)
+                    if (sendToServer) {
+                        ServerClient.$.send(Signal.ACTION_MASSAGE_REMOVE, { id: id })
+                    }
                     break;
                 }
             }
-        }
-        whevent.emit(GAME_EVENTS.ACTION_LABLE_UPDATE)
-        if (sendToServer) {
-            ServerClient.$.send(Signal.ACTION_MASSAGE_REMOVE, { id: id })
         }
     }
 

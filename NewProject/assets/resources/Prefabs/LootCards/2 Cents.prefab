@@ -114,8 +114,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 70,
-      "height": 35
+      "width": 150,
+      "height": 25
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -125,7 +125,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -29.4,
+      "y": -70.5,
       "z": 0
     },
     "_scale": {
@@ -248,6 +248,7 @@
     "_effectCard": null,
     "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
+    "optionalFlavorText": "",
     "numOfCoins": 2,
     "multiTarget": false,
     "_id": ""
@@ -407,7 +408,7 @@
     "_dstBlendFactor": 1,
     "_custom": false,
     "_file": {
-      "__uuid__": "b2687ac4-099e-403c-a192-ff477686f4f5"
+      "__uuid__": "012e4ab0-8fb4-42b1-8900-fbcc3b002026"
     },
     "_spriteFrame": {
       "__uuid__": "472df5d3-35e7-4184-9e6c-7f41bee65ee3"
@@ -420,47 +421,47 @@
     "autoRemoveOnFinish": false,
     "totalParticles": 200,
     "duration": -1,
-    "emissionRate": 999.999985098839,
-    "life": 0.20000000298023224,
-    "lifeVar": 0.5,
+    "emissionRate": 181.83749999999984,
+    "life": 0.64,
+    "lifeVar": 0.4,
     "_startColor": {
       "__type__": "cc.Color",
-      "r": 202,
-      "g": 200,
-      "b": 86,
-      "a": 163
+      "r": 179,
+      "g": 15,
+      "b": 15,
+      "a": 255
     },
     "_startColorVar": {
       "__type__": "cc.Color",
-      "r": 229,
-      "g": 255,
-      "b": 173,
-      "a": 198
+      "r": 236,
+      "g": 45,
+      "b": 45,
+      "a": 25
     },
     "_endColor": {
       "__type__": "cc.Color",
-      "r": 173,
-      "g": 161,
-      "b": 19,
-      "a": 214
+      "r": 105,
+      "g": 4,
+      "b": 4,
+      "a": 156
     },
     "_endColorVar": {
       "__type__": "cc.Color",
-      "r": 107,
-      "g": 249,
-      "b": 249,
-      "a": 188
+      "r": 53,
+      "g": 14,
+      "b": 14,
+      "a": 217
     },
-    "angle": 360,
-    "angleVar": 360,
-    "startSize": 3.369999885559082,
-    "startSizeVar": 50,
-    "endSize": 30.31999969482422,
+    "angle": 90,
+    "angleVar": 51,
+    "startSize": 10,
+    "startSizeVar": 14,
+    "endSize": 20,
     "endSizeVar": 0,
-    "startSpin": -47.369998931884766,
-    "startSpinVar": 0,
-    "endSpin": -47.369998931884766,
-    "endSpinVar": -142.11000061035156,
+    "startSpin": 0,
+    "startSpinVar": 376,
+    "endSpin": 15,
+    "endSpinVar": 0,
     "sourcePos": {
       "__type__": "cc.Vec2",
       "x": 0,
@@ -468,29 +469,29 @@
     },
     "posVar": {
       "__type__": "cc.Vec2",
-      "x": 7,
-      "y": 7
+      "x": 15,
+      "y": 25
     },
     "_positionType": 1,
     "positionType": 1,
     "emitterMode": 0,
     "gravity": {
       "__type__": "cc.Vec2",
-      "x": 0.25,
-      "y": 0.8600000143051147
+      "x": 0,
+      "y": 90
     },
-    "speed": 0,
-    "speedVar": 190.7899932861328,
-    "tangentialAccel": -92.11000061035156,
-    "tangentialAccelVar": 65.79000091552734,
-    "radialAccel": -671.0499877929688,
-    "radialAccelVar": 65.79000091552734,
+    "speed": 25,
+    "speedVar": 5,
+    "tangentialAccel": 15,
+    "tangentialAccelVar": -15,
+    "radialAccel": 30,
+    "radialAccelVar": 12,
     "rotationIsDir": false,
     "startRadius": 0,
     "startRadiusVar": 0,
-    "endRadius": 0,
+    "endRadius": 50,
     "endRadiusVar": 0,
-    "rotatePerS": 0,
+    "rotatePerS": 360,
     "rotatePerSVar": 0,
     "_N$preview": true,
     "_id": ""
@@ -533,7 +534,7 @@
     "node": {
       "__id__": 8
     },
-    "_enabled": true,
+    "_enabled": false,
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 45,
@@ -607,6 +608,7 @@
     },
     "_enabled": true,
     "cardName": "2 Cents",
+    "doNotMake": false,
     "makeMultiCards": true,
     "numOfCopies": 17,
     "copiesSprites": [],
@@ -614,6 +616,7 @@
     "_isInHand": false,
     "_isOnDesk": false,
     "_originalParent": null,
+    "_originalWidth": null,
     "topDeckof": null,
     "souls": 0,
     "type": 1,
@@ -632,6 +635,7 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
+    "availableParticles": [],
     "_id": ""
   },
   {
@@ -642,6 +646,7 @@
       "__id__": 1
     },
     "_enabled": true,
+    "hasDestroySelfEffect": false,
     "conditions": [],
     "activeEffects": [
       {

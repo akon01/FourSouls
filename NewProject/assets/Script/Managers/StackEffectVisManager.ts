@@ -4,6 +4,10 @@ import Stack from "../Entites/Stack";
 import StackEffectInterface from "../StackEffects/StackEffectInterface";
 import { StackEffectVisualRepresentation } from "../StackEffects/StackEffectVisualRepresentation/Stack Vis Interface";
 import StackEffectPreview from "../StackEffects/StackEffectVisualRepresentation/StackEffectPreview";
+import ServerClient from "../../ServerClient/ServerClient";
+import Signal from "../../Misc/Signal";
+import CardPreviewManager from "./CardPreviewManager";
+import StackEffectPreviewPool from "../Entites/Stack Effect Preview Pool";
 
 const { ccclass, property } = cc._decorator;
 
@@ -114,19 +118,38 @@ export default class StackEffectVisManager extends cc.Component {
     @property(cc.ScrollView)
     scrollView: cc.ScrollView = null
 
-    previewPool: cc.NodePool = null
+    previewPool: StackEffectPreviewPool = null
 
     currentPreviews: StackEffectPreview[] = [];
 
     @property(cc.Prefab)
-    stackEffectPreviewPrefab: cc.Prefab = null
+    basicStackEffectPreviewPrefab: cc.Prefab = null
+
+    @property(cc.Prefab)
+    playerActionPreviewPrefab: cc.Prefab = null
+
+    @property(cc.Prefab)
+    monsterActionPreviewPrefab: cc.Prefab = null
+
+    @property(cc.Prefab)
+    bossActionPreviewPrefab: cc.Prefab = null
+
+    @property(cc.Prefab)
+    megaBossActionPreviewPrefab: cc.Prefab = null
 
     @property(cc.Node)
     showStackButton: cc.Node = null;
 
+    @property([cc.SpriteFrame])
+    stackIcons: cc.SpriteFrame[] = []
+
+    isOpen: boolean = false;
+
     static $: StackEffectVisManager = null;
 
     // LIFE-CYCLE CALLBACKS:
+
+
 
     updateAvailablePreviews() {
         const i = cc.macro.MIN_ZINDEX
@@ -142,11 +165,20 @@ export default class StackEffectVisManager extends cc.Component {
         }
     }
 
-    addPreview(stackEffect: StackEffectInterface) {
+    updatePreviewByStackId(entityId: number, text: string) {
+        const preview = this.currentPreviews.find(prev => prev.stackEffect.entityId == entityId)
+        if (preview) {
+            preview.updateInfo(text, true)
+        }
+
+    }
+
+    addPreview(stackEffect: StackEffectInterface, sendToServer: boolean) {
         // cc.error(`add preview of ${stackEffect.constructor.name} ${stackEffect.entityId}`)
         let preview = this.getPreviewByStackId(stackEffect.entityId)
         if (preview == null) {
-            const newPreview = this.previewPool.get()
+            const newPreview = this.previewPool.getByStackEffect(stackEffect)
+            cc.log(newPreview)
             newPreview.getComponent(StackEffectPreview).setStackEffect(stackEffect)
             this.currentPreviews.push(newPreview.getComponent(StackEffectPreview))
             preview = newPreview.getComponent(StackEffectPreview)
@@ -154,39 +186,44 @@ export default class StackEffectVisManager extends cc.Component {
             return preview
         }
         preview.node.setParent(this.previewHolderLayout);
-
+        if (sendToServer) {
+            ServerClient.$.send(Signal.ADD_SE_VIS_PREV, { stackEffect: stackEffect.convertToServerStackEffect() })
+        }
         this.updateAvailablePreviews()
         return preview
 
     }
 
-    setPreviews(stackEffects: StackEffectInterface[]) {
-        this.clearPreviews()
+    setPreviews(stackEffects: StackEffectInterface[], sendToServer: boolean) {
+        this.clearPreviews(sendToServer)
         for (const stackEffect of stackEffects) {
-            this.addPreview(stackEffect)
+            this.addPreview(stackEffect, sendToServer)
         }
     }
 
-    clearPreviews() {
+    clearPreviews(sendToServer: boolean) {
 
         for (const preview of this.currentPreviews) {
-            this.removePreview(preview.stackEffect)
+            this.removePreview(preview.stackEffect, sendToServer)
         }
         this.currentPreviews = []
     }
 
-    removePreview(stackEffect: StackEffectInterface) {
+    removePreview(stackEffect: StackEffectInterface, sendToServer: boolean) {
         //  cc.error(`remove preview of ${stackEffect.constructor.name}`)
         const preview = this.currentPreviews.find(preview => preview.stackEffect.entityId == stackEffect.entityId)
         if (preview != null) {
             this.currentPreviews.splice(this.currentPreviews.indexOf(preview), 1)
-            this.previewPool.put(preview.node)
+            this.previewPool.putByStackEffectPreview(preview)
             this.updateAvailablePreviews()
         }
         if (this.currentPreviews.length == 0) { this.hidePreviews() }
         // cc.error(`current previews`)
         // cc.log(this.currentPreviews)
         // cc.log(`current stack`)
+        if (sendToServer) {
+            ServerClient.$.send(Signal.REMOVE_SE_VIS_PREV, { stackEffect: stackEffect.convertToServerStackEffect() })
+        }
         // cc.log(Stack._currentStack)
     }
 
@@ -219,7 +256,8 @@ export default class StackEffectVisManager extends cc.Component {
     }
 
     hidePreviews() {
-        cc.log(`hide previews`)
+        cc.log(`hide stack effect previews`)
+        this.isOpen = false;
         this.previewHolderLayout.active = false;
         this.showStackButton.off(cc.Node.EventType.TOUCH_START)
         this.showStackButton.getComponentInChildren(cc.Label).string = "Stack+"
@@ -228,6 +266,10 @@ export default class StackEffectVisManager extends cc.Component {
     }
 
     showPreviews() {
+        if (CardPreviewManager.isOpen) {
+            CardPreviewManager.hidePreviewManager()
+        }
+        this.isOpen = true
         this.scrollView.content.active = false;
         this.scrollView.content = this.contentNode
         this.scrollView.content.active = true;
@@ -237,6 +279,18 @@ export default class StackEffectVisManager extends cc.Component {
         this.showStackButton.on(cc.Node.EventType.TOUCH_START, this.hidePreviews.bind(this))
         this.scrollView.node.active = true
         this.scrollView.node.zIndex = 1
+        if (this.currentPreviews.length > 0) {
+            const previewWidth = this.currentPreviews[0].node.width
+            const screenWidth = cc.find("Canvas").width
+
+            if ((previewWidth + 10) * this.currentPreviews.length > screenWidth) {
+                this.contentNode.width = (previewWidth + 10) * this.currentPreviews.length
+            } else { this.contentNode.width = screenWidth; }
+        }
+        const widget = this.contentNode.getComponent(cc.Widget)
+        widget.top = 0;
+        widget.left = 0;
+        widget.updateAlignment()
         whevent.emit(GAME_EVENTS.PREVIEW_MANAGER_OPEN)
     }
 
@@ -245,12 +299,34 @@ export default class StackEffectVisManager extends cc.Component {
         this.previewHolderLayout = this.previewHolder
         this.showStackButton.getComponentInChildren(cc.Label).string = "Stack+"
         this.showStackButton.on(cc.Node.EventType.TOUCH_START, this.showPreviews.bind(this))
-        this.previewPool = new cc.NodePool()
-        for (let i = 0; i < 50; i++) {
-            const preview = cc.instantiate(this.stackEffectPreviewPrefab);
-            preview.name = "preview" + i;
-            this.previewPool.put(preview)
-        }
+        this.previewPool = new StackEffectPreviewPool()
+        const prefabArr = [this.basicStackEffectPreviewPrefab, this.playerActionPreviewPrefab, this.bossActionPreviewPrefab, this.megaBossActionPreviewPrefab, this.monsterActionPreviewPrefab]
+        prefabArr.forEach(prefab => {
+            for (let i = 0; i < 50; i++) {
+                const preview = cc.instantiate(prefab);
+                preview.name = "preview" + i;
+                switch (prefab.name) {
+                    case this.basicStackEffectPreviewPrefab.name:
+                        this.previewPool.addBasic(preview)
+                        break;
+                    case this.playerActionPreviewPrefab.name:
+                        this.previewPool.addPlayer(preview)
+                        break;
+                    case this.bossActionPreviewPrefab.name:
+                        this.previewPool.addBoss(preview)
+                        break;
+                    case this.megaBossActionPreviewPrefab.name:
+                        this.previewPool.addMegaBoss(preview)
+                        break;
+                    case this.monsterActionPreviewPrefab.name:
+                        this.previewPool.addMonster(preview)
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        });
 
     }
 

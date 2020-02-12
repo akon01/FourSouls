@@ -24,7 +24,6 @@ import RefillEmptySlot from "../Refill Empty Slot";
 import RollDiceStackEffect from "../Roll DIce";
 import StackEffectInterface from "../StackEffectInterface";
 import StartTurnLoot from "../Start Turn Loot";
-import TakeDamage from "../Take Damage";
 
 export default class ServerStackEffectConverter {
 
@@ -102,7 +101,7 @@ export default class ServerStackEffectConverter {
                     slotToFill = MonsterField.getMonsterPlaceById(serverStackEffectData.slotToFillId).node
                 }
                 if (serverStackEffectData.slotType == CARD_TYPE.TREASURE) {
-                    slotToFill = Store.$.node;
+                    slotToFill = null
                 }
                 const refillEmtySlot = new RefillEmptySlot(serverStackEffectData.creatorCardId, slotToFill, serverStackEffectData.slotType, serverStackEffectData.entityId)
                 return refillEmtySlot;
@@ -113,21 +112,6 @@ export default class ServerStackEffectConverter {
                     rollAttackDice.numberRolled = serverStackEffectData.numberRolled;
                 }
                 return rollDice;
-            // case STACK_EFFECT_TYPE.TAKE_DAMAGE:
-            //     let entityToDoDamage: cc.Node;
-            //     if (serverStackEffectData.isPlayerDoDamage) {
-            //         entityToDoDamageTo = PlayerManager.getPlayerByCardId(serverStackEffectData.entityToDoDamageCardId).node
-            //     } else {
-            //         entityToDoDamageTo = CardManager.getCardById(serverStackEffectData.entityToDoDamageCardId)
-            //     }
-            //     let entityToTakeDamage: cc.Node;
-            //     if (serverStackEffectData.isPlayerTakeDamage) {
-            //         entityToTakeDamageFrom = PlayerManager.getPlayerByCardId(serverStackEffectData.entityToTakeDamageCardId).node
-            //     } else {
-            //         entityToTakeDamageFrom = CardManager.getCardById(serverStackEffectData.entityToTakeDamageCardId)
-            //     }
-            //     let takeDamage = new TakeDamage(serverStackEffectData.creatorCardId, entityToTakeDamageFrom, entityToDoDamageTo, serverStackEffectData.damage, serverStackEffectData.entityId)
-            //     return takeDamage;
             case STACK_EFFECT_TYPE.START_TURN_LOOT:
                 const startLootTurn = new StartTurnLoot(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.turnPlayerCardId, true), serverStackEffectData.entityId)
                 return startLootTurn;
@@ -144,10 +128,10 @@ export default class ServerStackEffectConverter {
                 const activatePassive = new ActivatePassiveEffect(serverStackEffectData.creatorCardId, serverStackEffectData.hasLockingStackEffect, serverStackEffectData.cardActivatorId, card, effect, serverStackEffectData.hasDataBeenCollectedYet, serverStackEffectData.isAfterActivation, index, serverStackEffectData.entityId)
                 if (serverStackEffectData.effectToDo) {
                     effect = card.getComponent(CardEffect).getEffectByNumAndType(serverStackEffectData.effectToDo.cardEffectNum, serverStackEffectData.effectToDo.effctType)
+                    activatePassive.effectToDo = effect
                     if (serverStackEffectData.hasDataBeenCollectedYet) {
                         card.getComponent(CardEffect).effectData = serverStackEffectData.effectCollectedData
                         activatePassive.effectCollectedData = serverStackEffectData.effectCollectedData
-                        activatePassive.effectToDo = effect
                     }
                 }
                 if (serverStackEffectData.effectPassiveMeta) {
@@ -173,4 +157,3 @@ export default class ServerStackEffectConverter {
     }
 
 }
-

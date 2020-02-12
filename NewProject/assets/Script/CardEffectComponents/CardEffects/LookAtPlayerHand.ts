@@ -7,7 +7,10 @@ import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import { CHOOSE_CARD_TYPE } from "./../../Constants";
 import Effect from "./Effect";
 import Stack from "../../Entites/Stack";
-
+import TakeLootFromPlayer from "./TakeLootFromPlayer";
+import ChooseCard from "../DataCollector/ChooseCard";
+import CardManager from "../../Managers/CardManager";
+import Card from "../../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,7 +23,11 @@ export default class LookAtPlayerHand extends Effect {
   @property
   multiTarget: boolean = false;
 
+  @property
+  isAlsoMayStealAChosenCard: boolean = false
 
+  @property({ override: true })
+  optionalFlavorText: string = ''
 
   /**
    *
@@ -33,38 +40,61 @@ export default class LookAtPlayerHand extends Effect {
     data?: ActiveEffectData | PassiveEffectData
   ) {
 
+    const originalPlayer = PlayerManager.getPlayerByCard(data.effectCardPlayer)
     if (this.multiTarget) {
-      let playersCards = data.getTargets(TARGETTYPE.PLAYER)
+      const playersCards = data.getTargets(TARGETTYPE.PLAYER)
       if (!(playersCards != null && playersCards.length > 0)) {
-        throw `no targets`
+        throw new Error(`no targets`)
       } else {
-        let originalPlayer = PlayerManager.getPlayerByCard(data.effectCardPlayer)
-        let players = (playersCards as cc.Node[]).map(card => PlayerManager.getPlayerByCard(card))
+        const players = (playersCards as cc.Node[]).map(card => PlayerManager.getPlayerByCard(card))
         for (let i = 0; i < players.length; i++) {
           const player = players[i];
+          player.handCards.forEach(card => card.getComponent(Card).flipCard(false))
           await CardPreviewManager.getPreviews(player.handCards, true)
-          await originalPlayer.giveNextClick()
-          CardPreviewManager.removeFromCurrentPreviews(player.handCards)
+          if (this.isAlsoMayStealAChosenCard) {
+            await this.stealACardFromPlayer(player, originalPlayer)
+          }
+          await originalPlayer.giveNextClick(this.optionalFlavorText)
+          player.handCards.forEach(card => card.getComponent(Card).flipCard(false))
+          await CardPreviewManager.removeFromCurrentPreviews(player.handCards)
         }
       }
     } else {
 
-
-
-      let playerCard = data.getTarget(TARGETTYPE.PLAYER)
+      const playerCard = data.getTarget(TARGETTYPE.PLAYER)
       if (playerCard instanceof cc.Node) {
-        let player: Player = PlayerManager.getPlayerByCard(playerCard)
+        const player: Player = PlayerManager.getPlayerByCard(playerCard)
         if (player == null) {
-          cc.log(`no player`)
+          throw new Error("No Target Found")
         } else {
-          let cardsToSee: cc.Node[] = player.handCards
-          CardPreviewManager.getPreviews(cardsToSee, true)
+          const cardsToSee: cc.Node[] = player.handCards
+          player.handCards.forEach(card => card.getComponent(Card).flipCard(false))
+          await CardPreviewManager.getPreviews(cardsToSee, true)
+          if (this.isAlsoMayStealAChosenCard) {
+            await this.stealACardFromPlayer(player, originalPlayer)
+          }
+          player.handCards.forEach(card => card.getComponent(Card).flipCard(false))
         }
       }
     }
-    cc.log(`end of look at player hand`)
 
-    if (data instanceof PassiveEffectData) return data
+    if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack
+  }
+
+  async stealACardFromPlayer(player: Player, originalPlayer: Player) {
+    const steal = new TakeLootFromPlayer();
+    const chooseCard = new ChooseCard();
+    chooseCard.flavorText = "Choose A Card To Steal"
+
+    const cards = await chooseCard.getCardsToChoose(CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND, null, player)
+    const chosenData = await chooseCard.requireChoosingACard(cards)
+    const chosenCard = CardManager.getCardById(chosenData.cardChosenId)
+    const data = new ActiveEffectData()
+    data.addTarget(chosenCard)
+    data.addTarget(originalPlayer.character)
+    await steal.doEffect(null, data)
+
+
   }
 }

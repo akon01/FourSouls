@@ -19,6 +19,16 @@ export default class MonsterCombatDamageTaken extends Condition {
   })
   entityWhoTookDamage: cc.Node = null;
 
+  @property
+  isOnSpecificRoll: boolean = false
+
+  @property({
+    visible: function (this: MonsterCombatDamageTaken) {
+      if (this.isOnSpecificRoll) { return true }
+    }
+  })
+  rollNumber: number = 1
+
   event = PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_GIVEN
 
   async testCondition(meta: PassiveMeta) {
@@ -31,6 +41,11 @@ export default class MonsterCombatDamageTaken extends Condition {
       cc.log(`who took dmg ${meta.args[3].name}`)
       cc.log(`this enttiy ${this.entityWhoTookDamage.name}`)
       if (this.entityWhoTookDamage != meta.args[3]) { answer = false; }
+    }
+    if (this.isOnSpecificRoll) {
+      if (this.rollNumber != meta.args[1]) {
+        answer = false
+      }
     }
     return answer
 

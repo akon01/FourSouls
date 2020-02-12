@@ -228,7 +228,11 @@ export enum GAME_EVENTS {
   SOUL_CARD_MOVE_END,
   STACK_EFFECT_CHANGE,
   ACTION_LABLE_UPDATE,
-  PREVIEW_MANAGER_OPEN
+  PREVIEW_MANAGER_OPEN,
+  HIDE_DECISION,
+  PUT_ON_STACK_END,
+  SOUND_OVER,
+  END_SET_CHAR
 }
 
 export class SIGNAL_GROUPS {
@@ -320,6 +324,14 @@ export enum COLORS {
   LIGHTBLUE = "10%, 10%, 75%"
 }
 
+export enum STACK_EFFECT_VIS_TYPE {
+  BASIC,
+  PLAYER_ACTION,
+  MONSTER_ACTION,
+  BOSS_ACTION,
+  MEGA_BOSS_ACTION
+}
+
 export const TIME_TO_DRAW = 0.3;
 export const TIME_TO_BUY = 0.5;
 export const BLINKING_SPEED = 1;
@@ -333,6 +345,7 @@ export const TIME_FOR_MONSTER_DISCARD = 1;
 export const TIME_FOR_TREASURE_DISCARD = 2;
 export const MAX_NUM_OF_HISTORY_ITEM = 150
 export const EFFECT_ANIMATION_TIME = 2
+export const DECISION_SHOW_TIME = 3
 
 export let ServerIp = "localhost:7456/"
 

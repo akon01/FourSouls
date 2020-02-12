@@ -8,8 +8,6 @@ import DataCollector from "../../DataCollector/DataCollector";
 import Effect from "../Effect";
 import { TARGETTYPE } from "../../../Constants";
 
-
-
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -25,20 +23,22 @@ export default class PreventDeathPenalties extends Effect {
    */
   async doEffect(stack: StackEffectInterface[], data?: PassiveEffectData) {
 
-    let targetPlayer = data.getTarget(TARGETTYPE.PLAYER)
-    if (!targetPlayer) throw `No target player found`
-    let playerPenaltiesStackEffect = Stack._currentStack.find(effect => {
-      if (effect instanceof PlayerDeathPenalties && effect.playerToPay.playerId == PlayerManager.getPlayerByCard(targetPlayer as cc.Node).playerId) return true
+    const targetPlayer = data.getTarget(TARGETTYPE.PLAYER) as cc.Node
+    if (!targetPlayer) { throw new Error(`No target player found`) }
+    const playerPenaltiesStackEffect = Stack._currentStack.find(effect => {
+      if (effect instanceof PlayerDeathPenalties && effect.playerToPay.playerId == PlayerManager.getPlayerByCard(targetPlayer as cc.Node).playerId) { return true }
     })
-    if (!playerPenaltiesStackEffect) throw `No Player Penalties found`
+    if (!playerPenaltiesStackEffect) { throw new Error(`No Player Penalties found`) }
     await Stack.fizzleStackEffect(playerPenaltiesStackEffect, true)
     if (playerPenaltiesStackEffect instanceof PlayerDeathPenalties) {
+      const playerToPay = playerPenaltiesStackEffect.playerToPay
+      playerToPay.heal(playerToPay._lastHp, true, true)
       cc.log(`if player is turn player end their turn`)
-      let playerToPay = playerPenaltiesStackEffect.playerToPay
       if (TurnsManager.currentTurn.getTurnPlayer().playerId == playerToPay.playerId) {
         cc.log(`end turn`)
         //   Stack.removeFromCurrentStackEffectResolving()
-        playerToPay.endTurn(true);
+        //  playerToPay.endTurn(true);
+        playerToPay._endTurnFlag = true
       }
     }
     data.terminateOriginal = true;

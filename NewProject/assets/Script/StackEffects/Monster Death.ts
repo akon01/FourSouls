@@ -52,7 +52,7 @@ export default class MonsterDeath extends StackEffectConcrete {
         super(creatorCardId, entityId)
         this.killer = killerCard
         this.monsterToDie = monsterToDieCard.getComponent(Monster)
-        this.visualRepesentation = new MonsterDeathVis(this.monsterToDie.name)
+        this.visualRepesentation = new MonsterDeathVis(this.monsterToDie)
         this.lable = `${this.monsterToDie} killed by ${killerCard.name}`
     }
 

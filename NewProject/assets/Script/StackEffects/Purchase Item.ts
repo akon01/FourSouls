@@ -60,7 +60,7 @@ export default class PurchaseItem extends StackEffectConcrete {
         this.itemToPurchase = itemToPurchase;
         this.playerWhoBuys = PlayerManager.getPlayerById(playerWhoBuysId)
         if (Store.storeCards.includes(itemToPurchase)) {
-            this.cost = Store.storeCardsCost
+            this.cost = this.playerWhoBuys.getStoreCost()
         } else { this.cost = Store.topCardCost }
         this.visualRepesentation = new PurchaseItemVis(this.itemToPurchase, this.playerWhoBuys, this.cost)
         this.lable = `Player ${playerWhoBuysId} is about to buy ${itemToPurchase.name} for ${this.cost}`

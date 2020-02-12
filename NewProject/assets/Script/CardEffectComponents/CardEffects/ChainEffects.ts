@@ -36,7 +36,9 @@ export default class ChainEffects extends Effect {
       const effect = this.effectsToChain[i];
       // cc.log(effect.effectData)
       if (effect.hasPlayerChoiceToActivateInChainEffects) {
-        const yesOrNo = await PlayerManager.getPlayerById(cardEffectComp.cardPlayerId).giveYesNoChoice()
+        cc.log(effect)
+        const yesOrNo = await PlayerManager.getPlayerById(cardEffectComp.cardPlayerId).giveYesNoChoice(effect.optionalFlavorText)
+        cc.log(yesOrNo)
         if (yesOrNo) {
           try {
             const thisCard = Card.getCardNodeByChild(effect.node);
@@ -70,6 +72,7 @@ export default class ChainEffects extends Effect {
         } catch (error) {
           cc.error(`${effect.effectName} has failed`)
           Logger.error(error)
+          cc.log(effect.effectData)
           effect.effectData
           cc.log((error as Error).stack)
         }

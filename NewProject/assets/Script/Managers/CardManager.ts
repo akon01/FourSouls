@@ -27,6 +27,8 @@ import PassiveManager from "./PassiveManager";
 import PileManager from "./PileManager";
 import PlayerManager from "./PlayerManager";
 import TurnsManager from "./TurnsManager";
+import DecisionMarker from "../Entites/Decision Marker";
+import AnimationManager from "./Animation Manager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -103,6 +105,11 @@ export default class CardManager extends cc.Component {
   static extraSoulsCardPool: cc.NodePool = null;
 
   static CharItemCardPool: cc.NodePool = null;
+
+  @property(cc.Prefab)
+  animationNode: cc.Prefab = null
+
+  static $: CardManager = null
 
   static async init() {
     const loaded = await this.preLoadPrefabs();
@@ -400,6 +407,8 @@ export default class CardManager extends cc.Component {
     deck.addToDeckOnTop(card, false);
   }
 
+
+
   static makeDeckCards(deck: Deck) {
     deck._cardId = ++this.cardsId
     deck.node.getComponent(Card)._cardId = ++this.cardsId
@@ -413,6 +422,8 @@ export default class CardManager extends cc.Component {
         continue
       }
       newCard.getComponent(Card).frontSprite = newCard.getComponent(cc.Sprite).spriteFrame;
+
+      AnimationManager.addAnimationNode(newCard)
       this.addCardToDeck(newCard, deck)
       if (cardComp.makeMultiCards) {
         for (let j = 0; j < cardComp.numOfCopies; j++) {
@@ -436,23 +447,25 @@ export default class CardManager extends cc.Component {
 
     for (let j = 0; j < CardManager.charCardsPrefabs.length; j++) {
       characterNode = cc.instantiate(CardManager.charCardsPrefabs[j]);
+      AnimationManager.addAnimationNode(characterNode)
       if (characterNode.getComponent(Character).charItemPrefab) {
         characterItemNode = cc.instantiate(
           characterNode.getComponent(Character).charItemPrefab
         );
+        AnimationManager.addAnimationNode(characterItemNode)
       }
       characterNode.getComponent(Card)._cardId = ++CardManager.cardsId;
       characterNode.getComponent(Card).frontSprite = characterNode.getComponent(cc.Sprite).spriteFrame;
       if (characterItemNode) {
         characterItemNode.getComponent(Card)._cardId = ++CardManager.cardsId;
         characterItemNode.getComponent(Card).frontSprite = characterItemNode.getComponent(cc.Sprite).spriteFrame;
-        characterItemNode.parent = cc.director.getScene();
+        // characterItemNode.parent = cc.director.getScene();
       }
       const fullCharCards: { char: cc.Node; item: cc.Node } = {
         char: characterNode,
         item: characterItemNode
       };
-      characterNode.parent = cc.director.getScene();
+      //characterNode.parent = cc.director.getScene();
       CardManager.characterDeck.push(fullCharCards);
       CardManager.allCards.push(fullCharCards.char)
       if (fullCharCards.item) {
@@ -462,11 +475,15 @@ export default class CardManager extends cc.Component {
     }
   }
 
+
+
   static makeMonsterAttackable(monsterCard: cc.Node) {
     const cardComp = monsterCard.getComponent(Card);
     if (!cardComp._isAttackable) {
       cardComp._hasEventsBeenModified = true;
     }
+
+    AnimationManager.$.showAnimation(monsterCard, 1)
     cardComp._isAttackable = true;
     this.makeCardPreviewable(monsterCard);
   }
@@ -476,6 +493,8 @@ export default class CardManager extends cc.Component {
     if (!cardComp._isBuyable) {
       cardComp._hasEventsBeenModified = true;
     }
+
+    AnimationManager.$.showAnimation(itemCard, 2)
     cardComp._isBuyable = true;
     // itemCard.off(cc.Node.EventType.TOUCH_START);
     this.makeCardPreviewable(itemCard);
@@ -483,9 +502,14 @@ export default class CardManager extends cc.Component {
 
   static makeLootPlayable(lootCard: cc.Node, player: Player) {
     const cardComp = lootCard.getComponent(Card);
+    if (!lootCard.getComponent(CardEffect).testEffectsPreConditions()) {
+      return
+    }
     if (!cardComp._isPlayable) {
       cardComp._hasEventsBeenModified = true;
     }
+
+    AnimationManager.$.showAnimation(lootCard, 0)
     cardComp._isPlayable = true;
     this.makeCardPreviewable(lootCard);
   }
@@ -502,6 +526,8 @@ export default class CardManager extends cc.Component {
     if (!cardComp._isActivateable) {
       cardComp._hasEventsBeenModified = true;
     }
+
+    AnimationManager.$.showAnimation(item, 0)
     cardComp._isActivateable = true;
 
     this.makeCardPreviewable(item);
@@ -566,6 +592,7 @@ export default class CardManager extends cc.Component {
       cardComp._isBuyable = false;
       cardComp._isPlayable = false;
       cardComp._isReactable = false;
+      AnimationManager.$.endAnimation(card)
       // cardComp._isRequired = false;
       // cardComp._requiredFor = null;
       this.makeCardPreviewable(card);
@@ -906,9 +933,8 @@ export default class CardManager extends cc.Component {
   // LIFE-CYCLE CALLBACKS:
 
   onLoad() {
-    cc.log(`1`)
+    CardManager.$ = this
     CardManager.lootDeck = cc.find("Canvas/Loot Deck");
-    cc.log(CardManager.lootDeck)
     CardManager.monsterDeck = cc.find("Canvas/Monster Deck");
     CardManager.treasureDeck = cc.find("Canvas/Treasure Deck");
     CardManager.store = cc.find("Canvas/Store");

@@ -6,10 +6,8 @@ import PlayerManager from "../../Managers/PlayerManager";
 import PlayLootCardStackEffect from "../../StackEffects/Play Loot Card";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import MultiEffectChoose from "../MultiEffectChooser/MultiEffectChoose";
-import MultiEffectRoll from "../MultiEffectChooser/MultiEffectRoll";
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
 import Effect from "./Effect";
-import { IMultiEffectRollAndCollect } from "../MultiEffectChooser/IMultiEffectRollAndCollect";
 
 const { ccclass, property } = cc._decorator;
 
@@ -27,12 +25,13 @@ export default class PlayLootCard extends Effect {
     data?: ActiveEffectData | PassiveEffectData
   ) {
     let hasLockingEffect;
-    const collector = this.node.parent.getComponent(CardEffect).multiEffectCollector;
+    const card = data.getTarget(TARGETTYPE.CARD)
+
+    const collector = (card as cc.Node).getComponent(CardEffect).multiEffectCollector;
     if (collector != null && !(collector instanceof MultiEffectChoose)) {
       hasLockingEffect = true;
     } else { hasLockingEffect = false; }
     const player = PlayerManager.getPlayerByCard(data.effectCard)
-    const card = data.getTarget(TARGETTYPE.CARD)
     if (card != null && card instanceof cc.Node) {
       const playLoot = new PlayLootCardStackEffect(player.character.getComponent(Card)._cardId, hasLockingEffect, card, player.character, false, false)
 

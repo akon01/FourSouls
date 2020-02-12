@@ -12,6 +12,8 @@ import ServerAttackRoll from "./ServerSideStackEffects/Server Attack Roll";
 import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { AttackRollVis } from "./StackEffectVisualRepresentation/Attack Roll Vis";
+import StackEffectVisManager from "../Managers/StackEffectVisManager";
+import DecisionMarker from "../Entites/Decision Marker";
 
 export default class AttackRoll extends StackEffectConcrete {
     visualRepesentation: AttackRollVis;
@@ -60,7 +62,7 @@ export default class AttackRoll extends StackEffectConcrete {
         this.rollingPlayer = rollingPlayer.getComponent(Player)
         this.attackedMonster = attackedMonsterCard.getComponent(Monster)
         const dice = this.rollingPlayer.dice
-        this.visualRepesentation = new AttackRollVis(dice.node.getComponent(cc.Sprite).spriteFrame, "create attack roll");
+        this.visualRepesentation = new AttackRollVis(this.rollingPlayer, dice.node.getComponent(cc.Sprite).spriteFrame, "create attack roll");
         this.lable = `Player ${this.rollingPlayer.playerId} is rolling against ${this.attackedMonster.name}`
     }
 
@@ -70,8 +72,10 @@ export default class AttackRoll extends StackEffectConcrete {
         this.rollingPlayer._isFirstAttackRollOfTurn == true ? attackType = ROLL_TYPE.FIRST_ATTACK : attackType = ROLL_TYPE.ATTACK;
         const numberRolled = await player.rollDice(attackType)
         this.numberRolled = numberRolled
-        this.visualRepesentation.flavorText = "player rolled " + numberRolled + " vs " + this.attackedMonster.name
+        StackEffectVisManager.$.updatePreviewByStackId(this.entityId, "player rolled " + numberRolled + " vs " + this.attackedMonster.name)
+        this.visualRepesentation.extraSprite = player.dice.node.getComponent(cc.Sprite).spriteFrame
         this.visualRepesentation.hasBeenUpdated = true
+        await DecisionMarker.$.showDiceRoll(this, true)
         this.lable = `Player ${this.rollingPlayer.playerId} rolled ${numberRolled} vs ${this.attackedMonster.name}`
 
         const turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
@@ -82,14 +86,13 @@ export default class AttackRoll extends StackEffectConcrete {
     async resolve() {
         let attackType;
         this.rollingPlayer._isFirstAttackRollOfTurn == true ? attackType = ROLL_TYPE.FIRST_ATTACK : attackType = ROLL_TYPE.ATTACK;
-
         let monsterEvasion = this.attackedMonster.rollValue + this.attackedMonster.rollBonus;
-
         //let playerRollValue = this.numberRolled + this.rollingPlayer.attackRollBonus;
         let playerRollValue = this.rollingPlayer.calculateFinalRoll(this.numberRolled, attackType)
         cc.log(`Added ${this.rollingPlayer.attackRollBonus} to original roll`)
         ActionLable.$.publishMassage(`Added ${this.rollingPlayer.attackRollBonus} to original roll`, 3)
         playerRollValue = await this.rollingPlayer.dice.setRoll(playerRollValue)
+        this.visualRepesentation.extraSprite = this.rollingPlayer.dice.node.getComponent(cc.Sprite).spriteFrame
         const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_ROLL_DICE, [playerRollValue, attackType, monsterEvasion], null, this.rollingPlayer.node, this.entityId)
         const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
         if (!afterPassiveMeta.continue) { return }
@@ -103,10 +106,9 @@ export default class AttackRoll extends StackEffectConcrete {
         if (playerRollValue >= monsterEvasion) {
             const monsterCombatDamage = new CombatDamage(this.creatorCardId, this.attackedMonster.node, this.rollingPlayer.character)
             monsterCombatDamage.numberRolled = playerRollValue
+            this.rollingPlayer.lastRoll = playerRollValue
             await Stack.addToStackBelow(monsterCombatDamage, this, true)
-
         } else {
-
             //Passive Check: Player Miss an Attack
             const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_MISS_ATTACK, [playerRollValue], null, this.rollingPlayer.node, this.entityId)
             const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
@@ -115,12 +117,13 @@ export default class AttackRoll extends StackEffectConcrete {
             if (afterPassiveMeta.continue) {
                 const playerCombatDamage = new CombatDamage(this.creatorCardId, this.rollingPlayer.character, this.attackedMonster.node)
                 playerCombatDamage.numberRolled = playerRollValue
+                this.rollingPlayer.lastRoll = playerRollValue
                 await Stack.addToStackBelow(playerCombatDamage, this, true)
             }
-
         }
 
         await PassiveManager.testForPassiveAfter(passiveMeta)
+        this.rollingPlayer.lastAttackRoll = playerRollValue
 
     }
 

@@ -1,4 +1,4 @@
-import { STACK_EFFECT_TYPE } from "../Constants";
+/* import { STACK_EFFECT_TYPE } from "../Constants";
 import Monster from "../Entites/CardTypes/Monster";
 import Stack from "../Entites/Stack";
 import PlayerManager from "../Managers/PlayerManager";
@@ -37,8 +37,8 @@ export default class TakeDamage implements StackEffectInterface {
             this.entityId = Stack.getNextStackEffectId()
         }
 
-        
-        
+
+
         this.entityToTakeDamageCard = entityToTakeDamageCard;
         if (this.entityToDoDamageCard.getComponent(Monster) != null) {
             this.isPlayerDoDamage = true
@@ -95,3 +95,4 @@ export default class TakeDamage implements StackEffectInterface {
     }
 
 }
+ */

@@ -4,7 +4,7 @@ import Player from "../Entites/GameEntities/Player";
 const { ccclass, property } = cc._decorator;
 
 enum stats {
-    HP, COINS
+    HP, COINS, DMG
 }
 
 @ccclass
@@ -38,6 +38,9 @@ export default class StatLable extends cc.Component {
                     this.label.string = '💰:' + this.playerMoney.toString()
                     break;
                 case stats.HP:
+                    this.label.string = '🧡' + (this.player._Hp).toString()
+                    break;
+                case stats.DMG:
                     this.label.string = '🧡' + (this.player._Hp).toString()
                     break;
                 default:

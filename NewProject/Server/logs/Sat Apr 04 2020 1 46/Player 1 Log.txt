@@ -1,0 +1,205 @@
+Start Log 
+ Player 1 01:46:44 $START_GAME:  
+ Player 1 01:46:44 $MOVE_TO_TABLE:  
+ Player 1 01:46:54 $FINISH_LOAD:  
+
+ {"id":1,"turnPlayerId":2} 
+ Player 1 01:46:54 $ASSIGN_CHAR_TO_PLAYER:  
+
+ {"playerId":1,"charCardId":322,"itemCardId":323} 
+ Player 1 01:46:54 $SET_CHAR_END:  
+
+ {"playerId":2} 
+ Player 1 01:46:55 $MOVE_CARD_END:  
+
+ {"moveIndex":1,"cardId":139,"flipIfFlipped":false,"playerId":2} 
+ Player 1 01:46:56 $MOVE_CARD_END:  
+
+ {"moveIndex":2,"cardId":138,"flipIfFlipped":false,"playerId":2} 
+ Player 1 01:46:56 $MOVE_CARD_END:  
+
+ {"moveIndex":3,"cardId":137,"flipIfFlipped":false,"playerId":2} 
+ Player 1 01:46:57 $MOVE_CARD_END:  
+
+ {"moveIndex":4,"cardId":136,"flipIfFlipped":false,"playerId":2} 
+ Player 1 01:46:57 $MOVE_CARD_END:  
+
+ {"moveIndex":5,"cardId":135,"flipIfFlipped":false,"playerId":2} 
+ Player 1 01:46:58 $MOVE_CARD_END:  
+
+ {"moveIndex":6,"cardId":134,"flipIfFlipped":false,"playerId":2} 
+ Player 1 01:46:58 $UPDATE_STACK_LABLE:  
+
+ {"stackText":"Empty Stack"} 
+ Player 1 01:46:58 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 2 start turn loot"} 
+ Player 1 01:47:01 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[322,323]} 
+ Player 1 01:47:01 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Player 1 01:47:02 $MOVE_CARD_END:  
+
+ {"moveIndex":7,"cardId":133,"flipIfFlipped":false,"playerId":2} 
+ Player 1 01:47:05 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 2 start turn loot"} 
+ Player 1 01:47:05 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[322,323]} 
+ Player 1 01:47:05 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Player 1 01:47:36 $UPDATE_STACK_LABLE:  
+
+ {"stackText":"Empty Stack"} 
+ Player 1 01:47:36 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 2 play The Starts "} 
+ Player 1 01:47:40 $MOVE_CARD_END:  
+
+ {"moveIndex":8,"cardId":135,"flipIfFlipped":true,"playerId":2} 
+ Player 1 01:47:40 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 2 play The Starts "} 
+ Player 1 01:47:40 $SHOW_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[322,323]} 
+ Player 1 01:47:53 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":true} 
+ Player 1 01:47:53 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[322,323]} 
+ Player 1 01:47:53 $NEXT_STACK_ID:  
+ Player 1 01:47:53 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 2 play The Starts  \n2:Player 1 activated Samson"} 
+ Player 1 01:47:53 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":322,"hasLockingStackEffect":false,"itemToPlayCardId":322,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1}} 
+ Player 1 01:47:53 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":322,"hasLockingStackEffect":false,"itemToPlayCardId":322,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1}} 
+ Player 1 01:47:53 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Player 1 01:47:53 $SHOW_STACK_EFFECT:  
+
+ {"effectId":3} 
+ Player 1 01:47:56 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":14,"_text":"Add ActivateItem 3 "}} 
+ Player 1 01:48:00 $SHOW_ANNOUNCEMENT:  
+
+ {"text":{}} 
+ Player 1 01:48:00 $LOG_ERROR:  
+
+ {"message":"\"Cannot set property 'spriteFrame' of null\"","stack":"\"TypeError: Cannot set property 'spriteFrame' of null\\n    at CardPreview.setCard (http://localhost:7456/preview-scripts/assets/Script/Entites/Card%20Preview.js:128:41)\\n    at DecisionMarker.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Decision%20Marker.js:433:42)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113127:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113071:18)\\n    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113049:71\\n    at new Promise (<anonymous>)\\n    at 486.window.__awaiter (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113029:14)\\n    at DecisionMarker.showDecision (http://localhost:7456/preview-scripts/assets/Script/Entites/Decision%20Marker.js:426:16)\\n    at SelectLootToPlay.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/DataCollector/ChooseCardToPlay.js:119:74)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113127:21)\""} 
+ Player 1 01:48:01 $USE_ITEM:  
+
+ {"cardId":322} 
+ Player 1 01:48:01 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 01:48:01 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 2 play The Starts  \n2:Player 1 activated Samson"} 
+ Player 1 01:48:01 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":322,"hasLockingStackEffect":false,"itemToPlayCardId":322,"itemPlayerId":1,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":true,"stackEffectType":1}} 
+ Player 1 01:48:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":15,"_text":"Response Adding ActivateItem 3"},"childOfId":14} 
+ Player 1 01:48:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":16,"_text":"Wait For Response From Player 2 "},"childOfId":14} 
+ Player 1 01:48:01 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 01:48:01 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 01:48:01 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":16} 
+ Player 1 01:48:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":17,"_text":"Wait For Response From Player 1 "},"childOfId":14} 
+ Player 1 01:48:01 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 01:48:01 $SHOW_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[323]} 
+ Player 1 01:49:31 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[323]} 
+ Player 1 01:49:31 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":17} 
+ Player 1 01:49:31 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":15} 
+ Player 1 01:49:31 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":18,"_text":"Resolve ActivateItem 3 "}} 
+ Player 1 01:49:31 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 2 play The Starts  \n2:Player 1 activated Samson"} 
+ Player 1 01:49:31 $ADD_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":322,"hasLockingStackEffect":false,"itemToPlayCardId":322,"itemPlayerId":1,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":true,"stackEffectType":1}} 
+ Player 1 01:49:31 $ACTIVATE_PARTICLE_EFFECT:  
+
+ {"cardId":322,"particleType":6} 
+ Player 1 01:49:33 $DISABLE_PARTICLE_EFFECT:  
+
+ {"cardId":322,"particleType":6} 
+ Player 1 01:49:33 $LOG_ERROR:  
+
+ {"message":"\"Cannot read property 'effectTargetCard' of undefined\"","stack":"\"TypeError: Cannot read property 'effectTargetCard' of undefined\\n    at ActiveEffectData.getTarget (http://localhost:7456/preview-scripts/assets/Script/Managers/DataInterpreter.js:368:70)\\n    at PlayLootCard.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardEffects/PlayLootCard.js:45:37)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113127:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113071:18)\\n    at http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113049:71\\n    at new Promise (<anonymous>)\\n    at 486.window.__awaiter (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113029:14)\\n    at PlayLootCard.doEffect (http://localhost:7456/preview-scripts/assets/Script/CardEffectComponents/CardEffects/PlayLootCard.js:40:16)\\n    at CardEffect.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:305:59)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113127:21)\""} 
+ Player 1 01:49:33 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ACTIVATE_ITEM","args":[{"type":0,"number":322}],"result":null,"preventMethod":false,"methodScopeId":322,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+ Player 1 01:49:33 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 2 play The Starts  \n2:Player 1 activated Samson"} 
+ Player 1 01:49:33 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":322,"hasLockingStackEffect":false,"itemToPlayCardId":322,"itemPlayerId":1,"hasDataBeenCollectedYet":true,"stackEffectType":1}} 
+ Player 1 01:49:33 $REMOVE_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffectId":3} 
+ Player 1 01:49:33 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Player 1 01:49:33 $SHOW_STACK_EFFECT:  
+
+ {"effectId":3} 
+ Player 1 01:49:36 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":3} 
+ Player 1 01:49:36 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":19,"_text":"Remove After Resolve ActivateItem 3  "}} 
+ Player 1 01:49:36 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 2 play The Starts "} 
+ Player 1 01:49:36 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":322,"hasLockingStackEffect":false,"itemToPlayCardId":322,"itemPlayerId":1,"hasDataBeenCollectedYet":true,"stackEffectType":1}} 
+ Player 1 01:49:36 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":20,"_text":"Response Remove After Resolve ActivateItem 3"},"childOfId":19} 
+ Player 1 01:49:36 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":21,"_text":"Wait For Response From Player 1 "},"childOfId":19} 
+ Player 1 01:49:36 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 01:49:36 $SHOW_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[323]}

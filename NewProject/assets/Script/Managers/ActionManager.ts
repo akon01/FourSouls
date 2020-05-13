@@ -1,3 +1,4 @@
+import { ANIM_COLORS } from "./Animation Manager";
 
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
@@ -40,8 +41,16 @@ import DecisionMarker from "../Entites/Decision Marker";
 import StackEffectConcrete from "../StackEffects/StackEffectConcrete";
 import AttackRoll from "../StackEffects/Attack Roll";
 import RollDiceStackEffect from "../StackEffects/Roll DIce";
+import SoundManager from "./SoundManager";
+import AnimationManager from "./Animation Manager";
+import AnnouncementLable from "../LableScripts/Announcement Lable";
+import { whevent } from "../../ServerClient/whevent";
 
 const { ccclass } = cc._decorator;
+
+enum CARD_ACTIONS {
+  ATTACKABLE, BUYABLE, ACTIVATEABLE, PLAYABLE
+}
 
 @ccclass
 export default class ActionManager extends cc.Component {
@@ -62,6 +71,35 @@ export default class ActionManager extends cc.Component {
   static reactionChainNum: number = 0;
 
   static lootPlayedInAction(cardId: any) {
+  }
+
+  static updateCardAction(card: cc.Node, action: CARD_ACTIONS) {
+    CardManager.disableCardActions(card);
+    try {
+      switch (action) {
+        case CARD_ACTIONS.ACTIVATEABLE:
+          CardManager.makeItemActivateable(card);
+          break;
+        case CARD_ACTIONS.ATTACKABLE:
+          CardManager.makeMonsterAttackable(card);
+          break;
+        case CARD_ACTIONS.BUYABLE:
+          CardManager.makeItemBuyable(card);
+          break;
+        case CARD_ACTIONS.PLAYABLE:
+          CardManager.makeLootPlayable(card);
+          break;
+        default:
+          break;
+      }
+    } catch (error) {
+      Logger.error(error)
+    }
+  }
+
+  static disableCardActionsAndMake(card: cc.Node) {
+    CardManager.disableCardActions(card);
+    CardManager.makeCardPreviewable(card)
   }
 
   static updateActionsForTurnPlayer(player: cc.Node) {
@@ -103,121 +141,34 @@ export default class ActionManager extends cc.Component {
       // if not in battle phase allow other actions (buying,playing turnLoot,activating items,attacking a monster)
       if (!TurnsManager.currentTurn.battlePhase || Stack._currentStack.length > 0) {
         // make store cards buyable (add check for money)
-        if (
-
-          /// TODO change to 1 and enable
-          TurnsManager.currentTurn.buyPlays > -50
-        ) {
-          for (let i = 0; i < Store.storeCards.length; i++) {
-            const storeCard = Store.storeCards[i];
-            cc.log(Store.storeCardsCost)
-            if (player.getComponent(Player).coins >= player.getComponent(Player).getStoreCost()) {
-              cc.log(`make ${storeCard.name} buyable`)
-              CardManager.makeItemBuyable(storeCard, currentPlayerComp);
-            }
-          }
-
-          // if (treasureDeck.topBlankCard != null) {
-          //   const treasureDeckTopCard = treasureDeck.topBlankCard;
-          if (player.getComponent(Player).coins >= Store.topCardCost) {
-            CardManager.makeItemBuyable(treasureDeck.node, currentPlayerComp);
-          }
-        } else {
-          for (let i = 0; i < Store.storeCards.length; i++) {
-            const storeCard = Store.storeCards[i];
-            CardManager.disableCardActions(storeCard);
-            CardManager.makeCardPreviewable(storeCard);
-          }
-          // if (treasureDeck.topBlankCard != null) {
-          //   const treasureDeckTopCard = treasureDeck.topBlankCard;
-          //   CardManager.disableCardActions(treasureDeckTopCard);
-          // }
-        }
+        ActionManager.decideForBuyable(player, treasureDeck);
 
         // make monster cards attackable
-        if (TurnsManager.currentTurn.attackPlays > 0) {
-          for (let i = 0; i < MonsterField.activeMonsters.length; i++) {
-            const activeMonster = MonsterField.activeMonsters[i];
-            CardManager.disableCardActions(activeMonster);
-            CardManager.makeMonsterAttackable(activeMonster);
-          }
-          CardManager.makeMonsterAttackable(monsterDeck.node);
-        } else {
-          for (let i = 0; i < MonsterField.activeMonsters.length; i++) {
-            const activeMonster = MonsterField.activeMonsters[i];
-            CardManager.disableCardActions(activeMonster);
-          }
-          CardManager.disableCardActions(monsterDeck.node);
-        }
+        ActionManager.decideForAttackable(monsterDeck);
         // make current player loot card playable
-        if (TurnsManager.currentTurn.lootCardPlays > 0) {
-          for (let i = 0; i < currentPlayerHandComp.layoutCards.length; i++) {
-            const card = currentPlayerHandComp.layoutCards[i];
-            CardManager.disableCardActions(card);
-            CardManager.makeLootPlayable(card, currentPlayerComp);
-            CardManager.setOriginalSprites(currentPlayerHandComp.layoutCards);
-          }
-        } else {
-          for (let i = 0; i < currentPlayerHandComp.layoutCards.length; i++) {
-            const card = currentPlayerHandComp.layoutCards[i];
-            CardManager.disableCardActions(card);
-            CardManager.makeCardPreviewable(card);
-          }
-        }
+        ActionManager.DecideForPlayable(currentPlayerHandComp);
         // if Items are charged make them playable
-        const playerItems = player.getComponent(Player).activeItems;
-        for (let i = 0; i < playerItems.length; i++) {
-          const item = playerItems[i].getComponent(Item);
-          try {
-
-            // if () {
-            //  cc.log(`make ${item.name} acitvatable`)
-            CardManager.makeItemActivateable(item.node);
-            // } else {
-            //   CardManager.disableCardActions(item.node);
-
-            // }
-          } catch (error) {
-            cc.error(error)
-            Logger.error(error)
-          }
-        }
+        ActionManager.decideForActivateable(player);
         player.getComponent(Player).dice.getComponent(Dice).disableRoll();
 
         // if in battle phase do battle
       } else if (TurnsManager.currentTurn.battlePhase) {
         cc.log(`in battle phase do battle`)
 
-        // if the monster is not dead
-        //
-        // enable activating items
-        ButtonManager.enableButton(ButtonManager.$.nextTurnButton, BUTTON_STATE.DISABLED)
-        if (BattleManager.currentlyAttackedMonster.currentHp > 0) {
-          const playerItems = player.getComponent(Player).activeItems;
-          for (let i = 0; i < playerItems.length; i++) {
-            const item = playerItems[i].getComponent(Item);
-            if (item.activated == false) {
-              CardManager.makeItemActivateable(item.node);
-            } else {
-              CardManager.disableCardActions(item.node);
+        const monsters = [...MonsterField.activeMonsters, monsterDeck.node]
+        for (let i = 0; i < monsters.length; i++) {
+          const activeMonster = monsters[i];
+          this.disableCardActionsAndMake(activeMonster)
+        }
 
-            }
-          }
+        //Disable Next Turn Button
+        // if the monster is not dead
+        ButtonManager.enableButton(ButtonManager.$.nextTurnButton, BUTTON_STATE.DISABLED)
+        // enable activating items
+        if (BattleManager.currentlyAttackedMonster.currentHp > 0) {
+          this.decideForActivateable(player)
           // enable playing loot if you havnet already
-          if (TurnsManager.currentTurn.lootCardPlays > 0) {
-            for (let i = 0; i < currentPlayerComp.handCards.length; i++) {
-              const card = currentPlayerComp.handCards[i];
-              CardManager.disableCardActions(card);
-              CardManager.makeLootPlayable(card, currentPlayerComp);
-              CardManager.setOriginalSprites(currentPlayerHandComp.layoutCards);
-            }
-          } else {
-            for (let i = 0; i < currentPlayerComp.handCards.length; i++) {
-              const card = currentPlayerComp.handCards[i];
-              CardManager.disableCardActions(card);
-              CardManager.makeCardPreviewable(card);
-            }
-          }
+          this.DecideForPlayable(currentPlayerHandComp)
           // if its a first attack
           if (BattleManager.firstAttack) {
             // allow rolling of a dice
@@ -228,52 +179,129 @@ export default class ActionManager extends cc.Component {
           }
 
         } else {
-          cc.log(`currently attacked monster has 0 hp`)
+          Logger.error(`currently attacked monster has 0 hp,should not happen, should not be in combat`)
           ButtonManager.enableButton(ButtonManager.$.nextTurnButton, BUTTON_STATE.DISABLED)
 
         }
-        // return new Promise((resolve, reject) => {
-        //   resolve(true)
-        // })
       } else {
         ButtonManager.enableButton(ButtonManager.$.nextTurnButton, BUTTON_STATE.DISABLED)
       }
     }
   }
 
-  static updateActionsForNotTurnPlayer(player: cc.Node) {
-    this.decks = CardManager.getAllDecks();
-
-    // update player reactions:
-    player.getComponent(Player).calculateReactions();
-    player.getComponent(Player).dice.getComponent(Dice).disableRoll();
-
-    for (let i = 0; i < Store.storeCards.length; i++) {
-      const storeCard = Store.storeCards[i];
-      CardManager.disableCardActions(storeCard);
-      CardManager.makeCardPreviewable(storeCard);
-    }
-    if (!ActionManager.inReactionPhase) {
-      const allFlippedCards = CardManager.allCards.filter(card => !card.getComponent(Card)._isFlipped);
-      // make all table cards not moveable but available for preview
-      if (allFlippedCards.length != 0) {
-        for (let i = 0; i < allFlippedCards.length; i++) {
-          const card = allFlippedCards[i];
-
-          CardManager.disableCardActions(card);
-          CardManager.makeCardPreviewable(card);
+  private static decideForBuyable(player: cc.Node, treasureDeck: Deck) {
+    if (TurnsManager.currentTurn.buyPlays > -50) {
+      for (let i = 0; i < Store.storeCards.length; i++) {
+        const storeCard = Store.storeCards[i];
+        if (player.getComponent(Player).coins >= player.getComponent(Player).getStoreCost()) {
+          this.updateCardAction(storeCard, CARD_ACTIONS.BUYABLE);
+          //     CardManager.makeItemBuyable(storeCard);
+        } else {
+          this.disableCardActionsAndMake(storeCard);
+          AnimationManager.$.endAnimation(storeCard);
         }
       }
-      // disable playing loot
-      for (
-        let i = 0;
-        i < player.getComponent(Player).hand.layoutCards.length;
-        i++
-      ) {
-        const card = player.getComponent(Player).hand.layoutCards[i];
-        CardManager.disableCardActions(card);
-        CardManager.makeCardPreviewable(card);
+
+      if (player.getComponent(Player).coins >= Store.topCardCost) {
+        this.updateCardAction(treasureDeck.node, CARD_ACTIONS.BUYABLE);
+      } else {
+        this.disableCardActionsAndMake(treasureDeck.node);
+        AnimationManager.$.endAnimation(treasureDeck.node);
       }
+    } else {
+      for (let i = 0; i < Store.storeCards.length; i++) {
+        const storeCard = Store.storeCards[i];
+        this.disableCardActionsAndMake(storeCard);
+        AnimationManager.$.endAnimation(storeCard);
+      }
+      this.disableCardActionsAndMake(treasureDeck.node);
+      AnimationManager.$.endAnimation(treasureDeck.node);
+    }
+  }
+
+  private static decideForAttackable(monsterDeck: Deck) {
+    const monsters = [...MonsterField.activeMonsters, monsterDeck.node]
+      ;
+    if (TurnsManager.currentTurn.attackPlays > 0) {
+      for (let i = 0; i < monsters.length; i++) {
+        const activeMonster = monsters[i];
+        this.updateCardAction(activeMonster, CARD_ACTIONS.ATTACKABLE);
+      }
+    } else {
+      for (let i = 0; i < monsters.length; i++) {
+        const activeMonster = monsters[i];
+        this.disableCardActionsAndMake(activeMonster);
+      }
+    }
+    if (TurnsManager.currentTurn.monsterDeckAttackPlays > 0) {
+      this.updateCardAction(monsterDeck.node, CARD_ACTIONS.ATTACKABLE);
+    }
+  }
+
+  private static DecideForPlayable(currentPlayerHandComp: CardLayout) {
+    if (TurnsManager.currentTurn.lootCardPlays > 0) {
+      CardManager.setOriginalSprites(currentPlayerHandComp.layoutCards);
+      for (let i = 0; i < currentPlayerHandComp.layoutCards.length; i++) {
+        const card = currentPlayerHandComp.layoutCards[i];
+        this.updateCardAction(card, CARD_ACTIONS.PLAYABLE);
+      }
+    } else {
+      for (let i = 0; i < currentPlayerHandComp.layoutCards.length; i++) {
+        const card = currentPlayerHandComp.layoutCards[i];
+        this.disableCardActionsAndMake(card);
+      }
+    }
+  }
+
+  private static decideForActivateable(player: cc.Node) {
+    const activeItems = player.getComponent(Player).activeItems;
+    for (let i = 0; i < activeItems.length; i++) {
+      const item = activeItems[i].getComponent(Item);
+      if (item.needsRecharge == false) {
+        this.updateCardAction(item.node, CARD_ACTIONS.ACTIVATEABLE);
+      } else {
+        this.disableCardActionsAndMake(item.node);
+      }
+    }
+    const paidItems = player.getComponent(Player).paidItems
+    for (let i = 0; i < paidItems.length; i++) {
+      const item = paidItems[i].getComponent(Item);
+      this.updateCardAction(item.node, CARD_ACTIONS.ACTIVATEABLE);
+    }
+  }
+
+  static updateActionsForNotTurnPlayer(player: cc.Node) {
+    this.decks = CardManager.getAllDecks();
+    const turnPlayer = TurnsManager.getCurrentTurn().getTurnPlayer()
+    const playerComp = player.getComponent(Player);
+    //show current turn player ////currently flashing, think of something smarter
+
+
+    // update player reactions:
+    playerComp.calculateReactions();
+    playerComp.dice.getComponent(Dice).disableRoll();
+
+
+
+    // if (!ActionManager.inReactionPhase) {
+    const allFlippedCards = new Set([
+      ...CardManager.allCards.filter(card => !card.getComponent(Card)._isFlipped),
+      CardManager.treasureDeck,
+      CardManager.monsterDeck,
+      ...playerComp.hand.layoutCards,
+      ...playerComp.activeItems,
+      ...playerComp.passiveItems,
+      ...playerComp.paidItems]);
+    // make all table cards available for preview
+    if (allFlippedCards.size != 0) {
+      allFlippedCards.forEach(card => {
+        this.disableCardActionsAndMake(card)
+        AnimationManager.$.endAnimation(card)
+      }
+      )
+    }
+    if (player != turnPlayer.node) {
+      AnimationManager.$.showAnimation(turnPlayer.character, ANIM_COLORS.WHITE)
     }
     // make other players cards invisible and not moveable
     const otherPlayersHandCards: cc.Node[] = CardManager.getOtherPlayersHandCards(
@@ -283,7 +311,7 @@ export default class ActionManager extends cc.Component {
       for (let i = 0; i < otherPlayersHandCards.length; i++) {
         const card = otherPlayersHandCards[i].getComponent(Card);
         if (!card._isFlipped) { card.flipCard(false) }
-        CardManager.disableCardActions(card.node);
+        this.disableCardActionsAndMake(card.node)
       }
     }
 
@@ -293,6 +321,7 @@ export default class ActionManager extends cc.Component {
 
     // Set up listener to card selected
     return true
+    //  }
   }
 
   static checkingForDeadEntities: boolean = false;
@@ -350,24 +379,24 @@ export default class ActionManager extends cc.Component {
 
   }
 
-  async updateAfterTurnChange() {
-    const currentTurnLableComp = cc
-      .find("Canvas")
-      .getChildByName("current Turn")
-      .getComponent(cc.Label);
-    // setting current player of the turn.
-    MainScript.currentPlayerNode = getCurrentPlayer(
-      PlayerManager.players,
-      TurnsManager.currentTurn,
-    );
-    MainScript.currentPlayerComp = MainScript.currentPlayerNode.getComponent(
-      Player,
-    );
-    // setting turn lable to updated turn
-    currentTurnLableComp.string =
-      "current turn is:" + TurnsManager.getCurrentTurn().PlayerId;
-    await ActionManager.updateActions();
-  }
+  // async updateAfterTurnChange() {
+  //   const currentTurnLableComp = cc
+  //     .find("Canvas")
+  //     .getChildByName("current Turn")
+  //     .getComponent(cc.Label);
+  //   // setting current player of the turn.
+  //   MainScript.currentPlayerNode = getCurrentPlayer(
+  //     PlayerManager.players,
+  //     TurnsManager.currentTurn,
+  //   );
+  //   MainScript.currentPlayerComp = MainScript.currentPlayerNode.getComponent(
+  //     Player,
+  //   );
+  //   // setting turn lable to updated turn
+  //   currentTurnLableComp.string =
+  //     "current turn is:" + TurnsManager.getCurrentTurn().PlayerId;
+  //   await ActionManager.updateActions();
+  // }
 
   static cardEffectToDo: { playedCard: cc.Node, playerId: number, passiveIndex?: number } = null;
 
@@ -385,11 +414,14 @@ export default class ActionManager extends cc.Component {
     let place: cc.Node;
     let stackEffect: StackEffectConcrete
     let converter = new ServerStackEffectConverter();
+    const cards = new CardSet()
     switch (signal) {
       case Signal.END_GAME:
         MainScript.endGame(data.playerId, false)
         break;
       case Signal.GAME_HAS_STARTED:
+        SoundManager.$.setBGVolume(0.5)
+        SoundManager.$.playBGMusic(SoundManager.$.BasicBGMusic)
         MainScript.gameHasStarted = true
         break;
       case Signal.DISCARD_LOOT:
@@ -564,7 +596,7 @@ export default class ActionManager extends cc.Component {
         Store.$.addStoreCard(false, card);
         break;
       case Signal.SET_MAX_ITEMS_STORE:
-        Store.addMaxNumOfItems(data.number, false);
+        await Store.addMaxNumOfItems(data.number, false);
         break;
       case Signal.REMOVE_ITEM_FROM_SHOP:
         card = CardManager.getCardById(data.cardId, true)
@@ -701,7 +733,6 @@ export default class ActionManager extends cc.Component {
         try {
           await me.getResponse(data.activePlayerId)
         } catch (error) {
-          cc.error(error)
           Logger.error(error)
         }
         break;
@@ -727,13 +758,9 @@ export default class ActionManager extends cc.Component {
       case Signal.TURN_PLAYER_DO_STACK_EFFECT:
         await ActionManager.updateActions()
         break;
-      case Signal.ADD_RESOLVING_STACK_EFFECT:
-        const stackEffectToAdd = converter.convertToStackEffect(data.stackEffect)
-        await Stack.addToCurrentStackEffectResolving(stackEffectToAdd, false)
-        break
-      case Signal.REMOVE_RESOLVING_STACK_EFFECT:
-        const stackEffectToRemove = converter.convertToStackEffect(data.stackEffect)
-        await Stack.removeFromCurrentStackEffectResolving(stackEffectToRemove, false)
+      case Signal.UPDATE_RESOLVING_STACK_EFFECTS:
+        const stackEffectsToSet = data.stackEffects.map(stackEffect => converter.convertToStackEffect(stackEffect))
+        await Stack.setToCurrentStackEffectResolving(stackEffectsToSet, false)
         break
       case Signal.FINISH_DO_STACK_EFFECT:
         Stack.newStack = data.newStack.map(stackEffect => converter.convertToStackEffect(stackEffect));
@@ -742,6 +769,16 @@ export default class ActionManager extends cc.Component {
         break;
       case Signal.UPDATE_STACK_LABLE:
         StackLable.updateText(data.stackText)
+        break;
+      case Signal.STACK_EFFECT_LABLE_CHANGE:
+        cc.error(`stack effect lable update`)
+        stackEffect = Stack._currentStack.find(se => se.entityId == data.stackId)
+        if (stackEffect) {
+          stackEffect._lable = data.text
+          cc.error(`changed ${stackEffect.name} lable to ${data.text}`)
+          cc.log(stackEffect._lable)
+          cc.log(Stack._currentStack.find(se => se.entityId == data.stackId)._lable)
+        }
         break;
       case Signal.STACK_EMPTIED:
         await Stack.$.onStackEmptied()
@@ -788,21 +825,24 @@ export default class ActionManager extends cc.Component {
         const stackEffectToUpdate = Stack._currentStack.find(effect => effect.entityId == data.stackId)
         //  stackEffectToUpdate.visualRepesentation.flavorText = data.stackVis.flavorText;
         const stackPreview = StackEffectVisManager.$.getPreviewByStackId(stackEffectToUpdate.entityId)
-        stackPreview.stackEffect = stackEffectToUpdate
-        stackPreview.updateInfo(data.text, false)
+        if (stackEffectToUpdate && stackPreview) {
+          stackPreview.stackEffect = stackEffectToUpdate
+          stackPreview.updateInfo(data.text, false)
+        }
         break
       case Signal.ADD_SE_VIS_PREV:
         converter = new ServerStackEffectConverter();
         StackEffectVisManager.$.addPreview(converter.convertToStackEffect(data.stackEffect), false)
         break
       case Signal.REMOVE_SE_VIS_PREV:
-        converter = new ServerStackEffectConverter();
-        StackEffectVisManager.$.removePreview(converter.convertToStackEffect(data.stackEffect), false)
+        StackEffectVisManager.$.removePreview(data.stackEffectId, false)
+        break
+      case Signal.CLEAR_SE_VIS:
+        StackEffectVisManager.$.clearPreviews(false)
         break
       case Signal.UPDATE_STACK_EFFECT:
         converter = new ServerStackEffectConverter();
         stackEffect = converter.convertToStackEffect(data.stackEffect)
-        cc.log(stackEffect)
         Stack._currentStack.splice(Stack._currentStack.findIndex(stackE => stackE.entityId == stackEffect.entityId), 1, stackEffect)
         break
       //
@@ -843,9 +883,15 @@ export default class ActionManager extends cc.Component {
       case Signal.SHOW_DECISION:
         await DecisionMarker.$.showDecision(CardManager.getCardById(data.startCardId), CardManager.getCardById(data.endCardId), false, data.flipEndCard)
         break
+      case Signal.SET_STACK_ICON:
+        await DecisionMarker.$.setStackIcon(StackEffectVisManager.$.stackIcons[data.iconIndex], false)
+        break
+      case Signal.SHOW_STACK_EFFECT:
+        await DecisionMarker.$.showStackEffect(data.effectId, false)
+        break
       case Signal.SHOW_DICE_ROLL:
         const diceRoll = Stack._currentStack.find(stack => stack.entityId == data.stackId) as AttackRoll | RollDiceStackEffect
-        diceRoll.visualRepesentation.extraSprite = PlayerManager.getPlayerByCardId(diceRoll.creatorCardId).dice.node.getComponent(cc.Sprite).spriteFrame
+        diceRoll.visualRepesentation.extraSprite = PlayerManager.getPlayerByCardId(diceRoll.creatorCardId).dice.diceSprite.spriteFrame
         await DecisionMarker.$.showDiceRoll(diceRoll, false)
         break
       case Signal.SHOW_EFFECT_CHOSEN:
@@ -879,7 +925,7 @@ export default class ActionManager extends cc.Component {
         if (chosen) {
           ServerClient.$.send(Signal.EDEN_CHOSEN, { cardId: chosen.getComponent(Card)._cardId, playerId: data.originPlayerId })
         } else {
-          cc.error(`No card was chosen for eden`)
+          Logger.error(`No card was chosen for eden`)
         }
         break;
       case Signal.EDEN_CHOSEN:
@@ -901,6 +947,20 @@ export default class ActionManager extends cc.Component {
         break;
       ///
 
+      //Announcement Lalbe
+      case Signal.SHOW_ANNOUNCEMENT:
+        AnnouncementLable.$.showAnnouncement(data.text, 0, false)
+        break;
+      case Signal.HIDE_ANNOUNCEMENT:
+        AnnouncementLable.$.hideAnnouncement(false)
+        break;
+      case Signal.SHOW_TIMER:
+        AnnouncementLable.$.showTimer(data.time, false)
+        break;
+      case Signal.HIDE_TIMER:
+        AnnouncementLable.$.hideTimer(false)
+        break;
+
       // Particle Effect Signals
       case Signal.ACTIVATE_PARTICLE_EFFECT:
         card = CardManager.getCardById(data.cardId)
@@ -910,7 +970,31 @@ export default class ActionManager extends cc.Component {
         card = CardManager.getCardById(data.cardId)
         ParticleManager.disableParticleEffect(card, data.particleType, false)
         break;
-
+      case Signal.SHOW_REACTIONS:
+        // let c: number[] = data.cardsIds;
+        // cards.set(c.map(id => { cc.log(id); return CardManager.getCardById(id) }))
+        // for (const card of cards.getCards()) {
+        //   AnimationManager.$.showAnimation(card, ANIM_COLORS.BLUE)
+        // }
+        player = PlayerManager.getPlayerById(data.playerId)
+        AnimationManager.$.showAnimation(player.character, ANIM_COLORS.RED)
+        break;
+      case Signal.REACTION_TOGGLED:
+        player = PlayerManager.getPlayerById(data.playerId)
+        if (player._reactionToggle.isChecked) {
+          player._reactionToggle.uncheck()
+        } else {
+          player._reactionToggle.check()
+        }
+        break
+      case Signal.HIDE_REACTIONS:
+        // cards.set(data.cardsIds.map(id => { CardManager.getCardById(id) }))
+        // for (const card of cards.getCards()) {
+        //   AnimationManager.$.endAnimation(card)
+        // }
+        player = PlayerManager.getPlayerById(data.playerId)
+        AnimationManager.$.endAnimation(player.character)
+        break;
       // Passive Effects Signals
       case Signal.UPDATE_PASSIVE_DATA:
         const newData = data.passiveData;
@@ -933,7 +1017,7 @@ export default class ActionManager extends cc.Component {
       ///
 
       case Signal.DECK_ARRAGMENT:
-        const cards = new CardSet()
+
         data.arrangement.map(id => cards.push(CardManager.getCardById(id, true)))
         const deckToSet = CardManager.getDeckByType(data.deckType)
         deckToSet.getComponent(Deck).setDeckCards(cards)
@@ -965,7 +1049,7 @@ export default class ActionManager extends cc.Component {
     ActionManager.pileManager = cc.find("MainScript/PileManager");
 
     // //set up turn change listener
-    this.node.parent.on("turnChanged", this.updateAfterTurnChange, this);
+    // this.node.parent.on("turnChanged", this.updateAfterTurnChange, this);
 
     // whevent.on(GAME_EVENTS.STACK_EMPTIED, ActionManager.checkForDeadEntities)
 

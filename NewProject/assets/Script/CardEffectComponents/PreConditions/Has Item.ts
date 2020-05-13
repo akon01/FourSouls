@@ -13,18 +13,15 @@ export default class HasItems extends PreCondition {
   itemsNeeded: number = 1;
 
   testCondition(meta: any) {
-    cc.log(`has item check`)
     const thisCard = Card.getCardNodeByChild(this.node);
     const owner = CardManager.getCardOwner(thisCard);
     if (owner) {
       const player = PlayerManager.getPlayerByCard(owner)
-      const playerItems = [...player.activeItems.filter(item => { if (!item.getComponent(Item).eternal) { return true } }), ...player.passiveItems.filter(item => { if (!item.getComponent(Item).eternal) { return true } })]
+      const playerItems = [...player.activeItems.filter(item => { if (!item.getComponent(Item).eternal) { return true } }), ...player.passiveItems.filter(item => { if (!item.getComponent(Item).eternal) { return true } }), ...player.paidItems.filter(item => { if (!item.getComponent(Item).eternal) { return true } })]
       cc.log(playerItems)
-      if (playerItems.length > 0) {
-        cc.log(`has items return true`)
+      if (playerItems.length >= this.itemsNeeded) {
         return true
       } else {
-        cc.log(`doenst have items`)
         return false
       }
     } else {

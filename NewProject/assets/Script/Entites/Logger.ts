@@ -1,4 +1,3 @@
-import { StringDecoder } from "string_decoder";
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
 import AdminConsole from "../LableScripts/Admin Console";
@@ -6,6 +5,7 @@ import CardManager from "../Managers/CardManager";
 import PlayerManager from "../Managers/PlayerManager";
 import ServerStackEffectConverter from "../StackEffects/ServerSideStackEffects/ServerStackEffectConverter";
 import MonsterField from "./MonsterField";
+import AnnouncementLable from "../LableScripts/Announcement Lable";
 
 export class Logger {
 
@@ -13,12 +13,18 @@ export class Logger {
         ServerClient.$.send(Signal.LOG, logData)
     }
 
-    static error(logData) {
+    static error(logData, extraData?) {
         if (logData instanceof Error) {
             ServerClient.$.send(Signal.LOG_ERROR, { message: JSON.stringify(logData.message), stack: JSON.stringify(logData.stack) })
+            cc.error(logData.message)
+            cc.error(logData.stack)
+            AnnouncementLable.$.showAnnouncement(JSON.stringify(logData.message), 3, true)
         } else {
             ServerClient.$.send(Signal.LOG_ERROR, logData)
+            cc.error(logData)
+            AnnouncementLable.$.showAnnouncement(logData, 3, true)
         }
+        if (extraData) { cc.error(extraData) }
     }
 
     static printMethodSignal(methodArgs: any[], isSending: boolean) {
@@ -34,6 +40,7 @@ export class Logger {
             } else {
 
                 try {
+
                     for (const dataEntry of signalData) {
                         let name;
                         const data: string[] = []
@@ -81,6 +88,7 @@ export class Logger {
                                 break
                             case "placeID":
                                 name = "Place To Move To";
+                                //  cc.log(t)
                                 const place = PlayerManager.getPlayerById(t)
                                 if (place != null) {
                                     data.push(`Player ${place.name} Hand/Desk`)
@@ -133,21 +141,23 @@ export class Logger {
                                 break
                             case "stackEffect":
                                 name = "Stack Effect"
-                                const convertor = new ServerStackEffectConverter();
-                                const stackEffect = convertor.convertToStackEffect(t)
-                                if (stackEffect) {
-                                    data.push(stackEffect.toString())
-                                } else { data.push(t.toString()) }
+                                // const convertor = new ServerStackEffectConverter();
+                                // const stackEffect = convertor.convertToStackEffect(t)
+                                // if (stackEffect) {
+                                //     data.push(stackEffect.toString())
+                                // } else { data.push(t.toString()) }
+                                data.push(t)
                                 break
                             case "currentStack":
                             case "newStack":
                                 name = "Stack"
                                 data.push(t.map(stack => {
-                                    const c = new ServerStackEffectConverter();
-                                    const stackEffect = c.convertToStackEffect(stack)
-                                    if (stackEffect) {
-                                        data.push(stackEffect.toString())
-                                    } else { data.push(stack.toString()) }
+                                    // const c = new ServerStackEffectConverter();
+                                    // const stackEffect = c.convertToStackEffect(stack)
+                                    // if (stackEffect) {
+                                    //     data.push(stackEffect.toString())
+                                    // } else { data.push(stack.toString()) }
+                                    data.push(stack.toString())
                                 }))
                                 // data.push(t.map(item => typeof item))
                                 break;
@@ -198,6 +208,7 @@ export class Logger {
                     }
                 } catch (error) {
                     const regex = new RegExp(`No (\\s*\\S*)* found (\\s*\\S*)*`, `g`)
+                    cc.log(error)
                     if (regex.test((error as Error).message)) {
                         cc.log(`message is test`)
                     } else { cc.error(error) }

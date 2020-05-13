@@ -2,7 +2,7 @@ import AdminCommandButton from "../Admin/Admin Command Button";
 import NumberInput from "../Admin/Number Input";
 import TextInput from "../Admin/Text Input";
 import Effect from "../CardEffectComponents/CardEffects/Effect";
-import { ADMIN_COMMANDS, GAME_EVENTS, INPUT_TYPE, ITEM_TYPE, SIGNAL_GROUPS } from "../Constants";
+import { ADMIN_COMMANDS, GAME_EVENTS, INPUT_TYPE, ITEM_TYPE, SIGNAL_GROUPS, CARD_TYPE } from "../Constants";
 import CardEffect from "../Entites/CardEffect";
 import Item from "../Entites/CardTypes/Item";
 import Monster from "../Entites/CardTypes/Monster";
@@ -19,6 +19,9 @@ import StackLable from "./StackLable";
 import Character from "../Entites/CardTypes/Character";
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
+import { whevent } from "../../ServerClient/whevent";
+import Store from "../Entites/GameEntities/Store";
+import AnnouncementLable from "./Announcement Lable";
 
 const { ccclass, property } = cc._decorator;
 
@@ -165,11 +168,107 @@ export default class AdminConsole extends cc.Component {
                         const charAndItem = CardManager.characterDeck.find(item => item.char.getComponent(Card).cardName.toLowerCase() == flag.toLowerCase())
                         PlayerManager.mePlayer.getComponent(Player).character.setParent(null)
                         PlayerManager.mePlayer.getComponent(Player).characterItem.setParent(null)
-                        await PlayerManager.mePlayer.getComponent(Player).setCharacter(charAndItem.char, charAndItem.item)
+                        await PlayerManager.mePlayer.getComponent(Player).setCharacter(charAndItem.char, charAndItem.item, true)
                         ServerClient.$.send(Signal.ASSIGN_CHAR_TO_PLAYER, { playerId: PlayerManager.mePlayer.getComponent(Player).playerId, charCardId: charAndItem.char.getComponent(Card)._cardId, itemCardId: charAndItem.item.getComponent(Card)._cardId });
                     case "test2":
-                        mePlayer.updateProperties({ _isDead: true })
+                        for (let i = 0; i < 10; i++) {
+                            await mePlayer.drawCard(CardManager.lootDeck, true)
+                            const treasureDeck = CardManager.treasureDeck.getComponent(Deck);
+                            const aPassiveItem = treasureDeck._cards.getCards().find(card => card.getComponent(Item).type == ITEM_TYPE.PASSIVE)
+                            const aActiveItem = treasureDeck._cards.getCards().find(card => { if (card.getComponent(Item).type == ITEM_TYPE.ACTIVE || card.getComponent(Item).type == ITEM_TYPE.PAID || card.getComponent(Item).type == ITEM_TYPE.ACTIVE_AND_PAID || card.getComponent(Item).type == ITEM_TYPE.ACTIVE_AND_PASSIVE) return true })
+                            if (aActiveItem) {
+                                await mePlayer.giveCard(aActiveItem)
+                            }
+                            if (aPassiveItem) {
+                                await mePlayer.giveCard(aPassiveItem)
+                            }
+                        }
                         break;
+                    case 'test3':
+                        AnnouncementLable.$.showAnnouncement(`test announcment test test test test test announcment test test test test test announcment test test test test`, 2, true)
+                        break
+                    case 'top':
+                        let card = CardManager.getCardByName(flag)
+                        if (card == null) {
+                            card = this._autoCompleteCard;
+                        }
+                        const cardcomp = card.getComponent(Card)
+                        let deck: Deck = null
+                        switch (cardcomp.type) {
+                            case CARD_TYPE.MONSTER:
+                                deck = CardManager.monsterDeck.getComponent(Deck)
+                                break;
+                            case CARD_TYPE.LOOT:
+                                deck = CardManager.lootDeck.getComponent(Deck)
+                                break;
+                            case CARD_TYPE.TREASURE:
+                                deck = CardManager.treasureDeck.getComponent(Deck)
+                                break;
+                            default:
+                                break;
+                        }
+                        deck.addToDeckOnTop(card, true)
+                        break;
+                    case `raise`:
+                        let toSendSignal: number = 0;
+                        let data = null
+                        switch (flag) {
+                            case `Choose Card`:
+                                toSendSignal = GAME_EVENTS.CHOOSE_CARD_CARD_CHOSEN
+                                data = {}
+                                break;
+                            case `Play Loot Card`:
+                                toSendSignal = GAME_EVENTS.SELECT_LOOT_TO_PLAY_CARD_CHOSEN
+                                data = {}
+                                break;
+                            case `Choose From Target Card`:
+                                toSendSignal = GAME_EVENTS.CHOOSE_FROM_TARGET_CARD_CARD_CHOSEN
+                                data = {}
+                                break;
+                            case `Choose Stack Effect`:
+                                toSendSignal = GAME_EVENTS.CHOOSE_STACK_EFFECT_CHOSEN
+                                data = {}
+                                break;
+                            case `Put On Stack`:
+                                toSendSignal = GAME_EVENTS.PUT_ON_STACK_END
+                                break;
+                            case `Player Reaction`:
+                                toSendSignal = GAME_EVENTS.PLAYER_RESPOND
+                                break;
+                            case `Empty Stack`:
+                                toSendSignal = GAME_EVENTS.PLAYER_RESPOND
+                                break;
+                            case `Stack Effect Resolved`:
+                                toSendSignal = GAME_EVENTS.STACK_STACK_EFFECT_RESOLVED_AT_OTHER_PLAYER
+                                break;
+                            case `Dice Roll Over`:
+                                toSendSignal = GAME_EVENTS.DICE_ROLL_OVER
+                                break;
+                            case `Player Click Next`:
+                                toSendSignal = GAME_EVENTS.PLAYER_CLICKED_NEXT
+                                break;
+                            case `Player Select Yes`:
+                                toSendSignal = GAME_EVENTS.PLAYER_SELECTED_YES_NO
+                                data = true
+                                break;
+                            case `Player Select No`:
+                                toSendSignal = GAME_EVENTS.PLAYER_SELECTED_YES_NO
+                                data = false
+                                break;
+                            case `Player Card Activated`:
+                                toSendSignal = GAME_EVENTS.PLAYER_CARD_NOT_ACTIVATED
+                                break;
+                            case `Check Dead Entities`:
+                                toSendSignal = GAME_EVENTS.CHECK_FOR_DEAD_ENTITIES
+                                break;
+                            case `Select Preview`:
+                                toSendSignal = GAME_EVENTS.CARD_PREV_MAN_WAIT_FOR_SELECT
+                                break;
+                            default:
+                                break;
+                        }
+                        whevent.emit(toSendSignal, data)
+                        break
                     case "emptyStack":
                         whevent.emit(GAME_EVENTS.STACK_EMPTIED)
                         break;

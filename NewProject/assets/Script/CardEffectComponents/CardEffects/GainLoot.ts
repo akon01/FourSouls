@@ -12,7 +12,7 @@ const { ccclass, property } = cc._decorator;
 export default class GainLoot extends Effect {
   effectName = "GainLoot";
 
-  @property(Number)
+  @property(cc.Integer)
   numOfLoot: number = 0;
 
   @property

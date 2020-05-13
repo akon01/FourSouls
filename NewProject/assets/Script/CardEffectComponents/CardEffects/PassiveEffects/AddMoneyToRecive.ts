@@ -17,7 +17,7 @@ export default class AddMoneyToReceive extends PassiveEffect {
   effectName = "AddMoneyToReceive";
 
 
-  @property(Number)
+  @property(cc.Integer)
   numOfCoins: number = 0;
 
   /**

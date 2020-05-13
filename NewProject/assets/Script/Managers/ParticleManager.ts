@@ -1,7 +1,6 @@
-import { Server } from "net";
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
-import { PARTICLE_TYPES } from "../Constants";
+import { PARTICLE_TYPES, PARTICLE_SYS_MAX } from "../Constants";
 import Card from "../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
@@ -37,7 +36,7 @@ export default class ParticleManager extends cc.Component {
         if (!particle) { throw new Error("No particle found by type") }
 
         particleSys.stopSystem()
-        particleSys.file = particle.effect as unknown as string
+        particleSys.file = particle.effect
         const activeCardEffects = this.$.activatedEffects.get(card)
         if (activeCardEffects) {
             activeCardEffects.push(particle.name)
@@ -59,7 +58,7 @@ export default class ParticleManager extends cc.Component {
         const particleSys: cc.ParticleSystem = card.getComponentInChildren(cc.ParticleSystem)
         const particle = this.$.particleEffects.find(particle => particle.name == particleType)
         if (!particle) { throw new Error("No particle found by type") }
-        if (particleSys.file == particle.effect as unknown as string) {
+        if (particleSys.file == particle.effect) {
             particleSys.stopSystem()
             let activeCardEffects = this.$.activatedEffects.get(card)
             activeCardEffects = activeCardEffects.filter(effect => effect != particleType)
@@ -79,6 +78,7 @@ export default class ParticleManager extends cc.Component {
 
     }
 
+
     static runParticleOnce(card: cc.Node, particleType: PARTICLE_TYPES) {
         let particleSys = card.getComponentInChildren(cc.ParticleSystem)
         const particle = this.$.particleEffects.find(particle => particle.name == particleType)
@@ -87,11 +87,21 @@ export default class ParticleManager extends cc.Component {
         newSys.name = particleSys.node.name + (parent.childrenCount + 1)
         particleSys = newSys.getComponent(cc.ParticleSystem)
         particleSys.autoRemoveOnFinish = true;
-        particleSys.file = particle.effect as unknown as string;
+        particleSys.file = particle.effect
         parent.addChild(newSys)
         particleSys.resetSystem()
 
     }
+
+    // static checkCardMask(card: cc.Node) {
+    //     const cardMask = card.getComponentInChildren(cc.Mask);
+    //     cc.log(`checking ${card.name} mask`)
+    //     if (cardMask && !cardMask.node.active) {
+    //         cardMask.node.active = true
+    //         //   cardMask.enabled = true
+    //         cc.log(`activated mask`)
+    //     }
+    // }
 
     static $: ParticleManager = null;
 

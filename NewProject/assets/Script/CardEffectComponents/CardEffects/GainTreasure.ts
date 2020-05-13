@@ -14,7 +14,7 @@ const { ccclass, property } = cc._decorator;
 export default class GainTreasure extends Effect {
   effectName = "GainTreasure";
 
-  @property(Number)
+  @property(cc.Integer)
   numOfTreasure: number = 0;
 
   /**

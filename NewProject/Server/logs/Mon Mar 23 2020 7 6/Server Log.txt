@@ -1,0 +1,418 @@
+Start Log 
+
+ Player 1 07:06:13 $MATCH:  
+
+ Player 1 07:06:13 $START_GAME:  
+
+ Player 2 07:06:13 $MOVE_TO_TABLE:  
+
+ Player 1 07:06:13 $MOVE_TO_TABLE:  
+
+ Player 1 07:06:23 $FINISH_LOAD:  
+{"id":1,"turnPlayerId":2} 
+
+ Player 2 07:06:23 $FINISH_LOAD:  
+{"id":2,"turnPlayerId":2} 
+
+ Player 2 07:06:24 $SET_CHAR:  
+{"originPlayerId":2,"playerId":1,"charCardId":314,"itemCardId":317} 
+
+ Player 1 07:06:24 $ASSIGN_CHAR_TO_PLAYER:  
+{"playerId":1,"charCardId":314,"itemCardId":317} 
+
+ Player 1 07:06:24 $SET_CHAR_END:  
+{"playerId":2} 
+
+ Player 2 07:06:24 $ASSIGN_CHAR_TO_PLAYER:  
+{"playerId":2,"charCardId":324,"itemCardId":325} 
+
+ Player 2 07:06:24 $DECK_ARRAGMENT:  
+{"deckType":1,"arrangement":[107,31,91,69,138,35,85,68,34,43,15,63,129,77,12,51,82,100,88,22,98,24,62,128,65,120,7,36,30,104,29,46,28,126,19,79,40,41,38,10,90,21,112,76,119,55,47,59,96,111,6,121,72,78,39,136,86,75,94,130,127,105,80,124,44,52,133,11,114,137,49,56,102,89,9,132,54,97,25,109,141,95,113,87,66,48,125,122,45,16,92,42,71,37,14,101,73,18,20,140,32,116,61,58,134,139,26,50,23,131,60,103,74,64,53,110,115,108,67,70,57,83,17,93,84,33,81,123,118,13,135,8,27,117,106,99]} 
+
+ Player 2 07:06:24 $DECK_ARRAGMENT:  
+{"deckType":2,"arrangement":[255,256,242,305,249,250,237,289,291,232,293,258,266,243,257,228,246,301,240,259,287,286,254,273,307,298,281,284,279,241,297,252,238,265,285,229,248,269,231,224,295,272,278,276,308,236,227,274,234,277,251,296,235,300,270,303,299,239,271,302,245,233,230,264,304,260,280,226,262,263,290,294,261,288,306,282,292,309,283,244,275,247,267,268,225,253]} 
+
+ Player 2 07:06:24 $DECK_ARRAGMENT:  
+{"deckType":5,"arrangement":[189,144,160,151,171,145,177,181,158,199,216,201,205,175,187,200,214,191,198,217,163,174,169,162,221,186,173,170,157,150,168,220,203,212,194,207,202,180,146,185,209,190,176,192,155,156,211,179,166,152,149,208,210,195,167,218,159,178,206,188,204,193,215,148,184,213,183,219,165,147,161,182,143,197,172,153,154,196,164,222]} 
+
+ Player 2 07:06:24 $DRAW_CARD:  
+{"deckType":5} 
+
+ Player 2 07:06:24 $FLIP_CARD:  
+{"cardId":222} 
+
+ Player 2 07:06:24 $ADD_STORE_CARD:  
+{"cardId":222} 
+
+ Player 2 07:06:24 $DRAW_CARD:  
+{"deckType":5} 
+
+ Player 2 07:06:24 $FLIP_CARD:  
+{"cardId":164} 
+
+ Player 2 07:06:24 $ADD_STORE_CARD:  
+{"cardId":164} 
+
+ Player 2 07:06:24 $DRAW_CARD:  
+{"deckType":2} 
+
+ Player 2 07:06:24 $FLIP_CARD:  
+{"cardId":253} 
+
+ Player 2 07:06:24 $REGISTER_PASSIVE_ITEM:  
+{"cardId":253} 
+
+ Player 2 07:06:25 $ADD_MONSTER:  
+{"monsterPlaceId":1,"monsterId":253} 
+
+ Player 2 07:06:25 $NEW_MONSTER_ON_PLACE:  
+{"cardId":253,"monsterPlaceId":1} 
+
+ Player 2 07:06:25 $DRAW_CARD:  
+{"deckType":2} 
+
+ Player 2 07:06:25 $FLIP_CARD:  
+{"cardId":225} 
+
+ Player 2 07:06:25 $REGISTER_PASSIVE_ITEM:  
+{"cardId":225} 
+
+ Player 2 07:06:25 $ADD_MONSTER:  
+{"monsterPlaceId":2,"monsterId":225} 
+
+ Player 2 07:06:25 $NEW_MONSTER_ON_PLACE:  
+{"cardId":225,"monsterPlaceId":2} 
+
+ Player 2 07:06:25 $SET_MONEY:  
+{"playerId":1,"numOfCoins":3} 
+
+ Player 2 07:06:25 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":3}],"result":null,"preventMethod":false,"methodScopeId":314,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+
+ Player 2 07:06:25 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 07:06:25 $MOVE_CARD:  
+{"moveIndex":1,"cardId":99,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 07:06:25 $MOVE_CARD_END:  
+{"moveIndex":1,"cardId":99,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 07:06:25 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":99} 
+
+ Player 2 07:06:26 $FLIP_CARD:  
+{"cardId":99} 
+
+ Player 2 07:06:26 $FLIP_CARD:  
+{"cardId":99} 
+
+ Player 2 07:06:26 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":99} 
+
+ Player 2 07:06:26 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 07:06:26 $MOVE_CARD:  
+{"moveIndex":2,"cardId":106,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 07:06:26 $MOVE_CARD_END:  
+{"moveIndex":2,"cardId":106,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 07:06:26 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":106} 
+
+ Player 2 07:06:26 $FLIP_CARD:  
+{"cardId":106} 
+
+ Player 2 07:06:26 $FLIP_CARD:  
+{"cardId":106} 
+
+ Player 2 07:06:26 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":106} 
+
+ Player 2 07:06:26 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 07:06:27 $MOVE_CARD:  
+{"moveIndex":3,"cardId":117,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 07:06:27 $MOVE_CARD_END:  
+{"moveIndex":3,"cardId":117,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 07:06:27 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":117} 
+
+ Player 2 07:06:27 $FLIP_CARD:  
+{"cardId":117} 
+
+ Player 2 07:06:27 $FLIP_CARD:  
+{"cardId":117} 
+
+ Player 2 07:06:27 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":117} 
+
+ Player 2 07:06:27 $SET_MONEY:  
+{"playerId":2,"numOfCoins":3} 
+
+ Player 2 07:06:27 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":3}],"result":null,"preventMethod":false,"methodScopeId":324,"scopeIsPlayer":true,"index":2,"originStackId":-1},"isAfterActivation":true,"index":2} 
+
+ Player 2 07:06:27 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 07:06:27 $MOVE_CARD:  
+{"moveIndex":4,"cardId":27,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 07:06:28 $MOVE_CARD_END:  
+{"moveIndex":4,"cardId":27,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 07:06:28 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":27} 
+
+ Player 2 07:06:28 $FLIP_CARD:  
+{"cardId":27} 
+
+ Player 2 07:06:28 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":27} 
+
+ Player 2 07:06:28 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 07:06:28 $MOVE_CARD:  
+{"moveIndex":5,"cardId":8,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 07:06:28 $MOVE_CARD_END:  
+{"moveIndex":5,"cardId":8,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 07:06:29 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":8} 
+
+ Player 2 07:06:29 $FLIP_CARD:  
+{"cardId":8} 
+
+ Player 2 07:06:29 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":8} 
+
+ Player 2 07:06:29 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 07:06:29 $MOVE_CARD:  
+{"moveIndex":6,"cardId":135,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 07:06:29 $MOVE_CARD_END:  
+{"moveIndex":6,"cardId":135,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 07:06:31 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":135} 
+
+ Player 2 07:06:31 $FLIP_CARD:  
+{"cardId":135} 
+
+ Player 2 07:06:32 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":135} 
+
+ Player 2 07:06:33 $GAME_HAS_STARTED:  
+
+ Player 2 07:06:33 $SET_TURN:  
+{"playerId":1} 
+
+ Player 2 07:06:33 $START_TURN:  
+{"playerId":1} 
+
+ Player 2 07:06:33 $UPDATE_ACTIONS:  
+
+ Player 1 07:06:33 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 07:06:33 $NEXT_STACK_ID:  
+
+ Player 1 07:06:33 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 1 07:06:34 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 1 07:06:34 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":1,"creatorCardId":314,"turnPlayerCardId":314,"stackEffectType":13}} 
+
+ Player 1 07:06:34 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 1 07:06:34 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":1,"creatorCardId":314,"turnPlayerCardId":314,"stackEffectType":13}} 
+
+ Player 1 07:06:34 $SET_STACK_ICON:  
+{"iconIndex":0} 
+
+ Player 1 07:06:34 $SHOW_STACK_EFFECT:  
+{"effectId":1} 
+
+ Player 2 07:06:34 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 2 07:06:34 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 2 07:06:34 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 2 07:06:34 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 1 07:06:36 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":0,"_text":"Add StartTurnLoot 1 "}} 
+
+ Player 1 07:06:36 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 07:06:36 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 1 07:06:36 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":1,"creatorCardId":314,"turnPlayerCardId":314,"stackEffectType":13}} 
+
+ Player 1 07:06:36 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":1,"_text":"Response Adding StartTurnLoot 1"},"childOfId":0} 
+
+ Player 1 07:06:36 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":2,"_text":"Wait For Response From Player 1 "},"childOfId":0} 
+
+ Player 1 07:06:36 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 07:06:36 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":3,"_text":"Wait For Response From Player 2 "},"childOfId":0} 
+
+ Player 1 07:06:36 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 07:06:37 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 07:06:37 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 2 07:06:37 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 2 07:06:37 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[324,325]} 
+
+ Player 2 07:06:37 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 07:06:37 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":4,"_text":"Resolve StartTurnLoot 1 "}} 
+
+ Player 1 07:06:37 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 1 07:06:37 $ADD_RESOLVING_STACK_EFFECT:  
+{"stackEffect":{"entityId":1,"creatorCardId":314,"turnPlayerCardId":314,"stackEffectType":13}} 
+
+ Player 1 07:06:37 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 1 07:06:37 $MOVE_CARD:  
+{"moveIndex":7,"cardId":13,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":1,"placeType":"Hand"} 
+
+ Player 2 07:06:37 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 2 07:06:37 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 2 07:06:37 $MOVE_CARD_END:  
+{"moveIndex":7,"cardId":13,"flipIfFlipped":false,"playerId":1} 
+
+ Player 1 07:06:38 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":13} 
+
+ Player 1 07:06:38 $FLIP_CARD:  
+{"cardId":13} 
+
+ Player 1 07:06:38 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":13} 
+
+ Player 1 07:06:38 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 1 07:06:38 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":1,"creatorCardId":314,"turnPlayerCardId":314,"stackEffectType":13}} 
+
+ Player 1 07:06:38 $REMOVE_RESOLVING_STACK_EFFECT:  
+{"stackEffectId":1} 
+
+ Player 1 07:06:38 $SET_STACK_ICON:  
+{"iconIndex":1} 
+
+ Player 1 07:06:38 $SHOW_STACK_EFFECT:  
+{"effectId":1} 
+
+ Player 2 07:06:38 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 2 07:06:38 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 1 07:06:41 $REMOVE_SE_VIS_PREV:  
+{"stackEffectId":1} 
+
+ Player 1 07:06:41 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":5,"_text":"Remove After Resolve StartTurnLoot 1  "}} 
+
+ Player 1 07:06:41 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 1 07:06:41 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":1,"creatorCardId":314,"turnPlayerCardId":314,"stackEffectType":13}} 
+
+ Player 1 07:06:41 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":6,"_text":"Response Remove After Resolve StartTurnLoot 1"},"childOfId":5} 
+
+ Player 1 07:06:41 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":7,"_text":"Wait For Response From Player 2 "},"childOfId":5} 
+
+ Player 1 07:06:41 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 07:06:41 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 07:06:41 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 2 07:06:41 $UPDATE_STACK_LABLE:  
+{"stackText":" \n1:Player 1 start turn loot"} 
+
+ Player 2 07:06:41 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[324,325]} 
+
+ Player 2 07:06:41 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 07:06:41 $ACTION_MASSAGE_REMOVE:  
+{"id":7} 
+
+ Player 1 07:06:41 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":8,"_text":"Wait For Response From Player 1 "},"childOfId":5} 
+
+ Player 1 07:06:41 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 07:06:42 $ACTION_MASSAGE_REMOVE:  
+{"id":8} 
+
+ Player 1 07:06:42 $ACTION_MASSAGE_REMOVE:  
+{"id":6} 
+
+ Player 1 07:06:42 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":9,"_text":"Stack Was Emptied "}} 
+
+ Player 1 07:06:42 $CLEAR_SE_VIS:  
+
+ Player 1 07:06:42 $UPDATE_STACK_LABLE:  
+{"stackText":"Empty Stack"} 
+
+ Player 2 07:11:33 $MATCH: 

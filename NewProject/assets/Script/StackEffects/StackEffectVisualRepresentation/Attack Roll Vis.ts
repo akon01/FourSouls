@@ -8,9 +8,9 @@ export class AttackRollVis implements StackEffectVisualRepresentation {
     extraSprite: cc.SpriteFrame;
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.ATTACK_ROLL;
     flavorText: string;
-    baseSprite: cc.SpriteFrame = StackEffectVisManager.$.monsterBaseSprite;
+    baseSprite: cc.SpriteFrame = StackEffectVisManager.$.diceRollBaseSprite;
     hasBeenUpdated: boolean = false;
-    visType: STACK_EFFECT_VIS_TYPE = STACK_EFFECT_VIS_TYPE.PLAYER_ACTION
+    visType: STACK_EFFECT_VIS_TYPE = STACK_EFFECT_VIS_TYPE.BASIC
 
 
     constructor(rollingPlayer: Player, diceSprite: cc.SpriteFrame, flavorText: string) {

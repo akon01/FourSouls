@@ -23,10 +23,9 @@ export default class EqualLootAndMoneyOfPlayer extends Effect {
    */
   async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData) {
 
-
     let targetPlayersCards = data.getTargets(TARGETTYPE.PLAYER)
-    if (targetPlayersCards.length != 0) {
-      cc.log(`target players is null`)
+    if (targetPlayersCards.length == 0) {
+      throw new Error(`target players is null`)
     } else {
       let players: Player[] = []
       for (const playerCard of targetPlayersCards) {
@@ -37,7 +36,8 @@ export default class EqualLootAndMoneyOfPlayer extends Effect {
       let rewardedPlayer = players[0]
       let playerToEqualTo = players[1]
 
-      for (let i = 0; i < playerToEqualTo.handCards.length; i++) {
+      const cardDiff = playerToEqualTo.handCards.length - rewardedPlayer.handCards.length
+      for (let i = 0; i < cardDiff; i++) {
         let loot = CardManager.lootDeck.getComponent(Deck).drawCard(true)
         await rewardedPlayer.gainLoot(loot, true)
       }

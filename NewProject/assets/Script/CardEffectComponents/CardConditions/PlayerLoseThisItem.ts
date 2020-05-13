@@ -4,6 +4,7 @@ import { ActiveEffectData } from "../../Managers/DataInterpreter";
 import { PassiveMeta } from "../../Managers/PassiveManager";
 import Condition from "./Condition";
 import DataCollector from "../DataCollector/DataCollector";
+import Card from "../../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
@@ -21,7 +22,7 @@ export default class PlayerLoseThisItem extends Condition {
   async testCondition(meta: PassiveMeta) {
 
     let player: Player = meta.methodScope.getComponent(Player);
-    let thisCard = this.node.parent.parent;
+    const thisCard = Card.getCardNodeByChild(this.node)
     if (
       player instanceof Player &&
       // meta.passiveEvent == PASSIVE_EVENTS.PLAYER_ADD_ITEM &&

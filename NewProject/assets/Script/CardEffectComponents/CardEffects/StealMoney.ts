@@ -17,7 +17,7 @@ export default class StealMoney extends Effect {
 
   effectName = "stealMoney";
 
-  @property(Number)
+  @property(cc.Integer)
   numOfCoins: number = 0;
 
   /**
@@ -38,16 +38,16 @@ export default class StealMoney extends Effect {
         throw new Error(`no target player available`)
       } else {
         if (targetPlayer.coins >= this.numOfCoins) {
-          await targetPlayer.changeMoney(-this.numOfCoins, false);
-          await stealer.changeMoney(this.numOfCoins, false);
+          await targetPlayer.changeMoney(-this.numOfCoins, true);
+          await stealer.changeMoney(this.numOfCoins, true);
         } else {
-          await stealer.changeMoney(targetPlayer.coins, false);
-          await targetPlayer.changeMoney(-targetPlayer.coins, false);
+          await stealer.changeMoney(targetPlayer.coins, true);
+          await targetPlayer.changeMoney(-targetPlayer.coins, true);
         }
       }
     }
 
-    if (data instanceof PassiveEffectData) return data
+    if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack
   }
 }

@@ -36,7 +36,7 @@ export default class DataInterpreter {
                         } else if (data[0] instanceof cc.Node) {
                             effectData.effectTargets = data.map(node => new EffectTarget(node))
                         } else {
-                            cc.error(data)
+                            Logger.error(`when making effect data, data was not of required type (effectTarget[]/cc.node[])`, data)
                             throw new Error(`when making effect data, data was not of required type (effectTarget[]/cc.node[])`)
                         }
                     }
@@ -209,7 +209,6 @@ export default class DataInterpreter {
 
                         newData.push(DataInterpreter.convertToServerData(data))
                     } catch (error) {
-                        cc.error(error)
                         Logger.error(error)
                     }
                 }

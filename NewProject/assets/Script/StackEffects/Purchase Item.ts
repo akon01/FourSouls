@@ -11,10 +11,15 @@ import ServerRollDiceStackEffect from "./ServerSideStackEffects/Server Roll DIce
 import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { PurchaseItemVis } from "./StackEffectVisualRepresentation/Purchase Item Vis";
+import AnimationManager from "../Managers/Animation Manager";
+import { whevent } from "../../ServerClient/whevent";
+import AnnouncementLable from "../LableScripts/Announcement Lable";
+import ServerClient from "../../ServerClient/ServerClient";
+import Signal from "../../Misc/Signal";
 
 export default class PurchaseItem extends StackEffectConcrete {
-
     visualRepesentation: PurchaseItemVis
+    name = `Player Purchase Item`
     entityId: number;
     creatorCardId: number;
     isLockingStackEffect: boolean;
@@ -25,11 +30,6 @@ export default class PurchaseItem extends StackEffectConcrete {
     LockingResolve: any;
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.PURCHASE_ITEM;
     _lable: string;
-
-    set lable(text: string) {
-        this._lable = text
-        if (!this.nonOriginal) { whevent.emit(GAME_EVENTS.LABLE_CHANGE) }
-    }
 
     isToBeFizzled: boolean = false;
 
@@ -53,7 +53,7 @@ export default class PurchaseItem extends StackEffectConcrete {
     playerWhoBuys: Player
     cost: number
 
-    constructor(creatorCardId: number, itemToPurchase: cc.Node, playerWhoBuysId: number, entityId?: number) {
+    constructor(creatorCardId: number, itemToPurchase: cc.Node, playerWhoBuysId: number, entityId?: number, lable?: string) {
         super(creatorCardId, entityId)
 
 
@@ -63,7 +63,11 @@ export default class PurchaseItem extends StackEffectConcrete {
             this.cost = this.playerWhoBuys.getStoreCost()
         } else { this.cost = Store.topCardCost }
         this.visualRepesentation = new PurchaseItemVis(this.itemToPurchase, this.playerWhoBuys, this.cost)
-        this.lable = `Player ${playerWhoBuysId} is about to buy ${itemToPurchase.name} for ${this.cost}`
+        if (lable) {
+            this.setLable(lable, false)
+        } else {
+            this.setLable(`Player ${playerWhoBuysId} Is About To Buy ${itemToPurchase.name} For ${this.cost}`, false)
+        }
     }
 
     async putOnStack() {
@@ -76,18 +80,25 @@ export default class PurchaseItem extends StackEffectConcrete {
         const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_BUY_ITEM, [-this.cost, this.itemToPurchase], null, this.playerWhoBuys.node, this.entityId)
 
         const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
-        cc.log(afterPassiveMeta)
+
         passiveMeta.args = afterPassiveMeta.args;
+        this.itemToPurchase = passiveMeta.args[1]
+        this.cost = passiveMeta.args[0]
 
         if (this.playerWhoBuys.coins >= this.cost) {
-            await this.playerWhoBuys.changeMoney(passiveMeta.args[0], true)
-            await Store.$.removeFromStore(passiveMeta.args[1], true)
-            await this.playerWhoBuys.addItem(passiveMeta.args[1], true, false)
+            this.setLable(`Player ${this.playerWhoBuys.playerId} Has Bought ${this.itemToPurchase.name} For ${Math.abs(this.cost)} cents`, true)
+            await this.playerWhoBuys.changeMoney(this.cost, true)
+            cc.log(`remove from store test`)
+            await Store.$.removeFromStore(this.itemToPurchase, true)
+            await this.playerWhoBuys.addItem(this.itemToPurchase, true, false)
+            AnimationManager.$.endAnimation(this.itemToPurchase)
             TurnsManager.currentTurn.buyPlays -= 1;
 
+            await PassiveManager.testForPassiveAfter(passiveMeta)
+
         } else {
-            cc.log(`not enought money`)
-            //this.lable = `Player ${this.playerWhoBuys.playerId} dont have enough money`
+            AnnouncementLable.$.showAnnouncement(`Not Enought Money`, 3, true)
+            //this.setLable(`Player ${this.playerWhoBuys.playerId} dont have enough money`,true)
         }
     }
 

@@ -15,7 +15,7 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MonsterField extends cc.Component {
-  @property(Number)
+  @property(cc.Integer)
   maxNumOfMonsters: number = 2;
 
   @property(cc.Prefab)

@@ -4,6 +4,7 @@ import DataCollector from "../../CardEffectComponents/DataCollector/DataCollecto
 import { CARD_HEIGHT, CARD_TYPE, CARD_WIDTH, PASSIVE_EVENTS, ROLL_TYPE } from "../../Constants";
 import PassiveManager, { PassiveMeta } from "../../Managers/PassiveManager";
 import Player from "./Player";
+import CardManager from "../../Managers/CardManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -14,6 +15,12 @@ export default class Card extends cc.Component {
 
   @property
   doNotMake: boolean = false;
+
+  @property({ visible: false })
+  cardMask: cc.Mask = null;
+
+  @property({ visible: false })
+  cardSprite: cc.Sprite = null
 
   @property
   makeMultiCards: boolean = false;
@@ -60,8 +67,8 @@ export default class Card extends cc.Component {
   })
   type: CARD_TYPE = CARD_TYPE.CHAR;
 
-  // @property
-  //currentCardLayout: CardLayout = null;
+  @property({ visible: false })
+  isGoingToBePlayed: boolean = false;
 
   @property
   _isAttackable: boolean = false;
@@ -84,10 +91,10 @@ export default class Card extends cc.Component {
   @property
   _requiredFor: DataCollector = null;
 
-  @property
+  @property({ visible: false })
   frontSprite: cc.SpriteFrame = null;
 
-  @property
+  @property({ visible: false })
   backSprite: cc.SpriteFrame = null;
 
   @property
@@ -108,9 +115,6 @@ export default class Card extends cc.Component {
   @property
   _hasEventsBeenModified: boolean = false;
 
-  @property({ type: [cc.ParticleAsset] })
-  availableParticles: cc.ParticleAsset[] = [];
-
   static getCardNodeByChild(childNode: cc.Node): cc.Node {
     if (childNode.getComponent(Card) != null) {
       return childNode
@@ -121,9 +125,9 @@ export default class Card extends cc.Component {
   flipCard(sendToServer: boolean) {
     this._isFlipped = !this._isFlipped;
     if (this._isFlipped) {
-      this.node.getComponent(cc.Sprite).spriteFrame = this.backSprite;
+      this.cardSprite.spriteFrame = this.backSprite;
     } else {
-      this.node.getComponent(cc.Sprite).spriteFrame = this.frontSprite;
+      this.cardSprite.spriteFrame = this.frontSprite;
     }
     if (sendToServer) {
       ServerClient.$.send(Signal.FLIP_CARD, { cardId: this._cardId })
@@ -144,24 +148,47 @@ export default class Card extends cc.Component {
 
   // LIFE-CYCLE CALLBACKS:
 
+  setSprites() {
+
+    const sprites = cc.instantiate(CardManager.$.cardSpritesPrefab)
+    const cardSprite = sprites.getChildByName(`Card Sprite`);
+    const glowSprite = sprites.getChildByName(`Glow Sprite`);
+    cardSprite.getComponent(cc.Widget).target = this.node
+    cardSprite.getComponent(cc.Widget).updateAlignment();
+    glowSprite.getComponent(cc.Widget).target = this.node
+    glowSprite.getComponent(cc.Widget).updateAlignment();
+    cardSprite.getComponent(cc.Sprite).spriteFrame = this.node.getComponent(cc.Sprite).spriteFrame
+    if (!sprites.isChildOf(this.node)) {
+      this.node.addChild(sprites)
+      this.cardSprite = cardSprite.getComponent(cc.Sprite)
+      this.node.removeComponent(cc.Sprite)
+    }
+  }
+
   onLoad() {
     this.node.height = CARD_HEIGHT;
     this.node.width = CARD_WIDTH;
+    this.cardMask = this.node.getComponentInChildren(cc.Mask)
+    if (this.cardMask) {
+      this.cardMask.node.active = false;
+      this.node.removeChild(this.cardMask.node, true)
+    }
+
     this._originalWidth = this.node.width
     if (this.topDeckof != null) {
       this.frontSprite = this.node.getComponent(cc.Sprite).spriteFrame;
     }
-    if (!this.hasCounter) {
-      //   this._effectCounterLable.node.destroy()
-    } else {
-      try {
+    // if (!this.hasCounter) {
+    //   //   this._effectCounterLable.node.destroy()
+    // } else {
+    //   try {
 
-        this._effectCounterLable = this.node.getChildByName("EffectCounter").getComponent(cc.Label)
-      } catch (error) {
-        cc.error(`card ${this.cardName} should have a counter, no counter found!`)
-      }
+    //     this._effectCounterLable = this.node.getChildByName("EffectCounter").getComponent(cc.Label)
+    //   } catch (error) {
+    //     cc.error(`card ${this.cardName} should have a counter, no counter found!`)
+    //   }
 
-    }
+    // }
   }
 
   start() { }

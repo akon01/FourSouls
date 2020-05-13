@@ -13,10 +13,11 @@ import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { CombatDamageVis } from "./StackEffectVisualRepresentation/Combat Damage Vis";
 import StackEffectVisManager from "../Managers/StackEffectVisManager";
+import { whevent } from "../../ServerClient/whevent";
 
 export default class CombatDamage extends StackEffectConcrete {
     visualRepesentation: CombatDamageVis;
-
+    name = `Combat Damage`
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.COMBAT_DAMAGE;
     entityId: number;
     creatorCardId: number;
@@ -27,11 +28,6 @@ export default class CombatDamage extends StackEffectConcrete {
     lockingStackEffect: StackEffectInterface;
     LockingResolve: any;
     _lable: string;
-
-    set lable(text: string) {
-        this._lable = text;
-        if (!this.nonOriginal) { whevent.emit(GAME_EVENTS.LABLE_CHANGE); }
-    }
 
     isToBeFizzled: boolean = false;
 
@@ -73,7 +69,7 @@ export default class CombatDamage extends StackEffectConcrete {
 
     numberRolled: number;
 
-    constructor(creatorCardId: number, entityToTakeDamageCard: cc.Node, entityToDoDamageCard: cc.Node, entityId?: number) {
+    constructor(creatorCardId: number, entityToTakeDamageCard: cc.Node, entityToDoDamageCard: cc.Node, numberRolled: number, entityId?: number, lable?: string) {
         super(creatorCardId, entityId)
         this.entityToTakeDamageCard = entityToTakeDamageCard;
         if (this.entityToTakeDamageCard.getComponent(Monster) != null) {
@@ -91,8 +87,18 @@ export default class CombatDamage extends StackEffectConcrete {
             this.isPlayerDoDamage = false;
             this.isMonsterTakeDamage = true;
         }
+        if (this.isPlayerDoDamage) {
+            this.name = `Player Combat Damage To A Monster`
+        } else {
+            this.name = `Monster Combat Damage To A Player`
+        }
+        this.numberRolled = numberRolled
         this.visualRepesentation = new CombatDamageVis(this.entityToDoDamageCard, this.entityToTakeDamageCard, 0, `${this.entityToDoDamageCard.name} is going to hurt ${this.entityToTakeDamageCard.name} `);
-        this.lable = `${this.entityToDoDamageCard.name} combat damage to ${this.entityToTakeDamageCard.name}`;
+        if (lable) {
+            this.setLable(lable, false)
+        } else {
+            this.setLable(`${this.entityToDoDamageCard.name} is going to hurt ${this.entityToTakeDamageCard.name}`, false);
+        }
     }
 
     async putOnStack() {
@@ -102,13 +108,14 @@ export default class CombatDamage extends StackEffectConcrete {
     }
 
     async resolve() {
+        cc.error(`combat dmg resolve`)
         let player: Player;
         let damage: number;
         // if (player._isFirstAttackRollOfTurn) { player._isFirstAttackRollOfTurn = false; }
         if (this.isPlayerTakeDamage) {
             player = PlayerManager.getPlayerByCard(this.entityToTakeDamageCard);
             damage = this.entityToDoDamageCard.getComponent(Monster).calculateDamage();
-            this.lable = `${this.entityToDoDamageCard.name} ${damage} combat damage to ${this.entityToTakeDamageCard.name}`;
+            this.setLable(`${this.entityToDoDamageCard.name} Is Going To Hurt ${this.entityToTakeDamageCard.name} For ${damage} DMG `, true);
             const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_TAKEN, [damage, this.numberRolled, this.entityToDoDamageCard], null, player.node, this.entityId);
             const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta);
             if (!afterPassiveMeta.continue) { return; }
@@ -118,7 +125,7 @@ export default class CombatDamage extends StackEffectConcrete {
             this.visualRepesentation.changeDamage(damage);
             StackEffectVisManager.$.updatePreviewByStackId(this.entityId, `${this.entityToDoDamageCard.name} will deal ${damage} combat damage to ${this.entityToTakeDamageCard.name}`)
             //this.visualRepesentation.flavorText = `${this.entityToDoDamageCard.name} will deal ${damage} combat damage to ${this.entityToTakeDamageCard.name}`;
-            this.lable = `${this.entityToDoDamageCard.name} ${damage} combat damage to ${this.entityToTakeDamageCard.name}`;
+            this.setLable(`${this.entityToDoDamageCard.name} will deal ${damage} combat damage to ${this.entityToTakeDamageCard.name}`, true);
             const isPlayerTookDamage = await player.takeDamage(damage, true, this.entityToDoDamageCard);
             if (isPlayerTookDamage) {
                 passiveMeta.result = null;
@@ -129,7 +136,7 @@ export default class CombatDamage extends StackEffectConcrete {
         } else {
 
             player = PlayerManager.getPlayerByCard(this.entityToDoDamageCard);
-            damage = player.calculateDamage();
+            damage = player.calculateDamage()
 
             const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_GIVEN, [damage, this.numberRolled, this.entityToDoDamageCard, this.entityToTakeDamageCard], null, player.node, this.entityId);
             const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta);
@@ -138,10 +145,16 @@ export default class CombatDamage extends StackEffectConcrete {
             damage = afterPassiveMeta.args[0];
 
             const monster = this.entityToTakeDamageCard.getComponent(Monster);
+            this.setLable(`${this.entityToDoDamageCard.name} will deal ${damage} combat damage to ${this.entityToTakeDamageCard.name} `, true);
             StackEffectVisManager.$.updatePreviewByStackId(this.entityId, `${this.entityToDoDamageCard.name} will deal ${damage} combat damage to ${this.entityToTakeDamageCard.name}`)
             //this.visualRepesentation.flavorText = `${this.entityToDoDamageCard.name} will deal ${damage} combat damage to ${this.entityToTakeDamageCard.name}`;
+            if (damage > 0) {
+                monster._lastHitRoll = this.numberRolled
+            }
+            cc.error(`b4 monster take dmg`)
             await monster.takeDamaged(damage, true, this.entityToDoDamageCard);
-            // add death check!
+            cc.error(`After monster take dmg`)
+            // add death check! 
 
             const thisResult = await PassiveManager.testForPassiveAfter(passiveMeta);
 

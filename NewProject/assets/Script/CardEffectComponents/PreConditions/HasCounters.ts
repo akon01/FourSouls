@@ -11,9 +11,9 @@ export default class HasCounters extends PreCondition {
   countersNeeded: number = 1;
 
   testCondition(meta: any) {
-
-    let thisCard = this.node.parent.parent;
+    let thisCard = Card.getCardNodeByChild(this.node);
     let thisCardComp = thisCard.getComponent(Card)
+    cc.log(`test if ${thisCard.name} has counters`)
     if (
       thisCardComp._counters >= this.countersNeeded
     ) {

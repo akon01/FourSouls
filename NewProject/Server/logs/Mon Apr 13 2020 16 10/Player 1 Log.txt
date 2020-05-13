@@ -1,0 +1,521 @@
+Start Log 
+ Player 1 16:10:02 $START_GAME:  
+ Player 1 16:10:02 $MOVE_TO_TABLE:  
+ Player 1 16:10:11 $FINISH_LOAD:  
+
+ {"id":1,"turnPlayerId":2} 
+ Player 1 16:10:11 $ASSIGN_CHAR_TO_PLAYER:  
+
+ {"playerId":1,"charCardId":313,"itemCardId":316} 
+ Player 1 16:10:11 $SET_CHAR_END:  
+
+ {"playerId":2} 
+ Player 1 16:10:12 $MOVE_CARD_END:  
+
+ {"moveIndex":1,"cardId":123,"flipIfFlipped":false,"playerId":2} 
+ Player 1 16:10:12 $MOVE_CARD_END:  
+
+ {"moveIndex":2,"cardId":4,"flipIfFlipped":false,"playerId":2} 
+ Player 1 16:10:13 $MOVE_CARD_END:  
+
+ {"moveIndex":3,"cardId":64,"flipIfFlipped":false,"playerId":2} 
+ Player 1 16:10:13 $MOVE_CARD_END:  
+
+ {"moveIndex":4,"cardId":93,"flipIfFlipped":false,"playerId":2} 
+ Player 1 16:10:14 $MOVE_CARD_END:  
+
+ {"moveIndex":5,"cardId":121,"flipIfFlipped":false,"playerId":2} 
+ Player 1 16:10:14 $MOVE_CARD_END:  
+
+ {"moveIndex":6,"cardId":113,"flipIfFlipped":false,"playerId":2} 
+ Player 1 16:10:15 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 16:10:15 $NEXT_STACK_ID:  
+ Player 1 16:10:15 $UPDATE_STACK_LABLE:  
+
+ {"stackText":"Empty Stack"} 
+ Player 1 16:10:15 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 start turn loot"} 
+ Player 1 16:10:15 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":313,"turnPlayerCardId":313,"stackEffectType":13}} 
+ Player 1 16:10:15 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":313,"turnPlayerCardId":313,"stackEffectType":13}} 
+ Player 1 16:10:15 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Player 1 16:10:15 $SHOW_STACK_EFFECT:  
+
+ {"effectId":1} 
+ Player 1 16:10:18 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":0,"_text":"Add StartTurnLoot 1 "}} 
+ Player 1 16:10:18 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 16:10:18 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":313,"turnPlayerCardId":313,"stackEffectType":13}} 
+ Player 1 16:10:18 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":1,"_text":"Response Adding StartTurnLoot 1"},"childOfId":0} 
+ Player 1 16:10:18 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":2,"_text":"Wait For Response From Player 1 "},"childOfId":0} 
+ Player 1 16:10:18 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 16:10:18 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":3,"_text":"Wait For Response From Player 2 "},"childOfId":0} 
+ Player 1 16:10:18 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 16:10:18 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 16:10:18 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":4,"_text":"Resolve StartTurnLoot 1 "}} 
+ Player 1 16:10:18 $ADD_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":313,"turnPlayerCardId":313,"stackEffectType":13}} 
+ Player 1 16:10:18 $DRAW_CARD:  
+
+ {"deckType":1} 
+ Player 1 16:10:18 $MOVE_CARD:  
+
+ {"moveIndex":7,"cardId":109,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":1,"placeType":"Hand"} 
+ Player 1 16:10:18 $CARD_DRAWN:  
+
+ {"playerId":1,"deckType":1,"drawnCardId":109} 
+ Player 1 16:10:18 $FLIP_CARD:  
+
+ {"cardId":109} 
+ Player 1 16:10:18 $PLAYER_GET_LOOT:  
+
+ {"playerId":1,"cardId":109} 
+ Player 1 16:10:18 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":313,"turnPlayerCardId":313,"stackEffectType":13}} 
+ Player 1 16:10:18 $REMOVE_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffectId":1} 
+ Player 1 16:10:18 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Player 1 16:10:18 $SHOW_STACK_EFFECT:  
+
+ {"effectId":1} 
+ Player 1 16:10:21 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":1} 
+ Player 1 16:10:21 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":5,"_text":"Remove After Resolve StartTurnLoot 1  "}} 
+ Player 1 16:10:21 $UPDATE_STACK_LABLE:  
+
+ {"stackText":"Empty Stack"} 
+ Player 1 16:10:21 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":313,"turnPlayerCardId":313,"stackEffectType":13}} 
+ Player 1 16:10:21 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":6,"_text":"Response Remove After Resolve StartTurnLoot 1"},"childOfId":5} 
+ Player 1 16:10:21 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":7,"_text":"Wait For Response From Player 2 "},"childOfId":5} 
+ Player 1 16:10:21 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 16:10:21 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 16:10:22 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":7} 
+ Player 1 16:10:22 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":8,"_text":"Wait For Response From Player 1 "},"childOfId":5} 
+ Player 1 16:10:22 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 16:10:22 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":8} 
+ Player 1 16:10:22 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":6} 
+ Player 1 16:10:22 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":9,"_text":"Stack Was Emptied "}} 
+ Player 1 16:10:22 $UPDATE_STACK_LABLE:  
+
+ {"stackText":"Empty Stack"} 
+ Player 1 16:10:22 $CLEAR_SE_VIS:  
+ Player 1 16:10:36 $NEXT_STACK_ID:  
+ Player 1 16:10:36 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1  declared attack on Globin"} 
+ Player 1 16:10:36 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":313,"attackingPlayerCardId":313,"idOfCardBeingAttacked":262,"stackEffectType":4}} 
+ Player 1 16:10:36 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":313,"attackingPlayerCardId":313,"idOfCardBeingAttacked":262,"stackEffectType":4}} 
+ Player 1 16:10:36 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Player 1 16:10:36 $SHOW_STACK_EFFECT:  
+
+ {"effectId":2} 
+ Player 1 16:10:39 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":10,"_text":"Add DeclareAttack 2 "}} 
+ Player 1 16:10:39 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 16:10:39 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":313,"attackingPlayerCardId":313,"idOfCardBeingAttacked":262,"stackEffectType":4}} 
+ Player 1 16:10:39 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":11,"_text":"Response Adding DeclareAttack 2"},"childOfId":10} 
+ Player 1 16:10:39 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":12,"_text":"Wait For Response From Player 1 "},"childOfId":10} 
+ Player 1 16:10:39 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 16:10:39 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":12} 
+ Player 1 16:10:39 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":13,"_text":"Wait For Response From Player 2 "},"childOfId":10} 
+ Player 1 16:10:39 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 16:10:39 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 16:10:39 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":13} 
+ Player 1 16:10:39 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":11} 
+ Player 1 16:10:39 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":14,"_text":"Resolve DeclareAttack 2 "}} 
+ Player 1 16:10:39 $ADD_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":313,"attackingPlayerCardId":313,"idOfCardBeingAttacked":262,"stackEffectType":4}} 
+ Player 1 16:10:39 $ACTIVATE_PARTICLE_EFFECT:  
+
+ {"cardId":262,"particleType":5} 
+ Player 1 16:10:39 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_DECLARE_ATTACK","args":[],"result":null,"preventMethod":false,"methodScopeId":313,"scopeIsPlayer":true,"index":1,"originStackId":2},"isAfterActivation":true,"index":1} 
+ Player 1 16:10:39 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":313,"attackingPlayerCardId":313,"idOfCardBeingAttacked":262,"stackEffectType":4}} 
+ Player 1 16:10:39 $REMOVE_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffectId":2} 
+ Player 1 16:10:39 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Player 1 16:10:39 $SHOW_STACK_EFFECT:  
+
+ {"effectId":2} 
+ Player 1 16:10:42 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":2} 
+ Player 1 16:10:42 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":15,"_text":"Remove After Resolve DeclareAttack 2  "}} 
+ Player 1 16:10:42 $UPDATE_STACK_LABLE:  
+
+ {"stackText":"Empty Stack"} 
+ Player 1 16:10:42 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":313,"attackingPlayerCardId":313,"idOfCardBeingAttacked":262,"stackEffectType":4}} 
+ Player 1 16:10:42 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":16,"_text":"Response Remove After Resolve DeclareAttack 2"},"childOfId":15} 
+ Player 1 16:10:42 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":17,"_text":"Wait For Response From Player 2 "},"childOfId":15} 
+ Player 1 16:10:42 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 16:10:42 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 16:10:42 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":17} 
+ Player 1 16:10:42 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":18,"_text":"Wait For Response From Player 1 "},"childOfId":15} 
+ Player 1 16:10:42 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 16:10:42 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":18} 
+ Player 1 16:10:43 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":16} 
+ Player 1 16:10:43 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":19,"_text":"Stack Was Emptied "}} 
+ Player 1 16:10:43 $UPDATE_STACK_LABLE:  
+
+ {"stackText":"Empty Stack"} 
+ Player 1 16:10:43 $CLEAR_SE_VIS:  
+ Player 1 16:10:44 $NEXT_STACK_ID:  
+ Player 1 16:10:44 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 is rolling against Globin<Monster>"} 
+ Player 1 16:10:44 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":313,"rollingPlayerCardId":313,"stackEffectType":2,"attackedMonsterCardId":262}} 
+ Player 1 16:10:44 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":313,"rollingPlayerCardId":313,"stackEffectType":2,"attackedMonsterCardId":262}} 
+ Player 1 16:10:44 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Player 1 16:10:44 $SHOW_STACK_EFFECT:  
+
+ {"effectId":3} 
+ Player 1 16:10:47 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":20,"_text":"Add AttackRoll 3 "}} 
+ Player 1 16:10:47 $ROLL_DICE:  
+
+ {"playerId":1} 
+ Player 1 16:10:48 $ROLL_DICE_ENDED:  
+
+ {"playerId":1,"numberRolled":3} 
+ Player 1 16:10:48 $UPDATE_STACK_VIS:  
+
+ {"stackId":3,"text":"player rolled 3 vs Globin<Monster>"} 
+ Player 1 16:10:48 $SHOW_DICE_ROLL:  
+
+ {"stackId":3} 
+ Player 1 16:10:51 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 rolled 3 vs Globin<Monster>"} 
+ Player 1 16:10:51 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 16:10:51 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":313,"numberRolled":3,"rollingPlayerCardId":313,"stackEffectType":2,"attackedMonsterCardId":262}} 
+ Player 1 16:10:51 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":21,"_text":"Response Adding AttackRoll 3"},"childOfId":20} 
+ Player 1 16:10:51 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":22,"_text":"Wait For Response From Player 1 "},"childOfId":20} 
+ Player 1 16:10:51 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 16:10:51 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":22} 
+ Player 1 16:10:51 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":23,"_text":"Wait For Response From Player 2 "},"childOfId":20} 
+ Player 1 16:10:51 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 16:10:51 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 16:10:52 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":23} 
+ Player 1 16:10:52 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":21} 
+ Player 1 16:10:52 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":24,"_text":"Resolve AttackRoll 3 "}} 
+ Player 1 16:10:52 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 rolled 3 vs Globin<Monster>"} 
+ Player 1 16:10:52 $ADD_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":313,"numberRolled":3,"rollingPlayerCardId":313,"stackEffectType":2,"attackedMonsterCardId":262}} 
+ Player 1 16:10:52 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":25,"_text":"Added 0 to original roll"}} 
+ Player 1 16:10:52 $NEXT_STACK_ID:  
+ Player 1 16:10:52 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 16:10:52 $CLEAR_SE_VIS:  
+ Player 1 16:10:52 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Globin combat damage to Cain \n2:Player 1 rolled 3 vs Globin<Monster>"} 
+ Player 1 16:10:52 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":4,"creatorCardId":313,"entityToDoDamageCardId":262,"entityToTakeDamageCardId":313,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":3}} 
+ Player 1 16:10:52 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":313,"numberRolled":3,"rollingPlayerCardId":313,"stackEffectType":2,"attackedMonsterCardId":262}} 
+ Player 1 16:10:52 $REPLACE_STACK:  
+
+ {"currentStack":[{"entityId":4,"creatorCardId":313,"entityToDoDamageCardId":262,"entityToTakeDamageCardId":313,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":3},{"entityId":3,"creatorCardId":313,"numberRolled":3,"rollingPlayerCardId":313,"stackEffectType":2,"attackedMonsterCardId":262}]} 
+ Player 1 16:10:52 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Player 1 16:10:52 $SHOW_STACK_EFFECT:  
+
+ {"effectId":4} 
+ Player 1 16:10:55 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ROLL_DICE","args":[{"type":2,"number":3},{"type":2,"number":2},{"type":2,"number":4}],"result":null,"preventMethod":false,"methodScopeId":313,"scopeIsPlayer":true,"index":2,"originStackId":3},"isAfterActivation":true,"index":2} 
+ Player 1 16:10:55 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Globin combat damage to Cain \n2:Player 1 rolled 3 vs Globin<Monster>"} 
+ Player 1 16:10:55 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":313,"numberRolled":3,"rollingPlayerCardId":313,"stackEffectType":2,"attackedMonsterCardId":262}} 
+ Player 1 16:10:55 $REMOVE_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffectId":3} 
+ Player 1 16:10:55 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Player 1 16:10:55 $SHOW_STACK_EFFECT:  
+
+ {"effectId":3} 
+ Player 1 16:10:58 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":3} 
+ Player 1 16:10:58 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":26,"_text":"Remove After Resolve AttackRoll 3  "}} 
+ Player 1 16:10:58 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Globin combat damage to Cain"} 
+ Player 1 16:10:58 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":313,"numberRolled":3,"rollingPlayerCardId":313,"stackEffectType":2,"attackedMonsterCardId":262}} 
+ Player 1 16:10:58 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":27,"_text":"Response Remove After Resolve AttackRoll 3"},"childOfId":26} 
+ Player 1 16:10:58 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":28,"_text":"Wait For Response From Player 1 "},"childOfId":26} 
+ Player 1 16:10:58 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 16:10:58 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":28} 
+ Player 1 16:10:58 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":29,"_text":"Wait For Response From Player 2 "},"childOfId":26} 
+ Player 1 16:10:58 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 16:10:58 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 16:10:58 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":29} 
+ Player 1 16:10:58 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":27} 
+ Player 1 16:10:58 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":30,"_text":"Resolve CombatDamage 4 "}} 
+ Player 1 16:10:58 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Globin combat damage to Cain"} 
+ Player 1 16:10:58 $ADD_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":4,"creatorCardId":313,"entityToDoDamageCardId":262,"entityToTakeDamageCardId":313,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":3}} 
+ Player 1 16:10:58 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Globin 1 combat damage to Cain"} 
+ Player 1 16:10:58 $UPDATE_STACK_VIS:  
+
+ {"stackId":4,"text":"Globin will deal 1 combat damage to Cain"} 
+ Player 1 16:10:58 $PLAYER_GET_HIT:  
+
+ {"playerId":1,"damage":1,"damageDealerId":262} 
+ Player 1 16:10:58 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_GET_HIT","args":[{"type":2,"number":1},{"type":0,"number":262}],"result":null,"preventMethod":false,"methodScopeId":313,"scopeIsPlayer":true,"index":3,"originStackId":-1},"isAfterActivation":true,"index":3} 
+ Player 1 16:10:58 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_COMBAT_DAMAGE_TAKEN","args":[{"type":2,"number":1},{"type":2,"number":3},{"type":0,"number":262}],"result":null,"preventMethod":false,"methodScopeId":313,"scopeIsPlayer":true,"index":4,"originStackId":4},"isAfterActivation":true,"index":4} 
+ Player 1 16:10:58 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":4,"creatorCardId":313,"entityToDoDamageCardId":262,"entityToTakeDamageCardId":313,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":3}} 
+ Player 1 16:10:58 $REMOVE_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffectId":4} 
+ Player 1 16:10:58 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Player 1 16:10:58 $SHOW_STACK_EFFECT:  
+
+ {"effectId":4} 
+ Player 1 16:11:01 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":4} 
+ Player 1 16:11:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":31,"_text":"Remove After Resolve CombatDamage 4  "}} 
+ Player 1 16:11:01 $UPDATE_STACK_LABLE:  
+
+ {"stackText":"Empty Stack"} 
+ Player 1 16:11:01 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":4,"creatorCardId":313,"entityToDoDamageCardId":262,"entityToTakeDamageCardId":313,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":3}} 
+ Player 1 16:11:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":32,"_text":"Response Remove After Resolve CombatDamage 4"},"childOfId":31} 
+ Player 1 16:11:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":33,"_text":"Wait For Response From Player 2 "},"childOfId":31} 
+ Player 1 16:11:01 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 16:11:01 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 16:11:01 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":33} 
+ Player 1 16:11:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":34,"_text":"Wait For Response From Player 1 "},"childOfId":31} 
+ Player 1 16:11:01 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 16:11:01 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":34} 
+ Player 1 16:11:01 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":32} 
+ Player 1 16:11:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":35,"_text":"Stack Was Emptied "}} 
+ Player 1 16:11:01 $UPDATE_STACK_LABLE:  
+
+ {"stackText":"Empty Stack"} 
+ Player 1 16:11:01 $CLEAR_SE_VIS: 

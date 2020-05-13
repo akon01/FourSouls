@@ -3,7 +3,7 @@ import ActionManager from "../Managers/ActionManager";
 
 const { ccclass, property } = cc._decorator;
 
-var Type = cc.Enum({
+const Type = cc.Enum({
   /**
    * !#en None Layout
    * !#zh 取消布局
@@ -31,7 +31,7 @@ var Type = cc.Enum({
   GRID: 3
 });
 
-var ResizeMode = cc.Enum({
+const ResizeMode = cc.Enum({
   /**
    * !#en Don't do any scale.
    * !#zh 不做任何缩放
@@ -96,22 +96,21 @@ export class CardLayout extends cc.Component {
   @property
   overflow: boolean = false;
 
-  @property(Number)
+  @property(cc.Integer)
   localSign = 1;
 
   addCardToLayout(newCard: cc.Node) {
-    let newCardComp = newCard.getComponent(Card);
+    const newCardComp = newCard.getComponent(Card);
     // newCardComp.currentCardLayout = this;
 
     this.layoutCards.push(newCard);
-
 
     this.node.emit("HandCardAdded", newCard);
     //  ActionManager.updateActions();
   }
 
   removeCardFromLayout(cardToRemove: cc.Node) {
-    let cardToRemoveComp = cardToRemove.getComponent(Card);
+    const cardToRemoveComp = cardToRemove.getComponent(Card);
     // cardToRemoveComp.currentCardLayout = null;
     this.layoutCards.splice(this.layoutCards.indexOf(cardToRemove), 1);
     this.node.emit("HandCardRemoved", cardToRemove);
@@ -152,11 +151,11 @@ export class CardLayout extends cc.Component {
   }
 
   _getHorizontalBaseWidth(children) {
-    var newWidth = 0;
-    var activeChildCount = 0;
+    let newWidth = 0;
+    let activeChildCount = 0;
 
-    for (var i = 0; i < children.length; ++i) {
-      var child = children[i];
+    for (let i = 0; i < children.length; ++i) {
+      const child = children[i];
       if (child.activeInHierarchy) {
         activeChildCount++;
         newWidth += child.width * child.scaleX;
@@ -171,49 +170,51 @@ export class CardLayout extends cc.Component {
   }
 
   _doLayoutHorizontally(baseWidth, applyChildren) {
-    var afterChangeChildWidth: number = 0;
+    const afterChangeChildWidth: number = 0;
 
-    var layoutAnchor = this.node.getAnchorPoint();
+    const canvas = cc.find(`Canvas`)
+    const layoutAnchor = this.node.getAnchorPoint();
 
-    var children = this.layoutCards;
+    const children = this.layoutCards;
 
-    var nodeX;
-    var sign = this.localSign;
-    var layoutY = this.node.y;
-    var paddingX = this.paddingLeft;
+    let nodeX = canvas.convertToNodeSpaceAR(this.node.convertToWorldSpaceAR(cc.v2(this.node.x, 0))).x;
+    const sign = this.localSign;
+    const nodeWorldSpace = this.node.convertToWorldSpaceAR(cc.v2(0, this.node.y))
+    const canvasNodeSpace = canvas.convertToNodeSpaceAR(this.node.getPosition())
+    const canvasNodeAndNodeWorld = canvas.convertToNodeSpaceAR(this.node.convertToNodeSpaceAR(this.node.getPosition()))
+    let layoutY: number = canvas.convertToNodeSpaceAR(this.node.parent.convertToWorldSpaceAR(cc.v2(0, this.node.y))).y;
+    const paddingX = this.paddingLeft;
 
-    var cardHeight;
+    let cardHeight;
 
-    if (this.node.parent.name == "PlayerItems") {
-      let layout = this.node.parent.getComponent(cc.Layout);
-      let widget = this.node.parent.getComponent(cc.Widget);
-      if (children[0]) {
-        cardHeight = children[0].height;
-      } else cardHeight = 0;
+    // if (this.node.parent.name == "PlayerItems") {
+    //   const layout = this.node.parent.getComponent(cc.Layout);
+    //   const widget = this.node.parent.getComponent(cc.Widget);
+    //   if (children[0]) {
+    //     cardHeight = children[0].height;
+    //   } else { cardHeight = 0; }
 
-      nodeX = this.node.parent.parent.x;
-      if (this.node.name == "ActiveItems") {
-        layoutY =
-          this.node.convertToNodeSpaceAR(this.node.getPosition()).y -
-          cardHeight * 0.25 +
-          layout.spacingY;
-      } else {
-        layoutY =
-          this.node.convertToNodeSpaceAR(this.node.getPosition()).y
-          -
-          cardHeight * 1.25;
-      }
-    } else {
-      nodeX = this.node.x;
-      layoutY = this.node.y;
-    }
-    var leftBoundaryOfLayout = nodeX - layoutAnchor.x * baseWidth * sign;
-
-
-    var nextX = leftBoundaryOfLayout + sign * paddingX - sign * this.spacingX;
+    //   // nodeX = this.node.parent.parent.x;
+    //   if (this.node.name == "ActiveItems") {
+    //     layoutY =
+    //       this.node.convertToNodeSpaceAR(this.node.getPosition()).y - cardHeight * 0.25 + layout.spacingY;
+    //   } else {
+    //     layoutY =
+    //       this.node.convertToNodeSpaceAR(this.node.getPosition()).y - cardHeight * 1.25;
+    //   }
+    // } else {
+    //   // nodeX = this.node.x;
+    //   layoutY = this.node.y;
+    // }
+    const topBoundry = layoutY - layoutAnchor.y * this.node.height * sign
 
 
-    var containerResizeBoundary = 0;
+    const leftBoundaryOfLayout = nodeX - layoutAnchor.x * baseWidth * sign;
+
+    let nextX = leftBoundaryOfLayout + sign * paddingX - sign * this.spacingX;
+
+
+    const containerResizeBoundary = 0;
 
     let childrenWidth = 0;
 
@@ -226,38 +227,34 @@ export class CardLayout extends cc.Component {
     childrenWidth -= this.spacingX;
     if (childrenWidth > baseWidth) {
       overflow = true;
-    } else overflow = false;
+    } else { overflow = false; }
 
-    for (var i = 0; i < children.length; ++i) {
-      var child = children[i];
+    for (let i = 0; i < children.length; ++i) {
+      const child = children[i];
       if (!child.activeInHierarchy) {
         continue;
       }
       //for resizing  children
 
       if (overflow) {
-        let removeEachBy = (childrenWidth - baseWidth) / children.length;
+        const removeEachBy = (childrenWidth - baseWidth) / children.length;
         child.width = this.originalChildWidth - removeEachBy;
-      } else child.width = this.originalChildWidth;
+      } else { child.width = this.originalChildWidth; }
 
-      var anchorX = child.anchorX;
-      var childBoundingBoxWidth = child.width * child.scaleX;
-
-      nextX =
-        nextX + sign * anchorX * childBoundingBoxWidth + sign * this.spacingX;
-      var rightBoundaryOfChild = sign * (1 - anchorX) * childBoundingBoxWidth;
-
+      const anchorX = child.anchorX;
+      const childBoundingBoxWidth = child.width * child.scaleX;
+      let multi = sign == 1 ? 1 : 2
+      nextX = nextX + sign * anchorX * childBoundingBoxWidth + sign * this.spacingX;
+      const rightBoundaryOfChild = sign * (1 - anchorX) * childBoundingBoxWidth;
 
       if (
         baseWidth >=
         childBoundingBoxWidth + this.paddingLeft + this.paddingRight
       ) {
         if (applyChildren) {
-          // child.runAction(cc.moveTo(0.5,nextX, 0))
-          let newPos = cc.v2(nextX, 0);
-
-
+          const newPos = cc.v2(nextX, 0);
           child.setPosition(cc.v2(nextX, layoutY));
+
         }
       }
 
@@ -268,9 +265,9 @@ export class CardLayout extends cc.Component {
   }
 
   _addChildrenEventListeners() {
-    var children = this.layoutCards;
-    for (var i = 0; i < children.length; ++i) {
-      var child = children[i];
+    const children = this.layoutCards;
+    for (let i = 0; i < children.length; ++i) {
+      const child = children[i];
       child.on(
         cc.Node.EventType.SIZE_CHANGED,
         event => {
@@ -306,9 +303,9 @@ export class CardLayout extends cc.Component {
   }
 
   _removeChildrenEventListeners() {
-    var children = this.layoutCards;
-    for (var i = 0; i < children.length; ++i) {
-      var child = children[i];
+    const children = this.layoutCards;
+    for (let i = 0; i < children.length; ++i) {
+      const child = children[i];
       child.off(
         cc.Node.EventType.SIZE_CHANGED,
         event => {
@@ -411,12 +408,12 @@ export class CardLayout extends cc.Component {
       },
       this
     );
-    //this.node.on(cc.Node.EventType.CHILD_REORDER, (event) => { this._doLayoutDirty(); 
+    //this.node.on(cc.Node.EventType.CHILD_REORDER, (event) => { this._doLayoutDirty();
     this._addChildrenEventListeners();
   }
 
   resizeChildren() {
-    var children = this.layoutCards;
+    const children = this.layoutCards;
     for (let i = 0; i < children.length; i++) {
       const child = children[i];
       child.scaleX = this.node.scaleX;
@@ -449,7 +446,7 @@ export class CardLayout extends cc.Component {
       },
       this
     );
-    //  this.node.off(cc.Node.EventType.CHILD_REORDER, (event) => { this._doLayoutDirty('_removeEventListeners CHILD_REORDER'); 
+    //  this.node.off(cc.Node.EventType.CHILD_REORDER, (event) => { this._doLayoutDirty('_removeEventListeners CHILD_REORDER');
     this._removeChildrenEventListeners();
   }
 

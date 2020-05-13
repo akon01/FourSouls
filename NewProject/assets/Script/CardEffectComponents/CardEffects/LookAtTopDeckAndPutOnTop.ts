@@ -18,11 +18,14 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
 
   effectName = "LookAtTopDeckAndPutOnTop";
 
-  @property(Number)
+  @property(cc.Integer)
   numOfCardsToSee: number = 0;
 
-  @property(Number)
+  @property(cc.Integer)
   numOfCardsToPut: number = 0;
+
+  @property
+  isReorder: boolean = false;
 
   @property
   isReorderOptional: boolean = false;
@@ -81,15 +84,22 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
     this.putOnBottomOfDeck == true ? text = text + ` Bottom` : text = text + ` Top`
 
     await CardPreviewManager.getPreviews(cardsToSee, true)
+    await PlayerManager.mePlayer.getComponent(Player).giveNextClick("Click Next To Continue")
+    //await CardPreviewManager.removeFromCurrentPreviews(cardsToSee)
+    let selectedQueue: cc.Node[] = []
     let doEffect = true
     if (this.isReorderOptional) {
-      const choice = PlayerManager.mePlayer.getComponent(Player).giveYesNoChoice(`Do You Want To Reorder the Cards?`)
+      const choice = await PlayerManager.mePlayer.getComponent(Player).giveYesNoChoice(`Do You Want To Reorder the Cards?`)
+      if (choice) {
+        selectedQueue = await CardPreviewManager.selectFromCards(cardsToSee, this.numOfCardsToPut)
+      }
+    } else if (this.numOfCardsToPut == 1) {
+      selectedQueue = await CardPreviewManager.selectFromCards(cardsToSee, this.numOfCardsToPut)
+    } else if (this.isReorder) {
+      selectedQueue = await CardPreviewManager.selectFromCards(cardsToSee, this.numOfCardsToPut)
+    } else {
+      selectedQueue = cardsToSee
     }
-    const selectedQueue = await CardPreviewManager.selectFromCards(cardsToSee, this.numOfCardsToPut)
-
-    // selectedQueue.forEach(card => {
-    //   deck.drawSpecificCard(card, true)
-    // })
 
     if (!this.putOnBottomOfDeck) {
       for (let i = 0; i < selectedQueue.length; i++) {

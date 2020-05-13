@@ -39,6 +39,7 @@ export class Turn {
   drawPlays: number = 1;
   buyPlays: number = 1;
   attackPlays: number = 1;
+  monsterDeckAttackPlays: number = 0;
 
   constructor(PlayerId: number) {
     this.PlayerId = PlayerId;
@@ -52,6 +53,7 @@ export class Turn {
     this.drawPlays = player.drawPlays;
     this.buyPlays = player.buyPlays;
     this.attackPlays = player.attackPlays;
+    this.monsterDeckAttackPlays = player.monsterDeckAttackPlays
     this.battlePhase = false;
     this.turnId = ++TurnsManager.turnId
 

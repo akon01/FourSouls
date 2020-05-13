@@ -1,16 +1,14 @@
 import { ITEM_TYPE } from "../../Constants";
 import EffectsAndNumbers from "../../EffectsAndNumbers";
 import CardEffect from "../../Entites/CardEffect";
+import DecisionMarker from "../../Entites/Decision Marker";
 import Card from "../../Entites/GameEntities/Card";
-import Player from "../../Entites/GameEntities/Player";
 import Stack from "../../Entites/Stack";
 import PlayerManager from "../../Managers/PlayerManager";
 import RollDiceStackEffect from "../../StackEffects/Roll DIce";
 import Effect from "../CardEffects/Effect";
-import DataCollector from "../DataCollector/DataCollector";
-import RollDice from "../RollDice";
 import Cost from "../Costs/Cost";
-import DecisionMarker from "../../Entites/Decision Marker";
+import DataCollector from "../DataCollector/DataCollector";
 
 const { ccclass, property } = cc._decorator;
 
@@ -58,6 +56,7 @@ export default class MultiEffectRoll extends DataCollector {
       }
 
     }
+    cc.log(chosenEffect)
     await DecisionMarker.$.showEffectChosen(Card.getCardNodeByChild(this.node), chosenEffect.node)
     cc.log(chosenEffect.name)
     return chosenEffect;

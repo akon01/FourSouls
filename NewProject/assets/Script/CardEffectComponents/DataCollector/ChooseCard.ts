@@ -16,6 +16,9 @@ import ActivateItem from "../../StackEffects/Activate Item";
 import Monster from "../../Entites/CardTypes/Monster";
 import CardPreviewManager from "../../Managers/CardPreviewManager";
 import DecisionMarker from "../../Entites/Decision Marker";
+import ChooseCardTypeAndFilter from "../ChooseCardTypeAndFilter";
+import { whevent } from "../../../ServerClient/whevent";
+import AnnouncementLable from "../../LableScripts/Announcement Lable";
 
 const { ccclass, property } = cc._decorator;
 
@@ -35,22 +38,31 @@ export default class ChooseCard extends DataCollector {
   @property
   multiType: boolean = false;
 
+  @property({ visible: false })
+  otherPlayer: Player = null
+
   @property({
-    type: cc.Enum(CHOOSE_CARD_TYPE), visible: function (this: ChooseCard) {
+    type: ChooseCardTypeAndFilter, visible: function (this: ChooseCard) {
       if (!this.multiType) { return true }
     }
   })
-  chooseType: CHOOSE_CARD_TYPE = CHOOSE_CARD_TYPE.ALL_PLAYERS_ITEMS;
+  chooseType: ChooseCardTypeAndFilter = null;
 
   @property({
-    type: [cc.Enum(CHOOSE_CARD_TYPE)], visible: function (this: ChooseCard) {
+    type: [ChooseCardTypeAndFilter], visible: function (this: ChooseCard) {
       if (this.multiType) { return true }
     }
   })
-  chooseTypes: CHOOSE_CARD_TYPE[] = []
+  chooseTypes: ChooseCardTypeAndFilter[] = []
 
   @property
   flavorText: string = ""
+
+  @property
+  otherPlayersFlavorText: string = ''
+
+  @property({ type: cc.Component })
+  test: cc.Component = null;
 
   /**
    *  @throws when there are no cards to choose from in the choose type
@@ -63,12 +75,16 @@ export default class ChooseCard extends DataCollector {
   }): Promise<EffectTarget> {
     const player = PlayerManager.getPlayerById(data.cardPlayerId)
     this.playerId = data.cardPlayerId;
+
     //  let cardsToChooseFrom: Set<cc.Node> = new Set()
-    const cardsToChooseFrom: cc.Node[] = []
+    let cardsToChooseFrom: cc.Node[] = []
     if (this.multiType) {
-      for (const type of this.chooseTypes) {
-        const tempCards = this.getCardsToChoose(type, player)
+      for (const filterComp of this.chooseTypes) {
+        let tempCards = this.getCardsToChoose(filterComp.chooseType, player, this.otherPlayer)
         if (tempCards) {
+          if (filterComp.applyFilter) {
+            tempCards = this.applyFilterToCards(tempCards, filterComp);
+          }
           tempCards.forEach(card => {
             if (card) { cardsToChooseFrom.push(card) }
           })
@@ -78,16 +94,23 @@ export default class ChooseCard extends DataCollector {
 
       }
     } else {
-      this.getCardsToChoose(this.chooseType, player).forEach(card => {
+      this.getCardsToChoose(this.chooseType.chooseType, player, this.otherPlayer).forEach(card => {
         if (card) { cardsToChooseFrom.push(card) }
       });
+      if (this.chooseType.applyFilter) {
+        cardsToChooseFrom = this.applyFilterToCards(cardsToChooseFrom, this.chooseType);
+      }
     }
     if (cardsToChooseFrom.length == 0) {
       throw new Error("No Cards To Choose From!")
     }
     if (cardsToChooseFrom.length == 1) {
+      if (this.node) {
+        await DecisionMarker.$.showDecision(Card.getCardNodeByChild(this.node), cardsToChooseFrom[0], true)
+      }
       return new EffectTarget(cardsToChooseFrom[0])
     }
+
     const cardChosenData: {
       cardChosenId: number;
       playerId: number;
@@ -111,13 +134,13 @@ export default class ChooseCard extends DataCollector {
       case CARD_TYPE.MONSTER:
         cardsToChooseFrom = this.getCardsToChoose(
           CHOOSE_CARD_TYPE.MONSTER_PLACES,
-          player
+          player, this.otherPlayer
         );
         break;
       case CARD_TYPE.TREASURE:
         cardsToChooseFrom = this.getCardsToChoose(
           CHOOSE_CARD_TYPE.STORE_PLACES,
-          player
+          player, this.otherPlayer
         );
         break;
       default:
@@ -130,7 +153,7 @@ export default class ChooseCard extends DataCollector {
     return cardChosenData;
   }
 
-  getCardsToChoose(chooseType: CHOOSE_CARD_TYPE, mePlayer?: Player, player?: Player) {
+  getCardsToChoose(chooseType: CHOOSE_CARD_TYPE, mePlayer?: Player, spesificPlayer?: Player) {
     let cardsToReturn: cc.Node[] = [];
     let players: Player[]
     switch (chooseType) {
@@ -148,11 +171,11 @@ export default class ChooseCard extends DataCollector {
         return mePlayer.handCards;
         break;
       case CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND:
-        return player.handCards
+        return spesificPlayer.handCards
       case CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_ITEMS_WITHOUT_ETERNALS:
-        return player.deskCards.filter(card => { if (!(card.getComponent(Item).eternal)) { return true } })
+        return spesificPlayer.deskCards.filter(card => { if (!(card.getComponent(Item).eternal)) { return true } })
       case CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_ITEMS:
-        return player.deskCards
+        return spesificPlayer.deskCards
       case CHOOSE_CARD_TYPE.DECKS:
         cardsToReturn = CardManager.getAllDecks();
         return cardsToReturn;
@@ -181,7 +204,7 @@ export default class ChooseCard extends DataCollector {
         for (const player of players) {
           //    let activeItems = player.activeItems.map(activeItem => { if (activeItem.getComponent(Item).activated) return activeItem })
           //
-          cardsToReturn = cardsToReturn.concat(player.activeItems, player.passiveItems)
+          cardsToReturn = cardsToReturn.concat(player.activeItems, player.passiveItems, player.paidItems)
         }
         return cardsToReturn;
       case CHOOSE_CARD_TYPE.ALL_PLAYERS_ACTIVATED_ITEMS:
@@ -191,7 +214,7 @@ export default class ChooseCard extends DataCollector {
           //    let activeItems = player.activeItems.map(activeItem => { if (activeItem.getComponent(Item).activated) return activeItem })
           //
           cardsToReturn = cardsToReturn.concat(player.activeItems.filter(item => {
-            if (item.getComponent(Item).activated) {
+            if (item.getComponent(Item).needsRecharge) {
               return true
             }
 
@@ -213,7 +236,7 @@ export default class ChooseCard extends DataCollector {
           //    let activeItems = player.activeItems.map(activeItem => { if (activeItem.getComponent(Item).activated) return activeItem })
           //
           cardsToReturn = cardsToReturn.concat(player.activeItems.filter(item => {
-            if (!item.getComponent(Item).activated) {
+            if (!item.getComponent(Item).needsRecharge) {
               return true
             }
 
@@ -227,12 +250,12 @@ export default class ChooseCard extends DataCollector {
         return cardsToReturn;
       case CHOOSE_CARD_TYPE.MY_ACTIVATED_ITEMS:
         cardsToReturn = mePlayer.deskCards.filter(
-          card => card.getComponent(Item).activated
+          card => card.getComponent(Item).needsRecharge
         );
         return cardsToReturn;
       case CHOOSE_CARD_TYPE.MY_NON_ACTIVATED_ITEMS:
         cardsToReturn = mePlayer.deskCards.filter(
-          card => !card.getComponent(Item).activated
+          card => !card.getComponent(Item).needsRecharge
         );
         return cardsToReturn;
       case CHOOSE_CARD_TYPE.PLAYERS_AND_ACTIVE_MONSTERS:
@@ -255,7 +278,6 @@ export default class ChooseCard extends DataCollector {
             if (!card.getComponent(Item).eternal) { return true; }
           })))
         })
-        cc.error(cardsToReturn)
         return cardsToReturn;
       case CHOOSE_CARD_TYPE.STORE_CARDS:
         return Store.storeCards;
@@ -271,8 +293,6 @@ export default class ChooseCard extends DataCollector {
     for (const card of cardsToChooseFrom) {
       if (card != null && card != undefined) { cards.add(card) }
     }
-
-    cc.log(cards)
     // const id = this.node.uuid
     let flippedCards: cc.Node[] = []
     cards.forEach(card => {
@@ -313,13 +333,27 @@ export default class ChooseCard extends DataCollector {
   }
 
   async waitForCardToBeChosen(): Promise<cc.Node> {
+    if (this.otherPlayersFlavorText == '') {
+      AnnouncementLable.$.showAnnouncement(`Player ${this.playerId} is Choosing Target`, 0, true)
+    } else {
+      AnnouncementLable.$.showAnnouncement(this.otherPlayersFlavorText, 0, true)
+    }
     return new Promise((resolve, reject) => {
       whevent.onOnce(GAME_EVENTS.CHOOSE_CARD_CARD_CHOSEN, (data) => {
+        AnnouncementLable.$.hideAnnouncement(true)
         if (data) {
           resolve(this.cardChosen);
         }
       })
     })
+  }
+
+  applyFilterToCards(cards: cc.Node[], filterComponetnt: ChooseCardTypeAndFilter) {
+    cc.log(filterComponetnt.getFilterString())
+    const fn1 = new Function("card", filterComponetnt.getFilterString())
+    return cards.filter(fn1 as (x) => boolean)
+    //cardsToChooseFrom = cardsToChooseFrom.filter()
+
   }
 
   makeArrow(cardChosen: cc.Node) {
@@ -331,7 +365,7 @@ export default class ChooseCard extends DataCollector {
     const graphics = arrowGfx.getComponent(cc.Graphics)
     cc.log(`origin x:${arrowOrigin.x} y:${arrowOrigin.y}`)
     cc.log(`end x:${arrowEndPoint.x} y:${arrowEndPoint.y}`)
-    graphics.lineWidth = 60
+    //  graphics.lineWidth = 60
     graphics.moveTo(arrowOrigin.x, arrowOrigin.y)
     graphics.lineTo(arrowEndPoint.x, arrowEndPoint.y)
     graphics.stroke()

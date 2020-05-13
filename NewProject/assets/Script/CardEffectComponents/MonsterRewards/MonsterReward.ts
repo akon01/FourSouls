@@ -10,7 +10,9 @@ export default class MonsterReward extends cc.Component {
   hasRoll: boolean = false
 
 
-  rollNumber: number = 0;;
+  rollNumber: number = 0;
+
+  doubleReward: boolean = false;
 
   async rewardPlayer(playerToReward: cc.Node, sendToServer: boolean): Promise<any> { }
 

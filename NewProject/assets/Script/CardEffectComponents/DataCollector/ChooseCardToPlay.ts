@@ -7,6 +7,8 @@ import Effect from "../CardEffects/Effect";
 import { CHOOSE_CARD_TYPE, GAME_EVENTS } from "./../../Constants";
 import DataCollector from "./DataCollector";
 import DecisionMarker from "../../Entites/Decision Marker";
+import { whevent } from "../../../ServerClient/whevent";
+import AnnouncementLable from "../../LableScripts/Announcement Lable";
 
 const { ccclass, property } = cc._decorator;
 
@@ -40,6 +42,7 @@ export default class SelectLootToPlay extends DataCollector {
     const cardPlayed = CardManager.getCardById(cardPlayedData.cardPlayedId, true);
     await DecisionMarker.$.showDecision(player.character, cardPlayed, true, true)
     const target = new EffectTarget(cardPlayed)
+    cardPlayed.getComponent(Card).isGoingToBePlayed = true
     cc.log(`chosen ${target.effectTargetCard.name}`)
     return target;
   }
@@ -52,11 +55,9 @@ export default class SelectLootToPlay extends DataCollector {
           const player = PlayerManager.players[index].getComponent(Player);
           playerCards.push(player.character);
         }
-        return playerCards;
-        break;
+        return playerCards.filter(card => !card.getComponent(Card).isGoingToBePlayed);
       case CHOOSE_CARD_TYPE.MY_HAND:
-        return player.hand.layoutCards;
-        break;
+        return player.hand.layoutCards.filter(card => !card.getComponent(Card).isGoingToBePlayed);
       default:
         break;
     }
@@ -71,8 +72,9 @@ export default class SelectLootToPlay extends DataCollector {
       CardManager.disableCardActions(card);
       CardManager.makeRequiredForDataCollector(this, card);
     }
-
+    AnnouncementLable.$.showAnnouncement(`Player ${this.playerId} Is Choosing Loot To Play`, 0, true)
     const cardPlayed = await this.waitForCardPlay();
+    AnnouncementLable.$.hideAnnouncement(true)
 
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];

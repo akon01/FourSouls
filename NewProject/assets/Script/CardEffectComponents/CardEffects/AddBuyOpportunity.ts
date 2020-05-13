@@ -13,7 +13,7 @@ const { ccclass, property } = cc._decorator;
 export default class AddBuyOpportunity extends Effect {
   effectName = "AddBuyOpportunity";
 
-  @property(Number)
+  @property(cc.Integer)
   numOfTimes: number = 0;
 
 

@@ -13,11 +13,8 @@ import ServerClient from "../ServerClient/ServerClient";
 import MonsterField from "./Entites/MonsterField";
 import PileManager from "./Managers/PileManager";
 
-import { AopModule } from "@ts-ioc/aop";
-import { ContainerBuilder } from "@ts-ioc/core";
 import Signal from "../Misc/Signal";
 import { GAME_EVENTS, STACK_EFFECT_TYPE } from "./Constants";
-import CardPreview from "./Entites/CardPreview";
 import Monster from "./Entites/CardTypes/Monster";
 import Card from "./Entites/GameEntities/Card";
 import Deck from "./Entites/GameEntities/Deck";
@@ -25,6 +22,7 @@ import Player from "./Entites/GameEntities/Player";
 import Store from "./Entites/GameEntities/Store";
 import Stack from "./Entites/Stack";
 import SoundManager from "./Managers/SoundManager";
+import { whevent } from "../ServerClient/whevent";
 
 //( id represents a human player and it coresponds with playerID)
 // tslint:disable-next-line: prefer-const
@@ -106,37 +104,19 @@ export default class MainScript extends cc.Component {
     await PlayerManager.init(MainScript.serverId);
 
     //Set up Turns
-
+    cc.log(`turns manager init`)
     TurnsManager.init();
     //set up button pool
+    cc.log(`buttn init`)
     ButtonManager.init();
-
+    cc.log(`card init`)
     //set up card manager
     await CardManager.init();
 
     //set up pile manager
-    PileManager.init();
+    await PileManager.init();
 
-    //deal player cards
 
-    //deal two treasures and  two monsters
-    //this.node.on("decksDone", () => {
-    //
-    //storeComp.addStoreCard(false);
-    //storeComp.addStoreCard(false);
-
-    // monsterComp.addMonsterToExsistingPlace(
-    //   1,
-    //   CardManager.monsterDeck.getComponent(Deck).drawCard(false),
-    //   false
-    // );
-    // monsterComp.addMonsterToExsistingPlace(
-    //   2,
-    //   CardManager.monsterDeck.getComponent(Deck).drawCard(false),
-    //   false
-    // );
-
-    // });
 
     //Set up turn lable
     const currentTurnLableComp = cc
@@ -155,10 +135,10 @@ export default class MainScript extends cc.Component {
 
     currentPlayerLableComp.string = "Player " + MainScript.serverId;
 
-    cc.director.getScene().on("monsterAttacked", () => {
+    // cc.director.getScene().on("monsterAttacked", () => {
 
-      PlayerManager.mePlayer.getComponent(Player).showAvailableReactions();
-    });
+    //   PlayerManager.mePlayer.getComponent(Player).showAvailableReactions();
+    // });
 
     MainScript.currentPlayerNode = getCurrentPlayer(
       PlayerManager.players,
@@ -256,12 +236,12 @@ export default class MainScript extends cc.Component {
     // await CardManager.updateOnTableCards();
     // await CardManager.updatePlayerCards();
 
-    SoundManager.$.setBGVolume(1)
-    SoundManager.$.playBGMusic(SoundManager.$.BasicBGMusic)
-    SoundManager.$.stopBGMusic()
+    await CardManager.registerBonusSouls()
+
+    SoundManager.$.setBGVolume(0.5)
     SoundManager.$.playBGMusic(SoundManager.$.BasicBGMusic)
 
-    await ActionManager.updateActions()
+    //  await ActionManager.updateActions()
     for (const player of PlayerManager.players) {
       const comp = player.getComponent(Player)
       await comp.changeMoney(3, true, true)
@@ -302,6 +282,5 @@ export default class MainScript extends cc.Component {
   start() { }
 
   update(dt) {
-
   }
 }

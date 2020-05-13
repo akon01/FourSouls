@@ -2,7 +2,7 @@ import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
 import { BUTTON_STATE, GAME_EVENTS, TIME_TO_SHOW_PREVIEW } from "../Constants";
 import CardEffect from "../Entites/CardEffect";
-import CardPreview from "../Entites/CardPreview";
+
 import Card from "../Entites/GameEntities/Card";
 import Deck from "../Entites/GameEntities/Deck";
 import Player from "../Entites/GameEntities/Player";
@@ -13,6 +13,8 @@ import CardManager from "./CardManager";
 import PlayerManager from "./PlayerManager";
 import TurnsManager from "./TurnsManager";
 import StackEffectVisManager from "./StackEffectVisManager";
+import { whevent } from "../../ServerClient/whevent";
+import CardPreview from "../Entites/Card Preview";
 
 const { ccclass, property } = cc._decorator;
 
@@ -145,6 +147,7 @@ export default class CardPreviewManager extends cc.Component {
             }
             //if the card is required for a data collector
             if (cardComp._isRequired) {
+                cc.log(`${cardComp.name} is required`)
                 await preview.getComponent(CardPreview).hideCardPreview();
                 if (cardComp._requiredFor) {
                     cardComp._requiredFor.cardChosen = card;
@@ -157,6 +160,7 @@ export default class CardPreviewManager extends cc.Component {
             } else {
                 // if (cardComp instanceof Card) {
                 cardComp = card.getComponent(Card)
+                cc.log(cardComp)
                 if (cardComp._isReactable) {
                     const cardPlayer = PlayerManager.getPlayerById(
                         (cardComp as Card)._cardHolderId
@@ -401,7 +405,6 @@ export default class CardPreviewManager extends cc.Component {
                 CardPreviewManager.updatePreview(preview)
                 // CardPreviewManager.updatePreviewsEvents()
             } catch (error) {
-                cc.error(error)
                 Logger.error(error)
             }
         }, this)
@@ -421,10 +424,10 @@ export default class CardPreviewManager extends cc.Component {
                 CardPreviewManager.updatePreview(preview)
                 // CardPreviewManager.updatePreviewsEvents()
             } catch (error) {
-                cc.error(error)
                 Logger.error(error)
             }
-        } return preview
+        }
+        return preview
     }
 
     static orgenizePreviews() {
@@ -480,7 +483,6 @@ export default class CardPreviewManager extends cc.Component {
             }
             //  CardPreviewManager.updatePreviewsEvents()
         } catch (error) {
-            cc.error(error)
             Logger.error(error)
         }
         const action = cc.fadeTo(TIME_TO_SHOW_PREVIEW, 255)
@@ -533,7 +535,6 @@ export default class CardPreviewManager extends cc.Component {
             }
             //  CardPreviewManager.updatePreviewsEvents()
         } catch (error) {
-            cc.error(error)
             Logger.error(error)
         }
         // this.node.active = false;
@@ -548,7 +549,7 @@ export default class CardPreviewManager extends cc.Component {
         CardPreviewManager.cardPreviewPool = new cc.NodePool(CardPreview)
 
         CardPreviewManager.previewsLayout = this.getComponent(cc.Layout)
-        for (let i = 0; i < 25; i++) {
+        for (let i = 0; i < 10; i++) {
             const preview = cc.instantiate(this.cardPreviewPrefab);
             preview.name = "preview" + i;
             CardPreviewManager.cardPreviewPool.put(preview)

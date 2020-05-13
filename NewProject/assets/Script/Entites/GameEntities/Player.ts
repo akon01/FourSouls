@@ -39,6 +39,9 @@ import DecisionMarker from "../Decision Marker";
 import StackEffectVisManager from "../../Managers/StackEffectVisManager";
 import Store from "./Store";
 import SoundManager from "../../Managers/SoundManager";
+import AnimationManager, { ANIM_COLORS } from "../../Managers/Animation Manager";
+import { whevent } from "../../../ServerClient/whevent";
+import AnnouncementLable from "../../LableScripts/Announcement Lable";
 
 const { ccclass, property } = cc._decorator;
 
@@ -69,25 +72,28 @@ export default class Player extends cc.Component {
   @property(cc.Node)
   selectedCard: cc.Node = null;
 
-  @property
+  @property({ visible: false })
   character: cc.Node = null;
 
-  @property
+  @property({ visible: false })
   characterItem: cc.Node = null;
 
-  @property
+  @property({ visible: false })
   activeItems: cc.Node[] = [];
 
-  @property
+  @property({ visible: false })
   passiveItems: cc.Node[] = [];
 
-  @property
+  @property({ visible: false })
+  paidItems: cc.Node[] = [];
+
+  @property({ visible: false })
   desk: PlayerDesk = null;
 
-  @property
+  @property({ visible: false })
   soulsLayout: cc.Node = null;
 
-  @property
+  @property({ visible: false })
   souls: number = 0;
 
   @property
@@ -106,6 +112,9 @@ export default class Player extends cc.Component {
 
   @property
   attackPlays: number = 1;
+
+  @property
+  monsterDeckAttackPlays: number = 0;
 
   @property
   coins: number = 0;
@@ -130,6 +139,9 @@ export default class Player extends cc.Component {
 
   @property
   tempBaseDamage: number = 0;
+
+  @property({ visible: false })
+  currentDamage: number = 0
 
   @property
   nonAttackRollBonus: number = 0;
@@ -219,6 +231,9 @@ export default class Player extends cc.Component {
   @property
   storeCardCostReduction: number = 0
 
+  @property({ visible: false })
+  skipTurn: boolean = false;
+
   /// Admin Methods Only!
 
   broadcastUpdateProperites(propertiesToChange) {
@@ -254,16 +269,19 @@ export default class Player extends cc.Component {
   }
 
   async giveCard(card: cc.Node) {
-    card.parent = cc.find(`Canvas`)
+    card.parent = CardManager.$.onTableCardsHolder
     await CardManager.moveCardTo(card, this.hand.node, true, true)
     switch (card.getComponent(Card).type) {
       case CARD_TYPE.LOOT:
+        CardManager.lootDeck.getComponent(Deck).drawSpecificCard(card, true)
         await this.gainLoot(card, true)
         break;
       case CARD_TYPE.TREASURE:
+        CardManager.treasureDeck.getComponent(Deck).drawSpecificCard(card, true)
         await this.addItem(card, true, true)
         break
       case CARD_TYPE.MONSTER:
+        CardManager.monsterDeck.getComponent(Deck).drawSpecificCard(card, true)
         await MonsterField.addMonsterToExsistingPlace(MonsterField.getMonsterCardHoldersIds()[0], card, true)
         break;
       default:
@@ -290,6 +308,8 @@ export default class Player extends cc.Component {
   // }
 
   async drawCard(deck: cc.Node, sendToServer: boolean, alreadyDrawnCard?: cc.Node) {
+
+
     let drawnCard: cc.Node
     if (alreadyDrawnCard != null) {
 
@@ -298,7 +318,7 @@ export default class Player extends cc.Component {
       drawnCard = deck.getComponent(Deck).drawCard(sendToServer);
     }
     drawnCard.setPosition(CardManager.lootDeck.getPosition());
-    drawnCard.parent = cc.find("Canvas");
+    drawnCard.parent = CardManager.$.onTableCardsHolder
     if (sendToServer) {
       await CardManager.moveCardTo(drawnCard, this.hand.node, sendToServer, false, -1, CardManager.lootDeck.getPosition())
       const serverData = {
@@ -321,13 +341,14 @@ export default class Player extends cc.Component {
     sendToServer: boolean,
   ) {
     if (sendToServer) {
-      await DecisionMarker.$.showDecision(this.character, monsterCard, true)
+      //await DecisionMarker.$.showDecision(this.character, monsterCard, true)
       const declareAttack = new DeclareAttack(this.character.getComponent(Card)._cardId, this, monsterCard)
       await Stack.addToStack(declareAttack, true)
     }
   }
 
   async giveYesNoChoice(flavorText: string) {
+    cc.log(`give yes no choice`)
     if (!CardPreviewManager.isOpen && !StackEffectVisManager.$.isOpen) {
       ButtonManager.moveButton(ButtonManager.$.NoButton, ButtonManager.$.playerButtonLayout)
       ButtonManager.moveButton(ButtonManager.$.yesButton, ButtonManager.$.playerButtonLayout)
@@ -335,7 +356,7 @@ export default class Player extends cc.Component {
       ButtonManager.moveButton(ButtonManager.$.NoButton, ButtonManager.$.cardPreviewButtonLayout)
       ButtonManager.moveButton(ButtonManager.$.yesButton, ButtonManager.$.cardPreviewButtonLayout)
     }
-
+    ButtonManager.enableButton(ButtonManager.$.clearPreviewsButton, BUTTON_STATE.DISABLED)
     ButtonManager.enableButton(ButtonManager.$.NoButton, BUTTON_STATE.ENABLED)
     ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.ENABLED)
     ButtonManager.enableButton(ButtonManager.$.NoButton, BUTTON_STATE.PLAYER_CHOOSE_NO, [this])
@@ -344,21 +365,29 @@ export default class Player extends cc.Component {
     const choice = await this.waitForPlayerYesNoSelection()
     CardPreviewManager.setFalvorText("")
     //  ButtonManager.enableButton(ButtonManager.$.NoButton, BUTTON_STATE.CHANGE_TEXT, ["SKIP"])
+    ButtonManager.enableButton(ButtonManager.$.clearPreviewsButton, BUTTON_STATE.ENABLED)
     ButtonManager.enableButton(ButtonManager.$.NoButton, BUTTON_STATE.DISABLED)
     ButtonManager.enableButton(ButtonManager.$.yesButton, BUTTON_STATE.DISABLED)
     ButtonManager.moveButton(ButtonManager.$.NoButton, ButtonManager.$.cardPreviewButtonLayout)
     ButtonManager.moveButton(ButtonManager.$.yesButton, ButtonManager.$.cardPreviewButtonLayout)
+    if (!choice) {
+      await CardPreviewManager.clearAllPreviews()
+      CardPreviewManager.hidePreviewManager()
+      StackEffectVisManager.$.hidePreviews()
+    }
     return choice;
   }
 
   async giveNextClick(flavorText: string) {
 
+    ButtonManager.enableButton(ButtonManager.$.clearPreviewsButton, BUTTON_STATE.DISABLED)
     ButtonManager.enableButton(ButtonManager.$.nextButton, BUTTON_STATE.ENABLED)
     ButtonManager.enableButton(ButtonManager.$.nextButton, BUTTON_STATE.PLAYER_CLICKS_NEXT, [this])
     CardPreviewManager.setFalvorText(flavorText)
     await this.waitForNextClick()
     CardPreviewManager.setFalvorText("")
     ButtonManager.enableButton(ButtonManager.$.nextButton, BUTTON_STATE.DISABLED)
+    ButtonManager.enableButton(ButtonManager.$.clearPreviewsButton, BUTTON_STATE.ENABLED)
 
   }
 
@@ -390,7 +419,9 @@ export default class Player extends cc.Component {
     let damage = 0;
     damage += this.baseDamage;
     damage += this.tempBaseDamage;
-    damage += this.character.getComponent(Character).damage;
+    if (this.character) {
+      damage += this.character.getComponent(Character).damage;
+    }
     // items that increase damage should increase baseDamage
     return damage;
   }
@@ -453,6 +484,11 @@ export default class Player extends cc.Component {
   }
 
   async gainLoot(loot: cc.Node, sendToServer: boolean) {
+    const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_GAIN_LOOT, [loot], null, this.node)
+    if (sendToServer) {
+      const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+      loot = afterPassiveMeta.args[0]
+    }
     this.hand.addCardToLayout(loot)
     loot.getComponent(Card)._ownedBy = this;
     this.handCards.push(loot)
@@ -471,10 +507,16 @@ export default class Player extends cc.Component {
     };
     if (sendToServer) {
       ServerClient.$.send(serverData.signal, serverData.srvData)
+      await PassiveManager.testForPassiveAfter(passiveMeta)
     }
   }
 
   async discardLoot(lootCard: cc.Node, sendToServer: boolean) {
+    const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_LOSE_LOOT, [lootCard], null, this.node)
+    if (sendToServer) {
+      const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+      lootCard = afterPassiveMeta.args[0]
+    }
     lootCard.getComponent(Card)._ownedBy = null;
     if (sendToServer) {
       await this.loseLoot(lootCard, sendToServer)
@@ -495,6 +537,7 @@ export default class Player extends cc.Component {
     };
     if (sendToServer) {
       ServerClient.$.send(serverData.signal, serverData.srvData)
+      await PassiveManager.testForPassiveAfter(passiveMeta)
     }
     // let bool = await ActionManager.showSingleAction(
     //   discardAction,
@@ -506,16 +549,14 @@ export default class Player extends cc.Component {
   async buyItem(itemToBuy: cc.Node, sendToServer: boolean) {
 
     if (sendToServer) {
-      await DecisionMarker.$.showDecision(this.character, itemToBuy, true)
+      //await DecisionMarker.$.showDecision(this.character, itemToBuy, true)
       const purchaseItem = new PurchaseItem(this.character.getComponent(Card)._cardId, itemToBuy, this.playerId)
 
       await Stack.addToStack(purchaseItem, sendToServer)
     }
   }
 
-  async  addItem(itemToAdd: cc.Node, sendToServer: boolean, isReward: boolean) {
-    cc.log(`add item`)
-
+  async addItem(itemToAdd: cc.Node, sendToServer: boolean, isReward: boolean) {
     let itemCardComp: Card = itemToAdd.getComponent(Card);
     const treasureDeck = CardManager.treasureDeck;
     if (itemToAdd == treasureDeck) {
@@ -532,25 +573,8 @@ export default class Player extends cc.Component {
     const playerId = this.playerId;
     const cardId = itemCardComp._cardId;
     const cardItemComp = itemToAdd.getComponent(Item);
-    switch (cardItemComp.type) {
-      case ITEM_TYPE.ACTIVE:
-      case ITEM_TYPE.PAID:
-        this.activeItems.push(itemToAdd);
-        break;
-      case ITEM_TYPE.PASSIVE:
-        this.passiveItems.push(itemToAdd);
-        cc.log(`register ${itemToAdd.name} passive`)
-        await PassiveManager.registerPassiveItem(itemToAdd, sendToServer);
-        break;
-      case ITEM_TYPE.BOTH:
-        this.activeItems.push(itemToAdd);
-        this.passiveItems.push(itemToAdd);
-        cc.log(`register ${itemToAdd.name} passive`)
-        await PassiveManager.registerPassiveItem(itemToAdd, sendToServer);
-        break;
-      default:
-        break;
-    }
+
+    await this.addItemByType(cardItemComp.node, sendToServer)
     this.cards.push(itemToAdd);
     itemToAdd.getComponent(Item).lastOwnedBy = this
     const serverData = {
@@ -561,10 +585,10 @@ export default class Player extends cc.Component {
 
       await CardManager.moveCardTo(itemCardComp.node, this.desk.node, sendToServer, true)
       ServerClient.$.send(serverData.signal, serverData.srvData)
+      CardManager.makeItemActivateable(itemToAdd)
     }
     await this.desk.addToDesk(itemToAdd.getComponent(Card))
     CardManager.makeCardPreviewable(itemToAdd)
-    CardManager.makeItemActivateable(itemToAdd)
     passiveMeta.result = true
 
     // do passive effects after!
@@ -589,7 +613,8 @@ export default class Player extends cc.Component {
       if (this.playerId == TurnsManager.currentTurn.PlayerId && TurnsManager.currentTurn.lootCardPlays > 0) {
         TurnsManager.currentTurn.lootCardPlays -= 1
       }
-      await DecisionMarker.$.showDecision(lootCard, lootCard, true, true)
+      // await DecisionMarker.$.showDecision(lootCard, lootCard, true, true)
+      lootCard.getComponent(Card).isGoingToBePlayed = true
       const playLoot = new PlayLootCardStackEffect(this.character.getComponent(Card)._cardId, hasLockingEffect, lootCard, this.character, false, false)
       await Stack.addToStack(playLoot, sendToServer)
 
@@ -607,12 +632,12 @@ export default class Player extends cc.Component {
   async killPlayer(sendToServer: boolean, killerCard: cc.Node) {
 
     if (this._isDead) {
-      cc.error(`player is dead and can't be killed again`)
+      Logger.error(`player ${this.playerId} is dead and can't be killed again`)
       return
     }
 
     if (sendToServer) {
-
+      cc.error(`add player death to stack`)
       const playerDeath = new PlayerDeath(this.character.getComponent(Card)._cardId, this.character, killerCard)
       await Stack.addToStackAbove(playerDeath)
       // if (addBelow) {
@@ -637,12 +662,17 @@ export default class Player extends cc.Component {
     if (this.handCards.length > 0) {
       const chooseCard = new ChooseCard();
       chooseCard.flavorText = "Choose A Loot To Discard"
+      let chosenCard: cc.Node
       const cardToChooseFrom = chooseCard.getCardsToChoose(
         CHOOSE_CARD_TYPE.MY_HAND,
         this,
       );
-      const chosenData = await chooseCard.requireChoosingACard(cardToChooseFrom)
-      const chosenCard = CardManager.getCardById(chosenData.cardChosenId);
+      if (cardToChooseFrom.length == 1) {
+        chosenCard = cardToChooseFrom[0]
+      } else {
+        const chosenData = await chooseCard.requireChoosingACard(cardToChooseFrom)
+        chosenCard = CardManager.getCardById(chosenData.cardChosenId);
+      }
       await this.loseLoot(chosenCard, true)
       await PileManager.addCardToPile(CARD_TYPE.LOOT, chosenCard, true)
     }
@@ -654,13 +684,17 @@ export default class Player extends cc.Component {
     if (nonEternalItems.length > 0) {
       const chooseCard = new ChooseCard();
       chooseCard.flavorText = "Choose An Item To Destroy"
+      let chosenCard: cc.Node
       const cardToChooseFrom = chooseCard.getCardsToChoose(
         CHOOSE_CARD_TYPE.MY_NON_ETERNALS,
         this,
       );
-      const chosenData = await chooseCard.requireChoosingACard(cardToChooseFrom);
-
-      const chosenCard = CardManager.getCardById(chosenData.cardChosenId);
+      if (cardToChooseFrom.length == 1) {
+        chosenCard = cardToChooseFrom[0]
+      } else {
+        const chosenData = await chooseCard.requireChoosingACard(cardToChooseFrom);
+        chosenCard = CardManager.getCardById(chosenData.cardChosenId);
+      }
       await this.loseItem(chosenCard, true)
       await PileManager.addCardToPile(chosenCard.getComponent(Card).type, chosenCard, true)
     }
@@ -693,6 +727,7 @@ export default class Player extends cc.Component {
     this.deskCards = this.deskCards.filter(item => item != itemToLose)
     this.activeItems = this.activeItems.filter(item => item != itemToLose)
     this.passiveItems = this.passiveItems.filter(item => item != itemToLose)
+    this.paidItems = this.paidItems.filter(item => item != itemToLose)
     if (sendToServer) {
       PassiveManager.removePassiveItemEffects(itemToLose, true)
     }
@@ -712,10 +747,15 @@ export default class Player extends cc.Component {
 
     if (sendToServer) {
 
+      if (this.skipTurn) {
+        this.skipTurn = false;
+        await this.endTurn(true)
+      }
+
       // recharge items
       if (numberOfItemsToCharge == this.activeItems.length) {
         for (const item of this.activeItems) {
-          if (item.getComponent(Item).activated) {
+          if (item.getComponent(Item).needsRecharge) {
             await this.rechargeItem(item, sendToServer)
           }
         }
@@ -725,7 +765,7 @@ export default class Player extends cc.Component {
         for (let i = 0; i < numberOfItemsToCharge; i++) {
           const cardChosenData = await chooseCard.requireChoosingACard(this.activeItems)
           const item = CardManager.getCardById(cardChosenData.cardChosenId, true).getComponent(Item)
-          if (item.activated) {
+          if (item.needsRecharge) {
             await this.rechargeItem(item.node, sendToServer)
           }
         }
@@ -816,7 +856,7 @@ export default class Player extends cc.Component {
             continue;
           } else {
             const instance = this._dmgPrevention.shift()
-            cc.error(`prevented ${instance} dmg`)
+            AnnouncementLable.$.showAnnouncement(`prevented ${instance} dmg on Player ${this.playerId}`, 2, true)
             newDamage -= instance
             continue;
           }
@@ -839,8 +879,8 @@ export default class Player extends cc.Component {
     if (healDown) {
       this._Hp = hpToHeal
     } else {
-      if (this._Hp + hpToHeal > this.character.getComponent(Character).Hp + this._hpBonus + this._tempHpBonus) {
-        this._Hp = this.character.getComponent(Character).Hp + this._hpBonus + this._tempHpBonus
+      if (this._Hp + hpToHeal > this.character.getComponent(Character).hp + this._hpBonus + this._tempHpBonus) {
+        this._Hp = this.character.getComponent(Character).hp + this._hpBonus + this._tempHpBonus
       } else {
         this._Hp += hpToHeal
       }
@@ -949,7 +989,11 @@ export default class Player extends cc.Component {
   async gainDMG(DMGToGain: number, isTillEndOfTurn: boolean, sendToServer: boolean) {
     if (isTillEndOfTurn) {
       this.tempBaseDamage += DMGToGain
-    } else { this.baseDamage += DMGToGain; }
+    } else {
+      this.baseDamage += DMGToGain;
+
+    }
+    this.calculateDamage()
     const serverData = {
       signal: Signal.PLAYER_GAIN_DMG,
       srvData: { playerId: this.playerId, DMGToGain: DMGToGain, isTemp: isTillEndOfTurn },
@@ -1032,7 +1076,7 @@ export default class Player extends cc.Component {
     if (collector != null && !(collector instanceof MultiEffectChoose)) {
       hasLockingEffect = true;
     } else { hasLockingEffect = false; }
-    await DecisionMarker.$.showDecision(this.character, card, true)
+    //await DecisionMarker.$.showDecision(this.character, card, true)
     const activateItem = new ActivateItem(this.character.getComponent(Card)._cardId, hasLockingEffect, card, this.character, false)
     await Stack.addToStack(activateItem, true)
 
@@ -1048,7 +1092,9 @@ export default class Player extends cc.Component {
       srvData: { playerId: id, cardId: cardWithSoul.getComponent(Card)._cardId },
     };
     if (sendToServer) {
+      cc.error(`move card to`)
       await CardManager.moveCardTo(cardWithSoul, this.soulsLayout, true, true)
+      cc.error(`after move card to`)
       cardWithSoul.setParent(this.soulsLayout)
       cardWithSoul.setPosition(0, 0)
       ServerClient.$.send(serverData.signal, serverData.srvData)
@@ -1148,7 +1194,7 @@ export default class Player extends cc.Component {
 
   setDesk(desk: cc.Node) {
     this.desk = desk.getComponent(PlayerDesk);
-    const characterLayout = this.desk.node.getChildByName("CharacterLayout");
+    const characterLayout = this.desk.soulsLayout;
     this.soulsLayout = characterLayout;
     this.desk._playerId = this.playerId
     this.desk.name = "Desk " + this.playerId
@@ -1169,15 +1215,18 @@ export default class Player extends cc.Component {
   calculateReactions() {
     this.reactCardNode = [];
 
-    for (let i = 0; i < this.activeItems.length; i++) {
-      const activeItem = this.activeItems[i].getComponent(Item);
-      const cardEffectComp = activeItem.node.getComponent(CardEffect);
+    const reactableItems = [...this.activeItems, ...this.paidItems]
+
+    for (let i = 0; i < reactableItems.length; i++) {
+      const reactableItem = reactableItems[i].getComponent(Item);
+      const cardEffectComp = reactableItem.node.getComponent(CardEffect);
       try {
-        if (!activeItem.activated && cardEffectComp.testEffectsPreConditions()) {
-          this.reactCardNode.push(activeItem.node);
+        if (this.paidItems.includes(reactableItem.node) && cardEffectComp.testEffectsPreConditions(false)) {
+          this.reactCardNode.push(reactableItem.node);
+        } else if (!reactableItem.needsRecharge && cardEffectComp.testEffectsPreConditions(false)) {
+          this.reactCardNode.push(reactableItem.node);
         }
       } catch (error) {
-        cc.error(error)
         Logger.error(error)
       }
     }
@@ -1193,28 +1242,20 @@ export default class Player extends cc.Component {
   showAvailableReactions() {
     for (let i = 0; i < this.reactCardNode.length; i++) {
       const card = this.reactCardNode[i];
-      const s = cc.sequence(
-        cc.fadeTo(0.5, 255 / 2),
-        cc.fadeTo(0.5, 255),
-        cc.fadeTo(0.5, 255 / 2),
-        cc.fadeTo(0.5, 255),
-      );
-      s.setTag(12);
-      card.runAction(s.repeatForever());
+      AnimationManager.$.showAnimation(card, ANIM_COLORS.BLUE)
     }
+    ServerClient.$.send(Signal.SHOW_REACTIONS, { playerId: this.playerId, cardsIds: this.reactCardNode.map(card => card.getComponent(Card)._cardId) })
   }
 
   hideAvailableReactions() {
     for (let i = 0; i < this.reactCardNode.length; i++) {
       const card = this.reactCardNode[i];
-      card.stopActionByTag(12)
-      card.runAction(cc.fadeTo(0.5, 255));
+      AnimationManager.$.endAnimation(card)
     }
+    ServerClient.$.send(Signal.HIDE_REACTIONS, { playerId: this.playerId, cardsIds: this.reactCardNode.map(card => card.getComponent(Card)._cardId) })
   }
 
   skipButtonClicked(event: cc.Event, askingPlayerId: number) {
-    cc.log(event)
-    cc.log(askingPlayerId)
     this.respondWithNoAction(askingPlayerId)
   }
 
@@ -1228,6 +1269,7 @@ export default class Player extends cc.Component {
 
       this._responseTimeout = null;
     }
+    AnnouncementLable.$.hideTimer(true)
     whevent.emit(GAME_EVENTS.PLAYER_CARD_NOT_ACTIVATED)
     ButtonManager.enableButton(ButtonManager.$.skipButton, BUTTON_STATE.DISABLED)
     // cc.find('Canvas/SkipButton').off(cc.Node.EventType.TOUCH_START)
@@ -1239,7 +1281,7 @@ export default class Player extends cc.Component {
   _inGetResponse: boolean = false;
 
   @property
-  _responseTimeout: NodeJS.Timeout = null;
+  _responseTimeout = null;
 
   async getResponse(askingPlayerId: number) {
     if (askingPlayerId == -1) {
@@ -1275,6 +1317,7 @@ export default class Player extends cc.Component {
       }
       const blockReactions = this.respondWithNoAction.bind(this)
       // if time is out send a no reaction taken message
+      AnnouncementLable.$.showTimer(TIME_TO_REACT_ON_ACTION, true)
       this._responseTimeout = setTimeout(
         blockReactions,
         TIME_TO_REACT_ON_ACTION * 1000,
@@ -1282,13 +1325,14 @@ export default class Player extends cc.Component {
       );
       // make skip btn skip and respond to the asking player that you didnt do anything
       ButtonManager.enableButton(ButtonManager.$.skipButton, BUTTON_STATE.SKIP_SKIP_RESPONSE, [this._responseTimeout, this, askingPlayerId])
-      this.showAvailableReactions();
       for (let i = 0; i < this.reactCardNode.length; i++) {
         const card = this.reactCardNode[i];
         CardManager.disableCardActions(card);
         CardManager.makeCardReactable(card, this.node);
       }
+      this.showAvailableReactions();
       const activatedCard = await this.waitForCardActivation();
+      AnnouncementLable.$.hideTimer(true)
       ButtonManager.enableButton(ButtonManager.$.skipButton, BUTTON_STATE.DISABLED)
       if (!activatedCard) { return false }
       if (activatedCard != null) {
@@ -1329,44 +1373,46 @@ export default class Player extends cc.Component {
   }
 
   async setCharacter(character: cc.Node, characterItem: cc.Node, sendToServer: boolean) {
-    const characterPlace = this.desk.node.getChildByName("CharacterPlace");
-    const itemPlace = this.desk.node.getChildByName("CharacterItem");
-    this.soulsLayout = this.desk.node.getChildByName("SoulsLayout");
+    const characterPlace = this.desk.characterCard
+    const itemPlace = this.desk.characterItemCard
+    this.soulsLayout = this.desk.soulsLayout
 
     character.removeFromParent()
     // characterPlace.addChild(character)
     character.setParent(characterPlace);
     character.setPosition(0, 0)
 
+    characterPlace.removeComponent(cc.Sprite)
+
     characterItem.setParent(itemPlace)
     characterItem.setPosition(0, 0)
 
-    this._Hp = character.getComponent(Character).Hp;
+
+    itemPlace.removeComponent(cc.Sprite)
+
+    character.getComponent(Character).player = this
+
+    this._Hp = character.getComponent(Character).hp;
     this.damage = character.getComponent(Character).damage;
+    this.calculateDamage()
     this.character = character;
     this.characterItem = characterItem;
     this.cards.push(character, characterItem);
     this.activeItems.push(character);
-    if (
-      characterItem.getComponent(Item).type == ITEM_TYPE.ACTIVE ||
-      characterItem.getComponent(Item).type == ITEM_TYPE.BOTH
-    ) {
-      this.activeItems.push(characterItem);
-    } else {
-      this.passiveItems.push(characterItem);
-    }
+    await this.addItemByType(characterItem, sendToServer);
 
-    if ((characterItem.getComponent(Item).type == ITEM_TYPE.PASSIVE || characterItem.getComponent(Item).type == ITEM_TYPE.BOTH) && sendToServer) {
-      await PassiveManager.registerPassiveItem(characterItem, sendToServer);
+
+    if (sendToServer) {
+      ServerClient.$.send(Signal.ASSIGN_CHAR_TO_PLAYER, { playerId: this.playerId, charCardId: character.getComponent(Card)._cardId, itemCardId: characterItem.getComponent(Card)._cardId })
+
+    }
+    if ((characterItem.getComponent(Item).type == ITEM_TYPE.PASSIVE || characterItem.getComponent(Item).type == ITEM_TYPE.ACTIVE_AND_PASSIVE || characterItem.getComponent(Item).type == ITEM_TYPE.PASSIVE_AND_PAID) && sendToServer) {
+
       const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_ADD_ITEM, [characterItem], null, this.node)
       if (this.node == PlayerManager.mePlayer) {
         passiveMeta.result = true
         passiveMeta.result = await PassiveManager.testForPassiveAfter(passiveMeta)
       }
-    }
-    if (sendToServer) {
-      ServerClient.$.send(Signal.ASSIGN_CHAR_TO_PLAYER, { playerId: this.playerId, charCardId: character.getComponent(Card)._cardId, itemCardId: characterItem.getComponent(Card)._cardId })
-
     }
 
 
@@ -1375,6 +1421,43 @@ export default class Player extends cc.Component {
 
   @property
   me: boolean = false;
+
+  async addItemByType(characterItem: cc.Node, sendToServer: boolean) {
+    switch (characterItem.getComponent(Item).type) {
+      case ITEM_TYPE.ACTIVE:
+        this.activeItems.push(characterItem);
+        break;
+      case ITEM_TYPE.PASSIVE:
+        this.passiveItems.push(characterItem);
+        await PassiveManager.registerPassiveItem(characterItem, sendToServer);
+        break;
+      case ITEM_TYPE.PAID:
+        this.paidItems.push(characterItem);
+        break;
+      case ITEM_TYPE.ACTIVE_AND_PASSIVE:
+        this.passiveItems.push(characterItem);
+        this.activeItems.push(characterItem);
+        await PassiveManager.registerPassiveItem(characterItem, sendToServer);
+        break;
+      case ITEM_TYPE.ACTIVE_AND_PAID:
+        this.activeItems.push(characterItem);
+        this.paidItems.push(characterItem);
+        break;
+      case ITEM_TYPE.PASSIVE_AND_PAID:
+        this.passiveItems.push(characterItem);
+        this.paidItems.push(characterItem);
+        await PassiveManager.registerPassiveItem(characterItem, sendToServer);
+        break;
+      case ITEM_TYPE.ALL:
+        this.activeItems.push(characterItem);
+        this.passiveItems.push(characterItem);
+        await PassiveManager.registerPassiveItem(characterItem, sendToServer);
+        this.paidItems.push(characterItem);
+        break;
+      default:
+        break;
+    }
+  }
 
   // LIFE-CYCLE CALLBACKS:
 

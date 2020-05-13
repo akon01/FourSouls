@@ -14,8 +14,11 @@ const { ccclass, property } = cc._decorator;
 export default class AddAttackOpportunity extends Effect {
   effectName = "AddAttackOpportunity";
 
-  @property(Number)
+  @property(cc.Integer)
   numOfTimes: number = 0;
+
+  @property
+  isOnlyMonsterDeck: boolean = false;
 
 
   /**
@@ -30,12 +33,16 @@ export default class AddAttackOpportunity extends Effect {
       cc.log(`target player is null`)
     } else {
       let player: Player = PlayerManager.getPlayerByCard(targetPlayerCard as cc.Node)
-      player.attackPlays += this.numOfTimes
-      TurnsManager.currentTurn.attackPlays = player.attackPlays;
+      if (!this.isOnlyMonsterDeck) {
+        player.attackPlays += this.numOfTimes
+        TurnsManager.currentTurn.attackPlays = player.attackPlays;
+      } else {
+        TurnsManager.currentTurn.monsterDeckAttackPlays += this.numOfTimes;
+      }
     }
 
 
-    if (data instanceof PassiveEffectData) return data
+    if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack
   }
 

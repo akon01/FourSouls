@@ -23,6 +23,8 @@ export default interface ServerStackEffectInterface {
 
     stackEffectType: STACK_EFFECT_TYPE;
 
+    lable: string
+
     convertToStackEffect();
 
 }

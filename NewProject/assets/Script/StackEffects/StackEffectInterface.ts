@@ -1,5 +1,3 @@
-
-import { resolve } from "url";
 import { STACK_EFFECT_TYPE } from "../Constants";
 import { StackEffectVisualRepresentation } from "./StackEffectVisualRepresentation/Stack Vis Interface";
 
@@ -33,6 +31,12 @@ export default interface StackEffectInterface {
     creationTurnId: number
     nonOriginal: boolean;
 
+    previewId: number
+
+    name: string;
+
+    setLable(text: string, sendToServer: boolean)
+
 
 
     resolve()
@@ -42,6 +46,8 @@ export default interface StackEffectInterface {
     convertToServerStackEffect();
 
     checkForFizzle()
+
+    fizzleThis();
 
 }
 

@@ -20,6 +20,7 @@ export default class ServerAttackRoll implements ServerStackEffectInterface {
     stackEffectType: import("../../Constants").STACK_EFFECT_TYPE;
     rollingPlayerCardId: number
     numberRolled: number
+    lable: string
     attackedMonsterCardId: number
 
     constructor(stackEffect: AttackRoll) {
@@ -29,12 +30,13 @@ export default class ServerAttackRoll implements ServerStackEffectInterface {
         this.rollingPlayerCardId = stackEffect.rollingPlayer.character.getComponent(Card)._cardId
         this.stackEffectType = stackEffect.stackEffectType;
         this.attackedMonsterCardId = stackEffect.attackedMonster.node.getComponent(Card)._cardId
+        this.lable = stackEffect._lable
     }
 
 
 
     convertToStackEffect() {
-        let rollDice = new AttackRoll(this.creatorCardId, PlayerManager.getPlayerByCardId(this.rollingPlayerCardId).node, CardManager.getCardById(this.attackedMonsterCardId))
+        let rollDice = new AttackRoll(this.creatorCardId, PlayerManager.getPlayerByCardId(this.rollingPlayerCardId).node, CardManager.getCardById(this.attackedMonsterCardId), this.entityId, this.lable)
         rollDice.numberRolled = this.numberRolled;
         return rollDice;
     }

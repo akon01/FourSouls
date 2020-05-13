@@ -13,7 +13,7 @@ const { ccclass, property } = cc._decorator;
 export default class AddPlayLootOpportunity extends Effect {
   effectName = "AddPlayLootOpportunity";
 
-  @property(Number)
+  @property(cc.Integer)
   numOfTimes: number = 0;
 
   /**

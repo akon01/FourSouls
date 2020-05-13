@@ -16,6 +16,8 @@ import Card from "./GameEntities/Card";
 import Player from "./GameEntities/Player";
 import { Logger } from "./Logger";
 import DecisionMarker from "./Decision Marker";
+import { whevent } from "../../ServerClient/whevent";
+import AnnouncementLable from "../LableScripts/Announcement Lable";
 
 const { ccclass, property } = cc._decorator;
 
@@ -37,6 +39,8 @@ export default class Stack extends cc.Component {
     static hasStackEffectResolvedAtAnotherPlayer: boolean = false;
 
     static newStack = null;
+
+    static delaydShowStackEffect: number = -1;
 
     static getNextStackEffectId() {
         ServerClient.$.send(Signal.NEXT_STACK_ID)
@@ -82,17 +86,35 @@ export default class Stack extends cc.Component {
 
     }
 
-    static addToCurrentStackEffectResolving(stackEffectToAdd: StackEffectInterface, sendToServer: boolean) {
-        this._currentStackEffectsResolving.push(stackEffectToAdd.entityId)
-        if (sendToServer) {
-            ServerClient.$.send(Signal.ADD_RESOLVING_STACK_EFFECT, { stackEffect: stackEffectToAdd.convertToServerStackEffect() })
+    static setToCurrentStackEffectResolving(stackEffectsToSet: StackEffectInterface[], sendToServer: boolean) {
+        this._currentStackEffectsResolving = []
+        if (Array.isArray(stackEffectsToSet)) {
+            stackEffectsToSet.forEach(se => { if (se != null && se != undefined) this._currentStackEffectsResolving.push(se.entityId) })
+            cc.error(`after set current stack effects resolving`, this._currentStackEffectsResolving)
+            if (sendToServer) {
+                ServerClient.$.send(Signal.UPDATE_RESOLVING_STACK_EFFECTS, { stackEffects: this._currentStack.filter(se => this._currentStackEffectsResolving.includes(se.entityId)).map(see => see.convertToServerStackEffect()) })
+            }
+        } else {
+            throw new Error(`Set Current Stack Effect Resolving has failed, stackEffectsToSet are not an array`)
         }
     }
 
-    static removeFromCurrentStackEffectResolving(stackEffectToAdd: StackEffectInterface, sendToServer: boolean) {
-        this._currentStackEffectsResolving.splice(this._currentStackEffectsResolving.indexOf(stackEffectToAdd.entityId))
+
+    static addToCurrentStackEffectResolving(stackEffectToAdd: StackEffectInterface, sendToServer: boolean) {
+        this._currentStackEffectsResolving.push(stackEffectToAdd.entityId)
+        cc.error(`after add current stack effects resolving`, this._currentStackEffectsResolving)
         if (sendToServer) {
-            ServerClient.$.send(Signal.REMOVE_RESOLVING_STACK_EFFECT, { stackEffect: stackEffectToAdd.convertToServerStackEffect() })
+            ServerClient.$.send(Signal.UPDATE_RESOLVING_STACK_EFFECTS, { stackEffects: this._currentStack.filter(se => this._currentStackEffectsResolving.includes(se.entityId)).map(see => see.convertToServerStackEffect()) })
+        }
+    }
+
+    static removeFromCurrentStackEffectResolving(stackEffectToRemoveId: number, sendToServer: boolean) {
+        if (this._currentStackEffectsResolving.includes(stackEffectToRemoveId)) {
+            this._currentStackEffectsResolving.splice(this._currentStackEffectsResolving.indexOf(stackEffectToRemoveId))
+            cc.error(`after remove current stack effects resolving`, this._currentStackEffectsResolving)
+            if (sendToServer) {
+                ServerClient.$.send(Signal.UPDATE_RESOLVING_STACK_EFFECTS, { stackEffects: this._currentStack.filter(se => this._currentStackEffectsResolving.includes(se.entityId)).map(see => see.convertToServerStackEffect()) })
+            }
         }
     }
 
@@ -107,30 +129,30 @@ export default class Stack extends cc.Component {
         //cc.error(`do ${stackEffect.constructor.name} ${stackEffect.entityId} from top`)
         let amId
         if (sendToServer) {
-            amId = ActionLable.$.publishMassage(`Resolve ${stackEffect.constructor.name} ${stackEffect.entityId} `, 0)
+            amId = ActionLable.$.publishMassage(`Resolve ${stackEffect.name} ${stackEffect.entityId} `, 0)
         }
         if (mePlayer.character.getComponent(Card)._cardId == stackEffect.creatorCardId || (PlayerManager.getPlayerByCardId(stackEffect.creatorCardId) == null)) {
             // if a StackEffect is in its resolve function (should be true only if the StackEffect has locking effect.)
             if ((!this._currentStackEffectsResolving.includes(stackEffect.entityId))) {
                 //    this.isInResolvePhase = true;
-                this._currentStackEffectsResolving.push(stackEffect.entityId);
+
+                this.addToCurrentStackEffectResolving(stackEffect, true)
+
                 let newStack
                 try {
                     newStack = await stackEffect.resolve()
-                    cc.log(stackEffect)
                     if (!stackEffect.checkForFizzle()) {
                         ServerClient.$.send(Signal.UPDATE_STACK_EFFECT, { stackEffect: stackEffect.convertToServerStackEffect() })
                     } else {
-                        cc.log(`${stackEffect.constructor.name} ${stackEffect.entityId} has been fizzled`)
+                        cc.log(`${stackEffect.name} ${stackEffect.entityId} has been fizzled`)
                     }
                 } catch (error) {
-                    cc.error(`error while resolving stack effect ${stackEffect.toString()}`)
-                    cc.error(error)
-                    Logger.error(`error while resolving stack effect ${stackEffect.entityId}`)
+                    Logger.error(`error while resolving stack effect ${stackEffect.name} ${stackEffect.entityId}`)
                     Logger.error(error)
                 }
                 // cc.error(`b4 removing ${stackEffect.constructor.name} ${stackEffect.entityId} from currentStackEffectResolving`)
-                this._currentStackEffectsResolving.splice(this._currentStackEffectsResolving.indexOf(stackEffect.entityId));
+                Stack.removeFromCurrentStackEffectResolving(stackEffect.entityId, true)
+
                 if (sendToServer) {
                     ActionLable.$.removeMessage(amId, true)
                     await this.removeAfterResolve(stackEffect, sendToServer)
@@ -146,11 +168,15 @@ export default class Stack extends cc.Component {
         } else {
             const stackEffectPlayer = PlayerManager.getPlayerByCardId(stackEffect.creatorCardId)
             const serverStack = this._currentStack.map(stackEffect => stackEffect.convertToServerStackEffect())
+            // if (sendToServer) {
+            //     this.addToCurrentStackEffectResolving(stackEffect, true)
+            // }
             ServerClient.$.send(Signal.DO_STACK_EFFECT, { originPlayerId: mePlayer.playerId, playerId: stackEffectPlayer.playerId, currentStack: serverStack })
             const newStack = await this.waitForStackEffectResolve();
             ActionLable.$.removeMessage(amId, true)
             await this.replaceStack(newStack, sendToServer)
             if (sendToServer) {
+                Stack.removeFromCurrentStackEffectResolving(stackEffect.entityId, true)
                 const stackEffectToRemove = Stack._currentStack.find(effect => effect.entityId == stackEffect.entityId)
 
                 // await this.removeFromTopOfStack(sendToServer)
@@ -159,7 +185,7 @@ export default class Stack extends cc.Component {
                  * Test Use next Stack Effect to Be Resolved To Send A New Signal To The next stackEffectPlayer To Remove and continue the loop,
                  * should keep the needed data at the correct player
                  */
-
+                cc.error(`remove ${stackEffectToRemove.entityId} after resolve at other player`)
                 await this.removeAfterResolve(stackEffectToRemove, sendToServer)
             } else {
                 return newStack;
@@ -182,10 +208,13 @@ export default class Stack extends cc.Component {
         }
 
         await stackEffectToAdd.putOnStack()
-        cc.log(stackEffectToAdd)
-        ServerClient.$.send(Signal.UPDATE_STACK_EFFECT, { stackEffect: stackEffectToAdd.convertToServerStackEffect() })
+        //  StackEffectVisManager.$.addPreview(stackEffectToAdd, true)
+        this.replaceStack(newStack, true)
+        DecisionMarker.$.setStackIcon(StackEffectVisManager.$.stackIcons[0], true)
+        this.delaydShowStackEffect = stackEffectToAdd.entityId
+        //    await DecisionMarker.$.showStackEffect(stackEffectToAdd.entityId, true)
+        //   ServerClient.$.send(Signal.UPDATE_STACK_EFFECT, { stackEffect: stackEffectToAdd.convertToServerStackEffect() })
         //   StackEffectVisManager.$.addPreview(stackEffectToAdd)
-        await this.replaceStack(newStack, true)
     }
 
     static async addToStackAbove(stackEffectToAdd: StackEffectInterface) {
@@ -194,11 +223,12 @@ export default class Stack extends cc.Component {
             await this.addToStack(stackEffectToAdd, true)
         } else {
             this._currentStack.push(stackEffectToAdd)
-            await stackEffectToAdd.putOnStack()
-            cc.log(stackEffectToAdd)
-            ServerClient.$.send(Signal.UPDATE_STACK_EFFECT, { stackEffect: stackEffectToAdd.convertToServerStackEffect() })
-            //     StackEffectVisManager.$.addPreview(stackEffectToAdd)
             await this.replaceStack(this._currentStack, true)
+            StackEffectVisManager.$.addPreview(stackEffectToAdd, true)
+            DecisionMarker.$.setStackIcon(StackEffectVisManager.$.stackIcons[0], true)
+            this.delaydShowStackEffect = stackEffectToAdd.entityId
+            //await DecisionMarker.$.showStackEffect(stackEffectToAdd.entityId, true)
+            await stackEffectToAdd.putOnStack()
         }
         // await ActionManager.updateActions()
     }
@@ -213,7 +243,6 @@ export default class Stack extends cc.Component {
             try {
                 this.hasOtherPlayerRespond = await playerToSendTo.getResponse(playerToSendTo.playerId)
             } catch (error) {
-                cc.error(error)
                 Logger.error(error)
             }
         } else {
@@ -241,15 +270,15 @@ export default class Stack extends cc.Component {
         if (sendToServer) {
             ServerClient.$.send(Signal.ADD_TO_STACK, { stackEffect: stackEffect.convertToServerStackEffect() })
             StackEffectVisManager.$.addPreview(stackEffect, true)
-            DecisionMarker.$.setStackIcon(StackEffectVisManager.$.stackIcons[0])
-            await DecisionMarker.$.showStackEffect(stackEffect.entityId)
+            DecisionMarker.$.setStackIcon(StackEffectVisManager.$.stackIcons[0], true)
+            await DecisionMarker.$.showStackEffect(stackEffect.entityId, true)
         }
 
         if (sendToServer) {
 
             //disable all card actions until the stack ends
 
-            const amId = ActionLable.$.publishMassage(`Add ${stackEffect.constructor.name} ${stackEffect.entityId} `, 0)
+            const amId = ActionLable.$.publishMassage(`Add ${stackEffect.name} ${stackEffect.entityId} `, 0)
             const otherPlayer = PlayerManager.getPlayerByCardId(stackEffect.creatorCardId)
             if (stackEffect.creatorCardId != PlayerManager.mePlayer.getComponent(Player).character.getComponent(Card)._cardId && otherPlayer != null) {
                 ServerClient.$.send(Signal.PUT_ON_STACK, { stackEffect: stackEffect.convertToServerStackEffect(), playerId: otherPlayer.playerId, originPlayerId: PlayerManager.mePlayer.getComponent(Player).playerId })
@@ -262,7 +291,7 @@ export default class Stack extends cc.Component {
             // const serverStackEffect: ServerStackEffectInterface = stackEffect.convertToServerStackEffect()
             // ServerClient.$.send(Signal.ADD_TO_STACK, { stackEffect: serverStackEffect })
             // do check for responses.
-            const amId2 = ActionLable.$.publishMassage(`Response Adding ${stackEffect.constructor.name} ${stackEffect.entityId}`, 0, true, amId)
+            const amId2 = ActionLable.$.publishMassage(`Response Adding ${stackEffect.name} ${stackEffect.entityId}`, 0, true, amId)
             this.hasAnyoneResponded = await this.startResponseCheck(amId)
             //   cc.error(`after Response Check For Adding ${stackEffect.constructor.name} ${stackEffect.entityId}`)
             ActionLable.$.removeMessage(amId2, true)
@@ -286,77 +315,51 @@ export default class Stack extends cc.Component {
             if (effect != stackEffect) { return true; }
         })
         if (this._currentStack.length == 0) { whevent.emit(GAME_EVENTS.STACK_EMPTIED) }
-        this._currentStackEffectsResolving = this._currentStackEffectsResolving.filter(effect => {
-            if (effect != stackEffect.entityId) { return true; }
-        })
         if (sendToServer) {
-            StackEffectVisManager.$.removePreview(stackEffect, true)
-            ActionLable.$.publishMassage(`Fizzle ${stackEffect.constructor.name} ${stackEffect.entityId}`, 3)
-            if (stackEffect instanceof PlayLootCardStackEffect) {
-                PileManager.removeFromPile(stackEffect.lootToPlay, true)
-                await PileManager.addCardToPile(CARD_TYPE.LOOT, stackEffect.lootToPlay, true)
-            }
+            cc.error(`remove from resolving fizzle`)
+            this.removeFromCurrentStackEffectResolving(stackEffect.entityId, true)
+            StackEffectVisManager.$.removePreview(stackEffect.entityId, true)
+            ActionLable.$.publishMassage(`Fizzle ${stackEffect.name} ${stackEffect.entityId}`, 3)
+            AnnouncementLable.$.showAnnouncement(`${stackEffect.name} ${stackEffect.entityId} Was Fizzled`, 2, true)
+            stackEffect.fizzleThis()
+            // if (stackEffect instanceof PlayLootCardStackEffect) { 
+            //     PileManager.removeFromPile(stackEffect.lootToPlay, true)
+            //     await PileManager.addCardToPile(CARD_TYPE.LOOT, stackEffect.lootToPlay, true)
+            // }
+
             ServerClient.$.send(Signal.FIZZLE_STACK_EFFECT, { entityId: stackEffect.entityId })
+            if (this.delaydShowStackEffect != -1) {
+                await DecisionMarker.$.showStackEffect(this.delaydShowStackEffect, true)
+                this.delaydShowStackEffect = -1;
+            }
         }
         // throw `implement fizzle stack effect`
     }
 
-    static async removeFromTopOfStack(sendToServer: boolean) {
-        const lastOfStack = this._currentStack.pop();
-        if (sendToServer) {
-            StackEffectVisManager.$.removePreview(lastOfStack, true)
-            const amId = ActionLable.$.publishMassage(`Remove ${lastOfStack.constructor.name} ${lastOfStack.entityId}`, 3)
-            ServerClient.$.send(Signal.REMOVE_FROM_STACK)
-            const amId2 = ActionLable.$.publishMassage(`Response Removing ${lastOfStack.constructor.name} ${lastOfStack.entityId}`, 0, true, amId)
-            this.hasAnyoneResponded = await this.startResponseCheck(amId)
-            ActionLable.$.removeMessage(amId2, true)
-            if (this.hasAnyoneResponded) {
-                this.hasAnyoneResponded = false
-                return;
-            } else {
-                if (this._currentStack.length > 0) {
-                    await this.doStackEffectFromTop(sendToServer)
-                } else {
-                    ActionLable.$.publishMassage(`Stack Was Emptied `, 1.5)
-                    whevent.emit(GAME_EVENTS.STACK_EMPTIED)
-                    if (PlayerManager.mePlayer.getComponent(Player) != TurnsManager.currentTurn.getTurnPlayer()) {
-                        ServerClient.$.send(Signal.TURN_PLAYER_DO_STACK_EFFECT, { playerId: TurnsManager.currentTurn.getTurnPlayer().playerId })
-                    } else {
-                        await ActionManager.updateActions()
-                    }
-                    // when there are no more stack effects to do
-                    // TODO give turn player control. (update his actions)
-                }
-            }
-        } else {
-            await ActionManager.updateActions()
-        }
-        //  cc.log(`update actions after removal of stack effect`)
-    }
 
     static hasAnyoneResponded: boolean = false;
 
     static async removeAfterResolve(stackEffectToRemove: StackEffectInterface, sendToServer: boolean) {
 
-
-        // cc.error(`remove ${stackEffectToRemove.constructor.name} ${stackEffectToRemove.entityId} after resolve`)
-        //    cc.log(`remove stack effect:\n${stackEffectToRemove.toString()}`)
-        //  cc.log(`current stack:\n${Stack._currentStack.map(effect => effect.toString())}`)
         if (stackEffectToRemove != null && Stack._currentStack.map(effect => effect.entityId).includes(stackEffectToRemove.entityId)) {
             const lastOfStack = Stack._currentStack.find((effect) => effect.entityId == stackEffectToRemove.entityId);
-            const index = Stack._currentStack.indexOf(lastOfStack)
+            const index = Stack._currentStack.indexOf(stackEffectToRemove)
             //    cc.log(`index of the stack effect in current stack is ${index}`)
             if (sendToServer) {
-                DecisionMarker.$.setStackIcon(StackEffectVisManager.$.stackIcons[1])
-                await DecisionMarker.$.showStackEffect(stackEffectToRemove.entityId)
-                StackEffectVisManager.$.removePreview(lastOfStack, true)
+                DecisionMarker.$.setStackIcon(StackEffectVisManager.$.stackIcons[1], true)
+                await DecisionMarker.$.showStackEffect(stackEffectToRemove.entityId, true)
+                StackEffectVisManager.$.removePreview(stackEffectToRemove.entityId, true)
+                if (this.delaydShowStackEffect != -1) {
+                    await DecisionMarker.$.showStackEffect(this.delaydShowStackEffect, true)
+                    this.delaydShowStackEffect = -1;
+                }
             }
             //  cc.log(`current stack after removal:\n${Stack._currentStack.map(effect => effect.toString())}`)
             Stack._currentStack.splice(index, 1)
             if (sendToServer) {
-                const amId = ActionLable.$.publishMassage(`Remove After Resolve ${lastOfStack.constructor.name} ${lastOfStack.entityId}  `, 3)
-                ServerClient.$.send(Signal.REMOVE_FROM_STACK, { stackEffect: lastOfStack.convertToServerStackEffect() })
-                const amId2 = ActionLable.$.publishMassage(`Response Remove After Resolve ${lastOfStack.constructor.name} ${lastOfStack.entityId}`, 0, true, amId)
+                const amId = ActionLable.$.publishMassage(`Remove After Resolve ${stackEffectToRemove.name} ${stackEffectToRemove.entityId}  `, 3)
+                ServerClient.$.send(Signal.REMOVE_FROM_STACK, { stackEffect: stackEffectToRemove.convertToServerStackEffect() })
+                const amId2 = ActionLable.$.publishMassage(`Response Remove After Resolve ${stackEffectToRemove.name} ${stackEffectToRemove.entityId}`, 0, true, amId)
                 this.hasAnyoneResponded = await this.startResponseCheck(amId)
                 ActionLable.$.removeMessage(amId2, true)
                 if (this.hasAnyoneResponded) {
@@ -380,7 +383,7 @@ export default class Stack extends cc.Component {
             } else {
                 await ActionManager.updateActions()
             }
-        } else {
+        } else if (sendToServer) {
             if (this._currentStack.length > 0) {
                 await this.doStackEffectFromTop(sendToServer)
             } else {
@@ -401,13 +404,13 @@ export default class Stack extends cc.Component {
 
     static replaceStack(newStack: StackEffectConcrete[], sendToServer: boolean) {
 
-        let continu = true;
+        let toContinue = true;
         newStack.forEach(effect => {
             if (!(effect instanceof StackEffectConcrete)) {
-                continu = false
+                toContinue = false
             }
         });
-        if (!continu) {
+        if (!toContinue) {
             Logger.error(newStack)
             throw new Error(`New Stack in Replace Stack is Not StackEffectConcrete`)
         }
@@ -415,20 +418,43 @@ export default class Stack extends cc.Component {
         this._currentStack = []
         if (Array.isArray(newStack)) {
 
-            this._currentStack = this._currentStack.concat(newStack);
+            this._currentStack = newStack;
+
+
         } else {
             this._currentStack.push(newStack)
         }
 
+
+
+
+
+
         if (this._currentStack.length == 0) { whevent.emit(GAME_EVENTS.STACK_EMPTIED) }
 
-        // StackEffectVisManager.$.clearPreviews()
-        // for (const stackEffect of this._currentStack) {
-        //     StackEffectVisManager.$.addPreview(stackEffect)
-        // }
-        // StackEffectVisManager.$.updateAvailablePreviews();
-
         if (sendToServer) {
+            let oldResolving = [...this._currentStackEffectsResolving]
+            cc.error(this._currentStack.map(se => se.entityId))
+
+            oldResolving.forEach(stackEffectId => {
+                if (!this._currentStack.map(stackEffect => stackEffect.entityId).includes(stackEffectId)) {
+                    cc.error(`remove from current stack effect resolving ${stackEffectId}`)
+                    this.removeFromCurrentStackEffectResolving(stackEffectId, false)
+                }
+            });
+
+            oldResolving = [...this._currentStackEffectsResolving]
+            this._currentStack.forEach(stackEffect => {
+                if (oldResolving.includes(stackEffect.entityId)) {
+                    cc.error(`remove from current stack effect resolving b4 re-adding ${stackEffect.entityId}`)
+                    this.removeFromCurrentStackEffectResolving(stackEffect.entityId, false)
+                    cc.error(`re-add to current stack effect resolving ${stackEffect.entityId}`)
+                    this.addToCurrentStackEffectResolving(stackEffect, false)
+                } else {
+                    cc.error(`current resolving stack ${this._currentStackEffectsResolving} doesnt icnlude ${stackEffect.entityId},do not re add him`)
+                }
+            });
+
             StackEffectVisManager.$.setPreviews(this._currentStack, true)
             const serverStack = this._currentStack.map(stackEffect => stackEffect.convertToServerStackEffect())
             ServerClient.$.send(Signal.REPLACE_STACK, { currentStack: serverStack })
@@ -474,7 +500,6 @@ export default class Stack extends cc.Component {
     onLoad() {
         Stack.$ = this
         whevent.on(GAME_EVENTS.STACK_EMPTIED, async () => {
-            cc.log(`on stack Emptied`)
             await this.onStackEmptied()
         }, this)
     }
@@ -482,11 +507,14 @@ export default class Stack extends cc.Component {
     async onStackEmptied() {
         cc.log(`Stack emptied`)
         if (TurnsManager.currentTurn.getTurnPlayer().me) {
+            await ActionManager.updateActions();
+            StackEffectVisManager.$.clearPreviews(true)
             if ((TurnsManager.currentTurn.getTurnPlayer()._endTurnFlag || TurnsManager.currentTurn.getTurnPlayer()._isDead) && TurnsManager.currentTurn.getTurnPlayer().me) {
                 await TurnsManager.currentTurn.getTurnPlayer().endTurn(true)
                 //TurnsManager.currentTurn.getTurnPlayer()._endTurnFlag = true
             }
         } else {
+            await ActionManager.updateActions();
             ServerClient.$.send(Signal.STACK_EMPTIED, { playerId: TurnsManager.currentTurn.getTurnPlayer().playerId })
         }
     }

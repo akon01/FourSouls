@@ -20,6 +20,7 @@ export default class ServerActivateItem implements ServerStackEffectInterface {
     lockingStackEffect: ServerStackEffectInterface;
     LockingResolve: any;
     stackEffectType: STACK_EFFECT_TYPE;
+    lable: string
 
 
     itemPlayerId: number;
@@ -41,13 +42,14 @@ export default class ServerActivateItem implements ServerStackEffectInterface {
         }
         this.hasDataBeenCollectedYet = stackEffect.hasDataBeenCollectedYet;
         this.stackEffectType = stackEffect.stackEffectType;
+        this.lable = stackEffect._lable
     }
 
 
     convertToStackEffect() {
         let itemToActivate = CardManager.getCardById(this.itemToPlayCardId, true)
         const playerCharacterCard = PlayerManager.getPlayerById(this.itemPlayerId).character;
-        let activateItem = new ActivateItem(this.creatorCardId, this.hasLockingStackEffect, itemToActivate, playerCharacterCard, this.hasDataBeenCollectedYet)
+        let activateItem = new ActivateItem(this.creatorCardId, this.hasLockingStackEffect, itemToActivate, playerCharacterCard, this.hasDataBeenCollectedYet, this.entityId, this.lable)
         activateItem.LockingResolve = this.LockingResolve;
         if (this.effectToDoData != null) {
             activateItem.effectToDo = itemToActivate.getComponent(CardEffect).getEffectByNumAndType(this.effectToDoData.index, this.effectToDoData.type)

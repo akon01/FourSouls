@@ -5,6 +5,7 @@ import { PassiveMeta } from "../../Managers/PassiveManager";
 import PlayerManager from "../../Managers/PlayerManager";
 import Condition from "./Condition";
 import DataCollector from "../DataCollector/DataCollector";
+import Card from "../../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
@@ -24,7 +25,7 @@ export default class PlayerDeclareAttack extends Condition {
     cc.log(this.conditionData)
 
     let player: Player = meta.methodScope.getComponent(Player);
-    let thisCard = this.node.parent.parent;
+    const thisCard = Card.getCardNodeByChild(this.node)
     //   let playerName = PlayerManager.getPlayerByCardId(this.conditionData.cardChosenId).name; 
     let selectedPlayerCard = this.conditionData.getTarget(TARGETTYPE.PLAYER)
     if (selectedPlayerCard == null) {

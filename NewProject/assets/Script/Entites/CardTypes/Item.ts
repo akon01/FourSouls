@@ -16,13 +16,16 @@ export default class Item extends cc.Component {
   type: ITEM_TYPE = ITEM_TYPE.ACTIVE;
 
   @property
-  activated: boolean = false;
+  needsRecharge: boolean = false;
 
   @property
   eternal: boolean = false;
 
-  @property
+  @property({ visible: false })
   lastOwnedBy: Player = null
+
+  @property
+  isGuppyItem: boolean = false;
 
 
   rechargeItem(sendToServer: boolean) {
@@ -31,7 +34,7 @@ export default class Item extends cc.Component {
       ServerClient.$.send(Signal.RECHARGE_ITEM, { cardId: id })
     }
     this.node.runAction(cc.rotateTo(TIME_TO_ROTATE_ACTIVATION, 0));
-    this.activated = false;
+    this.needsRecharge = false;
     return true;
   }
 
@@ -41,7 +44,7 @@ export default class Item extends cc.Component {
     }
     this.node.runAction(cc.rotateTo(TIME_TO_ROTATE_ACTIVATION, -90));
     // }
-    this.activated = true;
+    this.needsRecharge = true;
   }
 
   // LIFE-CYCLE CALLBACKS:

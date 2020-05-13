@@ -5,6 +5,7 @@ import { PassiveMeta } from "../../Managers/PassiveManager";
 import Condition from "./Condition";
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "../DataCollector/DataCollector";
+import Card from "../../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,15 +21,17 @@ export default class PlayerPayPenalties extends Condition {
 
   async testCondition(meta: PassiveMeta) {
 
-    let player: Player = meta.methodScope.getComponent(Player);
-    let thisCard = this.node.parent.parent;
-    //   let playerName = PlayerManager.getPlayerByCardId(this.conditionData.cardChosenId).name; 
-    let selectedPlayerCard = this.conditionData.getTarget(TARGETTYPE.PLAYER)
+    const player: Player = meta.methodScope.getComponent(Player);
+    const thisCard = Card.getCardNodeByChild(this.node);
+    //   let playerName = PlayerManager.getPlayerByCardId(this.conditionData.cardChosenId).name;
+
+
+    const selectedPlayerCard = this.conditionData.getTarget(TARGETTYPE.PLAYER)
     if (selectedPlayerCard == null) {
-      cc.log('no selected player')
+      cc.log("no selected player")
     } else {
       if (selectedPlayerCard instanceof cc.Node) {
-        let selectedPlayer = PlayerManager.getPlayerByCard(selectedPlayerCard)
+        const selectedPlayer = PlayerManager.getPlayerByCard(selectedPlayerCard)
         if (
           player instanceof Player &&
           player.playerId == selectedPlayer.playerId

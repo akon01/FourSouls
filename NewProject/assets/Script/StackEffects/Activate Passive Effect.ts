@@ -20,10 +20,15 @@ import StackEffectInterface from "./StackEffectInterface";
 import { ActivatePassiveItemVis } from "./StackEffectVisualRepresentation/Activate Passive Item Vis";
 import StackEffectVisManager from "../Managers/StackEffectVisManager";
 import ChainEffects from "../CardEffectComponents/CardEffects/ChainEffects";
+import { whevent } from "../../ServerClient/whevent";
+import ServerClient from "../../ServerClient/ServerClient";
+import Signal from "../../Misc/Signal";
 
 export default class ActivatePassiveEffect extends StackEffectConcrete {
 
     visualRepesentation: ActivatePassiveItemVis;
+
+    name = `Activate Passive Effect`
 
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.ACTIVATE_PASSIVE_EFFECT;
     entityId: number;
@@ -35,11 +40,6 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
     lockingStackEffect: StackEffectInterface;
     LockingResolve: any;
     _lable: string;
-
-    set lable(text: string) {
-        this._lable = text
-        if (!this.nonOriginal) { whevent.emit(GAME_EVENTS.LABLE_CHANGE) }
-    }
 
     isToBeFizzled: boolean = false;
 
@@ -63,7 +63,7 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
     index: number = null;
     isAfterActivation: boolean = null
 
-    constructor(creatorCardId: number, hasLockingStackEffect: boolean, cardActivatorId: number, cardWithEffect: cc.Node, effectToDo: Effect, hasDataBeenCollectedYet: boolean, isAfterActivation: boolean, index?: number, entityId?: number) {
+    constructor(creatorCardId: number, hasLockingStackEffect: boolean, cardActivatorId: number, cardWithEffect: cc.Node, effectToDo: Effect, hasDataBeenCollectedYet: boolean, isAfterActivation: boolean, index?: number, entityId?: number, lable?: string) {
         super(creatorCardId, entityId)
         this.hasLockingStackEffect = hasLockingStackEffect;
         this.effectToDo = effectToDo;
@@ -71,17 +71,22 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
         if (this.hasLockingStackEffect) { this.hasLockingStackEffectResolved = false; }
         this.cardWithEffect = cardWithEffect;
         this.hasDataBeenCollectedYet = hasDataBeenCollectedYet;
-        this.visualRepesentation = new ActivatePassiveItemVis(cardWithEffect, this.cardWithEffect.getComponent(cc.Sprite))
-        //cc.log(`creating activate passive effect with index ${index}`)
+        this.visualRepesentation = new ActivatePassiveItemVis(cardWithEffect, this.cardWithEffect.getComponent(Card).cardSprite)
         this.index = index;
         this.isAfterActivation = isAfterActivation
+        let firstLable
         if (this.effectToDo) {
             const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
-            if (prev) {
+            if (prev && this.effectToDo.node) {
                 prev.addSelectedEffectHighlight(this.effectToDo.node)
             }
-            this.lable = `Activate ${this.cardWithEffect.name} effect ${this.effectToDo.name}`
-        } else { this.lable = `Activate ${this.cardWithEffect.name} ` }
+            firstLable = `Activate ${this.cardWithEffect.name} Effect ${this.effectToDo.name}`
+        } else { firstLable = `Activate ${this.cardWithEffect.name} ` }
+        if (lable) {
+            this.setLable(lable, false)
+        } else {
+            this.setLable(firstLable, false)
+        }
     }
 
     async putOnStack() {
@@ -96,12 +101,12 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
         } else {
             cardOwner = this.cardWithEffect
         }
-        let id: number = 0;
-        if (player) {
-            id = cardOwner.getComponent(Player).playerId
-        } else {
-            id = cardOwner.getComponent(Card)._cardId
-        }
+        let id: number = this.cardActivatorId;
+        // if (player) {
+        //     id = cardOwner.getComponent(Player).playerId
+        // } else {
+        //     id = cardOwner.getComponent(Card)._cardId
+        // }
         if (!this.effectToDo) {
             if (cardEffect.hasMultipleEffects) {
                 //if the card has multiple effects and the player needs to choose
@@ -109,7 +114,7 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
                     const effectChosen = await cardEffect.multiEffectCollector.collectData({ cardPlayed: this.cardWithEffect, cardPlayerId: this.cardActivatorId })
                     this.effectToDo = effectChosen;
                     const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
-                    if (prev) {
+                    if (prev && this.effectToDo.node) {
                         prev.addSelectedEffectHighlight(this.effectToDo.node)
                     }
                 }
@@ -123,24 +128,6 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
                 for (const effect of this.effectToDo.effectsAndNumbers.map(eAn => eAn.effect)) {
 
                     await this.checkForSpeciealCollector(effect, id)
-                    // if (effect.dataCollector != null && effect.dataCollector.length > 0) {
-                    //     const specialDataCollector = effect.dataCollector.find(dataCollector => {
-                    //         // Special Cases:
-                    //         if (dataCollector instanceof GetTargetFromPassiveMeta) {
-                    //             return true
-                    //         }
-                    //     })
-                    //     if (specialDataCollector && specialDataCollector instanceof GetTargetFromPassiveMeta) {
-                    //         cc.log(`is GetTargetFromPassiveMeta collector`)
-                    //         specialDataCollector.metaIndex = this.index
-                    //         specialDataCollector.isAfterActivation = this.isAfterActivation
-                    //     }
-
-                    //     const collectedData = await cardEffect.collectEffectData(effect, { cardId: this.cardWithEffect.getComponent(Card)._cardId, cardPlayerId: id })
-                    //     cardEffect.effectData = collectedData;
-                    //     this.effectCollectedData = collectedData;
-                    //     this.hasDataBeenCollectedYet = true;
-                    // }
                 }
             } else if (this.effectToDo instanceof ChainEffects) {
                 for (const effect of this.effectToDo.effectsToChain) {
@@ -149,39 +136,23 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
             } else {
                 await this.checkForSpeciealCollector(this.effectToDo, id)
             }
-
+            cc.log(`if effect has dataCollector use it`)
+            cc.log(this.effectToDo)
             if (this.effectToDo.dataCollector != null && this.effectToDo.dataCollector.length > 0) {
+                cc.log(`collect data for ${this.effectToDo.effectName}`)
                 const collectedData = await cardEffect.collectEffectData(this.effectToDo, { cardId: this.cardWithEffect.getComponent(Card)._cardId, cardPlayerId: id })
                 cardEffect.effectData = collectedData;
                 this.effectCollectedData = collectedData;
                 this.hasDataBeenCollectedYet = true;
             }
-
-
-            // if (this.effectToDo.dataCollector != null && this.effectToDo.dataCollector.length > 0) {
-            //     const specialDataCollector = this.effectToDo.dataCollector.find(dataCollector => {
-            //         // Special Cases:
-            //         if (dataCollector instanceof GetTargetFromPassiveMeta) {
-            //             return true
-            //         }
-            //     })
-            //     if (specialDataCollector && specialDataCollector instanceof GetTargetFromPassiveMeta) {
-            //         specialDataCollector.metaIndex = this.index
-            //         specialDataCollector.isAfterActivation = this.isAfterActivation
-            //     }
-            //     const collectedData = await cardEffect.collectEffectData(this.effectToDo, { cardId: this.cardWithEffect.getComponent(Card)._cardId, cardPlayerId: id })
-            //     cardEffect.effectData = collectedData;
-            //     this.effectCollectedData = collectedData;
-            //     this.hasDataBeenCollectedYet = true;
-            // }
         }
         if (this.effectToDo) {
             const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
-            if (prev) {
+            if (prev && this.effectToDo.node) {
                 prev.addSelectedEffectHighlight(this.effectToDo.node)
             }
-            this.lable = `Activate ${this.cardWithEffect.name} effect ${this.effectToDo.name}`
-        } else { this.lable = `Activate ${this.cardWithEffect.name} ` }
+            this.setLable(`Activate ${this.cardWithEffect.name} effect ${this.effectToDo.name}`, true)
+        } else { this.setLable(`Activate ${this.cardWithEffect.name} `, true) }
     }
 
     async resolve() {
@@ -190,9 +161,7 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
         this.isAfterActivation == true ? this.effectPassiveMeta = PassiveManager.afterActivationMap.get(this.index) : this.effectPassiveMeta = PassiveManager.beforeActivationMap.get(this.index)
 
         if (!this.effectPassiveMeta) {
-            cc.error(`passive effect meta was not found by index ${this.index}`)
-            cc.error(PassiveManager.afterActivationMap)
-            cc.error(PassiveManager.beforeActivationMap)
+            Logger.error(`passive effect meta was not found by index ${this.index}`, { after: PassiveManager.afterActivationMap, before: PassiveManager.beforeActivationMap })
         }
 
         //Special Cases
@@ -212,7 +181,6 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
                 try {
                     selectedEffect = (this.effectToDo as MultiEffectRollEffect).getEffectByNumberRolled(this.LockingResolve, this.cardWithEffect)
                 } catch (error) {
-                    cc.error(error)
                     Logger.error(error)
                 }
             }
@@ -220,16 +188,20 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
         } else { selectedEffect = this.effectToDo }
         this.effectToDo = selectedEffect
         const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
-        if (prev) {
+        if (prev && this.effectToDo.node) {
             prev.addSelectedEffectHighlight(this.effectToDo.node)
         }
         await this.doCardEffect(this.effectToDo, this.hasDataBeenCollectedYet);
+        this.setLable(`Activated ${this.cardWithEffect.name} Effect`, true)
         this.effectToDo = null;
         this.effectPassiveMeta = null
 
     }
 
     async doCardEffect(effect: Effect, hasDataBeenCollectedYet: boolean) {
+        if (!effect) {
+            throw new Error("Effect passed to `Do Card Effect` was null")
+        }
         const cardEffect = this.cardWithEffect.getComponent(CardEffect)
         const serverEffect = await cardEffect.getServerEffect(effect, this.cardActivatorId, !this.hasDataBeenCollectedYet)
         const passiveData = DataInterpreter.makeEffectData(this.effectPassiveMeta, this.cardWithEffect, this.cardActivatorId, false, false)

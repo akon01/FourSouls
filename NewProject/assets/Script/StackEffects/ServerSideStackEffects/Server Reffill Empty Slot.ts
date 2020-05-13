@@ -19,6 +19,7 @@ export default class ServerRefillEmptySlot implements ServerStackEffectInterface
     hasLockingStackEffectResolved: boolean;
     lockingStackEffect: ServerStackEffectInterface;
     LockingResolve: any;
+    lable: string;
 
 
 
@@ -45,6 +46,7 @@ export default class ServerRefillEmptySlot implements ServerStackEffectInterface
         // }
         this.slotType = stackEffect.slotType;
         this.stackEffectType = stackEffect.stackEffectType;
+        this.lable = stackEffect._lable
     }
 
 
@@ -56,7 +58,7 @@ export default class ServerRefillEmptySlot implements ServerStackEffectInterface
         if (this.slotType == CARD_TYPE.TREASURE) {
             slotToFill = Store.$.node;
         }
-        let refillEmtySlot = new RefillEmptySlot(this.creatorCardId, slotToFill, this.slotType)
+        let refillEmtySlot = new RefillEmptySlot(this.creatorCardId, slotToFill, this.slotType, this.entityId, this.lable)
         return refillEmtySlot;
     }
 

@@ -8,7 +8,7 @@ export default class CharacterItem extends Item {
   character: cc.Node = null;
 
   @property({ override: true })
-  activated: boolean = false;
+  needsRecharge: boolean = false;
 
   // LIFE-CYCLE CALLBACKS:
 

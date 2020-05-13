@@ -9,6 +9,7 @@ import Item from "../CardTypes/Item";
 import Stack from "../Stack";
 import Card from "./Card";
 import Deck from "./Deck";
+import { Logger } from "../Logger";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,6 +18,8 @@ export default class Store extends cc.Component {
   static maxNumOfItems: number = 2;
 
   static storeCards: cc.Node[] = [];
+
+  static thisTurnStoreCards: cc.Node[] = []
 
   static storeCardsCost: number = 10;
 
@@ -27,10 +30,16 @@ export default class Store extends cc.Component {
   @property
   layout: cc.Layout = null;
 
-  static addMaxNumOfItems(maxNumToSet: number, sendToServer: boolean) {
+  static async addMaxNumOfItems(maxNumToSet: number, sendToServer: boolean) {
+    const currentMax = Store.maxNumOfItems
     Store.maxNumOfItems = maxNumToSet;
     if (sendToServer) {
       ServerClient.$.send(Signal.SET_MAX_ITEMS_STORE, { number: maxNumToSet })
+      for (let i = 0; i < maxNumToSet - currentMax; i++) {
+        const refillStoreSE = new RefillEmptySlot(TurnsManager.currentTurn.getTurnPlayer().character.getComponent(Card)._cardId, null, CARD_TYPE.TREASURE)
+        await Stack.addToStackAbove(refillStoreSE)
+
+      }
     }
   }
 
@@ -48,6 +57,7 @@ export default class Store extends cc.Component {
       CardManager.allCards.push(newTreasure);
       CardManager.onTableCards.push(newTreasure);
       Store.storeCards.push(newTreasure);
+      Store.thisTurnStoreCards.push(newTreasure)
       newTreasure.setPosition(0, 0)
       newTreasure.setParent(this.node)
       //this.node.addChild(newTreasure);
@@ -56,18 +66,10 @@ export default class Store extends cc.Component {
       if (sendToServer) {
         ServerClient.$.send(Signal.ADD_STORE_CARD, { cardId: cardId })
       }
-    } else { cc.error(`already max store cards`) }
+    } else { Logger.error(`already max store cards`) }
   }
 
-  // async buyItemFromShop(itemToBuy: cc.Node, sendToServer: boolean) {
-  //   if (itemToBuy.getComponent(Card).topDeckof == null) {
-  //     cc.log(`buy item ${itemToBuy.name} from the shop`)
-  //     if (sendToServer) {
-  //       await this.removeFromStore(itemToBuy, true)
-  //     }
-  //   }
-  //   cc.error(`after buy from shop ${Store.storeCards.map(card => card.name)}`)
-  // }
+
 
   async removeFromStore(storeItem: cc.Node, sendToserver: boolean) {
     if (
@@ -82,7 +84,7 @@ export default class Store extends cc.Component {
       // this.addStoreCard(sendToserver);
     } else if (storeItem == CardManager.treasureDeck) {
     } else {
-      throw new Error(`${storeItem.name} was not in the store cards ${Store.storeCards.map(card => card.name)}`)
+      //throw new Error(`${storeItem.name} was not in the store cards ${Store.storeCards.map(card => card.name)}`)
     }
   }
 

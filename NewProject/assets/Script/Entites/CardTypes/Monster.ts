@@ -48,9 +48,6 @@ export default class Monster extends cc.Component {
   isNonMonster: boolean = false;
 
   @property
-  souls: number = 0;
-
-  @property
   _dmgPrevention: number[] = [];
 
   @property
@@ -65,6 +62,9 @@ export default class Monster extends cc.Component {
   @property
   _isDead: boolean = false;
 
+  @property
+  _lastHitRoll: number = 0
+
   /**
    *
    * @param damage
@@ -72,7 +72,8 @@ export default class Monster extends cc.Component {
    * @returns true if the monster was killed
    */
   // @testForPassiveAfter('getDamaged')
-  async takeDamaged(damage: number, sendToServer: boolean, damageDealer: cc.Node) {
+  async takeDamaged(damage: number, sendToServer: boolean, damageDealer: cc.Node, numberRolled?: number) {
+    cc.error(`take dmg on ${this.name}`)
 
     if (!sendToServer) {
       if (this.currentHp - damage < 0) {
@@ -89,9 +90,11 @@ export default class Monster extends cc.Component {
       }
 
       let toContinue = true
-      const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.MONSTER_GET_HIT, [damage, damageDealer], null, this.node)
+      const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.MONSTER_GET_HIT, [damage, damageDealer, numberRolled], null, this.node)
       if (sendToServer) {
+        cc.error(`check b4 passives on ${this.name}`)
         const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+        cc.error(`after check b4 passives on ${this.name}`)
         passiveMeta.args = afterPassiveMeta.args;
         toContinue = afterPassiveMeta.continue
         damage = afterPassiveMeta.args[0];
@@ -106,6 +109,7 @@ export default class Monster extends cc.Component {
         }
 
         if (damage > 0) {
+
           const cardId = this.node.getComponent(Card)._cardId
           const serverData = {
             signal: Signal.MONSTER_GET_DAMAGED,
@@ -118,7 +122,7 @@ export default class Monster extends cc.Component {
             ServerClient.$.send(serverData.signal, serverData.srvData)
             if (this.currentHp == 0) {
               this.killer = damageDealer
-              await this.kill(damageDealer)
+              await this.kill(damageDealer, numberRolled)
             }
           }
         }
@@ -136,7 +140,9 @@ export default class Monster extends cc.Component {
   async addDamagePrevention(dmgToPrevent: number, sendToServer: boolean) {
     this._dmgPrevention.push(dmgToPrevent)
     if (sendToServer) {
-      ServerClient.$.send(Signal.MONSTER_ADD_DMG_PREVENTION, { playerId: this.node.getComponent(Card)._cardId, dmgToPrevent: dmgToPrevent })
+      cc.log(`send to server`)
+      ServerClient.$.send(Signal.MONSTER_ADD_DMG_PREVENTION, { cardId: this.node.getComponent(Card)._cardId, dmgToPrevent: dmgToPrevent })
+      cc.log(`send to server 2`)
     }
   }
 
@@ -234,7 +240,7 @@ export default class Monster extends cc.Component {
    * !!!!!!!!!! Dont put await infront of this function!!!!!!!!!!!!!
    * @param killerCard who killed the monster
    */
-  async kill(killerCard: cc.Node) {
+  async kill(killerCard: cc.Node, numberRolled?: number) {
 
     // if (Stack._currentStack.length > 0) {
     //   await Stack.waitForStackEmptied()
@@ -243,11 +249,11 @@ export default class Monster extends cc.Component {
     const monsterPlace = monsterComp.monsterPlace;
     const turnPlayer =
       TurnsManager.currentTurn.getTurnPlayer()
-    if (PlayerManager.mePlayer == turnPlayer.node) {
-      const monsterDeath = new MonsterDeath(turnPlayer.character.getComponent(Card)._cardId, this.node, killerCard)
-      await Stack.addToStackAbove(monsterDeath)
+    // if (PlayerManager.mePlayer == turnPlayer.node) {
+    const monsterDeath = new MonsterDeath(turnPlayer.character.getComponent(Card)._cardId, this.node, killerCard, numberRolled)
+    await Stack.addToStackAbove(monsterDeath)
 
-    }
+    // }
   }
 
   calculateDamage() {

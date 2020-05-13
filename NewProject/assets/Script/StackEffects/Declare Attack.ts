@@ -15,10 +15,15 @@ import ServerDeclareAttack from "./ServerSideStackEffects/Server Declare Attack"
 import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { DeclareAttackVis } from "./StackEffectVisualRepresentation/Declare Attack Vis";
+import ChooseCardTypeAndFilter from "../CardEffectComponents/ChooseCardTypeAndFilter";
+import { whevent } from "../../ServerClient/whevent";
+import Card from "../Entites/GameEntities/Card";
+import ServerClient from "../../ServerClient/ServerClient";
+import Signal from "../../Misc/Signal";
 
-export default class DeclareAttack extends StackEffectConcrete { 
+export default class DeclareAttack extends StackEffectConcrete {
     visualRepesentation: DeclareAttackVis;
-
+    name = `Player Declare Attack On Monster`
     entityId: number;
     creatorCardId: number;
     isLockingStackEffect: boolean;
@@ -29,11 +34,6 @@ export default class DeclareAttack extends StackEffectConcrete {
     LockingResolve: any;
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.DECLARE_ATTACK;
     _lable: string;
-
-    set lable(text: string) {
-        this._lable = text
-        if (!this.nonOriginal) { whevent.emit(GAME_EVENTS.LABLE_CHANGE) }
-    }
 
     isToBeFizzled: boolean = false;
 
@@ -57,14 +57,18 @@ export default class DeclareAttack extends StackEffectConcrete {
     attackingPlayer: Player
     cardBeingAttacked: cc.Node
 
-    constructor(creatorCardId: number, attackingPlayer: Player, cardBeingAttacked: cc.Node, entityId?: number) {
+    constructor(creatorCardId: number, attackingPlayer: Player, cardBeingAttacked: cc.Node, entityId?: number, lable?: string) {
         super(creatorCardId, entityId)
 
         this.attackingPlayer = attackingPlayer;
         this.cardBeingAttacked = cardBeingAttacked;
-        this.visualRepesentation = new DeclareAttackVis(attackingPlayer, cardBeingAttacked, this.cardBeingAttacked.getComponent(cc.Sprite).spriteFrame)
+        this.visualRepesentation = new DeclareAttackVis(attackingPlayer, cardBeingAttacked, this.cardBeingAttacked.getComponent(Card).cardSprite.spriteFrame)
         this.visualRepesentation.flavorText = `player ${this.attackingPlayer.playerId} has declared an attack on ${this.cardBeingAttacked.name}`
-        this.lable = `Player ${this.attackingPlayer.playerId}  declared attack on ${this.cardBeingAttacked.name}`
+        if (lable) {
+            this.setLable(lable, false)
+        } else {
+            this.setLable(`Player ${this.attackingPlayer.playerId} declared attack on ${this.cardBeingAttacked.name}`, false)
+        }
     }
 
     async putOnStack() {
@@ -78,19 +82,25 @@ export default class DeclareAttack extends StackEffectConcrete {
         const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
         if (!afterPassiveMeta.continue) { return }
         passiveMeta.args = afterPassiveMeta.args;
-        TurnsManager.currentTurn.attackPlays -= 1;
+        if (TurnsManager.currentTurn.attackPlays > 0) {
+            TurnsManager.currentTurn.attackPlays -= 1;
+        }
 
         const monsterDeck = CardManager.monsterDeck.getComponent(Deck);
         let monsterCardHolder: MonsterCardHolder;
         let newMonster = this.cardBeingAttacked;
         if (this.cardBeingAttacked == monsterDeck.node) {
             cc.log(`chosen card is top deck ${this.cardBeingAttacked.name}`)
+            if (TurnsManager.currentTurn.monsterDeckAttackPlays > 0 && TurnsManager.currentTurn.attackPlays == 0) {
+                TurnsManager.currentTurn.monsterDeckAttackPlays = -1
+            }
             const chooseCard = new ChooseCard();
             chooseCard.flavorText = "Choose A Monster To Cover"
             newMonster = monsterDeck.drawCard(true);
             await CardPreviewManager.getPreviews(Array.of(newMonster), true)
             CardPreviewManager.showToOtherPlayers(newMonster);
-            chooseCard.chooseType = CHOOSE_CARD_TYPE.MONSTER_PLACES
+            chooseCard.chooseType = new ChooseCardTypeAndFilter()
+            chooseCard.chooseType.chooseType = CHOOSE_CARD_TYPE.MONSTER_PLACES
             const monsterInSpotChosen = await chooseCard.collectData({ cardPlayerId: this.attackingPlayer.playerId })
             const activeMonsterSelected = monsterInSpotChosen.effectTargetCard.getComponent(Monster)
             monsterCardHolder = MonsterField.getMonsterPlaceById(
@@ -106,6 +116,7 @@ export default class DeclareAttack extends StackEffectConcrete {
         } else {
             await BattleManager.declareAttackOnMonster(this.cardBeingAttacked, true);
         }
+        this.setLable(`Player ${this.attackingPlayer.playerId} Has Entered Battle with ${this.cardBeingAttacked.name}`, true)
 
         passiveMeta.result = null
         //do passive effects after!

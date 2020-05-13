@@ -36,7 +36,7 @@ export default class CardTargetPools extends DataCollector {
             case CARD_POOLS.YOUR_HAND:
                 return PlayerManager.mePlayer.getComponent(Player).handCards.map(card => new EffectTarget(card))
             case CARD_POOLS.YOUR_CHARACTER:
-                return PlayerManager.mePlayer.getComponent(Player).character
+                return new EffectTarget(PlayerManager.mePlayer.getComponent(Player).character)
             case CARD_POOLS.ALL_PLAYERS:
                 return PlayerManager.players.map(player => new EffectTarget(player.getComponent(Player).character))
             case CARD_POOLS.OTHER_PLAYERS:
@@ -48,7 +48,7 @@ export default class CardTargetPools extends DataCollector {
                 return players.map(player => new EffectTarget(player.getComponent(Player).character))
             case CARD_POOLS.PLAYERS_EXCEPT_ATTAKING:
                 players = PlayerManager.players
-                if (TurnsManager.currentTurn.battlePhase) { players.filter(player => player != TurnsManager.currentTurn.getTurnPlayer().node) }
+                if (TurnsManager.currentTurn.battlePhase) { players = players.filter(player => player != TurnsManager.currentTurn.getTurnPlayer().node) }
                 return players.map(player => new EffectTarget(player.getComponent(Player).character))
             case CARD_POOLS.STORE_CARDS:
                 return Store.storeCards

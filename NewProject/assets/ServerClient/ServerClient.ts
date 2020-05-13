@@ -10,6 +10,9 @@ import Player from "../Script/Entites/GameEntities/Player";
 import { Logger } from "../Script/Entites/Logger";
 import MainScript from "../Script/MainScript";
 import ActionManager from "../Script/Managers/ActionManager";
+import { whevent } from "./whevent";
+import AnnouncementLable from "../Script/LableScripts/Announcement Lable";
+
 
 const { ccclass, property } = cc._decorator;
 
@@ -27,6 +30,8 @@ export default class ServerClient extends cc.Component {
     ServerClient.$ = this;
 
     whevent.on(Events.MULTIPLAYER, this.connect, this);
+
+    whevent.on(Signal.PLAYER_DISCONNECTED, this.showPlayerDisconnected, this);
 
     whevent.on(Signal.MOVE_TO_TABLE, this.onMoveToTable, this);
     whevent.on(Signal.NEXT_TURN, this.onPlayerActionFromServer, this);
@@ -110,6 +115,7 @@ export default class ServerClient extends cc.Component {
     whevent.on(Signal.MONSTER_GAIN_ROLL_BONUS, this.onPlayerActionFromServer, this);
     whevent.on(Signal.MONSTER_GET_DAMAGED, this.onPlayerActionFromServer, this);
     whevent.on(Signal.MONSTER_HEAL, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.MONSTER_ADD_DMG_PREVENTION, this.onPlayerActionFromServer, this);
 
     //board events
     whevent.on(Signal.MOVE_CARD, this.onPlayerActionFromServer, this);
@@ -130,8 +136,13 @@ export default class ServerClient extends cc.Component {
     whevent.on(Signal.END_BATTLE, this.onPlayerActionFromServer, this)
     whevent.on(Signal.UPDATE_PASSIVE_DATA, this.onPlayerActionFromServer, this);
     whevent.on(Signal.SHOW_DECISION, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.SHOW_STACK_EFFECT, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.SET_STACK_ICON, this.onPlayerActionFromServer, this);
     whevent.on(Signal.SHOW_DICE_ROLL, this.onPlayerActionFromServer, this);
     whevent.on(Signal.SHOW_EFFECT_CHOSEN, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.SHOW_REACTIONS, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.HIDE_REACTIONS, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.REACTION_TOGGLED, this.onPlayerActionFromServer, this);
 
     //deck event
     whevent.on(Signal.DECK_ADD_TO_TOP, this.onPlayerActionFromServer, this);
@@ -147,13 +158,14 @@ export default class ServerClient extends cc.Component {
     whevent.on(Signal.ADD_TO_STACK, this.onPlayerActionFromServer, this);
     whevent.on(Signal.PUT_ON_STACK, this.onPlayerActionFromServer, this);
     whevent.on(Signal.END_PUT_ON_STACK, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.ADD_RESOLVING_STACK_EFFECT, this.onPlayerActionFromServer, this);
-    whevent.on(Signal.REMOVE_RESOLVING_STACK_EFFECT, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.UPDATE_RESOLVING_STACK_EFFECTS, this.onPlayerActionFromServer, this);
     whevent.on(Signal.UPDATE_STACK_VIS, this.onPlayerActionFromServer, this);
     whevent.on(Signal.NEXT_STACK_ID, this.onPlayerActionFromServer, this);
     whevent.on(Signal.UPDATE_STACK_LABLE, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.STACK_EFFECT_LABLE_CHANGE, this.onPlayerActionFromServer, this);
     whevent.on(Signal.ADD_SE_VIS_PREV, this.onPlayerActionFromServer, this);
     whevent.on(Signal.REMOVE_SE_VIS_PREV, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.CLEAR_SE_VIS, this.onPlayerActionFromServer, this);
     whevent.on(Signal.UPDATE_STACK_EFFECT, this.onPlayerActionFromServer, this);
 
     //Eden events
@@ -163,7 +175,21 @@ export default class ServerClient extends cc.Component {
     //Action Lable
     whevent.on(Signal.ACTION_MASSAGE_ADD, this.onPlayerActionFromServer, this);
     whevent.on(Signal.ACTION_MASSAGE_REMOVE, this.onPlayerActionFromServer, this);
+
+    //Announcement Lable
+    whevent.on(Signal.SHOW_ANNOUNCEMENT, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.HIDE_ANNOUNCEMENT, this.onPlayerActionFromServer, this);
+
+    whevent.on(Signal.SHOW_TIMER, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.HIDE_TIMER, this.onPlayerActionFromServer, this);
   }
+
+
+  showPlayerDisconnected(data: { signal, text }) {
+    AnnouncementLable.$.showAnnouncement(data.text, 3, false)
+  }
+
+
 
   onPlayerActionFromServer(data: { signal, data }) {
     // tslint:disable-next-line: no-floating-promises
@@ -225,11 +251,12 @@ export default class ServerClient extends cc.Component {
 
   onClose() {
     cc.log("Disconnected from the server!");
+    AnnouncementLable.$.showAnnouncement(`Disconnected From Server`, 3, false)
     this.ws.close();
     this.ws.removeEventListener("open", this.onOpen.bind(this));
     this.ws.removeEventListener("message", this.onMessage.bind(this));
     this.ws.removeEventListener("close", this.onClose.bind(this));
-    whevent.emit(Events.LOST_CONNECTION);
+    whevent.emit(Events.LOST_CONNECTION, {});
   }
 
   onMessage({ data }) {

@@ -21,30 +21,29 @@
         "__id__": 2
       },
       {
-        "__id__": 8
+        "__id__": 11
       },
       {
-        "__id__": 14
+        "__id__": 20
       }
     ],
     "_active": true,
-    "_level": 1,
     "_components": [
       {
-        "__id__": 21
+        "__id__": 27
       },
       {
-        "__id__": 22
+        "__id__": 28
       },
       {
-        "__id__": 23
+        "__id__": 29
       },
       {
-        "__id__": 24
+        "__id__": 30
       }
     ],
     "_prefab": {
-      "__id__": 25
+      "__id__": 31
     },
     "_opacity": 255,
     "_color": {
@@ -56,25 +55,29 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
-      "height": 280
+      "width": 100,
+      "height": 140
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
       "x": 0.5,
       "y": 0.5
     },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": -178,
-      "y": 0,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        -178,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
     },
     "_eulerAngles": {
       "__type__": "cc.Vec3",
@@ -85,6 +88,7 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
+    "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
   },
@@ -101,14 +105,13 @@
       }
     ],
     "_active": true,
-    "_level": 2,
     "_components": [
       {
-        "__id__": 6
+        "__id__": 9
       }
     ],
     "_prefab": {
-      "__id__": 13
+      "__id__": 19
     },
     "_opacity": 255,
     "_color": {
@@ -120,25 +123,29 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 170,
-      "height": 50
+      "width": 85,
+      "height": 25
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
       "x": 0.5,
       "y": 0.5
     },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": -76.314,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        -38.16,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
     },
     "_eulerAngles": {
       "__type__": "cc.Vec3",
@@ -149,6 +156,7 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
+    "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
   },
@@ -161,14 +169,13 @@
     },
     "_children": [],
     "_active": true,
-    "_level": 3,
     "_components": [
       {
         "__id__": 4
       }
     ],
     "_prefab": {
-      "__id__": 5
+      "__id__": 8
     },
     "_opacity": 255,
     "_color": {
@@ -188,17 +195,21 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
     },
     "_eulerAngles": {
       "__type__": "cc.Vec3",
@@ -209,6 +220,7 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
+    "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
   },
@@ -220,14 +232,49 @@
       "__id__": 3
     },
     "_enabled": true,
-    "multiType": false,
-    "chooseType": 13,
+    "multiType": true,
+    "otherPlayer": null,
+    "chooseType": {
+      "__id__": 5
+    },
     "chooseTypes": [
-      1,
-      1
+      {
+        "__id__": 6
+      },
+      {
+        "__id__": 7
+      }
     ],
-    "flavorText": "Choose A Player To Reduce Incoming DMG For",
+    "flavorText": "Choose A Player Or Monster To Reduce Incoming DMG For",
+    "test": null,
     "_id": ""
+  },
+  {
+    "__type__": "ChooseCardTypeAndFilter",
+    "chooseType": 1,
+    "applyFilter": false,
+    "componentName": "",
+    "isMultiFilter": false,
+    "filterStatement": null,
+    "filterStatements": []
+  },
+  {
+    "__type__": "ChooseCardTypeAndFilter",
+    "chooseType": 1,
+    "applyFilter": false,
+    "componentName": "",
+    "isMultiFilter": false,
+    "filterStatement": null,
+    "filterStatements": []
+  },
+  {
+    "__type__": "ChooseCardTypeAndFilter",
+    "chooseType": 4,
+    "applyFilter": false,
+    "componentName": "",
+    "isMultiFilter": false,
+    "filterStatement": null,
+    "filterStatements": []
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -253,7 +300,7 @@
     "conditions": [],
     "passiveType": 1,
     "passiveEffectToAdd": {
-      "__id__": 7
+      "__id__": 10
     },
     "dataCollector": [
       {
@@ -263,53 +310,59 @@
     "_effectCard": null,
     "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
+    "optionalFlavorText": "",
     "_id": ""
   },
   {
-    "__type__": "f0d41MEhM5DPb/Z0GRpNZKU",
+    "__type__": "0fa8arHVhlKm4/ks+DUgZK6",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 8
+      "__id__": 11
     },
     "_enabled": true,
     "cost": null,
     "preCondition": null,
     "conditions": [
       {
-        "__id__": 10
+        "__id__": 13
       }
     ],
     "passiveType": 1,
     "passiveEffectToAdd": null,
-    "dataCollector": null,
+    "dataCollector": {
+      "__id__": 16
+    },
     "_effectCard": null,
     "optional": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
-    "damageToPrevent": 1,
+    "optionalFlavorText": "",
+    "damageToSet": 1,
     "_id": ""
   },
   {
     "__type__": "cc.Node",
-    "_name": "Prevent Damage",
+    "_name": "Set Damage",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
     },
     "_children": [
       {
-        "__id__": 9
+        "__id__": 12
+      },
+      {
+        "__id__": 15
       }
     ],
     "_active": true,
-    "_level": 2,
     "_components": [
       {
-        "__id__": 7
+        "__id__": 10
       }
     ],
     "_prefab": {
-      "__id__": 12
+      "__id__": 18
     },
     "_opacity": 255,
     "_color": {
@@ -329,17 +382,21 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
     },
     "_eulerAngles": {
       "__type__": "cc.Vec3",
@@ -350,6 +407,7 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
+    "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
   },
@@ -358,18 +416,17 @@
     "_name": "EntityTakeDamage",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 8
+      "__id__": 11
     },
     "_children": [],
     "_active": true,
-    "_level": 3,
     "_components": [
       {
-        "__id__": 10
+        "__id__": 13
       }
     ],
     "_prefab": {
-      "__id__": 11
+      "__id__": 14
     },
     "_opacity": 255,
     "_color": {
@@ -389,17 +446,21 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
     },
     "_eulerAngles": {
       "__type__": "cc.Vec3",
@@ -410,6 +471,7 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
+    "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
   },
@@ -418,11 +480,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 12
     },
     "_enabled": true,
     "dataCollector": null,
-    "isSpecificToEntityTakesDamage": false,
+    "isSpecificToEntityTakesDamage": true,
     "entityWhoTookDamage": null,
     "_id": ""
   },
@@ -434,108 +496,18 @@
     "asset": {
       "__uuid__": "f1ed7f90-faf5-437b-b7d9-d7c421ca34c2"
     },
-    "fileId": "fcIXHj5i1Hq5xZw1ANjSWZ",
-    "sync": false
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "f1ed7f90-faf5-437b-b7d9-d7c421ca34c2"
-    },
-    "fileId": "4fnNlNzyxITbDH7VboWJKw",
-    "sync": false
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "f1ed7f90-faf5-437b-b7d9-d7c421ca34c2"
-    },
-    "fileId": "16oBsEzdZFmp9LSo+PF97o",
+    "fileId": "e3vVPVMmJJIInN4FdzWd/N",
     "sync": false
   },
   {
     "__type__": "cc.Node",
-    "_name": "Mask Node",
+    "_name": "GetTargetFromConditionData",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1
-    },
-    "_children": [
-      {
-        "__id__": 15
-      }
-    ],
-    "_active": true,
-    "_level": 2,
-    "_components": [
-      {
-        "__id__": 18
-      },
-      {
-        "__id__": 19
-      }
-    ],
-    "_prefab": {
-      "__id__": 20
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 200,
-      "height": 280
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "Particle",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 14
+      "__id__": 11
     },
     "_children": [],
     "_active": true,
-    "_level": 3,
     "_components": [
       {
         "__id__": 16
@@ -562,17 +534,21 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 5,
-      "y": 5,
-      "z": 1
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
     },
     "_eulerAngles": {
       "__type__": "cc.Vec3",
@@ -583,6 +559,188 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "3035aSNGd5FJLhSRFETSAIs",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 15
+    },
+    "_enabled": true,
+    "conditionToGetTargetsFrom": {
+      "__id__": 13
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "f1ed7f90-faf5-437b-b7d9-d7c421ca34c2"
+    },
+    "fileId": "9218lQje5FVZAwyHz/O/tL",
+    "sync": false
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "f1ed7f90-faf5-437b-b7d9-d7c421ca34c2"
+    },
+    "fileId": "43Gaj46CZMgZphfZuZTgoF",
+    "sync": false
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "f1ed7f90-faf5-437b-b7d9-d7c421ca34c2"
+    },
+    "fileId": "16oBsEzdZFmp9LSo+PF97o",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "Mask Node",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [
+      {
+        "__id__": 21
+      }
+    ],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 24
+      },
+      {
+        "__id__": 25
+      }
+    ],
+    "_prefab": {
+      "__id__": 26
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 100,
+      "height": 140
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "Particle",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 20
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 22
+      }
+    ],
+    "_prefab": {
+      "__id__": 23
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        5,
+        5,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
   },
@@ -591,7 +749,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 15
+      "__id__": 21
     },
     "_enabled": true,
     "_materials": [
@@ -707,7 +865,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 14
+      "__id__": 20
     },
     "_enabled": true,
     "_materials": [
@@ -727,7 +885,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 14
+      "__id__": 20
     },
     "_enabled": true,
     "alignMode": 1,
@@ -804,6 +962,8 @@
     "_enabled": true,
     "cardName": "Moms Bra",
     "doNotMake": false,
+    "cardMask": null,
+    "cardSprite": null,
     "makeMultiCards": false,
     "numOfCopies": 2,
     "copiesSprites": [],
@@ -814,7 +974,8 @@
     "_originalWidth": null,
     "topDeckof": null,
     "souls": 0,
-    "type": null,
+    "type": 5,
+    "isGoingToBePlayed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -830,7 +991,6 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
-    "availableParticles": [],
     "_id": ""
   },
   {
@@ -865,7 +1025,7 @@
     "passiveEffects": [],
     "toAddPassiveEffects": [
       {
-        "__id__": 8
+        "__id__": 11
       }
     ],
     "paidEffects": [],

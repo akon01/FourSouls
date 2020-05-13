@@ -3,6 +3,7 @@ import ServerClient from "../../ServerClient/ServerClient";
 import { GAME_EVENTS, MAX_NUM_OF_HISTORY_ITEM } from "../Constants";
 import ActionMessage from "../Entites/Action Message";
 import ActionHistoryMessage from "./Action History Message";
+import { whevent } from "../../ServerClient/whevent";
 
 const { ccclass, property } = cc._decorator;
 

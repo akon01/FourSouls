@@ -11,6 +11,8 @@ export default class StartGame extends cc.Component {
     startGame() {
 
         if (ServerClient.$.ws != null) {
+            const serverLable = cc.find("Canvas/ServerIP").getComponent(cc.EditBox)
+            cc.sys.localStorage.setItem(`serverIp`, serverLable.string)
             ServerClient.$.send(Signal.START_GAME)
         } else cc.log('no connection')
     }

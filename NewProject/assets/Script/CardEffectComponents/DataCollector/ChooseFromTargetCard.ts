@@ -9,6 +9,7 @@ import CardPreviewManager from "../../Managers/CardPreviewManager";
 import { EffectTarget } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "./DataCollector";
+import { whevent } from "../../../ServerClient/whevent";
 
 const { ccclass, property } = cc._decorator;
 
@@ -72,6 +73,7 @@ export default class ChooseFromTargetCard extends DataCollector {
       target = new EffectTarget(this.dataCollectorToRun.cardChosen)
     } else {
       cc.log(`in Choose From Target Card collect data of ${this.dataCollectorToRun.collectorName}`)
+
       target = await this.dataCollectorToRun.collectData(data)
     }
     if (!target) {

@@ -14,8 +14,10 @@ export default class ServerMonsterDeath implements ServerStackEffectInterface {
     hasLockingStackEffectResolved: boolean;
     lockingStackEffect: ServerStackEffectInterface;
     LockingResolve: any;
+    lable: string
 
     monsterToDieCardId: number;
+    numberRolled: number
     killerId: number
 
     constructor(stackEffect: MonsterDeath) {
@@ -23,12 +25,13 @@ export default class ServerMonsterDeath implements ServerStackEffectInterface {
         this.creatorCardId = stackEffect.creatorCardId;
         this.monsterToDieCardId = stackEffect.monsterToDie.node.getComponent(Card)._cardId
         this.stackEffectType = stackEffect.stackEffectType;
-        cc.log(stackEffect.killer)
+        this.numberRolled = stackEffect.numberRolled
         this.killerId = stackEffect.killer.getComponent(Card)._cardId
+        this.lable = stackEffect._lable
     }
 
     convertToStackEffect() {
-        const monsterDeath = new MonsterDeath(this.creatorCardId, CardManager.getCardById(this.monsterToDieCardId), CardManager.getCardById(this.killerId, true))
+        const monsterDeath = new MonsterDeath(this.creatorCardId, CardManager.getCardById(this.monsterToDieCardId), CardManager.getCardById(this.killerId, true), this.numberRolled, this.entityId, this.lable)
         return monsterDeath;
     }
 

@@ -28,14 +28,17 @@ export default class MonsterCardHolder extends cc.Component {
   @property
   spriteFrame: cc.SpriteFrame = null;
 
-  @property
+  @property({ type: cc.Label })
   hpLable: cc.Label = null;
 
-  @property
+  @property({ type: cc.Label })
   dmgLable: cc.Label = null;
 
   @property
   private _activeMonster: cc.Node = null;
+
+  @property({ type: cc.Label })
+  rollBonusLable: cc.Label = null;
 
   // public set activeMonster(v: cc.Node) {
   //   const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.NEW_ACTIVE_MONSTER, [v], null, v);
@@ -60,7 +63,7 @@ export default class MonsterCardHolder extends cc.Component {
       if (this.activeMonster && MonsterField.activeMonsters.includes(this.activeMonster)) {
         MonsterField.activeMonsters.splice(MonsterField.activeMonsters.indexOf(this.activeMonster), 1)
         this.activeMonster.getComponent(Monster).monsterPlace = null;
-        PassiveManager.removePassiveItemEffects(monsterCard, sendToServer)
+        PassiveManager.removePassiveItemEffects(this.activeMonster, sendToServer)
       }
     }
     const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.NEW_ACTIVE_MONSTER, [monsterCard], null, monsterCard);
@@ -176,8 +179,8 @@ export default class MonsterCardHolder extends cc.Component {
   // LIFE-CYCLE CALLBACKS:
 
   onLoad() {
-    this.hpLable = this.node.getChildByName("hp").getComponent(cc.Label);
-    this.dmgLable = this.node.getChildByName("dmg").getComponent(cc.Label);
+    //  this.hpLable = this.node.getChildByName("hp").getComponent(cc.Label);
+    //this.dmgLable = this.node.getChildByName("dmg").getComponent(cc.Label);
     this.spriteFrame = this.getComponent(cc.Sprite).spriteFrame;
   }
 
@@ -185,19 +188,25 @@ export default class MonsterCardHolder extends cc.Component {
 
   update(dt) {
     if (this._activeMonster != null) {
+      const activeMonster = this._activeMonster.getComponent(Monster);
       this.hpLable.string =
-        "🖤:" + this._activeMonster.getComponent(Monster).currentHp;
-      if (this._activeMonster.getComponent(Monster).bonusDamage != 0) {
+        "🖤:" + activeMonster.currentHp;
+      if (activeMonster.bonusDamage != 0) {
         this.dmgLable.string =
-          "🏹:" + this._activeMonster.getComponent(Monster).calculateDamage();
-        this.dmgLable.enabled = true;
+          "🏹:" + activeMonster.calculateDamage();
+        this.dmgLable.node.active = true;
       } else {
-        this.dmgLable.enabled = false;
+        this.dmgLable.node.active = false;
       }
-
+      if (activeMonster.rollBonus > 0) {
+        this.rollBonusLable.string = "🎲:" + (activeMonster.rollBonus + activeMonster.rollValue)
+        this.rollBonusLable.node.active = true
+      } else {
+        this.rollBonusLable.node.active = false
+      }
     } else {
       this.hpLable.string = "";
-      this.dmgLable.enabled = false;
+      this.dmgLable.node.active = false;
       // this.dmgLable.string = "dmg:" + 0;
     }
   }

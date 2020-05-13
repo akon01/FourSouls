@@ -11,10 +11,13 @@ import { DiceRollVis } from "./StackEffectVisualRepresentation/Dice Roll Vis";
 import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectVisManager from "../Managers/StackEffectVisManager";
 import DecisionMarker from "../Entites/Decision Marker";
+import { whevent } from "../../ServerClient/whevent";
+import ServerClient from "../../ServerClient/ServerClient";
+import Signal from "../../Misc/Signal";
 
 export default class RollDiceStackEffect extends StackEffectConcrete {
-
     visualRepesentation: DiceRollVis
+    name = `Roll Dice`
     entityId: number;
     creatorCardId: number;
     isLockingStackEffect: boolean;
@@ -26,10 +29,6 @@ export default class RollDiceStackEffect extends StackEffectConcrete {
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.ROLL_DICE;
     _lable: string;
 
-    set lable(text: string) {
-        this._lable = text
-        if (!this.nonOriginal) { whevent.emit(GAME_EVENTS.LABLE_CHANGE) }
-    }
 
     isToBeFizzled: boolean = false;
 
@@ -51,14 +50,18 @@ export default class RollDiceStackEffect extends StackEffectConcrete {
 
     numberRolled: number
 
-    constructor(creatorId: number, stackEffectToLock: StackEffectInterface, entityId?: number) {
+    constructor(creatorId: number, stackEffectToLock: StackEffectInterface, entityId?: number, lable?: string) {
         super(creatorId, entityId)
         this.stackEffectToLock = stackEffectToLock;
         this.hasLockingStackEffect = false;
         const playerCard = CardManager.getCardById(this.creatorCardId, true);
         const player = PlayerManager.getPlayerByCard(playerCard);
-        this.visualRepesentation = new DiceRollVis(player, player.dice.node.getComponent(cc.Sprite).spriteFrame, `player ${player.playerId} is rolling dice`)
-        this.lable = `Player ${player.playerId} roll a dice`
+        this.visualRepesentation = new DiceRollVis(player, player.dice.diceSprite.spriteFrame, `player ${player.playerId} is rolling dice`)
+        if (lable) {
+            this.setLable(lable, false)
+        } else {
+            this.setLable(`Player ${player.playerId} Is About To Roll A Dice`, true)
+        }
     }
 
     async putOnStack() {
@@ -67,10 +70,10 @@ export default class RollDiceStackEffect extends StackEffectConcrete {
         const numberRolled = await player.rollDice(ROLL_TYPE.EFFECT)
         this.numberRolled = numberRolled
         StackEffectVisManager.$.updatePreviewByStackId(this.entityId, `player ${player.playerId} rolled ${numberRolled}`)
-        this.visualRepesentation.extraSprite = player.dice.node.getComponent(cc.Sprite).spriteFrame
+        this.visualRepesentation.extraSprite = player.dice.diceSprite.spriteFrame
         await DecisionMarker.$.showDiceRoll(this, true)
         // this.visualRepesentation.flavorText =
-        this.lable = `Player ${player.playerId} rolled ${numberRolled}`
+        this.setLable(`Player ${player.playerId} Rolled ${numberRolled}`, true)
         const turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
         turnPlayer.givePriority(true)
         //add Passive Check for all the +X/-X To dice rolls to add on top of the stack
@@ -80,14 +83,14 @@ export default class RollDiceStackEffect extends StackEffectConcrete {
         const playerCard = CardManager.getCardById(this.creatorCardId, true);
         const player = PlayerManager.getPlayerByCard(playerCard);
         let playerRollValue = player.calculateFinalRoll(this.numberRolled, ROLL_TYPE.EFFECT)
-        this.visualRepesentation.extraSprite = player.dice.node.getComponent(cc.Sprite).spriteFrame
+        this.visualRepesentation.extraSprite = player.dice.diceSprite.spriteFrame
         if (this.numberRolled != playerRollValue) {
             if (this.numberRolled < playerRollValue) {
-                this.lable = `Player ${player.playerId} added ${playerRollValue - this.numberRolled} to its original roll, rolled ${playerRollValue}`
+                this.setLable(`Player ${player.playerId} Added ${playerRollValue - this.numberRolled} To Its Original Roll, Rolled ${playerRollValue}`, true)
                 ActionLable.$.publishMassage(`Added ${playerRollValue - this.numberRolled} to original roll`, 3)
             } else {
-                ActionLable.$.publishMassage(`Decreased ${this.numberRolled - playerRollValue} from original roll`, 3)
-                this.lable = `Player ${player.playerId} decreased ${this.numberRolled - playerRollValue} from its original roll, rolled ${playerRollValue}`
+                ActionLable.$.publishMassage(`Decreased ${this.numberRolled - playerRollValue} From Original Roll`, 3)
+                this.setLable(`Player ${player.playerId} decreased ${this.numberRolled - playerRollValue} from its original roll, rolled ${playerRollValue}`, true)
             }
         }
 
@@ -102,8 +105,9 @@ export default class RollDiceStackEffect extends StackEffectConcrete {
             stackEffectToLock.hasLockingStackEffectResolved = true;
         } else {
             cc.log(`locking stack effect tried to resolve when his to lock effect is not in the stack`)
+            cc.log(this.stackEffectToLock)
+            cc.log(Stack._currentStack)
         }
-
         await PassiveManager.testForPassiveAfter(passiveMeta)
         player.lastRoll = playerRollValue
     }

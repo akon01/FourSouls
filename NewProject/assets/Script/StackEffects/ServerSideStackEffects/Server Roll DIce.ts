@@ -15,6 +15,7 @@ export default class ServerRollDiceStackEffect implements ServerStackEffectInter
     hasLockingStackEffectResolved: boolean;
     lockingStackEffect: ServerStackEffectInterface;
     LockingResolve: any;
+    lable: string
 
 
     numberRolled: number
@@ -28,12 +29,13 @@ export default class ServerRollDiceStackEffect implements ServerStackEffectInter
         this.hasLockingStackEffect = stackEffect.hasLockingStackEffect;
         this.numberRolled = stackEffect.numberRolled
         this.stackEffectType = stackEffect.stackEffectType;
+        this.lable = stackEffect._lable
     }
 
 
 
     convertToStackEffect() {
-        let rollDice = new RollDiceStackEffect(this.creatorCardId, this.stackEffectToLock.convertToStackEffect())
+        let rollDice = new RollDiceStackEffect(this.creatorCardId, this.stackEffectToLock.convertToStackEffect(), this.entityId, this.lable)
         rollDice.numberRolled = this.numberRolled;
         return rollDice;
     }

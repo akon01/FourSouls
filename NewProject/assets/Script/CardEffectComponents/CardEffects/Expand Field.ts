@@ -26,9 +26,11 @@ export default class ExpandField extends Effect {
 
     const player: Player = TurnsManager.currentTurn.getTurnPlayer();
     if (this.fieldType == 1) {
-      await MonsterField.addMonsterToNewPlace(true)
+      for (let i = 0; i < this.howMuchToAdd; i++) {
+        await MonsterField.addMonsterToNewPlace(true)
+      }
     } else {
-      Store.addMaxNumOfItems(this.howMuchToAdd + Store.maxNumOfItems, true)
+      await Store.addMaxNumOfItems(this.howMuchToAdd + Store.maxNumOfItems, true)
     }
     // await BattleManager.cancelAttack(true);
     // if (this.addAttackOppurtunity) TurnsManager.currentTurn.attackPlays = TurnsManager.currentTurn.attackPlays + this.howMuchToAdd

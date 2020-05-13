@@ -27,6 +27,15 @@ export class CardSet implements Iterable<cc.Node> {
 
     length: number = 0
 
+    fill(card: cc.Node, startIndex: number, endIndex: number) {
+        if (this.cardSet.has(card)) {
+            return false;
+        }
+        this.cardArray = this.cardArray.fill(card, startIndex, endIndex)
+        this.cardSet.add(card)
+        return true
+    }
+
     push(card: cc.Node) {
         if (this.cardSet.has(card)) {
             return false

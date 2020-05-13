@@ -19,6 +19,8 @@ export default class ServerCombatDamage implements ServerStackEffectInterface {
     hasLockingStackEffectResolved: boolean;
     lockingStackEffect: ServerStackEffectInterface;
     LockingResolve: any;
+    lable: string
+
 
     entityToTakeDamageCardId: number
     entityToDoDamageCardId: number
@@ -26,6 +28,8 @@ export default class ServerCombatDamage implements ServerStackEffectInterface {
     isPlayerTakeDamage: boolean
     isMonsterDoDamage: boolean
     isPlayerDoDamage: boolean;
+
+    numberRolled: number
 
     constructor(stackEffect: CombatDamage) {
         this.entityId = stackEffect.entityId;
@@ -37,6 +41,8 @@ export default class ServerCombatDamage implements ServerStackEffectInterface {
         this.isMonsterTakeDamage = stackEffect.isMonsterTakeDamage
         this.isPlayerDoDamage = stackEffect.isPlayerDoDamage
         this.stackEffectType = stackEffect.stackEffectType;
+        this.numberRolled = stackEffect.numberRolled
+        this.lable = stackEffect._lable
     }
 
 
@@ -54,7 +60,7 @@ export default class ServerCombatDamage implements ServerStackEffectInterface {
         } else {
             entityToTakeDamage = CardManager.getCardById(this.entityToTakeDamageCardId)
         }
-        let combatDamage = new CombatDamage(this.creatorCardId, entityToTakeDamage, entityToDoDamage)
+        let combatDamage = new CombatDamage(this.creatorCardId, entityToTakeDamage, entityToDoDamage, this.numberRolled, this.entityId, this.lable)
 
         return combatDamage;
     }

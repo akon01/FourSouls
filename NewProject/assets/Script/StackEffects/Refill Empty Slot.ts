@@ -10,10 +10,13 @@ import ServerRefillEmptySlot from "./ServerSideStackEffects/Server Reffill Empty
 import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { RefillEmptySlotVis } from "./StackEffectVisualRepresentation/Refill Empty Slot Vis";
+import { whevent } from "../../ServerClient/whevent";
+import ServerClient from "../../ServerClient/ServerClient";
+import Signal from "../../Misc/Signal";
 
 export default class RefillEmptySlot extends StackEffectConcrete {
     visualRepesentation: RefillEmptySlotVis;
-
+    name = `Reffil Empty Slot`
     entityId: number;
     creatorCardId: number;
     isLockingStackEffect: boolean;
@@ -25,10 +28,6 @@ export default class RefillEmptySlot extends StackEffectConcrete {
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.REFILL_EMPTY_SLOT;
     _lable: string;
 
-    set lable(text: string) {
-        this._lable = text
-        if (!this.nonOriginal) { whevent.emit(GAME_EVENTS.LABLE_CHANGE) }
-    }
 
     isToBeFizzled: boolean = false;
 
@@ -41,13 +40,13 @@ export default class RefillEmptySlot extends StackEffectConcrete {
         }
         switch (this.slotType) {
             case CARD_TYPE.TREASURE:
-                if (Store.storeCards.length == Store.maxNumOfItems) {
+                if (Store.storeCards.length == Store.maxNumOfItems && this.hasResolved == false) {
                     this.isToBeFizzled = true
                     return true
                 }
                 break;
             case CARD_TYPE.MONSTER:
-                if (this.slotToFill.getComponent(MonsterCardHolder).activeMonster) {
+                if (this.slotToFill.getComponent(MonsterCardHolder).activeMonster && this.hasResolved == false) {
                     this.isToBeFizzled = true
                     return true
                 }
@@ -59,20 +58,28 @@ export default class RefillEmptySlot extends StackEffectConcrete {
     }
 
     nonOriginal: boolean = false;
-
+    hasResolved: boolean = false;
     slotToFill: cc.Node
     slotType: CARD_TYPE
 
-    constructor(creatorCardId: number, slotToFill: cc.Node, slotType: CARD_TYPE, entityId?: number) {
+    constructor(creatorCardId: number, slotToFill: cc.Node, slotType: CARD_TYPE, entityId?: number, lable?: string) {
         super(creatorCardId, entityId)
-        
-        
         this.slotToFill = slotToFill;
         this.slotType = slotType
         this.visualRepesentation = new RefillEmptySlotVis(this.slotType)
+        let firstLableString;
         if (this.slotToFill) {
-            this.lable = `Refill ${slotToFill.name} slot`
-        } else { this.lable = `Refill Store slot` }
+            this.name = `Reffil Empty Monster Slot`
+            firstLableString = `Refill ${slotToFill.name} Slot`
+        } else {
+            this.name = `Reffil Empty Store Slot`
+            firstLableString = `Refill Store slot`
+        }
+        if (lable) {
+            this.setLable(lable, false)
+        } else {
+            this.setLable(firstLableString, false)
+        }
     }
 
     async putOnStack() {
@@ -81,6 +88,7 @@ export default class RefillEmptySlot extends StackEffectConcrete {
     }
 
     async resolve() {
+        this.hasResolved = true
         switch (this.slotType) {
             case CARD_TYPE.TREASURE:
                 Store.$.addStoreCard(true)

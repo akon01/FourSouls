@@ -4,6 +4,8 @@ import { PassiveMeta } from "../../Managers/PassiveManager";
 import PlayerManager from "../../Managers/PlayerManager";
 import Condition from "./Condition";
 import Card from "../../Entites/GameEntities/Card";
+import BattleManager from "../../Managers/BattleManager";
+import TurnsManager from "../../Managers/TurnsManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -15,25 +17,32 @@ export default class ActivateItemCondition extends Condition {
   @property
   isOwnerOnly: boolean = true;
 
+  @property
+  isAttackingPlayerOnly: boolean = false;
+
   needsDataCollector = false;
 
   async testCondition(meta: PassiveMeta) {
     const player: Player = meta.methodScope.getComponent(Player);
     const thisCard = Card.getCardNodeByChild(this.node)
     const cardOwner = PlayerManager.getPlayerByCard(thisCard);
-    let answer = false;
-    if (
-      player instanceof Player &&
-      player.playerId == PlayerManager.mePlayer.getComponent(Player).playerId
-      // &&
-      //meta.passiveEvent == PASSIVE_EVENTS.PLAYER_ACTIVATE_ITEM
-    ) {
-      if (this.isOwnerOnly) {
-        if (player.name == cardOwner.name) { answer = true }
-      } else {
-        answer = true;
+    let answer = true;
+    if (!(player instanceof Player)) {
+      answer = false;
+    }
+
+    if (this.isOwnerOnly) {
+      if (player.name != cardOwner.name) {
+        answer = false
       }
     }
+
+    if (this.isAttackingPlayerOnly) {
+      if (!(BattleManager.inBattle && player == TurnsManager.getCurrentTurn().getTurnPlayer())) {
+        answer = false;
+      }
+    }
+
     return answer
   }
 }

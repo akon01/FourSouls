@@ -7,6 +7,7 @@ import ChooseCard from "../DataCollector/ChooseCard";
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
 import Effect from "./Effect";
 import Stack from "../../Entites/Stack";
+import ChooseCardTypeAndFilter from "../ChooseCardTypeAndFilter";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,7 +33,8 @@ export default class LootThenPutOnTop extends Effect {
       } else {
         await player.drawCard(CardManager.lootDeck, true);
         const cardChoose = new ChooseCard();
-        cardChoose.chooseType = CHOOSE_CARD_TYPE.MY_HAND;
+        cardChoose.chooseType = new ChooseCardTypeAndFilter()
+        cardChoose.chooseType.chooseType = CHOOSE_CARD_TYPE.MY_HAND;
         cardChoose.flavorText = "Choose Loot To Put On Top"
         const chosenData = await cardChoose.collectData({ cardPlayerId: player.playerId })
         // let chosenCard = CardManager.getCardById(chosenData.cardChosenId, true)

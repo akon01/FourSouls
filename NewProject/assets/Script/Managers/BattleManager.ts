@@ -26,6 +26,7 @@ export default class BattleManager extends cc.Component {
     //
     BattleManager.currentlyAttackedMonsterNode = monsterCard;
     BattleManager.currentlyAttackedMonster = monsterCard.getComponent(Monster);
+    monsterCard.getComponent(Monster).isAttacked = true
     // ;
     TurnsManager.currentTurn.battlePhase = true;
     this.inBattle = true
@@ -38,6 +39,7 @@ export default class BattleManager extends cc.Component {
 
   static endBattle(sendToServer: boolean) {
     const monsterCard = BattleManager.currentlyAttackedMonsterNode
+    monsterCard.getComponent(Monster).isAttacked = false
     BattleManager.currentlyAttackedMonster = null;
     BattleManager.currentlyAttackedMonsterNode = null;
     TurnsManager.currentTurn.battlePhase = false;

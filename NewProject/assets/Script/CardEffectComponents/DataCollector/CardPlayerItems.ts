@@ -28,7 +28,7 @@ export default class CardPlayerItems extends DataCollector {
         let cards: cc.Node[] = []
         switch (this.ItemsToGet) {
             case CHOOSE_CARD_TYPE.MY_ITEMS:
-                cards = cards.concat(player.activeItems, player.passiveItems)
+                cards = cards.concat(player.activeItems, player.passiveItems, player.paidItems)
                 break;
             // case CHOOSE_TYPE.PLAYERNONACTIVATEDITEMS:
             // cards = cards.concat(player.activeItems.filter((item)=>!item.getComponent(Item).activated))

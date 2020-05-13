@@ -18,6 +18,7 @@ export default class ServerPurchaseItem implements ServerStackEffectInterface {
     hasLockingStackEffectResolved: boolean;
     lockingStackEffect: ServerStackEffectInterface;
     LockingResolve: any;
+    lable: string;
 
 
     itemToPurchaseCardId: number
@@ -31,10 +32,11 @@ export default class ServerPurchaseItem implements ServerStackEffectInterface {
         this.playerWhoBuysCardId = purchaseItemStackEffect.playerWhoBuys.character.getComponent(Card)._cardId
         this.cost = 10;
         this.stackEffectType = purchaseItemStackEffect.stackEffectType;
+        this.lable = purchaseItemStackEffect._lable
     }
 
     convertToStackEffect() {
-        let purchaseItem = new PurchaseItem(this.creatorCardId, CardManager.getCardById(this.itemToPurchaseCardId, true), PlayerManager.getPlayerByCardId(this.playerWhoBuysCardId).getComponent(Player).character.getComponent(Card)._cardId)
+        let purchaseItem = new PurchaseItem(this.creatorCardId, CardManager.getCardById(this.itemToPurchaseCardId, true), PlayerManager.getPlayerByCardId(this.playerWhoBuysCardId).getComponent(Player).character.getComponent(Card)._cardId, this.entityId, this.lable)
         return purchaseItem;
     }
 

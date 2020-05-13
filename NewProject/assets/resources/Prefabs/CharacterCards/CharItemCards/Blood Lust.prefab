@@ -21,27 +21,26 @@
         "__id__": 2
       },
       {
-        "__id__": 8
+        "__id__": 15
       }
     ],
     "_active": true,
-    "_level": 1,
     "_components": [
       {
-        "__id__": 15
+        "__id__": 22
       },
       {
-        "__id__": 16
+        "__id__": 23
       },
       {
-        "__id__": 17
+        "__id__": 24
       },
       {
-        "__id__": 18
+        "__id__": 25
       }
     ],
     "_prefab": {
-      "__id__": 19
+      "__id__": 26
     },
     "_opacity": 255,
     "_color": {
@@ -53,25 +52,29 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
-      "height": 280
+      "width": 100,
+      "height": 140
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
       "x": 0.5,
       "y": 0.5
     },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": -178,
-      "y": 0,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        -178,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
     },
     "_eulerAngles": {
       "__type__": "cc.Vec3",
@@ -82,6 +85,7 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
+    "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
   },
@@ -98,14 +102,13 @@
       }
     ],
     "_active": true,
-    "_level": 2,
     "_components": [
       {
-        "__id__": 6
+        "__id__": 13
       }
     ],
     "_prefab": {
-      "__id__": 7
+      "__id__": 14
     },
     "_opacity": 255,
     "_color": {
@@ -117,25 +120,29 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 167,
-      "height": 49
+      "width": 83.5,
+      "height": 24.5
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
       "x": 0.5,
       "y": 0.5
     },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": -0.1,
-      "y": -60.5,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        -0.1,
+        -60.5,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
     },
     "_eulerAngles": {
       "__type__": "cc.Vec3",
@@ -146,6 +153,7 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
+    "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
   },
@@ -158,14 +166,13 @@
     },
     "_children": [],
     "_active": true,
-    "_level": 3,
     "_components": [
       {
         "__id__": 4
       }
     ],
     "_prefab": {
-      "__id__": 5
+      "__id__": 12
     },
     "_opacity": 255,
     "_color": {
@@ -185,17 +192,21 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
     },
     "_eulerAngles": {
       "__type__": "cc.Vec3",
@@ -206,6 +217,7 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
+    "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
   },
@@ -217,11 +229,85 @@
       "__id__": 3
     },
     "_enabled": true,
-    "multiType": false,
-    "chooseType": 13,
-    "chooseTypes": [],
-    "flavorText": "Choose A Player To Get +1 DMG",
+    "multiType": true,
+    "otherPlayer": null,
+    "chooseType": {
+      "__id__": 5
+    },
+    "chooseTypes": [
+      {
+        "__id__": 6
+      },
+      {
+        "__id__": 9
+      }
+    ],
+    "flavorText": "Choose A Player Or Monster To Get +1 DMG",
     "_id": ""
+  },
+  {
+    "__type__": "ChooseCardTypeAndFilter",
+    "chooseType": 0,
+    "applyFilter": false,
+    "componentName": "",
+    "isMultiFilter": false,
+    "filterStatement": null,
+    "filterStatements": []
+  },
+  {
+    "__type__": "ChooseCardTypeAndFilter",
+    "chooseType": 1,
+    "applyFilter": false,
+    "componentName": "Character",
+    "isMultiFilter": false,
+    "filterStatement": {
+      "__id__": 7
+    },
+    "filterStatements": []
+  },
+  {
+    "__type__": "FilterConcrete",
+    "filterType": 1,
+    "filterMaker": null,
+    "componentType": 0,
+    "playerFilter": {
+      "__id__": 8
+    },
+    "monsterFilter": null,
+    "cardFilter": null,
+    "itemFilter": null
+  },
+  {
+    "__type__": "PlayerFilter",
+    "filter": 1,
+    "quantity": 0
+  },
+  {
+    "__type__": "ChooseCardTypeAndFilter",
+    "chooseType": 4,
+    "applyFilter": false,
+    "componentName": "Monster",
+    "isMultiFilter": false,
+    "filterStatement": {
+      "__id__": 10
+    },
+    "filterStatements": []
+  },
+  {
+    "__type__": "FilterConcrete",
+    "filterType": 1,
+    "filterMaker": null,
+    "componentType": 1,
+    "playerFilter": null,
+    "monsterFilter": {
+      "__id__": 11
+    },
+    "cardFilter": null,
+    "itemFilter": null
+  },
+  {
+    "__type__": "MonsterFilter",
+    "filter": 0
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -294,21 +380,20 @@
     },
     "_children": [
       {
-        "__id__": 9
+        "__id__": 16
       }
     ],
     "_active": true,
-    "_level": 2,
     "_components": [
       {
-        "__id__": 12
+        "__id__": 19
       },
       {
-        "__id__": 13
+        "__id__": 20
       }
     ],
     "_prefab": {
-      "__id__": 14
+      "__id__": 21
     },
     "_opacity": 255,
     "_color": {
@@ -320,25 +405,29 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
-      "height": 280
+      "width": 100,
+      "height": 140
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
       "x": 0.5,
       "y": 0.5
     },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
     },
     "_eulerAngles": {
       "__type__": "cc.Vec3",
@@ -349,6 +438,7 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
+    "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
   },
@@ -357,18 +447,17 @@
     "_name": "Particle",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 8
+      "__id__": 15
     },
     "_children": [],
     "_active": true,
-    "_level": 3,
     "_components": [
       {
-        "__id__": 10
+        "__id__": 17
       }
     ],
     "_prefab": {
-      "__id__": 11
+      "__id__": 18
     },
     "_opacity": 255,
     "_color": {
@@ -388,17 +477,21 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 5,
-      "y": 5,
-      "z": 1
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        5,
+        5,
+        1
+      ]
     },
     "_eulerAngles": {
       "__type__": "cc.Vec3",
@@ -409,6 +502,7 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
+    "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
   },
@@ -417,7 +511,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 16
     },
     "_enabled": true,
     "_materials": [
@@ -533,7 +627,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 8
+      "__id__": 15
     },
     "_enabled": true,
     "_materials": [
@@ -553,7 +647,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 8
+      "__id__": 15
     },
     "_enabled": true,
     "alignMode": 1,
@@ -641,6 +735,7 @@
     "topDeckof": null,
     "souls": 0,
     "type": 4,
+    "isGoingToBePlayed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,

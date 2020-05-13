@@ -10,7 +10,7 @@ export class DiceRollVis implements StackEffectVisualRepresentation {
     flavorText: string;
     baseSprite: cc.SpriteFrame = StackEffectVisManager.$.diceRollBaseSprite;
     hasBeenUpdated: boolean = false;
-    visType: STACK_EFFECT_VIS_TYPE = STACK_EFFECT_VIS_TYPE.PLAYER_ACTION
+    visType: STACK_EFFECT_VIS_TYPE = STACK_EFFECT_VIS_TYPE.BASIC
     playerWhoRolled: Player = null
 
 

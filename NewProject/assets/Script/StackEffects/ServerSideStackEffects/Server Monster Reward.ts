@@ -16,9 +16,11 @@ export default class ServerMonsterReward implements ServerStackEffectInterface {
     hasLockingStackEffectResolved: boolean;
     lockingStackEffect: ServerStackEffectInterface;
     LockingResolve: any;
+    lable: string
 
     monsterCardWithRewardId: number;
     playerCardIdToReward: number
+    numberRolled: number
 
 
     constructor(stackEffect: MonsterRewardStackEffect) {
@@ -29,13 +31,15 @@ export default class ServerMonsterReward implements ServerStackEffectInterface {
         this.monsterCardWithRewardId = stackEffect.monsterReward.node.parent.getComponent(Card)._cardId
         this.playerCardIdToReward = stackEffect.playerToReward.character.getComponent(Card)._cardId
         this.stackEffectType = stackEffect.stackEffectType;
+        this.numberRolled = stackEffect.numberRolled
+        this.lable = stackEffect._lable
     }
 
 
     convertToStackEffect() {
         let playerToReward = CardManager.getCardById(this.playerCardIdToReward, true)
         const monster = CardManager.getCardById(this.monsterCardWithRewardId)
-        let monsterReward = new MonsterRewardStackEffect(this.creatorCardId, monster, playerToReward)
+        let monsterReward = new MonsterRewardStackEffect(this.creatorCardId, monster, playerToReward, this.numberRolled, this.entityId, this.lable)
         monsterReward.LockingResolve = this.LockingResolve;
         monsterReward.hasLockingStackEffectResolved = this.hasLockingStackEffectResolved
         return monsterReward

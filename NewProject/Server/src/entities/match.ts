@@ -47,15 +47,9 @@ export default class Match {
   }
 
   getPlayerById(id: number): ServerPlayer {
-    console.log("get Player by id " + id);
     for (let i = 0; i < this.players.length; i++) {
       const player = this.players[i];
-      console.log(`checking for ${player.uuid}`);
-
       if (player.uuid == id) {
-
-        console.log(`returning player ${player.uuid}`);
-
         return player;
       }
     }

@@ -16,7 +16,7 @@ export default class StackEffectPreview extends cc.Component {
     @property(cc.Label)
     flavorTextLable: cc.Label = null;
 
-    @property
+    @property({ visible: false })
     flavorText: string = "";
 
     @property(cc.Label)
@@ -25,7 +25,7 @@ export default class StackEffectPreview extends cc.Component {
     @property(cc.Node)
     cardEffectMask: cc.Node = null
 
-    @property
+    @property({ visible: false })
     nameText: string = "";
 
     @property(cc.Node)
@@ -43,7 +43,7 @@ export default class StackEffectPreview extends cc.Component {
     @property(cc.Sprite)
     topOriginSprite: cc.Sprite = null;
 
-    @property
+    @property({ visible: false })
     stackEffect: StackEffectInterface = null
 
     @property
@@ -59,7 +59,7 @@ export default class StackEffectPreview extends cc.Component {
     showStackIcon() {
         this.stackIcon.node.active = true
     }
-
+    c
     hideStackIcon() {
         this.stackIcon.node.active = false
     }
@@ -85,9 +85,9 @@ export default class StackEffectPreview extends cc.Component {
         } else {
             this.showExtraInfo()
             this.node.getComponent(cc.Sprite).spriteFrame = stackEffectVis.baseSprite;
-            this.nameLable.string = stackEffect.constructor.name + stackEffect.entityId
+            this.nameLable.string = stackEffect.name + stackEffect.entityId
             if (stackEffectVis.flavorText != "") {
-                this.flavorTextLable.string = stackEffectVis.flavorText;
+                this.flavorTextLable.string = stackEffect._lable;
             }
             if (stackEffectVis.extraSprite != null) {
                 this.imageArea.getComponent(cc.Sprite).spriteFrame = stackEffectVis.extraSprite

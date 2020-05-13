@@ -6,6 +6,8 @@ import { PassiveMeta } from "../../Managers/PassiveManager";
 import { PASSIVE_EVENTS, TARGETTYPE } from "../../Constants";
 import Monster from "../../Entites/CardTypes/Monster";
 import DataCollector from "../DataCollector/DataCollector";
+import Card from "../../Entites/GameEntities/Card";
+import Character from "../../Entites/CardTypes/Character";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,35 +34,40 @@ export default class EntityTakeDamage extends Condition {
   async testCondition(meta: PassiveMeta) {
     let scope;
     scope = meta.methodScope.getComponent(Player);
-    if (!scope) scope = meta.methodScope.getComponent(Monster)
-    let thisCard = this.node.parent.parent;
+    if (!scope) { scope = meta.methodScope.getComponent(Monster) }
+    const thisCard = Card.getCardNodeByChild(this.node);
     let target
-    let event = PASSIVE_EVENTS.MONSTER_GET_HIT
-    if (!this.isSpecificToEntityTakesDamage) {
+    let isAPlayer = true
+    let subject
+    if (this.conditionData != null || this.conditionData != undefined) {
+      subject = this.conditionData.getTarget(TARGETTYPE.PLAYER) as cc.Node
 
-      let subject = this.conditionData.getTarget(TARGETTYPE.PLAYER)
-      let isAPlayer = true
       if (!subject) {
-        subject = this.conditionData.getTarget(TARGETTYPE.MONSTER)
+        subject = this.conditionData.getTarget(TARGETTYPE.MONSTER) as cc.Node
         isAPlayer = false;
       }
       if (isAPlayer) {
         target = PlayerManager.getPlayerByCard(thisCard);
-        event = PASSIVE_EVENTS.PLAYER_GET_HIT
+      }
+    }
+    if (this.isSpecificToEntityTakesDamage) {
+      if (this.entityWhoTookDamage != null) {
+        target = this.entityWhoTookDamage
+      } else if (isAPlayer) {
+        target = subject.getComponent(Character).player.node
+      } else {
+        target = subject.getComponent(Monster).node
+      }
+    }
+    let answer = true;
+    if (this.events.includes(meta.passiveEvent)) {
+      if (this.isSpecificToEntityTakesDamage) {
+        if (target != scope.node) {
+          answer = false;
+        }
       }
     } else {
-      target = this.entityWhoTookDamage
-    }
-    let answer = false;
-    if (
-      scope.name == target.name &&
-      meta.passiveEvent == event
-    ) answer = true;
-    if (this.isSpecificToEntityTakesDamage) {
-      cc.log(`entity who took damage is ${scope.name}`)
-      if (this.entityWhoTookDamage == scope.node) {
-        answer = true
-      } else answer = false;
+      answer = false
     }
     return answer
   }

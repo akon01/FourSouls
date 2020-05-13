@@ -16,6 +16,7 @@ export default class ServerPlayerDeath implements ServerStackEffectInterface {
     hasLockingStackEffectResolved: boolean;
     lockingStackEffect: ServerStackEffectInterface;
     LockingResolve: any;
+    lable: string;
 
     playerToDieCardId: number;
     killerId: number
@@ -26,12 +27,13 @@ export default class ServerPlayerDeath implements ServerStackEffectInterface {
         this.playerToDieCardId = stackEffect.playerToDie.character.getComponent(Card)._cardId
         this.stackEffectType = stackEffect.stackEffectType;
         this.killerId = stackEffect.killer.getComponent(Card)._cardId
+        this.lable = stackEffect._lable
     }
 
 
 
     convertToStackEffect() {
-        let playerDeath = new PlayerDeath(this.creatorCardId, CardManager.getCardById(this.playerToDieCardId), CardManager.getCardById(this.killerId, true))
+        let playerDeath = new PlayerDeath(this.creatorCardId, CardManager.getCardById(this.playerToDieCardId), CardManager.getCardById(this.killerId, true), this.entityId, this.lable)
         return playerDeath;
     }
 

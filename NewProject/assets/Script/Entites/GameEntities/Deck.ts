@@ -6,6 +6,7 @@ import CardManager from "../../Managers/CardManager";
 import { CardSet } from "../Card Set";
 import Card from "./Card";
 import PileManager from "../../Managers/PileManager";
+import Pile from "../Pile";
 
 const { ccclass, property } = cc._decorator;
 
@@ -15,6 +16,9 @@ export default class Deck extends cc.Component {
     type: cc.Enum(CARD_TYPE),
   })
   deckType: CARD_TYPE = CARD_TYPE.LOOT;
+
+  @property({ visible: false })
+  pile: Pile = null
 
   // @property(cc.Node)
   // topBlankCard: cc.Node = null;
@@ -64,7 +68,7 @@ export default class Deck extends cc.Component {
 
       if (!newCard.getComponent(Card)._isFlipped) { newCard.getComponent(Card).flipCard(false) }
       if (newCard.parent == null) {
-        newCard.parent = cc.find("Canvas")
+        newCard.parent = CardManager.$.onTableCardsHolder
         newCard.setPosition(this.node.getPosition())
       }
       CardManager.removeFromInAllDecksCards(newCard);
@@ -73,8 +77,15 @@ export default class Deck extends cc.Component {
       }
       return newCard;
     } else {
+      this.resuffleDeck();
       return null;
     }
+  }
+
+  resuffleDeck() {
+
+    this._cards.set(this.pile.getCards())
+    this.shuffleDeck()
   }
 
   async discardTopCard() {
@@ -86,13 +97,10 @@ export default class Deck extends cc.Component {
 
   drawSpecificCard(cardToDraw: cc.Node, sendToServer: boolean): cc.Node {
     if (this._cards.length != 0) {
-      cc.log(cardToDraw.getComponent(Card)._cardId)
-      cc.log(this._cards.map(card => card.getComponent(Card)._cardId))
       const newCard = this._cards.splice(this._cards.indexOf(cardToDraw), 1);
-      cc.log(this._cards.map(card => card.getComponent(Card)._cardId))
       if (!newCard[0].getComponent(Card)._isFlipped) { newCard[0].getComponent(Card).flipCard(false) }
       if (newCard[0].parent == null) {
-        newCard[0].parent = cc.find("Canvas")
+        newCard[0].parent = CardManager.$.onTableCardsHolder
         newCard[0].setPosition(this.node.getPosition())
       }
       CardManager.removeFromInAllDecksCards(newCard[0]);
@@ -146,6 +154,7 @@ export default class Deck extends cc.Component {
   shuffleDeck() {
     const randomSeed = Math.floor(Math.log(new Date().getTime()))
     const randomTimes = Math.random() * randomSeed
+    const currentArrangment = this._cards.getCards()
     for (let i = 0; i < randomTimes; i++) {
       this._cards.set(this.shuffle(this._cards))
     }

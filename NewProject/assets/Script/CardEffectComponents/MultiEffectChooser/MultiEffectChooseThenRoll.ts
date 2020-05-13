@@ -1,13 +1,12 @@
-import { CHOOSE_CARD_TYPE, ITEM_TYPE } from "../../Constants";
+import { ITEM_TYPE } from "../../Constants";
 import EffectsAndNumbers from "../../EffectsAndNumbers";
 import CardEffect from "../../Entites/CardEffect";
-import Effect from "../CardEffects/Effect";
-import ChooseCard from "../DataCollector/ChooseCard";
-import DataCollector from "../DataCollector/DataCollector";
-import MultiEffectRoll from "./MultiEffectRoll";
-import { IMultiEffectRollAndCollect } from "./IMultiEffectRollAndCollect";
 import DecisionMarker from "../../Entites/Decision Marker";
 import Card from "../../Entites/GameEntities/Card";
+import Effect from "../CardEffects/Effect";
+import ChooseCardTypeAndFilter from "../ChooseCardTypeAndFilter";
+import ChooseCard from "../DataCollector/ChooseCard";
+import { IMultiEffectRollAndCollect } from "./IMultiEffectRollAndCollect";
 
 const { ccclass, property } = cc._decorator;
 
@@ -27,18 +26,18 @@ export default class MultiEffectChooseThenRoll extends IMultiEffectRollAndCollec
   multiType: boolean = false;
 
   @property({
-    type: cc.Enum(CHOOSE_CARD_TYPE), visible: function (this: MultiEffectChooseThenRoll) {
+    type: ChooseCardTypeAndFilter, visible: function (this: MultiEffectChooseThenRoll) {
       if (!this.multiType) { return true }
     }
   })
-  chooseType: CHOOSE_CARD_TYPE = CHOOSE_CARD_TYPE.ALL_PLAYERS_ITEMS;
+  chooseType: ChooseCardTypeAndFilter = null;
 
   @property({
-    type: [cc.Enum(CHOOSE_CARD_TYPE)], visible: function (this: MultiEffectChooseThenRoll) {
+    type: [ChooseCardTypeAndFilter], visible: function (this: MultiEffectChooseThenRoll) {
       if (this.multiType) { return true }
     }
   })
-  chooseTypes: CHOOSE_CARD_TYPE[] = []
+  chooseTypes: ChooseCardTypeAndFilter[] = []
 
   @property
   flavorText: string = ''

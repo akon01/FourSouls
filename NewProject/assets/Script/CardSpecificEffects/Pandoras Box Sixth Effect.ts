@@ -4,6 +4,7 @@ import CardManager from "../Managers/CardManager";
 import { ActiveEffectData, PassiveEffectData } from "../Managers/DataInterpreter";
 import PlayerManager from "../Managers/PlayerManager";
 import StackEffectInterface from "../StackEffects/StackEffectInterface";
+import Card from "../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
@@ -25,7 +26,7 @@ export default class PandorasBoxSixthEffect extends Effect {
   ) {
 
 
-    let thisCard = this.node.parent
+    let thisCard = Card.getCardNodeByChild(this.node)
     let thisOwner = PlayerManager.getPlayerByCard(CardManager.getCardOwner(thisCard))
     await thisOwner.getSoulCard(thisCard, true)
 

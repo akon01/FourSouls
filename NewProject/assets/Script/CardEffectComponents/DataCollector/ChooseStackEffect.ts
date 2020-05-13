@@ -7,6 +7,7 @@ import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import StackEffectPreview from "../../StackEffects/StackEffectVisualRepresentation/StackEffectPreview";
 import { GAME_EVENTS, STACK_EFFECT_TYPE } from "./../../Constants";
 import DataCollector from "./DataCollector";
+import { whevent } from "../../../ServerClient/whevent";
 
 const { ccclass, property } = cc._decorator;
 

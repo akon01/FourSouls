@@ -12,10 +12,11 @@ import { PlayerDeathPenaltiesVis } from "./StackEffectVisualRepresentation/Playe
 import ActionLable from "../LableScripts/Action Lable";
 import ServerClient from "../../ServerClient/ServerClient";
 import Signal from "../../Misc/Signal";
+import { whevent } from "../../ServerClient/whevent";
 
 export default class PlayerDeathPenalties extends StackEffectConcrete {
     visualRepesentation: PlayerDeathPenaltiesVis;
-
+    name = `Player Death Penalties`
     entityId: number;
     creatorCardId: number;
     isLockingStackEffect: boolean;
@@ -26,11 +27,6 @@ export default class PlayerDeathPenalties extends StackEffectConcrete {
     LockingResolve: any;
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.PLAYER_DEATH_PENALTY;
     _lable: string;
-
-    set lable(text: string) {
-        this._lable = text
-        if (!this.nonOriginal) { whevent.emit(GAME_EVENTS.LABLE_CHANGE) }
-    }
 
     isToBeFizzled: boolean = false;
 
@@ -47,12 +43,16 @@ export default class PlayerDeathPenalties extends StackEffectConcrete {
     nonOriginal: boolean = false;
     playerToPay: Player
 
-    constructor(creatorCardId: number, playerToPayCard: cc.Node, entityId?: number) {
+    constructor(creatorCardId: number, playerToPayCard: cc.Node, entityId?: number, lable?: string) {
         super(creatorCardId, entityId)
 
         this.playerToPay = PlayerManager.getPlayerByCard(playerToPayCard)
         this.visualRepesentation = new PlayerDeathPenaltiesVis(this.playerToPay.getComponent(Player))
-        this.lable = `Player ${this.playerToPay.playerId} is about to pay death penalties`
+        if (lable) {
+            this.setLable(lable, false)
+        } else {
+            this.setLable(`Player ${this.playerToPay.playerId} Is About To Pay Death Penalties`, false)
+        }
     }
 
     async putOnStack() {
@@ -64,9 +64,9 @@ export default class PlayerDeathPenalties extends StackEffectConcrete {
 
         //if prevent death, dont continue
         if (!afterPassiveMeta.continue) {
+            await Stack.fizzleStackEffect(this, true)
             return
             // cc.log(`b4 fizzle player death penalties`)
-            // await Stack.fizzleStackEffect(this, true)
             // cc.log(`after fizzle player death penalties`)
         }
         const turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
@@ -79,6 +79,7 @@ export default class PlayerDeathPenalties extends StackEffectConcrete {
         ActionLable.$.removeMessage(amId, true)
         this.playerToPay._isDead = true
         ServerClient.$.send(Signal.PLAYER_DIED, { playerId: this.playerToPay.playerId })
+        this.setLable(`Player ${this.playerToPay.playerId} Paid Death Penalties`, true)
         // if (TurnsManager.currentTurn.getTurnPlayer().playerId == this.playerToPay.playerId) {
         //     //   Stack.removeFromCurrentStackEffectResolving()
         //     this.playerToPay.endTurn(true);

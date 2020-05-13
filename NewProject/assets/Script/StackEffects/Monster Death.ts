@@ -11,10 +11,13 @@ import ServerMonsterDeath from "./ServerSideStackEffects/Server Monster Death";
 import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { MonsterDeathVis } from "./StackEffectVisualRepresentation/Monster Death Vis";
+import { whevent } from "../../ServerClient/whevent";
+import ServerClient from "../../ServerClient/ServerClient";
+import Signal from "../../Misc/Signal";
 
 export default class MonsterDeath extends StackEffectConcrete {
     visualRepesentation: MonsterDeathVis;
-
+    name = `Monster Is Going To Die`
     entityId: number;
     creatorCardId: number;
     isLockingStackEffect: boolean;
@@ -25,11 +28,6 @@ export default class MonsterDeath extends StackEffectConcrete {
     LockingResolve: any;
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.MONSTER_DEATH;
     _lable: string;
-
-    set lable(text: string) {
-        this._lable = text
-        if (!this.nonOriginal) { whevent.emit(GAME_EVENTS.LABLE_CHANGE) }
-    }
 
     isToBeFizzled: boolean = false;
 
@@ -45,15 +43,21 @@ export default class MonsterDeath extends StackEffectConcrete {
 
     nonOriginal: boolean = false;
 
+    numberRolled: number
     monsterToDie: Monster;
     killer: cc.Node
 
-    constructor(creatorCardId: number, monsterToDieCard: cc.Node, killerCard: cc.Node, entityId?: number) {
+    constructor(creatorCardId: number, monsterToDieCard: cc.Node, killerCard: cc.Node, numberRolled?: number, entityId?: number, lable?: string) {
         super(creatorCardId, entityId)
         this.killer = killerCard
         this.monsterToDie = monsterToDieCard.getComponent(Monster)
         this.visualRepesentation = new MonsterDeathVis(this.monsterToDie)
-        this.lable = `${this.monsterToDie} killed by ${killerCard.name}`
+        this.numberRolled = numberRolled
+        if (lable) {
+            this.setLable(lable, false)
+        } else {
+            this.setLable(`${this.monsterToDie} Is Going To Be Killed by ${killerCard.name}`, false)
+        }
     }
 
     async putOnStack() {
@@ -68,7 +72,7 @@ export default class MonsterDeath extends StackEffectConcrete {
         }
         this.monsterToDie._thisTurnKiller = this.killer
         const turnPlayerCard = PlayerManager.getPlayerById(TurnsManager.currentTurn.PlayerId).character
-        const monsterReward = new MonsterRewardStackEffect(this.creatorCardId, this.monsterToDie.node, turnPlayerCard)
+        const monsterReward = new MonsterRewardStackEffect(this.creatorCardId, this.monsterToDie.node, turnPlayerCard, this.numberRolled)
 
         await Stack.addToStackBelow(monsterReward, this, true)
 

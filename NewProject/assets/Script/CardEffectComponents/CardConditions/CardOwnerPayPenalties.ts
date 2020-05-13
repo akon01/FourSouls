@@ -4,6 +4,7 @@ import Player from "../../Entites/GameEntities/Player";
 import PlayerManager from "../../Managers/PlayerManager";
 import { PassiveMeta } from "../../Managers/PassiveManager";
 import { PASSIVE_EVENTS } from "../../Constants";
+import Card from "../../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
@@ -15,7 +16,7 @@ export default class CardOwnerPayPenalties extends Condition {
 
   async testCondition(meta: PassiveMeta) {
     let player: Player = meta.methodScope.getComponent(Player);
-    let thisCard = this.node.parent.parent;
+    const thisCard = Card.getCardNodeByChild(this.node)
     let cardOwner = PlayerManager.getPlayerByCard(thisCard);
     if (
       player instanceof Player &&

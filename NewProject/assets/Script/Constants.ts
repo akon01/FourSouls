@@ -6,10 +6,10 @@ export const MAX_PLAYERS = 2;
 
 export const MAX_TURNID = MAX_PLAYERS;
 
-export const CARD_WIDTH = 200;
-export const CARD_HEIGHT = 280;
-export const SCREEN_WIDTH = 3840;
-export const SCREEN_HEIGHT = 2160;
+export const CARD_WIDTH = 100;
+export const CARD_HEIGHT = 140;
+export const SCREEN_WIDTH = 1980;
+export const SCREEN_HEIGHT = 1080;
 
 export enum HAND_POSITIONS {
   FIRST_X = SCREEN_WIDTH / 2,
@@ -33,6 +33,7 @@ export enum CARD_TYPE {
   TREASURE = 5,
   EXTRASOUL = 6,
   LOOT_PLAY = 7,
+  BONUS_SOULS = 8,
 }
 
 export enum STACK_EFFECT_TYPE {
@@ -88,9 +89,12 @@ export enum COLLECTORTYPE {
 export enum ITEM_TYPE {
   PASSIVE,
   ACTIVE,
-  BOTH,
+  ACTIVE_AND_PASSIVE,
   TO_ADD_PASSIVE,
-  PAID
+  PAID,
+  ACTIVE_AND_PAID,
+  PASSIVE_AND_PAID,
+  ALL
 }
 
 export enum ARGS_TYPES {
@@ -164,6 +168,19 @@ export enum CHOOSE_CARD_TYPE {
   SPECIPIC_PLAYER_ITEMS_WITHOUT_ETERNALS = 20,
   NON_ATTACKED_ACTIVE_MONSTERS = 21,
   ALL_PLAYERS_SOUL_CARDS = 22,
+}
+
+export enum PLAYER_FILTERS {
+
+}
+
+export enum SIGNS {
+  EQUAL,
+  NOT_EQUAL,
+  GREATER_THAN,
+  GREATER_EQUAL_THAN,
+  SMALLER_THAN,
+  SMALLER_EQUAL_THAN,
 }
 
 export enum CARD_POOLS {
@@ -265,11 +282,26 @@ export enum TARGETTYPE {
 }
 
 export enum PASSIVE_EVENTS {
+  /**
+   * scope - player who got the loot
+   * args [loot gained]
+   */
+  PLAYER_LOSE_LOOT = "PLAYER_LOSE_LOOT",
+  /**
+   * scope - player who got the loot
+   * args [loot gained]
+   */
+  PLAYER_GAIN_LOOT = "PLAYER_GAIN_LOOT",
 
   /**
    * scope -
    */
   PLAYER_MISS_ATTACK = "PLAYER_MISS_ATTACK",
+  /**
+   * scope - attacking player node
+   * args - [numberRolled,attackedMonster]
+   */
+  PLAYER_LAND_ATTACK = "PLAYER_LAND_ATTACK",
   /**
    * args = damage,damageDealer
    */
@@ -277,6 +309,7 @@ export enum PASSIVE_EVENTS {
   PLAYER_ACTIVATE_ITEM = "PLAYER_ACTIVATE_ITEM",
   PLAYER_PREVENT_DAMAGE = "PLAYER_PREVENT_DAMAGE",
   /**
+   * scope - player who got hit
    * args = [damage taken,num of missed dice roll,entity who dealt damage:cc.node]
    */
   PLAYER_COMBAT_DAMAGE_TAKEN = "PLAYER_COMBAT_DAMAGE_TAKEN",
@@ -294,12 +327,20 @@ export enum PASSIVE_EVENTS {
    */
   PLAYER_PAY_DEATH_PANELTIES = "PLAYER_PAY_DEATH_PANELTIES",
   PLAYER_LOSE_ITEM = "PLAYER_LOSE_ITEM",
+  /**
+   * scope:the player who rolled the dice
+   * args:[rollValue,AttackType(ROLL_TYPE),monsterEvasion]
+   */
   PLAYER_ROLL_DICE = "PLAYER_ROLL_DICE",
   PLAYER_END_TURN = "PLAYER_END_TURN",
   PLAYER_START_TURN = "PLAYER_START_TURN",
   PLAYER_BUY_ITEM = "PLAYER_BUY_ITEM",
   PLAYER_DECLARE_ATTACK = "PLAYER_DECLARE_ATTACK",
   PLAYER_FIRST_ATTACK_ROLL_OF_TURN = "PLAYER_FIRST_ATTACK_ROLL_OF_TURN",
+  /**
+   * scope: player card
+   * args: [itemAdded]
+   */
   PLAYER_ADD_ITEM = "PLAYER_ADD_ITEM",
   /**
      * args = damage,damageDealer
@@ -307,6 +348,7 @@ export enum PASSIVE_EVENTS {
   MONSTER_GET_HIT = "MONSTER_GET_HIT",
   /**
    * scope : the monster who was killed
+   * args: [numberRolled for killing the monster(0 if not available)]
    */
   MONSTER_IS_KILLED = "MONSTER_IS_KILLED",
   NEW_ACTIVE_MONSTER = "NEW_ACTIVE_MONSTER",
@@ -343,9 +385,11 @@ export const TIME_TO_REACT_ON_ACTION = 90;
 export const TIME_FOR_DICE_ROLL = 0.3;
 export const TIME_FOR_MONSTER_DISCARD = 1;
 export const TIME_FOR_TREASURE_DISCARD = 2;
-export const MAX_NUM_OF_HISTORY_ITEM = 150
-export const EFFECT_ANIMATION_TIME = 2
-export const DECISION_SHOW_TIME = 3
+export const MAX_NUM_OF_HISTORY_ITEM = 50
+export const PARTICLE_SYS_MAX = 40
+export const EFFECT_ANIMATION_TIME = 2;
+export const ANNOUNCEMENT_TIME = 2;
+export const DECISION_SHOW_TIME = 3;
 
 export let ServerIp = "localhost:7456/"
 

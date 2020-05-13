@@ -8,6 +8,7 @@ import Pile from "../Entites/Pile";
 import CardManager from "./CardManager";
 import PlayerManager from "./PlayerManager";
 import AnimationManager from "./Animation Manager";
+import Deck from "../Entites/GameEntities/Deck";
 
 const { ccclass, property } = cc._decorator;
 
@@ -28,19 +29,27 @@ export default class PileManager extends cc.Component {
 
   static lootPlayPile: Pile = null;
 
-  static init() {
+  static async init() {
 
     PileManager.lootPlayPile.getComponent(Card)._cardId = ++CardManager.cardsId
     PileManager.lootCardPileNode.getComponent(Card)._cardId = ++CardManager.cardsId
     PileManager.treasureCardPileNode.getComponent(Card)._cardId = ++CardManager.cardsId
     PileManager.monsterCardPileNode.getComponent(Card)._cardId = ++CardManager.cardsId
+    this.setDeck(PileManager.lootCardPile, CardManager.lootDeck.getComponent(Deck))
+    this.setDeck(PileManager.treasureCardPile, CardManager.treasureDeck.getComponent(Deck))
+    this.setDeck(PileManager.monsterCardPile, CardManager.monsterDeck.getComponent(Deck))
     const piles = [PileManager.lootPlayPile.node, PileManager.lootCardPileNode, PileManager.treasureCardPileNode, PileManager.monsterCardPileNode]
     CardManager.allCards.push(...piles)
     piles.forEach(pile => {
       cc.log(`add animation node to ${pile.name}`)
-      AnimationManager.addAnimationNode(pile)
+      // AnimationManager.addAnimationNode(pile)
     });
 
+  }
+
+  static setDeck(pile: Pile, deck: Deck) {
+    pile.deck = deck
+    deck.pile = pile
   }
 
   static getTopCardOfPiles() {
@@ -89,41 +98,32 @@ export default class PileManager extends cc.Component {
 
       case CARD_TYPE.LOOT:
         CardManager.onTableCards.push(card);
-
         if (sendToServer) {
-
           await CardManager.moveCardTo(card, PileManager.lootCardPileNode, sendToServer, true)
         }
         PileManager.lootCardPile.addCardToTopPile(card)
         break;
       case CARD_TYPE.LOOT_PLAY:
         CardManager.onTableCards.push(card);
-
         if (sendToServer) {
-
           await CardManager.moveCardTo(card, PileManager.lootPlayPile.node, sendToServer, true)
         }
         PileManager.lootPlayPile.addCardToTopPile(card)
         break;
       case CARD_TYPE.MONSTER:
         CardManager.onTableCards.push(card);
-
         if (sendToServer) {
-
           await CardManager.moveCardTo(card, PileManager.monsterCardPileNode, sendToServer, true)
         }
         PileManager.monsterCardPile.addCardToTopPile(card);
         if (card.getComponent(Monster).monsterPlace != null) {
         }
-
         break;
       case CARD_TYPE.TREASURE:
         if (CardManager.onTableCards.find(tableCard => tableCard.uuid == card.uuid) == undefined) {
           CardManager.onTableCards.push(card);
         }
-
         if (sendToServer) {
-
           await CardManager.moveCardTo(card, PileManager.monsterCardPileNode, sendToServer, true)
         }
         PileManager.treasureCardPile.addCardToTopPile(card);

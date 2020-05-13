@@ -1,0 +1,224 @@
+Start Log 
+ Player 3 16:59:17 $START_GAME:  
+ Player 3 16:59:17 $MOVE_TO_TABLE:  
+ Player 3 16:59:33 $FINISH_LOAD:  
+
+ {"id":3,"turnPlayerId":2} 
+ Player 3 16:59:40 $ASSIGN_CHAR_TO_PLAYER:  
+
+ {"playerId":3,"charCardId":314,"itemCardId":317} 
+ Player 3 16:59:41 $SET_CHAR_END:  
+
+ {"playerId":2} 
+ Player 3 16:59:43 $MOVE_CARD_END:  
+
+ {"moveIndex":1,"cardId":162,"flipIfFlipped":false,"playerId":2} 
+ Player 3 16:59:44 $MOVE_CARD_END:  
+
+ {"moveIndex":2,"cardId":144,"flipIfFlipped":false,"playerId":2} 
+ Player 3 16:59:45 $MOVE_CARD_END:  
+
+ {"moveIndex":3,"cardId":180,"flipIfFlipped":false,"playerId":2} 
+ Player 3 16:59:47 $MOVE_CARD_END:  
+
+ {"moveIndex":4,"cardId":166,"flipIfFlipped":false,"playerId":2} 
+ Player 3 16:59:48 $MOVE_CARD_END:  
+
+ {"moveIndex":5,"cardId":183,"flipIfFlipped":false,"playerId":2} 
+ Player 3 16:59:49 $MOVE_CARD_END:  
+
+ {"moveIndex":6,"cardId":207,"flipIfFlipped":false,"playerId":2} 
+ Player 3 16:59:50 $MOVE_CARD_END:  
+
+ {"moveIndex":7,"cardId":181,"flipIfFlipped":false,"playerId":2} 
+ Player 3 16:59:51 $MOVE_CARD_END:  
+
+ {"moveIndex":8,"cardId":165,"flipIfFlipped":false,"playerId":2} 
+ Player 3 16:59:52 $MOVE_CARD_END:  
+
+ {"moveIndex":9,"cardId":171,"flipIfFlipped":false,"playerId":2} 
+ Player 3 16:59:54 $MOVE_CARD_END:  
+
+ {"moveIndex":10,"cardId":218,"flipIfFlipped":false,"playerId":2} 
+ Player 3 16:59:55 $MOVE_CARD_END:  
+
+ {"moveIndex":11,"cardId":215,"flipIfFlipped":false,"playerId":2} 
+ Player 3 16:59:56 $MOVE_CARD_END:  
+
+ {"moveIndex":12,"cardId":216,"flipIfFlipped":false,"playerId":2} 
+ Player 3 16:59:57 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":3} 
+ Player 3 16:59:57 $NEXT_STACK_ID:  
+ Player 3 16:59:58 $UPDATE_STACK_LABLE:  
+
+ {"stackText":"Empty Stack"} 
+ Player 3 16:59:58 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 3 start turn loot"} 
+ Player 3 16:59:58 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":314,"turnPlayerCardId":314,"stackEffectType":13}} 
+ Player 3 16:59:58 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":314,"turnPlayerCardId":314,"stackEffectType":13}} 
+ Player 3 16:59:58 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Player 3 16:59:58 $SHOW_STACK_EFFECT:  
+
+ {"effectId":1} 
+ Player 3 17:00:00 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":0,"_text":"Add StartTurnLoot 1 "}} 
+ Player 3 17:00:00 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":3} 
+ Player 3 17:00:00 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":314,"turnPlayerCardId":314,"stackEffectType":13}} 
+ Player 3 17:00:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":1,"_text":"Response Adding StartTurnLoot 1"},"childOfId":0} 
+ Player 3 17:00:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":2,"_text":"Wait For Response From Player 3 "},"childOfId":0} 
+ Player 3 17:00:01 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":3} 
+ Player 3 17:00:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":3,"_text":"Wait For Response From Player 4 "},"childOfId":0} 
+ Player 3 17:00:01 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":4} 
+ Player 3 17:00:01 $GET_REACTION:  
+
+ {"playerId":4,"activePlayerId":3} 
+ Player 3 17:00:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":4,"_text":"Wait For Response From Player 1 "},"childOfId":0} 
+ Player 3 17:00:01 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 3 17:00:01 $GET_REACTION:  
+
+ {"playerId":1,"activePlayerId":3} 
+ Player 3 17:00:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":5,"_text":"Wait For Response From Player 2 "},"childOfId":0} 
+ Player 3 17:00:01 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 3 17:00:02 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":3} 
+ Player 3 17:00:02 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":6,"_text":"Resolve StartTurnLoot 1 "}} 
+ Player 3 17:00:02 $ADD_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":314,"turnPlayerCardId":314,"stackEffectType":13}} 
+ Player 3 17:00:02 $DRAW_CARD:  
+
+ {"deckType":1} 
+ Player 3 17:00:02 $MOVE_CARD:  
+
+ {"moveIndex":13,"cardId":205,"placeID":3,"flipIfFlipped":false,"firstPos":{"x":-15.200000000000045,"y":-0.39999999999997726,"z":0},"playerId":3,"placeType":"Hand"} 
+ Player 3 17:00:03 $CARD_DRAWN:  
+
+ {"playerId":3,"deckType":1,"drawnCardId":205} 
+ Player 3 17:00:03 $FLIP_CARD:  
+
+ {"cardId":205} 
+ Player 3 17:00:03 $PLAYER_GET_LOOT:  
+
+ {"playerId":3,"cardId":205} 
+ Player 3 17:00:03 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":314,"turnPlayerCardId":314,"stackEffectType":13}} 
+ Player 3 17:00:03 $REMOVE_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffectId":1} 
+ Player 3 17:00:03 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Player 3 17:00:03 $SHOW_STACK_EFFECT:  
+
+ {"effectId":1} 
+ Player 3 17:00:06 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":1} 
+ Player 3 17:00:06 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":7,"_text":"Remove After Resolve StartTurnLoot 1  "}} 
+ Player 3 17:00:06 $UPDATE_STACK_LABLE:  
+
+ {"stackText":"Empty Stack"} 
+ Player 3 17:00:06 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":314,"turnPlayerCardId":314,"stackEffectType":13}} 
+ Player 3 17:00:06 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":8,"_text":"Response Remove After Resolve StartTurnLoot 1"},"childOfId":7} 
+ Player 3 17:00:06 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":9,"_text":"Wait For Response From Player 2 "},"childOfId":7} 
+ Player 3 17:00:06 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 3 17:00:06 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":3} 
+ Player 3 17:00:06 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":9} 
+ Player 3 17:00:06 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":10,"_text":"Wait For Response From Player 3 "},"childOfId":7} 
+ Player 3 17:00:07 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":3} 
+ Player 3 17:00:07 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":10} 
+ Player 3 17:00:07 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":11,"_text":"Wait For Response From Player 4 "},"childOfId":7} 
+ Player 3 17:00:07 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":4} 
+ Player 3 17:00:07 $GET_REACTION:  
+
+ {"playerId":4,"activePlayerId":3} 
+ Player 3 17:00:07 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":11} 
+ Player 3 17:00:07 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":12,"_text":"Wait For Response From Player 1 "},"childOfId":7} 
+ Player 3 17:00:07 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 3 17:00:07 $GET_REACTION:  
+
+ {"playerId":1,"activePlayerId":3} 
+ Player 3 17:00:07 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":12} 
+ Player 3 17:00:08 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":8} 
+ Player 3 17:00:08 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":13,"_text":"Stack Was Emptied "}} 
+ Player 3 17:00:08 $UPDATE_STACK_LABLE:  
+
+ {"stackText":"Empty Stack"} 
+ Player 3 17:00:08 $LOG_ERROR:  
+
+ {"message":"\"An Empty Paid Effect Slot In Golden Razor Blade\"","stack":"\"Error: An Empty Paid Effect Slot In Golden Razor Blade\\n    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:179:23)\\n    at Function.CardManager.makeLootPlayable (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:422:58)\\n    at Function.ActionManager.updateCardAction (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:143:43)\\n    at Function.ActionManager.DecideForPlayable (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:292:22)\\n    at Function.ActionManager.updateActionsForTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:194:33)\\n    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:421:51)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113127:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113071:18)\\n    at fulfilled (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113032:28)\""} 
+ Player 3 17:00:08 $LOG_ERROR:  
+
+ {"message":"\"An Empty Paid Effect Slot In Golden Razor Blade\"","stack":"\"Error: An Empty Paid Effect Slot In Golden Razor Blade\\n    at CardEffect.testEffectsPreConditions (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:179:23)\\n    at Function.CardManager.makeLootPlayable (http://localhost:7456/preview-scripts/assets/Script/Managers/CardManager.js:422:58)\\n    at Function.ActionManager.updateCardAction (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:143:43)\\n    at Function.ActionManager.DecideForPlayable (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:292:22)\\n    at Function.ActionManager.updateActionsForTurnPlayer (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:194:33)\\n    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Managers/ActionManager.js:421:51)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113127:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113071:18)\\n    at fulfilled (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113032:28)\""} 
+ Player 3 17:00:08 $CLEAR_SE_VIS: 

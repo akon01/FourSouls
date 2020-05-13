@@ -7,6 +7,9 @@ import Item from "./CardTypes/Item";
 import Card from "./GameEntities/Card";
 import Player from "./GameEntities/Player";
 import { Logger } from "./Logger";
+import Dice from "./GameEntities/Dice";
+import PlayerStatsViewer from "./Player Stats Viewer";
+import CardManager from "../Managers/CardManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -36,6 +39,18 @@ export default class PlayerDesk extends cc.Component {
   @property(cc.Node)
   soulsLayout: cc.Node = null
 
+  @property(Dice)
+  dice: Dice = null;
+
+  @property(PlayerStatsViewer)
+  playerStatsLayout: PlayerStatsViewer = null;
+
+  @property(CardLayout)
+  hand: CardLayout = null;
+
+
+
+
   checkLayoutOverflow(layout: cc.Node, card: cc.Node, removeCard: boolean) {
 
     const layoutLength = layout.width;
@@ -60,13 +75,16 @@ export default class PlayerDesk extends cc.Component {
     const deskComp: PlayerDesk = this;
     card._isOnDesk = true;
     const itemComp = card.getComponent(Item);
-    card.node.parent = cc.find("Canvas")
+    card.node.parent = CardManager.$.onTableCardsHolder
     let lane: cc.Node
     let layout: cc.Node
     switch (itemComp.type) {
       case ITEM_TYPE.ACTIVE:
       case ITEM_TYPE.PAID:
-      case ITEM_TYPE.BOTH:
+      case ITEM_TYPE.ACTIVE_AND_PASSIVE:
+      case ITEM_TYPE.ACTIVE_AND_PAID:
+      case ITEM_TYPE.ALL:
+      case ITEM_TYPE.PASSIVE_AND_PAID:
         cc.log(`active item`)
         lane = deskComp.activeItemLayout
         // addCardToCardLayout(
@@ -86,11 +104,11 @@ export default class PlayerDesk extends cc.Component {
         break;
 
       default:
-        cc.error(`Item type is not active or passive`)
         Logger.error(`Item type is not active or passive when adding to desk`)
         break;
     }
-    layout = lane.getChildByName("Card Layout")
+    // layout = lane.getChildByName("Card Layout")
+    layout = lane
     if (this.checkLayoutOverflow(layout, card.node, false)) {
       layout.getComponent(cc.Layout).resizeMode = cc.Layout.ResizeMode.CHILDREN
     } else { layout.getComponent(cc.Layout).resizeMode = cc.Layout.ResizeMode.NONE }

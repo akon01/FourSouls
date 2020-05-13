@@ -36,7 +36,7 @@ export default class ServerStackEffectConverter {
 
                 const itemToActivate = CardManager.getCardById(serverStackEffectData.itemToPlayCardId, true)
                 const charCard = PlayerManager.getPlayerById(serverStackEffectData.itemPlayerId).character;
-                const activateItem = new ActivateItem(serverStackEffectData.creatorCardId, serverStackEffectData.hasLockingStackEffect, itemToActivate, charCard, serverStackEffectData.hasDataBeenCollectedYet, serverStackEffectData.entityId)
+                const activateItem = new ActivateItem(serverStackEffectData.creatorCardId, serverStackEffectData.hasLockingStackEffect, itemToActivate, charCard, serverStackEffectData.hasDataBeenCollectedYet, serverStackEffectData.entityId, serverStackEffectData.lable)
                 activateItem.LockingResolve = serverStackEffectData.LockingResolve;
                 if (serverStackEffectData.effectToDoData != null) {
                     activateItem.effectToDo = itemToActivate.getComponent(CardEffect).getEffectByNumAndType(serverStackEffectData.effectToDoData.index, serverStackEffectData.effectToDoData.type)
@@ -45,7 +45,7 @@ export default class ServerStackEffectConverter {
                 return activateItem
 
             case STACK_EFFECT_TYPE.ATTACK_ROLL:
-                const rollAttackDice = new AttackRoll(serverStackEffectData.creatorCardId, PlayerManager.getPlayerByCardId(serverStackEffectData.rollingPlayerCardId).node, CardManager.getCardById(serverStackEffectData.attackedMonsterCardId), serverStackEffectData.entityId)
+                const rollAttackDice = new AttackRoll(serverStackEffectData.creatorCardId, PlayerManager.getPlayerByCardId(serverStackEffectData.rollingPlayerCardId).node, CardManager.getCardById(serverStackEffectData.attackedMonsterCardId), serverStackEffectData.entityId, serverStackEffectData.lable)
                 rollAttackDice.numberRolled = serverStackEffectData.numberRolled;
                 return rollAttackDice;
             case STACK_EFFECT_TYPE.COMBAT_DAMAGE:
@@ -62,22 +62,22 @@ export default class ServerStackEffectConverter {
                 } else {
                     entityToTakeDamageFrom = CardManager.getCardById(serverStackEffectData.entityToTakeDamageCardId)
                 }
-                const combatDamage = new CombatDamage(serverStackEffectData.creatorCardId, entityToTakeDamageFrom, entityToDoDamageTo, serverStackEffectData.entityId)
+                const combatDamage = new CombatDamage(serverStackEffectData.creatorCardId, entityToTakeDamageFrom, entityToDoDamageTo, serverStackEffectData.numberRolled, serverStackEffectData.entityId, serverStackEffectData.lable)
 
                 return combatDamage;
             case STACK_EFFECT_TYPE.DECLARE_ATTACK:
-                const declareAttack = new DeclareAttack(serverStackEffectData.creatorCardId, PlayerManager.getPlayerByCardId(serverStackEffectData.attackingPlayerCardId).getComponent(Player), CardManager.getCardById(serverStackEffectData.idOfCardBeingAttacked, true), serverStackEffectData.entityId)
+                const declareAttack = new DeclareAttack(serverStackEffectData.creatorCardId, PlayerManager.getPlayerByCardId(serverStackEffectData.attackingPlayerCardId).getComponent(Player), CardManager.getCardById(serverStackEffectData.idOfCardBeingAttacked, true), serverStackEffectData.entityId, serverStackEffectData.lable)
                 return declareAttack;
             case STACK_EFFECT_TYPE.MONSTER_DEATH:
-                const monsterDeath = new MonsterDeath(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.monsterToDieCardId), CardManager.getCardById(serverStackEffectData.killerId), serverStackEffectData.entityId)
+                const monsterDeath = new MonsterDeath(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.monsterToDieCardId), CardManager.getCardById(serverStackEffectData.killerId), serverStackEffectData.numberRolled, serverStackEffectData.entityId, serverStackEffectData.lable)
                 return monsterDeath;
             case STACK_EFFECT_TYPE.MONSTER_END_DEATH:
-                const monsterEndDeath = new MonsterEndDeath(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.monsterWhoDiedCardId), serverStackEffectData.entityId)
+                const monsterEndDeath = new MonsterEndDeath(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.monsterWhoDiedCardId), serverStackEffectData.entityId, serverStackEffectData.lable)
                 return monsterEndDeath;
             case STACK_EFFECT_TYPE.MONSTER_REWARD:
                 const playerToReward = CardManager.getCardById(serverStackEffectData.playerCardIdToReward, true)
                 const monster = CardManager.getCardById(serverStackEffectData.monsterCardWithRewardId)
-                const monsterReward = new MonsterRewardStackEffect(serverStackEffectData.creatorCardId, monster, playerToReward, serverStackEffectData.entityId)
+                const monsterReward = new MonsterRewardStackEffect(serverStackEffectData.creatorCardId, monster, playerToReward, serverStackEffectData.numberRolled, serverStackEffectData.entityId, serverStackEffectData.lable)
                 monsterReward.LockingResolve = serverStackEffectData.LockingResolve;
                 monsterReward.hasLockingStackEffectResolved = serverStackEffectData.hasLockingStackEffectResolved
                 return monsterReward
@@ -85,7 +85,7 @@ export default class ServerStackEffectConverter {
                 const lootToPlay = CardManager.getCardById(serverStackEffectData.lootToPlayCardId, true)
                 const playerCharacterCard = PlayerManager.getPlayerById(serverStackEffectData.lootPlayerId).character;
 
-                const playLoot = new PlayLootCardStackEffect(serverStackEffectData.creatorCardId, serverStackEffectData.hasLockingStackEffect, lootToPlay, playerCharacterCard, serverStackEffectData.hasDataBeenCollectedYet, serverStackEffectData.hasLockingStackEffectResolved, serverStackEffectData.entityId)
+                const playLoot = new PlayLootCardStackEffect(serverStackEffectData.creatorCardId, serverStackEffectData.hasLockingStackEffect, lootToPlay, playerCharacterCard, serverStackEffectData.hasDataBeenCollectedYet, serverStackEffectData.hasLockingStackEffectResolved, serverStackEffectData.entityId, serverStackEffectData.lable)
                 playLoot.LockingResolve = serverStackEffectData.LockingResolve;
                 if (serverStackEffectData.effectToDo != null) {
                     playLoot.effectToDo = lootToPlay.getComponent(CardEffect).getEffectByNumAndType(serverStackEffectData.effectToDo.cardEffectNum, serverStackEffectData.effectToDo.effctType)
@@ -93,7 +93,7 @@ export default class ServerStackEffectConverter {
                 playLoot.hasLockingStackEffectResolved = serverStackEffectData.hasLockingStackEffectResolved
                 return playLoot
             case STACK_EFFECT_TYPE.PURCHASE_ITEM:
-                const purchaseItem = new PurchaseItem(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.itemToPurchaseCardId, true), PlayerManager.getPlayerByCardId(serverStackEffectData.playerWhoBuysCardId).getComponent(Player).playerId, serverStackEffectData.entityId)
+                const purchaseItem = new PurchaseItem(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.itemToPurchaseCardId, true), PlayerManager.getPlayerByCardId(serverStackEffectData.playerWhoBuysCardId).getComponent(Player).playerId, serverStackEffectData.entityId, serverStackEffectData.lable)
                 return purchaseItem;
             case STACK_EFFECT_TYPE.REFILL_EMPTY_SLOT:
                 let slotToFill: cc.Node;
@@ -103,17 +103,17 @@ export default class ServerStackEffectConverter {
                 if (serverStackEffectData.slotType == CARD_TYPE.TREASURE) {
                     slotToFill = null
                 }
-                const refillEmtySlot = new RefillEmptySlot(serverStackEffectData.creatorCardId, slotToFill, serverStackEffectData.slotType, serverStackEffectData.entityId)
+                const refillEmtySlot = new RefillEmptySlot(serverStackEffectData.creatorCardId, slotToFill, serverStackEffectData.slotType, serverStackEffectData.entityId, serverStackEffectData.lable)
                 return refillEmtySlot;
             case STACK_EFFECT_TYPE.ROLL_DICE:
                 const stackEffectToLock: StackEffectInterface = converter.convertToStackEffect(serverStackEffectData.stackEffectToLock)
-                const rollDice = new RollDiceStackEffect(serverStackEffectData.creatorCardId, stackEffectToLock, serverStackEffectData.entityId)
+                const rollDice = new RollDiceStackEffect(serverStackEffectData.creatorCardId, stackEffectToLock, serverStackEffectData.entityId, serverStackEffectData.lable)
                 if (rollDice.hasLockingStackEffectResolved == true) {
                     rollAttackDice.numberRolled = serverStackEffectData.numberRolled;
                 }
                 return rollDice;
             case STACK_EFFECT_TYPE.START_TURN_LOOT:
-                const startLootTurn = new StartTurnLoot(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.turnPlayerCardId, true), serverStackEffectData.entityId)
+                const startLootTurn = new StartTurnLoot(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.turnPlayerCardId, true), serverStackEffectData.entityId, serverStackEffectData.lable)
                 return startLootTurn;
             case STACK_EFFECT_TYPE.ACTIVATE_PASSIVE_EFFECT:
 
@@ -125,7 +125,7 @@ export default class ServerStackEffectConverter {
                 // } else {
                 //     index = null
                 // }
-                const activatePassive = new ActivatePassiveEffect(serverStackEffectData.creatorCardId, serverStackEffectData.hasLockingStackEffect, serverStackEffectData.cardActivatorId, card, effect, serverStackEffectData.hasDataBeenCollectedYet, serverStackEffectData.isAfterActivation, index, serverStackEffectData.entityId)
+                const activatePassive = new ActivatePassiveEffect(serverStackEffectData.creatorCardId, serverStackEffectData.hasLockingStackEffect, serverStackEffectData.cardActivatorId, card, effect, serverStackEffectData.hasDataBeenCollectedYet, serverStackEffectData.isAfterActivation, index, serverStackEffectData.entityId, serverStackEffectData.lable)
                 if (serverStackEffectData.effectToDo) {
                     effect = card.getComponent(CardEffect).getEffectByNumAndType(serverStackEffectData.effectToDo.cardEffectNum, serverStackEffectData.effectToDo.effctType)
                     activatePassive.effectToDo = effect
@@ -146,10 +146,10 @@ export default class ServerStackEffectConverter {
                 }
                 return activatePassive;
             case STACK_EFFECT_TYPE.PLAYER_DEATH:
-                const playerDeath = new PlayerDeath(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.playerToDieCardId), CardManager.getCardById(serverStackEffectData.killerId), serverStackEffectData.entityId)
+                const playerDeath = new PlayerDeath(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.playerToDieCardId), CardManager.getCardById(serverStackEffectData.killerId), serverStackEffectData.entityId, serverStackEffectData.lable)
                 return playerDeath
             case STACK_EFFECT_TYPE.PLAYER_DEATH_PENALTY:
-                const playerDeathPenalty = new PlayerDeathPenalties(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.playerToPayCardId), serverStackEffectData.entityId)
+                const playerDeathPenalty = new PlayerDeathPenalties(serverStackEffectData.creatorCardId, CardManager.getCardById(serverStackEffectData.playerToPayCardId), serverStackEffectData.entityId, serverStackEffectData.lable)
                 return playerDeathPenalty
             default:
                 break;

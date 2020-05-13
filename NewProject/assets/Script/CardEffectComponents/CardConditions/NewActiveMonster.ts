@@ -4,6 +4,7 @@ import { PassiveMeta } from "../../Managers/PassiveManager";
 import PlayerManager from "../../Managers/PlayerManager";
 import Condition from "./Condition";
 import TurnsManager from "../../Managers/TurnsManager";
+import Card from "../../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,7 +18,7 @@ export default class NewActiveMonster extends Condition {
 
   async testCondition(meta: PassiveMeta) {
     let turnPlayer: Player = TurnsManager.currentTurn.getTurnPlayer()
-    let thisCard = this.node.parent.parent;
+    const thisCard = Card.getCardNodeByChild(this.node)
     let cardOwner = PlayerManager.getPlayerByCard(thisCard);
     if (this.isOwnerTurnOnly) {
       if (turnPlayer.name == cardOwner.name) {

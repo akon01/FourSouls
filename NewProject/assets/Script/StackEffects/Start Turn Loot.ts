@@ -8,10 +8,13 @@ import ServerStartTurnLoot from "./ServerSideStackEffects/Server Start Turn Loot
 import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { StartTurnVis } from "./StackEffectVisualRepresentation/Start Turn Vis";
+import { whevent } from "../../ServerClient/whevent";
+import ServerClient from "../../ServerClient/ServerClient";
+import Signal from "../../Misc/Signal";
 
 export default class StartTurnLoot extends StackEffectConcrete {
-
     visualRepesentation: StartTurnVis
+    name = `Start Turn Loot Draw`
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.START_TURN_LOOT;
     entityId: number;
     creatorCardId: number;
@@ -23,10 +26,6 @@ export default class StartTurnLoot extends StackEffectConcrete {
     LockingResolve: any;
     _lable: string;
 
-    set lable(text: string) {
-        this._lable = text
-        if (!this.nonOriginal) { whevent.emit(GAME_EVENTS.LABLE_CHANGE) }
-    }
 
     isToBeFizzled: boolean = false;
 
@@ -44,14 +43,18 @@ export default class StartTurnLoot extends StackEffectConcrete {
 
     turnPlayer: Player;
 
-    constructor(creatorCardId: number, turnPlayerCard: cc.Node, entityId?: number) {
+    constructor(creatorCardId: number, turnPlayerCard: cc.Node, entityId?: number, lable?: string) {
         super(creatorCardId, entityId)
-
 
         this.turnPlayer = PlayerManager.getPlayerByCard(turnPlayerCard)
         this.visualRepesentation = new StartTurnVis(this.turnPlayer)
-        this.lable = `Player ${this.turnPlayer.playerId} start turn loot`
+        if (lable) {
+            this.setLable(lable, false)
+        } else {
+            this.setLable(`Player ${this.turnPlayer.playerId} Is About To Loot For Start Turn`, false)
+        }
     }
+
 
     async putOnStack() {
         const turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
@@ -62,6 +65,7 @@ export default class StartTurnLoot extends StackEffectConcrete {
     async resolve() {
         //  let cardToDraw = await CardManager.lootDeck.getComponent(Deck).drawCard(true)
         await this.turnPlayer.drawCard(CardManager.lootDeck, true)
+        this.setLable(`Player ${this.turnPlayer.playerId} Has Drawn Loot For Start Turn`, true)
     }
 
     convertToServerStackEffect() {

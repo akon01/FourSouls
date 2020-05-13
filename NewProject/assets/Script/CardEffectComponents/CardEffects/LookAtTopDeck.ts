@@ -6,6 +6,8 @@ import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import { CHOOSE_CARD_TYPE } from "./../../Constants";
 import Effect from "./Effect";
 import Stack from "../../Entites/Stack";
+import PlayerManager from "../../Managers/PlayerManager";
+import Player from "../../Entites/GameEntities/Player";
 
 
 const { ccclass, property } = cc._decorator;
@@ -16,7 +18,7 @@ export default class LookAtTopDeck extends Effect {
 
   effectName = "LookAtTopDeck";
 
-  @property(Number)
+  @property(cc.Integer)
   numOfCards: number = 0;
 
   /**
@@ -48,12 +50,13 @@ export default class LookAtTopDeck extends Effect {
           //now only log, do multiple card previews!
         }
       }
-      cc.log(cardsToSee.map(card => card.name))
-      CardPreviewManager.getPreviews(cardsToSee, true)
+      await CardPreviewManager.getPreviews(cardsToSee, true)
+      await PlayerManager.mePlayer.getComponent(Player).giveNextClick("Click Next When To Continue")
+      await CardPreviewManager.removeFromCurrentPreviews(cardsToSee)
     }
 
 
-    if (data instanceof PassiveEffectData) return data
+    if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack
   }
 }

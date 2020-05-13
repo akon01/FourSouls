@@ -32,7 +32,7 @@ export default class ChaosCardEffect extends Effect {
 
     let target = data.getTarget(TARGETTYPE.CARD)
     if (!target) {
-      throw `no target found`
+      throw new Error(`no target found`)
     } else {
       if (PlayerManager.isAOwnedSoul(target as cc.Node)) {
         //Card Should Be Soul Card
@@ -45,7 +45,7 @@ export default class ChaosCardEffect extends Effect {
       }
       if ((target as cc.Node).getComponent(Monster)) {
         await this.killMonster(target as cc.Node)
-        await PileManager.addCardToPile((target as cc.Node).getComponent(Card).type, target as cc.Node, true)
+        //    await PileManager.addCardToPile((target as cc.Node).getComponent(Card).type, target as cc.Node, true)
         if (data instanceof PassiveEffectData) {
           return data
         }

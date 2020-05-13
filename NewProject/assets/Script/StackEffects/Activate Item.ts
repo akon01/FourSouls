@@ -24,9 +24,14 @@ import StackEffectInterface from "./StackEffectInterface";
 import { ActivateItemVis } from "./StackEffectVisualRepresentation/Activate Item Vis";
 import { IMultiEffectRollAndCollect } from "../CardEffectComponents/MultiEffectChooser/IMultiEffectRollAndCollect";
 import StackEffectVisManager from "../Managers/StackEffectVisManager";
+import { whevent } from "../../ServerClient/whevent";
+import ServerClient from "../../ServerClient/ServerClient";
+import Signal from "../../Misc/Signal";
 
 export default class ActivateItem extends StackEffectConcrete {
     visualRepesentation: ActivateItemVis;
+
+    name = `Activate Item`
 
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.ACTIVATE_ITEM;
     entityId: number;
@@ -38,11 +43,6 @@ export default class ActivateItem extends StackEffectConcrete {
     lockingStackEffect: StackEffectInterface;
     LockingResolve: any;
     _lable: string;
-
-    set lable(text: string) {
-        this._lable = text
-        if (!this.nonOriginal) { whevent.emit(GAME_EVENTS.LABLE_CHANGE) }
-    }
 
     isToBeFizzled: boolean = false;
 
@@ -63,7 +63,7 @@ export default class ActivateItem extends StackEffectConcrete {
     effectToDo: Effect;
     hasDataBeenCollectedYet: boolean = false;
 
-    constructor(creatorCardId: number, hasLockingStackEffect: boolean, itemToActivate: cc.Node, itemPlayerCard: cc.Node, hasDataBeenCollectedYet: boolean, entityId?: number) {
+    constructor(creatorCardId: number, hasLockingStackEffect: boolean, itemToActivate: cc.Node, itemPlayerCard: cc.Node, hasDataBeenCollectedYet: boolean, entityId?: number, lable?: string) {
         super(creatorCardId, entityId)
 
         this.hasLockingStackEffect = hasLockingStackEffect;
@@ -71,8 +71,12 @@ export default class ActivateItem extends StackEffectConcrete {
         this.itemToActivate = itemToActivate;
         this.itemPlayer = PlayerManager.getPlayerByCard(itemPlayerCard)
         this.hasDataBeenCollectedYet = hasDataBeenCollectedYet;
-        this.visualRepesentation = new ActivateItemVis(this.itemToActivate.getComponent(cc.Sprite).spriteFrame)
-        this.lable = `Player ${this.itemPlayer.playerId} activated ${this.itemToActivate.name}`
+        this.visualRepesentation = new ActivateItemVis(this.itemToActivate.getComponent(Card).cardSprite.spriteFrame)
+        if (lable) {
+            this.setLable(lable, false)
+        } else {
+            this.setLable(`Player ${this.itemPlayer.playerId} is going to activate ${this.itemToActivate.name}`, false)
+        }
     }
 
     async putOnStack() {
@@ -96,7 +100,7 @@ export default class ActivateItem extends StackEffectConcrete {
         //if the effect is chosen already and the player needs to choose targets, let him now.
         if (this.effectToDo != null) {
             const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
-            if (prev) {
+            if (prev && this.effectToDo.node) {
                 prev.addSelectedEffectHighlight(this.effectToDo.node)
             }
             const collectedData = await cardEffect.collectEffectData(this.effectToDo, { cardId: this.itemToActivate.getComponent(Card)._cardId, cardPlayerId: this.itemPlayer.playerId })
@@ -108,7 +112,7 @@ export default class ActivateItem extends StackEffectConcrete {
             }
         }
         else {
-            if (this.itemToActivate.getComponent(Item) != null && this.itemToActivate.getComponent(Item).type == ITEM_TYPE.ACTIVE) {
+            if (this.itemToActivate.getComponent(Item) != null && this.hasLockingStackEffect) {
                 this.itemToActivate.getComponent(Item).useItem(true)
             }
         }
@@ -153,7 +157,6 @@ export default class ActivateItem extends StackEffectConcrete {
                     try {
                         selectedEffect = cardEffect.multiEffectCollector.getEffectByNumberRolled(this.LockingResolve, this.itemToActivate)
                     } catch (error) {
-                        cc.error(error)
                         Logger.error(error)
                     }
                 }
@@ -163,7 +166,7 @@ export default class ActivateItem extends StackEffectConcrete {
         }
         let newStack
         const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
-        if (prev) {
+        if (prev && selectedEffect.node) {
             cc.log(`add selected effect hightlight`)
             prev.addSelectedEffectHighlight(selectedEffect.node)
         } else {
@@ -174,10 +177,14 @@ export default class ActivateItem extends StackEffectConcrete {
         try {
             newStack = await this.doCardEffect(selectedEffect, this.hasDataBeenCollectedYet);
         } catch (error) {
-            cc.error(error)
             Logger.error(error)
         }
+        this.setLable(`Player ${this.itemPlayer.playerId} has activated ${this.itemToActivate.name}`, true)
         this.effectToDo = null;
+
+        const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_ACTIVATE_ITEM, [this.itemToActivate], null, this.itemPlayer.node)
+        await PassiveManager.testForPassiveAfter(passiveMeta)
+
         //put new stack insted of old one (check maybe only add and removed the changed StackEffects)
         // if (newStack != null)
         //     Stack.replaceStack(newStack, true)

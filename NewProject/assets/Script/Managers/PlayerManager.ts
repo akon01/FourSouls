@@ -13,8 +13,10 @@ import ButtonManager from "./ButtonManager";
 import CardManager from "./CardManager";
 import PassiveManager, { PassiveMeta } from "./PassiveManager";
 import DecisionMarker from "../Entites/Decision Marker";
+import { whevent } from "../../ServerClient/whevent";
+import PlayerStatsViewer from "../Entites/Player Stats Viewer";
 
-const { ccclass } = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class PlayerManager extends cc.Component {
@@ -23,17 +25,25 @@ export default class PlayerManager extends cc.Component {
 
   static hands: cc.Node[] = [];
 
-  static desks: cc.Node[] = [];
+  @property([PlayerDesk])
+  desks: PlayerDesk[] = [];
 
   static dice: cc.Node[] = [];
 
-  static playerPrefab: cc.Prefab = null;
+  @property(cc.Prefab)
+  playerPrefab: cc.Prefab = null;
 
-  static handPrefab: cc.Prefab = null;
+  @property(cc.Prefab)
+  handPrefab: cc.Prefab = null;
 
-  static dicePrefab: cc.Prefab = null;
+  @property(cc.Prefab)
+  dicePrefab: cc.Prefab = null;
 
-  static playerDeskPrefab: cc.Prefab = null;
+  @property(cc.Prefab)
+  playerDeskPrefab: cc.Prefab = null;
+
+  @property(cc.Toggle)
+  reactionToggle: cc.Toggle = null
 
   static mePlayer: cc.Node = null;
 
@@ -41,14 +51,23 @@ export default class PlayerManager extends cc.Component {
 
   static edenChosenCard: cc.Node = null;
 
+  static $: PlayerManager = null;
+
+  static isLoaded: boolean = false;
+
+
   static async init(serverId: number) {
-    await this.preLoadPrefabs();
+    //  await this.preLoadPrefabs();
+    if (this.isLoaded == false) {
+      const loaded = await this.waitForPrefabLoad();
+    }
     this.createPlayers(serverId);
-    this.createHands();
     this.createPlayerDesks();
+    this.createHands();
     this.createDice();
     this.assingHands();
 
+    cc.loader.releaseResDir("Prefabs/Entities/", cc.Prefab)
   }
 
   static async preLoadPrefabs() {
@@ -57,15 +76,15 @@ export default class PlayerManager extends cc.Component {
         const prefab: cc.Prefab = rsc[i];
         switch (prefab.name) {
           case "Hand":
-            PlayerManager.handPrefab = prefab;
+            PlayerManager.$.handPrefab = prefab;
             break;
           case "Player":
-            PlayerManager.playerPrefab = prefab;
+            PlayerManager.$.playerPrefab = prefab;
             break;
           case "Dice":
-            PlayerManager.dicePrefab = prefab;
+            PlayerManager.$.dicePrefab = prefab;
           case "PlayerDesk":
-            PlayerManager.playerDeskPrefab = prefab;
+            PlayerManager.$.playerDeskPrefab = prefab;
             break;
           default:
             break;
@@ -88,9 +107,11 @@ export default class PlayerManager extends cc.Component {
   }
 
   static createPlayers(serverId: number) {
+    cc.log(`create`)
+    cc.log(PlayerManager.$)
     // create max amount of players and assing them to this property
     for (let i = 1; i <= ServerClient.numOfPlayers; i++) {
-      const newNode: cc.Node = cc.instantiate(PlayerManager.playerPrefab);
+      const newNode: cc.Node = cc.instantiate(PlayerManager.$.playerPrefab);
       newNode.name = "player" + i;
       const playerComp: Player = newNode.getComponent(Player);
       playerComp.playerId = i;
@@ -106,53 +127,61 @@ export default class PlayerManager extends cc.Component {
 
       PlayerManager.players.push(newNode);
     }
+    PlayerManager.$.playerPrefab = null;
   }
 
   // create hands and place them on canvas
   static createHands() {
-    // for (let i = 1; i <= PlayerManager.players.length; i++) {
-    for (let i = 1; i <= 4; i++) {
+    // for (let i = 0; i < PlayerManager.players.length - PlayerManager.hands.length; i++) {
+    //   PlayerManager.hands.pop().destroy()
+    // }
+    for (let i = 1; i <= PlayerManager.players.length; i++) {
+      cc.log(this.$.desks)
+      const hands = this.$.desks.map(desk => desk.hand);
+      // for (let i = 1; i <= 4; i++) {
       //  var newNode: cc.Node = cc.instantiate(PlayerManager.handPrefab);
-      const newNode = cc.find("Canvas/Hand" + i);
+      cc.log(hands)
+      const newNode = hands[i - 1].node
       const handComp: CardLayout = newNode.getComponent(CardLayout);
       handComp.handId = i;
       newNode.height = CARD_HEIGHT;
       newNode.width = CARD_WIDTH * 7;
-      newNode.name = "Hand";
+      newNode.name = "Hand" + i;
       PlayerManager.hands.push(newNode);
     }
   }
 
   static createDice() {
-    //    for (let i = 1; i <= PlayerManager.players.length; i++) {
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 1; i <= PlayerManager.players.length; i++) {
+      // for (let i = 1; i <= 4; i++) {
       //   var newNode: cc.Node = cc.instantiate(PlayerManager.dicePrefab);
-      let newNode: cc.Node;
-      if (i != 1) {
-
-        newNode = cc.find("Canvas/Dice" + i);
-      } else { newNode = cc.find("Canvas/Player Button Layout/Dice" + i); }
-
-      newNode.getComponent(Dice).diceId = ++CardManager.cardsId;
-      newNode.name = "Dice";
-
-      PlayerManager.dice.push(newNode);
+      let newNode: Dice = this.$.desks.map(desk => desk.dice)[i - 1];
+      newNode.diceId = ++CardManager.cardsId;
+      newNode.node.name = "Dice" + i;
+      PlayerManager.dice.push(newNode.node);
     }
   }
 
   static createPlayerDesks() {
-
-    //  for (let i = 1; i <= PlayerManager.players.length; i++) {
-    for (let i = 1; i <= 4; i++) {
+    const numOfDesksToDestroy = PlayerManager.$.desks.length - PlayerManager.players.length;
+    for (let i = 0; i < numOfDesksToDestroy; i++) {
+      const deskToDestroy = PlayerManager.$.desks.pop().node;
+      cc.log(`destroy ${deskToDestroy.name}`)
+      deskToDestroy.destroyAllChildren()
+      deskToDestroy.destroy()
+      cc.log(deskToDestroy)
+    }
+    for (let i = 1; i <= PlayerManager.players.length; i++) {
+      // for (let i = 1; i <= 4; i++) {
       //    var newNode: cc.Node = cc.instantiate(PlayerManager.playerDeskPrefab);
       const deskName = "Desk" + i;
 
-      const newNode = cc.find("Canvas/" + deskName);
+      const newNode = this.$.desks[i - 1].node
       const deskComp: PlayerDesk = newNode.getComponent(PlayerDesk);
 
       deskComp.deskId = i;
-      newNode.name = "Desk";
-      PlayerManager.desks.push(newNode);
+      newNode.name = deskName;
+      //   PlayerManager.desks.push(newNode);
     }
   }
 
@@ -175,49 +204,7 @@ export default class PlayerManager extends cc.Component {
     return array;
   }
 
-  static async assignCharacterToPlayer(fullCharCard: { char: cc.Node, item: cc.Node }, player: Player, sendToServer: boolean) {
-    const charCard = fullCharCard.char;
-    let itemCard: cc.Node;
-    // Special Case : Eden
-    if (charCard.getComponent(Card).cardName == "Eden") {
-      ServerClient.$.send(Signal.CHOOSE_FOR_EDEN, { playerId: player.playerId, originPlayerId: this.mePlayer.getComponent(Player).playerId });
-      itemCard = await this.waitForEdenChoose();
-      //  itemCard = CardManager.treasureDeck.getComponent(Deck)._cards.find(card => card.getComponent(Card).cardName == "Lard")
-      CardManager.treasureDeck.getComponent(Deck).drawSpecificCard(itemCard, true);
-      if (itemCard.getComponent(Card)._isFlipped) { itemCard.getComponent(Card).flipCard(true); }
-      itemCard.getComponent(Item).eternal = true;
 
-    } else {
-
-      itemCard = fullCharCard.item;
-      CardManager.onTableCards.push(charCard, itemCard);
-    }
-    if (player.node != this.mePlayer) {
-      ServerClient.$.send(Signal.SET_CHAR, { originPlayerId: this.mePlayer.getComponent(Player).playerId, playerId: player.playerId, charCardId: charCard.getComponent(Card)._cardId, itemCardId: itemCard.getComponent(Card)._cardId })
-      await this.waitForSetCharOver()
-      cc.log(`after set char end`)
-    } else {
-      await player.setCharacter(charCard, itemCard, true);
-    }
-
-    // player.activeItems.push(charCard);
-    // if (
-    //   itemCard.getComponent(Item).type == ITEM_TYPE.ACTIVE ||
-    //   itemCard.getComponent(Item).type == ITEM_TYPE.BOTH
-    // ) {
-    //   player.activeItems.push(itemCard);
-    // } else {
-    //   player.passiveItems.push(itemCard);
-    // }
-
-    // if ((itemCard.getComponent(Item).type == ITEM_TYPE.PASSIVE || itemCard.getComponent(Item).type == ITEM_TYPE.BOTH) && sendToServer) {
-    //   await PassiveManager.registerPassiveItem(itemCard, sendToServer);
-    // }
-
-    // if (sendToServer) {
-    //   ServerClient.$.send(Signal.ASSIGN_CHAR_TO_PLAYER, { playerId: player.playerId, charCardId: charCard.getComponent(Card)._cardId, itemCardId: itemCard.getComponent(Card)._cardId });
-    // }
-  }
 
   static async waitForSetCharOver() {
     return new Promise((resolve, reject) => {
@@ -225,6 +212,30 @@ export default class PlayerManager extends cc.Component {
         resolve()
       })
     })
+  }
+
+  static async assignCharacterToPlayer(fullCharCard: { char: cc.Node, item: cc.Node }, player: Player, sendToServer: boolean) {
+    const charCard = fullCharCard.char;
+    let itemCard: cc.Node;
+    // Special Case : Eden
+    if (charCard.getComponent(Card).cardName == "Eden") {
+      ServerClient.$.send(Signal.CHOOSE_FOR_EDEN, { playerId: player.playerId, originPlayerId: this.mePlayer.getComponent(Player).playerId });
+      itemCard = await this.waitForEdenChoose();
+      //   itemCard = CardManager.treasureDeck.getComponent(Deck)._cards.getCards().find(card => card.name == `Smelter`)
+      CardManager.treasureDeck.getComponent(Deck).drawSpecificCard(itemCard, true);
+      if (itemCard.getComponent(Card)._isFlipped) { itemCard.getComponent(Card).flipCard(true); }
+      itemCard.getComponent(Item).eternal = true;
+    } else {
+      itemCard = fullCharCard.item;
+    }
+    CardManager.onTableCards.push(charCard, itemCard);
+    if (player.node != this.mePlayer) {
+      ServerClient.$.send(Signal.SET_CHAR, { originPlayerId: this.mePlayer.getComponent(Player).playerId, playerId: player.playerId, charCardId: charCard.getComponent(Card)._cardId, itemCardId: itemCard.getComponent(Card)._cardId })
+      await this.waitForSetCharOver()
+      cc.log(`after set char end`)
+    } else {
+      await player.setCharacter(charCard, itemCard, true);
+    }
   }
 
   static async assingCharacters(sendToServer: boolean) {
@@ -241,33 +252,28 @@ export default class PlayerManager extends cc.Component {
     for (let i = 0; i < PlayerManager.players.length; i++) {
       const playerComp: Player = PlayerManager.players[i].getComponent(Player);
 
-      // only for test of eden:
+      let fullCharCard
+      //only for test of characters:
       // if (i == 0) {
       //   cc.log(`i is zero`)
-      //   fullCharCard = CardManager.characterDeck.find(card => card.char.getComponent(Card).cardName == "Eden")
+      //   fullCharCard = CardManager.characterDeck.find(card => card.char.getComponent(Card).cardName == "Lilith")
       // } else {
-      const fullCharCard: {
-        char: cc.Node;
-        item: cc.Node;
-      } = CardManager.characterDeck.pop();
-      cc.log(fullCharCard)
+      fullCharCard = CardManager.characterDeck.pop();
+      //   cc.log(fullCharCard)
       // }
       // special case: Eden
-      if (fullCharCard.char.getComponent(Card).cardName == "Eden"
-        && (fullCharCard.item.getComponent(Item).type == ITEM_TYPE.BOTH
-          || fullCharCard.item.getComponent(Item).type == ITEM_TYPE.PASSIVE)) {
+      if (fullCharCard.char.getComponent(Card).cardName == "Eden") {
         isEden = true
         edenPlayer = playerComp
+        //Item Shuld Be null here
         edenItem = fullCharCard.item
       }
-      cc.log(`assign ${fullCharCard.char.name} to playre ${playerComp.playerId}`)
+      cc.log(`assign ${fullCharCard.char.name} to player ${playerComp.playerId}`)
       await this.assignCharacterToPlayer(fullCharCard, playerComp, sendToServer);
-
-
-
     }
     // special case: Eden
     if (isEden) {
+      CardManager.onTableCards.push(edenItem)
       const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_ADD_ITEM, [edenItem], null, edenPlayer.node);
       const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta);
       edenItem = afterPassiveMeta.args[0];
@@ -291,9 +297,7 @@ export default class PlayerManager extends cc.Component {
         }
         break;
       case "The Lost":
-
         if (item.name == "HolyMantle") {
-
           return item;
         }
         break;
@@ -311,14 +315,16 @@ export default class PlayerManager extends cc.Component {
     for (let i = 0; i < PlayerManager.players.length; i++) {
 
       const handNode = PlayerManager.hands[i];
-      const deskNode = PlayerManager.desks[i];
+      const deskNode = PlayerManager.$.desks[i].node;
       const diceNode = PlayerManager.dice[i];
+      const playerStats = deskNode.getComponent(PlayerDesk).playerStatsLayout
 
       const handWidget: cc.Widget = handNode.getComponent(cc.Widget);
       const deskWidget: cc.Widget = deskNode.getComponent(cc.Widget);
       handWidget.alignMode = cc.Widget.AlignMode.ONCE;
-      let moneyLable: cc.Node
-      let hpLable: cc.Node
+      let moneyLable: cc.Node = playerStats.coins.node
+      let hpLable: cc.Node = playerStats.hp.node
+      let id: number
       switch (i) {
         case 0:
           playerNode = PlayerManager.mePlayer;
@@ -326,61 +332,76 @@ export default class PlayerManager extends cc.Component {
           playerComp._putCharLeft = true;
           // //position hand
 
-          playerComp._reactionToggle = cc.find("Canvas/Player Button Layout/Reaction Toggle").getComponent(cc.Toggle);
+          playerComp._reactionToggle = deskNode.getComponent(PlayerDesk).playerStatsLayout.reactionToggle.getComponent(cc.Toggle);
 
-          playerComp._reactionToggle.node.on(cc.Node.EventType.TOUCH_START, async () => {
+
+          playerComp._reactionToggle.node.on(cc.Node.EventType.TOUCH_END, async () => {
             let event;
+            ServerClient.$.send(Signal.REACTION_TOGGLED, { playerId: PlayerManager.mePlayer.getComponent(Player).playerId })
+            cc.log(`reaction btn touch end`)
             !PlayerManager.mePlayer.getComponent(Player)._reactionToggle.isChecked == true ? event = BUTTON_STATE.ENABLED : event = BUTTON_STATE.DISABLED;
+            if (event == BUTTON_STATE.ENABLED) {
+              if (!PlayerManager.mePlayer.getComponent(Player)._inGetResponse) {
+                event = BUTTON_STATE.DISABLED
+              }
+            }
             ButtonManager.enableButton(ButtonManager.$.skipButton, event);
           }, this);
 
           ButtonManager.enableButton(ButtonManager.$.NoButton, BUTTON_STATE.DISABLED);
 
-          moneyLable = cc
-            .find("Canvas/RBMoneyLable");
-          // attach money lable to player
-          moneyLable.getComponent(StatLable).player = playerComp;
-          moneyLable.active = true
+          deskNode.getComponent(PlayerDesk).playerStatsLayout.player = playerComp
 
-          hpLable = cc.find(`Canvas/P1 HP`);
-          hpLable.getComponent(StatLable).player = playerComp;
+          // attach money lable to player
+          moneyLable.active = true
           hpLable.active = true
           break;
         case 1:
-          playerNode = PlayerManager.getPlayerById(meId + 1).node;
+          id = meId + 1
+          if (id > ServerClient.numOfPlayers) {
+            id = id - ServerClient.numOfPlayers;
+          }
+          playerNode = PlayerManager.getPlayerById(id).node;
           playerComp = playerNode.getComponent(Player);
 
+
+          deskNode.getComponent(PlayerDesk).playerStatsLayout.node.getComponent(PlayerStatsViewer).player = playerComp
           // attach money lable to player
-          moneyLable = cc.find("Canvas/LBMoneyLable")
-          moneyLable.getComponent(StatLable).player = playerComp;
+          playerComp._reactionToggle = deskNode.getComponent(PlayerDesk).playerStatsLayout.reactionToggle.getComponent(cc.Toggle);
+
+
           moneyLable.active = true
-          hpLable = cc.find(`Canvas/P2 HP`)
-          hpLable.getComponent(StatLable).player = playerComp;
+
+
           hpLable.active = true
           break;
         case 2:
-          playerNode = PlayerManager.getPlayerById(meId + 2).node;
+          id = meId + 2
+          if (id > ServerClient.numOfPlayers) {
+            id = id - ServerClient.numOfPlayers;
+          }
+          playerNode = PlayerManager.getPlayerById(id).node;
           playerComp = playerNode.getComponent(Player);
-
+          deskNode.getComponent(PlayerDesk).playerStatsLayout.node.getComponent(PlayerStatsViewer).player = playerComp
+          playerComp._reactionToggle = deskNode.getComponent(PlayerDesk).playerStatsLayout.reactionToggle.getComponent(cc.Toggle);
           // attach money lable to player
-          moneyLable = cc.find("Canvas/LTMoneyLable")
-          moneyLable.getComponent(StatLable).player = playerComp;
+
           moneyLable.active = true
-          hpLable = cc.find(`Canvas/P3 HP`)
-          hpLable.getComponent(StatLable).player = playerComp;
+
           hpLable.active = true
           break;
         case 3:
-          playerNode = PlayerManager.getPlayerById(meId + 3).node;
+          id = meId + 3
+          if (id > ServerClient.numOfPlayers) {
+            id = id - ServerClient.numOfPlayers;
+          }
+          playerNode = PlayerManager.getPlayerById(id).node;
           playerComp = playerNode.getComponent(Player);
           playerComp._putCharLeft = true;
-
+          deskNode.getComponent(PlayerDesk).playerStatsLayout.node.getComponent(PlayerStatsViewer).player = playerComp
+          playerComp._reactionToggle = deskNode.getComponent(PlayerDesk).playerStatsLayout.reactionToggle.getComponent(cc.Toggle);
           // attach money lable to player
-          moneyLable = cc.find("Canvas/RTMoneyLable")
-          moneyLable.getComponent(StatLable).player = playerComp;
           moneyLable.active = true
-          hpLable = cc.find(`Canvas/P4 HP`)
-          hpLable.getComponent(StatLable).player = playerComp;
           hpLable.active = true
           break;
         default:
@@ -390,13 +411,6 @@ export default class PlayerManager extends cc.Component {
       // setting hand of player
 
       playerComp.setHand(handNode);
-      // playerNode.addChild(handNode);
-      // handWidget.updateAlignment();
-
-      // playerNode.getComponent(Player).landingZones.push(handNode);
-      // handComp.boundingBoxWithoutChildren = handComp.node.getBoundingBoxToWorld();
-
-      // playerComp.hand = handComp;
 
       // setting desk of player
 
@@ -407,26 +421,26 @@ export default class PlayerManager extends cc.Component {
       playerComp.setDice(diceNode);
     }
 
-    const numToDelete = this.desks.length - this.players.length;
+    // const numToDelete = this.desks.length - this.players.length;
 
-    for (let i = 0; i < numToDelete; i++) {
-      const desk = this.desks[this.desks.length - 1];
-      desk.destroy();
-      this.desks.splice(this.desks.indexOf(desk));
-      const hand = this.hands[this.hands.length - 1];
-      hand.destroy();
-      this.hands.splice(this.hands.indexOf(hand));
-      const dice = this.dice[this.dice.length - 1];
-      dice.destroy();
-      this.dice.splice(this.dice.indexOf(dice));
-    }
+    // for (let i = 0; i < numToDelete; i++) {
+    //   const desk = this.desks[this.desks.length - 1];
+    //   desk.destroy();
+    //   this.desks.splice(this.desks.indexOf(desk));
+    //   const hand = this.hands[this.hands.length - 1];
+    //   hand.destroy();
+    //   this.hands.splice(this.hands.indexOf(hand));
+    //   const dice = this.dice[this.dice.length - 1];
+    //   dice.destroy();
+    //   this.dice.splice(this.dice.indexOf(dice));
+    // }
   }
 
   static getPlayerById(id: number): Player {
-    // if current player id is not 1 in server then place id in order for assinging hands
-    if (id > ServerClient.numOfPlayers) {
-      id = id - ServerClient.numOfPlayers;
-    }
+    // // if current player id is not 1 in server then place id in order for assinging hands
+    // if (id > ServerClient.numOfPlayers) {
+    //   id = id - ServerClient.numOfPlayers;
+    // }
     for (let i = 0; i < PlayerManager.players.length; i++) {
       const player = PlayerManager.players[i];
       const playerComp: Player = player.getComponent(Player);
@@ -434,9 +448,14 @@ export default class PlayerManager extends cc.Component {
         return playerComp;
       }
       if (playerComp.character && playerComp.character.getComponent(Card)._cardId == id) { return playerComp; }
+      if (playerComp.characterItem && playerComp.characterItem.getComponent(Card)._cardId == id) { return playerComp; }
     }
-
-    throw new Error(`No player found by id ${id}`);
+    const card = CardManager.getCardById(id)
+    let endString = ``
+    if (card) {
+      endString = `it was ${card.name}`
+    }
+    // throw new Error(`No player found by id ${id} ` + endString);
   }
 
   static getPlayerByCard(card: cc.Node) {
@@ -538,9 +557,14 @@ export default class PlayerManager extends cc.Component {
 
   // LIFE-CYCLE CALLBACKS:
 
-  // onLoad () {}
+  onLoad() {
 
-  start() { }
+  }
+
+  start() {
+    PlayerManager.$ = this;
+    whevent.emit(GAME_EVENTS.PLAYER_MAN_PREFAB_LOAD);
+  }
 
   // update (dt) {}
 }

@@ -13,7 +13,7 @@ const { ccclass, property } = cc._decorator;
 export default class AddMoney extends Effect {
   effectName = "addMoney";
 
-  @property(Number)
+  @property(cc.Integer)
   numOfCoins: number = 0;
 
   @property

@@ -10,9 +10,14 @@ import ServerMonsterEndDeath from "./ServerSideStackEffects/Server Monster End D
 import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { MonsterDeathVis } from "./StackEffectVisualRepresentation/Monster Death Vis";
+import { whevent } from "../../ServerClient/whevent";
+import Card from "../Entites/GameEntities/Card";
+import ServerClient from "../../ServerClient/ServerClient";
+import Signal from "../../Misc/Signal";
 
 export default class MonsterEndDeath extends StackEffectConcrete {
     visualRepesentation: MonsterDeathVis;
+    name = `Monster Death`
     entityId: number;
     creatorCardId: number;
     isLockingStackEffect: boolean;
@@ -23,11 +28,6 @@ export default class MonsterEndDeath extends StackEffectConcrete {
     LockingResolve: any;
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.MONSTER_END_DEATH;
     _lable: string;
-
-    set lable(text: string) {
-        this._lable = text
-        if (!this.nonOriginal) { whevent.emit(GAME_EVENTS.LABLE_CHANGE) }
-    }
 
     isToBeFizzled: boolean = false;
 
@@ -45,14 +45,18 @@ export default class MonsterEndDeath extends StackEffectConcrete {
 
     monsterWhoDied: Monster;
 
-    constructor(creatorCardId: number, monsterWhoDied: cc.Node, entityId?: number) {
+    constructor(creatorCardId: number, monsterWhoDied: cc.Node, entityId?: number, lable?: string) {
         super(creatorCardId, entityId)
 
 
         this.monsterWhoDied = monsterWhoDied.getComponent(Monster)
         this.visualRepesentation = new MonsterDeathVis(this.monsterWhoDied)
         this.visualRepesentation.stackEffectType = this.stackEffectType;
-        this.lable = `${monsterWhoDied.name} death`
+        if (lable) {
+            this.setLable(lable, false)
+        } else {
+            this.setLable(`${monsterWhoDied.name} Has Been Killed`, false)
+        }
 
     }
 
@@ -64,7 +68,7 @@ export default class MonsterEndDeath extends StackEffectConcrete {
 
     async resolve() {
         const turnPlayer = PlayerManager.getPlayerById(TurnsManager.currentTurn.PlayerId)
-        if (this.monsterWhoDied.souls > 0) {
+        if (this.monsterWhoDied.node.getComponent(Card).souls > 0) {
             await turnPlayer.getSoulCard(this.monsterWhoDied.node, true)
         } else {
             await PileManager.addCardToPile(CARD_TYPE.MONSTER, this.monsterWhoDied.node, true)

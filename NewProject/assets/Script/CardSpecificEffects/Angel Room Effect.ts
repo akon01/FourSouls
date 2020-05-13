@@ -15,7 +15,7 @@ export default class AngelRoomEffect extends Effect {
   @property({ type: DataCollector, override: true })
   dataCollector = null;
 
-  @property(Number)
+  @property(cc.Integer)
   numOfCoins: number = 0;
 
   /**

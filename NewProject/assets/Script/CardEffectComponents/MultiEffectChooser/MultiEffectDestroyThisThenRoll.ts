@@ -1,12 +1,10 @@
-import { CARD_TYPE, ITEM_TYPE } from "../../Constants";
+import { ITEM_TYPE } from "../../Constants";
 import EffectsAndNumbers from "../../EffectsAndNumbers";
 import CardEffect from "../../Entites/CardEffect";
 import Card from "../../Entites/GameEntities/Card";
 import PileManager from "../../Managers/PileManager";
 import PlayerManager from "../../Managers/PlayerManager";
 import Effect from "../CardEffects/Effect";
-import DataCollector from "../DataCollector/DataCollector";
-import MultiEffectRoll from "./MultiEffectRoll";
 import { IMultiEffectRollAndCollect } from "./IMultiEffectRollAndCollect";
 
 const { ccclass, property } = cc._decorator;
@@ -30,7 +28,7 @@ export default class MultiEffectDestroyThisThenRoll extends IMultiEffectRollAndC
     cardPlayerId: number;
   }): Promise<Effect> {
 
-    const thisCard = this.node.parent;
+    const thisCard = Card.getCardNodeByChild(this.node)
     const thisOwner = PlayerManager.getPlayerByCard(thisCard)
     await thisOwner.loseItem(thisCard, true)
     await PileManager.addCardToPile(thisCard.getComponent(Card).type, thisCard, true)

@@ -25,7 +25,6 @@
       }
     ],
     "_active": true,
-    "_level": 1,
     "_components": [
       {
         "__id__": 12
@@ -50,25 +49,29 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 70,
-      "height": 100
+      "width": 35,
+      "height": 50
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
       "x": 0.5,
       "y": 0.5
     },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": -178,
-      "y": 0,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        -178,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
     },
     "_eulerAngles": {
       "__type__": "cc.Vec3",
@@ -79,6 +82,7 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
+    "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
   },
@@ -91,7 +95,6 @@
     },
     "_children": [],
     "_active": true,
-    "_level": 2,
     "_components": [
       {
         "__id__": 3
@@ -118,17 +121,21 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
     },
     "_eulerAngles": {
       "__type__": "cc.Vec3",
@@ -139,6 +146,7 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
+    "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
   },
@@ -178,7 +186,6 @@
       }
     ],
     "_active": true,
-    "_level": 2,
     "_components": [
       {
         "__id__": 9
@@ -200,25 +207,29 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 70,
-      "height": 100
+      "width": 35,
+      "height": 50
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
       "x": 0.5,
       "y": 0.5
     },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
     },
     "_eulerAngles": {
       "__type__": "cc.Vec3",
@@ -229,6 +240,7 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
+    "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
   },
@@ -241,7 +253,6 @@
     },
     "_children": [],
     "_active": true,
-    "_level": 3,
     "_components": [
       {
         "__id__": 7
@@ -268,17 +279,21 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_position": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 5,
-      "y": 5,
-      "z": 1
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        5,
+        5,
+        1
+      ]
     },
     "_eulerAngles": {
       "__type__": "cc.Vec3",
@@ -289,6 +304,7 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
+    "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
   },
@@ -495,7 +511,9 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "b3e12067-3ff3-4574-8d12-44c89382c608"
+    },
     "_id": ""
   },
   {
@@ -507,13 +525,21 @@
     },
     "_enabled": true,
     "cardName": "Cod Worm",
+    "doNotMake": false,
+    "cardMask": null,
+    "cardSprite": null,
+    "makeMultiCards": false,
+    "numOfCopies": 2,
+    "copiesSprites": [],
     "_cardId": 0,
     "_isInHand": false,
     "_isOnDesk": false,
     "_originalParent": null,
+    "_originalWidth": null,
     "topDeckof": null,
     "souls": 0,
     "type": 2,
+    "isGoingToBePlayed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -540,21 +566,23 @@
     },
     "_enabled": true,
     "monsterPlace": null,
-    "HP": 2,
+    "HP": 1,
     "currentHp": 0,
-    "rollValue": 5,
+    "rollValue": 6,
     "rollBonus": 0,
     "DMG": 0,
     "bonusDamage": 0,
     "isAttacked": false,
     "hasEffect": false,
     "isNonMonster": false,
-    "souls": 0,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
     "reward": {
       "__id__": 3
     },
+    "killer": null,
+    "_isDead": false,
+    "_lastHitRoll": 0,
     "_id": ""
   },
   {

@@ -17,6 +17,7 @@ export default class ServerStartTurnLoot implements ServerStackEffectInterface {
     hasLockingStackEffectResolved: boolean;
     lockingStackEffect: ServerStackEffectInterface;
     LockingResolve: any;
+    lable: string;
 
 
 
@@ -28,10 +29,11 @@ export default class ServerStartTurnLoot implements ServerStackEffectInterface {
         this.creatorCardId = purchaseItemStackEffect.creatorCardId;
         this.turnPlayerCardId = purchaseItemStackEffect.turnPlayer.character.getComponent(Card)._cardId
         this.stackEffectType = purchaseItemStackEffect.stackEffectType;
+        this.lable = purchaseItemStackEffect._lable;
     }
 
     convertToStackEffect() {
-        let startLootTurn = new StartTurnLoot(this.creatorCardId, CardManager.getCardById(this.turnPlayerCardId, true))
+        let startLootTurn = new StartTurnLoot(this.creatorCardId, CardManager.getCardById(this.turnPlayerCardId, true), this.entityId, this.lable)
         return startLootTurn;
     }
 

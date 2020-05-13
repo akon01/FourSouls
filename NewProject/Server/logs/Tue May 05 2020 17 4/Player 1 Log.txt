@@ -1,0 +1,289 @@
+Start Log 
+ Recived From Player 1 17:04:09 $START_GAME:  
+ Recived From Player 1 17:04:09 $MOVE_TO_TABLE:  
+ Recived From Player 1 17:04:18 $FINISH_LOAD:  
+
+ {"id":1,"turnPlayerId":2} 
+ Recived From Player 1 17:04:19 $DECK_ARRAGMENT:  
+
+ {"deckType":5,"arrangement":[209,151,217,175,185,190,215,160,169,198,154,148,179,213,144,220,205,216,195,147,165,180,150,178,170,141,177,172,208,196,184,149,221,202,183,211,203,162,199,153,158,189,200,143,210,192,176,191,166,201,194,219,163,206,207,214,164,161,187,168,212,193,204,155,146,197,182,173,167,157,152,181,145,188,171,218,174,159,186,156,142]} 
+ Recived From Player 1 17:04:24 $EDEN_CHOSEN:  
+
+ {"cardId":175,"playerId":2} 
+ Recived From Player 1 17:04:24 $ASSIGN_CHAR_TO_PLAYER:  
+
+ {"playerId":1,"charCardId":321,"itemCardId":175} 
+ Recived From Player 1 17:04:24 $SET_CHAR_END:  
+
+ {"playerId":2} 
+ Recived From Player 1 17:04:25 $MOVE_CARD_END:  
+
+ {"moveIndex":1,"cardId":109,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 17:04:26 $MOVE_CARD_END:  
+
+ {"moveIndex":2,"cardId":36,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 17:04:26 $MOVE_CARD_END:  
+
+ {"moveIndex":3,"cardId":133,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 17:04:27 $MOVE_CARD_END:  
+
+ {"moveIndex":4,"cardId":84,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 17:04:28 $MOVE_CARD_END:  
+
+ {"moveIndex":5,"cardId":61,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 17:04:28 $MOVE_CARD_END:  
+
+ {"moveIndex":6,"cardId":110,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 17:04:28 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 17:04:28 $NEXT_STACK_ID:  
+ Recived From Player 1 17:04:28 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":321,"turnPlayerCardId":321,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+ Recived From Player 1 17:04:28 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":321,"turnPlayerCardId":321,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+ Recived From Player 1 17:04:28 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 17:04:28 $SHOW_STACK_EFFECT:  
+
+ {"effectId":1} 
+ Recived From Player 1 17:04:31 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":0,"_text":"Add Start Turn Loot Draw 1 "}} 
+ Recived From Player 1 17:04:31 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 17:04:31 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":321,"turnPlayerCardId":321,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+ Recived From Player 1 17:04:31 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":1,"_text":"Response Adding Start Turn Loot Draw 1"},"childOfId":0} 
+ Recived From Player 1 17:04:31 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":2,"_text":"Wait For Response From Player 1 "},"childOfId":0} 
+ Recived From Player 1 17:04:31 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 17:04:32 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":3,"_text":"Wait For Response From Player 2 "},"childOfId":0} 
+ Recived From Player 1 17:04:32 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 17:04:32 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 17:04:32 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":4,"_text":"Resolve Start Turn Loot Draw 1 "}} 
+ Recived From Player 1 17:04:32 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":1,"creatorCardId":321,"turnPlayerCardId":321,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}]} 
+ Recived From Player 1 17:04:32 $DRAW_CARD:  
+
+ {"deckType":1} 
+ Recived From Player 1 17:04:32 $MOVE_CARD:  
+
+ {"moveIndex":7,"cardId":20,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":1,"placeType":"Hand"} 
+ Recived From Player 1 17:04:32 $CARD_DRAWN:  
+
+ {"playerId":1,"deckType":1,"drawnCardId":20} 
+ Recived From Player 1 17:04:32 $FLIP_CARD:  
+
+ {"cardId":20} 
+ Recived From Player 1 17:04:32 $PLAYER_GET_LOOT:  
+
+ {"playerId":1,"cardId":20} 
+ Recived From Player 1 17:04:32 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":20}],"result":null,"preventMethod":false,"methodScopeId":321,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+ Recived From Player 1 17:04:32 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":1,"text":"Player 1 Has Drawn Loot For Start Turn"} 
+ Recived From Player 1 17:04:32 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":321,"turnPlayerCardId":321,"stackEffectType":13,"lable":"Player 1 Has Drawn Loot For Start Turn"}} 
+ Recived From Player 1 17:04:32 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 17:04:32 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 17:04:32 $SHOW_STACK_EFFECT:  
+
+ {"effectId":1} 
+ Recived From Player 1 17:04:35 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":1} 
+ Recived From Player 1 17:04:35 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":5,"_text":"Remove After Resolve Start Turn Loot Draw 1  "}} 
+ Recived From Player 1 17:04:35 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":321,"turnPlayerCardId":321,"stackEffectType":13,"lable":"Player 1 Has Drawn Loot For Start Turn"}} 
+ Recived From Player 1 17:04:35 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":6,"_text":"Response Remove After Resolve Start Turn Loot Draw 1"},"childOfId":5} 
+ Recived From Player 1 17:04:35 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":7,"_text":"Wait For Response From Player 2 "},"childOfId":5} 
+ Recived From Player 1 17:04:35 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 17:04:35 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 17:04:35 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":7} 
+ Recived From Player 1 17:04:35 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":8,"_text":"Wait For Response From Player 1 "},"childOfId":5} 
+ Recived From Player 1 17:04:35 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 17:04:35 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":8} 
+ Recived From Player 1 17:04:36 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":6} 
+ Recived From Player 1 17:04:36 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":9,"_text":"Stack Was Emptied "}} 
+ Recived From Player 1 17:04:36 $CLEAR_SE_VIS:  
+ Recived From Player 1 17:05:07 $SET_MONEY:  
+
+ {"playerId":1,"numOfCoins":26} 
+ Recived From Player 1 17:05:07 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":23}],"result":null,"preventMethod":false,"methodScopeId":321,"scopeIsPlayer":true,"index":2,"originStackId":-1},"isAfterActivation":true,"index":2} 
+ Recived From Player 1 17:05:07 $NEXT_STACK_ID:  
+ Recived From Player 1 17:05:07 $ADD_TO_STACK:  
+
+ {"stackEffect":{"effectCollectedData":null,"entityId":2,"creatorCardId":321,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":313,"effectToDo":{"effectName":"GainBonusSoul","cardEffectNum":0,"cardPlayerId":1,"cardId":313,"effctType":0},"isAfterActivation":true,"index":2,"hasDataBeenCollectedYet":false,"stackEffectType":14,"lable":"Activate Soul Of Greed Effect GainBonusSoul<GainBonusSoul>"}} 
+ Recived From Player 1 17:05:07 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"effectCollectedData":null,"entityId":2,"creatorCardId":321,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":313,"effectToDo":{"effectName":"GainBonusSoul","cardEffectNum":0,"cardPlayerId":1,"cardId":313,"effctType":0},"isAfterActivation":true,"index":2,"hasDataBeenCollectedYet":false,"stackEffectType":14,"lable":"Activate Soul Of Greed Effect GainBonusSoul<GainBonusSoul>"}} 
+ Recived From Player 1 17:05:07 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 17:05:07 $SHOW_STACK_EFFECT:  
+
+ {"effectId":2} 
+ Recived From Player 1 17:05:10 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":10,"_text":"Add Activate Passive Effect 2 "}} 
+ Recived From Player 1 17:05:10 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":2,"text":"Activate Soul Of Greed effect GainBonusSoul<GainBonusSoul>"} 
+ Recived From Player 1 17:05:10 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"effectCollectedData":{"effectTargets":[321],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":313,"effectCardPlayer":313},"entityId":2,"creatorCardId":321,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":313,"effectToDo":{"effectName":"GainBonusSoul","cardEffectNum":0,"cardPlayerId":1,"cardId":313,"effctType":0},"isAfterActivation":true,"index":2,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activate Soul Of Greed effect GainBonusSoul<GainBonusSoul>"}} 
+ Recived From Player 1 17:05:10 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":11,"_text":"Response Adding Activate Passive Effect 2"},"childOfId":10} 
+ Recived From Player 1 17:05:10 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":12,"_text":"Wait For Response From Player 1 "},"childOfId":10} 
+ Recived From Player 1 17:05:10 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 17:05:10 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":12} 
+ Recived From Player 1 17:05:10 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":13,"_text":"Wait For Response From Player 2 "},"childOfId":10} 
+ Recived From Player 1 17:05:10 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 17:05:10 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 17:05:10 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":13} 
+ Recived From Player 1 17:05:10 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":11} 
+ Recived From Player 1 17:05:10 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":14,"_text":"Resolve Activate Passive Effect 2 "}} 
+ Recived From Player 1 17:05:10 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"effectCollectedData":{"effectTargets":[321],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":313,"effectCardPlayer":313},"entityId":2,"creatorCardId":321,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":313,"effectToDo":{"effectName":"GainBonusSoul","cardEffectNum":0,"cardPlayerId":1,"cardId":313,"effctType":0},"isAfterActivation":true,"index":2,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activate Soul Of Greed effect GainBonusSoul<GainBonusSoul>"}]} 
+ Recived From Player 1 17:05:10 $ACTIVATE_PARTICLE_EFFECT:  
+
+ {"cardId":313,"particleType":6} 
+ Recived From Player 1 17:05:12 $DISABLE_PARTICLE_EFFECT:  
+
+ {"cardId":313,"particleType":6} 
+ Recived From Player 1 17:05:12 $MOVE_CARD:  
+
+ {"moveIndex":8,"cardId":313,"placeID":1,"flipIfFlipped":true,"playerId":1,"placeType":"soulsLayout"} 
+ Recived From Player 1 17:05:12 $GET_SOUL:  
+
+ {"playerId":1,"cardId":313} 
+ Recived From Player 1 17:05:12 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":23}],"result":null,"preventMethod":false,"methodScopeId":321,"scopeIsPlayer":false,"index":2,"originStackId":-1},"isAfterActivation":true,"index":2} 
+ Recived From Player 1 17:05:12 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":2,"text":"Activated Soul Of Greed Effect"} 
+ Recived From Player 1 17:05:12 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"effectCollectedData":{"effectTargets":[321],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":313,"effectCardPlayer":313},"entityId":2,"creatorCardId":321,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":313,"isAfterActivation":true,"index":2,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activated Soul Of Greed Effect"}} 
+ Recived From Player 1 17:05:13 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 17:05:13 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 17:05:13 $SHOW_STACK_EFFECT:  
+
+ {"effectId":2} 
+ Recived From Player 1 17:05:15 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":2} 
+ Recived From Player 1 17:05:15 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":15,"_text":"Remove After Resolve Activate Passive Effect 2  "}} 
+ Recived From Player 1 17:05:15 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"effectCollectedData":{"effectTargets":[321],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":313,"effectCardPlayer":313},"entityId":2,"creatorCardId":321,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":313,"isAfterActivation":true,"index":2,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activated Soul Of Greed Effect"}} 
+ Recived From Player 1 17:05:16 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":16,"_text":"Response Remove After Resolve Activate Passive Effect 2"},"childOfId":15} 
+ Recived From Player 1 17:05:16 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":17,"_text":"Wait For Response From Player 2 "},"childOfId":15} 
+ Recived From Player 1 17:05:16 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 17:05:16 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 17:05:16 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":17} 
+ Recived From Player 1 17:05:16 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":18,"_text":"Wait For Response From Player 1 "},"childOfId":15} 
+ Recived From Player 1 17:05:16 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 17:05:16 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":18} 
+ Recived From Player 1 17:05:16 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":16} 
+ Recived From Player 1 17:05:16 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":19,"_text":"Stack Was Emptied "}} 
+ Recived From Player 1 17:05:16 $CLEAR_SE_VIS: 

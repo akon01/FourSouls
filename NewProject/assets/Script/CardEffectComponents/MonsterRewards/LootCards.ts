@@ -18,6 +18,9 @@ export default class LootCards extends MonsterReward {
   numOfCardsToLoot: number = 0;
 
   async rewardPlayer(playerToReward: cc.Node, sendToServer: boolean) {
+    if (this.doubleReward) {
+      this.numOfCardsToLoot += this.numOfCardsToLoot
+    }
     let lootDeck = CardManager.lootDeck;
     for (let i = 0; i < this.numOfCardsToLoot; i++) {
       let over = await playerToReward.getComponent(Player).drawCard(lootDeck, sendToServer);

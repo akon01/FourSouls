@@ -16,8 +16,11 @@ export default class HealEntity extends Effect {
 
   effectName = "HealEntity";
 
+  @property(cc.Integer)
+  hpToHeal: number = 1
+
   @property
-  hpToHeal: number = 0
+  isMultiTarget: boolean = false;
 
 
   /**
@@ -29,27 +32,42 @@ export default class HealEntity extends Effect {
     stack: StackEffectInterface[],
     data?: ActiveEffectData | PassiveEffectData
   ) {
-    let targetEntity = data.getTarget(TARGETTYPE.PLAYER)
-    if (targetEntity == null) { targetEntity = data.getTarget(TARGETTYPE.MONSTER) }
 
-    if (targetEntity == null) {
-      cc.log('no target entity to kill')
-    } else {
-      let entityComp;
-      entityComp = (targetEntity as cc.Node).getComponent(Character);
-      let owner = CardManager.getCardOwner(this.node.parent)
-      if (entityComp == null) {
-        entityComp = (targetEntity as cc.Node).getComponent(Monster)
-        await (targetEntity as cc.Node).getComponent(Monster).heal(this.hpToHeal, true)
+    if (this.isMultiTarget) {
+      let targetEntities = data.getTargets(TARGETTYPE.PLAYER)
+      if (targetEntities == null) { targetEntities = data.getTargets(TARGETTYPE.MONSTER) }
+
+      if (targetEntities == null) {
+        cc.log('no target entities to kill')
       } else {
-        if (entityComp instanceof Character) {
-          await PlayerManager.getPlayerByCard(entityComp.node).heal(this.hpToHeal, true)
+        for (const entity of targetEntities) {
+          this.healEntity(entity as cc.Node)
         }
+      }
+    } else {
+      let targetEntity = data.getTarget(TARGETTYPE.PLAYER)
+      if (targetEntity == null) { targetEntity = data.getTarget(TARGETTYPE.MONSTER) }
+
+      if (targetEntity == null) {
+        cc.log('no target entity to kill')
+      } else {
+        this.healEntity(targetEntity as cc.Node)
       }
     }
 
-
-    if (data instanceof PassiveEffectData) return data
+    if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack
+  }
+
+  healEntity(entity: cc.Node) {
+    let entityComp;
+    entityComp = entity.getComponent(Character);
+    if (entityComp == null) {
+      entity.getComponent(Monster).heal(this.hpToHeal, true)
+    } else {
+      if (entityComp instanceof Character) {
+        PlayerManager.getPlayerByCard(entityComp.node).heal(this.hpToHeal, true)
+      }
+    }
   }
 }

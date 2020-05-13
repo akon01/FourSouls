@@ -1,6 +1,7 @@
 import CardManager from "../../Managers/CardManager";
 import PlayerManager from "../../Managers/PlayerManager";
 import PreCondition from "./PreCondition";
+import Card from "../../Entites/GameEntities/Card";
 
 
 const { ccclass, property } = cc._decorator;
@@ -13,7 +14,7 @@ export default class HasLootCards extends PreCondition {
 
   testCondition(meta: any) {
 
-    let thisCard = this.node.parent.parent;
+    let thisCard = Card.getCardNodeByChild(this.node)
     let owner = CardManager.getCardOwner(thisCard);
     if (owner) {
       let player = PlayerManager.getPlayerByCard(owner)

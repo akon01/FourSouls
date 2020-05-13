@@ -11,10 +11,13 @@ import ServerPlayerDeath from "./ServerSideStackEffects/Server Player Death";
 import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { PlayerDeathVis } from "./StackEffectVisualRepresentation/Player Death Vis ";
+import { whevent } from "../../ServerClient/whevent";
+import ServerClient from "../../ServerClient/ServerClient";
+import Signal from "../../Misc/Signal";
 
 export default class PlayerDeath extends StackEffectConcrete {
     visualRepesentation: PlayerDeathVis;
-
+    name = `Player Death`
     entityId: number;
     creatorCardId: number;
     isLockingStackEffect: boolean;
@@ -25,11 +28,6 @@ export default class PlayerDeath extends StackEffectConcrete {
     LockingResolve: any;
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.PLAYER_DEATH;
     _lable: string;
-
-    set lable(text: string) {
-        this._lable = text
-        if (!this.nonOriginal) { whevent.emit(GAME_EVENTS.LABLE_CHANGE) }
-    }
 
     isToBeFizzled: boolean = false;
 
@@ -48,13 +46,17 @@ export default class PlayerDeath extends StackEffectConcrete {
     playerToDie: Player;
     killer: cc.Node
 
-    constructor(creatorCardId: number, playerToDieCard: cc.Node, killer: cc.Node, entityId?: number) {
+    constructor(creatorCardId: number, playerToDieCard: cc.Node, killer: cc.Node, entityId?: number, lable?: string) {
         super(creatorCardId, entityId)
         this.killer = killer
 
         this.playerToDie = PlayerManager.getPlayerByCard(playerToDieCard)
         this.visualRepesentation = new PlayerDeathVis(this.playerToDie)
-        this.lable = `Player ${this.playerToDie.playerId} is about to die`
+        if (lable) {
+            this.setLable(lable, false)
+        } else {
+            this.setLable(`Player ${this.playerToDie.playerId} Is About To Die`, false)
+        }
     }
 
     async putOnStack() {
@@ -64,6 +66,7 @@ export default class PlayerDeath extends StackEffectConcrete {
 
     async resolve() {
         this.playerToDie._thisTurnKiller = this.killer;
+        this.setLable(`Player ${this.playerToDie.playerId} Has Died`, true)
         for (let i = 0; i < this.playerToDie._curses.length; i++) {
             const curse = this.playerToDie._curses[i];
             await this.playerToDie.removeCurse(curse, true)

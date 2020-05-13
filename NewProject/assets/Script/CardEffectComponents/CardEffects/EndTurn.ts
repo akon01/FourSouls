@@ -26,6 +26,14 @@ export default class EndTurn extends Effect {
    */
   async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
 
+    if (data) {
+      const player = data.getTarget(TARGETTYPE.PLAYER)
+      if (player && TurnsManager.getCurrentTurn().getTurnPlayer().character != player) {
+        if (data instanceof PassiveEffectData) { return data }
+        return stack
+      }
+    }
+
     if (this.isCancelAttack) {
       await BattleManager.cancelAttack(true)
     }
@@ -37,6 +45,8 @@ export default class EndTurn extends Effect {
     }
 
     TurnsManager.currentTurn.getTurnPlayer()._endTurnFlag = true
+
+
 
     if (data instanceof PassiveEffectData) { return data }
     return stack

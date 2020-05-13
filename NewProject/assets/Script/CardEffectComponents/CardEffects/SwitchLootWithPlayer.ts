@@ -6,6 +6,7 @@ import ChooseCard from "../DataCollector/ChooseCard";
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
 import Effect from "./Effect";
 import Stack from "../../Entites/Stack";
+import ChooseCardTypeAndFilter from "../ChooseCardTypeAndFilter";
 
 const { ccclass, property } = cc._decorator;
 
@@ -40,18 +41,24 @@ export default class SwtichLootWithPlayer extends Effect {
       const chooseCard = new ChooseCard();
       chooseCard.flavorText = "Choose Loot To Give"
       //p1 choose witch loot to give
-      chooseCard.chooseType = CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND
-      const playerToGiveToHand = chooseCard.getCardsToChoose(CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND, null, playerToGiveTo)
-      let chosenData = await chooseCard.requireChoosingACard(playerToGiveToHand)
+      chooseCard.chooseType = new ChooseCardTypeAndFilter();
+      chooseCard.otherPlayer = playerToGiveTo
+      chooseCard.chooseType.chooseType = CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND
 
-      const cardToGive = CardManager.getCardById(chosenData.cardChosenId, true)
+      let targetCard = await chooseCard.collectData({ cardPlayerId: playerToGiveTo.playerId })
+      // const playerToGiveToHand = chooseCard.getCardsToChoose(CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND, null, playerToGiveTo)
+      // let chosenData = await chooseCard.requireChoosingACard(playerToGiveToHand)
+
+      const cardToGive = targetCard.effectTargetCard
       cc.log(`card to give is ${cardToGive.name}`)
 
       //p1 choose which loot to get.
-      const playerToTakeFromHand = chooseCard.getCardsToChoose(CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND, null, playerToTakeFrom)
+      chooseCard.otherPlayer = playerToTakeFrom
+      // const playerToTakeFromHand = chooseCard.getCardsToChoose(CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND, null, playerToTakeFrom)
       chooseCard.flavorText = "Choose Loot To Take"
-      chosenData = await chooseCard.requireChoosingACard(playerToTakeFromHand)
-      const cardToTake = CardManager.getCardById(chosenData.cardChosenId, true)
+      targetCard = await chooseCard.collectData({ cardPlayerId: playerToGiveTo.playerId })
+      // chosenData = await chooseCard.requireChoosingACard(playerToTakeFromHand)
+      const cardToTake = targetCard.effectTargetCard
       cc.log(`card to take is ${cardToTake.name}`)
 
       await playerToGiveTo.loseLoot(cardToGive, true)

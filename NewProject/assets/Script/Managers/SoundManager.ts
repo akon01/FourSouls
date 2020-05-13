@@ -1,4 +1,6 @@
 import { GAME_EVENTS } from "../Constants";
+import Menu from "../LableScripts/Menu";
+import { whevent } from "../../ServerClient/whevent";
 
 const { ccclass, property } = cc._decorator;
 
@@ -38,19 +40,26 @@ export default class SoundManager extends cc.Component {
     BasicBGMusic: cc.AudioClip = null
 
 
+
+
     setEffectsVolume(volume: number) {
+        // if (Menu.$) {
+        //     Menu.$.effectSoundSlider.progress = volume
+        // }
         cc.audioEngine.setEffectsVolume(volume)
     }
     setBGVolume(volume: number) {
-        cc.log(`set BG volume to ${volume}`)
+        // if (Menu.$) {
+        //     Menu.$.BGsoundSlider.progress = volume
+        // }
         cc.audioEngine.setMusicVolume(volume)
+
         if (!cc.audioEngine.isMusicPlaying()) {
             this.playBGMusic(this.BasicBGMusic)
         }
     }
 
     playBGMusic(BGclip: cc.AudioClip) {
-        cc.error(`play BG music`)
         cc.audioEngine.playMusic(BGclip, true)
     }
 
@@ -79,13 +88,9 @@ export default class SoundManager extends cc.Component {
     }
 
     playSound(soundClip: cc.AudioClip) {
-        cc.log(soundClip)
-        cc.log(`play sound ${soundClip.name}`)
         const clipId = cc.audioEngine.playEffect(soundClip, false)
         cc.log(clipId)
         cc.audioEngine.setFinishCallback(clipId, () => {
-            cc.log(cc.audioEngine.getState(clipId))
-            cc.log(`sound effect ended`)
             whevent.emit(GAME_EVENTS.SOUND_OVER)
         })
         // this.effectSource.clip = soundClip;

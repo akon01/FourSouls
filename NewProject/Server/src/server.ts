@@ -14,6 +14,8 @@ import { Logger } from "./utils/Logger";
 
 declare const Buffer;
 
+
+
 export default class Server {
   static $: Server = null;
 
@@ -26,14 +28,189 @@ export default class Server {
     Server.$ = this;
   }
 
+
+
   async init() {
     console.log("Loading config...");
-
     this.config = await this.loadConfig();
     console.log("Setting up server...");
+
     this.setupWebSocket();
     this.bindEvents();
 
+    // whevent.on(1000, this.doIt.bind(this))
+    // const parent = `D:/Coding/CocosProjects/NewProject/assets/resources/Prefabs/`
+    // const dirs = [`Complete Monster Cards`, `LootCards`, `MonsterCards`, `TreasureCards`]
+    // for (const dir of dirs) {
+    //   await this.test(parent + dir)
+    // }
+    //   await this.test(parent + `CharacterCards/CharItemCards`)
+    //this.doIt({ dirName: '1', fileName: "1", lines: `sds` })
+
+  }
+
+  async test(dirName: string) {
+    var fs = require('fs')
+    // const readline = require('readline');
+    // const readinterface = readline.createInterface({
+    //   input: fs.createReadStream('/MainGame.fire'),
+    //   output: process.stdout,
+    //   console: false
+    // })
+    // let lines = []
+    // readinterface.on('line', (line) => {
+    //   lines.push(line)
+    // })
+    // console.log(lines.length);
+    // let lines = []
+    // await fs.readFile('D:/Coding/CocosProjects/NewProject/assets/resources/Prefabs/CharacterCards/CharItemCards/Forever Alone.prefab', 'utf8', async (err, data: string) => {
+    //   if (err) {
+    //     console.log(`err`);
+    //   }
+    //   console.log(`end of read file`);
+
+
+    //   //  console.log(data);
+
+
+    //   // fs.appendFileSync('/test3.txt', "start", (err2) => {
+    //   //   if (err2) throw err2;
+    //   // })
+    //   whevent.emit(1000, { lines: data, fileName: `Forever Alone.prefab`, dirName: "D:/Coding/CocosProjects/NewProject/assets/resources/Prefabs/CharacterCards/CharItemCards" })
+
+    // })
+    // dirName = "D:/Coding/CocosProjects/NewProject/assets/resources/Prefabs/CharacterCards/CharCardsPrefabs"
+    fs.readdir(dirName, function (err, filenames: string[]) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      filenames.forEach(file => {
+        if (!file.endsWith(`.meta`)) {
+          fs.readFile(dirName + '/' + file, 'utf8', (err, content: string) => {
+            if (err) {
+              console.log(err);
+              return
+            }
+            whevent.emit(1000, { lines: content, fileName: file, dirName: dirName })
+          })
+        }
+      })
+    })
+
+  }
+
+  private doIt(data: { lines: string, fileName: string, dirName }) {
+    var fs = require('fs')
+
+    let regexp = new RegExp('"width": (\\d+.+\\d+|\\d+)', 'g')
+    let regexp2 = new RegExp('"height": (\\d+.+\\d+|\\d+)', 'g')
+    let regexp3 = new RegExp('"array": \\[\\n *\\d*,\\n *([\\s\\S]+?),', 'g')
+
+    let newText = data.lines.replace(regexp3, (subString: string, args: string) => {
+      const number = Number.parseFloat(args)
+      const newString = subString.replace(args, (number / 2).toFixed(2));
+
+
+      return newString
+    })
+
+
+    newText = newText.replace(regexp, (subString: string, args: string) => {
+      const number = Number.parseFloat(args)
+      return subString.replace(args, (number / 2).toFixed(2))
+    })
+
+    newText = newText.replace(regexp2, (subString: string, args: string) => {
+      const number = Number.parseFloat(args)
+      return subString.replace(args, (number / 2).toFixed(2))
+    })
+
+    //const fileName = data.fileName.replace(new RegExp(`\\.prefab`), ` test.prefab`)
+
+    fs.unlink(data.dirName + `/` + data.fileName, () => {
+
+      fs.appendFileSync(data.dirName + '/' + data.fileName, newText, (err2) => {
+        if (err2) throw err2;
+      })
+    })
+
+
+    // for (let i = 0; i < data.lines.length; i++) {
+    //   const line = data.lines[i];
+
+
+    //   let newLine = line
+    //   let regexFound = line.match(regexp)
+    //   if (regexFound != null) {
+    //     newLine = this.checkRegex(regexFound, newLine, `width`);
+    //   } else {
+    //     regexFound = line.match(regexp2)
+    //     if (regexFound != null) {
+    //       newLine = this.checkRegex(regexFound, newLine, `height`)
+    //     } else {
+    //       regexFound = line.match(regexp3)
+    //       if (regexFound != null) {
+    //         newLine = this.checkRegex(regexFound, newLine, `array`)
+    //       }
+    //     }
+    //   }
+
+    //   switch (i) {
+    //     case data.lines.length * 0.25:
+    //       console.log(`finished 25% of ${data.fileName}`);
+    //       break;
+    //     case data.lines.length * 0.50:
+    //       console.log(`finished 50% of ${data.fileName}`);
+    //       break;
+    //     case data.lines.length * 0.75:
+    //       console.log(`finished 75% of ${data.fileName}`);
+    //       break;
+    //     default:
+    //       break;
+    //   }
+
+    //   newLine = newLine + '\n'
+    //   fs.appendFileSync(data.dirName + '/' + data.fileName + ' test', newLine, (err2) => {
+    //     if (err2) throw err2;
+    //   })
+    // }
+
+    console.log(`finished`);
+
+
+  }
+
+  private checkRegex(regexFound: RegExpMatchArray, newLine: string, word: string) {
+    console.log(`check regex`);
+
+    if (regexFound.length > 0) {
+      const oldLine = newLine
+
+      let number = Number.parseFloat(regexFound[1])
+      if (number != 0) {
+        console.log(`number is not 0`);
+
+        number = number / 2;
+        if (word != 'array') {
+
+          newLine = `"${word}": ${number.toFixed(2)}`
+        } else {
+          newLine = `"${word}": ${number.toFixed(2)}`
+        }
+
+        console.log(oldLine.endsWith(`,`));
+
+        if (oldLine.endsWith(`,`)) {
+          newLine = newLine + ','
+        }
+        console.log(` line changed : ${oldLine}  to ${newLine} `);
+      } else {
+        console.log(`number is 0`);
+
+      }
+    }
+    return newLine;
   }
 
   bindEvents() {
@@ -104,8 +281,13 @@ export default class Server {
     whevent.on(signal.REGISTER_ONE_TURN_PASSIVE_EFFECT, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.END_ROLL_ACTION, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.SHOW_DECISION, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.SHOW_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.SET_STACK_ICON, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.SHOW_DICE_ROLL, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.SHOW_EFFECT_CHOSEN, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.SHOW_REACTIONS, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.HIDE_REACTIONS, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.REACTION_TOGGLED, this.onBroadcastExceptOrigin, this);
 
     //stack events:
 
@@ -115,11 +297,12 @@ export default class Server {
     whevent.on(signal.ADD_TO_STACK, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.PUT_ON_STACK, this.onSendToSpecificPlayer, this);
     whevent.on(signal.END_PUT_ON_STACK, this.onSendToSpecificPlayer, this);
-    whevent.on(signal.ADD_RESOLVING_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
-    whevent.on(signal.REMOVE_RESOLVING_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.UPDATE_RESOLVING_STACK_EFFECTS, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.UPDATE_STACK_VIS, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.ADD_SE_VIS_PREV, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.REMOVE_SE_VIS_PREV, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.CLEAR_SE_VIS, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.STACK_EFFECT_LABLE_CHANGE, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.UPDATE_STACK_LABLE, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.UPDATE_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.NEXT_STACK_ID, this.onBroadcastExceptOrigin, this);
@@ -175,6 +358,14 @@ export default class Server {
 
     whevent.on(signal.ACTION_MASSAGE_ADD, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.ACTION_MASSAGE_REMOVE, this.onBroadcastExceptOrigin, this);
+
+    //Announcement Lable
+
+    whevent.on(signal.SHOW_ANNOUNCEMENT, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.HIDE_ANNOUNCEMENT, this.onBroadcastExceptOrigin, this);
+
+    whevent.on(signal.SHOW_TIMER, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.HIDE_TIMER, this.onBroadcastExceptOrigin, this);
 
   }
 
@@ -294,6 +485,7 @@ export default class Server {
   }
 
   onClose(player: ServerPlayer) {
+    this.onBroadcastExceptOrigin({ player: player, data: { signal: signal.PLAYER_DISCONNECTED, text: `player ${player.uuid} has disconnected` } })
     player.remove();
     console.log(`Player ${player.uuid} has disconnected!`);
   }
@@ -305,7 +497,9 @@ export default class Server {
   onMessage(player: ServerPlayer, message: string) {
     try {
       const data = JSON.parse(Buffer.from(message, "base64").toString());
-      console.log(`Player ${player.uuid}: `, data);
+      console.log(`Recived From Player ${player.uuid}: `, data);
+      console.log(`\n`);
+
       const id = player.uuid;
       if (this.logger) {
         this.logger.logFromServer(id, data)

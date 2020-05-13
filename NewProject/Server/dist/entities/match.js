@@ -41,12 +41,9 @@ var Match = /** @class */ (function () {
         }
     };
     Match.prototype.getPlayerById = function (id) {
-        console.log("get Player by id " + id);
         for (var i = 0; i < this.players.length; i++) {
             var player = this.players[i];
-            console.log("checking for " + player.uuid);
             if (player.uuid == id) {
-                console.log("returning player " + player.uuid);
                 return player;
             }
         }

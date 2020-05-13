@@ -16,6 +16,7 @@ export default class ServerPlayerDeathPenalties implements ServerStackEffectInte
     hasLockingStackEffectResolved: boolean;
     lockingStackEffect: ServerStackEffectInterface;
     LockingResolve: any;
+    lable: string;
 
     playerToPayCardId: number;
 
@@ -24,12 +25,13 @@ export default class ServerPlayerDeathPenalties implements ServerStackEffectInte
         this.creatorCardId = stackEffect.creatorCardId;
         this.playerToPayCardId = stackEffect.playerToPay.character.getComponent(Card)._cardId
         this.stackEffectType = stackEffect.stackEffectType;
+        this.lable = stackEffect._lable
     }
 
 
 
     convertToStackEffect() {
-        let playerDeathPenalties = new PlayerDeathPenalties(this.creatorCardId, CardManager.getCardById(this.playerToPayCardId))
+        let playerDeathPenalties = new PlayerDeathPenalties(this.creatorCardId, CardManager.getCardById(this.playerToPayCardId), this.entityId, this.lable)
         return playerDeathPenalties;
     }
 

@@ -1,3 +1,5 @@
+import Player from "../GameEntities/Player";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -12,16 +14,19 @@ export default class Character extends cc.Component {
   activated: boolean = false;
 
   @property
-  Hp: number = 0;
+  hp: number = 0;
 
   @property
   damage: number = 0;
+
+  @property({ visible: false })
+  player: Player = null
 
   // LIFE-CYCLE CALLBACKS:
 
   // onLoad () {}
 
-  start() {}
+  start() { }
 
   // update (dt) {}
 }

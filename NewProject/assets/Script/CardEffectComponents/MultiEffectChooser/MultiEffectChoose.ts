@@ -1,9 +1,9 @@
-import CardPreview from "../../Entites/CardPreview";
 import ActionManager from "../../Managers/ActionManager";
 import CardPreviewManager from "../../Managers/CardPreviewManager";
 import PlayerManager from "../../Managers/PlayerManager";
 import Effect from "../CardEffects/Effect";
 import DataCollector from "../DataCollector/DataCollector";
+import CardPreview from "../../Entites/Card Preview";
 
 const { ccclass, property } = cc._decorator;
 
@@ -13,7 +13,7 @@ export default class MultiEffectChoose extends DataCollector {
 
   /**
    *
-   * @param data {cardPlayed}
+   * @param data {cardPlayed} 
    */
   async collectData(data: {
     cardPlayed: cc.Node;
@@ -24,7 +24,10 @@ export default class MultiEffectChoose extends DataCollector {
     const preview = CardPreviewManager.addPreview(data.cardPlayed).node
     const player = PlayerManager.getPlayerById(data.cardPlayerId)
     await ActionManager.updateActionsForNotTurnPlayer(player.node)
+    CardPreviewManager.setFalvorText("Select An Effect To Activate")
+
     const effectChosen = await preview.getComponent(CardPreview).chooseEffectFromCard(data.cardPlayed);
+    CardPreviewManager.setFalvorText("")
     //  DecisionMarker.$.showEffectChosen(Card.getCardNodeByChild(this.node), effectChosen, player.node, true)
     return effectChosen.getComponent(Effect)
   }

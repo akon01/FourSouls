@@ -1,6 +1,8 @@
 import CardManager from "../Managers/CardManager";
 import CardPreviewManager from "../Managers/CardPreviewManager";
 import Card from "./GameEntities/Card";
+import Deck from "./GameEntities/Deck";
+import { CardSet } from "./Card Set";
 
 const { ccclass, property } = cc._decorator;
 
@@ -8,13 +10,16 @@ const { ccclass, property } = cc._decorator;
 export default class Pile extends cc.Component {
 
     @property
-    private cards: cc.Node[] = [];
+    private cards: CardSet = null
 
     @property
     topId: number = null;
 
     @property
     pileSprite: cc.Sprite = null;
+
+    @property({ visible: false })
+    deck: Deck = null
 
 
     addCardToTopPile(card: cc.Node) {
@@ -27,17 +32,16 @@ export default class Pile extends cc.Component {
     }
 
     addCardToBottomPile(card: cc.Node) {
-        this.cards = this.cards.fill(card, 0, 1);
+        this.cards.fill(card, 0, 1);
         return this.cards;
     }
 
     getCards() {
-        return this.cards;
+        return this.cards.getCards();
     }
 
     setTopCard(card: cc.Node) {
         if (card != null) {
-            cc.log(card.getComponent(Card)._cardId)
             this.topId = card.getComponent(Card)._cardId
             this.pileSprite.spriteFrame = card.getComponent(Card).frontSprite
         } else {
@@ -60,6 +64,7 @@ export default class Pile extends cc.Component {
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
+        this.cards = new CardSet();
         this.pileSprite = this.node.getComponent(cc.Sprite);
         this.node.on(cc.Node.EventType.TOUCH_START, async () => {
             await CardPreviewManager.getPreviews(Array.of(this.node), true)

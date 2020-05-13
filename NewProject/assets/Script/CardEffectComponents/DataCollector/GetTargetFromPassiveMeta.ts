@@ -3,6 +3,8 @@ import { EffectTarget } from "../../Managers/DataInterpreter";
 import PassiveManager, { PassiveMeta } from "../../Managers/PassiveManager";
 import DataCollector from "./DataCollector";
 import Player from "../../Entites/GameEntities/Player";
+import Stack from "../../Entites/Stack";
+import ActivatePassiveEffect from "../../StackEffects/Activate Passive Effect";
 
 const { ccclass, property } = cc._decorator;
 
@@ -33,7 +35,13 @@ export default class GetTargetFromPassiveMeta extends DataCollector {
 
     let passiveMeta: PassiveMeta;
     let target: EffectTarget;
-    cc.log(`this meta index ${this.metaIndex}`)
+    const resolvingStackEffect = Stack._currentStack[Stack._currentStack.length - 1] as ActivatePassiveEffect;
+    if (!resolvingStackEffect.index) {
+      throw new Error(`Cant Get Passive Meta, last stack effect is not of type ActivatePassiveEffect`)
+    } else {
+      this.metaIndex = resolvingStackEffect.index
+      this.isAfterActivation = resolvingStackEffect.isAfterActivation
+    }
     if (!this.metaIndex) { throw new Error(`no MetaIndex`) }
     this.isAfterActivation == true ? passiveMeta = PassiveManager.afterActivationMap.get(this.metaIndex) : passiveMeta = PassiveManager.beforeActivationMap.get(this.metaIndex)
     cc.log(passiveMeta)

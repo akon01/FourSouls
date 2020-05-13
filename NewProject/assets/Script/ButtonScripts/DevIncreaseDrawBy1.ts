@@ -6,26 +6,30 @@ import ActionManager from "../Managers/ActionManager";
 import TurnsManager from "../Managers/TurnsManager";
 
 
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class DevIncreaseBy1 extends cc.Component {
 
-    drawIncrease(){
-        let actionManager:ActionManager = cc.find('MainScript/ActionManager').getComponent(ActionManager)
-        TurnsManager.currentTurn.drawPlays +=1
+    clickReaction() {
+        cc.log(`this reaction toggle is clicked`)
+    }
+
+    drawIncrease() {
+        let actionManager: ActionManager = cc.find('MainScript/ActionManager').getComponent(ActionManager)
+        TurnsManager.currentTurn.drawPlays += 1
         ActionManager.updateActions()
     }
 
-    lootCardIncrease(){
-        let actionManager:ActionManager = cc.find('MainScript/ActionManager').getComponent(ActionManager)
-        TurnsManager.currentTurn.lootCardPlays +=1
+    lootCardIncrease() {
+        let actionManager: ActionManager = cc.find('MainScript/ActionManager').getComponent(ActionManager)
+        TurnsManager.currentTurn.lootCardPlays += 1
         ActionManager.updateActions()
     }
 
-    buyIncrease(){
-        let actionManager:ActionManager = cc.find('MainScript/ActionManager').getComponent(ActionManager)
-        TurnsManager.currentTurn.buyPlays +=1
+    buyIncrease() {
+        let actionManager: ActionManager = cc.find('MainScript/ActionManager').getComponent(ActionManager)
+        TurnsManager.currentTurn.buyPlays += 1
         ActionManager.updateActions()
     }
 
@@ -33,7 +37,7 @@ export default class DevIncreaseBy1 extends cc.Component {
 
     // onLoad () {}
 
-    start () {
+    start() {
 
     }
 

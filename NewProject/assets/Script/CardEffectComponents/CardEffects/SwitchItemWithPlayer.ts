@@ -7,7 +7,7 @@ import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
 import Effect from "./Effect";
 import Player from "../../Entites/GameEntities/Player";
 import Stack from "../../Entites/Stack";
-
+import ChooseCardTypeAndFilter from "../ChooseCardTypeAndFilter";
 
 const { ccclass, property } = cc._decorator;
 
@@ -25,36 +25,39 @@ export default class SwtichItemWithPlayer extends Effect {
     data?: ActiveEffectData | PassiveEffectData
   ) {
 
-    let playersCards = data.getTargets(TARGETTYPE.PLAYER)
+    const playersCards = data.getTargets(TARGETTYPE.PLAYER)
 
-    let players = []
+    const players = []
     for (let i = 0; i < playersCards.length; i++) {
       const playerCard = playersCards[i];
       if (playerCard instanceof cc.Node) {
         players.push(PlayerManager.getPlayerByCard(playerCard))
       }
     }
-    let playerToTakeFrom: Player = players[0]
-    let playerToGiveTo: Player = players[1]
+    const playerToTakeFrom: Player = players[0]
+    const playerToGiveTo: Player = players[1]
     if (playerToGiveTo == null || playerToTakeFrom == null) {
-      throw `one of the players is null`
+      throw new Error(`one of the players is null`)
     } else {
-      let chooseCard = new ChooseCard();
+      const chooseCard = new ChooseCard();
       chooseCard.flavorText = "Choose Item To Take"
-      //taker chooses what to take 
-      chooseCard.chooseType = CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_ITEMS_WITHOUT_ETERNALS
-      let playerToTakeFromItems = chooseCard.getCardsToChoose(CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_ITEMS, null, playerToTakeFrom)
-      let chosenData = await chooseCard.requireChoosingACard(playerToTakeFromItems)
+      //taker chooses what to take
+      chooseCard.chooseType = new ChooseCardTypeAndFilter();
+      chooseCard.otherPlayer = playerToTakeFrom
+      chooseCard.chooseType.chooseType = CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_ITEMS_WITHOUT_ETERNALS
 
-      let cardToTake = CardManager.getCardById(chosenData.cardChosenId, true)
+      let targetCard = await chooseCard.collectData({ cardPlayerId: playerToGiveTo.playerId })
+      // const playerToTakeFromItems = chooseCard.getCardsToChoose(CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_ITEMS, null, playerToTakeFrom)
+      // let chosenData = await chooseCard.requireChoosingACard(playerToTakeFromItems)
+
+      const cardToTake = targetCard.effectTargetCard
       cc.log(`card to steal is ${cardToTake.name}`)
 
-
-      //p1 choose which loot to get.  
-      let playerToGiveToItems = chooseCard.getCardsToChoose(CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_ITEMS_WITHOUT_ETERNALS, null, playerToGiveTo)
+      //p1 choose which loot to get.
+      chooseCard.otherPlayer = playerToGiveTo
       chooseCard.flavorText = "Choose Item To Give"
-      chosenData = await chooseCard.requireChoosingACard(playerToGiveToItems)
-      let cardToGive = CardManager.getCardById(chosenData.cardChosenId, true)
+      targetCard = await chooseCard.collectData({ cardPlayerId: playerToGiveTo.playerId })
+      const cardToGive = targetCard.effectTargetCard
       cc.log(`card to give is ${cardToGive.name}`)
 
       await playerToTakeFrom.loseItem(cardToTake, true)
@@ -66,7 +69,7 @@ export default class SwtichItemWithPlayer extends Effect {
 
     }
 
-    if (data instanceof PassiveEffectData) return data
+    if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack
   }
 }

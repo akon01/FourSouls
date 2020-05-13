@@ -4,6 +4,7 @@ import Player from "../../Entites/GameEntities/Player";
 import { PassiveMeta } from "../../Managers/PassiveManager";
 import PlayerManager from "../../Managers/PlayerManager";
 import Condition from "./Condition";
+import Card from "../../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,7 +18,7 @@ export default class CardOwnerKill extends Condition {
   needsDataCollector = false;
 
   async testCondition(meta: PassiveMeta) {
-    const thisCard = this.node.parent.parent;
+    const thisCard = Card.getCardNodeByChild(this.node)
     const cardOwner = PlayerManager.getPlayerByCard(thisCard);
     switch (meta.passiveEvent) {
       case PASSIVE_EVENTS.PLAYER_PAY_DEATH_PANELTIES:

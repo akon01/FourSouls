@@ -11,6 +11,7 @@ import TakeLootFromPlayer from "./TakeLootFromPlayer";
 import ChooseCard from "../DataCollector/ChooseCard";
 import CardManager from "../../Managers/CardManager";
 import Card from "../../Entites/GameEntities/Card";
+import ChooseCardTypeAndFilter from "../ChooseCardTypeAndFilter";
 
 const { ccclass, property } = cc._decorator;
 
@@ -85,11 +86,17 @@ export default class LookAtPlayerHand extends Effect {
   async stealACardFromPlayer(player: Player, originalPlayer: Player) {
     const steal = new TakeLootFromPlayer();
     const chooseCard = new ChooseCard();
+    chooseCard.otherPlayer = player;
+    chooseCard.chooseType = new ChooseCardTypeAndFilter();
+    chooseCard.chooseType.chooseType = CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND
     chooseCard.flavorText = "Choose A Card To Steal"
 
-    const cards = await chooseCard.getCardsToChoose(CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND, null, player)
-    const chosenData = await chooseCard.requireChoosingACard(cards)
-    const chosenCard = CardManager.getCardById(chosenData.cardChosenId)
+    let cardTarget = await chooseCard.collectData({ cardPlayerId: originalPlayer.playerId })
+
+
+    // const cards = await chooseCard.getCardsToChoose(CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND, originalPlayer, player)
+    // const chosenData = await chooseCard.requireChoosingACard(cards)
+    const chosenCard = cardTarget.effectTargetCard
     const data = new ActiveEffectData()
     data.addTarget(chosenCard)
     data.addTarget(originalPlayer.character)

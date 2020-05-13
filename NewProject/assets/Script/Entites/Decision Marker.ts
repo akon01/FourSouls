@@ -1,34 +1,34 @@
-import CardPreview from "./CardPreview";
-import { DECISION_SHOW_TIME, GAME_EVENTS, STACK_EFFECT_TYPE } from "../Constants";
-import ServerClient from "../../ServerClient/ServerClient";
 import Signal from "../../Misc/Signal";
-import Card from "./GameEntities/Card";
+import ServerClient from "../../ServerClient/ServerClient";
+import { DECISION_SHOW_TIME, GAME_EVENTS, STACK_EFFECT_TYPE } from "../Constants";
 import ActionManager from "../Managers/ActionManager";
-import PlayerManager from "../Managers/PlayerManager";
-import Player from "./GameEntities/Player";
-import StackEffectVisManager from "../Managers/StackEffectVisManager";
-import RollDiceStackEffect from "../StackEffects/Roll DIce";
-import AttackRoll from "../StackEffects/Attack Roll";
-import StackEffectPreview from "../StackEffects/StackEffectVisualRepresentation/StackEffectPreview";
 import CardManager from "../Managers/CardManager";
-import PlayLootCardStackEffect from "../StackEffects/Play Loot Card";
+import PlayerManager from "../Managers/PlayerManager";
+import StackEffectVisManager from "../Managers/StackEffectVisManager";
 import ActivateItem from "../StackEffects/Activate Item";
 import ActivatePassiveEffect from "../StackEffects/Activate Passive Effect";
-import MonsterRewardStackEffect from "../StackEffects/Monster Reward";
-import Stack from "./Stack";
+import AttackRoll from "../StackEffects/Attack Roll";
 import CombatDamage from "../StackEffects/Combat Damage";
 import DeclareAttack from "../StackEffects/Declare Attack";
 import MonsterDeath from "../StackEffects/Monster Death";
 import MonsterEndDeath from "../StackEffects/Monster End Death";
-import MonsterReward from "../CardEffectComponents/MonsterRewards/MonsterReward";
+import MonsterRewardStackEffect from "../StackEffects/Monster Reward";
+import PlayLootCardStackEffect from "../StackEffects/Play Loot Card";
 import PlayerDeath from "../StackEffects/Player Death";
 import PlayerDeathPenalties from "../StackEffects/Player Death Penalties";
 import PurchaseItem from "../StackEffects/Purchase Item";
 import RefillEmptySlot from "../StackEffects/Refill Empty Slot";
-import Store from "./GameEntities/Store";
-import RollDice from "../CardEffectComponents/RollDice";
+import RollDiceStackEffect from "../StackEffects/Roll DIce";
 import StackEffectConcrete from "../StackEffects/StackEffectConcrete";
+import StackEffectPreview from "../StackEffects/StackEffectVisualRepresentation/StackEffectPreview";
 import StartTurnLoot from "../StackEffects/Start Turn Loot";
+import Card from "./GameEntities/Card";
+import Player from "./GameEntities/Player";
+import Store from "./GameEntities/Store";
+import Stack from "./Stack";
+import { whevent } from "../../ServerClient/whevent";
+import CardPreview from "./Card Preview";
+import { Logger } from "./Logger";
 
 const { ccclass, property } = cc._decorator;
 
@@ -38,7 +38,7 @@ export default class DecisionMarker extends cc.Component {
     @property(cc.Graphics)
     graphicsComp: cc.Graphics = null;
 
-    @property
+    @property(cc.Node)
     canvas: cc.Node = null
 
     @property(CardPreview)
@@ -46,6 +46,11 @@ export default class DecisionMarker extends cc.Component {
 
     @property(StackEffectPreview)
     stackEffectPreview: StackEffectPreview = null
+
+    @property({ visible: false })
+    currentStackIcon: cc.SpriteFrame = null
+
+    _decisionTimeout: any = null
 
     static $: DecisionMarker = null;
 
@@ -56,6 +61,7 @@ export default class DecisionMarker extends cc.Component {
     hideDecision() {
         this.cardPreview.node.active = false;
         this.stackEffectPreview.node.active = false
+        StackEffectVisManager.$.previewPool.putByStackEffectPreview(this.stackEffectPreview)
         this.graphicsComp.clear()
         whevent.emit(GAME_EVENTS.HIDE_DECISION)
     }
@@ -69,7 +75,12 @@ export default class DecisionMarker extends cc.Component {
     }
 
     async showEffectChosen(card: cc.Node, effectChosen: cc.Node) {
+        if (this._decisionTimeout) {
+            clearTimeout(this._decisionTimeout)
+            DecisionMarker.$.hideDecision()
+        }
         this.cardPreview.setCard(card, true)
+        this.graphicsComp.clear(true)
         const previewWidget = this.cardPreview.node.getComponent(cc.Widget);
         previewWidget.isAbsoluteLeft = false;
         previewWidget.isAlignLeft = true
@@ -77,15 +88,21 @@ export default class DecisionMarker extends cc.Component {
         previewWidget.left = 0.15;
         previewWidget.updateAlignment()
         this.cardPreview.node.active = true
+        cc.log(effectChosen)
         const effect = this.cardPreview.addEffectToPreview(effectChosen)
+
+
         const topLeft = this.canvas.convertToNodeSpaceAR(effect.parent.convertToWorldSpaceAR(cc.v2(effect.x - effect.width / 2, effect.y + effect.height / 2)))
         const bottomLeft = this.canvas.convertToNodeSpaceAR(effect.parent.convertToWorldSpaceAR(cc.v2(effect.x - effect.width / 2, effect.y - effect.height / 2)))
-        this.graphicsComp.moveTo(topLeft.x, topLeft.y)
-
-        this.graphicsComp.rect(bottomLeft.x, bottomLeft.y, effect.width, effect.height)
+        //    this.graphicsComp.moveTo(topLeft.x, topLeft.y)
+        const rect = effect.getBoundingBoxToWorld()
+        this.graphicsComp.rect(bottomLeft.x, bottomLeft.y, rect.width, rect.height)
+        //this.graphicsComp.moveTo(0, 0)
+        this.graphicsComp.fillColor == cc.Color.RED
         this.graphicsComp.stroke()
         ServerClient.$.send(Signal.SHOW_EFFECT_CHOSEN, { cardId: card.getComponent(Card)._cardId, pos: { x: bottomLeft.x, y: bottomLeft.y }, size: { w: effect.width, h: effect.height } })
-        setTimeout(() => {
+        this._decisionTimeout = setTimeout(() => {
+            this._decisionTimeout = null
             DecisionMarker.$.hideDecision()
         }, DECISION_SHOW_TIME * 1000);
         await this.waitForDecisionHide()
@@ -93,6 +110,10 @@ export default class DecisionMarker extends cc.Component {
     }
 
     async showEffectFromServer(card: cc.Node, pos: { x: number, y: number }, size: { w: number, h: number }) {
+        if (this._decisionTimeout) {
+            clearTimeout(this._decisionTimeout)
+            DecisionMarker.$.hideDecision()
+        }
         const previewWidget = this.cardPreview.node.getComponent(cc.Widget);
         previewWidget.isAbsoluteLeft = false;
         previewWidget.isAlignLeft = true
@@ -102,20 +123,25 @@ export default class DecisionMarker extends cc.Component {
         this.cardPreview.setCard(card, true)
         this.cardPreview.node.active = true
         this.graphicsComp.rect(pos.x, pos.y, size.w, size.h)
+        this.graphicsComp.fillColor == cc.Color.RED
         this.graphicsComp.stroke()
-        setTimeout(() => {
+        this._decisionTimeout = setTimeout(() => {
+            this._decisionTimeout = null
             DecisionMarker.$.hideDecision()
         }, DECISION_SHOW_TIME * 1000);
         await this.waitForDecisionHide()
     }
 
     async showDiceRoll(diceRollStack: RollDiceStackEffect | AttackRoll, sendToServer: boolean) {
-        const preview = StackEffectVisManager.$.getPreviewByStackId(diceRollStack.entityId)
+        if (this._decisionTimeout) {
+            clearTimeout(this._decisionTimeout)
+            DecisionMarker.$.hideDecision()
+        }
+        this.setCurrentStackPreview(StackEffectVisManager.$.previewPool.getByStackEffect(diceRollStack).getComponent(StackEffectPreview))
         let player: Player
         let card: cc.Node
         const playerCard = CardManager.getCardById(diceRollStack.creatorCardId, true);
         player = PlayerManager.getPlayerByCard(playerCard);
-        cc.log(diceRollStack)
         if (diceRollStack instanceof RollDiceStackEffect) {
             if (diceRollStack.stackEffectToLock instanceof PlayLootCardStackEffect) {
                 card = diceRollStack.stackEffectToLock.lootToPlay
@@ -129,25 +155,29 @@ export default class DecisionMarker extends cc.Component {
         } else if (diceRollStack instanceof AttackRoll) {
             card = diceRollStack.attackedMonster.node
         }
-        cc.log(card)
+        cc.log(this.stackEffectPreview)
+        cc.log(diceRollStack)
         this.stackEffectPreview.setStackEffect(diceRollStack)
         this.stackEffectPreview.flavorTextLable.string = ""
         const previewNode = this.stackEffectPreview.node
         this.stackEffectPreview.node.active = true
         this.movePreviewByEndCard(this.stackEffectPreview.node, card)
 
-        const points = this.getOriginAndEndPointByPreviewAndEndCard(previewNode, card)
 
+
+
+        const points = this.getOriginAndEndPointByPreviewAndEndCard(this.stackEffectPreview.node, card)
+        this.graphicsComp.fillColor == cc.Color.BLUE
         this.graphicsComp.moveTo(points.originPoint.x, points.originPoint.y)
         this.graphicsComp.lineTo(points.endPoint.x, points.endPoint.y)
         this.graphicsComp.stroke()
-
-        setTimeout(() => {
-            DecisionMarker.$.hideDecision()
-        }, DECISION_SHOW_TIME * 1000);
         if (sendToServer) {
             ServerClient.$.send(Signal.SHOW_DICE_ROLL, { stackId: diceRollStack.entityId })
         }
+        this._decisionTimeout = setTimeout(() => {
+            this._decisionTimeout = null
+            DecisionMarker.$.hideDecision()
+        }, DECISION_SHOW_TIME * 1000);
         await this.waitForDecisionHide()
     }
 
@@ -160,7 +190,7 @@ export default class DecisionMarker extends cc.Component {
         let cardTopLeftPoint: cc.Vec2
 
 
-        if (endCard.parent != null && endCard.parent != cc.find(`Canvas`)) {
+        if (endCard.parent != null && endCard.parent != CardManager.$.onTableCardsHolder) {
             cardTopLeftPoint = this.canvas.convertToNodeSpaceAR(endCard.parent.convertToWorldSpaceAR(new cc.Vec2(endCard.x - endCard.width / 2, endCard.y + endCard.height / 2)))
             cardTopRightPoint = this.canvas.convertToNodeSpaceAR(endCard.parent.convertToWorldSpaceAR(new cc.Vec2(endCard.x + endCard.width / 2, endCard.y + endCard.height / 2)))
             cardMiddleLeftPoint = this.canvas.convertToNodeSpaceAR(endCard.parent.convertToWorldSpaceAR(new cc.Vec2(endCard.x - endCard.width / 2, 0)))
@@ -192,13 +222,10 @@ export default class DecisionMarker extends cc.Component {
             originPoint = this.canvas.convertToNodeSpaceAR(startCardWR)
             if (cardTopRightPoint.y < previewTopPoint.y && cardTopRightPoint.y > previewLowPoint.y) {
                 endPoint = cardMiddleLeftPoint
-                cc.log(`is middle left point `)
             } else if (cardTopRightPoint.y > previewTopPoint.y) {
                 endPoint = cardBottomMiddlePoint
-                cc.log(`is bottom middle point `)
             } else if (cardTopRightPoint.y < previewTopPoint.y) {
                 endPoint = cardTopMiddlePoint
-                cc.log(`is top middle point `)
             } else {
                 cc.log(`no endpoint found: end card top ${cardTopLeftPoint.y} start card top ${previewTopPoint.y} start card bottom ${previewLowPoint.y}`)
             }
@@ -207,13 +234,10 @@ export default class DecisionMarker extends cc.Component {
             originPoint = this.canvas.convertToNodeSpaceAR(startCardWL)
             if (cardTopLeftPoint.y < previewTopPoint.y && cardTopLeftPoint.y > previewLowPoint.y) {
                 endPoint = cardMiddleRightPoint
-                cc.log(`is middle right point `)
             } else if (cardTopLeftPoint.y > previewTopPoint.y) {
                 endPoint = cardBottomMiddlePoint
-                cc.log(`is bottom middle point `)
             } else if (cardTopLeftPoint.y < previewLowPoint.y) {
                 endPoint = cardTopMiddlePoint
-                cc.log(`is top middle point `)
             } else {
                 cc.log(`no endpoint found: end card top ${cardTopLeftPoint.y} start card top ${previewTopPoint.y} start card bottom ${previewLowPoint.y}`)
             }
@@ -225,69 +249,100 @@ export default class DecisionMarker extends cc.Component {
     movePreviewByEndCard(preview: cc.Node, endCard: cc.Node) {
         const previewWidget = preview.getComponent(cc.Widget);
         let endCardTopRightPoint: cc.Vec2
-        if (endCard.parent != null && endCard.parent != cc.find(`Canvas`)) {
+        if (endCard.parent != null && endCard.parent != CardManager.$.onTableCardsHolder) {
             endCardTopRightPoint = this.canvas.convertToNodeSpaceAR(endCard.parent.convertToWorldSpaceAR(new cc.Vec2(endCard.x + endCard.width / 2, endCard.y + endCard.height / 2)))
         } else {
             endCardTopRightPoint = new cc.Vec2(endCard.x + endCard.width / 2, endCard.y + endCard.height / 2)
         }
 
-        cc.log(endCardTopRightPoint)
 
         if (endCardTopRightPoint.x > 0) {
-            cc.log(`move preview left`)
+
             previewWidget.isAbsoluteLeft = false;
             previewWidget.isAlignLeft = true
             previewWidget.isAlignRight = false;
             previewWidget.left = 0.15;
-            previewWidget.updateAlignment()
         } else {
-            cc.log(`move preview right`)
-            cc.log(previewWidget)
+
             previewWidget.isAbsoluteRight = false;
             previewWidget.isAlignLeft = false
             previewWidget.isAlignRight = true;
             previewWidget.right = 0.15;
-            cc.log(previewWidget)
-            previewWidget.updateAlignment()
         }
+        previewWidget.updateAlignment()
+        //   preview.parent = this.graphicsComp.node
     }
 
 
     changeAnimClipColor(card: cc.Node, colorNumber: number) {
         const animation = card.getComponentInChildren(cc.Animation)
         if (animation) {
-            cc.log(`set clip ${colorNumber} to card ${card.name}`)
             const clip = animation.getClips()[colorNumber]
-            cc.log(`clip name ${clip.name}`)
             animation.defaultClip = clip
-            cc.log(animation)
         }
 
     }
 
-    setStackIcon(icon: cc.SpriteFrame) {
-        this.stackEffectPreview.setStackIcon(icon)
-        this.stackEffectPreview.showStackIcon()
+    setStackIcon(icon: cc.SpriteFrame, sendToServer: boolean) {
+        this.currentStackIcon = icon
+        // this.stackEffectPreview.setStackIcon(icon)
+        // this.stackEffectPreview.showStackIcon()
+        if (sendToServer) {
+            ServerClient.$.send(Signal.SET_STACK_ICON, { iconIndex: StackEffectVisManager.$.stackIcons.indexOf(icon) })
+        }
     }
 
-    async showStackEffect(effectId: number) {
-        const stackEffect = Stack._currentStack.find(stack => stack.entityId = effectId)
+    setCurrentStackPreview(stackEffectPreview: StackEffectPreview) {
+        this.stackEffectPreview = stackEffectPreview;
+        stackEffectPreview.node.parent = this.node
+        this.setWidget(stackEffectPreview);
+    }
+
+    private setWidget(stackEffectPreview: StackEffectPreview) {
+
+        const widget = stackEffectPreview.node.getComponent(cc.Widget);
+        widget.isAlignTop = true;
+        widget.isAbsoluteTop = false;
+        widget.target = this.canvas
+        widget.top = 0.2;
+        widget.updateAlignment();
+    }
+
+    async showStackEffect(effectId: number, sendToServer: boolean) {
+        if (this._decisionTimeout) {
+            clearTimeout(this._decisionTimeout)
+            DecisionMarker.$.hideDecision()
+        }
+        const currentStack = Stack._currentStack
+        const stackEffect = currentStack.find(stack => stack.entityId == effectId)
         if (!stackEffect) {
-            cc.error(`no stack effect to show`)
+            Logger.error(`no stack effect to show`, { CurrentStack: Stack._currentStack, stackEffectToShowId: effectId })
             return
+        }
+        cc.error(`show stack effect decision marker`)
+        cc.log(stackEffect._lable)
+        this.setCurrentStackPreview(StackEffectVisManager.$.previewPool.getByStackEffect(stackEffect).getComponent(StackEffectPreview))
+        if (this.currentStackIcon != null) {
+            this.stackEffectPreview.setStackIcon(this.currentStackIcon)
+            this.stackEffectPreview.showStackIcon()
         }
         const preview = this.stackEffectPreview;
         preview.setStackEffect(stackEffect)
         const endCard = this.getStackEffectEndCard(stackEffect)
-        cc.log(endCard)
         this.movePreviewByEndCard(preview.node, endCard)
         const points = this.getOriginAndEndPointByPreviewAndEndCard(preview.node, endCard)
         preview.node.active = true
+        this.setWidget(preview)
+        preview.node.getComponent(cc.Widget).updateAlignment();
         this.graphicsComp.moveTo(points.originPoint.x, points.originPoint.y)
         this.graphicsComp.lineTo(points.endPoint.x, points.endPoint.y)
+        this.graphicsComp.fillColor == cc.Color.RED
         this.graphicsComp.stroke()
-
-        setTimeout(() => {
+        if (sendToServer) {
+            ServerClient.$.send(Signal.SHOW_STACK_EFFECT, { effectId: effectId })
+        }
+        this._decisionTimeout = setTimeout(() => {
+            this._decisionTimeout = null
             DecisionMarker.$.hideDecision()
         }, DECISION_SHOW_TIME * 1000);
         await this.waitForDecisionHide()
@@ -351,7 +406,10 @@ export default class DecisionMarker extends cc.Component {
     }
 
     async showDecision(startCard: cc.Node, endCard: cc.Node, sendToServer: boolean, flipEndCard?: boolean) {
-
+        if (this._decisionTimeout) {
+            clearTimeout(this._decisionTimeout)
+            DecisionMarker.$.hideDecision()
+        }
         ActionManager.updateActionsForNotTurnPlayer(PlayerManager.mePlayer)
         // this.graphicsComp.lineWidth = 60
         this.cardPreview.setCard(startCard, true)
@@ -372,19 +430,15 @@ export default class DecisionMarker extends cc.Component {
         if (sendToServer) {
             ServerClient.$.send(Signal.SHOW_DECISION, { startCardId: startCard.getComponent(Card)._cardId, endCardId: endCard.getComponent(Card)._cardId, flipEndCard: flipEndCard })
         }
-        setTimeout(() => {
+        this._decisionTimeout = setTimeout(() => {
             if (flipEndCard && !endCard.getComponent(Card)._isFlipped) {
                 endCard.getComponent(Card).flipCard(false)
             }
+            this._decisionTimeout = null
             DecisionMarker.$.hideDecision()
         }, DECISION_SHOW_TIME * 1000);
         await this.waitForDecisionHide()
-        // // const graphics = arrowGfx.getComponent(cc.Graphics)
-        // cc.log(`origin x:${arrowOrigin.x} y:${arrowOrigin.y}`)
-        // cc.log(`end x:${arrowEndPoint.x} y:${arrowEndPoint.y}`)
-        // this.graphicsComp.moveTo(arrowOrigin.x, arrowOrigin.y)
-        // this.graphicsComp.lineTo(arrowEndPoint.x, arrowEndPoint.y)
-        // this.graphicsComp.stroke()
+
     }
 
     // LIFE-CYCLE CALLBACKS:

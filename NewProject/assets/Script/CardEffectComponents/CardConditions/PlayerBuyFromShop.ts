@@ -6,6 +6,7 @@ import { PassiveMeta } from "../../Managers/PassiveManager";
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "../DataCollector/DataCollector";
 import Condition from "./Condition";
+import Card from "../../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,7 +33,7 @@ export default class PlayerBuyFromShop extends Condition {
   async testCondition(meta: PassiveMeta) {
 
     const player: Player = meta.methodScope.getComponent(Player);
-    const thisCard = this.node.parent.parent;
+    const thisCard = Card.getCardNodeByChild(this.node)
     //   let playerName = PlayerManager.getPlayerByCardId(this.conditionData.cardChosenId).name;
     if (this.isSpecificPlayerOnly) {
       const selectedPlayerCard = this.conditionData.getTarget(TARGETTYPE.PLAYER)
@@ -44,8 +45,7 @@ export default class PlayerBuyFromShop extends Condition {
           if (
             player instanceof Player &&
             player.playerId == selectedPlayer.playerId &&
-            // meta.passiveEvent == PASSIVE_EVENTS.PLAYER_BUY_ITEM &&
-            Store.storeCards.includes(meta.args[1])
+            new Set(Store.storeCards.concat(Store.thisTurnStoreCards)).has(meta.args[1])
           ) {
             return true;
           } else {
@@ -54,9 +54,11 @@ export default class PlayerBuyFromShop extends Condition {
         }
       }
     } else {
-      if (player instanceof Player && Store.storeCards.includes(meta.args[1])) {
+      if (player instanceof Player && new Set(Store.storeCards.concat(Store.thisTurnStoreCards)).has(meta.args[1])) {
         return true
-      } else { return false }
+      } else {
+        return false
+      }
     }
   }
 }

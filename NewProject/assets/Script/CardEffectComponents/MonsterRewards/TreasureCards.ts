@@ -18,7 +18,9 @@ export default class TreasureCards extends MonsterReward {
   numOfIemsToGet: number = 0;
 
   async rewardPlayer(playerToReward: cc.Node, sendToServer: boolean) {
-
+    if (this.doubleReward) {
+      this.numOfIemsToGet += this.numOfIemsToGet
+    }
     const treasureDeck = CardManager.treasureDeck.getComponent(Deck);
     for (let i = 0; i < this.numOfIemsToGet; i++) {
 

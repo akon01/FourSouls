@@ -73,6 +73,144 @@ var Server = /** @class */ (function () {
             });
         });
     };
+    Server.prototype.test = function (dirName) {
+        return __awaiter(this, void 0, void 0, function () {
+            var fs;
+            return __generator(this, function (_a) {
+                fs = require('fs');
+                // const readline = require('readline');
+                // const readinterface = readline.createInterface({
+                //   input: fs.createReadStream('/MainGame.fire'),
+                //   output: process.stdout,
+                //   console: false
+                // })
+                // let lines = []
+                // readinterface.on('line', (line) => {
+                //   lines.push(line)
+                // })
+                // console.log(lines.length);
+                // let lines = []
+                // await fs.readFile('D:/Coding/CocosProjects/NewProject/assets/resources/Prefabs/CharacterCards/CharItemCards/Forever Alone.prefab', 'utf8', async (err, data: string) => {
+                //   if (err) {
+                //     console.log(`err`);
+                //   }
+                //   console.log(`end of read file`);
+                //   //  console.log(data);
+                //   // fs.appendFileSync('/test3.txt', "start", (err2) => {
+                //   //   if (err2) throw err2;
+                //   // })
+                //   whevent.emit(1000, { lines: data, fileName: `Forever Alone.prefab`, dirName: "D:/Coding/CocosProjects/NewProject/assets/resources/Prefabs/CharacterCards/CharItemCards" })
+                // })
+                // dirName = "D:/Coding/CocosProjects/NewProject/assets/resources/Prefabs/CharacterCards/CharCardsPrefabs"
+                fs.readdir(dirName, function (err, filenames) {
+                    if (err) {
+                        console.log(err);
+                        return;
+                    }
+                    filenames.forEach(function (file) {
+                        if (!file.endsWith(".meta")) {
+                            fs.readFile(dirName + '/' + file, 'utf8', function (err, content) {
+                                if (err) {
+                                    console.log(err);
+                                    return;
+                                }
+                                whevent.emit(1000, { lines: content, fileName: file, dirName: dirName });
+                            });
+                        }
+                    });
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    Server.prototype.doIt = function (data) {
+        var fs = require('fs');
+        var regexp = new RegExp('"width": (\\d+.+\\d+|\\d+)', 'g');
+        var regexp2 = new RegExp('"height": (\\d+.+\\d+|\\d+)', 'g');
+        var regexp3 = new RegExp('"array": \\[\\n *\\d*,\\n *([\\s\\S]+?),', 'g');
+        var newText = data.lines.replace(regexp3, function (subString, args) {
+            var number = Number.parseFloat(args);
+            var newString = subString.replace(args, (number / 2).toFixed(2));
+            return newString;
+        });
+        newText = newText.replace(regexp, function (subString, args) {
+            var number = Number.parseFloat(args);
+            return subString.replace(args, (number / 2).toFixed(2));
+        });
+        newText = newText.replace(regexp2, function (subString, args) {
+            var number = Number.parseFloat(args);
+            return subString.replace(args, (number / 2).toFixed(2));
+        });
+        //const fileName = data.fileName.replace(new RegExp(`\\.prefab`), ` test.prefab`)
+        fs.unlink(data.dirName + "/" + data.fileName, function () {
+            fs.appendFileSync(data.dirName + '/' + data.fileName, newText, function (err2) {
+                if (err2)
+                    throw err2;
+            });
+        });
+        // for (let i = 0; i < data.lines.length; i++) {
+        //   const line = data.lines[i];
+        //   let newLine = line
+        //   let regexFound = line.match(regexp)
+        //   if (regexFound != null) {
+        //     newLine = this.checkRegex(regexFound, newLine, `width`);
+        //   } else {
+        //     regexFound = line.match(regexp2)
+        //     if (regexFound != null) {
+        //       newLine = this.checkRegex(regexFound, newLine, `height`)
+        //     } else {
+        //       regexFound = line.match(regexp3)
+        //       if (regexFound != null) {
+        //         newLine = this.checkRegex(regexFound, newLine, `array`)
+        //       }
+        //     }
+        //   }
+        //   switch (i) {
+        //     case data.lines.length * 0.25:
+        //       console.log(`finished 25% of ${data.fileName}`);
+        //       break;
+        //     case data.lines.length * 0.50:
+        //       console.log(`finished 50% of ${data.fileName}`);
+        //       break;
+        //     case data.lines.length * 0.75:
+        //       console.log(`finished 75% of ${data.fileName}`);
+        //       break;
+        //     default:
+        //       break;
+        //   }
+        //   newLine = newLine + '\n'
+        //   fs.appendFileSync(data.dirName + '/' + data.fileName + ' test', newLine, (err2) => {
+        //     if (err2) throw err2;
+        //   })
+        // }
+        console.log("finished");
+    };
+    Server.prototype.checkRegex = function (regexFound, newLine, word) {
+        console.log("check regex");
+        if (regexFound.length > 0) {
+            var oldLine = newLine;
+            var number = Number.parseFloat(regexFound[1]);
+            if (number != 0) {
+                console.log("number is not 0");
+                number = number / 2;
+                if (word != 'array') {
+                    newLine = "\"" + word + "\": " + number.toFixed(2);
+                }
+                else {
+                    newLine = "\"" + word + "\": " + number.toFixed(2);
+                }
+                console.log(oldLine.endsWith(","));
+                if (oldLine.endsWith(",")) {
+                    newLine = newLine + ',';
+                }
+                console.log(" line changed : " + oldLine + "  to " + newLine + " ");
+            }
+            else {
+                console.log("number is 0");
+            }
+        }
+        return newLine;
+    };
     Server.prototype.bindEvents = function () {
         whevent.on(signal_1["default"].SET_MAX_ITEMS_STORE, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].LOG, this.logFromPlayer, this);
@@ -134,8 +272,13 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].REGISTER_ONE_TURN_PASSIVE_EFFECT, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].END_ROLL_ACTION, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].SHOW_DECISION, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].SHOW_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].SET_STACK_ICON, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].SHOW_DICE_ROLL, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].SHOW_EFFECT_CHOSEN, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].SHOW_REACTIONS, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].HIDE_REACTIONS, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].REACTION_TOGGLED, this.onBroadcastExceptOrigin, this);
         //stack events:
         whevent.on(signal_1["default"].REPLACE_STACK, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].REMOVE_FROM_STACK, this.onBroadcastExceptOrigin, this);
@@ -143,11 +286,12 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].ADD_TO_STACK, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].PUT_ON_STACK, this.onSendToSpecificPlayer, this);
         whevent.on(signal_1["default"].END_PUT_ON_STACK, this.onSendToSpecificPlayer, this);
-        whevent.on(signal_1["default"].ADD_RESOLVING_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
-        whevent.on(signal_1["default"].REMOVE_RESOLVING_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].UPDATE_RESOLVING_STACK_EFFECTS, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].UPDATE_STACK_VIS, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].ADD_SE_VIS_PREV, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].REMOVE_SE_VIS_PREV, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].CLEAR_SE_VIS, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].STACK_EFFECT_LABLE_CHANGE, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].UPDATE_STACK_LABLE, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].UPDATE_STACK_EFFECT, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].NEXT_STACK_ID, this.onBroadcastExceptOrigin, this);
@@ -194,6 +338,11 @@ var Server = /** @class */ (function () {
         //Action Lable
         whevent.on(signal_1["default"].ACTION_MASSAGE_ADD, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].ACTION_MASSAGE_REMOVE, this.onBroadcastExceptOrigin, this);
+        //Announcement Lable
+        whevent.on(signal_1["default"].SHOW_ANNOUNCEMENT, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].HIDE_ANNOUNCEMENT, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].SHOW_TIMER, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].HIDE_TIMER, this.onBroadcastExceptOrigin, this);
     };
     Server.prototype.onBroadcastExceptOrigin = function (_a) {
         var player = _a.player, data = _a.data;
@@ -294,6 +443,7 @@ var Server = /** @class */ (function () {
         player.send(signal_1["default"].UUID, player.uuid);
     };
     Server.prototype.onClose = function (player) {
+        this.onBroadcastExceptOrigin({ player: player, data: { signal: signal_1["default"].PLAYER_DISCONNECTED, text: "player " + player.uuid + " has disconnected" } });
         player.remove();
         console.log("Player " + player.uuid + " has disconnected!");
     };
@@ -303,7 +453,8 @@ var Server = /** @class */ (function () {
     Server.prototype.onMessage = function (player, message) {
         try {
             var data = JSON.parse(Buffer.from(message, "base64").toString());
-            console.log("Player " + player.uuid + ": ", data);
+            console.log("Recived From Player " + player.uuid + ": ", data);
+            console.log("\n");
             var id = player.uuid;
             if (this.logger) {
                 this.logger.logFromServer(id, data);

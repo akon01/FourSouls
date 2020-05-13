@@ -34,14 +34,14 @@ export default class PreventDamage extends Effect {
     let targetEntity = data.getTarget(TARGETTYPE.PLAYER)
     if (targetEntity == null) targetEntity = data.getTarget(TARGETTYPE.MONSTER);
     if (targetEntity == null) {
-      cc.log(`target is null`)
-      return
+      throw new Error(`target is null`)
     }
 
+    cc.log(`give ${(targetEntity as cc.Node).name} protecttion`)
     await this.giveDmgProtection(targetEntity as cc.Node)
 
 
-    if (data instanceof PassiveEffectData) return data
+    if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack
   }
 

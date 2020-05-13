@@ -1,0 +1,972 @@
+Start Log 
+ Player 1 11:12:33 $START_GAME:  
+ Player 1 11:12:33 $MOVE_TO_TABLE:  
+ Player 1 11:12:43 $FINISH_LOAD:  
+
+ {"id":1,"turnPlayerId":2} 
+ Player 1 11:12:44 $ASSIGN_CHAR_TO_PLAYER:  
+
+ {"playerId":1,"charCardId":314,"itemCardId":317} 
+ Player 1 11:12:44 $SET_CHAR_END:  
+
+ {"playerId":2} 
+ Player 1 11:12:45 $MOVE_CARD_END:  
+
+ {"moveIndex":1,"cardId":49,"flipIfFlipped":false,"playerId":2} 
+ Player 1 11:12:46 $MOVE_CARD_END:  
+
+ {"moveIndex":2,"cardId":8,"flipIfFlipped":false,"playerId":2} 
+ Player 1 11:12:47 $MOVE_CARD_END:  
+
+ {"moveIndex":3,"cardId":55,"flipIfFlipped":false,"playerId":2} 
+ Player 1 11:12:48 $MOVE_CARD_END:  
+
+ {"moveIndex":4,"cardId":134,"flipIfFlipped":false,"playerId":2} 
+ Player 1 11:12:48 $MOVE_CARD_END:  
+
+ {"moveIndex":5,"cardId":36,"flipIfFlipped":false,"playerId":2} 
+ Player 1 11:12:49 $MOVE_CARD_END:  
+
+ {"moveIndex":6,"cardId":131,"flipIfFlipped":false,"playerId":2} 
+ Player 1 11:12:49 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:12:49 $NEXT_STACK_ID:  
+ Player 1 11:12:49 $UPDATE_STACK_LABLE:  
+
+ {"stackText":"Empty Stack"} 
+ Player 1 11:12:49 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 start turn loot"} 
+ Player 1 11:12:49 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":314,"turnPlayerCardId":314,"stackEffectType":13}} 
+ Player 1 11:12:50 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":314,"turnPlayerCardId":314,"stackEffectType":13}} 
+ Player 1 11:12:50 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Player 1 11:12:50 $SHOW_STACK_EFFECT:  
+
+ {"effectId":1} 
+ Player 1 11:12:52 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":0,"_text":"Add StartTurnLoot 1 "}} 
+ Player 1 11:12:52 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:12:52 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":314,"turnPlayerCardId":314,"stackEffectType":13}} 
+ Player 1 11:12:52 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":1,"_text":"Response Adding StartTurnLoot 1"},"childOfId":0} 
+ Player 1 11:12:52 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":2,"_text":"Wait For Response From Player 1 "},"childOfId":0} 
+ Player 1 11:12:53 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:12:53 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":3,"_text":"Wait For Response From Player 2 "},"childOfId":0} 
+ Player 1 11:12:53 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 11:12:53 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 11:12:53 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":4,"_text":"Resolve StartTurnLoot 1 "}} 
+ Player 1 11:12:53 $ADD_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":314,"turnPlayerCardId":314,"stackEffectType":13}} 
+ Player 1 11:12:53 $DRAW_CARD:  
+
+ {"deckType":1} 
+ Player 1 11:12:53 $MOVE_CARD:  
+
+ {"moveIndex":7,"cardId":61,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":1,"y":-5,"z":0},"playerId":1,"placeType":"Hand"} 
+ Player 1 11:12:53 $CARD_DRAWN:  
+
+ {"playerId":1,"deckType":1,"drawnCardId":61} 
+ Player 1 11:12:53 $FLIP_CARD:  
+
+ {"cardId":61} 
+ Player 1 11:12:53 $PLAYER_GET_LOOT:  
+
+ {"playerId":1,"cardId":61} 
+ Player 1 11:12:53 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":314,"turnPlayerCardId":314,"stackEffectType":13}} 
+ Player 1 11:12:53 $REMOVE_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffectId":1} 
+ Player 1 11:12:53 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Player 1 11:12:54 $SHOW_STACK_EFFECT:  
+
+ {"effectId":1} 
+ Player 1 11:12:56 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":1} 
+ Player 1 11:12:56 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":5,"_text":"Remove After Resolve StartTurnLoot 1  "}} 
+ Player 1 11:12:56 $UPDATE_STACK_LABLE:  
+
+ {"stackText":"Empty Stack"} 
+ Player 1 11:12:56 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":314,"turnPlayerCardId":314,"stackEffectType":13}} 
+ Player 1 11:12:56 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":6,"_text":"Response Remove After Resolve StartTurnLoot 1"},"childOfId":5} 
+ Player 1 11:12:57 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":7,"_text":"Wait For Response From Player 2 "},"childOfId":5} 
+ Player 1 11:12:57 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 11:12:57 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 11:12:57 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":7} 
+ Player 1 11:12:57 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":8,"_text":"Wait For Response From Player 1 "},"childOfId":5} 
+ Player 1 11:12:57 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:12:57 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":8} 
+ Player 1 11:12:57 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":6} 
+ Player 1 11:12:57 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":9,"_text":"Stack Was Emptied "}} 
+ Player 1 11:12:57 $CLEAR_SE_VIS:  
+ Player 1 11:12:57 $UPDATE_STACK_LABLE:  
+
+ {"stackText":"Empty Stack"} 
+ Player 1 11:13:05 $MOVE_CARD:  
+
+ {"moveIndex":8,"cardId":277,"placeID":1,"flipIfFlipped":true,"playerId":1,"placeType":"Hand"} 
+ Player 1 11:13:06 $REGISTER_PASSIVE_ITEM:  
+
+ {"cardId":277} 
+ Player 1 11:13:06 $ADD_MONSTER:  
+
+ {"monsterPlaceId":1,"monsterId":277} 
+ Player 1 11:13:06 $NEW_MONSTER_ON_PLACE:  
+
+ {"cardId":277,"monsterPlaceId":1} 
+ Player 1 11:13:09 $NEXT_STACK_ID:  
+ Player 1 11:13:09 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1  declared attack on Holy Mulligan"} 
+ Player 1 11:13:09 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":314,"attackingPlayerCardId":314,"idOfCardBeingAttacked":277,"stackEffectType":4}} 
+ Player 1 11:13:09 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":314,"attackingPlayerCardId":314,"idOfCardBeingAttacked":277,"stackEffectType":4}} 
+ Player 1 11:13:09 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Player 1 11:13:09 $SHOW_STACK_EFFECT:  
+
+ {"effectId":2} 
+ Player 1 11:13:12 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":10,"_text":"Add DeclareAttack 2 "}} 
+ Player 1 11:13:12 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:13:12 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":314,"attackingPlayerCardId":314,"idOfCardBeingAttacked":277,"stackEffectType":4}} 
+ Player 1 11:13:12 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":11,"_text":"Response Adding DeclareAttack 2"},"childOfId":10} 
+ Player 1 11:13:12 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":12,"_text":"Wait For Response From Player 1 "},"childOfId":10} 
+ Player 1 11:13:12 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:13:12 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":12} 
+ Player 1 11:13:12 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":13,"_text":"Wait For Response From Player 2 "},"childOfId":10} 
+ Player 1 11:13:12 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 11:13:12 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 11:13:12 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":13} 
+ Player 1 11:13:12 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":11} 
+ Player 1 11:13:12 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":14,"_text":"Resolve DeclareAttack 2 "}} 
+ Player 1 11:13:12 $ADD_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":314,"attackingPlayerCardId":314,"idOfCardBeingAttacked":277,"stackEffectType":4}} 
+ Player 1 11:13:12 $ACTIVATE_PARTICLE_EFFECT:  
+
+ {"cardId":277,"particleType":5} 
+ Player 1 11:13:12 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_DECLARE_ATTACK","args":[],"result":null,"preventMethod":false,"methodScopeId":314,"scopeIsPlayer":true,"index":1,"originStackId":2},"isAfterActivation":true,"index":1} 
+ Player 1 11:13:13 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":314,"attackingPlayerCardId":314,"idOfCardBeingAttacked":277,"stackEffectType":4}} 
+ Player 1 11:13:13 $REMOVE_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffectId":2} 
+ Player 1 11:13:13 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Player 1 11:13:13 $SHOW_STACK_EFFECT:  
+
+ {"effectId":2} 
+ Player 1 11:13:15 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":2} 
+ Player 1 11:13:15 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":15,"_text":"Remove After Resolve DeclareAttack 2  "}} 
+ Player 1 11:13:15 $UPDATE_STACK_LABLE:  
+
+ {"stackText":"Empty Stack"} 
+ Player 1 11:13:15 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":314,"attackingPlayerCardId":314,"idOfCardBeingAttacked":277,"stackEffectType":4}} 
+ Player 1 11:13:15 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":16,"_text":"Response Remove After Resolve DeclareAttack 2"},"childOfId":15} 
+ Player 1 11:13:15 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":17,"_text":"Wait For Response From Player 2 "},"childOfId":15} 
+ Player 1 11:13:16 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 11:13:16 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 11:13:16 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":17} 
+ Player 1 11:13:16 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":18,"_text":"Wait For Response From Player 1 "},"childOfId":15} 
+ Player 1 11:13:16 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:13:16 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":18} 
+ Player 1 11:13:16 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":16} 
+ Player 1 11:13:16 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":19,"_text":"Stack Was Emptied "}} 
+ Player 1 11:13:16 $CLEAR_SE_VIS:  
+ Player 1 11:13:16 $UPDATE_STACK_LABLE:  
+
+ {"stackText":"Empty Stack"} 
+ Player 1 11:13:23 $NEXT_STACK_ID:  
+ Player 1 11:13:23 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 is rolling against Holy Mulligan<Monster>"} 
+ Player 1 11:13:23 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":314,"rollingPlayerCardId":314,"stackEffectType":2,"attackedMonsterCardId":277}} 
+ Player 1 11:13:23 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":314,"rollingPlayerCardId":314,"stackEffectType":2,"attackedMonsterCardId":277}} 
+ Player 1 11:13:23 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Player 1 11:13:23 $SHOW_STACK_EFFECT:  
+
+ {"effectId":3} 
+ Player 1 11:13:26 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":20,"_text":"Add AttackRoll 3 "}} 
+ Player 1 11:13:26 $ROLL_DICE:  
+
+ {"playerId":1} 
+ Player 1 11:13:28 $ROLL_DICE_ENDED:  
+
+ {"playerId":1,"numberRolled":6} 
+ Player 1 11:13:28 $UPDATE_STACK_VIS:  
+
+ {"stackId":3,"text":"player rolled 6 vs Holy Mulligan<Monster>"} 
+ Player 1 11:13:28 $SHOW_DICE_ROLL:  
+
+ {"stackId":3} 
+ Player 1 11:13:31 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 rolled 6 vs Holy Mulligan<Monster>"} 
+ Player 1 11:13:31 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:13:31 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":314,"numberRolled":6,"rollingPlayerCardId":314,"stackEffectType":2,"attackedMonsterCardId":277}} 
+ Player 1 11:13:31 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":21,"_text":"Response Adding AttackRoll 3"},"childOfId":20} 
+ Player 1 11:13:32 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":22,"_text":"Wait For Response From Player 1 "},"childOfId":20} 
+ Player 1 11:13:32 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:13:32 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":22} 
+ Player 1 11:13:32 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":23,"_text":"Wait For Response From Player 2 "},"childOfId":20} 
+ Player 1 11:13:32 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 11:13:32 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 11:13:32 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":23} 
+ Player 1 11:13:32 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":21} 
+ Player 1 11:13:32 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":24,"_text":"Resolve AttackRoll 3 "}} 
+ Player 1 11:13:32 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 rolled 6 vs Holy Mulligan<Monster>"} 
+ Player 1 11:13:32 $ADD_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":314,"numberRolled":6,"rollingPlayerCardId":314,"stackEffectType":2,"attackedMonsterCardId":277}} 
+ Player 1 11:13:32 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":25,"_text":"Added 0 to original roll"}} 
+ Player 1 11:13:32 $NEXT_STACK_ID:  
+ Player 1 11:13:32 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:13:32 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Cain combat damage to Holy Mulligan \n2:Player 1 rolled 6 vs Holy Mulligan<Monster>"} 
+ Player 1 11:13:32 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":4,"creatorCardId":314,"entityToDoDamageCardId":314,"entityToTakeDamageCardId":277,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6}} 
+ Player 1 11:13:32 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Player 1 11:13:32 $SHOW_STACK_EFFECT:  
+
+ {"effectId":4} 
+ Player 1 11:13:35 $CLEAR_SE_VIS:  
+ Player 1 11:13:35 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Cain combat damage to Holy Mulligan \n2:Player 1 rolled 6 vs Holy Mulligan<Monster>"} 
+ Player 1 11:13:35 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":4,"creatorCardId":314,"entityToDoDamageCardId":314,"entityToTakeDamageCardId":277,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6}} 
+ Player 1 11:13:35 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":314,"numberRolled":6,"rollingPlayerCardId":314,"stackEffectType":2,"attackedMonsterCardId":277}} 
+ Player 1 11:13:35 $REPLACE_STACK:  
+
+ {"currentStack":[{"entityId":4,"creatorCardId":314,"entityToDoDamageCardId":314,"entityToTakeDamageCardId":277,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6},{"entityId":3,"creatorCardId":314,"numberRolled":6,"rollingPlayerCardId":314,"stackEffectType":2,"attackedMonsterCardId":277}]} 
+ Player 1 11:13:35 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ROLL_DICE","args":[{"type":2,"number":6},{"type":2,"number":2},{"type":2,"number":3}],"result":null,"preventMethod":false,"methodScopeId":314,"scopeIsPlayer":true,"index":2,"originStackId":3},"isAfterActivation":true,"index":2} 
+ Player 1 11:13:35 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":314,"numberRolled":6,"rollingPlayerCardId":314,"stackEffectType":2,"attackedMonsterCardId":277}} 
+ Player 1 11:13:35 $REMOVE_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffectId":3} 
+ Player 1 11:13:35 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Player 1 11:13:35 $SHOW_STACK_EFFECT:  
+
+ {"effectId":3} 
+ Player 1 11:13:38 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":3} 
+ Player 1 11:13:38 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":26,"_text":"Remove After Resolve AttackRoll 3  "}} 
+ Player 1 11:13:38 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Cain combat damage to Holy Mulligan"} 
+ Player 1 11:13:38 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":314,"numberRolled":6,"rollingPlayerCardId":314,"stackEffectType":2,"attackedMonsterCardId":277}} 
+ Player 1 11:13:38 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":27,"_text":"Response Remove After Resolve AttackRoll 3"},"childOfId":26} 
+ Player 1 11:13:38 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":28,"_text":"Wait For Response From Player 1 "},"childOfId":26} 
+ Player 1 11:13:38 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:13:38 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":28} 
+ Player 1 11:13:38 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":29,"_text":"Wait For Response From Player 2 "},"childOfId":26} 
+ Player 1 11:13:38 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 11:13:38 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 11:13:39 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":29} 
+ Player 1 11:13:39 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":27} 
+ Player 1 11:13:39 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":30,"_text":"Resolve CombatDamage 4 "}} 
+ Player 1 11:13:39 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Cain combat damage to Holy Mulligan"} 
+ Player 1 11:13:39 $ADD_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":4,"creatorCardId":314,"entityToDoDamageCardId":314,"entityToTakeDamageCardId":277,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6}} 
+ Player 1 11:13:39 $UPDATE_STACK_VIS:  
+
+ {"stackId":4,"text":"Cain will deal 1 combat damage to Holy Mulligan"} 
+ Player 1 11:13:39 $MONSTER_GET_DAMAGED:  
+
+ {"cardId":277,"hpLeft":0,"damageDealerId":314} 
+ Player 1 11:13:39 $NEXT_STACK_ID:  
+ Player 1 11:13:39 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:13:39 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Cain combat damage to Holy Mulligan \n2:[object Object] killed by Cain"} 
+ Player 1 11:13:39 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":5,"creatorCardId":314,"monsterToDieCardId":277,"stackEffectType":5,"killerId":314}} 
+ Player 1 11:13:39 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Player 1 11:13:39 $SHOW_STACK_EFFECT:  
+
+ {"effectId":5} 
+ Player 1 11:13:42 $CLEAR_SE_VIS:  
+ Player 1 11:13:42 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Cain combat damage to Holy Mulligan \n2:[object Object] killed by Cain"} 
+ Player 1 11:13:42 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":4,"creatorCardId":314,"entityToDoDamageCardId":314,"entityToTakeDamageCardId":277,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6}} 
+ Player 1 11:13:42 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":5,"creatorCardId":314,"monsterToDieCardId":277,"stackEffectType":5,"killerId":314}} 
+ Player 1 11:13:42 $REPLACE_STACK:  
+
+ {"currentStack":[{"entityId":4,"creatorCardId":314,"entityToDoDamageCardId":314,"entityToTakeDamageCardId":277,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6},{"entityId":5,"creatorCardId":314,"monsterToDieCardId":277,"stackEffectType":5,"killerId":314}]} 
+ Player 1 11:13:42 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"MONSTER_GET_HIT","args":[{"type":2,"number":1},{"type":0,"number":314},{"type":2}],"result":null,"preventMethod":false,"methodScopeId":277,"scopeIsPlayer":false,"index":3,"originStackId":-1},"isAfterActivation":true,"index":3} 
+ Player 1 11:13:42 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_COMBAT_DAMAGE_GIVEN","args":[{"type":2,"number":1},{"type":2,"number":6},{"type":0,"number":314},{"type":0,"number":277}],"result":null,"preventMethod":false,"methodScopeId":314,"scopeIsPlayer":true,"index":4,"originStackId":4},"isAfterActivation":true,"index":4} 
+ Player 1 11:13:42 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":4,"creatorCardId":314,"entityToDoDamageCardId":314,"entityToTakeDamageCardId":277,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6}} 
+ Player 1 11:13:42 $REMOVE_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffectId":4} 
+ Player 1 11:13:42 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Player 1 11:13:42 $SHOW_STACK_EFFECT:  
+
+ {"effectId":4} 
+ Player 1 11:13:45 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":4} 
+ Player 1 11:13:45 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":31,"_text":"Remove After Resolve CombatDamage 4  "}} 
+ Player 1 11:13:45 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:[object Object] killed by Cain"} 
+ Player 1 11:13:45 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":4,"creatorCardId":314,"entityToDoDamageCardId":314,"entityToTakeDamageCardId":277,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6}} 
+ Player 1 11:13:45 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":32,"_text":"Response Remove After Resolve CombatDamage 4"},"childOfId":31} 
+ Player 1 11:13:45 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":33,"_text":"Wait For Response From Player 1 "},"childOfId":31} 
+ Player 1 11:13:45 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:13:45 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":33} 
+ Player 1 11:13:45 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":34,"_text":"Wait For Response From Player 2 "},"childOfId":31} 
+ Player 1 11:13:45 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 11:13:45 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 11:13:45 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":34} 
+ Player 1 11:13:45 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":32} 
+ Player 1 11:13:45 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":35,"_text":"Resolve MonsterDeath 5 "}} 
+ Player 1 11:13:45 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:[object Object] killed by Cain"} 
+ Player 1 11:13:45 $ADD_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":5,"creatorCardId":314,"monsterToDieCardId":277,"stackEffectType":5,"killerId":314}} 
+ Player 1 11:13:45 $DISABLE_PARTICLE_EFFECT:  
+
+ {"cardId":277,"particleType":5} 
+ Player 1 11:13:45 $CANCEL_ATTACK:  
+ Player 1 11:13:45 $NEXT_STACK_ID:  
+ Player 1 11:13:45 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"MONSTER_IS_KILLED","args":[{"type":2}],"result":null,"preventMethod":false,"methodScopeId":277,"scopeIsPlayer":false,"index":1,"originStackId":6},"isAfterActivation":false,"index":1} 
+ Player 1 11:13:45 $NEXT_STACK_ID:  
+ Player 1 11:13:45 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 get Holy Mulligan<Monster> reward \n2:[object Object] killed by Cain"} 
+ Player 1 11:13:45 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 get Holy Mulligan<Monster> reward \n2:[object Object] killed by Cain \n3:Activate Holy Mulligan effect ChainEffects<ChainEffects>"} 
+ Player 1 11:13:46 $ADD_TO_STACK:  
+
+ {"stackEffect":{"effectCollectedData":null,"entityId":7,"creatorCardId":314,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":277,"effectToDo":{"effectName":"ChainEffects","cardEffectNum":0,"cardPlayerId":1,"cardId":277,"effctType":0},"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":false,"stackEffectType":14}} 
+ Player 1 11:13:46 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"effectCollectedData":null,"entityId":7,"creatorCardId":314,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":277,"effectToDo":{"effectName":"ChainEffects","cardEffectNum":0,"cardPlayerId":1,"cardId":277,"effctType":0},"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":false,"stackEffectType":14}} 
+ Player 1 11:13:46 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Player 1 11:13:46 $SHOW_STACK_EFFECT:  
+
+ {"effectId":7} 
+ Player 1 11:13:48 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":36,"_text":"Add ActivatePassiveEffect 7 "}} 
+ Player 1 11:13:48 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 get Holy Mulligan<Monster> reward \n2:[object Object] killed by Cain \n3:Activate Holy Mulligan effect ChainEffects<ChainEffects>"} 
+ Player 1 11:13:48 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"effectCollectedData":{"effectTargets":[],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":277,"effectCardPlayer":277},"entityId":7,"creatorCardId":314,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":277,"effectToDo":{"effectName":"ChainEffects","cardEffectNum":0,"cardPlayerId":1,"cardId":277,"effctType":0},"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14}} 
+ Player 1 11:13:48 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":37,"_text":"Response Adding ActivatePassiveEffect 7"},"childOfId":36} 
+ Player 1 11:13:48 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":38,"_text":"Wait For Response From Player 2 "},"childOfId":36} 
+ Player 1 11:13:48 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 11:13:48 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 11:13:49 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":38} 
+ Player 1 11:13:49 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":39,"_text":"Wait For Response From Player 1 "},"childOfId":36} 
+ Player 1 11:13:49 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:13:49 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":39} 
+ Player 1 11:13:49 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":37} 
+ Player 1 11:13:49 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":40,"_text":"Resolve ActivatePassiveEffect 7 "}} 
+ Player 1 11:13:49 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 get Holy Mulligan<Monster> reward \n2:[object Object] killed by Cain \n3:Activate Holy Mulligan effect ChainEffects<ChainEffects>"} 
+ Player 1 11:13:49 $ADD_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffect":{"effectCollectedData":{"effectTargets":[],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":277,"effectCardPlayer":277},"entityId":7,"creatorCardId":314,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":277,"effectToDo":{"effectName":"ChainEffects","cardEffectNum":0,"cardPlayerId":1,"cardId":277,"effctType":0},"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14}} 
+ Player 1 11:13:49 $ACTIVATE_PARTICLE_EFFECT:  
+
+ {"cardId":277,"particleType":6} 
+ Player 1 11:13:51 $DISABLE_PARTICLE_EFFECT:  
+
+ {"cardId":277,"particleType":6} 
+ Player 1 11:13:51 $NEW_MONSTER_PLACE:  
+ Player 1 11:13:51 $NEXT_STACK_ID:  
+ Player 1 11:13:51 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 get Holy Mulligan<Monster> reward \n2:[object Object] killed by Cain \n3:Activate Holy Mulligan effect ChainEffects<ChainEffects>"} 
+ Player 1 11:13:51 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 get Holy Mulligan<Monster> reward \n2:[object Object] killed by Cain \n3:Activate Holy Mulligan effect ChainEffects<ChainEffects> \n4:Refill holder3 slot"} 
+ Player 1 11:13:51 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":8,"creatorCardId":314,"slotType":2,"slotToFillId":3,"stackEffectType":10}} 
+ Player 1 11:13:51 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":8,"creatorCardId":314,"slotType":2,"slotToFillId":3,"stackEffectType":10}} 
+ Player 1 11:13:51 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Player 1 11:13:51 $SHOW_STACK_EFFECT:  
+
+ {"effectId":8} 
+ Player 1 11:13:54 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":41,"_text":"Add RefillEmptySlot 8 "}} 
+ Player 1 11:13:54 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:13:54 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 get Holy Mulligan<Monster> reward \n2:[object Object] killed by Cain \n3:Activate Holy Mulligan effect ChainEffects<ChainEffects> \n4:Refill holder3 slot"} 
+ Player 1 11:13:54 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":8,"creatorCardId":314,"slotType":2,"slotToFillId":3,"stackEffectType":10}} 
+ Player 1 11:13:54 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":42,"_text":"Response Adding RefillEmptySlot 8"},"childOfId":41} 
+ Player 1 11:13:54 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":43,"_text":"Wait For Response From Player 1 "},"childOfId":41} 
+ Player 1 11:13:54 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:13:54 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":43} 
+ Player 1 11:13:54 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":44,"_text":"Wait For Response From Player 2 "},"childOfId":41} 
+ Player 1 11:13:54 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 11:13:54 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 11:13:54 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":44} 
+ Player 1 11:13:54 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":42} 
+ Player 1 11:13:54 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":45,"_text":"Resolve RefillEmptySlot 8 "}} 
+ Player 1 11:13:54 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 get Holy Mulligan<Monster> reward \n2:[object Object] killed by Cain \n3:Activate Holy Mulligan effect ChainEffects<ChainEffects> \n4:Refill holder3 slot"} 
+ Player 1 11:13:54 $ADD_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":8,"creatorCardId":314,"slotType":2,"slotToFillId":3,"stackEffectType":10}} 
+ Player 1 11:13:54 $DRAW_CARD:  
+
+ {"deckType":2} 
+ Player 1 11:13:54 $FLIP_CARD:  
+
+ {"cardId":242} 
+ Player 1 11:13:54 $REGISTER_PASSIVE_ITEM:  
+
+ {"cardId":242} 
+ Player 1 11:13:55 $ADD_MONSTER:  
+
+ {"monsterPlaceId":3,"monsterId":242} 
+ Player 1 11:13:55 $NEW_MONSTER_ON_PLACE:  
+
+ {"cardId":242,"monsterPlaceId":3} 
+ Player 1 11:13:55 $REMOVE_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffectId":8} 
+ Player 1 11:13:55 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Player 1 11:13:55 $SHOW_STACK_EFFECT:  
+
+ {"effectId":8} 
+ Player 1 11:13:57 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":8} 
+ Player 1 11:13:57 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":46,"_text":"Remove After Resolve RefillEmptySlot 8  "}} 
+ Player 1 11:13:57 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 get Holy Mulligan<Monster> reward \n2:[object Object] killed by Cain \n3:Activate Holy Mulligan effect ChainEffects<ChainEffects>"} 
+ Player 1 11:13:57 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":8,"creatorCardId":314,"slotType":2,"slotToFillId":3,"stackEffectType":10}} 
+ Player 1 11:13:57 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":47,"_text":"Response Remove After Resolve RefillEmptySlot 8"},"childOfId":46} 
+ Player 1 11:13:57 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":48,"_text":"Wait For Response From Player 2 "},"childOfId":46} 
+ Player 1 11:13:57 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 11:13:58 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 11:13:58 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":48} 
+ Player 1 11:13:58 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":49,"_text":"Wait For Response From Player 1 "},"childOfId":46} 
+ Player 1 11:13:58 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:13:58 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":49} 
+ Player 1 11:13:58 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":47} 
+ Player 1 11:13:58 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":50,"_text":"Resolve ActivatePassiveEffect 7 "}} 
+ Player 1 11:13:58 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"MONSTER_IS_KILLED","args":[{"type":2}],"result":null,"preventMethod":false,"methodScopeId":277,"scopeIsPlayer":false,"index":1,"originStackId":6},"isAfterActivation":false,"index":1} 
+ Player 1 11:13:58 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 get Holy Mulligan<Monster> reward \n2:[object Object] killed by Cain \n3:Activate Holy Mulligan effect ChainEffects<ChainEffects>"} 
+ Player 1 11:13:58 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"effectCollectedData":{"effectTargets":[],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":277,"effectCardPlayer":277},"entityId":7,"creatorCardId":314,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":277,"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14}} 
+ Player 1 11:13:58 $REMOVE_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffectId":7} 
+ Player 1 11:13:58 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Player 1 11:13:58 $SHOW_STACK_EFFECT:  
+
+ {"effectId":7} 
+ Player 1 11:14:01 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":7} 
+ Player 1 11:14:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":51,"_text":"Remove After Resolve ActivatePassiveEffect 7  "}} 
+ Player 1 11:14:01 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 get Holy Mulligan<Monster> reward \n2:[object Object] killed by Cain"} 
+ Player 1 11:14:01 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"effectCollectedData":{"effectTargets":[],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":277,"effectCardPlayer":277},"entityId":7,"creatorCardId":314,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":277,"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14}} 
+ Player 1 11:14:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":52,"_text":"Response Remove After Resolve ActivatePassiveEffect 7"},"childOfId":51} 
+ Player 1 11:14:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":53,"_text":"Wait For Response From Player 1 "},"childOfId":51} 
+ Player 1 11:14:01 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:14:01 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":53} 
+ Player 1 11:14:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":54,"_text":"Wait For Response From Player 2 "},"childOfId":51} 
+ Player 1 11:14:01 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 11:14:01 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 11:14:01 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":54} 
+ Player 1 11:14:01 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":52} 
+ Player 1 11:14:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":55,"_text":"Resolve MonsterDeath 5 "}} 
+ Player 1 11:14:01 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:14:01 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 get Holy Mulligan<Monster> reward \n2:[object Object] killed by Cain"} 
+ Player 1 11:14:01 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":6,"creatorCardId":314,"monsterCardWithRewardId":277,"playerCardIdToReward":314,"stackEffectType":7}} 
+ Player 1 11:14:01 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Player 1 11:14:01 $SHOW_STACK_EFFECT:  
+
+ {"effectId":6} 
+ Player 1 11:14:04 $CLEAR_SE_VIS:  
+ Player 1 11:14:04 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 get Holy Mulligan<Monster> reward \n2:[object Object] killed by Cain"} 
+ Player 1 11:14:04 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":6,"creatorCardId":314,"monsterCardWithRewardId":277,"playerCardIdToReward":314,"stackEffectType":7}} 
+ Player 1 11:14:04 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":5,"creatorCardId":314,"monsterToDieCardId":277,"stackEffectType":5,"killerId":314}} 
+ Player 1 11:14:04 $REPLACE_STACK:  
+
+ {"currentStack":[{"entityId":6,"creatorCardId":314,"monsterCardWithRewardId":277,"playerCardIdToReward":314,"stackEffectType":7},{"entityId":5,"creatorCardId":314,"monsterToDieCardId":277,"stackEffectType":5,"killerId":314}]} 
+ Player 1 11:14:04 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":5,"creatorCardId":314,"monsterToDieCardId":277,"stackEffectType":5,"killerId":314}} 
+ Player 1 11:14:04 $REMOVE_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffectId":5} 
+ Player 1 11:14:04 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Player 1 11:14:04 $SHOW_STACK_EFFECT:  
+
+ {"effectId":5} 
+ Player 1 11:14:07 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":5} 
+ Player 1 11:14:07 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":56,"_text":"Remove After Resolve MonsterDeath 5  "}} 
+ Player 1 11:14:07 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 get Holy Mulligan<Monster> reward"} 
+ Player 1 11:14:07 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":5,"creatorCardId":314,"monsterToDieCardId":277,"stackEffectType":5,"killerId":314}} 
+ Player 1 11:14:07 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":57,"_text":"Response Remove After Resolve MonsterDeath 5"},"childOfId":56} 
+ Player 1 11:14:07 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":58,"_text":"Wait For Response From Player 1 "},"childOfId":56} 
+ Player 1 11:14:07 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Player 1 11:14:07 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":58} 
+ Player 1 11:14:07 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":59,"_text":"Wait For Response From Player 2 "},"childOfId":56} 
+ Player 1 11:14:08 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Player 1 11:14:08 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Player 1 11:14:08 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":59} 
+ Player 1 11:14:08 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":57} 
+ Player 1 11:14:08 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":60,"_text":"Resolve MonsterRewardStackEffect 6 "}} 
+ Player 1 11:14:08 $UPDATE_STACK_LABLE:  
+
+ {"stackText":" \n1:Player 1 get Holy Mulligan<Monster> reward"} 
+ Player 1 11:14:08 $ADD_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":6,"creatorCardId":314,"monsterCardWithRewardId":277,"playerCardIdToReward":314,"stackEffectType":7}} 
+ Player 1 11:14:08 $SET_MONEY:  
+
+ {"playerId":1,"numOfCoins":6} 
+ Player 1 11:14:08 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":3}],"result":null,"preventMethod":false,"methodScopeId":314,"scopeIsPlayer":true,"index":5,"originStackId":-1},"isAfterActivation":true,"index":5} 
+ Player 1 11:14:08 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"MONSTER_IS_KILLED","args":[],"result":null,"preventMethod":false,"methodScopeId":277,"scopeIsPlayer":false,"index":6,"originStackId":6},"isAfterActivation":true,"index":6} 
+ Player 1 11:14:08 $CLEAR_SE_VIS:  
+ Player 1 11:14:08 $UPDATE_STACK_LABLE:  
+
+ {"stackText":"Empty Stack"} 
+ Player 1 11:14:08 $REMOVE_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffectId":6} 
+ Player 1 11:14:08 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":6} 
+ Player 1 11:14:08 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":61,"_text":"Fizzle MonsterRewardStackEffect 6"}} 
+ Player 1 11:14:08 $FIZZLE_STACK_EFFECT:  
+
+ {"entityId":6} 
+ Player 1 11:14:08 $MOVE_CARD:  
+
+ {"moveIndex":9,"cardId":277,"placeID":331,"flipIfFlipped":true,"playerId":1,"placeType":"Card"} 
+ Player 1 11:14:08 $CLEAR_SE_VIS:  
+ Player 1 11:14:09 $MOVE_CARD_TO_PILE:  
+
+ {"type":2,"cardId":277} 
+ Player 1 11:14:09 $REMOVE_FROM_PASSIVE_MANAGER:  
+
+ {"cardId":277} 
+ Player 1 11:14:09 $REMOVE_MONSTER:  
+
+ {"holderId":1,"monsterId":277} 
+ Player 1 11:14:09 $GET_NEXT_MONSTER:  
+
+ {"monsterPlaceId":1} 
+ Player 1 11:14:09 $REMOVE_RESOLVING_STACK_EFFECT:  
+
+ {"stackEffectId":6} 
+ Player 1 11:14:09 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":62,"_text":"Stack Was Emptied "}} 
+ Player 1 11:14:09 $CLEAR_SE_VIS: 

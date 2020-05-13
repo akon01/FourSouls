@@ -6,9 +6,11 @@ import CardManager from "../Managers/CardManager";
 import PlayerManager from "../Managers/PlayerManager";
 import TurnsManager from "../Managers/TurnsManager";
 import ActivateItem from "../StackEffects/Activate Item";
+import { whevent } from "../../ServerClient/whevent";
 
 const { ccclass, property } = cc._decorator;
 
+const EmptyStackString = "Empty Stack";
 @ccclass
 export default class StackLable extends cc.Component {
 
@@ -19,8 +21,10 @@ export default class StackLable extends cc.Component {
 
     static updateLable() {
         if (Stack._currentStack.length == 0) {
-            this.$.label.string = "Empty Stack"
-            ServerClient.$.send(Signal.UPDATE_STACK_LABLE, { stackText: "Empty Stack" })
+            if (this.$.label.string != EmptyStackString) {
+                this.$.label.string = EmptyStackString
+                ServerClient.$.send(Signal.UPDATE_STACK_LABLE, { stackText: "Empty Stack" })
+            }
         } else {
             let stackText: string = "";
             for (let i = 0; i < Stack._currentStack.length; i++) {
@@ -84,9 +88,11 @@ export default class StackLable extends cc.Component {
 
                 stackText = stackText.concat(` \n${i + 1}:` + stackEffect._lable)
             }
-            StackLable.$.label.string = stackText
-            // if (TurnsManager.isCurrentPlayer(PlayerManager.mePlayer)){
-            ServerClient.$.send(Signal.UPDATE_STACK_LABLE, { stackText: stackText })
+            if (StackLable.$.label.string != stackText) {
+                StackLable.$.label.string = stackText
+                // if (TurnsManager.isCurrentPlayer(PlayerManager.mePlayer)){
+                ServerClient.$.send(Signal.UPDATE_STACK_LABLE, { stackText: stackText })
+            }
             // }
         }
     }
@@ -102,7 +108,8 @@ export default class StackLable extends cc.Component {
         whevent.on(GAME_EVENTS.STACK_EMPTIED, () => {
             StackLable.updateLable()
         })
-        whevent.on(GAME_EVENTS.LABLE_CHANGE, () => {
+        whevent.on(GAME_EVENTS.LABLE_CHANGE, (data: { stackId: number, text: string }) => {
+
             StackLable.updateLable()
         })
     }

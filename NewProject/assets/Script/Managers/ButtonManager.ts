@@ -67,7 +67,6 @@ export default class ButtonManager extends cc.Component {
   }
 
   static moveAvailableButtonsTo(layout: cc.Layout) {
-    cc.log(`move buttons to ${layout.name}`)
     this.moveButton(this.$.NoButton, layout)
     this.moveButton(this.$.yesButton, layout)
     this.moveButton(this.$.nextButton, layout)

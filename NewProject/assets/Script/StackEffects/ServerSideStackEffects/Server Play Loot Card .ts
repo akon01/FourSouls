@@ -20,6 +20,7 @@ export default class ServerPlayLootCard implements ServerStackEffectInterface {
     hasLockingStackEffectResolved: boolean;
     lockingStackEffect: ServerStackEffectInterface;
     LockingResolve: any;
+    lable: string
 
     lootPlayerId: number;
     lootToPlayCardId: number;
@@ -45,7 +46,7 @@ export default class ServerPlayLootCard implements ServerStackEffectInterface {
             )
             this.effectToDo = serverEffect;
         }
-
+        this.lable = stackEffect._lable
         this.hasDataBeenCollectedYet = stackEffect.hasDataBeenCollectedYet;
         this.stackEffectType = stackEffect.stackEffectType;
     }
@@ -54,7 +55,7 @@ export default class ServerPlayLootCard implements ServerStackEffectInterface {
     convertToStackEffect() {
         let lootToPlay = CardManager.getCardById(this.lootToPlayCardId, true)
         const playerCharacterCard = PlayerManager.getPlayerById(this.lootPlayerId).character;
-        let playLoot = new PlayLootCardStackEffect(this.creatorCardId, this.hasLockingStackEffect, lootToPlay, playerCharacterCard, this.hasDataBeenCollectedYet, this.hasLockingStackEffectResolved)
+        let playLoot = new PlayLootCardStackEffect(this.creatorCardId, this.hasLockingStackEffect, lootToPlay, playerCharacterCard, this.hasDataBeenCollectedYet, this.hasLockingStackEffectResolved, this.entityId, this.lable)
         playLoot.LockingResolve = this.LockingResolve;
         if (this.effectToDo != null) {
             playLoot.effectToDo = lootToPlay.getComponent(CardEffect).getEffectByNumAndType(this.effectToDo.cardEffectNum, this.effectToDo.effctType)

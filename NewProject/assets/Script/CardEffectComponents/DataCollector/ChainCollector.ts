@@ -1,12 +1,10 @@
-import { COLLECTORTYPE, ITEM_TYPE } from "../../Constants";
-import Item from "../../Entites/CardTypes/Item";
-import DataInterpreter, { ActiveEffectData, EffectTarget, PassiveEffectData, ServerEffectData } from "../../Managers/DataInterpreter";
-import PlayerManager from "../../Managers/PlayerManager";
+import { COLLECTORTYPE } from "../../Constants";
+import CardEffect from "../../Entites/CardEffect";
+import Card from "../../Entites/GameEntities/Card";
+import DataInterpreter, { ActiveEffectData, PassiveEffectData, ServerEffectData } from "../../Managers/DataInterpreter";
 import ChainEffects from "../CardEffects/ChainEffects";
 import Effect from "../CardEffects/Effect";
 import DataCollector from "./DataCollector";
-import Card from "../../Entites/GameEntities/Card";
-import CardEffect from "../../Entites/CardEffect";
 
 const { ccclass, property } = cc._decorator;
 

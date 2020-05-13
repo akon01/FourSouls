@@ -17,7 +17,7 @@ export default class AddDamage extends PassiveEffect {
   effectName = "AddDamage";
 
 
-  @property(Number)
+  @property(cc.Integer)
   damageToAdd: number = 0;
 
   /**

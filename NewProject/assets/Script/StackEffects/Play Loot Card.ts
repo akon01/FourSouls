@@ -19,10 +19,13 @@ import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { PlayLootCardVis } from "./StackEffectVisualRepresentation/Play Loot Card Vis";
 import StackEffectVisManager from "../Managers/StackEffectVisManager";
+import { whevent } from "../../ServerClient/whevent";
+import ServerClient from "../../ServerClient/ServerClient";
+import Signal from "../../Misc/Signal";
 
 export default class PlayLootCardStackEffect extends StackEffectConcrete {
     visualRepesentation: PlayLootCardVis;
-
+    name = `Play Loot Card`
     entityId: number;
     creatorCardId: number;
     isLockingStackEffect: boolean;
@@ -33,11 +36,6 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
     LockingResolve: any;
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.PLAY_LOOT_CARD;
     _lable: string;
-
-    set lable(text: string) {
-        this._lable = text
-        if (!this.nonOriginal) { whevent.emit(GAME_EVENTS.LABLE_CHANGE) }
-    }
 
     isToBeFizzled: boolean = false;
 
@@ -58,7 +56,7 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
     effectToDo: Effect;
     hasDataBeenCollectedYet: boolean;
 
-    constructor(creatorCardId: number, hasLockingStackEffect: boolean, lootToPlay: cc.Node, lootPlayerCard: cc.Node, hasDataBeenCollectedYet: boolean, hasLockingStackEffectResolved: boolean, entityId?: number) {
+    constructor(creatorCardId: number, hasLockingStackEffect: boolean, lootToPlay: cc.Node, lootPlayerCard: cc.Node, hasDataBeenCollectedYet: boolean, hasLockingStackEffectResolved: boolean, entityId?: number, lable?: string) {
         super(creatorCardId, entityId)
 
         this.hasLockingStackEffect = hasLockingStackEffect;
@@ -66,13 +64,18 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
         this.lootPlayer = PlayerManager.getPlayerByCard(lootPlayerCard)
         this.hasDataBeenCollectedYet = hasDataBeenCollectedYet;
         this.hasLockingStackEffectResolved = hasLockingStackEffectResolved
-        this.visualRepesentation = new PlayLootCardVis(this.lootToPlay.getComponent(cc.Sprite).spriteFrame)
-        this.lable = `Player ${this.lootPlayer.playerId} play ${lootToPlay.name} `
+        this.visualRepesentation = new PlayLootCardVis(this.lootToPlay.getComponent(Card).cardSprite.spriteFrame)
+        if (lable) {
+            this.setLable(lable, false)
+        } else {
+            this.setLable(`Player ${this.lootPlayer.playerId} Is Going To Play ${lootToPlay.name} `, false)
+        }
     }
 
     async putOnStack() {
 
         const card = this.lootToPlay.getComponent(Card);
+        card.isGoingToBePlayed = true
         const cardEffect = this.lootToPlay.getComponent(CardEffect)
 
         await this.lootPlayer.loseLoot(this.lootToPlay, true)
@@ -86,11 +89,11 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
                 const effectChosen = await cardEffect.multiEffectCollector.collectData({ cardPlayed: this.lootToPlay, cardPlayerId: this.lootPlayer.playerId })
                 this.effectToDo = effectChosen;
 
-                //this.lable = `Player ${this.lootPlayer.playerId} play ${this.lootToPlay.name}: ${this.effectToDo.effectName}`
+                //this.setLable(`Player ${this.lootPlayer.playerId} play ${this.lootToPlay.name}: ${this.effectToDo.effectName}`,true)
             }
         } else {
             this.effectToDo = cardEffect.activeEffects[0].getComponent(Effect)
-            // this.lable = `Player ${this.lootPlayer.playerId} play ${this.lootToPlay.name}: ${this.effectToDo.effectName}`
+            // this.setLable(`Player ${this.lootPlayer.playerId} play ${this.lootToPlay.name}: ${this.effectToDo.effectName}`,true)
         }
         //if the effect is chosen already and the player needs to choose targets, let him now.
         if (this.effectToDo != null) {
@@ -98,7 +101,7 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
             if (prev) {
                 prev.addSelectedEffectHighlight(this.effectToDo.node)
             }
-            this.lable = `Player ${this.lootPlayer.playerId} play ${this.lootToPlay.name}: ${this.effectToDo.effectName}`
+            this.setLable(`Player ${this.lootPlayer.playerId} Is Going To Play ${this.lootToPlay.name}: ${this.effectToDo.effectName}`, true)
             const collectedData = await cardEffect.collectEffectData(this.effectToDo, { cardId: this.lootToPlay.getComponent(Card)._cardId, cardPlayerId: this.lootPlayer.playerId })
             cardEffect.effectData = collectedData;
             this.hasDataBeenCollectedYet = true;
@@ -140,7 +143,6 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
                     try {
                         selectedEffect = cardEffect.multiEffectCollector.getEffectByNumberRolled(this.LockingResolve, this.lootToPlay)
                     } catch (error) {
-                        cc.error(error)
                         Logger.error(error)
                     }
                 }
@@ -156,11 +158,10 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
             if (prev) {
                 prev.addSelectedEffectHighlight(selectedEffect.node)
             }
-            this.lable = `Player ${this.lootPlayer.playerId} play ${this.lootToPlay.name}: ${selectedEffect.effectName}`
+            this.setLable(`Player ${this.lootPlayer.playerId} Plays ${this.lootToPlay.name}: ${selectedEffect.effectName}`, true)
             try {
                 newStack = await this.doCardEffect(selectedEffect, this.hasDataBeenCollectedYet);
             } catch (error) {
-                cc.error(error)
                 Logger.error(error)
             }
         }
@@ -169,6 +170,7 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
 
         //if the loot card is not a trinket (triknets have Item component)
         if (this.lootToPlay.getComponent(Item) == null) {
+            this.lootToPlay.getComponent(Card).isGoingToBePlayed = false
             await PileManager.removeFromPile(this.lootToPlay, true)
             await PileManager.addCardToPile(CARD_TYPE.LOOT, this.lootToPlay, true)
             //    await CardManager.moveCardTo(this.lootToPlay, PileManager.lootCardPile.node, true)
@@ -194,6 +196,13 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
     convertToServerStackEffect() {
         const serverPlayLoot = new ServerPlayLootCard(this);
         return serverPlayLoot;
+    }
+
+    async fizzleThis() {
+        super.fizzleThis()
+        this.lootToPlay.getComponent(Card).isGoingToBePlayed = false
+        PileManager.removeFromPile(this.lootToPlay, true)
+        await PileManager.addCardToPile(CARD_TYPE.LOOT, this.lootToPlay, true)
     }
 
     toString() {

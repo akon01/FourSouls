@@ -18,6 +18,7 @@ export default class ServerDeclareAttack implements ServerStackEffectInterface {
     hasLockingStackEffectResolved: boolean;
     lockingStackEffect: ServerStackEffectInterface;
     LockingResolve: any;
+    lable: string
 
 
     attackingPlayerCardId: number
@@ -30,11 +31,12 @@ export default class ServerDeclareAttack implements ServerStackEffectInterface {
         this.attackingPlayerCardId = declareAttack.attackingPlayer.character.getComponent(Card)._cardId;
         this.idOfCardBeingAttacked = declareAttack.cardBeingAttacked.getComponent(Card)._cardId;
         this.stackEffectType = declareAttack.stackEffectType;
+        this.lable = declareAttack._lable
     }
 
 
     convertToStackEffect() {
-        let declareAttack = new DeclareAttack(this.creatorCardId, PlayerManager.getPlayerByCardId(this.attackingPlayerCardId).getComponent(Player), CardManager.getCardById(this.idOfCardBeingAttacked))
+        let declareAttack = new DeclareAttack(this.creatorCardId, PlayerManager.getPlayerByCardId(this.attackingPlayerCardId).getComponent(Player), CardManager.getCardById(this.idOfCardBeingAttacked), this.entityId, this.lable)
         return declareAttack;
     }
 

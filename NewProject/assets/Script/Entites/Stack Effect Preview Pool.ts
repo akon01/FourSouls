@@ -26,6 +26,7 @@ export default class StackEffectPreviewPool extends cc.Component {
     // LIFE-CYCLE CALLBACKS:
 
     getByStackEffect(stackEffect: StackEffectConcrete) {
+        cc.log(stackEffect.visualRepesentation.visType)
         switch (stackEffect.visualRepesentation.visType) {
             case STACK_EFFECT_VIS_TYPE.BASIC:
                 return this.getBasic()
@@ -48,6 +49,7 @@ export default class StackEffectPreviewPool extends cc.Component {
     putByStackEffectPreview(stackEffectPreview: StackEffectPreview) {
         switch (stackEffectPreview.stackEffect.visualRepesentation.visType) {
             case STACK_EFFECT_VIS_TYPE.BASIC:
+
                 return this.addBasic(stackEffectPreview.node)
             case STACK_EFFECT_VIS_TYPE.BOSS_ACTION:
                 return this.addBoss(stackEffectPreview.node)

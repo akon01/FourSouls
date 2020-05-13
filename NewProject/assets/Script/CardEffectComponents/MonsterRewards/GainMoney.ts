@@ -16,10 +16,11 @@ export default class LootCards extends MonsterReward {
   @property
   numOfMoneyToAdd: number = 0;
 
-  rewardPlayer(playerToReward: cc.Node, sendToServer: boolean) {
-    playerToReward.getComponent(Player).changeMoney(this.numOfMoneyToAdd, sendToServer)
-    return new Promise((resolve, reject) => resolve(true))
-
+  async rewardPlayer(playerToReward: cc.Node, sendToServer: boolean) {
+    if (this.doubleReward) {
+      this.numOfMoneyToAdd += this.numOfMoneyToAdd
+    }
+    await playerToReward.getComponent(Player).changeMoney(this.numOfMoneyToAdd, sendToServer)
   }
 
   // LIFE-CYCLE CALLBACKS:

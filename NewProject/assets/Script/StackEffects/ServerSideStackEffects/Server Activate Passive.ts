@@ -19,6 +19,7 @@ export default class ServerActivatePassive implements ServerStackEffectInterface
     lockingStackEffect: ServerStackEffectInterface;
     LockingResolve: any;
     stackEffectType: STACK_EFFECT_TYPE;
+    lable: string
 
     cardActivatorId: number
     cardWithEffectId: number;
@@ -56,12 +57,13 @@ export default class ServerActivatePassive implements ServerStackEffectInterface
             this.effectCollectedData = stackEffect.effectCollectedData
         }
         this.stackEffectType = stackEffect.stackEffectType;
+        this.lable = stackEffect._lable
     }
 
     convertToStackEffect() {
         const cardWithEffect = CardManager.getCardById(this.cardWithEffectId, true)
         const effect = cardWithEffect.getComponent(CardEffect).getEffectByNumAndType(this.effectToDo.cardEffectNum, this.effectToDo.effctType)
-        const activatePassiveEffect = new ActivatePassiveEffect(this.creatorCardId, this.hasLockingStackEffect, this.cardActivatorId, cardWithEffect, effect, this.hasDataBeenCollectedYet, this.isAfterActivation, this.index)
+        const activatePassiveEffect = new ActivatePassiveEffect(this.creatorCardId, this.hasLockingStackEffect, this.cardActivatorId, cardWithEffect, effect, this.hasDataBeenCollectedYet, this.isAfterActivation, this.index, this.entityId, this.lable)
         activatePassiveEffect.LockingResolve = this.LockingResolve;
         if (this.hasDataBeenCollectedYet) { activatePassiveEffect.effectCollectedData = this.effectCollectedData }
         activatePassiveEffect.hasLockingStackEffectResolved = this.hasLockingStackEffectResolved

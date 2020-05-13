@@ -16,6 +16,7 @@ export default class ServerMonsterEndDeath implements ServerStackEffectInterface
     hasLockingStackEffectResolved: boolean;
     lockingStackEffect: ServerStackEffectInterface;
     LockingResolve: any;
+    lable: string
 
     monsterWhoDiedCardId: number;
 
@@ -24,12 +25,13 @@ export default class ServerMonsterEndDeath implements ServerStackEffectInterface
         this.creatorCardId = stackEffect.creatorCardId;
         this.monsterWhoDiedCardId = stackEffect.monsterWhoDied.node.getComponent(Card)._cardId
         this.stackEffectType = stackEffect.stackEffectType;
+        this.lable = stackEffect._lable
     }
 
 
 
     convertToStackEffect() {
-        let monsterEndDeath = new MonsterEndDeath(this.creatorCardId, CardManager.getCardById(this.monsterWhoDiedCardId))
+        let monsterEndDeath = new MonsterEndDeath(this.creatorCardId, CardManager.getCardById(this.monsterWhoDiedCardId), this.entityId, this.lable)
         return monsterEndDeath;
     }
 

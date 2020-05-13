@@ -41,7 +41,7 @@ var Logger = /** @class */ (function () {
         var d = new Date();
         d.setTime(Date.now());
         var myPath = this.currentClientsLogFilePaths.find(function (clientPath) { return clientPath.uuid == playerUuid; });
-        fs.appendFileSync(myPath.path, " \n " + "Player " + playerUuid.toString() + " " + d.toLocaleTimeString() + " " + logData.signal + ": ");
+        fs.appendFileSync(myPath.path, " \n " + "Recived From Player " + playerUuid.toString() + " " + d.toLocaleTimeString() + " " + logData.signal + ": ");
         if (logData.data != undefined) {
             var data = JSON.stringify(logData.data);
             fs.appendFileSync(myPath.path, " \n\n " + data);

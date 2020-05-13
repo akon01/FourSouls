@@ -55,10 +55,8 @@ export default class ChainEffects extends Effect {
               DataInterpreter.convertToEffectData(effectData)
             );
           } catch (error) {
-            cc.error(`${effect.effectName} has failed`)
-            cc.log(effect.effectData)
-            Logger.error(error)
-            cc.log((error as Error).stack)
+            Logger.error(`${effect.effectName} has failed`)
+            Logger.error(error, effect.effectData)
           }
 
         }
@@ -70,11 +68,8 @@ export default class ChainEffects extends Effect {
             effect.effectData
           );
         } catch (error) {
-          cc.error(`${effect.effectName} has failed`)
+          Logger.error(`${effect.effectName} has failed`, effect.effectData)
           Logger.error(error)
-          cc.log(effect.effectData)
-          effect.effectData
-          cc.log((error as Error).stack)
         }
 
       }

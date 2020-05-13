@@ -4,6 +4,7 @@ import PlayerManager from "../../Managers/PlayerManager";
 import ChooseCard from "../DataCollector/ChooseCard";
 import Cost from "./Cost";
 import PileManager from "../../Managers/PileManager";
+import ChooseCardTypeAndFilter from "../ChooseCardTypeAndFilter";
 
 
 const { ccclass, property } = cc._decorator;
@@ -24,7 +25,8 @@ export default class DiscardLoot extends Cost {
             } else {
                 let chooseCard = new ChooseCard()
                 chooseCard.flavorText = "Choose Loot To Discard"
-                chooseCard.chooseType = CHOOSE_CARD_TYPE.MY_HAND
+                chooseCard.chooseType = new ChooseCardTypeAndFilter();
+                chooseCard.chooseType.chooseType = CHOOSE_CARD_TYPE.MY_HAND
                 let chosenCard = await chooseCard.collectData({ cardPlayerId: player.playerId })
                 chosenLoot = chosenCard.effectTargetCard
             }

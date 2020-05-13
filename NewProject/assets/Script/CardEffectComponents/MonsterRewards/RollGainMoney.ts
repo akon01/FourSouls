@@ -11,18 +11,23 @@ export default class RollGainMoney extends MonsterReward {
 
   rollNumber: number = 0;
 
+  doubleReward: boolean = false;
+
 
   @property
   numOfMoneyToAdd: number = 0;
 
   async rewardPlayer(playerToReward: cc.Node, sendToServer: boolean) {
-    let player = playerToReward.getComponent(Player)
-    let diceId = player.dice.diceId
+    const player = playerToReward.getComponent(Player)
+    const diceId = player.dice.diceId
 
     let rollAnswer = this.rollNumber
     // let rollAnswer = await this.dataCollector.collectData({ cardPlayerId: player.playerId, cardId: diceId })
 
     //await player.changeMoney(rollAnswer.numberRolled, sendToServer)
+    if (this.doubleReward) {
+      rollAnswer += rollAnswer
+    }
     await player.changeMoney(rollAnswer, sendToServer)
     return true
 

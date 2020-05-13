@@ -13,7 +13,7 @@ const { ccclass, property } = cc._decorator;
 export default class DiscardLoot extends Effect {
   effectName = "DiscardLoot";
 
-  @property(Number)
+  @property(cc.Integer)
   numOfLoot: number = 0;
 
   /**
@@ -21,6 +21,7 @@ export default class DiscardLoot extends Effect {
    * @param data {target:PlayerId}
    */
   async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
+
     const targetLoots = data.getTargets(TARGETTYPE.CARD)
     if (targetLoots.length == 0) {
       cc.log(`no targets`)

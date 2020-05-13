@@ -8,6 +8,7 @@ import MonsterField from "../Entites/MonsterField";
 import Stack from "../Entites/Stack";
 import { Turn } from "../Modules/TurnsModule";
 import PlayerManager from "./PlayerManager";
+import Store from "../Entites/GameEntities/Store";
 
 const { ccclass, property } = cc._decorator;
 
@@ -18,6 +19,8 @@ export default class TurnsManager extends cc.Component {
   static turnId: number = 0;
 
   static currentTurn: Turn = null;
+
+  static turnLable: cc.Label = null
 
   static init() {
 
@@ -78,6 +81,7 @@ export default class TurnsManager extends cc.Component {
     }
     if (turn.PlayerId != 0) {
       turn.refreshTurn();
+      this.turnLable.string = `Turn ` + turn.PlayerId
       TurnsManager.currentTurn = turn;
       if (sendToServer) { await turn.startTurn(); }
     }
@@ -87,11 +91,13 @@ export default class TurnsManager extends cc.Component {
     if (
       this.getNextTurn(TurnsManager.currentTurn, TurnsManager.turns).PlayerId != 0
     ) {
+      Store.thisTurnStoreCards = []
       for (const player of PlayerManager.players.map(player => player.getComponent(Player))) {
         player._tempHpBonus = 0
         player.tempAttackRollBonus = 0
         player.tempNonAttackRollBonus = 0
         player.tempFirstAttackRollBonus = 0
+        player.tempBaseDamage = 0
         player.lastAttackRoll = 0
         player.lastRoll = 0
         player._lootCardsPlayedThisTurn = [];
@@ -100,13 +106,15 @@ export default class TurnsManager extends cc.Component {
         player._isFirstTimeGettingMoney = true;
         player._isFirstAttackRollOfTurn = true
         player._isDead = false;
+        //player.damage = player.calculateDamage()
         // player.broadcastUpdateProperites({ _tempHpBonus: player._tempHpBonus, tempAttackRollBonus: player.tempAttackRollBonus})
-        await player.heal(player.character.getComponent(Character).Hp + player._hpBonus, false, true)
+        await player.heal(player.character.getComponent(Character).hp + player._hpBonus, false, true)
       }
       for (const monster of MonsterField.activeMonsters.map(monster => monster.getComponent(Monster))) {
         monster.rollBonus = 0;
         monster.bonusDamage = 0;
         monster._thisTurnKiller = null;
+        monster._lastHitRoll = 0
         await monster.heal(monster.HP, false, true)
       }
       if (sendToServer) {
@@ -145,7 +153,9 @@ export default class TurnsManager extends cc.Component {
 
   // LIFE-CYCLE CALLBACKS:
 
-  onLoad() { }
+  onLoad() {
+    TurnsManager.turnLable = cc.find(`Canvas/current Turn`).getComponent(cc.Label)
+  }
 
   start() { }
 

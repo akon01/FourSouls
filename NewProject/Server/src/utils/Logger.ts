@@ -55,7 +55,7 @@ export class Logger {
 
         const myPath = this.currentClientsLogFilePaths.find(clientPath => clientPath.uuid == playerUuid)
 
-        fs.appendFileSync(myPath.path, " \n " + "Player " + playerUuid.toString() + " " + d.toLocaleTimeString() + " " + logData.signal + ": ")
+        fs.appendFileSync(myPath.path, " \n " + "Recived From Player " + playerUuid.toString() + " " + d.toLocaleTimeString() + " " + logData.signal + ": ")
 
         if (logData.data != undefined) {
             const data = JSON.stringify(logData.data)

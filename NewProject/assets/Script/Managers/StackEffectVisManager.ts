@@ -8,6 +8,7 @@ import ServerClient from "../../ServerClient/ServerClient";
 import Signal from "../../Misc/Signal";
 import CardPreviewManager from "./CardPreviewManager";
 import StackEffectPreviewPool from "../Entites/Stack Effect Preview Pool";
+import { whevent } from "../../ServerClient/whevent";
 
 const { ccclass, property } = cc._decorator;
 
@@ -158,6 +159,12 @@ export default class StackEffectVisManager extends cc.Component {
         for (const stackEffect of Stack._currentStack) {
             const preview = this.getPreviewByStackId(stackEffect.entityId)
             if (preview != null) {
+                if (preview.node.parent == null) {
+                    preview.node.parent = this.previewHolderLayout
+                }
+                if (preview.node.active == false) {
+                    preview.node.active = true
+                }
                 // preview = this.addPreview(stackEffect)
                 preview.node.zIndex = i + y
                 y++
@@ -174,24 +181,43 @@ export default class StackEffectVisManager extends cc.Component {
     }
 
     addPreview(stackEffect: StackEffectInterface, sendToServer: boolean) {
-        // cc.error(`add preview of ${stackEffect.constructor.name} ${stackEffect.entityId}`)
         let preview = this.getPreviewByStackId(stackEffect.entityId)
         if (preview == null) {
             const newPreview = this.previewPool.getByStackEffect(stackEffect)
-            cc.log(newPreview)
             newPreview.getComponent(StackEffectPreview).setStackEffect(stackEffect)
             this.currentPreviews.push(newPreview.getComponent(StackEffectPreview))
             preview = newPreview.getComponent(StackEffectPreview)
-        } else {
-            return preview
+            preview.hideStackIcon()
+
         }
-        preview.node.setParent(this.previewHolderLayout);
+        preview.node.x = 0
+        preview.node.parent = this.previewHolderLayout;
+        preview.node.active = true
+        preview.node.y = 0
         if (sendToServer) {
             ServerClient.$.send(Signal.ADD_SE_VIS_PREV, { stackEffect: stackEffect.convertToServerStackEffect() })
         }
         this.updateAvailablePreviews()
+
         return preview
 
+    }
+
+    removePreview(stackEffectId: number, sendToServer: boolean) {
+        const preview = this.getPreviewByStackId(stackEffectId)
+        if (preview != null) {
+            this.currentPreviews.splice(this.currentPreviews.indexOf(preview), 1)
+            preview.node.setParent(null);
+            this.previewPool.putByStackEffectPreview(preview)
+            this.updateAvailablePreviews()
+        } else {
+            cc.error(`remove preview failed, no preview with stack effect id ${stackEffectId} found`)
+            cc.log(this.currentPreviews)
+        }
+        if (this.currentPreviews.length == 0) { this.hidePreviews() }
+        if (sendToServer) {
+            ServerClient.$.send(Signal.REMOVE_SE_VIS_PREV, { stackEffectId: stackEffectId })
+        }
     }
 
     setPreviews(stackEffects: StackEffectInterface[], sendToServer: boolean) {
@@ -202,30 +228,23 @@ export default class StackEffectVisManager extends cc.Component {
     }
 
     clearPreviews(sendToServer: boolean) {
+        let currentPreviews: StackEffectPreview[] = []
+        currentPreviews = currentPreviews.concat(this.currentPreviews)
+        for (let i = 0; i < currentPreviews.length; i++) {
+            const preview = currentPreviews[i];
 
-        for (const preview of this.currentPreviews) {
-            this.removePreview(preview.stackEffect, sendToServer)
+            //}
+            //  for (const preview of this.currentPreviews) {
+            cc.log(`removing preview of ${preview.stackEffect._lable}`)
+            this.removePreview(preview.stackEffect.entityId, false)
         }
         this.currentPreviews = []
+        if (sendToServer) {
+            ServerClient.$.send(Signal.CLEAR_SE_VIS)
+        }
     }
 
-    removePreview(stackEffect: StackEffectInterface, sendToServer: boolean) {
-        //  cc.error(`remove preview of ${stackEffect.constructor.name}`)
-        const preview = this.currentPreviews.find(preview => preview.stackEffect.entityId == stackEffect.entityId)
-        if (preview != null) {
-            this.currentPreviews.splice(this.currentPreviews.indexOf(preview), 1)
-            this.previewPool.putByStackEffectPreview(preview)
-            this.updateAvailablePreviews()
-        }
-        if (this.currentPreviews.length == 0) { this.hidePreviews() }
-        // cc.error(`current previews`)
-        // cc.log(this.currentPreviews)
-        // cc.log(`current stack`)
-        if (sendToServer) {
-            ServerClient.$.send(Signal.REMOVE_SE_VIS_PREV, { stackEffect: stackEffect.convertToServerStackEffect() })
-        }
-        // cc.log(Stack._currentStack)
-    }
+
 
     makeRequiredForDataCollector(stackPreview: StackEffectPreview, dataCollector: DataCollector) {
         stackPreview.node.runAction(
@@ -256,7 +275,6 @@ export default class StackEffectVisManager extends cc.Component {
     }
 
     hidePreviews() {
-        cc.log(`hide stack effect previews`)
         this.isOpen = false;
         this.previewHolderLayout.active = false;
         this.showStackButton.off(cc.Node.EventType.TOUCH_START)
@@ -302,11 +320,12 @@ export default class StackEffectVisManager extends cc.Component {
         this.previewPool = new StackEffectPreviewPool()
         const prefabArr = [this.basicStackEffectPreviewPrefab, this.playerActionPreviewPrefab, this.bossActionPreviewPrefab, this.megaBossActionPreviewPrefab, this.monsterActionPreviewPrefab]
         prefabArr.forEach(prefab => {
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < 15; i++) {
                 const preview = cc.instantiate(prefab);
                 preview.name = "preview" + i;
                 switch (prefab.name) {
                     case this.basicStackEffectPreviewPrefab.name:
+
                         this.previewPool.addBasic(preview)
                         break;
                     case this.playerActionPreviewPrefab.name:

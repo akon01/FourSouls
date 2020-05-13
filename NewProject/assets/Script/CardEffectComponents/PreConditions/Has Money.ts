@@ -17,7 +17,7 @@ export default class HasMoney extends PreCondition {
     const owner = CardManager.getCardOwner(thisCard);
     if (owner) {
       const player = PlayerManager.getPlayerByCard(owner)
-      if (player.coins > this.moneyNeeded) {
+      if (player.coins >= this.moneyNeeded) {
         return true
       } else { return false }
     } else {

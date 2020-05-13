@@ -1,4 +1,5 @@
 import { GAME_EVENTS } from "../Constants";
+import { whevent } from "../../ServerClient/whevent";
 
 const { ccclass, property } = cc._decorator;
 

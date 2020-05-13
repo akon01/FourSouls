@@ -6,6 +6,9 @@ import {
 import Player from "./Player";
 import DecisionMarker from "../Decision Marker";
 import SoundManager from "../../Managers/SoundManager";
+import { whevent } from "../../../ServerClient/whevent";
+import CardManager from "../../Managers/CardManager";
+import AnimationManager, { ANIM_COLORS } from "../../Managers/Animation Manager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,7 +19,9 @@ export default class Dice extends cc.Component {
 
   set currentRolledNumber(number: number) {
     this._currentRolledNumber = number
-    this.node.getComponent(cc.Sprite).spriteFrame = this.diceSprites[number - 1]
+    if (this.diceSprite) {
+      this.diceSprite.spriteFrame = this.diceSprites[number - 1]
+    }
   }
 
   get currentRolledNumber() { return this._currentRolledNumber }
@@ -44,6 +49,9 @@ export default class Dice extends cc.Component {
 
   @property
   player: Player = null;
+
+  @property({ visible: false })
+  diceSprite: cc.Sprite = null;
 
   //@printMethodStarted(COLORS.RED)
   async rollDice(rollType: ROLL_TYPE) {
@@ -149,7 +157,7 @@ export default class Dice extends cc.Component {
   }
 
   disableRoll() {
-    this.node.off(cc.Node.EventType.TOUCH_START);
+    this.node.off(cc.Node.EventType.TOUCH_END);
   }
 
   setRoll(diceNum: number) {
@@ -195,8 +203,10 @@ export default class Dice extends cc.Component {
   addRollAction(rollType: ROLL_TYPE) {
     this.availableRolls++;
     this.rollType = rollType;
-    this.node.off(cc.Node.EventType.TOUCH_START);
-    this.node.once(cc.Node.EventType.TOUCH_START, async () => {
+    this.node.off(cc.Node.EventType.TOUCH_END);
+    AnimationManager.$.showAnimation(this.node, ANIM_COLORS.BLUE)
+    this.node.once(cc.Node.EventType.TOUCH_END, async () => {
+      AnimationManager.$.endAnimation(this.node)
       await this.player.rollAttackDice(true);
     });
   }
@@ -204,16 +214,33 @@ export default class Dice extends cc.Component {
   // LIFE-CYCLE CALLBACKS:
 
   onLoad() {
-    this.node.off(cc.Node.EventType.TOUCH_START);
+    this.node.off(cc.Node.EventType.TOUCH_END);
     this.currentRolledNumber = 1;
   }
 
   changeSprite(num: number) {
-    const spriteComp = this.node.getComponent(cc.Sprite);
-    this.node.getComponent(cc.Sprite).spriteFrame = this.diceSprites[num - 1]
+    this.diceSprite.spriteFrame = this.diceSprites[num - 1]
   }
 
-  start() { }
+  addAnimationSprite() {
+    const sprites = cc.instantiate(CardManager.$.cardSpritesPrefab)
+    const cardSprite = sprites.getChildByName(`Card Sprite`);
+    const glowSprite = sprites.getChildByName(`Glow Sprite`);
+    cardSprite.getComponent(cc.Widget).target = this.node
+    cardSprite.getComponent(cc.Widget).updateAlignment();
+    glowSprite.getComponent(cc.Widget).target = this.node
+    glowSprite.getComponent(cc.Widget).updateAlignment();
+    cardSprite.getComponent(cc.Sprite).spriteFrame = this.node.getComponent(cc.Sprite).spriteFrame
+    if (!sprites.isChildOf(this.node)) {
+      this.node.addChild(sprites)
+      this.diceSprite = cardSprite.getComponent(cc.Sprite)
+      this.node.removeComponent(cc.Sprite)
+    }
+  }
+
+  start() {
+    this.addAnimationSprite()
+  }
 
   update(dt) {
     //this.node.getComponent(cc.Sprite).spriteFrame = this.diceSprites[this.currentRolledNumber - 1];

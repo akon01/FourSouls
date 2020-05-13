@@ -13,6 +13,9 @@ export default class AddPassiveEffect extends Effect {
   @property({ type: Effect, override: true })
   passiveEffectToAdd: Effect = null;
 
+  @property({ tooltip: `Any Data Collected Will Go Into the Condition Data, To Access Use GetTargetFromConditionData`, override: true })
+  dataCollector
+
 
   /**
    *

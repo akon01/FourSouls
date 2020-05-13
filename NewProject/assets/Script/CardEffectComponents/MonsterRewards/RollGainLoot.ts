@@ -16,9 +16,11 @@ export default class RollGainLoot extends MonsterReward {
   numOfLootToAdd: number = 0;
 
   async rewardPlayer(playerToReward: cc.Node, sendToServer: boolean) {
-    let player = playerToReward.getComponent(Player)
-    let diceId = player.dice.diceId
+    const player = playerToReward.getComponent(Player)
     let rollAnswer = this.rollNumber
+    if (this.doubleReward) {
+      rollAnswer += rollAnswer
+    }
     for (let index = 0; index < rollAnswer; index++) {
       await player.drawCard(CardManager.lootDeck, sendToServer)
     }

@@ -14,15 +14,25 @@ export default class PreventDamage extends Effect {
   @property({ type: DataCollector, override: true })
   dataCollector = null;
 
-
   @property
+  isPreventAllDamage: boolean = false;
+
+  @property({
+    visible: function (this: PreventDamage) {
+      return !this.isPreventAllDamage
+    }
+  })
   damageToPrevent: number = 1;
   /**
    *
    * @param data {target:PlayerId}
    */
   async doEffect(stack: StackEffectInterface[], data?: PassiveEffectData) {
-    data.methodArgs[0] -= this.damageToPrevent
+    if (!this.isPreventAllDamage) {
+      data.methodArgs[0] -= this.damageToPrevent
+    } else {
+      data.methodArgs[0] = 0
+    }
 
     return data
   }

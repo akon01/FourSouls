@@ -267,6 +267,19 @@ export class EffectData {
     chainEffectsData: Array<{ effectIndex: number, data: ActiveEffectData[] | PassiveEffectData[] }> = [];
     effectTargets: EffectTarget[] = [];
 
+
+    getAllTargets() {
+        const targets: { nodes: cc.Node[], stackEffects: StackEffectConcrete[] } = { nodes: [], stackEffects: [] }
+        for (const target of this.effectTargets) {
+            if (target.targetType == TARGETTYPE.STACK_EFFECT) {
+                targets.stackEffects.push(target.effectTargetStackEffectId)
+            } else {
+                targets.nodes.push(target.effectTargetCard)
+            }
+        }
+        return targets
+    }
+
     addTarget(target) {
         if (target instanceof EffectTarget) {
             this.effectTargets.push(target)
@@ -320,17 +333,24 @@ export class ActiveEffectData extends EffectData {
     cardEffect: ServerEffect;
     numberRolled: number;
 
+
+
     getTargets(targetType: TARGETTYPE) {
         const targets: EffectTarget[] = []
+        if (targetType == TARGETTYPE.CARD) {
+            for (const target of this.effectTargets) {
+                if (target.targetType != TARGETTYPE.STACK_EFFECT) {
+                    targets.push(target)
+                }
+            }
+            return targets.map(target => target.effectTargetCard)
+        }
         for (const target of this.effectTargets) {
             if (target.targetType == targetType) {
-                targets.push(target)
-            } else if (targetType == TARGETTYPE.CARD && target.targetType != TARGETTYPE.STACK_EFFECT) {
                 targets.push(target)
             }
         }
         if (targetType != TARGETTYPE.STACK_EFFECT) {
-
             return targets.map(target => target.effectTargetCard);
         } else { return targets.map(target => target.effectTargetStackEffectId); }
     }

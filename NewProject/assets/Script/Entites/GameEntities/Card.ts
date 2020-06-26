@@ -136,6 +136,10 @@ export default class Card extends cc.Component {
 
   async putCounter(numOfCounters: number) {
 
+    if (this._effectCounterLable == null) {
+      this.addCountLable()
+    }
+
     const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.CARD_GAINS_COUNTER, [numOfCounters], null, this.node)
     const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
     numOfCounters = afterPassiveMeta.args[0]
@@ -143,6 +147,7 @@ export default class Card extends cc.Component {
     this._counters += numOfCounters;
 
     ServerClient.$.send(Signal.CARD_GET_COUNTER, { cardId: this._cardId, numOfCounters: numOfCounters })
+    await PassiveManager.testForPassiveAfter(passiveMeta)
 
   }
 
@@ -163,6 +168,14 @@ export default class Card extends cc.Component {
       this.cardSprite = cardSprite.getComponent(cc.Sprite)
       this.node.removeComponent(cc.Sprite)
     }
+  }
+
+  addCountLable() {
+    const cardEffectCounter = cc.instantiate(CardManager.effectCounter)
+    cardEffectCounter.setPosition(0, 0)
+    this.node.addChild(cardEffectCounter)
+    cardEffectCounter.getComponent(cc.Widget).updateAlignment()
+    this._effectCounterLable = cardEffectCounter.getComponent(cc.Label)
   }
 
   onLoad() {

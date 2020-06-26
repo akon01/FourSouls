@@ -29,7 +29,7 @@ export default class PreventDeathPenalties extends Effect {
       if (effect instanceof PlayerDeathPenalties && effect.playerToPay.playerId == PlayerManager.getPlayerByCard(targetPlayer as cc.Node).playerId) { return true }
     })
     if (!playerPenaltiesStackEffect) { throw new Error(`No Player Penalties found`) }
-    await Stack.fizzleStackEffect(playerPenaltiesStackEffect, true)
+    await Stack.fizzleStackEffect(playerPenaltiesStackEffect, true, true)
     if (playerPenaltiesStackEffect instanceof PlayerDeathPenalties) {
       const playerToPay = playerPenaltiesStackEffect.playerToPay
       playerToPay.heal(playerToPay._lastHp, true, true)

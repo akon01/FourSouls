@@ -155,7 +155,7 @@ export default class MainScript extends cc.Component {
     whevent.on(GAME_EVENTS.GAME_OVER, (async playerWhoWonId => {
       for (let i = 0; i < Stack._currentStack.length; i++) {
         const se = Stack._currentStack[i];
-        await Stack.fizzleStackEffect(se, true)
+        await Stack.fizzleStackEffect(se, true, true)
       }
       MainScript.endGame(playerWhoWonId, true)
     }))
@@ -260,6 +260,8 @@ export default class MainScript extends cc.Component {
     //TurnsManager.endTurn()
     //  await TurnsManager.currentTurn.getTurnPlayer().endTurn(true)
     cc.log(`make first update`)
+    cc.log(PlayerManager.mePlayer.getComponent(Player).playerId)
+    cc.log(playerId)
     if (PlayerManager.mePlayer.getComponent(Player).playerId == playerId) {
       await MainScript.startGame()
       await ActionManager.updateActions()

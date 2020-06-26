@@ -27,9 +27,10 @@ export default class CancelAttack extends Effect {
     const player: Player = TurnsManager.currentTurn.getTurnPlayer();
     cc.log(`player who attacks ${player.name}`)
     await BattleManager.cancelAttack(true);
-    cc.log(`1`)
-    if (this.addAttackOppurtunity) { TurnsManager.currentTurn.attackPlays = TurnsManager.currentTurn.attackPlays + this.howMuchToAdd }
-    cc.log(`2`)
+    if (this.addAttackOppurtunity) {
+      player.attackPlays += this.howMuchToAdd
+    }
+
     if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack
   }

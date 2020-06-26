@@ -123,8 +123,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
+      "width": 75,
+      "height": 35
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -240,7 +240,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "24048e7b-6db5-4d8c-b047-1574c56490a1"
+      "__uuid__": "b45d9b59-85b3-4848-ac00-869b91352d30"
     },
     "fileId": "a4aKgGcr9EyrknSe3hBslw",
     "sync": false
@@ -253,6 +253,7 @@
       "__id__": 2
     },
     "_enabled": true,
+    "isSilent": false,
     "cost": null,
     "preCondition": null,
     "conditions": [],
@@ -264,7 +265,8 @@
       }
     ],
     "_effectCard": null,
-    "optional": false,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "optionalFlavorText": "",
     "itemEffectToAdd": {
@@ -273,6 +275,7 @@
     "itemEffectsToAdd": [],
     "addMuiliEffect": false,
     "multiEffectCollector": null,
+    "isCurse": false,
     "_id": ""
   },
   {
@@ -309,8 +312,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 85,
-      "height": 17.5
+      "width": 75,
+      "height": 35
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -503,7 +506,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "24048e7b-6db5-4d8c-b047-1574c56490a1"
+      "__uuid__": "b45d9b59-85b3-4848-ac00-869b91352d30"
     },
     "fileId": "a0jibRwZREfZG2lTHBUnOI",
     "sync": false
@@ -514,7 +517,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "24048e7b-6db5-4d8c-b047-1574c56490a1"
+      "__uuid__": "b45d9b59-85b3-4848-ac00-869b91352d30"
     },
     "fileId": "02g8OAnzxHoacn1q8drJm+",
     "sync": false
@@ -527,6 +530,7 @@
       "__id__": 7
     },
     "_enabled": true,
+    "isSilent": false,
     "cost": null,
     "preCondition": null,
     "conditions": [
@@ -542,7 +546,8 @@
       }
     ],
     "_effectCard": null,
-    "optional": false,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "optionalFlavorText": "",
     "numOfLoot": 1,
@@ -555,7 +560,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "24048e7b-6db5-4d8c-b047-1574c56490a1"
+      "__uuid__": "b45d9b59-85b3-4848-ac00-869b91352d30"
     },
     "fileId": "47drVCGqtLeYhliSelrxDX",
     "sync": false
@@ -566,7 +571,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "24048e7b-6db5-4d8c-b047-1574c56490a1"
+      "__uuid__": "b45d9b59-85b3-4848-ac00-869b91352d30"
     },
     "fileId": "95XBeaA1JJBJodDrlNCxSQ",
     "sync": false
@@ -817,7 +822,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "24048e7b-6db5-4d8c-b047-1574c56490a1"
+      "__uuid__": "b45d9b59-85b3-4848-ac00-869b91352d30"
     },
     "fileId": "492iD2e01C6b5Uxs2G2PAn",
     "sync": false
@@ -875,7 +880,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "24048e7b-6db5-4d8c-b047-1574c56490a1"
+      "__uuid__": "b45d9b59-85b3-4848-ac00-869b91352d30"
     },
     "fileId": "39LzICXW1HRp389sAQImYj",
     "sync": false
@@ -896,7 +901,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "39c1f834-a4c8-4752-9d2e-c39bd018983b"
+      "__uuid__": "051524c4-bf5a-450f-a473-1d8d361e4538"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -909,9 +914,7 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "335ee846-4b6a-42ff-a0e9-1f8c824c8d1f"
-    },
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -991,9 +994,10 @@
     },
     "_enabled": true,
     "type": 0,
-    "activated": false,
+    "needsRecharge": false,
     "eternal": false,
     "lastOwnedBy": null,
+    "isGuppyItem": false,
     "_id": ""
   },
   {
@@ -1002,7 +1006,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "24048e7b-6db5-4d8c-b047-1574c56490a1"
+      "__uuid__": "b45d9b59-85b3-4848-ac00-869b91352d30"
     },
     "fileId": "74xrl7Ss9GNLi7htp7h56D",
     "sync": false

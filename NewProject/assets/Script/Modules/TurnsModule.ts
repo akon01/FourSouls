@@ -8,16 +8,6 @@ import Player from "../Entites/GameEntities/Player";
 import CardManager from "../Managers/CardManager";
 import TurnsManager from "../Managers/TurnsManager";
 
-//make the turns ininitally
-export function makeNextTurn(currentTurn: Turn): Turn[] {
-  let turns: Turn[] = [];
-
-  for (let i = 1; i < ServerClient.numOfPlayers + 1; i++) {
-    turns.push(new Turn(i));
-  }
-  return turns;
-}
-
 export function getCurrentPlayer(players: cc.Node[], turn: Turn) {
   for (let i = 0; i < players.length; i++) {
     const player = players[i];
@@ -33,13 +23,7 @@ export function getCurrentPlayer(players: cc.Node[], turn: Turn) {
 export class Turn {
   PlayerId: number;
   turnId: number
-
   battlePhase: boolean = false;
-  lootCardPlays: number = 1;
-  drawPlays: number = 1;
-  buyPlays: number = 1;
-  attackPlays: number = 1;
-  monsterDeckAttackPlays: number = 0;
 
   constructor(PlayerId: number) {
     this.PlayerId = PlayerId;
@@ -49,14 +33,34 @@ export class Turn {
     const player: Player = PlayerManager.getPlayerById(
       this.PlayerId
     )
-    this.lootCardPlays = player.lootCardPlays;
-    this.drawPlays = player.drawPlays;
-    this.buyPlays = player.buyPlays;
-    this.attackPlays = player.attackPlays;
-    this.monsterDeckAttackPlays = player.monsterDeckAttackPlays
+    //add turn attack play
+    player.attackPlays += 1
+    //add turn loot card play
+    player.lootCardPlays += 1
+    //add turn buy play
+    player.buyPlays += 1;
+    cc.log(`refreshed turn for player ${player.playerId}`)
     this.battlePhase = false;
     this.turnId = ++TurnsManager.turnId
 
+  }
+
+  endTurn() {
+    const player: Player = PlayerManager.getPlayerById(
+      this.PlayerId
+    )
+    if (player.attackPlays > 0) {
+      //remove turn attack play
+      player.attackPlays -= 1
+    }
+    if (player.lootCardPlays > 0) {
+      //remove turn loot card play
+      player.lootCardPlays -= 1
+    }
+    if (player.buyPlays > 0) {
+      //remove turn buy play
+      player.buyPlays -= 1;
+    }
   }
 
   getTurnPlayer() {
@@ -71,19 +75,9 @@ export class Turn {
     cc.log(`turn player ${player.name}`)
     cc.log(`me player ${PlayerManager.mePlayer.name}`)
     if (player.node.name == PlayerManager.mePlayer.name) {
-      await player.startTurn(this.drawPlays, player.activeItems.length, true)
+      await player.startTurn(player.drawPlays, player.activeItems.length, true)
     } else {
       ServerClient.$.send(Signal.START_TURN, { playerId: player.playerId })
     }
-    // //draw cards
-    //  for (let i = 0; i < this.drawPlays; i++) {
-    //     player.drawCard(CardManager.);
-    //  }
-    //charge items
-    //  const playerCards = player.cards;
-    //  for (let j = 0; j < playerCards.length; j++) {
-    //      const card = playerCards[j];
-    //     chargeCard(card);
-    //  }
   }
 }

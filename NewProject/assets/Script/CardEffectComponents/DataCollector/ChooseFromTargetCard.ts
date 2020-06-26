@@ -16,7 +16,6 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class ChooseFromTargetCard extends DataCollector {
   collectorName = "ChooseFromTargetCard";
-  isEffectChosen: boolean = false;
   cardChosen: cc.Node;
   playerId: number;
 

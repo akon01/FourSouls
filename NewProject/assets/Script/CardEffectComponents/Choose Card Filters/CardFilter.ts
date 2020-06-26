@@ -4,7 +4,7 @@ import Card from "../../Entites/GameEntities/Card";
 const { ccclass, property } = cc._decorator;
 
 enum CARD_FILTERS {
-    IS_NOT_GOING_TO_BE_PLAYED
+    IS_NOT_GOING_TO_BE_PLAYED,
 }
 
 @ccclass('CardFilter')

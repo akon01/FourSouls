@@ -8,6 +8,8 @@ import Server from "../server";
 import { Logger } from "../utils/Logger";
 import Utils from "../utils/utils";
 import ServerPlayer from "./player";
+import { Card } from "./Card";
+import DataParser from "./dataParser";
 
 const MIID = 0;
 export default class Match {
@@ -18,12 +20,15 @@ export default class Match {
       return Match.pendingMatches[0];
     } else {
       const match = new Match();
+      match.parser = new DataParser(match)
       Server.$.logger = new Logger();
       Match.pendingMatches.push(match);
       return match;
     }
   }
 
+  cards: Card[] = []
+  parser: DataParser = null;
   loadedPlayers: number = 0;
   level: number = 0;
   firstPlayerId: number = 0;
@@ -44,6 +49,11 @@ export default class Match {
         player.send(signal, data);
       }
     }
+  }
+
+  getCardById(id: number) {
+    if (this.cards.length == 0) return null;
+    return this.cards.find(c => c.cardId == id)
   }
 
   getPlayerById(id: number): ServerPlayer {
@@ -100,9 +110,9 @@ export default class Match {
     console.log("starting match");
     this.running = true;
     this.broadcast(signal.START_GAME, {});
-    setTimeout(() => {
-      this.timeup();
-    }, this.time * 1000);
+    // setTimeout(() => {
+    //   this.timeup();
+    // }, this.time * 1000);
     this.close();
   }
 

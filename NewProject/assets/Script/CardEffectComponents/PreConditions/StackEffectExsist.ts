@@ -11,8 +11,8 @@ export default class StackEffectExsists extends PreCondition {
 
   @property({
     type: cc.Enum(STACK_EFFECT_TYPE), visible: function (this: StackEffectExsists) {
-      if (this.multiType) {
-        return false
+      if (!this.multiType) {
+        return true
       }
     }
   })

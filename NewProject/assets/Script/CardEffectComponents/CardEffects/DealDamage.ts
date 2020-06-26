@@ -7,6 +7,7 @@ import PlayerManager from "../../Managers/PlayerManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import { TARGETTYPE } from "./../../Constants";
 import Effect from "./Effect";
+import Card from "../../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
@@ -35,8 +36,7 @@ export default class DealDamage extends Effect {
       let targets = data.getTargets(TARGETTYPE.PLAYER)
       if (targets.length == 0) { targets = data.getTargets(TARGETTYPE.MONSTER) }
       if (targets.length == 0) {
-        cc.log(`no targets`)
-        return
+        throw new Error(`no targets`)
       }
 
       for (let i = 0; i < targets.length; i++) {
@@ -63,7 +63,8 @@ export default class DealDamage extends Effect {
 
   async hitAnEntity(targetEntity: cc.Node) {
     let entityComp;
-    const damageDealer = CardManager.getCardOwner(this.node.parent)
+    const thisCard = Card.getCardNodeByChild(this.node)
+    const damageDealer = CardManager.getCardOwner(thisCard)
     entityComp = targetEntity.getComponent(Character);
     //Entity is Monster
     if (entityComp == null) {

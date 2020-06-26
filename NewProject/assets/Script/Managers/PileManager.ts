@@ -39,7 +39,7 @@ export default class PileManager extends cc.Component {
     this.setDeck(PileManager.treasureCardPile, CardManager.treasureDeck.getComponent(Deck))
     this.setDeck(PileManager.monsterCardPile, CardManager.monsterDeck.getComponent(Deck))
     const piles = [PileManager.lootPlayPile.node, PileManager.lootCardPileNode, PileManager.treasureCardPileNode, PileManager.monsterCardPileNode]
-    CardManager.allCards.push(...piles)
+    piles.forEach(pile => CardManager.allCards.push(pile))
     piles.forEach(pile => {
       cc.log(`add animation node to ${pile.name}`)
       // AnimationManager.addAnimationNode(pile)

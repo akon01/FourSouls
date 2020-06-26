@@ -80,10 +80,15 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
 
         await this.lootPlayer.loseLoot(this.lootToPlay, true)
         //await CardManager.moveCardTo(this.lootToPlay, PileManager.lootPlayPile, true, true)
-        await PileManager.addCardToPile(CARD_TYPE.LOOT_PLAY, this.lootToPlay, true)
+        if (PileManager.getPileByCard(this.lootToPlay) == null) {
+            await PileManager.addCardToPile(CARD_TYPE.LOOT_PLAY, this.lootToPlay, true)
+        }
 
         //let player choose effect b4 going in the stack
         if (cardEffect.hasMultipleEffects) {
+            if (cardEffect.multiEffectCollector.cost != null) {
+                await cardEffect.multiEffectCollector.cost.takeCost()
+            }
             //if the card has multiple effects and the player needs to choose
             if (cardEffect.multiEffectCollector instanceof MultiEffectChoose) {
                 const effectChosen = await cardEffect.multiEffectCollector.collectData({ cardPlayed: this.lootToPlay, cardPlayerId: this.lootPlayer.playerId })
@@ -123,9 +128,7 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
 
                 let lockingStackEffect: StackEffectInterface
                 if (cardEffect.multiEffectCollector instanceof MultiEffectRoll) {
-                    if (cardEffect.multiEffectCollector.cost != null) {
-                        await cardEffect.multiEffectCollector.cost.takeCost()
-                    }
+
                     lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
                 }
                 if (cardEffect.multiEffectCollector instanceof IMultiEffectRollAndCollect) {

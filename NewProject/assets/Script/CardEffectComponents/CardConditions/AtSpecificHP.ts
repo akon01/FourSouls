@@ -43,20 +43,17 @@ export default class AtSpecificHp extends Condition {
 
     let subjectComp: Monster | Player;
     let currnetHpValue: number
-    let ownerName: string
     if (meta.passiveEvent == PASSIVE_EVENTS.MONSTER_GET_HIT) {
       subjectComp = subject.getComponent(Monster)
       currnetHpValue = subjectComp.currentHp
-      ownerName = cardOwner.getComponent(Monster).name.split('<')[0]
     } else if (PASSIVE_EVENTS.PLAYER_GET_HIT) {
       subjectComp = subject.getComponent(Player)
       currnetHpValue = subjectComp._Hp
-      ownerName = cardOwner.getComponent(Player).name.split('<')[0]
     }
 
     if ((currnetHpValue == this.specificHp || (this.isOrBelowHp && currnetHpValue <= this.specificHp)) && !this.isActive) {
       if (this.isOwnerOnly) {
-        if (ownerName == subjectComp.name.split('<')[0]) {
+        if (cardOwner == subjectComp.node) {
           this.isActive = true;
           return true
         }

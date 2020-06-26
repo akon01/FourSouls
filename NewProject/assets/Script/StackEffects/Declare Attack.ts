@@ -1,11 +1,12 @@
+import ChooseCardTypeAndFilter from "../CardEffectComponents/ChooseCardTypeAndFilter";
 import ChooseCard from "../CardEffectComponents/DataCollector/ChooseCard";
-import { CHOOSE_CARD_TYPE, GAME_EVENTS, PASSIVE_EVENTS, STACK_EFFECT_TYPE } from "../Constants";
+import { CHOOSE_CARD_TYPE, PASSIVE_EVENTS, STACK_EFFECT_TYPE } from "../Constants";
 import Monster from "../Entites/CardTypes/Monster";
+import Card from "../Entites/GameEntities/Card";
 import Deck from "../Entites/GameEntities/Deck";
 import Player from "../Entites/GameEntities/Player";
 import MonsterCardHolder from "../Entites/MonsterCardHolder";
 import MonsterField from "../Entites/MonsterField";
-import Stack from "../Entites/Stack";
 import BattleManager from "../Managers/BattleManager";
 import CardManager from "../Managers/CardManager";
 import CardPreviewManager from "../Managers/CardPreviewManager";
@@ -15,11 +16,6 @@ import ServerDeclareAttack from "./ServerSideStackEffects/Server Declare Attack"
 import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { DeclareAttackVis } from "./StackEffectVisualRepresentation/Declare Attack Vis";
-import ChooseCardTypeAndFilter from "../CardEffectComponents/ChooseCardTypeAndFilter";
-import { whevent } from "../../ServerClient/whevent";
-import Card from "../Entites/GameEntities/Card";
-import ServerClient from "../../ServerClient/ServerClient";
-import Signal from "../../Misc/Signal";
 
 export default class DeclareAttack extends StackEffectConcrete {
     visualRepesentation: DeclareAttackVis;
@@ -82,18 +78,32 @@ export default class DeclareAttack extends StackEffectConcrete {
         const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
         if (!afterPassiveMeta.continue) { return }
         passiveMeta.args = afterPassiveMeta.args;
-        if (TurnsManager.currentTurn.attackPlays > 0) {
-            TurnsManager.currentTurn.attackPlays -= 1;
+        let usedPlayerTurnAttack = false
+        //use player turn attack
+        if (this.attackingPlayer.attackPlays > 0) {
+            this.attackingPlayer.attackPlays -= 1;
+            usedPlayerTurnAttack = true
+        }
+        //if player must attack use it also
+        if (this.attackingPlayer._mustAttackPlays > 0) {
+            this.attackingPlayer._mustAttackPlays -= 1
         }
 
         const monsterDeck = CardManager.monsterDeck.getComponent(Deck);
         let monsterCardHolder: MonsterCardHolder;
         let newMonster = this.cardBeingAttacked;
+        //if the card was the mosnter deck
         if (this.cardBeingAttacked == monsterDeck.node) {
-            cc.log(`chosen card is top deck ${this.cardBeingAttacked.name}`)
-            if (TurnsManager.currentTurn.monsterDeckAttackPlays > 0 && TurnsManager.currentTurn.attackPlays == 0) {
-                TurnsManager.currentTurn.monsterDeckAttackPlays = -1
+            //if the player must attack deck use it
+            if (this.attackingPlayer._mustDeckAttackPlays > 0) {
+                this.attackingPlayer._mustDeckAttackPlays -= 1
             }
+
+            //if the player has an extra attack on the deck, and no more normal attacks was used, use it.
+            if (this.attackingPlayer._attackDeckPlays > 0 && !usedPlayerTurnAttack) {
+                this.attackingPlayer._attackDeckPlays -= 1
+            }
+            cc.log(`chosen card is top deck ${this.cardBeingAttacked.name}`)
             const chooseCard = new ChooseCard();
             chooseCard.flavorText = "Choose A Monster To Cover"
             newMonster = monsterDeck.drawCard(true);

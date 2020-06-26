@@ -26,7 +26,7 @@ export default class BattleManager extends cc.Component {
     //
     BattleManager.currentlyAttackedMonsterNode = monsterCard;
     BattleManager.currentlyAttackedMonster = monsterCard.getComponent(Monster);
-    monsterCard.getComponent(Monster).isAttacked = true
+    monsterCard.getComponent(Monster)._isAttacked = true
     // ;
     TurnsManager.currentTurn.battlePhase = true;
     this.inBattle = true
@@ -39,7 +39,7 @@ export default class BattleManager extends cc.Component {
 
   static endBattle(sendToServer: boolean) {
     const monsterCard = BattleManager.currentlyAttackedMonsterNode
-    monsterCard.getComponent(Monster).isAttacked = false
+    monsterCard.getComponent(Monster)._isAttacked = false
     BattleManager.currentlyAttackedMonster = null;
     BattleManager.currentlyAttackedMonsterNode = null;
     TurnsManager.currentTurn.battlePhase = false;
@@ -60,7 +60,7 @@ export default class BattleManager extends cc.Component {
         if (stackEffect.stackEffectType == STACK_EFFECT_TYPE.ATTACK_ROLL || stackEffect.stackEffectType == STACK_EFFECT_TYPE.COMBAT_DAMAGE) { return true }
       })
       for (const stackEffect of currentStackEffectOfTheAttack) {
-        await Stack.fizzleStackEffect(stackEffect, true)
+        await Stack.fizzleStackEffect(stackEffect, false, true)
       }
 
     }
@@ -72,7 +72,7 @@ export default class BattleManager extends cc.Component {
    */
   ////@printMethodStarted(COLORS.RED)
   static async rollOnMonster(rollValue: number, sendToServer?: boolean) {
-    const monsterRollValue = this.currentlyAttackedMonster.rollValue + this.currentlyAttackedMonster.rollBonus;
+    const monsterRollValue = this.currentlyAttackedMonster.rollValue + this.currentlyAttackedMonster._rollBonus;
     // let turnPlayer = PlayerManager.getPlayerById(
     //   TurnsManager.currentTurn.PlayerId
     // )

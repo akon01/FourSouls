@@ -3,6 +3,7 @@ import Monster from "../../Entites/CardTypes/Monster";
 import Card from "../../Entites/GameEntities/Card";
 import { PassiveMeta } from "../../Managers/PassiveManager";
 import Condition from "./Condition";
+import PlayerManager from "../../Managers/PlayerManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -29,11 +30,15 @@ export default class MonsterCombatDamageTaken extends Condition {
   })
   rollNumber: number = 1
 
+  @property
+  isOwnerOnly: boolean = false;
+
   event = PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_GIVEN
 
   async testCondition(meta: PassiveMeta) {
     const monster: Monster = meta.args[3].getComponent(Monster);
     const thisCard = Card.getCardNodeByChild(this.node);
+    const owner = PlayerManager.getPlayerByCard(thisCard);
     let answer = false;
     cc.log(monster)
     if (monster instanceof Monster) { answer = true; }
@@ -44,6 +49,11 @@ export default class MonsterCombatDamageTaken extends Condition {
     }
     if (this.isOnSpecificRoll) {
       if (this.rollNumber != meta.args[1]) {
+        answer = false
+      }
+    }
+    if (this.isOwnerOnly) {
+      if (owner != meta.methodScope) {
         answer = false
       }
     }

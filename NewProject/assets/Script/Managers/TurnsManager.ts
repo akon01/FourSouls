@@ -88,6 +88,7 @@ export default class TurnsManager extends cc.Component {
   }
 
   static async endTurn(sendToServer: boolean) {
+    TurnsManager.currentTurn.endTurn()
     if (
       this.getNextTurn(TurnsManager.currentTurn, TurnsManager.turns).PlayerId != 0
     ) {
@@ -106,13 +107,17 @@ export default class TurnsManager extends cc.Component {
         player._isFirstTimeGettingMoney = true;
         player._isFirstAttackRollOfTurn = true
         player._isDead = false;
+        player.isFirstHitInTurn = true
+        player._mustAttackPlays = 0;
+        player._mustDeckAttackPlays = 0
+        player._attackDeckPlays = 0
         //player.damage = player.calculateDamage()
         // player.broadcastUpdateProperites({ _tempHpBonus: player._tempHpBonus, tempAttackRollBonus: player.tempAttackRollBonus})
         await player.heal(player.character.getComponent(Character).hp + player._hpBonus, false, true)
       }
       for (const monster of MonsterField.activeMonsters.map(monster => monster.getComponent(Monster))) {
-        monster.rollBonus = 0;
-        monster.bonusDamage = 0;
+        monster._rollBonus = 0;
+        monster._bonusDamage = 0;
         monster._thisTurnKiller = null;
         monster._lastHitRoll = 0
         await monster.heal(monster.HP, false, true)

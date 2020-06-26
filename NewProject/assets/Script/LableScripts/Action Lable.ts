@@ -37,7 +37,11 @@ export default class ActionLable extends cc.Component {
         }
         whevent.emit(GAME_EVENTS.ACTION_LABLE_UPDATE)
         //if (!doNotAddToHistory) { this.addToHistory(actionMessage, childOfId) }
-        this.addToHistory(actionMessage, childOfId)
+        try {
+            this.addToHistory(actionMessage, childOfId)
+        } catch (error) {
+            cc.error(`could not add to history`, [massage, childOfId])
+        }
         ServerClient.$.send(Signal.ACTION_MASSAGE_ADD, { massage: actionMessage, childOfId: childOfId })
         if (timeToDisappear != 0) {
             setTimeout(() => {
@@ -49,12 +53,16 @@ export default class ActionLable extends cc.Component {
     }
 
     addToHistory(massage: ActionMessage, childOfId?: number) {
+        if (this.actionHistoryMessages.length > 50) {
+            this.removeFromHistroy(this.actionHistoryMessages[0].id)
+        }
         if (!childOfId) {
             if (this._historyItemPool.size() == 0) {
-                const oldActionHistoryMessage = this.actionHistory.content.children[0];
-                oldActionHistoryMessage.getComponent(ActionHistoryMessage).removeMessage(oldActionHistoryMessage.getComponent(ActionHistoryMessage).id)
-                this._historyItemPool.put(oldActionHistoryMessage)
-                this.actionHistoryMessages.splice(this.actionHistoryMessages.indexOf(oldActionHistoryMessage.getComponent(ActionHistoryMessage)), 1)
+                // const oldActionHistoryMessage = this.actionHistory.content.children[0];
+                // oldActionHistoryMessage.getComponent(ActionHistoryMessage).removeMessage(oldActionHistoryMessage.getComponent(ActionHistoryMessage).id)
+                // this._historyItemPool.put(oldActionHistoryMessage)
+                // this.actionHistoryMessages.splice(this.actionHistoryMessages.indexOf(oldActionHistoryMessage.getComponent(ActionHistoryMessage)), 1)
+                this.removeFromHistroy(this.actionHistoryMessages[0].id)
             }
             const item = this._historyItemPool.get();
             //  item.getComponent(cc.Label).string = massage
@@ -71,6 +79,17 @@ export default class ActionLable extends cc.Component {
                 throw new Error(`no action history message was found for id ${childOfId}`)
             }
         }
+    }
+
+    removeFromHistroy(id: number) {
+        const actionMessage = this.actionHistoryMessages.find(am => am.id == id)
+        if (!actionMessage) {
+            return
+        }
+        actionMessage.removeMessage(id)
+        this.actionHistory.content.removeChild(actionMessage.node)
+        this.actionHistoryMessages.splice(this.actionHistoryMessages.findIndex(am => am.id == id), 1)
+        this._historyItemPool.put(actionMessage.node)
     }
 
     removeMessage(id: number, sendToServer: boolean) {
@@ -124,7 +143,11 @@ export default class ActionLable extends cc.Component {
         if (!childOfId) {
             this.messages.push(massage)
         }
-        this.addToHistory(massage, childOfId)
+        try {
+            this.addToHistory(massage, childOfId)
+        } catch (error) {
+            cc.error(`could not add to history`, [massage, childOfId])
+        }
         whevent.emit(GAME_EVENTS.ACTION_LABLE_UPDATE)
     }
 

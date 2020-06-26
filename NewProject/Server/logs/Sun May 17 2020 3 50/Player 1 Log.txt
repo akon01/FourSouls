@@ -1,0 +1,637 @@
+Start Log 
+ Recived From Player 1 03:50:39 $START_GAME:  
+ Recived From Player 1 03:50:39 $MOVE_TO_TABLE:  
+ Recived From Player 1 03:50:49 $FINISH_LOAD:  
+
+ {"id":1,"turnPlayerId":2} 
+ Recived From Player 1 03:50:50 $ASSIGN_CHAR_TO_PLAYER:  
+
+ {"playerId":1,"charCardId":329,"itemCardId":332} 
+ Recived From Player 1 03:50:50 $SET_CHAR_END:  
+
+ {"playerId":2} 
+ Recived From Player 1 03:50:59 $MOVE_CARD_END:  
+
+ {"moveIndex":1,"cardId":104,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 03:51:00 $MOVE_CARD_END:  
+
+ {"moveIndex":2,"cardId":42,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 03:51:00 $MOVE_CARD_END:  
+
+ {"moveIndex":3,"cardId":4,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 03:51:01 $MOVE_CARD_END:  
+
+ {"moveIndex":4,"cardId":78,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 03:51:02 $MOVE_CARD_END:  
+
+ {"moveIndex":5,"cardId":131,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 03:51:02 $MOVE_CARD_END:  
+
+ {"moveIndex":6,"cardId":120,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 03:51:02 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 03:51:02 $NEXT_STACK_ID:  
+ Recived From Player 1 03:51:02 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":329,"turnPlayerCardId":329,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+ Recived From Player 1 03:51:02 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":329,"turnPlayerCardId":329,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+ Recived From Player 1 03:51:03 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 03:51:03 $SHOW_STACK_EFFECT:  
+
+ {"effectId":1} 
+ Recived From Player 1 03:51:05 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":0,"_text":"Add Start Turn Loot Draw 1 "}} 
+ Recived From Player 1 03:51:05 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 03:51:05 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":329,"turnPlayerCardId":329,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+ Recived From Player 1 03:51:06 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":1,"_text":"Response Adding Start Turn Loot Draw 1"},"childOfId":0} 
+ Recived From Player 1 03:51:06 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":2,"_text":"Wait For Response From Player 1 "},"childOfId":0} 
+ Recived From Player 1 03:51:06 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 03:51:06 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":3,"_text":"Wait For Response From Player 2 "},"childOfId":0} 
+ Recived From Player 1 03:51:06 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 03:51:06 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 03:51:06 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":4,"_text":"Resolve Start Turn Loot Draw 1 "}} 
+ Recived From Player 1 03:51:06 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":1,"creatorCardId":329,"turnPlayerCardId":329,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}]} 
+ Recived From Player 1 03:51:06 $DRAW_CARD:  
+
+ {"deckType":1} 
+ Recived From Player 1 03:51:06 $MOVE_CARD:  
+
+ {"moveIndex":7,"cardId":107,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":1,"placeType":"Hand"} 
+ Recived From Player 1 03:51:06 $CARD_DRAWN:  
+
+ {"playerId":1,"deckType":1,"drawnCardId":107} 
+ Recived From Player 1 03:51:06 $FLIP_CARD:  
+
+ {"cardId":107} 
+ Recived From Player 1 03:51:06 $PLAYER_GET_LOOT:  
+
+ {"playerId":1,"cardId":107} 
+ Recived From Player 1 03:51:06 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":107}],"result":null,"preventMethod":false,"methodScopeId":329,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+ Recived From Player 1 03:51:06 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":1,"text":"Player 1 Has Drawn Loot For Start Turn"} 
+ Recived From Player 1 03:51:06 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":329,"turnPlayerCardId":329,"stackEffectType":13,"lable":"Player 1 Has Drawn Loot For Start Turn"}} 
+ Recived From Player 1 03:51:06 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 03:51:06 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 03:51:06 $SHOW_STACK_EFFECT:  
+
+ {"effectId":1} 
+ Recived From Player 1 03:51:09 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":1} 
+ Recived From Player 1 03:51:09 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":5,"_text":"Remove After Resolve Start Turn Loot Draw 1  "}} 
+ Recived From Player 1 03:51:09 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":329,"turnPlayerCardId":329,"stackEffectType":13,"lable":"Player 1 Has Drawn Loot For Start Turn"}} 
+ Recived From Player 1 03:51:09 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":6,"_text":"Response Remove After Resolve Start Turn Loot Draw 1"},"childOfId":5} 
+ Recived From Player 1 03:51:09 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":7,"_text":"Wait For Response From Player 2 "},"childOfId":5} 
+ Recived From Player 1 03:51:10 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 03:51:10 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 03:51:10 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":7} 
+ Recived From Player 1 03:51:10 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":8,"_text":"Wait For Response From Player 1 "},"childOfId":5} 
+ Recived From Player 1 03:51:10 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 03:51:10 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":8} 
+ Recived From Player 1 03:51:10 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":6} 
+ Recived From Player 1 03:51:10 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":9,"_text":"Stack Was Emptied "}} 
+ Recived From Player 1 03:51:10 $CLEAR_SE_VIS:  
+ Recived From Player 1 03:51:27 $MOVE_CARD:  
+
+ {"moveIndex":8,"cardId":176,"placeID":1,"flipIfFlipped":true,"playerId":1,"placeType":"Hand"} 
+ Recived From Player 1 03:51:28 $DECK_ARRAGMENT:  
+
+ {"deckType":5,"arrangement":[219,216,185,199,205,153,201,145,147,202,165,146,204,155,150,168,189,183,156,195,142,188,152,223,196,218,190,221,178,191,164,224,194,144,193,209,211,222,166,215,171,159,187,212,161,180,162,175,148,167,141,157,169,208,149,220,177,181,203,214,192,158,186,213,154,182,200,151,143,160,207,170,210,179,206,173,184,225,172,197,217]} 
+ Recived From Player 1 03:51:28 $REGISTER_PASSIVE_ITEM:  
+
+ {"cardId":176} 
+ Recived From Player 1 03:51:28 $MOVE_CARD:  
+
+ {"moveIndex":9,"cardId":176,"placeID":1,"flipIfFlipped":true,"playerId":1,"placeType":"Desk"} 
+ Recived From Player 1 03:51:28 $ADD_AN_ITEM:  
+
+ {"playerId":1,"cardId":176,"isReward":true} 
+ Recived From Player 1 03:51:28 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":176}],"result":true,"preventMethod":false,"methodScopeId":329,"scopeIsPlayer":true,"index":2,"originStackId":-1},"isAfterActivation":true,"index":2} 
+ Recived From Player 1 03:51:51 $NEXT_STACK_ID:  
+ Recived From Player 1 03:51:51 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":329,"attackingPlayerCardId":329,"idOfCardBeingAttacked":251,"stackEffectType":4,"lable":"Player 1 declared attack on Cursed Tumor"}} 
+ Recived From Player 1 03:51:51 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":329,"attackingPlayerCardId":329,"idOfCardBeingAttacked":251,"stackEffectType":4,"lable":"Player 1 declared attack on Cursed Tumor"}} 
+ Recived From Player 1 03:51:51 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 03:51:51 $SHOW_STACK_EFFECT:  
+
+ {"effectId":2} 
+ Recived From Player 1 03:51:54 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":10,"_text":"Add Player Declare Attack On Monster 2 "}} 
+ Recived From Player 1 03:51:54 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 03:51:54 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":329,"attackingPlayerCardId":329,"idOfCardBeingAttacked":251,"stackEffectType":4,"lable":"Player 1 declared attack on Cursed Tumor"}} 
+ Recived From Player 1 03:51:54 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":11,"_text":"Response Adding Player Declare Attack On Monster 2"},"childOfId":10} 
+ Recived From Player 1 03:51:54 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":12,"_text":"Wait For Response From Player 1 "},"childOfId":10} 
+ Recived From Player 1 03:51:54 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 03:51:54 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":12} 
+ Recived From Player 1 03:51:54 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":13,"_text":"Wait For Response From Player 2 "},"childOfId":10} 
+ Recived From Player 1 03:51:54 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 03:51:54 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 03:51:54 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":13} 
+ Recived From Player 1 03:51:54 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":11} 
+ Recived From Player 1 03:51:54 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":14,"_text":"Resolve Player Declare Attack On Monster 2 "}} 
+ Recived From Player 1 03:51:54 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":2,"creatorCardId":329,"attackingPlayerCardId":329,"idOfCardBeingAttacked":251,"stackEffectType":4,"lable":"Player 1 declared attack on Cursed Tumor"}]} 
+ Recived From Player 1 03:51:54 $ACTIVATE_PARTICLE_EFFECT:  
+
+ {"cardId":251,"particleType":5} 
+ Recived From Player 1 03:51:54 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":2,"text":"Player 1 Has Entered Battle with Cursed Tumor"} 
+ Recived From Player 1 03:51:54 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_DECLARE_ATTACK","args":[],"result":null,"preventMethod":false,"methodScopeId":329,"scopeIsPlayer":true,"index":3,"originStackId":2},"isAfterActivation":true,"index":3} 
+ Recived From Player 1 03:51:54 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":329,"attackingPlayerCardId":329,"idOfCardBeingAttacked":251,"stackEffectType":4,"lable":"Player 1 Has Entered Battle with Cursed Tumor"}} 
+ Recived From Player 1 03:51:54 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 03:51:54 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 03:51:54 $SHOW_STACK_EFFECT:  
+
+ {"effectId":2} 
+ Recived From Player 1 03:51:57 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":2} 
+ Recived From Player 1 03:51:57 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":15,"_text":"Remove After Resolve Player Declare Attack On Monster 2  "}} 
+ Recived From Player 1 03:51:57 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":329,"attackingPlayerCardId":329,"idOfCardBeingAttacked":251,"stackEffectType":4,"lable":"Player 1 Has Entered Battle with Cursed Tumor"}} 
+ Recived From Player 1 03:51:57 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":16,"_text":"Response Remove After Resolve Player Declare Attack On Monster 2"},"childOfId":15} 
+ Recived From Player 1 03:51:57 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":17,"_text":"Wait For Response From Player 2 "},"childOfId":15} 
+ Recived From Player 1 03:51:57 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 03:51:57 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 03:51:57 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":17} 
+ Recived From Player 1 03:51:57 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":18,"_text":"Wait For Response From Player 1 "},"childOfId":15} 
+ Recived From Player 1 03:51:57 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 03:51:57 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":18} 
+ Recived From Player 1 03:51:58 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":16} 
+ Recived From Player 1 03:51:58 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":19,"_text":"Stack Was Emptied "}} 
+ Recived From Player 1 03:51:58 $CLEAR_SE_VIS:  
+ Recived From Player 1 03:51:59 $NEXT_STACK_ID:  
+ Recived From Player 1 03:51:59 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":329,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":251,"lable":"Player 1 is rolling against Cursed Tumor<Monster>"}} 
+ Recived From Player 1 03:51:59 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":329,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":251,"lable":"Player 1 is rolling against Cursed Tumor<Monster>"}} 
+ Recived From Player 1 03:51:59 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 03:51:59 $SHOW_STACK_EFFECT:  
+
+ {"effectId":3} 
+ Recived From Player 1 03:52:02 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":20,"_text":"Add Player Attack Roll On Monster 3 "}} 
+ Recived From Player 1 03:52:02 $ROLL_DICE:  
+
+ {"playerId":1} 
+ Recived From Player 1 03:52:04 $ROLL_DICE_ENDED:  
+
+ {"playerId":1,"numberRolled":2} 
+ Recived From Player 1 03:52:04 $UPDATE_STACK_VIS:  
+
+ {"stackId":3,"text":"player rolled 2 vs Cursed Tumor<Monster>"} 
+ Recived From Player 1 03:52:04 $SHOW_DICE_ROLL:  
+
+ {"stackId":3} 
+ Recived From Player 1 03:52:07 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":3,"text":"Player 1 rolled 2 vs Cursed Tumor<Monster>"} 
+ Recived From Player 1 03:52:07 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 03:52:07 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":329,"numberRolled":2,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":251,"lable":"Player 1 rolled 2 vs Cursed Tumor<Monster>"}} 
+ Recived From Player 1 03:52:07 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":21,"_text":"Response Adding Player Attack Roll On Monster 3"},"childOfId":20} 
+ Recived From Player 1 03:52:07 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":22,"_text":"Wait For Response From Player 1 "},"childOfId":20} 
+ Recived From Player 1 03:52:07 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 03:52:07 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":22} 
+ Recived From Player 1 03:52:07 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":23,"_text":"Wait For Response From Player 2 "},"childOfId":20} 
+ Recived From Player 1 03:52:07 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 03:52:07 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 03:52:08 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":23} 
+ Recived From Player 1 03:52:08 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":21} 
+ Recived From Player 1 03:52:08 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":24,"_text":"Resolve Player Attack Roll On Monster 3 "}} 
+ Recived From Player 1 03:52:08 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":3,"creatorCardId":329,"numberRolled":2,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":251,"lable":"Player 1 rolled 2 vs Cursed Tumor<Monster>"}]} 
+ Recived From Player 1 03:52:08 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":25,"_text":"Added 0 to original roll"}} 
+ Recived From Player 1 03:52:08 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":3,"text":"Player 1 Rolled 2 Against Cursed Tumor<Monster> 4"} 
+ Recived From Player 1 03:52:08 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":3,"text":"Player 1 Roll Miss"} 
+ Recived From Player 1 03:52:08 $NEXT_STACK_ID:  
+ Recived From Player 1 03:52:08 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 03:52:08 $CLEAR_SE_VIS:  
+ Recived From Player 1 03:52:08 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":4,"creatorCardId":329,"entityToDoDamageCardId":251,"entityToTakeDamageCardId":329,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":2,"lable":"Cursed Tumor is going to hurt Cain"}} 
+ Recived From Player 1 03:52:08 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":329,"numberRolled":2,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":251,"lable":"Player 1 Roll Miss"}} 
+ Recived From Player 1 03:52:08 $REPLACE_STACK:  
+
+ {"currentStack":[{"entityId":4,"creatorCardId":329,"entityToDoDamageCardId":251,"entityToTakeDamageCardId":329,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":2,"lable":"Cursed Tumor is going to hurt Cain"},{"entityId":3,"creatorCardId":329,"numberRolled":2,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":251,"lable":"Player 1 Roll Miss"}]} 
+ Recived From Player 1 03:52:08 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 03:52:08 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ROLL_DICE","args":[{"type":2,"number":2},{"type":2,"number":2},{"type":2,"number":4}],"result":null,"preventMethod":false,"methodScopeId":329,"scopeIsPlayer":true,"index":4,"originStackId":3},"isAfterActivation":true,"index":4} 
+ Recived From Player 1 03:52:08 $NEXT_STACK_ID:  
+ Recived From Player 1 03:52:08 $ADD_TO_STACK:  
+
+ {"stackEffect":{"effectCollectedData":null,"entityId":5,"creatorCardId":329,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":176,"effectToDo":{"effectName":"DeactivateItem","cardEffectNum":0,"cardPlayerId":1,"cardId":176,"effctType":0},"isAfterActivation":true,"index":4,"hasDataBeenCollectedYet":false,"stackEffectType":14,"lable":"Activate Hourglass Effect DeactivateITem<DeactivateITem>"}} 
+ Recived From Player 1 03:52:08 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"effectCollectedData":null,"entityId":5,"creatorCardId":329,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":176,"effectToDo":{"effectName":"DeactivateItem","cardEffectNum":0,"cardPlayerId":1,"cardId":176,"effctType":0},"isAfterActivation":true,"index":4,"hasDataBeenCollectedYet":false,"stackEffectType":14,"lable":"Activate Hourglass Effect DeactivateITem<DeactivateITem>"}} 
+ Recived From Player 1 03:52:08 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 03:52:08 $SHOW_STACK_EFFECT:  
+
+ {"effectId":5} 
+ Recived From Player 1 03:52:11 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":26,"_text":"Add Activate Passive Effect 5 "}} 
+ Recived From Player 1 03:52:28 $SHOW_ANNOUNCEMENT:  
+
+ {"text":"Player 1 is Choosing Target"} 
+ Recived From Player 1 03:52:31 $HIDE_ANNOUNCEMENT:  
+ Recived From Player 1 03:52:31 $SHOW_DECISION:  
+
+ {"startCardId":176,"endCardId":331} 
+ Recived From Player 1 03:52:34 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":5,"text":"Activate Hourglass effect DeactivateITem<DeactivateITem>"} 
+ Recived From Player 1 03:52:34 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"effectCollectedData":{"effectTargets":[331],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":329,"effectCardPlayer":329},"entityId":5,"creatorCardId":329,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":176,"effectToDo":{"effectName":"DeactivateItem","cardEffectNum":0,"cardPlayerId":1,"cardId":176,"effctType":0},"isAfterActivation":true,"index":4,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activate Hourglass effect DeactivateITem<DeactivateITem>"}} 
+ Recived From Player 1 03:52:34 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":27,"_text":"Response Adding Activate Passive Effect 5"},"childOfId":26} 
+ Recived From Player 1 03:52:34 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":28,"_text":"Wait For Response From Player 1 "},"childOfId":26} 
+ Recived From Player 1 03:52:34 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 03:52:34 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":28} 
+ Recived From Player 1 03:52:34 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":29,"_text":"Wait For Response From Player 2 "},"childOfId":26} 
+ Recived From Player 1 03:52:34 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 03:52:34 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 03:52:34 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":29} 
+ Recived From Player 1 03:52:34 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":27} 
+ Recived From Player 1 03:52:34 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":30,"_text":"Resolve Activate Passive Effect 5 "}} 
+ Recived From Player 1 03:52:34 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":3,"creatorCardId":329,"numberRolled":2,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":251,"lable":"Player 1 Roll Miss"},{"effectCollectedData":{"effectTargets":[331],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":329,"effectCardPlayer":329},"entityId":5,"creatorCardId":329,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":176,"effectToDo":{"effectName":"DeactivateItem","cardEffectNum":0,"cardPlayerId":1,"cardId":176,"effctType":0},"isAfterActivation":true,"index":4,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activate Hourglass effect DeactivateITem<DeactivateITem>"}]} 
+ Recived From Player 1 03:52:34 $ACTIVATE_PARTICLE_EFFECT:  
+
+ {"cardId":176,"particleType":6} 
+ Recived From Player 1 03:52:36 $DISABLE_PARTICLE_EFFECT:  
+
+ {"cardId":176,"particleType":6} 
+ Recived From Player 1 03:52:36 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ROLL_DICE","args":[{"type":2,"number":2},{"type":2,"number":2},{"type":2,"number":4}],"result":null,"preventMethod":false,"methodScopeId":329,"scopeIsPlayer":true,"index":4,"originStackId":3},"isAfterActivation":true,"index":4} 
+ Recived From Player 1 03:52:36 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":5,"text":"Activated Hourglass Effect"} 
+ Recived From Player 1 03:52:36 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"effectCollectedData":{"effectTargets":[331],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":329,"effectCardPlayer":329},"entityId":5,"creatorCardId":329,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":176,"isAfterActivation":true,"index":4,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activated Hourglass Effect"}} 
+ Recived From Player 1 03:52:36 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":3,"creatorCardId":329,"numberRolled":2,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":251,"lable":"Player 1 Roll Miss"}]} 
+ Recived From Player 1 03:52:36 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 03:52:36 $SHOW_STACK_EFFECT:  
+
+ {"effectId":5} 
+ Recived From Player 1 03:52:39 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":5} 
+ Recived From Player 1 03:52:39 $SHOW_STACK_EFFECT:  
+
+ {"effectId":4} 
+ Recived From Player 1 03:52:42 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":31,"_text":"Remove After Resolve Activate Passive Effect 5  "}} 
+ Recived From Player 1 03:52:42 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"effectCollectedData":{"effectTargets":[331],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":329,"effectCardPlayer":329},"entityId":5,"creatorCardId":329,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":176,"isAfterActivation":true,"index":4,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activated Hourglass Effect"}} 
+ Recived From Player 1 03:52:42 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":32,"_text":"Response Remove After Resolve Activate Passive Effect 5"},"childOfId":31} 
+ Recived From Player 1 03:52:42 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":33,"_text":"Wait For Response From Player 2 "},"childOfId":31} 
+ Recived From Player 1 03:52:42 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 03:52:42 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 03:52:42 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":33} 
+ Recived From Player 1 03:52:42 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":34,"_text":"Wait For Response From Player 1 "},"childOfId":31} 
+ Recived From Player 1 03:52:42 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 03:52:42 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":34} 
+ Recived From Player 1 03:52:42 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":32} 
+ Recived From Player 1 03:52:42 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":35,"_text":"Resolve Player Attack Roll On Monster 3 "}} 
+ Recived From Player 1 03:52:42 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":329,"numberRolled":2,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":251,"lable":"Player 1 Roll Miss"}} 
+ Recived From Player 1 03:52:42 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 03:52:42 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 03:52:43 $SHOW_STACK_EFFECT:  
+
+ {"effectId":3} 
+ Recived From Player 1 03:52:45 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":3} 
+ Recived From Player 1 03:52:45 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":36,"_text":"Remove After Resolve Player Attack Roll On Monster 3  "}} 
+ Recived From Player 1 03:52:45 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":329,"numberRolled":2,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":251,"lable":"Player 1 Roll Miss"}} 
+ Recived From Player 1 03:52:45 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":37,"_text":"Response Remove After Resolve Player Attack Roll On Monster 3"},"childOfId":36} 
+ Recived From Player 1 03:52:45 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":38,"_text":"Wait For Response From Player 1 "},"childOfId":36} 
+ Recived From Player 1 03:52:45 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 03:52:45 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":38} 
+ Recived From Player 1 03:52:45 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":39,"_text":"Wait For Response From Player 2 "},"childOfId":36} 
+ Recived From Player 1 03:52:46 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 03:52:46 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 03:52:46 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":39} 
+ Recived From Player 1 03:52:46 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":37} 
+ Recived From Player 1 03:52:46 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":40,"_text":"Resolve Monster Combat Damage To A Player 4 "}} 
+ Recived From Player 1 03:52:46 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":4,"creatorCardId":329,"entityToDoDamageCardId":251,"entityToTakeDamageCardId":329,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":2,"lable":"Cursed Tumor is going to hurt Cain"}]} 
+ Recived From Player 1 03:52:46 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":4,"text":"Cursed Tumor Is Going To Hurt Cain For 1 DMG "} 
+ Recived From Player 1 03:52:46 $UPDATE_STACK_VIS:  
+
+ {"stackId":4,"text":"Cursed Tumor will deal 1 combat damage to Cain"} 
+ Recived From Player 1 03:52:46 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":4,"text":"Cursed Tumor will deal 1 combat damage to Cain"} 
+ Recived From Player 1 03:52:46 $PLAYER_GET_HIT:  
+
+ {"playerId":1,"damage":1,"damageDealerId":251} 
+ Recived From Player 1 03:52:46 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_GET_HIT","args":[{"type":2,"number":1},{"type":0,"number":251},{"type":2,"number":true}],"result":null,"preventMethod":false,"methodScopeId":329,"scopeIsPlayer":true,"index":5,"originStackId":-1},"isAfterActivation":true,"index":5} 
+ Recived From Player 1 03:52:46 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_COMBAT_DAMAGE_TAKEN","args":[{"type":2,"number":1},{"type":2,"number":2},{"type":0,"number":251}],"result":null,"preventMethod":false,"methodScopeId":329,"scopeIsPlayer":true,"index":6,"originStackId":4},"isAfterActivation":true,"index":6} 
+ Recived From Player 1 03:52:46 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":4,"creatorCardId":329,"entityToDoDamageCardId":251,"entityToTakeDamageCardId":329,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":2,"lable":"Cursed Tumor will deal 1 combat damage to Cain"}} 
+ Recived From Player 1 03:52:46 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 03:52:46 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 03:52:46 $SHOW_STACK_EFFECT:  
+
+ {"effectId":4} 
+ Recived From Player 1 03:52:49 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":4} 
+ Recived From Player 1 03:52:49 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":41,"_text":"Remove After Resolve Monster Combat Damage To A Player 4  "}} 
+ Recived From Player 1 03:52:49 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":4,"creatorCardId":329,"entityToDoDamageCardId":251,"entityToTakeDamageCardId":329,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":2,"lable":"Cursed Tumor will deal 1 combat damage to Cain"}} 
+ Recived From Player 1 03:52:49 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":42,"_text":"Response Remove After Resolve Monster Combat Damage To A Player 4"},"childOfId":41} 
+ Recived From Player 1 03:52:49 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":43,"_text":"Wait For Response From Player 2 "},"childOfId":41} 
+ Recived From Player 1 03:52:49 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 03:52:49 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 03:52:49 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":43} 
+ Recived From Player 1 03:52:49 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":44,"_text":"Wait For Response From Player 1 "},"childOfId":41} 
+ Recived From Player 1 03:52:49 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 03:52:49 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":44} 
+ Recived From Player 1 03:52:49 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":42} 
+ Recived From Player 1 03:52:49 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":45,"_text":"Stack Was Emptied "}} 
+ Recived From Player 1 03:52:49 $CLEAR_SE_VIS: 

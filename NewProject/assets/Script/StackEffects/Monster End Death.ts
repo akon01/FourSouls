@@ -1,7 +1,6 @@
-import { CARD_TYPE, GAME_EVENTS, STACK_EFFECT_TYPE } from "../Constants";
+import { CARD_TYPE, STACK_EFFECT_TYPE } from "../Constants";
 import Monster from "../Entites/CardTypes/Monster";
-import Player from "../Entites/GameEntities/Player";
-import Stack from "../Entites/Stack";
+import Card from "../Entites/GameEntities/Card";
 import CardManager from "../Managers/CardManager";
 import PileManager from "../Managers/PileManager";
 import PlayerManager from "../Managers/PlayerManager";
@@ -10,10 +9,6 @@ import ServerMonsterEndDeath from "./ServerSideStackEffects/Server Monster End D
 import StackEffectConcrete from "./StackEffectConcrete";
 import StackEffectInterface from "./StackEffectInterface";
 import { MonsterDeathVis } from "./StackEffectVisualRepresentation/Monster Death Vis";
-import { whevent } from "../../ServerClient/whevent";
-import Card from "../Entites/GameEntities/Card";
-import ServerClient from "../../ServerClient/ServerClient";
-import Signal from "../../Misc/Signal";
 
 export default class MonsterEndDeath extends StackEffectConcrete {
     visualRepesentation: MonsterDeathVis;
@@ -47,8 +42,6 @@ export default class MonsterEndDeath extends StackEffectConcrete {
 
     constructor(creatorCardId: number, monsterWhoDied: cc.Node, entityId?: number, lable?: string) {
         super(creatorCardId, entityId)
-
-
         this.monsterWhoDied = monsterWhoDied.getComponent(Monster)
         this.visualRepesentation = new MonsterDeathVis(this.monsterWhoDied)
         this.visualRepesentation.stackEffectType = this.stackEffectType;

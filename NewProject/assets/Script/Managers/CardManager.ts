@@ -24,6 +24,7 @@ import PlayerManager from "./PlayerManager";
 import { whevent } from "../../ServerClient/whevent";
 import TurnsManager from "./TurnsManager";
 import PassiveManager from "./PassiveManager";
+import { CardSet } from "../Entites/Card Set";
 
 const { ccclass, property } = cc._decorator;
 
@@ -35,7 +36,7 @@ export default class CardManager extends cc.Component {
 
   static inDecksCards: cc.Node[] = [];
 
-  static allCards: cc.Node[] = [];
+  static allCards: CardSet = new CardSet()
 
   static allPlayers: cc.Node[] = [];
 
@@ -115,6 +116,8 @@ export default class CardManager extends cc.Component {
   @property(cc.Prefab)
   effectCounterPrefab: cc.Prefab = null
 
+
+
   static effectCounter: cc.Node = null;
 
   static $: CardManager = null
@@ -122,8 +125,9 @@ export default class CardManager extends cc.Component {
   static async init() {
     this.effectCounter = cc.instantiate(this.$.effectCounterPrefab)
     this.bonusDeck.active = false
+    cc.log(`start prefab Load`)
     const loaded = await this.preLoadPrefabs();
- 
+    cc.log(`end prefab Load`)
     // CardManager.CharItemCardPool = new cc.NodePool();
     // CardManager.extraSoulsCardPool = new cc.NodePool();
     // CardManager.lootCardPool = new cc.NodePool();
@@ -138,21 +142,28 @@ export default class CardManager extends cc.Component {
 
     const decks: Deck[] = [lootDeckComp, treasureDeckComp, monsterDeckComp, bonusSouls];
 
-    for (let i = 0; i < decks.length; i++) {
-      const deck = decks[i];
-      cc.log(this.$.effectCounterPrefab.isValid)
-      this.makeDeckCards(deck);
-    }
+    // for (let i = 0; i < decks.length; i++) {
+    //   const deck = decks[i];
+    //   this.makeDeckCards(deck);
+    // }
 
-    this.makeCharDeck();
-    cc.loader.releaseResDir("Prefabs/CharacterCards/CharCardsPrefabs", cc.Prefab)
-    cc.loader.releaseResDir("Prefabs/CharacterCards/CharItemCards", cc.Prefab)
+    // this.makeCharDeck();
+    this.sendCardInfoToServer()
+
     cc.loader.releaseResDir("Sprites/CardBacks", cc.Prefab)
-    cc.loader.releaseResDir("Prefabs/LootCards", cc.Prefab)
-    cc.loader.releaseResDir("Prefabs/TreasureCards", cc.Prefab)
-    cc.loader.releaseResDir("Prefabs/Complete Monster Cards", cc.Prefab)
-    cc.loader.releaseResDir("Prefabs/Bonus Souls", cc.Prefab)
+
+
+
     return true
+  }
+
+  static sendCardInfoToServer() {
+    const allCards = this.allCards.getCards()
+    const cardMap = []
+    allCards.forEach(card => {
+      cardMap.push({ cardId: card.getComponent(Card)._cardId, cardName: card.getComponent(Card).cardName })
+    })
+    ServerClient.$.send(Signal.SEND_CARD_DATA, { allCards: JSON.stringify(cardMap) })
   }
 
   static async registerBonusSouls() {
@@ -191,6 +202,11 @@ export default class CardManager extends cc.Component {
           const prefab = rsc[i];
           CardManager.charItemCardsPrefabs.push(prefab);
         }
+        CardManager.makeCharDeck()
+        cc.loader.releaseResDir("Prefabs/CharacterCards/CharCardsPrefabs", cc.Prefab)
+        cc.loader.releaseResDir("Prefabs/CharacterCards/CharItemCards", cc.Prefab)
+        CardManager.charCardsPrefabs = []
+        CardManager.charItemCardsPrefabs = []
         cc.loader.loadResDir(
           "Sprites/CardBacks",
           cc.SpriteFrame,
@@ -223,6 +239,8 @@ export default class CardManager extends cc.Component {
                 cc.log(urls)
               }
               CardManager.lootDeck.getComponent(Deck).cardsPrefab.push(...rsc)
+              CardManager.makeDeckCards(CardManager.lootDeck.getComponent(Deck))
+              cc.loader.releaseResDir("Prefabs/LootCards", cc.Prefab)
               cc.loader.loadResDir("Prefabs/TreasureCards", cc.Prefab, (err, rsc, urls) => {
                 if (err) {
                   cc.log(err)
@@ -230,6 +248,8 @@ export default class CardManager extends cc.Component {
                   cc.log(urls)
                 }
                 CardManager.treasureDeck.getComponent(Deck).cardsPrefab.push(...rsc)
+                CardManager.makeDeckCards(CardManager.treasureDeck.getComponent(Deck))
+                cc.loader.releaseResDir("Prefabs/TreasureCards", cc.Prefab)
                 cc.loader.loadResDir("Prefabs/Complete Monster Cards", cc.Prefab, (err, rsc, urls) => {
                   if (err) {
                     cc.log(err)
@@ -237,12 +257,17 @@ export default class CardManager extends cc.Component {
                     cc.log(urls)
                   }
                   CardManager.monsterDeck.getComponent(Deck).cardsPrefab.push(...rsc)
+                  CardManager.makeDeckCards(CardManager.monsterDeck.getComponent(Deck))
+                  cc.loader.releaseResDir("Prefabs/Complete Monster Cards", cc.Prefab)
                   cc.loader.loadResDir("Prefabs/Bonus Souls", cc.Prefab, (err, rsc, urls) => {
                     if (err) {
                       throw err
                     }
+                    cc.loader.releaseResDir("Prefabs/Bonus Souls", cc.Prefab)
                     CardManager.bonusDeck.getComponent(Deck).cardsPrefab.push(...rsc)
-
+                    CardManager.makeDeckCards(CardManager.bonusDeck.getComponent(Deck))
+                    cc.loader.releaseResDir("Prefabs/Bonus Souls", cc.Prefab)
+                    cc.log(`end bonus`)
                     whevent.emit(GAME_EVENTS.CARD_MANAGER_LOAD_PREFAB)
                   })
                   // CardManager.prefabLoaded = true;
@@ -291,7 +316,7 @@ export default class CardManager extends cc.Component {
    */
   static getCardById(cardId: number, includeInDecksCards?: boolean): cc.Node {
     for (let i = 0; i < CardManager.allCards.length; i++) {
-      const card: Card = CardManager.allCards[i].getComponent(Card);
+      const card: Card = CardManager.allCards.getCards()[i].getComponent(Card);
       if (card._cardId == cardId) {
         return card.node;
       }
@@ -364,7 +389,7 @@ export default class CardManager extends cc.Component {
   static getCardByName(name: string) {
     const regEx: RegExp = new RegExp(name, "i")
     for (let i = 0; i < CardManager.allCards.length; i++) {
-      const card: Card = CardManager.allCards[i].getComponent(Card);
+      const card: Card = CardManager.allCards.getCards()[i].getComponent(Card);
       if (card.cardName.search(regEx) != -1) {
         return card.node;
       }
@@ -467,16 +492,12 @@ export default class CardManager extends cc.Component {
       newCard.getComponent(Card).setSprites()
       if (cardComp.hasCounter) {
 
-        const cardEffectCounter = cc.instantiate(CardManager.effectCounter)
-        cc.log(cardEffectCounter)
-        cardEffectCounter.setPosition(0, 0)
-        cardComp.node.addChild(cardEffectCounter)
-        cardEffectCounter.getComponent(cc.Widget).updateAlignment()
-        cardComp._effectCounterLable = cardEffectCounter.getComponent(cc.Label)
+        cardComp.addCountLable()
       }
 
       // AnimationManager.addAnimationNode(newCard)
       this.addCardToDeck(newCard, deck)
+      this.allCards.push(newCard)
       if (cardComp.makeMultiCards) {
         for (let j = 0; j < cardComp.numOfCopies; j++) {
           const copyCard = cc.instantiate(newCard);
@@ -487,15 +508,13 @@ export default class CardManager extends cc.Component {
             copyCard.getComponent(Card).frontSprite = newCard.getComponent(Card).frontSprite
           }
           if (cardComp.hasCounter) {
-            const cardEffectCounter = cc.instantiate(CardManager.effectCounter)
-            cardComp.node.addChild(cardEffectCounter)
-            cardEffectCounter.getComponent(cc.Widget).updateAlignment()
-            cardComp._effectCounterLable = cardEffectCounter.getComponent(cc.Label)
+            cardComp.addCountLable()
           }
 
           copyCard.name = cardComp.node.name + `(${j})`
           copyCard.getComponent(Card).cardName = cardComp.cardName + `(${j})`
           this.addCardToDeck(copyCard, deck)
+          this.allCards.push(copyCard)
         }
       }
     }
@@ -814,10 +833,17 @@ export default class CardManager extends cc.Component {
 
     if (card.parent == null) {
       card.parent = this.$.onTableCardsHolder
+      if (!card.active) {
+        card.active = true
+      }
+      card.x = 0
+      card.y = 0
     }
 
     const originalPos = canvas.convertToNodeSpaceAR(card.parent.convertToWorldSpaceAR(card.getPosition()));
+    cc.log(originalPos)
     const movePos = canvas.convertToNodeSpaceAR(placeToMove.parent.convertToWorldSpaceAR(placeToMove.getPosition()))
+    cc.log(movePos)
     const moveAction = cc.moveTo(TIME_TO_DRAW, movePos);
     let animationIndex: number
     if (moveIndex == null || moveIndex == -1) {
@@ -851,10 +877,12 @@ export default class CardManager extends cc.Component {
         signal: Signal.MOVE_CARD,
         srvData: { moveIndex: animationIndex, cardId: card.getComponent(Card)._cardId, placeID: placeId, flipIfFlipped: flipIfFlipped, firstPos: firstPos, playerId: PlayerManager.mePlayer.getComponent(Player).playerId, placeType: placeType },
       };
+      cc.log(`b4 run action`)
       card.runAction(cc.spawn(moveAction, cc.callFunc(() => {
+        cc.log(`in send to server`)
         ServerClient.$.send(serverData.signal, serverData.srvData)
       }, this)))
-
+      cc.log(`after run action`)
       await this.waitForMoveAnimationEnd(animationIndex)
       if (flipIfFlipped && card.getComponent(Card)._isFlipped) {
         await card.getComponent(Card).flipCard(false)

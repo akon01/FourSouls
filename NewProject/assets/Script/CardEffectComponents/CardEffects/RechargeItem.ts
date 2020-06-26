@@ -18,19 +18,17 @@ export default class RechargeItem extends Effect {
    * @param data {target:PlayerId}
    */
   async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
-    let targetItem
-    cc.log(data)
-    targetItem = data.getTarget(TARGETTYPE.ITEM);
-    if (targetItem == null) {
-      targetItem = data.getTarget(TARGETTYPE.PLAYER)
-      if (targetItem == null) {
-        throw new Error(`no item to recharge`)
+    let targetItems = data.getTargets(TARGETTYPE.ITEM) as cc.Node[];
+    if (targetItems.length == 0) {
+      targetItems = data.getTargets(TARGETTYPE.PLAYER) as cc.Node[]
+      if (targetItems.length == 0) {
+        throw new Error(`no items to recharge`)
       }
     }
-    const cardPlayer = PlayerManager.getPlayerByCard(targetItem);
-    await cardPlayer.rechargeItem(targetItem, true);
-
-
+    for (const targetItem of targetItems) {
+      const cardPlayer = PlayerManager.getPlayerByCard(targetItem);
+      await cardPlayer.rechargeItem(targetItem, true);
+    }
 
     if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack

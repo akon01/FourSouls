@@ -108,6 +108,7 @@ export default class ServerClient extends cc.Component {
     whevent.on(Signal.START_TURN, this.onPlayerActionFromServer, this);
     whevent.on(Signal.PLAYER_HEAL, this.onPlayerActionFromServer, this);
     whevent.on(Signal.PLAYER_ADD_DMG_PREVENTION, this.onPlayerActionFromServer, this);
+    whevent.on(Signal.PLAYER_DIED, this.onPlayerActionFromServer, this);
 
     //monster events
     whevent.on(Signal.MONSTER_GAIN_DMG, this.onPlayerActionFromServer, this);

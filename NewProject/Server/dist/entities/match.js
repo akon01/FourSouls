@@ -8,9 +8,12 @@ var signal_1 = require("../enums/signal");
 var server_1 = require("../server");
 var Logger_1 = require("../utils/Logger");
 var utils_1 = require("../utils/utils");
+var dataParser_1 = require("./dataParser");
 var MIID = 0;
 var Match = /** @class */ (function () {
     function Match() {
+        this.cards = [];
+        this.parser = null;
         this.loadedPlayers = 0;
         this.level = 0;
         this.firstPlayerId = 0;
@@ -26,6 +29,7 @@ var Match = /** @class */ (function () {
         }
         else {
             var match = new Match();
+            match.parser = new dataParser_1["default"](match);
             server_1["default"].$.logger = new Logger_1.Logger();
             Match.pendingMatches.push(match);
             return match;
@@ -39,6 +43,11 @@ var Match = /** @class */ (function () {
                 player.send(signal, data);
             }
         }
+    };
+    Match.prototype.getCardById = function (id) {
+        if (this.cards.length == 0)
+            return null;
+        return this.cards.find(function (c) { return c.cardId == id; });
     };
     Match.prototype.getPlayerById = function (id) {
         for (var i = 0; i < this.players.length; i++) {
@@ -80,16 +89,15 @@ var Match = /** @class */ (function () {
         }
     };
     Match.prototype.start = function () {
-        var _this = this;
         if (this.running) {
             return;
         }
         console.log("starting match");
         this.running = true;
         this.broadcast(signal_1["default"].START_GAME, {});
-        setTimeout(function () {
-            _this.timeup();
-        }, this.time * 1000);
+        // setTimeout(() => {
+        //   this.timeup();
+        // }, this.time * 1000);
         this.close();
     };
     Match.prototype.stop = function () {

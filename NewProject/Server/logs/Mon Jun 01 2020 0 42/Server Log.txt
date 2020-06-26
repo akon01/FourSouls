@@ -1,0 +1,625 @@
+Start Log 
+
+ Player 1 00:42:30 $MATCH:  
+
+ Player 1 00:42:30 $START_GAME:  
+
+ Player 1 00:42:30 $MOVE_TO_TABLE:  
+
+ Player 2 00:42:30 $MOVE_TO_TABLE:  
+
+ Player 2 00:42:38 $FINISH_LOAD:  
+{"id":2,"turnPlayerId":2} 
+
+ Player 1 00:42:39 $FINISH_LOAD:  
+{"id":1,"turnPlayerId":2} 
+
+ Player 2 00:42:39 $SET_CHAR:  
+{"originPlayerId":2,"playerId":1,"charCardId":330,"itemCardId":331} 
+
+ Player 1 00:42:39 $ASSIGN_CHAR_TO_PLAYER:  
+{"playerId":1,"charCardId":330,"itemCardId":331} 
+
+ Player 1 00:42:39 $SET_CHAR_END:  
+{"playerId":2} 
+
+ Player 2 00:42:39 $ASSIGN_CHAR_TO_PLAYER:  
+{"playerId":2,"charCardId":328,"itemCardId":329} 
+
+ Player 2 00:42:39 $DECK_ARRAGMENT:  
+{"deckType":1,"arrangement":[123,50,39,45,19,41,31,68,76,79,61,34,52,100,110,72,65,17,84,132,136,105,30,128,125,86,47,27,28,95,75,26,66,108,102,117,59,97,6,49,70,73,118,29,46,44,134,21,42,107,71,20,126,5,67,57,38,93,81,101,89,37,120,103,63,18,82,35,104,53,16,15,80,114,9,109,116,92,139,127,54,115,10,135,8,32,87,111,131,106,40,12,94,137,124,11,96,121,36,24,62,33,7,85,112,51,13,64,4,25,99,69,56,90,98,60,43,48,129,74,119,113,122,14,83,23,138,22,55,133,130,91,58,78,88,77]} 
+
+ Player 2 00:42:39 $DECK_ARRAGMENT:  
+{"deckType":2,"arrangement":[256,308,257,254,230,320,313,264,311,242,248,299,323,271,314,282,253,286,236,265,245,304,298,229,281,237,289,315,244,310,297,228,287,295,239,275,251,284,279,234,240,249,276,262,312,317,293,318,266,294,252,267,259,246,291,268,243,269,303,241,319,292,233,270,235,277,307,280,309,278,283,258,296,232,227,273,305,321,261,274,255,231,316,263,238,250,322,285,300,260,301,288,290,272,306,302,247]} 
+
+ Player 2 00:42:39 $DECK_ARRAGMENT:  
+{"deckType":5,"arrangement":[178,158,146,200,219,199,179,162,166,168,190,195,225,175,183,149,143,144,204,154,221,197,157,170,171,218,194,151,222,159,208,164,185,145,177,152,187,193,169,189,156,192,155,163,147,198,153,211,165,213,214,142,184,172,160,181,205,210,176,196,161,182,216,141,202,207,217,201,148,188,203,215,220,224,206,191,167,209,174,212,223,180,150,173,186]} 
+
+ Player 2 00:42:39 $DRAW_CARD:  
+{"deckType":5} 
+
+ Player 2 00:42:39 $FLIP_CARD:  
+{"cardId":186} 
+
+ Player 2 00:42:39 $ADD_STORE_CARD:  
+{"cardId":186} 
+
+ Player 2 00:42:39 $DRAW_CARD:  
+{"deckType":5} 
+
+ Player 2 00:42:39 $FLIP_CARD:  
+{"cardId":173} 
+
+ Player 2 00:42:39 $ADD_STORE_CARD:  
+{"cardId":173} 
+
+ Player 2 00:42:39 $DRAW_CARD:  
+{"deckType":2} 
+
+ Player 2 00:42:39 $FLIP_CARD:  
+{"cardId":247} 
+
+ Player 2 00:42:40 $REGISTER_PASSIVE_ITEM:  
+{"cardId":247} 
+
+ Player 2 00:42:40 $ADD_MONSTER:  
+{"monsterPlaceId":1,"monsterId":247} 
+
+ Player 2 00:42:40 $NEW_MONSTER_ON_PLACE:  
+{"cardId":247,"monsterPlaceId":1} 
+
+ Player 2 00:42:40 $DRAW_CARD:  
+{"deckType":2} 
+
+ Player 2 00:42:40 $FLIP_CARD:  
+{"cardId":302} 
+
+ Player 2 00:42:40 $REGISTER_PASSIVE_ITEM:  
+{"cardId":302} 
+
+ Player 2 00:42:40 $ADD_MONSTER:  
+{"monsterPlaceId":2,"monsterId":302} 
+
+ Player 2 00:42:40 $NEW_MONSTER_ON_PLACE:  
+{"cardId":302,"monsterPlaceId":2} 
+
+ Player 2 00:42:40 $REGISTER_PASSIVE_ITEM:  
+{"cardId":325} 
+
+ Player 2 00:42:40 $REGISTER_PASSIVE_ITEM:  
+{"cardId":326} 
+
+ Player 2 00:42:40 $REGISTER_PASSIVE_ITEM:  
+{"cardId":327} 
+
+ Player 2 00:42:40 $SET_MONEY:  
+{"playerId":1,"numOfCoins":3} 
+
+ Player 2 00:42:40 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":3}],"result":null,"preventMethod":false,"methodScopeId":330,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+
+ Player 2 00:42:40 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 00:42:40 $MOVE_CARD:  
+{"moveIndex":1,"cardId":77,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 00:42:40 $MOVE_CARD_END:  
+{"moveIndex":1,"cardId":77,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 00:42:40 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":77} 
+
+ Player 2 00:42:40 $FLIP_CARD:  
+{"cardId":77} 
+
+ Player 2 00:42:40 $FLIP_CARD:  
+{"cardId":77} 
+
+ Player 2 00:42:40 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":77} 
+
+ Player 2 00:42:40 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":77}],"result":null,"preventMethod":false,"methodScopeId":330,"scopeIsPlayer":true,"index":2,"originStackId":-1},"isAfterActivation":true,"index":2} 
+
+ Player 2 00:42:40 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 00:42:40 $MOVE_CARD:  
+{"moveIndex":2,"cardId":88,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 00:42:41 $MOVE_CARD_END:  
+{"moveIndex":2,"cardId":88,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 00:42:41 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":88} 
+
+ Player 2 00:42:41 $FLIP_CARD:  
+{"cardId":88} 
+
+ Player 2 00:42:41 $FLIP_CARD:  
+{"cardId":88} 
+
+ Player 2 00:42:41 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":88} 
+
+ Player 2 00:42:41 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":88}],"result":null,"preventMethod":false,"methodScopeId":330,"scopeIsPlayer":true,"index":3,"originStackId":-1},"isAfterActivation":true,"index":3} 
+
+ Player 2 00:42:41 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 00:42:41 $MOVE_CARD:  
+{"moveIndex":3,"cardId":78,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 00:42:41 $MOVE_CARD_END:  
+{"moveIndex":3,"cardId":78,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 00:42:41 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":78} 
+
+ Player 2 00:42:42 $FLIP_CARD:  
+{"cardId":78} 
+
+ Player 2 00:42:42 $FLIP_CARD:  
+{"cardId":78} 
+
+ Player 2 00:42:42 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":78} 
+
+ Player 2 00:42:42 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":78}],"result":null,"preventMethod":false,"methodScopeId":330,"scopeIsPlayer":true,"index":4,"originStackId":-1},"isAfterActivation":true,"index":4} 
+
+ Player 2 00:42:42 $SET_MONEY:  
+{"playerId":2,"numOfCoins":3} 
+
+ Player 2 00:42:42 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":3}],"result":null,"preventMethod":false,"methodScopeId":328,"scopeIsPlayer":true,"index":5,"originStackId":-1},"isAfterActivation":true,"index":5} 
+
+ Player 2 00:42:42 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 00:42:42 $MOVE_CARD:  
+{"moveIndex":4,"cardId":58,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 00:42:42 $MOVE_CARD_END:  
+{"moveIndex":4,"cardId":58,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 00:42:42 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":58} 
+
+ Player 2 00:42:42 $FLIP_CARD:  
+{"cardId":58} 
+
+ Player 2 00:42:42 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":58} 
+
+ Player 2 00:42:42 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":58}],"result":null,"preventMethod":false,"methodScopeId":328,"scopeIsPlayer":true,"index":6,"originStackId":-1},"isAfterActivation":true,"index":6} 
+
+ Player 2 00:42:42 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 00:42:42 $MOVE_CARD:  
+{"moveIndex":5,"cardId":91,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 00:42:43 $MOVE_CARD_END:  
+{"moveIndex":5,"cardId":91,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 00:42:43 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":91} 
+
+ Player 2 00:42:43 $FLIP_CARD:  
+{"cardId":91} 
+
+ Player 2 00:42:43 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":91} 
+
+ Player 2 00:42:43 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":91}],"result":null,"preventMethod":false,"methodScopeId":328,"scopeIsPlayer":true,"index":7,"originStackId":-1},"isAfterActivation":true,"index":7} 
+
+ Player 2 00:42:43 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 00:42:43 $MOVE_CARD:  
+{"moveIndex":6,"cardId":130,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 00:42:43 $MOVE_CARD_END:  
+{"moveIndex":6,"cardId":130,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 00:42:43 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":130} 
+
+ Player 2 00:42:43 $FLIP_CARD:  
+{"cardId":130} 
+
+ Player 2 00:42:43 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":130} 
+
+ Player 2 00:42:43 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":130}],"result":null,"preventMethod":false,"methodScopeId":328,"scopeIsPlayer":true,"index":8,"originStackId":-1},"isAfterActivation":true,"index":8} 
+
+ Player 2 00:42:43 $GAME_HAS_STARTED:  
+
+ Player 2 00:42:43 $SET_TURN:  
+{"playerId":1} 
+
+ Player 2 00:42:43 $START_TURN:  
+{"playerId":1} 
+
+ Player 2 00:42:43 $UPDATE_ACTIONS:  
+
+ Player 1 00:42:43 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 00:42:43 $NEXT_STACK_ID:  
+
+ Player 1 00:42:43 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":1,"creatorCardId":330,"turnPlayerCardId":330,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+
+ Player 1 00:42:43 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":1,"creatorCardId":330,"turnPlayerCardId":330,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+
+ Player 1 00:42:43 $SET_STACK_ICON:  
+{"iconIndex":0} 
+
+ Player 1 00:42:43 $SHOW_STACK_EFFECT:  
+{"effectId":1} 
+
+ Player 1 00:42:46 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":0,"_text":"Add Start Turn Loot Draw 1 "}} 
+
+ Player 1 00:42:46 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 00:42:46 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":1,"creatorCardId":330,"turnPlayerCardId":330,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+
+ Player 1 00:42:46 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":1,"_text":"Response Adding Start Turn Loot Draw 1"},"childOfId":0} 
+
+ Player 1 00:42:46 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":2,"_text":"Wait For Response From Player 1 "},"childOfId":0} 
+
+ Player 1 00:42:46 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 00:42:46 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":3,"_text":"Wait For Response From Player 2 "},"childOfId":0} 
+
+ Player 1 00:42:47 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 00:42:47 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 00:42:47 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[328,329]} 
+
+ Player 2 00:42:47 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 00:42:47 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":4,"_text":"Resolve Start Turn Loot Draw 1 "}} 
+
+ Player 1 00:42:47 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[{"entityId":1,"creatorCardId":330,"turnPlayerCardId":330,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}]} 
+
+ Player 1 00:42:47 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 1 00:42:47 $MOVE_CARD:  
+{"moveIndex":7,"cardId":133,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":1,"placeType":"Hand"} 
+
+ Player 2 00:42:47 $MOVE_CARD_END:  
+{"moveIndex":7,"cardId":133,"flipIfFlipped":false,"playerId":1} 
+
+ Player 1 00:42:47 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":133} 
+
+ Player 1 00:42:47 $FLIP_CARD:  
+{"cardId":133} 
+
+ Player 1 00:42:47 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":133} 
+
+ Player 1 00:42:47 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":133}],"result":null,"preventMethod":false,"methodScopeId":330,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+
+ Player 1 00:42:47 $STACK_EFFECT_LABLE_CHANGE:  
+{"stackId":1,"text":"Player 1 Has Drawn Loot For Start Turn"} 
+
+ Player 1 00:42:47 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":1,"creatorCardId":330,"turnPlayerCardId":330,"stackEffectType":13,"lable":"Player 1 Has Drawn Loot For Start Turn"}} 
+
+ Player 1 00:42:47 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[]} 
+
+ Player 1 00:42:47 $SET_STACK_ICON:  
+{"iconIndex":1} 
+
+ Player 1 00:42:47 $SHOW_STACK_EFFECT:  
+{"effectId":1} 
+
+ Player 1 00:42:50 $REMOVE_SE_VIS_PREV:  
+{"stackEffectId":1} 
+
+ Player 1 00:42:50 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":5,"_text":"Remove After Resolve Start Turn Loot Draw 1  "}} 
+
+ Player 1 00:42:50 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":1,"creatorCardId":330,"turnPlayerCardId":330,"stackEffectType":13,"lable":"Player 1 Has Drawn Loot For Start Turn"}} 
+
+ Player 1 00:42:50 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":6,"_text":"Response Remove After Resolve Start Turn Loot Draw 1"},"childOfId":5} 
+
+ Player 1 00:42:50 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":7,"_text":"Wait For Response From Player 2 "},"childOfId":5} 
+
+ Player 1 00:42:50 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 00:42:50 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 00:42:50 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[328,329]} 
+
+ Player 2 00:42:50 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 00:42:50 $ACTION_MASSAGE_REMOVE:  
+{"id":7} 
+
+ Player 1 00:42:51 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":8,"_text":"Wait For Response From Player 1 "},"childOfId":5} 
+
+ Player 1 00:42:51 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 00:42:51 $ACTION_MASSAGE_REMOVE:  
+{"id":8} 
+
+ Player 1 00:42:51 $ACTION_MASSAGE_REMOVE:  
+{"id":6} 
+
+ Player 1 00:42:51 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":9,"_text":"Stack Was Emptied "}} 
+
+ Player 1 00:42:51 $CLEAR_SE_VIS:  
+
+ Player 1 00:42:52 $MOVE_CARD:  
+{"moveIndex":8,"cardId":246,"placeID":1,"flipIfFlipped":true,"playerId":1,"placeType":"Hand"} 
+
+ Player 2 00:42:52 $MOVE_CARD_END:  
+{"moveIndex":8,"cardId":246,"flipIfFlipped":true,"playerId":1} 
+
+ Player 1 00:42:52 $DECK_ARRAGMENT:  
+{"deckType":2,"arrangement":[256,308,257,254,230,320,313,264,311,242,248,299,323,271,314,282,253,286,236,265,245,304,298,229,281,237,289,315,244,310,297,228,287,295,239,275,251,284,279,234,240,249,276,262,312,317,293,318,266,294,252,267,259,291,268,243,269,303,241,319,292,233,270,235,277,307,280,309,278,283,258,296,232,227,273,305,321,261,274,255,231,316,263,238,250,322,285,300,260,301,288,290,272,306]} 
+
+ Player 1 00:42:52 $FLIP_CARD:  
+{"cardId":246} 
+
+ Player 1 00:42:52 $REMOVE_FROM_PASSIVE_MANAGER:  
+{"cardId":247} 
+
+ Player 1 00:42:52 $ADD_MONSTER:  
+{"monsterPlaceId":1,"monsterId":246} 
+
+ Player 1 00:42:52 $NEW_MONSTER_ON_PLACE:  
+{"cardId":246,"monsterPlaceId":1} 
+
+ Player 1 00:42:52 $NEXT_STACK_ID:  
+
+ Player 1 00:42:52 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":2,"creatorCardId":330,"hasLockingStackEffect":false,"itemToPlayCardId":246,"itemPlayerId":1,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Curse of Amnesia"}} 
+
+ Player 1 00:42:52 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":2,"creatorCardId":330,"hasLockingStackEffect":false,"itemToPlayCardId":246,"itemPlayerId":1,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Curse of Amnesia"}} 
+
+ Player 1 00:42:52 $SET_STACK_ICON:  
+{"iconIndex":0} 
+
+ Player 1 00:42:52 $SHOW_STACK_EFFECT:  
+{"effectId":2} 
+
+ Player 1 00:42:55 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":10,"_text":"Add Activate Item 2 "}} 
+
+ Player 1 00:42:55 $SHOW_ANNOUNCEMENT:  
+{"text":"Player 1 is Choosing Target"} 
+
+ Player 1 00:42:58 $HIDE_ANNOUNCEMENT:  
+
+ Player 1 00:42:58 $SHOW_DECISION:  
+{"startCardId":246,"endCardId":330} 
+
+ Player 1 00:43:01 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 00:43:01 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":2,"creatorCardId":330,"hasLockingStackEffect":false,"itemToPlayCardId":246,"itemPlayerId":1,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 1 is going to activate Curse of Amnesia"}} 
+
+ Player 1 00:43:01 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":11,"_text":"Response Adding Activate Item 2"},"childOfId":10} 
+
+ Player 1 00:43:01 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":12,"_text":"Wait For Response From Player 1 "},"childOfId":10} 
+
+ Player 1 00:43:01 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 00:43:01 $ACTION_MASSAGE_REMOVE:  
+{"id":12} 
+
+ Player 1 00:43:01 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":13,"_text":"Wait For Response From Player 2 "},"childOfId":10} 
+
+ Player 1 00:43:01 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 00:43:01 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 00:43:01 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[328,329]} 
+
+ Player 2 00:43:01 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 00:43:01 $ACTION_MASSAGE_REMOVE:  
+{"id":13} 
+
+ Player 1 00:43:01 $ACTION_MASSAGE_REMOVE:  
+{"id":11} 
+
+ Player 1 00:43:01 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":14,"_text":"Resolve Activate Item 2 "}} 
+
+ Player 1 00:43:01 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[{"entityId":2,"creatorCardId":330,"hasLockingStackEffect":false,"itemToPlayCardId":246,"itemPlayerId":1,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 1 is going to activate Curse of Amnesia"}]} 
+
+ Player 1 00:43:01 $ACTIVATE_PARTICLE_EFFECT:  
+{"cardId":246,"particleType":6} 
+
+ Player 1 00:43:03 $DISABLE_PARTICLE_EFFECT:  
+{"cardId":246,"particleType":6} 
+
+ Player 1 00:43:03 $CARD_ADD_TRINKET:  
+{"cardId":246,"playerId":1,"addMuiliEffect":false} 
+
+ Player 1 00:43:03 $LOG_ERROR:  
+{"message":"\"Cannot read property 'node' of null\"","stack":"\"TypeError: Cannot read property 'node' of null\\n    at Player.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:652:78)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113362:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113306:18)\\n    at fulfilled (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113267:28)\""} 
+//////Error From Player 1////
+  
+
+ Player 1 00:43:03 $LOG_ERROR:  
+//////Error From Player 1////
+
+ "\"Cannot read property 'node' of null\""
+
+ + "\"TypeError: Cannot read property 'node' of null\
+    at Player.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:652:78)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113362:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113306:18)\
+    at fulfilled (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113267:28)\""
+
+////// 
+//////Error From Player 1////
+
+ "\"Cannot read property 'node' of null\""
+
+ + "\"TypeError: Cannot read property 'node' of null\
+    at Player.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/GameEntities/Player.js:652:78)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113362:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113306:18)\
+    at fulfilled (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113267:28)\""
+
+////// 
+
+ Player 1 00:43:03 $SHOW_ANNOUNCEMENT:  
+{"text":"\"Cannot read property 'node' of null\""} 
+
+ Player 1 00:43:03 $LOG_ERROR:  
+"effect AddTrinketOrCurse failed to execute" 
+//////Error From Player 1////
+  
+
+ Player 1 00:43:03 $LOG_ERROR:  
+//////Error From Player 1////
+ [object Object]
+////// 
+
+ Player 1 00:43:03 $SHOW_ANNOUNCEMENT:  
+{"text":"effect AddTrinketOrCurse failed to execute"} 
+
+ Player 1 00:43:03 $STACK_EFFECT_LABLE_CHANGE:  
+{"stackId":2,"text":"Player 1 has activated Curse of Amnesia"} 
+
+ Player 1 00:43:03 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_ACTIVATE_ITEM","args":[{"type":0,"number":246}],"result":null,"preventMethod":false,"methodScopeId":330,"scopeIsPlayer":true,"index":2,"originStackId":-1},"isAfterActivation":true,"index":2} 
+
+ Player 1 00:43:03 $MOVE_CARD:  
+{"moveIndex":9,"cardId":246,"placeID":349,"flipIfFlipped":true,"playerId":1,"placeType":"Card"} 
+
+ Player 2 00:43:04 $MOVE_CARD_END:  
+{"moveIndex":9,"cardId":246,"flipIfFlipped":true,"playerId":1} 
+
+ Player 1 00:43:04 $MOVE_CARD_TO_PILE:  
+{"type":2,"cardId":246} 
+
+ Player 1 00:43:04 $REMOVE_MONSTER:  
+{"holderId":1,"monsterId":246} 
+
+ Player 1 00:43:04 $REGISTER_PASSIVE_ITEM:  
+{"cardId":247} 
+
+ Player 1 00:43:04 $GET_NEXT_MONSTER:  
+{"monsterPlaceId":1} 
+
+ Player 1 00:43:04 $LOG_ERROR:  
+"error while resolving stack effect Activate Item 2" 
+//////Error From Player 1////
+  
+
+ Player 1 00:43:04 $LOG_ERROR:  
+//////Error From Player 1////
+ [object Object]
+////// 
+
+ Player 1 00:43:04 $SHOW_ANNOUNCEMENT:  
+{"text":"error while resolving stack effect Activate Item 2"} 
+
+ Player 1 00:43:04 $LOG_ERROR:  
+{"message":"\"No Effect was found on Curse of Amnesia<Card> with the name \"","stack":"\"Error: No Effect was found on Curse of Amnesia<Card> with the name \\n    at CardEffect.getEffectIndexAndType (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:491:15)\\n    at new ServerActivateItem (http://localhost:7456/preview-scripts/assets/Script/StackEffects/ServerSideStackEffects/Server%20Activate%20Item.js:32:92)\\n    at ActivateItem.convertToServerStackEffect (http://localhost:7456/preview-scripts/assets/Script/StackEffects/Activate%20Item.js:298:30)\\n    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Stack.js:209:124)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113362:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113306:18)\\n    at fulfilled (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113267:28)\""} 
+//////Error From Player 1////
+  
+
+ Player 1 00:43:04 $LOG_ERROR:  
+//////Error From Player 1////
+
+ "\"No Effect was found on Curse of Amnesia<Card> with the name \""
+
+ + "\"Error: No Effect was found on Curse of Amnesia<Card> with the name \
+    at CardEffect.getEffectIndexAndType (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:491:15)\
+    at new ServerActivateItem (http://localhost:7456/preview-scripts/assets/Script/StackEffects/ServerSideStackEffects/Server%20Activate%20Item.js:32:92)\
+    at ActivateItem.convertToServerStackEffect (http://localhost:7456/preview-scripts/assets/Script/StackEffects/Activate%20Item.js:298:30)\
+    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Stack.js:209:124)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113362:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113306:18)\
+    at fulfilled (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113267:28)\""
+
+////// 
+//////Error From Player 1////
+
+ "\"No Effect was found on Curse of Amnesia<Card> with the name \""
+
+ + "\"Error: No Effect was found on Curse of Amnesia<Card> with the name \
+    at CardEffect.getEffectIndexAndType (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:491:15)\
+    at new ServerActivateItem (http://localhost:7456/preview-scripts/assets/Script/StackEffects/ServerSideStackEffects/Server%20Activate%20Item.js:32:92)\
+    at ActivateItem.convertToServerStackEffect (http://localhost:7456/preview-scripts/assets/Script/StackEffects/Activate%20Item.js:298:30)\
+    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Stack.js:209:124)\
+    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113362:21)\
+    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113306:18)\
+    at fulfilled (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113267:28)\""
+
+////// 
+
+ Player 1 00:43:04 $SHOW_ANNOUNCEMENT:  
+{"text":"\"No Effect was found on Curse of Amnesia<Card> with the name \""} 
+
+ Player 1 00:43:04 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[]} 
+
+ Player 1 00:43:04 $SET_STACK_ICON:  
+{"iconIndex":1} 
+
+ Player 1 00:43:06 $HIDE_ANNOUNCEMENT:  
+
+ Player 1 00:43:06 $HIDE_ANNOUNCEMENT:  
+
+ Player 1 00:43:07 $HIDE_ANNOUNCEMENT:  
+
+ Player 1 00:43:07 $HIDE_ANNOUNCEMENT:  
+
+ Player 2 00:47:28 $MATCH: 

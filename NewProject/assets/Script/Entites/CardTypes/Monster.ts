@@ -1,7 +1,7 @@
 import Signal from "../../../Misc/Signal";
 import ServerClient from "../../../ServerClient/ServerClient";
 import MonsterReward from "../../CardEffectComponents/MonsterRewards/MonsterReward";
-import { PARTICLE_TYPES, PASSIVE_EVENTS } from "../../Constants";
+import { PARTICLE_TYPES, PASSIVE_EVENTS, ANNOUNCEMENT_TIME } from "../../Constants";
 import ParticleManager from "../../Managers/ParticleManager";
 import PassiveManager, { PassiveMeta } from "../../Managers/PassiveManager";
 import PlayerManager from "../../Managers/PlayerManager";
@@ -12,34 +12,53 @@ import Card from "../GameEntities/Card";
 import MonsterCardHolder from "../MonsterCardHolder";
 import Stack from "../Stack";
 import SoundManager from "../../Managers/SoundManager";
+import AnnouncementLable from "../../LableScripts/Announcement Lable";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Monster extends cc.Component {
-  @property
+  @property({ visible: false })
   monsterPlace: MonsterCardHolder = null;
 
-  @property
+  @property({
+    visible: function (this: Monster) {
+      if (!this.isNonMonster) { return true }
+    }
+  })
   HP: number = 0;
 
-  @property
+
+  @property({
+    visible: function (this: Monster) {
+      if (!this.isNonMonster) { return true }
+    }
+  })
   currentHp: number = 0;
 
-  @property
+
+  @property({
+    visible: function (this: Monster) {
+      if (!this.isNonMonster) { return true }
+    }
+  })
   rollValue: number = 0;
 
   @property
-  rollBonus: number = 0;
+  _rollBonus: number = 0;
 
-  @property
+  @property({
+    visible: function (this: Monster) {
+      if (!this.isNonMonster) { return true }
+    }
+  })
   DMG: number = 0;
 
   @property
-  bonusDamage: number = 0;
+  _bonusDamage: number = 0;
 
   @property
-  isAttacked: boolean = false;
+  _isAttacked: boolean = false;
 
   @property
   hasEffect: boolean = false;
@@ -53,11 +72,24 @@ export default class Monster extends cc.Component {
   @property
   _thisTurnKiller: cc.Node = null;
 
-  @property(MonsterReward)
+
+  @property({
+    type: MonsterReward,
+    visible: function (this: Monster) {
+      if (!this.isNonMonster) { return true }
+    }
+  })
   reward: MonsterReward = null;
 
-  @property
+  @property({ visible: false })
   killer: cc.Node = null;
+
+  @property({
+    visible: function (this: Monster) {
+      if (this.isNonMonster) { return true }
+    }
+  })
+  isCurse: boolean = false
 
   @property
   _isDead: boolean = false;
@@ -83,10 +115,12 @@ export default class Monster extends cc.Component {
       }
     } else {
 
+      const oldDamage = damage;
       //Prevent Damage
       damage = await this.preventDamage(damage)
       if (damage == 0) {
         cc.log(`damage after reduction is 0`)
+        return false
       }
 
       let toContinue = true
@@ -97,6 +131,7 @@ export default class Monster extends cc.Component {
         cc.error(`after check b4 passives on ${this.name}`)
         passiveMeta.args = afterPassiveMeta.args;
         toContinue = afterPassiveMeta.continue
+        cc.log(afterPassiveMeta.args)
         damage = afterPassiveMeta.args[0];
         damageDealer = afterPassiveMeta.args[1];
       }
@@ -109,7 +144,6 @@ export default class Monster extends cc.Component {
         }
 
         if (damage > 0) {
-
           const cardId = this.node.getComponent(Card)._cardId
           const serverData = {
             signal: Signal.MONSTER_GET_DAMAGED,
@@ -175,6 +209,7 @@ export default class Monster extends cc.Component {
 
       passiveMeta.result = newDamage
       const thisResult = await PassiveManager.testForPassiveAfter(passiveMeta)
+      AnnouncementLable.$.showAnnouncement(`${this.name} Prevented ${incomingDamage - thisResult} Damage`, ANNOUNCEMENT_TIME, true)
       if (thisResult == 0) {
         return 0
       } else { return thisResult }
@@ -195,7 +230,7 @@ export default class Monster extends cc.Component {
   }
 
   async gainDMG(DMGToGain: number, sendToServer: boolean) {
-    this.bonusDamage += DMGToGain;
+    this._bonusDamage += DMGToGain;
     const cardId = this.node.getComponent(Card)._cardId
     const serverData = {
       signal: Signal.MONSTER_GAIN_DMG,
@@ -208,7 +243,7 @@ export default class Monster extends cc.Component {
   }
 
   async gainRollBonus(bonusToGain: number, sendToServer: boolean) {
-    this.rollBonus += bonusToGain;
+    this._rollBonus += bonusToGain;
     const cardId = this.node.getComponent(Card)._cardId
     const serverData = {
       signal: Signal.MONSTER_GAIN_ROLL_BONUS,
@@ -258,7 +293,7 @@ export default class Monster extends cc.Component {
 
   calculateDamage() {
     let damage = 0;
-    damage += this.bonusDamage;
+    damage += this._bonusDamage;
     damage += this.DMG;
     // items that increase damage should increase baseDamage
     return damage;

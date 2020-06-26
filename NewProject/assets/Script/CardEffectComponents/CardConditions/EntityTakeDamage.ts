@@ -23,7 +23,7 @@ export default class EntityTakeDamage extends Condition {
 
   @property({
     type: cc.Node, visible: function (this: EntityTakeDamage) {
-      if (this.isSpecificToEntityTakesDamage) return true
+      if (this.isSpecificToEntityTakesDamage) { return true }
     }
   })
   entityWhoTookDamage: cc.Node = null;
@@ -41,7 +41,6 @@ export default class EntityTakeDamage extends Condition {
     let subject
     if (this.conditionData != null || this.conditionData != undefined) {
       subject = this.conditionData.getTarget(TARGETTYPE.PLAYER) as cc.Node
-
       if (!subject) {
         subject = this.conditionData.getTarget(TARGETTYPE.MONSTER) as cc.Node
         isAPlayer = false;

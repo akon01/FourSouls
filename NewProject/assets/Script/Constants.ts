@@ -34,6 +34,7 @@ export enum CARD_TYPE {
   EXTRASOUL = 6,
   LOOT_PLAY = 7,
   BONUS_SOULS = 8,
+  CURSE = 9,
 }
 
 export enum STACK_EFFECT_TYPE {
@@ -145,6 +146,7 @@ export enum INPUT_TYPE {
   NONE
 }
 
+
 export enum CHOOSE_CARD_TYPE {
   ALL_PLAYERS = 1,
   MY_HAND = 2,
@@ -168,6 +170,7 @@ export enum CHOOSE_CARD_TYPE {
   SPECIPIC_PLAYER_ITEMS_WITHOUT_ETERNALS = 20,
   NON_ATTACKED_ACTIVE_MONSTERS = 21,
   ALL_PLAYERS_SOUL_CARDS = 22,
+  PILES = 23,
 }
 
 export enum PLAYER_FILTERS {
@@ -192,7 +195,12 @@ export enum CARD_POOLS {
   PLAYERS_EXCEPT_ATTAKING = 6,
   ACTIVE_MONSTERS_NOT_ATTACKED = 7,
   STORE_CARDS = 8,
-  TOP_OF_DECKS
+  TOP_OF_DECKS = 9,
+  PLAYERS_SOULS = 10,
+  DISCARD_PILES = 11,
+  YOUR_ACTIVES = 12,
+  YOUR_ACTIVES_AND_PAID = 13,
+  YOUR_PASSIVES = 14,
 }
 
 export enum BUTTON_STATE {
@@ -283,6 +291,11 @@ export enum TARGETTYPE {
 
 export enum PASSIVE_EVENTS {
   /**
+   * scope  player who got killed
+   * args [killer]
+   */
+  PLAYER_IS_KILLED = "PLAYER_IS_KILLED",
+  /**
    * scope - player who got the loot
    * args [loot gained]
    */
@@ -303,7 +316,8 @@ export enum PASSIVE_EVENTS {
    */
   PLAYER_LAND_ATTACK = "PLAYER_LAND_ATTACK",
   /**
-   * args = damage,damageDealer
+   * scope - player who got hit
+   * args = damage,damageDealer,isFirstHitOfTurn
    */
   PLAYER_GET_HIT = "PLAYER_GET_HIT",
   PLAYER_ACTIVATE_ITEM = "PLAYER_ACTIVATE_ITEM",
@@ -343,12 +357,13 @@ export enum PASSIVE_EVENTS {
    */
   PLAYER_ADD_ITEM = "PLAYER_ADD_ITEM",
   /**
+   * scope -  monster who got hit
      * args = damage,damageDealer
      */
   MONSTER_GET_HIT = "MONSTER_GET_HIT",
   /**
    * scope : the monster who was killed
-   * args: [numberRolled for killing the monster(0 if not available)]
+   * args: [numberRolled for killing the monster(0 if not available),monster killer(if available)]
    */
   MONSTER_IS_KILLED = "MONSTER_IS_KILLED",
   NEW_ACTIVE_MONSTER = "NEW_ACTIVE_MONSTER",

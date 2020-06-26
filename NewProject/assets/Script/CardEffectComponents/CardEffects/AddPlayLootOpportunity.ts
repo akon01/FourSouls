@@ -29,7 +29,7 @@ export default class AddPlayLootOpportunity extends Effect {
     const player = PlayerManager.getPlayerByCard(playerCard)
     player.lootCardPlays += this.numOfTimes;
     if (TurnsManager.isCurrentPlayer(player.node)) {
-      TurnsManager.currentTurn.lootCardPlays = TurnsManager.currentTurn.lootCardPlays + this.numOfTimes
+      player.lootCardPlays += this.numOfTimes
     }
 
     //  }

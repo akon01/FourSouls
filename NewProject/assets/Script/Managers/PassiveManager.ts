@@ -114,6 +114,9 @@ export default class PassiveManager extends cc.Component {
           for (const passive of cardPassives) {
             if (!passive) { continue }
             //test check to see if any effects are registered with condition data already collected, if so , when registering on server, convert to ActiveEffectData\PassiveEffectData
+            if (passive.conditions.includes(null)) {
+              throw new Error(`Trying to register a passive with a place for condition but none selected.`)
+            }
             if (passive.conditions.find(condition => condition.conditionData != null) != undefined) {
               throw new Error(`trying to register a passive effect with condition data, change algorithm to pass the data thru the server`)
             }
@@ -287,11 +290,11 @@ export default class PassiveManager extends cc.Component {
 
     // if (!PlayerManager.mePlayer.getComponent(Player)._hasPriority) return { continue: true, args: passiveMeta.args };
 
+    cc.log(passiveMeta)
     const originalStackEffect = Stack._currentStack.find(effect => effect.entityId == passiveMeta.originStackId)
     PassiveManager.inPassivePhase = true;
     let allPassiveEffects = PassiveManager.allBeforeEffects;
     allPassiveEffects = allPassiveEffects.concat(PassiveManager.oneTurnBeforeEffects)
-
     let allPassivesToActivate: Effect[] = [];
     try {
       allPassivesToActivate = await this.testPassivesCondtions(allPassiveEffects, passiveMeta)
@@ -299,7 +302,7 @@ export default class PassiveManager extends cc.Component {
       Logger.error(error)
     }
 
-    const methodData = { continue: false, args: [] }
+    let methodData = { continue: false, args: [] }
     let newPassiveMeta: PassiveMeta
     if (allPassivesToActivate.length > 0) {
       newPassiveMeta = await this.activateB4Passives(passiveMeta, allPassivesToActivate)
@@ -344,7 +347,6 @@ export default class PassiveManager extends cc.Component {
     let isPlayer = false;
     for (let i = 0; i < passivesToActivate.length; i++) {
       const effect = passivesToActivate[i];
-      cc.log(effect)
       cardToActivate = Card.getCardNodeByChild(effect.node);
 
       passiveIndex = cardToActivate
@@ -492,7 +494,13 @@ export class PassiveMeta {
     serverPassiveMeta.result = this.result
     if (this.args) {
       for (let i = 0; i < this.args.length; i++) {
-        const arg = this.args[i];
+        let arg = this.args[i];
+        if (arg instanceof cc.Component) {
+          const card = Card.getCardNodeByChild(arg.node)
+          if (card != null && card != undefined) {
+            arg = card
+          }
+        }
         if (arg instanceof cc.Node) {
           if (arg.getComponent(Card)) {
             serverPassiveMeta.args.push({ type: ARGS_TYPES.CARD, number: arg.getComponent(Card)._cardId })

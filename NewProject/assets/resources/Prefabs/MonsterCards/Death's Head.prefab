@@ -321,6 +321,8 @@
     "_enabled": true,
     "isSpecificMonster": true,
     "specificMonsterCard": null,
+    "isSpecificRoll": false,
+    "specificRolls": [],
     "_id": ""
   },
   {
@@ -428,6 +430,7 @@
       "__id__": 5
     },
     "_enabled": true,
+    "isSilent": false,
     "cost": null,
     "preCondition": null,
     "conditions": [
@@ -443,7 +446,8 @@
       }
     ],
     "_effectCard": null,
-    "optional": false,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "optionalFlavorText": "",
     "damageToDeal": 1,
@@ -786,7 +790,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "3f476fb1-388d-45a6-a70a-65d8cc4a4b33"
+      "__uuid__": "31eaaf78-ae30-4b9f-bd45-2450a0bc9f0e"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -799,9 +803,7 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "9e05d8c7-e82d-448e-8472-0224f9a41cc7"
-    },
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -814,6 +816,8 @@
     "_enabled": true,
     "cardName": "Death's Head",
     "doNotMake": false,
+    "cardMask": null,
+    "cardSprite": null,
     "makeMultiCards": false,
     "numOfCopies": 2,
     "copiesSprites": [],
@@ -825,6 +829,7 @@
     "topDeckof": null,
     "souls": 0,
     "type": 2,
+    "isGoingToBePlayed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -840,7 +845,6 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
-    "availableParticles": [],
     "_id": ""
   },
   {
@@ -855,18 +859,19 @@
     "HP": 2,
     "currentHp": 0,
     "rollValue": 0,
-    "rollBonus": 0,
+    "_rollBonus": 0,
     "DMG": 0,
-    "bonusDamage": 0,
-    "isAttacked": false,
+    "_bonusDamage": 0,
+    "_isAttacked": false,
     "hasEffect": true,
     "isNonMonster": false,
-    "souls": 0,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
     "reward": null,
     "killer": null,
+    "isCurse": false,
     "_isDead": false,
+    "_lastHitRoll": 0,
     "_id": ""
   },
   {

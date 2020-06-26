@@ -274,7 +274,7 @@ export default class AdminConsole extends cc.Component {
                         break;
                     case "respond":
                         cc.log(flag)
-                        mePlayer.respondWithNoAction(flag)
+                        mePlayer.respondWithNoAction()
                         Stack.hasOtherPlayerRespond = false;
                         whevent.emit(GAME_EVENTS.PLAYER_RESPOND)
                         break

@@ -18,6 +18,7 @@ export default class EndTurn extends Condition {
   needsDataCollector = false;
 
   async testCondition(meta: PassiveMeta) {
+    cc.error(`test card owner end turn`)
     const player: Player = meta.methodScope.getComponent(Player);
     const thisCard = Card.getCardNodeByChild(this.node)
     const cardOwner = PlayerManager.getPlayerByCard(thisCard);

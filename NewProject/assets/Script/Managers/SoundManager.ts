@@ -80,10 +80,6 @@ export default class SoundManager extends cc.Component {
     }
 
     stopLoopedSound(clipId: number) {
-        cc.log(`stop looped sound`)
-        cc.log(cc.audioEngine.getState(clipId))
-        cc.log(cc.audioEngine.AudioState.PLAYING)
-        cc.log(`stop looped sound`)
         cc.audioEngine.stopEffect(clipId)
     }
 

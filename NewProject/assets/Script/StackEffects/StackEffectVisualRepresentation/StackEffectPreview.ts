@@ -79,9 +79,15 @@ export default class StackEffectPreview extends cc.Component {
         } else if (stackEffect instanceof ActivateItem) {
             this.node.getComponent(cc.Sprite).spriteFrame = stackEffect.itemToActivate.getComponent(Card).frontSprite
             this.hideExtraInfo()
+            if (stackEffect.effectToDo != null) {
+                this.addSelectedEffectHighlight(stackEffect.effectToDo.node)
+            }
         } else if (stackEffect instanceof ActivatePassiveEffect) {
             this.node.getComponent(cc.Sprite).spriteFrame = stackEffect.cardWithEffect.getComponent(Card).frontSprite
             this.hideExtraInfo()
+            if (stackEffect.effectToDo != null) {
+                this.addSelectedEffectHighlight(stackEffect.effectToDo.node)
+            }
         } else {
             this.showExtraInfo()
             this.node.getComponent(cc.Sprite).spriteFrame = stackEffectVis.baseSprite;
@@ -101,27 +107,33 @@ export default class StackEffectPreview extends cc.Component {
         const originalY = effect.y;
 
         const parentHeight = originalParent.height;
-        const cardNode = this.node
-        const yPositionScale = cardNode.height / parentHeight;
 
-        const heightScale = effect.height / parentHeight;
-        const widthScale = cardNode.width / originalParent.width;
+        const preview = this.node
 
-        const name = effect.name + " " + cardNode.childrenCount
+        const yPositionScale = preview.height / parentHeight;
+
+
+        const heightScale = preview.height / parentHeight;
+        const widthScale = preview.width / originalParent.width;
+
+        const name = effect.name + " " + preview.childrenCount
         //cardNode.addChild(cc.instantiate(effect), 1, name);
         // const newEffect = cardNode.getChildByName(name);
         //   newEffect.getComponent(Effect)._effectCard = originalParent;
         //this.effectChildren.push(newEffect);
 
-        this.cardEffectMask.width = cardNode.width;
 
-        this.cardEffectMask.height = cardNode.height * heightScale;
+        this.cardEffectMask.width = effect.width * widthScale;
+
+        this.cardEffectMask.height = effect.height * heightScale;
+
+        this.cardEffectMask.getComponentInChildren(cc.Widget).updateAlignment();
 
         const newY = originalY * yPositionScale;
 
         this.cardEffectMask.setPosition(0, newY);
         this.cardEffectMask.active = true
-        cc.log(this.cardEffectMask)
+
         // ServerClient.$.send(Signal.ADD_EFFECT_TO_PREV, { height: this.cardEffectMask.height, width: this.cardEffectMask.width, newY: newY })
     }
 

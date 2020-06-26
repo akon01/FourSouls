@@ -88,11 +88,10 @@ export default class PurchaseItem extends StackEffectConcrete {
         if (this.playerWhoBuys.coins >= this.cost) {
             this.setLable(`Player ${this.playerWhoBuys.playerId} Has Bought ${this.itemToPurchase.name} For ${Math.abs(this.cost)} cents`, true)
             await this.playerWhoBuys.changeMoney(this.cost, true)
-            cc.log(`remove from store test`)
             await Store.$.removeFromStore(this.itemToPurchase, true)
             await this.playerWhoBuys.addItem(this.itemToPurchase, true, false)
             AnimationManager.$.endAnimation(this.itemToPurchase)
-            TurnsManager.currentTurn.buyPlays -= 1;
+            this.playerWhoBuys.buyPlays -= 1;
 
             await PassiveManager.testForPassiveAfter(passiveMeta)
 

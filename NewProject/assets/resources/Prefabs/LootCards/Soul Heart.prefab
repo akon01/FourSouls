@@ -117,8 +117,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 85,
-      "height": 22.5
+      "width": 75,
+      "height": 35
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -232,7 +232,12 @@
       "__id__": 5
     },
     "chooseTypes": [],
+    "filterFromPassiveMeta": false,
+    "targetCollectorFromPassiveMeta": null,
     "flavorText": "Choose A Player To Prevent DMG",
+    "otherPlayersFlavorText": "",
+    "isMultiCardChoice": false,
+    "numOfCardsToChoose": 1,
     "_id": ""
   },
   {
@@ -290,7 +295,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "7b54b384-2832-49c8-a343-b83018f78d18"
+      "__uuid__": "884ed77c-229f-4203-9af9-f06b6f33792e"
     },
     "fileId": "ffZk8EAgVPmrcSbBddgDKx",
     "sync": false
@@ -303,6 +308,7 @@
       "__id__": 2
     },
     "_enabled": true,
+    "isSilent": false,
     "cost": null,
     "preCondition": null,
     "conditions": [],
@@ -314,7 +320,8 @@
       }
     ],
     "_effectCard": null,
-    "optional": false,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "optionalFlavorText": "",
     "damageToPrevent": 1,
@@ -327,7 +334,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "7b54b384-2832-49c8-a343-b83018f78d18"
+      "__uuid__": "884ed77c-229f-4203-9af9-f06b6f33792e"
     },
     "fileId": "86AkisoKtHYJDphAcNLIZH",
     "sync": false
@@ -578,7 +585,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "7b54b384-2832-49c8-a343-b83018f78d18"
+      "__uuid__": "884ed77c-229f-4203-9af9-f06b6f33792e"
     },
     "fileId": "e6v0pHX/JH0aEcd4hCIwhB",
     "sync": false
@@ -636,7 +643,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "7b54b384-2832-49c8-a343-b83018f78d18"
+      "__uuid__": "884ed77c-229f-4203-9af9-f06b6f33792e"
     },
     "fileId": "bfupSL7kJBELVwZ1acBJiv",
     "sync": false
@@ -657,7 +664,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "94cfe1fd-bc58-4e9d-bf59-671d57aecab1"
+      "__uuid__": "10943620-0cc3-4818-8bd4-e1ff6c0ec876"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -670,9 +677,7 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "79622a07-1da3-4023-8819-3b538352bc7d"
-    },
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -685,9 +690,18 @@
     "_enabled": true,
     "cardName": "Soul Heart",
     "doNotMake": false,
-    "makeMultiCards": false,
+    "cardMask": null,
+    "cardSprite": null,
+    "makeMultiCards": true,
     "numOfCopies": 2,
-    "copiesSprites": [],
+    "copiesSprites": [
+      {
+        "__uuid__": "cc367289-6407-4e40-9a8a-4a62c17653bf"
+      },
+      {
+        "__uuid__": "9912f4a4-f05f-438c-b16e-ed35cbd57334"
+      }
+    ],
     "_cardId": 0,
     "_isInHand": false,
     "_isOnDesk": false,
@@ -712,7 +726,6 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
-    "availableParticles": [],
     "_id": ""
   },
   {
@@ -748,7 +761,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "7b54b384-2832-49c8-a343-b83018f78d18"
+      "__uuid__": "884ed77c-229f-4203-9af9-f06b6f33792e"
     },
     "fileId": "74xrl7Ss9GNLi7htp7h56D",
     "sync": false

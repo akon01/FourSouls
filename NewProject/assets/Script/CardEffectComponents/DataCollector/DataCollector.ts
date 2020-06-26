@@ -1,5 +1,6 @@
 import { COLLECTORTYPE, COLORS } from "../../Constants";
 import DataCollectorInterface from "./DataCollectorInterface";
+import Cost from "../Costs/Cost";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,6 +18,9 @@ export default class DataCollector extends cc.Component
   cardChosen: cc.Node;
   collectorName = "CardPlayer";
   hasSubAction: boolean = false;
+
+  @property(Cost)
+  cost: Cost = null;
 
   /**
    *

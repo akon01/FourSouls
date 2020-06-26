@@ -95,7 +95,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "8ba08633-e883-40f5-ae41-ff0c20a2fd1a"
+      "__uuid__": "cf31326c-352d-44a5-aed8-b589bb44fa0d"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -108,9 +108,7 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "5c7ddd78-5886-4a1e-b444-c5c3657906bc"
-    },
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -123,6 +121,8 @@
     "_enabled": true,
     "cardName": "I Am Error!",
     "doNotMake": false,
+    "cardMask": null,
+    "cardSprite": null,
     "makeMultiCards": false,
     "numOfCopies": 2,
     "copiesSprites": [],
@@ -134,6 +134,7 @@
     "topDeckof": null,
     "souls": 0,
     "type": 2,
+    "isGoingToBePlayed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -149,7 +150,6 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
-    "availableParticles": [],
     "_id": ""
   },
   {
@@ -164,17 +164,17 @@
     "HP": null,
     "currentHp": 0,
     "rollValue": "",
-    "rollBonus": 0,
+    "_rollBonus": 0,
     "DMG": null,
-    "bonusDamage": 0,
-    "isAttacked": false,
+    "_bonusDamage": 0,
+    "_isAttacked": false,
     "hasEffect": true,
     "isNonMonster": false,
-    "souls": 0,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
     "reward": null,
     "killer": null,
+    "isCurse": false,
     "_isDead": false,
     "_lastHitRoll": 0,
     "_id": ""

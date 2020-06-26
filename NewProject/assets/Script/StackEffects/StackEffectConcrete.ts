@@ -27,6 +27,7 @@ export default class StackEffectConcrete implements StackEffectInterface {
     creationTurnId: number;
     nonOriginal: boolean = false;
     previewId: number
+    isSilent = false;
     name: string = 'Concrete'
 
     setLable(text: string, sendToServer: boolean) {

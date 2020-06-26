@@ -1,0 +1,1277 @@
+Start Log 
+
+ Player 1 14:20:22 $MATCH:  
+
+ Player 1 14:20:22 $START_GAME:  
+
+ Player 2 14:20:22 $MOVE_TO_TABLE:  
+
+ Player 1 14:20:22 $MOVE_TO_TABLE:  
+
+ Player 2 14:20:31 $FINISH_LOAD:  
+{"id":2,"turnPlayerId":2} 
+
+ Player 1 14:20:32 $FINISH_LOAD:  
+{"id":1,"turnPlayerId":2} 
+
+ Player 2 14:20:32 $SET_CHAR:  
+{"originPlayerId":2,"playerId":1,"charCardId":329,"itemCardId":332} 
+
+ Player 1 14:20:33 $ASSIGN_CHAR_TO_PLAYER:  
+{"playerId":1,"charCardId":329,"itemCardId":332} 
+
+ Player 1 14:20:33 $SET_CHAR_END:  
+{"playerId":2} 
+
+ Player 2 14:20:33 $CHOOSE_FOR_EDEN:  
+{"playerId":2,"originPlayerId":2} 
+
+ Player 2 14:20:33 $DECK_ARRAGMENT:  
+{"deckType":5,"arrangement":[204,218,203,219,181,222,149,200,177,173,144,190,172,206,186,161,217,155,174,157,165,211,207,169,199,198,194,185,196,195,147,193,220,180,163,168,215,216,188,202,189,167,150,152,187,166,148,214,178,141,156,210,213,221,145,159,142,179,153,162,151,184,182,171,208,192,197,160,158,191,170,175,205,209,164,201,143,154,176,146,224,212,225,183,223]} 
+
+ Player 2 14:20:40 $EDEN_CHOSEN:  
+{"cardId":203,"playerId":2} 
+
+ Player 2 14:20:40 $DECK_ARRAGMENT:  
+{"deckType":5,"arrangement":[204,218,219,181,222,149,200,177,173,144,190,172,206,186,161,217,155,174,157,165,211,207,169,199,198,194,185,196,195,147,193,220,180,163,168,215,216,188,202,189,167,150,152,187,166,148,214,178,141,156,210,213,221,145,159,142,179,153,162,151,184,182,171,208,192,197,160,158,191,170,175,205,209,164,201,143,154,176,146,224,212,225,183,223]} 
+
+ Player 2 14:20:40 $FLIP_CARD:  
+{"cardId":203} 
+
+ Player 2 14:20:40 $REGISTER_PASSIVE_ITEM:  
+{"cardId":203} 
+
+ Player 2 14:20:40 $ASSIGN_CHAR_TO_PLAYER:  
+{"playerId":2,"charCardId":331,"itemCardId":203} 
+
+ Player 2 14:20:40 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":203}],"result":true,"preventMethod":false,"methodScopeId":331,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+
+ Player 2 14:20:40 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":332}],"result":null,"preventMethod":false,"methodScopeId":331,"scopeIsPlayer":true,"index":2,"originStackId":-1},"isAfterActivation":true,"index":2} 
+
+ Player 2 14:20:40 $DECK_ARRAGMENT:  
+{"deckType":1,"arrangement":[110,43,19,85,115,124,61,40,121,73,41,10,60,23,107,128,91,111,90,11,100,30,80,77,108,129,49,12,36,26,70,54,51,112,67,117,94,119,48,17,102,9,132,109,6,55,79,126,45,25,97,21,57,99,106,5,113,93,64,127,138,116,46,47,7,29,34,74,38,42,20,33,130,39,62,52,44,68,53,131,72,114,27,84,83,32,15,69,59,118,139,103,134,31,137,125,135,95,98,14,16,86,81,78,50,101,75,66,87,13,37,35,24,120,105,18,76,71,4,123,133,96,136,8,22,56,122,104,28,63,58,92,82,65,89,88]} 
+
+ Player 2 14:20:40 $DECK_ARRAGMENT:  
+{"deckType":2,"arrangement":[302,303,238,276,257,309,304,312,266,281,268,290,279,286,296,275,234,243,291,311,259,269,231,293,300,307,248,241,235,301,288,246,318,230,284,274,272,315,314,270,250,267,262,319,280,310,297,236,295,253,252,292,256,282,277,313,233,320,298,299,228,289,251,229,287,254,264,261,258,247,244,255,316,227,306,240,242,239,237,278,305,283,294,285,273,308,260,271,317,265,245,249,263,232]} 
+
+ Player 2 14:20:40 $DECK_ARRAGMENT:  
+{"deckType":5,"arrangement":[166,180,194,146,175,173,189,178,181,213,204,159,156,142,198,165,154,168,188,222,192,160,199,176,202,163,205,184,172,201,209,170,221,153,191,164,183,216,171,186,190,148,167,155,207,141,174,179,187,144,210,208,169,214,161,212,147,157,211,224,143,149,182,197,219,158,215,206,145,193,195,220,185,196,162,177,150,218,223,200,152,225,151,217]} 
+
+ Player 2 14:20:40 $DRAW_CARD:  
+{"deckType":5} 
+
+ Player 2 14:20:40 $FLIP_CARD:  
+{"cardId":217} 
+
+ Player 2 14:20:40 $ADD_STORE_CARD:  
+{"cardId":217} 
+
+ Player 2 14:20:40 $DRAW_CARD:  
+{"deckType":5} 
+
+ Player 2 14:20:40 $FLIP_CARD:  
+{"cardId":151} 
+
+ Player 2 14:20:40 $ADD_STORE_CARD:  
+{"cardId":151} 
+
+ Player 2 14:20:40 $DRAW_CARD:  
+{"deckType":2} 
+
+ Player 2 14:20:40 $FLIP_CARD:  
+{"cardId":232} 
+
+ Player 2 14:20:40 $REGISTER_PASSIVE_ITEM:  
+{"cardId":232} 
+
+ Player 2 14:20:40 $ADD_MONSTER:  
+{"monsterPlaceId":1,"monsterId":232} 
+
+ Player 2 14:20:40 $NEW_MONSTER_ON_PLACE:  
+{"cardId":232,"monsterPlaceId":1} 
+
+ Player 2 14:20:40 $DRAW_CARD:  
+{"deckType":2} 
+
+ Player 2 14:20:40 $FLIP_CARD:  
+{"cardId":263} 
+
+ Player 2 14:20:40 $REGISTER_PASSIVE_ITEM:  
+{"cardId":263} 
+
+ Player 2 14:20:40 $ADD_MONSTER:  
+{"monsterPlaceId":2,"monsterId":263} 
+
+ Player 2 14:20:40 $NEW_MONSTER_ON_PLACE:  
+{"cardId":263,"monsterPlaceId":2} 
+
+ Player 2 14:20:40 $REGISTER_PASSIVE_ITEM:  
+{"cardId":322} 
+
+ Player 2 14:20:40 $REGISTER_PASSIVE_ITEM:  
+{"cardId":323} 
+
+ Player 2 14:20:41 $REGISTER_PASSIVE_ITEM:  
+{"cardId":324} 
+
+ Player 2 14:20:41 $SET_MONEY:  
+{"playerId":1,"numOfCoins":3} 
+
+ Player 2 14:20:41 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":3}],"result":null,"preventMethod":false,"methodScopeId":329,"scopeIsPlayer":true,"index":3,"originStackId":-1},"isAfterActivation":true,"index":3} 
+
+ Player 2 14:20:41 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 14:20:41 $MOVE_CARD:  
+{"moveIndex":1,"cardId":88,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 14:20:41 $MOVE_CARD_END:  
+{"moveIndex":1,"cardId":88,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 14:20:41 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":88} 
+
+ Player 2 14:20:41 $FLIP_CARD:  
+{"cardId":88} 
+
+ Player 2 14:20:41 $FLIP_CARD:  
+{"cardId":88} 
+
+ Player 2 14:20:41 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":88} 
+
+ Player 2 14:20:41 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":88}],"result":null,"preventMethod":false,"methodScopeId":329,"scopeIsPlayer":true,"index":4,"originStackId":-1},"isAfterActivation":true,"index":4} 
+
+ Player 2 14:20:41 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 14:20:41 $MOVE_CARD:  
+{"moveIndex":2,"cardId":89,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 14:20:41 $MOVE_CARD_END:  
+{"moveIndex":2,"cardId":89,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 14:20:42 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":89} 
+
+ Player 2 14:20:42 $FLIP_CARD:  
+{"cardId":89} 
+
+ Player 2 14:20:42 $FLIP_CARD:  
+{"cardId":89} 
+
+ Player 2 14:20:42 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":89} 
+
+ Player 2 14:20:42 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":89}],"result":null,"preventMethod":false,"methodScopeId":329,"scopeIsPlayer":true,"index":5,"originStackId":-1},"isAfterActivation":true,"index":5} 
+
+ Player 2 14:20:42 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 14:20:42 $MOVE_CARD:  
+{"moveIndex":3,"cardId":65,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 14:20:42 $MOVE_CARD_END:  
+{"moveIndex":3,"cardId":65,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 14:20:42 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":65} 
+
+ Player 2 14:20:42 $FLIP_CARD:  
+{"cardId":65} 
+
+ Player 2 14:20:42 $FLIP_CARD:  
+{"cardId":65} 
+
+ Player 2 14:20:42 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":65} 
+
+ Player 2 14:20:42 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":65}],"result":null,"preventMethod":false,"methodScopeId":329,"scopeIsPlayer":true,"index":6,"originStackId":-1},"isAfterActivation":true,"index":6} 
+
+ Player 2 14:20:42 $SET_MONEY:  
+{"playerId":2,"numOfCoins":3} 
+
+ Player 2 14:20:42 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":3}],"result":null,"preventMethod":false,"methodScopeId":331,"scopeIsPlayer":true,"index":7,"originStackId":-1},"isAfterActivation":true,"index":7} 
+
+ Player 2 14:20:42 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 14:20:42 $MOVE_CARD:  
+{"moveIndex":4,"cardId":82,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 14:20:43 $MOVE_CARD_END:  
+{"moveIndex":4,"cardId":82,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 14:20:43 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":82} 
+
+ Player 2 14:20:43 $FLIP_CARD:  
+{"cardId":82} 
+
+ Player 2 14:20:43 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":82} 
+
+ Player 2 14:20:43 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":82}],"result":null,"preventMethod":false,"methodScopeId":331,"scopeIsPlayer":true,"index":8,"originStackId":-1},"isAfterActivation":true,"index":8} 
+
+ Player 2 14:20:43 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 14:20:43 $MOVE_CARD:  
+{"moveIndex":5,"cardId":92,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 14:20:43 $MOVE_CARD_END:  
+{"moveIndex":5,"cardId":92,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 14:20:43 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":92} 
+
+ Player 2 14:20:43 $FLIP_CARD:  
+{"cardId":92} 
+
+ Player 2 14:20:43 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":92} 
+
+ Player 2 14:20:43 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":92}],"result":null,"preventMethod":false,"methodScopeId":331,"scopeIsPlayer":true,"index":9,"originStackId":-1},"isAfterActivation":true,"index":9} 
+
+ Player 2 14:20:43 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 14:20:43 $MOVE_CARD:  
+{"moveIndex":6,"cardId":58,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 14:20:44 $MOVE_CARD_END:  
+{"moveIndex":6,"cardId":58,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 14:20:44 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":58} 
+
+ Player 2 14:20:44 $FLIP_CARD:  
+{"cardId":58} 
+
+ Player 2 14:20:44 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":58} 
+
+ Player 2 14:20:44 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":58}],"result":null,"preventMethod":false,"methodScopeId":331,"scopeIsPlayer":true,"index":10,"originStackId":-1},"isAfterActivation":true,"index":10} 
+
+ Player 2 14:20:44 $GAME_HAS_STARTED:  
+
+ Player 2 14:20:44 $SET_TURN:  
+{"playerId":1} 
+
+ Player 2 14:20:44 $START_TURN:  
+{"playerId":1} 
+
+ Player 2 14:20:44 $UPDATE_ACTIONS:  
+
+ Player 1 14:20:44 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:20:44 $NEXT_STACK_ID:  
+
+ Player 1 14:20:44 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":1,"creatorCardId":329,"turnPlayerCardId":329,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+
+ Player 1 14:20:44 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":1,"creatorCardId":329,"turnPlayerCardId":329,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+
+ Player 1 14:20:44 $SET_STACK_ICON:  
+{"iconIndex":0} 
+
+ Player 1 14:20:44 $SHOW_STACK_EFFECT:  
+{"effectId":1} 
+
+ Player 1 14:20:47 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":0,"_text":"Add Start Turn Loot Draw 1 "}} 
+
+ Player 1 14:20:47 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:20:47 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":1,"creatorCardId":329,"turnPlayerCardId":329,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+
+ Player 1 14:20:47 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":1,"_text":"Response Adding Start Turn Loot Draw 1"},"childOfId":0} 
+
+ Player 1 14:20:47 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":2,"_text":"Wait For Response From Player 1 "},"childOfId":0} 
+
+ Player 1 14:20:47 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:20:47 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":3,"_text":"Wait For Response From Player 2 "},"childOfId":0} 
+
+ Player 1 14:20:47 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 14:20:47 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 14:20:47 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[331]} 
+
+ Player 2 14:20:47 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 14:20:47 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":4,"_text":"Resolve Start Turn Loot Draw 1 "}} 
+
+ Player 1 14:20:47 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[{"entityId":1,"creatorCardId":329,"turnPlayerCardId":329,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}]} 
+
+ Player 1 14:20:47 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 1 14:20:47 $MOVE_CARD:  
+{"moveIndex":7,"cardId":63,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":1,"placeType":"Hand"} 
+
+ Player 2 14:20:47 $MOVE_CARD_END:  
+{"moveIndex":7,"cardId":63,"flipIfFlipped":false,"playerId":1} 
+
+ Player 1 14:20:48 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":63} 
+
+ Player 1 14:20:48 $FLIP_CARD:  
+{"cardId":63} 
+
+ Player 1 14:20:48 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":63} 
+
+ Player 1 14:20:48 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":63}],"result":null,"preventMethod":false,"methodScopeId":329,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+
+ Player 1 14:20:48 $STACK_EFFECT_LABLE_CHANGE:  
+{"stackId":1,"text":"Player 1 Has Drawn Loot For Start Turn"} 
+
+ Player 1 14:20:48 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":1,"creatorCardId":329,"turnPlayerCardId":329,"stackEffectType":13,"lable":"Player 1 Has Drawn Loot For Start Turn"}} 
+
+ Player 1 14:20:48 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[]} 
+
+ Player 1 14:20:48 $SET_STACK_ICON:  
+{"iconIndex":1} 
+
+ Player 1 14:20:48 $SHOW_STACK_EFFECT:  
+{"effectId":1} 
+
+ Player 1 14:20:51 $REMOVE_SE_VIS_PREV:  
+{"stackEffectId":1} 
+
+ Player 1 14:20:51 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":5,"_text":"Remove After Resolve Start Turn Loot Draw 1  "}} 
+
+ Player 1 14:20:51 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":1,"creatorCardId":329,"turnPlayerCardId":329,"stackEffectType":13,"lable":"Player 1 Has Drawn Loot For Start Turn"}} 
+
+ Player 1 14:20:51 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":6,"_text":"Response Remove After Resolve Start Turn Loot Draw 1"},"childOfId":5} 
+
+ Player 1 14:20:51 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":7,"_text":"Wait For Response From Player 2 "},"childOfId":5} 
+
+ Player 1 14:20:51 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 14:20:51 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 14:20:51 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[331]} 
+
+ Player 2 14:20:51 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 14:20:51 $ACTION_MASSAGE_REMOVE:  
+{"id":7} 
+
+ Player 1 14:20:51 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":8,"_text":"Wait For Response From Player 1 "},"childOfId":5} 
+
+ Player 1 14:20:51 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:20:51 $ACTION_MASSAGE_REMOVE:  
+{"id":8} 
+
+ Player 1 14:20:51 $ACTION_MASSAGE_REMOVE:  
+{"id":6} 
+
+ Player 1 14:20:51 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":9,"_text":"Stack Was Emptied "}} 
+
+ Player 1 14:20:51 $CLEAR_SE_VIS:  
+
+ Player 1 14:20:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 1 14:20:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 1 14:20:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 1 14:20:56 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 1 14:21:07 $NEXT_STACK_ID:  
+
+ Player 1 14:21:07 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":2,"creatorCardId":329,"attackingPlayerCardId":329,"idOfCardBeingAttacked":263,"stackEffectType":4,"lable":"Player 1 declared attack on Fistula"}} 
+
+ Player 1 14:21:07 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":2,"creatorCardId":329,"attackingPlayerCardId":329,"idOfCardBeingAttacked":263,"stackEffectType":4,"lable":"Player 1 declared attack on Fistula"}} 
+
+ Player 1 14:21:07 $SET_STACK_ICON:  
+{"iconIndex":0} 
+
+ Player 1 14:21:07 $SHOW_STACK_EFFECT:  
+{"effectId":2} 
+
+ Player 1 14:21:10 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":10,"_text":"Add Player Declare Attack On Monster 2 "}} 
+
+ Player 1 14:21:10 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:21:10 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":2,"creatorCardId":329,"attackingPlayerCardId":329,"idOfCardBeingAttacked":263,"stackEffectType":4,"lable":"Player 1 declared attack on Fistula"}} 
+
+ Player 1 14:21:10 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":11,"_text":"Response Adding Player Declare Attack On Monster 2"},"childOfId":10} 
+
+ Player 1 14:21:10 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":12,"_text":"Wait For Response From Player 1 "},"childOfId":10} 
+
+ Player 1 14:21:10 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:21:10 $ACTION_MASSAGE_REMOVE:  
+{"id":12} 
+
+ Player 1 14:21:10 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":13,"_text":"Wait For Response From Player 2 "},"childOfId":10} 
+
+ Player 1 14:21:10 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 14:21:10 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 14:21:10 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[331]} 
+
+ Player 2 14:21:10 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 14:21:10 $ACTION_MASSAGE_REMOVE:  
+{"id":13} 
+
+ Player 1 14:21:10 $ACTION_MASSAGE_REMOVE:  
+{"id":11} 
+
+ Player 1 14:21:10 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":14,"_text":"Resolve Player Declare Attack On Monster 2 "}} 
+
+ Player 1 14:21:10 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[{"entityId":2,"creatorCardId":329,"attackingPlayerCardId":329,"idOfCardBeingAttacked":263,"stackEffectType":4,"lable":"Player 1 declared attack on Fistula"}]} 
+
+ Player 1 14:21:10 $ACTIVATE_PARTICLE_EFFECT:  
+{"cardId":263,"particleType":5} 
+
+ Player 1 14:21:10 $STACK_EFFECT_LABLE_CHANGE:  
+{"stackId":2,"text":"Player 1 Has Entered Battle with Fistula"} 
+
+ Player 1 14:21:10 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_DECLARE_ATTACK","args":[],"result":null,"preventMethod":false,"methodScopeId":329,"scopeIsPlayer":true,"index":2,"originStackId":2},"isAfterActivation":true,"index":2} 
+
+ Player 1 14:21:10 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":2,"creatorCardId":329,"attackingPlayerCardId":329,"idOfCardBeingAttacked":263,"stackEffectType":4,"lable":"Player 1 Has Entered Battle with Fistula"}} 
+
+ Player 1 14:21:10 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[]} 
+
+ Player 1 14:21:10 $SET_STACK_ICON:  
+{"iconIndex":1} 
+
+ Player 1 14:21:10 $SHOW_STACK_EFFECT:  
+{"effectId":2} 
+
+ Player 1 14:21:13 $REMOVE_SE_VIS_PREV:  
+{"stackEffectId":2} 
+
+ Player 1 14:21:13 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":15,"_text":"Remove After Resolve Player Declare Attack On Monster 2  "}} 
+
+ Player 1 14:21:13 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":2,"creatorCardId":329,"attackingPlayerCardId":329,"idOfCardBeingAttacked":263,"stackEffectType":4,"lable":"Player 1 Has Entered Battle with Fistula"}} 
+
+ Player 1 14:21:13 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":16,"_text":"Response Remove After Resolve Player Declare Attack On Monster 2"},"childOfId":15} 
+
+ Player 1 14:21:13 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":17,"_text":"Wait For Response From Player 2 "},"childOfId":15} 
+
+ Player 1 14:21:13 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 14:21:13 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 14:21:13 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[331]} 
+
+ Player 2 14:21:13 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 14:21:13 $ACTION_MASSAGE_REMOVE:  
+{"id":17} 
+
+ Player 1 14:21:13 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":18,"_text":"Wait For Response From Player 1 "},"childOfId":15} 
+
+ Player 1 14:21:13 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:21:13 $ACTION_MASSAGE_REMOVE:  
+{"id":18} 
+
+ Player 1 14:21:13 $ACTION_MASSAGE_REMOVE:  
+{"id":16} 
+
+ Player 1 14:21:13 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":19,"_text":"Stack Was Emptied "}} 
+
+ Player 1 14:21:14 $CLEAR_SE_VIS:  
+
+ Player 1 14:21:14 $NEXT_STACK_ID:  
+
+ Player 1 14:21:14 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":3,"creatorCardId":329,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":263,"lable":"Player 1 is rolling against Fistula<Monster>"}} 
+
+ Player 1 14:21:15 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":3,"creatorCardId":329,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":263,"lable":"Player 1 is rolling against Fistula<Monster>"}} 
+
+ Player 1 14:21:15 $SET_STACK_ICON:  
+{"iconIndex":0} 
+
+ Player 1 14:21:15 $SHOW_STACK_EFFECT:  
+{"effectId":3} 
+
+ Player 1 14:21:17 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":20,"_text":"Add Player Attack Roll On Monster 3 "}} 
+
+ Player 1 14:21:18 $ROLL_DICE:  
+{"playerId":1} 
+
+ Player 1 14:21:20 $ROLL_DICE_ENDED:  
+{"playerId":1,"numberRolled":3} 
+
+ Player 1 14:21:20 $UPDATE_STACK_VIS:  
+{"stackId":3,"text":"player rolled 3 vs Fistula<Monster>"} 
+
+ Player 1 14:21:20 $SHOW_DICE_ROLL:  
+{"stackId":3} 
+
+ Player 1 14:21:23 $STACK_EFFECT_LABLE_CHANGE:  
+{"stackId":3,"text":"Player 1 rolled 3 vs Fistula<Monster>"} 
+
+ Player 1 14:21:23 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:21:23 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":3,"creatorCardId":329,"numberRolled":3,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":263,"lable":"Player 1 rolled 3 vs Fistula<Monster>"}} 
+
+ Player 1 14:21:23 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":21,"_text":"Response Adding Player Attack Roll On Monster 3"},"childOfId":20} 
+
+ Player 1 14:21:23 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":22,"_text":"Wait For Response From Player 1 "},"childOfId":20} 
+
+ Player 1 14:21:23 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:21:23 $ACTION_MASSAGE_REMOVE:  
+{"id":22} 
+
+ Player 1 14:21:23 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":23,"_text":"Wait For Response From Player 2 "},"childOfId":20} 
+
+ Player 1 14:21:23 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 14:21:23 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 14:21:23 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[331]} 
+
+ Player 2 14:21:23 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 14:21:23 $ACTION_MASSAGE_REMOVE:  
+{"id":23} 
+
+ Player 1 14:21:23 $ACTION_MASSAGE_REMOVE:  
+{"id":21} 
+
+ Player 1 14:21:23 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":24,"_text":"Resolve Player Attack Roll On Monster 3 "}} 
+
+ Player 1 14:21:23 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[{"entityId":3,"creatorCardId":329,"numberRolled":3,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":263,"lable":"Player 1 rolled 3 vs Fistula<Monster>"}]} 
+
+ Player 1 14:21:23 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":25,"_text":"Added 0 to original roll"}} 
+
+ Player 1 14:21:23 $STACK_EFFECT_LABLE_CHANGE:  
+{"stackId":3,"text":"Player 1 Rolled 3 Against Fistula<Monster> 2"} 
+
+ Player 1 14:21:23 $STACK_EFFECT_LABLE_CHANGE:  
+{"stackId":3,"text":"Player 1 Roll Hit"} 
+
+ Player 1 14:21:23 $NEXT_STACK_ID:  
+
+ Player 1 14:21:23 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:21:23 $CLEAR_SE_VIS:  
+
+ Player 1 14:21:23 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":4,"creatorCardId":329,"entityToDoDamageCardId":329,"entityToTakeDamageCardId":263,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":3,"lable":"Cain is going to hurt Fistula"}} 
+
+ Player 1 14:21:23 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":3,"creatorCardId":329,"numberRolled":3,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":263,"lable":"Player 1 Roll Hit"}} 
+
+ Player 1 14:21:23 $REPLACE_STACK:  
+{"currentStack":[{"entityId":4,"creatorCardId":329,"entityToDoDamageCardId":329,"entityToTakeDamageCardId":263,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":3,"lable":"Cain is going to hurt Fistula"},{"entityId":3,"creatorCardId":329,"numberRolled":3,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":263,"lable":"Player 1 Roll Hit"}]} 
+
+ Player 1 14:21:23 $SET_STACK_ICON:  
+{"iconIndex":0} 
+
+ Player 1 14:21:23 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_ROLL_DICE","args":[{"type":2,"number":3},{"type":2,"number":2},{"type":2,"number":2}],"result":null,"preventMethod":false,"methodScopeId":329,"scopeIsPlayer":true,"index":3,"originStackId":3},"isAfterActivation":true,"index":3} 
+
+ Player 1 14:21:23 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":3,"creatorCardId":329,"numberRolled":3,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":263,"lable":"Player 1 Roll Hit"}} 
+
+ Player 1 14:21:23 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[]} 
+
+ Player 1 14:21:23 $SET_STACK_ICON:  
+{"iconIndex":1} 
+
+ Player 1 14:21:23 $SHOW_STACK_EFFECT:  
+{"effectId":3} 
+
+ Player 1 14:21:26 $REMOVE_SE_VIS_PREV:  
+{"stackEffectId":3} 
+
+ Player 1 14:21:26 $SHOW_STACK_EFFECT:  
+{"effectId":4} 
+
+ Player 1 14:21:29 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":26,"_text":"Remove After Resolve Player Attack Roll On Monster 3  "}} 
+
+ Player 1 14:21:29 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":3,"creatorCardId":329,"numberRolled":3,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":263,"lable":"Player 1 Roll Hit"}} 
+
+ Player 1 14:21:29 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":27,"_text":"Response Remove After Resolve Player Attack Roll On Monster 3"},"childOfId":26} 
+
+ Player 1 14:21:29 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":28,"_text":"Wait For Response From Player 1 "},"childOfId":26} 
+
+ Player 1 14:21:29 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:21:29 $ACTION_MASSAGE_REMOVE:  
+{"id":28} 
+
+ Player 1 14:21:29 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":29,"_text":"Wait For Response From Player 2 "},"childOfId":26} 
+
+ Player 1 14:21:29 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 14:21:29 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 14:21:29 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[331]} 
+
+ Player 2 14:21:29 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 14:21:29 $ACTION_MASSAGE_REMOVE:  
+{"id":29} 
+
+ Player 1 14:21:29 $ACTION_MASSAGE_REMOVE:  
+{"id":27} 
+
+ Player 1 14:21:29 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":30,"_text":"Resolve Monster Combat Damage To A Player 4 "}} 
+
+ Player 1 14:21:29 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[{"entityId":4,"creatorCardId":329,"entityToDoDamageCardId":329,"entityToTakeDamageCardId":263,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":3,"lable":"Cain is going to hurt Fistula"}]} 
+
+ Player 1 14:21:29 $STACK_EFFECT_LABLE_CHANGE:  
+{"stackId":4,"text":"Cain will deal 1 combat damage to Fistula "} 
+
+ Player 1 14:21:29 $UPDATE_STACK_VIS:  
+{"stackId":4,"text":"Cain will deal 1 combat damage to Fistula"} 
+
+ Player 1 14:21:29 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"MONSTER_GET_HIT","args":[{"type":2,"number":1},{"type":0,"number":329},{"type":2}],"result":null,"preventMethod":false,"methodScopeId":263,"scopeIsPlayer":false,"index":1,"originStackId":-1},"isAfterActivation":false,"index":1} 
+
+ Player 1 14:21:29 $NEXT_STACK_ID:  
+
+ Player 1 14:21:29 $ADD_TO_STACK:  
+{"stackEffect":{"effectCollectedData":null,"entityId":5,"creatorCardId":329,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":263,"effectToDo":{"effectName":"GainStats","cardEffectNum":0,"cardPlayerId":1,"cardId":263,"effctType":0},"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":false,"stackEffectType":14,"lable":"Activate Fistula Effect GainStats<GainStats>"}} 
+
+ Player 1 14:21:30 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"effectCollectedData":null,"entityId":5,"creatorCardId":329,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":263,"effectToDo":{"effectName":"GainStats","cardEffectNum":0,"cardPlayerId":1,"cardId":263,"effctType":0},"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":false,"stackEffectType":14,"lable":"Activate Fistula Effect GainStats<GainStats>"}} 
+
+ Player 1 14:21:30 $SET_STACK_ICON:  
+{"iconIndex":0} 
+
+ Player 1 14:21:30 $SHOW_STACK_EFFECT:  
+{"effectId":5} 
+
+ Player 1 14:21:32 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":31,"_text":"Add Activate Passive Effect 5 "}} 
+
+ Player 1 14:21:32 $STACK_EFFECT_LABLE_CHANGE:  
+{"stackId":5,"text":"Activate Fistula effect GainStats<GainStats>"} 
+
+ Player 1 14:21:32 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"effectCollectedData":{"effectTargets":[263],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":263,"effectCardPlayer":263},"entityId":5,"creatorCardId":329,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":263,"effectToDo":{"effectName":"GainStats","cardEffectNum":0,"cardPlayerId":1,"cardId":263,"effctType":0},"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activate Fistula effect GainStats<GainStats>"}} 
+
+ Player 1 14:21:32 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":32,"_text":"Response Adding Activate Passive Effect 5"},"childOfId":31} 
+
+ Player 1 14:21:32 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":33,"_text":"Wait For Response From Player 2 "},"childOfId":31} 
+
+ Player 1 14:21:32 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 14:21:32 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 14:21:32 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[331]} 
+
+ Player 2 14:21:32 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 14:21:32 $ACTION_MASSAGE_REMOVE:  
+{"id":33} 
+
+ Player 1 14:21:33 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":34,"_text":"Wait For Response From Player 1 "},"childOfId":31} 
+
+ Player 1 14:21:33 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:21:33 $ACTION_MASSAGE_REMOVE:  
+{"id":34} 
+
+ Player 1 14:21:33 $ACTION_MASSAGE_REMOVE:  
+{"id":32} 
+
+ Player 1 14:21:33 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":35,"_text":"Resolve Activate Passive Effect 5 "}} 
+
+ Player 1 14:21:33 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[{"entityId":4,"creatorCardId":329,"entityToDoDamageCardId":329,"entityToTakeDamageCardId":263,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":3,"lable":"Cain will deal 1 combat damage to Fistula "},{"effectCollectedData":{"effectTargets":[263],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":263,"effectCardPlayer":263},"entityId":5,"creatorCardId":329,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":263,"effectToDo":{"effectName":"GainStats","cardEffectNum":0,"cardPlayerId":1,"cardId":263,"effctType":0},"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activate Fistula effect GainStats<GainStats>"}]} 
+
+ Player 1 14:21:33 $ACTIVATE_PARTICLE_EFFECT:  
+{"cardId":263,"particleType":6} 
+
+ Player 1 14:21:35 $DISABLE_PARTICLE_EFFECT:  
+{"cardId":263,"particleType":6} 
+
+ Player 1 14:21:35 $MONSTER_GAIN_ROLL_BONUS:  
+{"cardId":263,"bonusToGain":1} 
+
+ Player 1 14:21:35 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"MONSTER_GET_HIT","args":[{"type":2,"number":1},{"type":0,"number":329},{"type":2}],"result":null,"preventMethod":false,"methodScopeId":263,"scopeIsPlayer":false,"index":1,"originStackId":-1},"isAfterActivation":false,"index":1} 
+
+ Player 1 14:21:35 $STACK_EFFECT_LABLE_CHANGE:  
+{"stackId":5,"text":"Activated Fistula Effect"} 
+
+ Player 1 14:21:35 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"effectCollectedData":{"effectTargets":[263],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":263,"effectCardPlayer":263},"entityId":5,"creatorCardId":329,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":263,"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activated Fistula Effect"}} 
+
+ Player 1 14:21:35 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[{"entityId":4,"creatorCardId":329,"entityToDoDamageCardId":329,"entityToTakeDamageCardId":263,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":3,"lable":"Cain will deal 1 combat damage to Fistula "}]} 
+
+ Player 1 14:21:35 $SET_STACK_ICON:  
+{"iconIndex":1} 
+
+ Player 1 14:21:35 $SHOW_STACK_EFFECT:  
+{"effectId":5} 
+
+ Player 1 14:21:38 $REMOVE_SE_VIS_PREV:  
+{"stackEffectId":5} 
+
+ Player 1 14:21:38 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":36,"_text":"Remove After Resolve Activate Passive Effect 5  "}} 
+
+ Player 1 14:21:38 $REMOVE_FROM_STACK:  
+{"stackEffect":{"effectCollectedData":{"effectTargets":[263],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":263,"effectCardPlayer":263},"entityId":5,"creatorCardId":329,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":263,"isAfterActivation":false,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activated Fistula Effect"}} 
+
+ Player 1 14:21:38 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":37,"_text":"Response Remove After Resolve Activate Passive Effect 5"},"childOfId":36} 
+
+ Player 1 14:21:38 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":38,"_text":"Wait For Response From Player 1 "},"childOfId":36} 
+
+ Player 1 14:21:38 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:21:38 $ACTION_MASSAGE_REMOVE:  
+{"id":38} 
+
+ Player 1 14:21:38 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":39,"_text":"Wait For Response From Player 2 "},"childOfId":36} 
+
+ Player 1 14:21:38 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 14:21:38 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 14:21:38 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[331]} 
+
+ Player 2 14:21:38 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 14:21:38 $ACTION_MASSAGE_REMOVE:  
+{"id":39} 
+
+ Player 1 14:21:38 $ACTION_MASSAGE_REMOVE:  
+{"id":37} 
+
+ Player 1 14:21:38 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":40,"_text":"Resolve Monster Combat Damage To A Player 4 "}} 
+
+ Player 1 14:21:38 $MONSTER_GET_DAMAGED:  
+{"cardId":263,"hpLeft":3,"damageDealerId":329} 
+
+ Player 1 14:21:38 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"MONSTER_GET_HIT","args":[{"type":2,"number":1},{"type":0,"number":329},{"type":2}],"result":null,"preventMethod":false,"methodScopeId":263,"scopeIsPlayer":false,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+
+ Player 1 14:21:38 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_COMBAT_DAMAGE_GIVEN","args":[{"type":2,"number":1},{"type":2,"number":3},{"type":0,"number":329},{"type":0,"number":263}],"result":null,"preventMethod":false,"methodScopeId":329,"scopeIsPlayer":true,"index":4,"originStackId":4},"isAfterActivation":true,"index":4} 
+
+ Player 1 14:21:38 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":4,"creatorCardId":329,"entityToDoDamageCardId":329,"entityToTakeDamageCardId":263,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":3,"lable":"Cain will deal 1 combat damage to Fistula "}} 
+
+ Player 1 14:21:38 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[]} 
+
+ Player 1 14:21:38 $SET_STACK_ICON:  
+{"iconIndex":1} 
+
+ Player 1 14:21:38 $SHOW_STACK_EFFECT:  
+{"effectId":4} 
+
+ Player 1 14:21:41 $REMOVE_SE_VIS_PREV:  
+{"stackEffectId":4} 
+
+ Player 1 14:21:41 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":41,"_text":"Remove After Resolve Monster Combat Damage To A Player 4  "}} 
+
+ Player 1 14:21:41 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":4,"creatorCardId":329,"entityToDoDamageCardId":329,"entityToTakeDamageCardId":263,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":3,"lable":"Cain will deal 1 combat damage to Fistula "}} 
+
+ Player 1 14:21:41 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":42,"_text":"Response Remove After Resolve Monster Combat Damage To A Player 4"},"childOfId":41} 
+
+ Player 1 14:21:41 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":43,"_text":"Wait For Response From Player 2 "},"childOfId":41} 
+
+ Player 1 14:21:41 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 14:21:41 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 14:21:41 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[331]} 
+
+ Player 2 14:21:41 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 14:21:41 $ACTION_MASSAGE_REMOVE:  
+{"id":43} 
+
+ Player 1 14:21:41 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":44,"_text":"Wait For Response From Player 1 "},"childOfId":41} 
+
+ Player 1 14:21:41 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:21:41 $ACTION_MASSAGE_REMOVE:  
+{"id":44} 
+
+ Player 1 14:21:41 $ACTION_MASSAGE_REMOVE:  
+{"id":42} 
+
+ Player 1 14:21:41 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":45,"_text":"Stack Was Emptied "}} 
+
+ Player 1 14:21:41 $CLEAR_SE_VIS:  
+
+ Player 1 14:21:47 $NEXT_STACK_ID:  
+
+ Player 1 14:21:47 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":6,"creatorCardId":329,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":263,"lable":"Player 1 is rolling against Fistula<Monster>"}} 
+
+ Player 1 14:21:47 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":6,"creatorCardId":329,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":263,"lable":"Player 1 is rolling against Fistula<Monster>"}} 
+
+ Player 1 14:21:47 $SET_STACK_ICON:  
+{"iconIndex":0} 
+
+ Player 1 14:21:47 $SHOW_STACK_EFFECT:  
+{"effectId":6} 
+
+ Player 1 14:21:50 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":46,"_text":"Add Player Attack Roll On Monster 6 "}} 
+
+ Player 1 14:21:50 $ROLL_DICE:  
+{"playerId":1} 
+
+ Player 1 14:21:51 $ROLL_DICE_ENDED:  
+{"playerId":1,"numberRolled":4} 
+
+ Player 1 14:21:51 $UPDATE_STACK_VIS:  
+{"stackId":6,"text":"player rolled 4 vs Fistula<Monster>"} 
+
+ Player 1 14:21:51 $SHOW_DICE_ROLL:  
+{"stackId":6} 
+
+ Player 1 14:21:54 $STACK_EFFECT_LABLE_CHANGE:  
+{"stackId":6,"text":"Player 1 rolled 4 vs Fistula<Monster>"} 
+
+ Player 1 14:21:54 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:21:54 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":6,"creatorCardId":329,"numberRolled":4,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":263,"lable":"Player 1 rolled 4 vs Fistula<Monster>"}} 
+
+ Player 1 14:21:54 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":47,"_text":"Response Adding Player Attack Roll On Monster 6"},"childOfId":46} 
+
+ Player 1 14:21:54 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":48,"_text":"Wait For Response From Player 1 "},"childOfId":46} 
+
+ Player 1 14:21:54 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:21:54 $ACTION_MASSAGE_REMOVE:  
+{"id":48} 
+
+ Player 1 14:21:54 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":49,"_text":"Wait For Response From Player 2 "},"childOfId":46} 
+
+ Player 1 14:21:54 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 14:21:54 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 14:21:54 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[331]} 
+
+ Player 2 14:21:54 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 14:21:54 $ACTION_MASSAGE_REMOVE:  
+{"id":49} 
+
+ Player 1 14:21:54 $ACTION_MASSAGE_REMOVE:  
+{"id":47} 
+
+ Player 1 14:21:54 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":50,"_text":"Resolve Player Attack Roll On Monster 6 "}} 
+
+ Player 1 14:21:54 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[{"entityId":6,"creatorCardId":329,"numberRolled":4,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":263,"lable":"Player 1 rolled 4 vs Fistula<Monster>"}]} 
+
+ Player 1 14:21:54 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":51,"_text":"Added 0 to original roll"}} 
+
+ Player 1 14:21:55 $STACK_EFFECT_LABLE_CHANGE:  
+{"stackId":6,"text":"Player 1 Rolled 4 Against Fistula<Monster> 3"} 
+
+ Player 1 14:21:55 $STACK_EFFECT_LABLE_CHANGE:  
+{"stackId":6,"text":"Player 1 Roll Hit"} 
+
+ Player 1 14:21:55 $NEXT_STACK_ID:  
+
+ Player 1 14:21:55 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:21:55 $CLEAR_SE_VIS:  
+
+ Player 1 14:21:55 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":7,"creatorCardId":329,"entityToDoDamageCardId":329,"entityToTakeDamageCardId":263,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":4,"lable":"Cain is going to hurt Fistula"}} 
+
+ Player 1 14:21:55 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":6,"creatorCardId":329,"numberRolled":4,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":263,"lable":"Player 1 Roll Hit"}} 
+
+ Player 1 14:21:55 $REPLACE_STACK:  
+{"currentStack":[{"entityId":7,"creatorCardId":329,"entityToDoDamageCardId":329,"entityToTakeDamageCardId":263,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":4,"lable":"Cain is going to hurt Fistula"},{"entityId":6,"creatorCardId":329,"numberRolled":4,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":263,"lable":"Player 1 Roll Hit"}]} 
+
+ Player 1 14:21:55 $SET_STACK_ICON:  
+{"iconIndex":0} 
+
+ Player 1 14:21:55 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_ROLL_DICE","args":[{"type":2,"number":4},{"type":2,"number":1},{"type":2,"number":3}],"result":null,"preventMethod":false,"methodScopeId":329,"scopeIsPlayer":true,"index":5,"originStackId":6},"isAfterActivation":true,"index":5} 
+
+ Player 1 14:21:55 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":6,"creatorCardId":329,"numberRolled":4,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":263,"lable":"Player 1 Roll Hit"}} 
+
+ Player 1 14:21:55 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[]} 
+
+ Player 1 14:21:55 $SET_STACK_ICON:  
+{"iconIndex":1} 
+
+ Player 1 14:21:55 $SHOW_STACK_EFFECT:  
+{"effectId":6} 
+
+ Player 1 14:21:57 $REMOVE_SE_VIS_PREV:  
+{"stackEffectId":6} 
+
+ Player 1 14:21:57 $SHOW_STACK_EFFECT:  
+{"effectId":7} 
+
+ Player 1 14:22:00 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":52,"_text":"Remove After Resolve Player Attack Roll On Monster 6  "}} 
+
+ Player 1 14:22:00 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":6,"creatorCardId":329,"numberRolled":4,"rollingPlayerCardId":329,"stackEffectType":2,"attackedMonsterCardId":263,"lable":"Player 1 Roll Hit"}} 
+
+ Player 1 14:22:00 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":53,"_text":"Response Remove After Resolve Player Attack Roll On Monster 6"},"childOfId":52} 
+
+ Player 1 14:22:00 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":54,"_text":"Wait For Response From Player 1 "},"childOfId":52} 
+
+ Player 1 14:22:01 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:22:01 $ACTION_MASSAGE_REMOVE:  
+{"id":54} 
+
+ Player 1 14:22:01 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":55,"_text":"Wait For Response From Player 2 "},"childOfId":52} 
+
+ Player 1 14:22:01 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 14:22:01 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 14:22:01 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[331]} 
+
+ Player 2 14:22:01 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 14:22:01 $ACTION_MASSAGE_REMOVE:  
+{"id":55} 
+
+ Player 1 14:22:01 $ACTION_MASSAGE_REMOVE:  
+{"id":53} 
+
+ Player 1 14:22:01 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":56,"_text":"Resolve Monster Combat Damage To A Player 7 "}} 
+
+ Player 1 14:22:01 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[{"entityId":7,"creatorCardId":329,"entityToDoDamageCardId":329,"entityToTakeDamageCardId":263,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":4,"lable":"Cain is going to hurt Fistula"}]} 
+
+ Player 1 14:22:01 $STACK_EFFECT_LABLE_CHANGE:  
+{"stackId":7,"text":"Cain will deal 1 combat damage to Fistula "} 
+
+ Player 1 14:22:01 $UPDATE_STACK_VIS:  
+{"stackId":7,"text":"Cain will deal 1 combat damage to Fistula"} 
+
+ Player 1 14:22:01 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"MONSTER_GET_HIT","args":[{"type":2,"number":1},{"type":0,"number":329},{"type":2}],"result":null,"preventMethod":false,"methodScopeId":263,"scopeIsPlayer":false,"index":2,"originStackId":-1},"isAfterActivation":false,"index":2} 
+
+ Player 1 14:22:01 $NEXT_STACK_ID:  
+
+ Player 1 14:22:01 $ADD_TO_STACK:  
+{"stackEffect":{"effectCollectedData":null,"entityId":8,"creatorCardId":329,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":263,"effectToDo":{"effectName":"GainStats","cardEffectNum":0,"cardPlayerId":1,"cardId":263,"effctType":0},"isAfterActivation":false,"index":2,"hasDataBeenCollectedYet":false,"stackEffectType":14,"lable":"Activate Fistula Effect GainStats<GainStats>"}} 
+
+ Player 1 14:22:01 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"effectCollectedData":null,"entityId":8,"creatorCardId":329,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":263,"effectToDo":{"effectName":"GainStats","cardEffectNum":0,"cardPlayerId":1,"cardId":263,"effctType":0},"isAfterActivation":false,"index":2,"hasDataBeenCollectedYet":false,"stackEffectType":14,"lable":"Activate Fistula Effect GainStats<GainStats>"}} 
+
+ Player 1 14:22:01 $SET_STACK_ICON:  
+{"iconIndex":0} 
+
+ Player 1 14:22:01 $SHOW_STACK_EFFECT:  
+{"effectId":8} 
+
+ Player 1 14:22:04 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":57,"_text":"Add Activate Passive Effect 8 "}} 
+
+ Player 1 14:22:04 $STACK_EFFECT_LABLE_CHANGE:  
+{"stackId":8,"text":"Activate Fistula effect GainStats<GainStats>"} 
+
+ Player 1 14:22:04 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"effectCollectedData":{"effectTargets":[263],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":263,"effectCardPlayer":263},"entityId":8,"creatorCardId":329,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":263,"effectToDo":{"effectName":"GainStats","cardEffectNum":0,"cardPlayerId":1,"cardId":263,"effctType":0},"isAfterActivation":false,"index":2,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activate Fistula effect GainStats<GainStats>"}} 
+
+ Player 1 14:22:04 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":58,"_text":"Response Adding Activate Passive Effect 8"},"childOfId":57} 
+
+ Player 1 14:22:04 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":59,"_text":"Wait For Response From Player 2 "},"childOfId":57} 
+
+ Player 1 14:22:04 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 14:22:04 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 14:22:04 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[331]} 
+
+ Player 2 14:22:04 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 14:22:04 $ACTION_MASSAGE_REMOVE:  
+{"id":59} 
+
+ Player 1 14:22:04 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":60,"_text":"Wait For Response From Player 1 "},"childOfId":57} 
+
+ Player 1 14:22:04 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:22:04 $ACTION_MASSAGE_REMOVE:  
+{"id":60} 
+
+ Player 1 14:22:04 $ACTION_MASSAGE_REMOVE:  
+{"id":58} 
+
+ Player 1 14:22:04 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":61,"_text":"Resolve Activate Passive Effect 8 "}} 
+
+ Player 1 14:22:04 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[{"entityId":7,"creatorCardId":329,"entityToDoDamageCardId":329,"entityToTakeDamageCardId":263,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":4,"lable":"Cain will deal 1 combat damage to Fistula "},{"effectCollectedData":{"effectTargets":[263],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":263,"effectCardPlayer":263},"entityId":8,"creatorCardId":329,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":263,"effectToDo":{"effectName":"GainStats","cardEffectNum":0,"cardPlayerId":1,"cardId":263,"effctType":0},"isAfterActivation":false,"index":2,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activate Fistula effect GainStats<GainStats>"}]} 
+
+ Player 1 14:22:04 $ACTIVATE_PARTICLE_EFFECT:  
+{"cardId":263,"particleType":6} 
+
+ Player 1 14:22:06 $DISABLE_PARTICLE_EFFECT:  
+{"cardId":263,"particleType":6} 
+
+ Player 1 14:22:06 $MONSTER_GAIN_ROLL_BONUS:  
+{"cardId":263,"bonusToGain":1} 
+
+ Player 1 14:22:06 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"MONSTER_GET_HIT","args":[{"type":2,"number":1},{"type":0,"number":329},{"type":2}],"result":null,"preventMethod":false,"methodScopeId":263,"scopeIsPlayer":false,"index":2,"originStackId":-1},"isAfterActivation":false,"index":2} 
+
+ Player 1 14:22:06 $STACK_EFFECT_LABLE_CHANGE:  
+{"stackId":8,"text":"Activated Fistula Effect"} 
+
+ Player 1 14:22:06 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"effectCollectedData":{"effectTargets":[263],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":263,"effectCardPlayer":263},"entityId":8,"creatorCardId":329,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":263,"isAfterActivation":false,"index":2,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activated Fistula Effect"}} 
+
+ Player 1 14:22:06 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[{"entityId":7,"creatorCardId":329,"entityToDoDamageCardId":329,"entityToTakeDamageCardId":263,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":4,"lable":"Cain will deal 1 combat damage to Fistula "}]} 
+
+ Player 1 14:22:06 $SET_STACK_ICON:  
+{"iconIndex":1} 
+
+ Player 1 14:22:06 $SHOW_STACK_EFFECT:  
+{"effectId":8} 
+
+ Player 1 14:22:09 $REMOVE_SE_VIS_PREV:  
+{"stackEffectId":8} 
+
+ Player 1 14:22:09 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":62,"_text":"Remove After Resolve Activate Passive Effect 8  "}} 
+
+ Player 1 14:22:09 $REMOVE_FROM_STACK:  
+{"stackEffect":{"effectCollectedData":{"effectTargets":[263],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":263,"effectCardPlayer":263},"entityId":8,"creatorCardId":329,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":263,"isAfterActivation":false,"index":2,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activated Fistula Effect"}} 
+
+ Player 1 14:22:09 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":63,"_text":"Response Remove After Resolve Activate Passive Effect 8"},"childOfId":62} 
+
+ Player 1 14:22:09 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":64,"_text":"Wait For Response From Player 1 "},"childOfId":62} 
+
+ Player 1 14:22:09 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 14:22:09 $ACTION_MASSAGE_REMOVE:  
+{"id":64} 
+
+ Player 1 14:22:09 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":65,"_text":"Wait For Response From Player 2 "},"childOfId":62} 
+
+ Player 1 14:22:09 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 14:22:09 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 14:22:09 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[331]} 
+
+ Player 2 14:22:09 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 14:22:09 $ACTION_MASSAGE_REMOVE:  
+{"id":65} 
+
+ Player 1 14:22:09 $ACTION_MASSAGE_REMOVE:  
+{"id":63} 
+
+ Player 1 14:22:09 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":66,"_text":"Resolve Monster Combat Damage To A Player 7 "}} 
+
+ Player 1 14:22:09 $MONSTER_GET_DAMAGED:  
+{"cardId":263,"hpLeft":2,"damageDealerId":329} 
+
+ Player 1 14:22:09 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"MONSTER_GET_HIT","args":[{"type":2,"number":1},{"type":0,"number":329},{"type":2}],"result":null,"preventMethod":false,"methodScopeId":263,"scopeIsPlayer":false,"index":2,"originStackId":-1},"isAfterActivation":true,"index":2} 
+
+ Player 1 14:22:09 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_COMBAT_DAMAGE_GIVEN","args":[{"type":2,"number":1},{"type":2,"number":4},{"type":0,"number":329},{"type":0,"number":263}],"result":null,"preventMethod":false,"methodScopeId":329,"scopeIsPlayer":true,"index":6,"originStackId":7},"isAfterActivation":true,"index":6} 
+
+ Player 1 14:22:09 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":7,"creatorCardId":329,"entityToDoDamageCardId":329,"entityToTakeDamageCardId":263,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":4,"lable":"Cain will deal 1 combat damage to Fistula "}} 
+
+ Player 1 14:22:09 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[]} 
+
+ Player 1 14:22:09 $SET_STACK_ICON:  
+{"iconIndex":1} 
+
+ Player 1 14:22:10 $SHOW_STACK_EFFECT:  
+{"effectId":7} 
+
+ Player 1 14:22:12 $REMOVE_SE_VIS_PREV:  
+{"stackEffectId":7} 
+
+ Player 2 14:23:22 $MATCH: 

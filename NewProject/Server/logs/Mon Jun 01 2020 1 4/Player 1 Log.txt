@@ -1,0 +1,306 @@
+Start Log 
+ Recived From Player 1 01:04:44 $START_GAME:  
+ Recived From Player 1 01:04:44 $MOVE_TO_TABLE:  
+ Recived From Player 1 01:04:52 $FINISH_LOAD:  
+
+ {"id":1,"turnPlayerId":2} 
+ Recived From Player 1 01:04:53 $ASSIGN_CHAR_TO_PLAYER:  
+
+ {"playerId":1,"charCardId":328,"itemCardId":329} 
+ Recived From Player 1 01:04:53 $SET_CHAR_END:  
+
+ {"playerId":2} 
+ Recived From Player 1 01:04:54 $MOVE_CARD_END:  
+
+ {"moveIndex":1,"cardId":65,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 01:04:55 $MOVE_CARD_END:  
+
+ {"moveIndex":2,"cardId":62,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 01:04:55 $MOVE_CARD_END:  
+
+ {"moveIndex":3,"cardId":115,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 01:04:56 $MOVE_CARD_END:  
+
+ {"moveIndex":4,"cardId":64,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 01:04:56 $MOVE_CARD_END:  
+
+ {"moveIndex":5,"cardId":113,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 01:04:57 $MOVE_CARD_END:  
+
+ {"moveIndex":6,"cardId":126,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 01:04:57 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 01:04:57 $NEXT_STACK_ID:  
+ Recived From Player 1 01:04:57 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":328,"turnPlayerCardId":328,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+ Recived From Player 1 01:04:57 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":328,"turnPlayerCardId":328,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+ Recived From Player 1 01:04:57 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 01:04:57 $SHOW_STACK_EFFECT:  
+
+ {"effectId":1} 
+ Recived From Player 1 01:05:00 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":0,"_text":"Add Start Turn Loot Draw 1 "}} 
+ Recived From Player 1 01:05:00 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 01:05:00 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":328,"turnPlayerCardId":328,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+ Recived From Player 1 01:05:00 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":1,"_text":"Response Adding Start Turn Loot Draw 1"},"childOfId":0} 
+ Recived From Player 1 01:05:00 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":2,"_text":"Wait For Response From Player 1 "},"childOfId":0} 
+ Recived From Player 1 01:05:00 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 01:05:00 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":3,"_text":"Wait For Response From Player 2 "},"childOfId":0} 
+ Recived From Player 1 01:05:00 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 01:05:00 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 01:05:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":4,"_text":"Resolve Start Turn Loot Draw 1 "}} 
+ Recived From Player 1 01:05:01 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":1,"creatorCardId":328,"turnPlayerCardId":328,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}]} 
+ Recived From Player 1 01:05:01 $DRAW_CARD:  
+
+ {"deckType":1} 
+ Recived From Player 1 01:05:01 $MOVE_CARD:  
+
+ {"moveIndex":7,"cardId":137,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":1,"placeType":"Hand"} 
+ Recived From Player 1 01:05:01 $CARD_DRAWN:  
+
+ {"playerId":1,"deckType":1,"drawnCardId":137} 
+ Recived From Player 1 01:05:01 $FLIP_CARD:  
+
+ {"cardId":137} 
+ Recived From Player 1 01:05:01 $PLAYER_GET_LOOT:  
+
+ {"playerId":1,"cardId":137} 
+ Recived From Player 1 01:05:01 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":137}],"result":null,"preventMethod":false,"methodScopeId":328,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+ Recived From Player 1 01:05:01 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":1,"text":"Player 1 Has Drawn Loot For Start Turn"} 
+ Recived From Player 1 01:05:01 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":328,"turnPlayerCardId":328,"stackEffectType":13,"lable":"Player 1 Has Drawn Loot For Start Turn"}} 
+ Recived From Player 1 01:05:01 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 01:05:01 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 01:05:01 $SHOW_STACK_EFFECT:  
+
+ {"effectId":1} 
+ Recived From Player 1 01:05:04 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":1} 
+ Recived From Player 1 01:05:04 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":5,"_text":"Remove After Resolve Start Turn Loot Draw 1  "}} 
+ Recived From Player 1 01:05:04 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":1,"creatorCardId":328,"turnPlayerCardId":328,"stackEffectType":13,"lable":"Player 1 Has Drawn Loot For Start Turn"}} 
+ Recived From Player 1 01:05:04 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":6,"_text":"Response Remove After Resolve Start Turn Loot Draw 1"},"childOfId":5} 
+ Recived From Player 1 01:05:04 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":7,"_text":"Wait For Response From Player 2 "},"childOfId":5} 
+ Recived From Player 1 01:05:04 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 01:05:04 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 01:05:04 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":7} 
+ Recived From Player 1 01:05:04 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":8,"_text":"Wait For Response From Player 1 "},"childOfId":5} 
+ Recived From Player 1 01:05:04 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 01:05:04 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":8} 
+ Recived From Player 1 01:05:04 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":6} 
+ Recived From Player 1 01:05:04 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":9,"_text":"Stack Was Emptied "}} 
+ Recived From Player 1 01:05:04 $CLEAR_SE_VIS:  
+ Recived From Player 1 01:05:13 $MOVE_CARD:  
+
+ {"moveIndex":8,"cardId":246,"placeID":1,"flipIfFlipped":true,"playerId":1,"placeType":"Hand"} 
+ Recived From Player 1 01:05:13 $DECK_ARRAGMENT:  
+
+ {"deckType":2,"arrangement":[256,263,245,235,233,262,323,239,232,277,320,249,273,302,292,229,306,268,298,304,279,286,274,267,311,242,291,282,315,281,314,230,303,241,316,250,275,270,254,310,295,287,309,237,255,266,261,322,288,312,318,283,260,321,290,307,289,258,272,252,271,253,231,228,257,265,259,276,269,294,240,248,238,280,251,308,299,234,319,305,293,296,301,278,297,247,243,300,317,285,236,227,244,264]} 
+ Recived From Player 1 01:05:13 $FLIP_CARD:  
+
+ {"cardId":246} 
+ Recived From Player 1 01:05:13 $REMOVE_FROM_PASSIVE_MANAGER:  
+
+ {"cardId":313} 
+ Recived From Player 1 01:05:13 $ADD_MONSTER:  
+
+ {"monsterPlaceId":1,"monsterId":246} 
+ Recived From Player 1 01:05:13 $NEW_MONSTER_ON_PLACE:  
+
+ {"cardId":246,"monsterPlaceId":1} 
+ Recived From Player 1 01:05:13 $NEXT_STACK_ID:  
+ Recived From Player 1 01:05:13 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":328,"hasLockingStackEffect":false,"itemToPlayCardId":246,"itemPlayerId":1,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Curse of Amnesia"}} 
+ Recived From Player 1 01:05:13 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":328,"hasLockingStackEffect":false,"itemToPlayCardId":246,"itemPlayerId":1,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Curse of Amnesia"}} 
+ Recived From Player 1 01:05:13 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 01:05:13 $SHOW_STACK_EFFECT:  
+
+ {"effectId":2} 
+ Recived From Player 1 01:05:16 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":10,"_text":"Add Activate Item 2 "}} 
+ Recived From Player 1 01:05:16 $SHOW_ANNOUNCEMENT:  
+
+ {"text":"Player 1 is Choosing Target"} 
+ Recived From Player 1 01:05:19 $HIDE_ANNOUNCEMENT:  
+ Recived From Player 1 01:05:19 $SHOW_DECISION:  
+
+ {"startCardId":246,"endCardId":328} 
+ Recived From Player 1 01:05:22 $USE_ITEM:  
+
+ {"cardId":246} 
+ Recived From Player 1 01:05:22 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 01:05:22 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":328,"hasLockingStackEffect":false,"itemToPlayCardId":246,"itemPlayerId":1,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 1 is going to activate Curse of Amnesia"}} 
+ Recived From Player 1 01:05:22 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":11,"_text":"Response Adding Activate Item 2"},"childOfId":10} 
+ Recived From Player 1 01:05:22 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":12,"_text":"Wait For Response From Player 1 "},"childOfId":10} 
+ Recived From Player 1 01:05:22 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 01:05:22 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":12} 
+ Recived From Player 1 01:05:22 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":13,"_text":"Wait For Response From Player 2 "},"childOfId":10} 
+ Recived From Player 1 01:05:22 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 01:05:22 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 01:05:22 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":13} 
+ Recived From Player 1 01:05:22 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":11} 
+ Recived From Player 1 01:05:22 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":14,"_text":"Resolve Activate Item 2 "}} 
+ Recived From Player 1 01:05:23 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":2,"creatorCardId":328,"hasLockingStackEffect":false,"itemToPlayCardId":246,"itemPlayerId":1,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 1 is going to activate Curse of Amnesia"}]} 
+ Recived From Player 1 01:05:23 $ACTIVATE_PARTICLE_EFFECT:  
+
+ {"cardId":246,"particleType":6} 
+ Recived From Player 1 01:05:24 $DISABLE_PARTICLE_EFFECT:  
+
+ {"cardId":246,"particleType":6} 
+ Recived From Player 1 01:05:24 $CARD_ADD_TRINKET:  
+
+ {"cardId":246,"playerId":1,"addMuiliEffect":false} 
+ Recived From Player 1 01:05:25 $REGISTER_PASSIVE_ITEM:  
+
+ {"cardId":246} 
+ Recived From Player 1 01:05:25 $MOVE_CARD:  
+
+ {"moveIndex":9,"cardId":246,"placeID":1,"flipIfFlipped":true,"playerId":1,"placeType":"Desk"} 
+ Recived From Player 1 01:05:25 $ADD_AN_ITEM:  
+
+ {"playerId":1,"cardId":246,"isReward":true} 
+ Recived From Player 1 01:05:25 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":246}],"result":true,"preventMethod":false,"methodScopeId":328,"scopeIsPlayer":true,"index":2,"originStackId":-1},"isAfterActivation":true,"index":2} 
+ Recived From Player 1 01:05:25 $PLAYER_ADD_CURSE:  
+
+ {"playerId":1,"cardId":246} 
+ Recived From Player 1 01:05:25 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":2,"text":"Player 1 has activated Curse of Amnesia"} 
+ Recived From Player 1 01:05:25 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ACTIVATE_ITEM","args":[{"type":0,"number":246}],"result":null,"preventMethod":false,"methodScopeId":328,"scopeIsPlayer":true,"index":3,"originStackId":-1},"isAfterActivation":true,"index":3} 
+ Recived From Player 1 01:05:25 $MOVE_CARD:  
+
+ {"moveIndex":10,"cardId":246,"placeID":349,"flipIfFlipped":true,"playerId":1,"placeType":"Card"} 
+ Recived From Player 1 01:05:26 $MOVE_CARD_TO_PILE:  
+
+ {"type":2,"cardId":246} 
+ Recived From Player 1 01:05:26 $REMOVE_FROM_PASSIVE_MANAGER:  
+
+ {"cardId":246} 
+ Recived From Player 1 01:05:26 $REMOVE_MONSTER:  
+
+ {"holderId":1,"monsterId":246} 
+ Recived From Player 1 01:05:26 $REGISTER_PASSIVE_ITEM:  
+
+ {"cardId":313} 
+ Recived From Player 1 01:05:26 $GET_NEXT_MONSTER:  
+
+ {"monsterPlaceId":1} 
+ Recived From Player 1 01:05:26 $LOG_ERROR:  
+
+ "error while resolving stack effect Activate Item 2" 
+//////Error From Player 1////
+ [object Object]
+////// 
+ Recived From Player 1 01:05:26 $SHOW_ANNOUNCEMENT:  
+
+ {"text":"error while resolving stack effect Activate Item 2"} 
+ Recived From Player 1 01:05:26 $LOG_ERROR:  
+
+ {"message":"\"No Effect was found on Curse of Amnesia<Card> with the name \"","stack":"\"Error: No Effect was found on Curse of Amnesia<Card> with the name \\n    at CardEffect.getEffectIndexAndType (http://localhost:7456/preview-scripts/assets/Script/Entites/CardEffect.js:491:15)\\n    at new ServerActivateItem (http://localhost:7456/preview-scripts/assets/Script/StackEffects/ServerSideStackEffects/Server%20Activate%20Item.js:32:92)\\n    at ActivateItem.convertToServerStackEffect (http://localhost:7456/preview-scripts/assets/Script/StackEffects/Activate%20Item.js:298:30)\\n    at Function.<anonymous> (http://localhost:7456/preview-scripts/assets/Script/Entites/Stack.js:209:124)\\n    at step (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113362:21)\\n    at Object.next (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113306:18)\\n    at fulfilled (http://localhost:7456/app/engine/bin/cocos2d-js-for-preview.js:113267:28)\""} 
+ Recived From Player 1 01:05:26 $SHOW_ANNOUNCEMENT:  
+
+ {"text":"\"No Effect was found on Curse of Amnesia<Card> with the name \""} 
+ Recived From Player 1 01:05:26 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 01:05:26 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 01:05:29 $HIDE_ANNOUNCEMENT:  
+ Recived From Player 1 01:05:29 $HIDE_ANNOUNCEMENT: 

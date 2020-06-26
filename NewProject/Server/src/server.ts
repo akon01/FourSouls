@@ -11,6 +11,8 @@ import * as whevent from "whevent";
 import Match from "./entities/match";
 import signal from "./enums/signal";
 import { Logger } from "./utils/Logger";
+import { Card } from "./entities/Card";
+import DataParser from "./entities/dataParser";
 
 declare const Buffer;
 
@@ -217,6 +219,7 @@ export default class Server {
 
     whevent.on(signal.SET_MAX_ITEMS_STORE, this.onBroadcastExceptOrigin, this);
 
+    whevent.on(signal.SEND_CARD_DATA, this.getCardData, this);
     whevent.on(signal.LOG, this.logFromPlayer, this);
     whevent.on(signal.LOG_ERROR, this.logErrorFromPlayer, this);
 
@@ -324,6 +327,7 @@ export default class Server {
     whevent.on(signal.PLAYER_HEAL, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.PLAYER_ADD_DMG_PREVENTION, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.PLAYER_DIED, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.PLAYER_ADD_CURSE, this.onBroadcastExceptOrigin, this);
     //
 
     //monster events
@@ -369,13 +373,21 @@ export default class Server {
 
   }
 
+  getCardData({ player, data }) {
+    if (player?.match?.cards.length == 0) {
+      const allCards = JSON.parse(data.data.allCards)
+      allCards.forEach(card => player.match.cards.push(new Card(card.cardId, card.cardName)))
+      player.match.cards = allCards;
+    }
+  }
+
   onBroadcastExceptOrigin({ player, data }) {
-    player.match.broadcastExept(player, data.signal, data)
+    player?.match?.broadcastExept(player, data.signal, data)
   }
 
   onSendToSpecificPlayer({ player, data }) {
     const playerToSendToId: number = data.data.playerId
-    player.match.broadcastToPlayer(playerToSendToId, data.signal, data)
+    player?.match?.broadcastToPlayer(playerToSendToId, data.signal, data)
   }
 
   logFromPlayer({ player, data }) {
@@ -408,11 +420,11 @@ export default class Server {
   onFinishLoad({ player, data }) {
 
     player.match.loadedPlayers += 1;
-    player.match.firstPlayerId = data.data.turnPlayerId
+    player.match.firstPlayerId = data.data.id
 
     if (player.match.loadedPlayers == player.match.players.length) {
       console.log("on finish load")
-      player.match.broadcast(signal.FINISH_LOAD, { id: player.match.firstPlayerId })
+      player?.match?.broadcast(signal.FINISH_LOAD, { id: player.match.firstPlayerId })
     }
   }
 
@@ -432,7 +444,7 @@ export default class Server {
     const firstPlayer = player.match.getPlayerById(data.data.originalPlayer);
 
     firstPlayer.send(signal.RESOLVE_ACTIONS, data);
-    player.match.broadcastExept(
+    player?.match?.broadcastExept(
       firstPlayer,
       signal.OTHER_PLAYER_RESOLVE_REACTION,
       data
@@ -497,7 +509,8 @@ export default class Server {
   onMessage(player: ServerPlayer, message: string) {
     try {
       const data = JSON.parse(Buffer.from(message, "base64").toString());
-      console.log(`Recived From Player ${player.uuid}: `, data);
+      const recivedData = player?.match?.parser.parseData(data.data)
+      console.log(`${data.signal} Recived From Player ${player.uuid}: `, recivedData);
       console.log(`\n`);
 
       const id = player.uuid;

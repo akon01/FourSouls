@@ -5,6 +5,7 @@ import { PassiveMeta } from "../../Managers/PassiveManager";
 import PlayerManager from "../../Managers/PlayerManager";
 import Condition from "./Condition";
 import Card from "../../Entites/GameEntities/Card";
+import Character from "../../Entites/CardTypes/Character";
 
 const { ccclass, property } = cc._decorator;
 
@@ -15,10 +16,36 @@ export default class CardOwnerDamageGiven extends Condition {
 
   events = [PASSIVE_EVENTS.PLAYER_GET_HIT, PASSIVE_EVENTS.MONSTER_GET_HIT]
 
+  @property({
+    visible: function (this: CardOwnerDamageGiven) {
+      if (this.isOnlyPlayers == false) { return true }
+    }
+  })
+  isOnlyMonsters: boolean = false;
+
+
+  @property({
+    visible: function (this: CardOwnerDamageGiven) {
+      if (this.isOnlyMonsters == false) { return true }
+    }
+  })
+  isOnlyPlayers: boolean = false;
+
+
   needsDataCollector = false;
 
   async testCondition(meta: PassiveMeta) {
-    const player: Player = meta.methodScope.getComponent(Player);
+    let eventsToCheck = [];
+    if (this.isOnlyMonsters) {
+      eventsToCheck.push(PASSIVE_EVENTS.MONSTER_GET_HIT)
+    }
+    if (this.isOnlyPlayers) {
+      eventsToCheck.push(PASSIVE_EVENTS.PLAYER_GET_HIT)
+    }
+    if (!this.isOnlyMonsters && !this._isOnLoadCalled) {
+      eventsToCheck = this.events
+    }
+    cc.error(`events to check ,`, eventsToCheck)
     const thisCard = Card.getCardNodeByChild(this.node)
     const cardOwner = PlayerManager.getPlayerByCard(thisCard);
     const damageDealer = PlayerManager.getPlayerByCard(meta.args[1])
@@ -26,9 +53,9 @@ export default class CardOwnerDamageGiven extends Condition {
       return false;
     }
     if (
-      player instanceof Player &&
-      player.name == cardOwner.name &&
-      cardOwner.playerId && damageDealer.playerId
+      damageDealer instanceof Player &&
+      cardOwner.playerId && damageDealer.playerId &&
+      eventsToCheck.includes(meta.passiveEvent)
     ) {
       return true;
     } else {

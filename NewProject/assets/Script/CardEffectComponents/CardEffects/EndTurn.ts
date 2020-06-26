@@ -40,7 +40,7 @@ export default class EndTurn extends Effect {
 
     if (this.isCancelAllStackEffects) {
       Stack._currentStack.forEach(async stackEffect => {
-        await Stack.fizzleStackEffect(stackEffect, true)
+        await Stack.fizzleStackEffect(stackEffect, true, true)
       })
     }
 

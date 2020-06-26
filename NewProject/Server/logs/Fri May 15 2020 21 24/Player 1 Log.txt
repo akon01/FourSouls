@@ -1,0 +1,4097 @@
+Start Log 
+ Recived From Player 1 21:24:26 $START_GAME:  
+ Recived From Player 1 21:24:26 $MOVE_TO_TABLE:  
+ Recived From Player 1 21:24:30 $FINISH_LOAD:  
+
+ {"id":1,"turnPlayerId":2} 
+ Recived From Player 1 21:24:30 $ASSIGN_CHAR_TO_PLAYER:  
+
+ {"playerId":1,"charCardId":333,"itemCardId":334} 
+ Recived From Player 1 21:24:30 $SET_CHAR_END:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:24:31 $MOVE_CARD_END:  
+
+ {"moveIndex":1,"cardId":29,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 21:24:32 $MOVE_CARD_END:  
+
+ {"moveIndex":2,"cardId":47,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 21:24:32 $MOVE_CARD_END:  
+
+ {"moveIndex":3,"cardId":131,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 21:24:33 $MOVE_CARD_END:  
+
+ {"moveIndex":4,"cardId":113,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 21:24:33 $MOVE_CARD_END:  
+
+ {"moveIndex":5,"cardId":118,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 21:24:34 $MOVE_CARD_END:  
+
+ {"moveIndex":6,"cardId":25,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 21:24:37 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:24:37 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:24:37 $MOVE_CARD_END:  
+
+ {"moveIndex":7,"cardId":124,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 21:24:40 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:24:41 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:25:18 $REACTION_TOGGLED:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:25:56 $SHOW_TIMER:  
+
+ {"time":90} 
+ Recived From Player 1 21:25:56 $SHOW_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:26:04 $HIDE_TIMER:  
+ Recived From Player 1 21:26:04 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":true} 
+ Recived From Player 1 21:26:04 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:26:04 $NEXT_STACK_ID:  
+ Recived From Player 1 21:26:04 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":333,"hasLockingStackEffect":false,"itemToPlayCardId":333,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Maggy"}} 
+ Recived From Player 1 21:26:04 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":333,"hasLockingStackEffect":false,"itemToPlayCardId":333,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Maggy"}} 
+ Recived From Player 1 21:26:04 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:26:04 $SHOW_STACK_EFFECT:  
+
+ {"effectId":3} 
+ Recived From Player 1 21:26:07 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":14,"_text":"Add Activate Item 3 "}} 
+ Recived From Player 1 21:26:07 $SHOW_ANNOUNCEMENT:  
+
+ {"text":"Player 1 Is Choosing Loot To Play"} 
+ Recived From Player 1 21:26:10 $HIDE_ANNOUNCEMENT:  
+ Recived From Player 1 21:26:10 $SHOW_DECISION:  
+
+ {"startCardId":333,"endCardId":47,"flipEndCard":true} 
+ Recived From Player 1 21:26:13 $USE_ITEM:  
+
+ {"cardId":333} 
+ Recived From Player 1 21:26:13 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:26:13 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":333,"hasLockingStackEffect":false,"itemToPlayCardId":333,"itemPlayerId":1,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 1 is going to activate Maggy"}} 
+ Recived From Player 1 21:26:13 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":15,"_text":"Response Adding Activate Item 3"},"childOfId":14} 
+ Recived From Player 1 21:26:13 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":16,"_text":"Wait For Response From Player 2 "},"childOfId":14} 
+ Recived From Player 1 21:26:13 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:26:13 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:26:13 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":16} 
+ Recived From Player 1 21:26:13 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":17,"_text":"Wait For Response From Player 1 "},"childOfId":14} 
+ Recived From Player 1 21:26:13 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:26:14 $SHOW_TIMER:  
+
+ {"time":90} 
+ Recived From Player 1 21:26:14 $SHOW_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[334]} 
+ Recived From Player 1 21:26:22 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[334]} 
+ Recived From Player 1 21:26:22 $HIDE_TIMER:  
+ Recived From Player 1 21:26:22 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[334]} 
+ Recived From Player 1 21:26:22 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":17} 
+ Recived From Player 1 21:26:22 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":15} 
+ Recived From Player 1 21:26:22 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":18,"_text":"Resolve Activate Item 3 "}} 
+ Recived From Player 1 21:26:22 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":3,"creatorCardId":333,"hasLockingStackEffect":false,"itemToPlayCardId":333,"itemPlayerId":1,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 1 is going to activate Maggy"}]} 
+ Recived From Player 1 21:26:22 $ACTIVATE_PARTICLE_EFFECT:  
+
+ {"cardId":333,"particleType":6} 
+ Recived From Player 1 21:26:22 $REACTION_TOGGLED:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:26:24 $DISABLE_PARTICLE_EFFECT:  
+
+ {"cardId":333,"particleType":6} 
+ Recived From Player 1 21:26:24 $NEXT_STACK_ID:  
+ Recived From Player 1 21:26:24 $PLAYER_LOSE_LOOT:  
+
+ {"playerId":1,"cardId":47} 
+ Recived From Player 1 21:26:24 $MOVE_CARD:  
+
+ {"moveIndex":8,"cardId":47,"placeID":339,"flipIfFlipped":true,"playerId":1,"placeType":"Card"} 
+ Recived From Player 1 21:26:24 $MOVE_CARD_TO_PILE:  
+
+ {"type":7,"cardId":47} 
+ Recived From Player 1 21:26:24 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":4,"text":"Player 1 Is Going To Play 3 Cents(12): addMoney"} 
+ Recived From Player 1 21:26:24 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:26:24 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:26:24 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":325,"hasLockingStackEffect":false,"itemToPlayCardId":328,"itemPlayerId":2,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 2 is going to activate Sleight Of Hand"}} 
+ Recived From Player 1 21:26:24 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":4,"creatorCardId":333,"hasLockingStackEffect":false,"hasLockingStackEffectResolved":false,"lootToPlayCardId":47,"lootPlayerId":1,"effectToDo":{"effectName":"addMoney","cardEffectNum":0,"cardPlayerId":1,"cardId":47,"effctType":1},"lable":"Player 1 Is Going To Play 3 Cents(12): addMoney","hasDataBeenCollectedYet":true,"stackEffectType":8}} 
+ Recived From Player 1 21:26:24 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":333,"hasLockingStackEffect":false,"itemToPlayCardId":333,"itemPlayerId":1,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 1 is going to activate Maggy"}} 
+ Recived From Player 1 21:26:24 $REPLACE_STACK:  
+
+ {"currentStack":[{"entityId":2,"creatorCardId":325,"hasLockingStackEffect":false,"itemToPlayCardId":328,"itemPlayerId":2,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 2 is going to activate Sleight Of Hand"},{"entityId":4,"creatorCardId":333,"hasLockingStackEffect":false,"hasLockingStackEffectResolved":false,"lootToPlayCardId":47,"lootPlayerId":1,"effectToDo":{"effectName":"addMoney","cardEffectNum":0,"cardPlayerId":1,"cardId":47,"effctType":1},"lable":"Player 1 Is Going To Play 3 Cents(12): addMoney","hasDataBeenCollectedYet":true,"stackEffectType":8},{"entityId":3,"creatorCardId":333,"hasLockingStackEffect":false,"itemToPlayCardId":333,"itemPlayerId":1,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 1 is going to activate Maggy"}]} 
+ Recived From Player 1 21:26:24 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:26:24 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":3,"text":"Player 1 has activated Maggy"} 
+ Recived From Player 1 21:26:24 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ACTIVATE_ITEM","args":[{"type":0,"number":333}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+ Recived From Player 1 21:26:24 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":333,"hasLockingStackEffect":false,"itemToPlayCardId":333,"itemPlayerId":1,"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 1 has activated Maggy"}} 
+ Recived From Player 1 21:26:24 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:26:24 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:26:24 $SHOW_STACK_EFFECT:  
+
+ {"effectId":3} 
+ Recived From Player 1 21:26:27 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":3} 
+ Recived From Player 1 21:26:27 $SHOW_STACK_EFFECT:  
+
+ {"effectId":4} 
+ Recived From Player 1 21:26:30 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":19,"_text":"Remove After Resolve Activate Item 3  "}} 
+ Recived From Player 1 21:26:30 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":3,"creatorCardId":333,"hasLockingStackEffect":false,"itemToPlayCardId":333,"itemPlayerId":1,"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 1 has activated Maggy"}} 
+ Recived From Player 1 21:26:30 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":20,"_text":"Response Remove After Resolve Activate Item 3"},"childOfId":19} 
+ Recived From Player 1 21:26:30 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":21,"_text":"Wait For Response From Player 2 "},"childOfId":19} 
+ Recived From Player 1 21:26:30 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:26:30 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:26:30 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":21} 
+ Recived From Player 1 21:26:30 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":22,"_text":"Wait For Response From Player 1 "},"childOfId":19} 
+ Recived From Player 1 21:26:30 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:26:30 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":22} 
+ Recived From Player 1 21:26:30 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":20} 
+ Recived From Player 1 21:26:30 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":23,"_text":"Resolve Play Loot Card 4 "}} 
+ Recived From Player 1 21:26:30 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":4,"creatorCardId":333,"hasLockingStackEffect":false,"hasLockingStackEffectResolved":false,"lootToPlayCardId":47,"lootPlayerId":1,"effectToDo":{"effectName":"addMoney","cardEffectNum":0,"cardPlayerId":1,"cardId":47,"effctType":1},"lable":"Player 1 Is Going To Play 3 Cents(12): addMoney","hasDataBeenCollectedYet":true,"stackEffectType":8}]} 
+ Recived From Player 1 21:26:30 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":4,"text":"Player 1 Plays 3 Cents(12): addMoney"} 
+ Recived From Player 1 21:26:30 $ACTIVATE_PARTICLE_EFFECT:  
+
+ {"cardId":47,"particleType":6} 
+ Recived From Player 1 21:26:32 $DISABLE_PARTICLE_EFFECT:  
+
+ {"cardId":47,"particleType":6} 
+ Recived From Player 1 21:26:32 $SET_MONEY:  
+
+ {"playerId":1,"numOfCoins":6} 
+ Recived From Player 1 21:26:32 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":3}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":2,"originStackId":-1},"isAfterActivation":true,"index":2} 
+ Recived From Player 1 21:26:32 $REMOVE_FROM_PILE:  
+
+ {"cardId":47} 
+ Recived From Player 1 21:26:32 $MOVE_CARD:  
+
+ {"moveIndex":9,"cardId":47,"placeID":340,"flipIfFlipped":true,"playerId":1,"placeType":"Card"} 
+ Recived From Player 1 21:26:33 $MOVE_CARD_TO_PILE:  
+
+ {"type":1,"cardId":47} 
+ Recived From Player 1 21:26:33 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":4,"creatorCardId":333,"hasLockingStackEffect":false,"hasLockingStackEffectResolved":false,"lootToPlayCardId":47,"lootPlayerId":1,"lable":"Player 1 Plays 3 Cents(12): addMoney","hasDataBeenCollectedYet":true,"stackEffectType":8}} 
+ Recived From Player 1 21:26:33 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:26:33 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:26:33 $SHOW_STACK_EFFECT:  
+
+ {"effectId":4} 
+ Recived From Player 1 21:26:36 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":4} 
+ Recived From Player 1 21:26:36 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":24,"_text":"Remove After Resolve Play Loot Card 4  "}} 
+ Recived From Player 1 21:26:36 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":4,"creatorCardId":333,"hasLockingStackEffect":false,"hasLockingStackEffectResolved":false,"lootToPlayCardId":47,"lootPlayerId":1,"lable":"Player 1 Plays 3 Cents(12): addMoney","hasDataBeenCollectedYet":true,"stackEffectType":8}} 
+ Recived From Player 1 21:26:36 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":25,"_text":"Response Remove After Resolve Play Loot Card 4"},"childOfId":24} 
+ Recived From Player 1 21:26:36 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":26,"_text":"Wait For Response From Player 1 "},"childOfId":24} 
+ Recived From Player 1 21:26:36 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:26:36 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":26} 
+ Recived From Player 1 21:26:36 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":27,"_text":"Wait For Response From Player 2 "},"childOfId":24} 
+ Recived From Player 1 21:26:36 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:26:36 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:26:36 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":27} 
+ Recived From Player 1 21:26:36 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":25} 
+ Recived From Player 1 21:26:36 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":28,"_text":"Resolve Activate Item 2 "}} 
+ Recived From Player 1 21:26:36 $DO_STACK_EFFECT:  
+
+ {"originPlayerId":1,"playerId":2,"currentStack":[{"entityId":2,"creatorCardId":325,"hasLockingStackEffect":false,"itemToPlayCardId":328,"itemPlayerId":2,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 2 is going to activate Sleight Of Hand"}]} 
+ Recived From Player 1 21:26:54 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:26:54 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":325,"hasLockingStackEffect":false,"itemToPlayCardId":328,"itemPlayerId":2,"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 2 has activated Sleight Of Hand"}} 
+ Recived From Player 1 21:26:54 $REPLACE_STACK:  
+
+ {"currentStack":[{"entityId":2,"creatorCardId":325,"hasLockingStackEffect":false,"itemToPlayCardId":328,"itemPlayerId":2,"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 2 has activated Sleight Of Hand"}]} 
+ Recived From Player 1 21:26:54 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:26:54 $SHOW_STACK_EFFECT:  
+
+ {"effectId":2} 
+ Recived From Player 1 21:26:57 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":2} 
+ Recived From Player 1 21:26:57 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":29,"_text":"Remove After Resolve Activate Item 2  "}} 
+ Recived From Player 1 21:26:57 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":2,"creatorCardId":325,"hasLockingStackEffect":false,"itemToPlayCardId":328,"itemPlayerId":2,"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 2 has activated Sleight Of Hand"}} 
+ Recived From Player 1 21:26:57 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":30,"_text":"Response Remove After Resolve Activate Item 2"},"childOfId":29} 
+ Recived From Player 1 21:26:57 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":31,"_text":"Wait For Response From Player 2 "},"childOfId":29} 
+ Recived From Player 1 21:26:57 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:26:57 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:26:57 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":31} 
+ Recived From Player 1 21:26:57 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":32,"_text":"Wait For Response From Player 1 "},"childOfId":29} 
+ Recived From Player 1 21:26:57 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:26:57 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":32} 
+ Recived From Player 1 21:26:57 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":30} 
+ Recived From Player 1 21:26:57 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":33,"_text":"Stack Was Emptied "}} 
+ Recived From Player 1 21:26:57 $TURN_PLAYER_DO_STACK_EFFECT:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:26:57 $STACK_EMPTIED:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:27:05 $MOVE_CARD_END:  
+
+ {"moveIndex":10,"cardId":118,"flipIfFlipped":true,"playerId":2} 
+ Recived From Player 1 21:27:05 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[334]} 
+ Recived From Player 1 21:27:05 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:27:08 $MOVE_CARD_END:  
+
+ {"moveIndex":11,"cardId":118,"flipIfFlipped":true,"playerId":2} 
+ Recived From Player 1 21:27:11 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[334]} 
+ Recived From Player 1 21:27:11 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:27:23 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[334]} 
+ Recived From Player 1 21:27:23 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:27:25 $MOVE_CARD_END:  
+
+ {"moveIndex":12,"cardId":25,"flipIfFlipped":true,"playerId":2} 
+ Recived From Player 1 21:27:31 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[334]} 
+ Recived From Player 1 21:27:31 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:27:37 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[334]} 
+ Recived From Player 1 21:27:37 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:27:45 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[334]} 
+ Recived From Player 1 21:27:45 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:27:48 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[334]} 
+ Recived From Player 1 21:27:48 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:27:53 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[334]} 
+ Recived From Player 1 21:27:53 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:27:54 $MOVE_CARD_END:  
+
+ {"moveIndex":13,"cardId":25,"flipIfFlipped":true,"playerId":2} 
+ Recived From Player 1 21:27:57 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[334]} 
+ Recived From Player 1 21:27:57 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:28:01 $STACK_EMPTIED:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:28:01 $RECHARGE_ITEM:  
+
+ {"cardId":333} 
+ Recived From Player 1 21:28:01 $PLAYER_RECHARGE_ITEM:  
+
+ {"playerId":1,"cardId":333} 
+ Recived From Player 1 21:28:01 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:28:01 $NEXT_STACK_ID:  
+ Recived From Player 1 21:28:01 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":10,"creatorCardId":333,"turnPlayerCardId":333,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+ Recived From Player 1 21:28:01 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":10,"creatorCardId":333,"turnPlayerCardId":333,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+ Recived From Player 1 21:28:01 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:28:01 $SHOW_STACK_EFFECT:  
+
+ {"effectId":10} 
+ Recived From Player 1 21:28:01 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:28:04 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":79,"_text":"Add Start Turn Loot Draw 10 "}} 
+ Recived From Player 1 21:28:04 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:28:04 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":10,"creatorCardId":333,"turnPlayerCardId":333,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+ Recived From Player 1 21:28:04 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":80,"_text":"Response Adding Start Turn Loot Draw 10"},"childOfId":79} 
+ Recived From Player 1 21:28:04 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":81,"_text":"Wait For Response From Player 1 "},"childOfId":79} 
+ Recived From Player 1 21:28:04 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:28:04 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":81} 
+ Recived From Player 1 21:28:04 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":82,"_text":"Wait For Response From Player 2 "},"childOfId":79} 
+ Recived From Player 1 21:28:04 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:28:04 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:28:04 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":82} 
+ Recived From Player 1 21:28:04 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":80} 
+ Recived From Player 1 21:28:05 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":83,"_text":"Resolve Start Turn Loot Draw 10 "}} 
+ Recived From Player 1 21:28:05 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":10,"creatorCardId":333,"turnPlayerCardId":333,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}]} 
+ Recived From Player 1 21:28:05 $DRAW_CARD:  
+
+ {"deckType":1} 
+ Recived From Player 1 21:28:05 $MOVE_CARD:  
+
+ {"moveIndex":14,"cardId":26,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":-7.599999904632568,"y":-0.20000000298023224,"z":0},"playerId":1,"placeType":"Hand"} 
+ Recived From Player 1 21:28:05 $CARD_DRAWN:  
+
+ {"playerId":1,"deckType":1,"drawnCardId":26} 
+ Recived From Player 1 21:28:05 $FLIP_CARD:  
+
+ {"cardId":26} 
+ Recived From Player 1 21:28:05 $PLAYER_GET_LOOT:  
+
+ {"playerId":1,"cardId":26} 
+ Recived From Player 1 21:28:05 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":26}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":3,"originStackId":-1},"isAfterActivation":true,"index":3} 
+ Recived From Player 1 21:28:05 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":10,"text":"Player 1 Has Drawn Loot For Start Turn"} 
+ Recived From Player 1 21:28:05 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":10,"creatorCardId":333,"turnPlayerCardId":333,"stackEffectType":13,"lable":"Player 1 Has Drawn Loot For Start Turn"}} 
+ Recived From Player 1 21:28:05 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:28:05 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:28:05 $SHOW_STACK_EFFECT:  
+
+ {"effectId":10} 
+ Recived From Player 1 21:28:08 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":10} 
+ Recived From Player 1 21:28:08 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":84,"_text":"Remove After Resolve Start Turn Loot Draw 10  "}} 
+ Recived From Player 1 21:28:08 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":10,"creatorCardId":333,"turnPlayerCardId":333,"stackEffectType":13,"lable":"Player 1 Has Drawn Loot For Start Turn"}} 
+ Recived From Player 1 21:28:08 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":85,"_text":"Response Remove After Resolve Start Turn Loot Draw 10"},"childOfId":84} 
+ Recived From Player 1 21:28:08 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":86,"_text":"Wait For Response From Player 2 "},"childOfId":84} 
+ Recived From Player 1 21:28:08 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:28:08 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:28:08 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":86} 
+ Recived From Player 1 21:28:08 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":87,"_text":"Wait For Response From Player 1 "},"childOfId":84} 
+ Recived From Player 1 21:28:08 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:28:08 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":87} 
+ Recived From Player 1 21:28:08 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":85} 
+ Recived From Player 1 21:28:08 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":88,"_text":"Stack Was Emptied "}} 
+ Recived From Player 1 21:28:08 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:28:15 $NEXT_STACK_ID:  
+ Recived From Player 1 21:28:15 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":11,"creatorCardId":333,"attackingPlayerCardId":333,"idOfCardBeingAttacked":248,"stackEffectType":4,"lable":"Player 1 declared attack on Daddy Long Legs"}} 
+ Recived From Player 1 21:28:15 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":11,"creatorCardId":333,"attackingPlayerCardId":333,"idOfCardBeingAttacked":248,"stackEffectType":4,"lable":"Player 1 declared attack on Daddy Long Legs"}} 
+ Recived From Player 1 21:28:15 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:28:15 $SHOW_STACK_EFFECT:  
+
+ {"effectId":11} 
+ Recived From Player 1 21:28:18 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":89,"_text":"Add Player Declare Attack On Monster 11 "}} 
+ Recived From Player 1 21:28:18 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:28:18 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":11,"creatorCardId":333,"attackingPlayerCardId":333,"idOfCardBeingAttacked":248,"stackEffectType":4,"lable":"Player 1 declared attack on Daddy Long Legs"}} 
+ Recived From Player 1 21:28:18 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":90,"_text":"Response Adding Player Declare Attack On Monster 11"},"childOfId":89} 
+ Recived From Player 1 21:28:18 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":91,"_text":"Wait For Response From Player 1 "},"childOfId":89} 
+ Recived From Player 1 21:28:18 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:28:18 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":91} 
+ Recived From Player 1 21:28:18 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":92,"_text":"Wait For Response From Player 2 "},"childOfId":89} 
+ Recived From Player 1 21:28:18 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:28:18 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:28:18 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":92} 
+ Recived From Player 1 21:28:18 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":90} 
+ Recived From Player 1 21:28:18 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":93,"_text":"Resolve Player Declare Attack On Monster 11 "}} 
+ Recived From Player 1 21:28:18 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":11,"creatorCardId":333,"attackingPlayerCardId":333,"idOfCardBeingAttacked":248,"stackEffectType":4,"lable":"Player 1 declared attack on Daddy Long Legs"}]} 
+ Recived From Player 1 21:28:18 $ACTIVATE_PARTICLE_EFFECT:  
+
+ {"cardId":248,"particleType":5} 
+ Recived From Player 1 21:28:19 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":11,"text":"Player 1 Has Entered Battle with Daddy Long Legs"} 
+ Recived From Player 1 21:28:19 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_DECLARE_ATTACK","args":[],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":4,"originStackId":11},"isAfterActivation":true,"index":4} 
+ Recived From Player 1 21:28:19 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":11,"creatorCardId":333,"attackingPlayerCardId":333,"idOfCardBeingAttacked":248,"stackEffectType":4,"lable":"Player 1 Has Entered Battle with Daddy Long Legs"}} 
+ Recived From Player 1 21:28:19 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:28:19 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:28:19 $SHOW_STACK_EFFECT:  
+
+ {"effectId":11} 
+ Recived From Player 1 21:28:21 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":11} 
+ Recived From Player 1 21:28:21 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":94,"_text":"Remove After Resolve Player Declare Attack On Monster 11  "}} 
+ Recived From Player 1 21:28:21 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":11,"creatorCardId":333,"attackingPlayerCardId":333,"idOfCardBeingAttacked":248,"stackEffectType":4,"lable":"Player 1 Has Entered Battle with Daddy Long Legs"}} 
+ Recived From Player 1 21:28:21 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":95,"_text":"Response Remove After Resolve Player Declare Attack On Monster 11"},"childOfId":94} 
+ Recived From Player 1 21:28:21 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":96,"_text":"Wait For Response From Player 2 "},"childOfId":94} 
+ Recived From Player 1 21:28:22 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:28:22 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:28:22 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":96} 
+ Recived From Player 1 21:28:22 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":97,"_text":"Wait For Response From Player 1 "},"childOfId":94} 
+ Recived From Player 1 21:28:22 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:28:22 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":97} 
+ Recived From Player 1 21:28:22 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":95} 
+ Recived From Player 1 21:28:22 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":98,"_text":"Stack Was Emptied "}} 
+ Recived From Player 1 21:28:22 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:28:24 $NEXT_STACK_ID:  
+ Recived From Player 1 21:28:24 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":12,"creatorCardId":333,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 is rolling against Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:28:24 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":12,"creatorCardId":333,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 is rolling against Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:28:24 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:28:24 $SHOW_STACK_EFFECT:  
+
+ {"effectId":12} 
+ Recived From Player 1 21:28:27 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":99,"_text":"Add Player Attack Roll On Monster 12 "}} 
+ Recived From Player 1 21:28:27 $ROLL_DICE:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:28:30 $ROLL_DICE_ENDED:  
+
+ {"playerId":1,"numberRolled":4} 
+ Recived From Player 1 21:28:30 $UPDATE_STACK_VIS:  
+
+ {"stackId":12,"text":"player rolled 4 vs Daddy Long Legs<Monster>"} 
+ Recived From Player 1 21:28:30 $SHOW_DICE_ROLL:  
+
+ {"stackId":12} 
+ Recived From Player 1 21:28:33 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":12,"text":"Player 1 rolled 4 vs Daddy Long Legs<Monster>"} 
+ Recived From Player 1 21:28:33 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:28:33 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":12,"creatorCardId":333,"numberRolled":4,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 rolled 4 vs Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:28:33 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":100,"_text":"Response Adding Player Attack Roll On Monster 12"},"childOfId":99} 
+ Recived From Player 1 21:28:33 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":101,"_text":"Wait For Response From Player 1 "},"childOfId":99} 
+ Recived From Player 1 21:28:33 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:28:33 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":101} 
+ Recived From Player 1 21:28:33 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":102,"_text":"Wait For Response From Player 2 "},"childOfId":99} 
+ Recived From Player 1 21:28:33 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:28:33 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:28:33 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":102} 
+ Recived From Player 1 21:28:33 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":100} 
+ Recived From Player 1 21:28:33 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":103,"_text":"Resolve Player Attack Roll On Monster 12 "}} 
+ Recived From Player 1 21:28:33 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":12,"creatorCardId":333,"numberRolled":4,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 rolled 4 vs Daddy Long Legs<Monster>"}]} 
+ Recived From Player 1 21:28:33 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":104,"_text":"Added 0 to original roll"}} 
+ Recived From Player 1 21:28:33 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":12,"text":"Player 1 Rolled 4 Against Daddy Long Legs<Monster> 4"} 
+ Recived From Player 1 21:28:33 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":12,"text":"Player 1 Roll Hit"} 
+ Recived From Player 1 21:28:33 $NEXT_STACK_ID:  
+ Recived From Player 1 21:28:33 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:28:33 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:28:33 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":13,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":4,"lable":"Maggy is going to hurt Daddy Long Legs"}} 
+ Recived From Player 1 21:28:33 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":12,"creatorCardId":333,"numberRolled":4,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Hit"}} 
+ Recived From Player 1 21:28:33 $REPLACE_STACK:  
+
+ {"currentStack":[{"entityId":13,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":4,"lable":"Maggy is going to hurt Daddy Long Legs"},{"entityId":12,"creatorCardId":333,"numberRolled":4,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Hit"}]} 
+ Recived From Player 1 21:28:33 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:28:33 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ROLL_DICE","args":[{"type":2,"number":4},{"type":2,"number":2},{"type":2,"number":4}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":5,"originStackId":12},"isAfterActivation":true,"index":5} 
+ Recived From Player 1 21:28:33 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":12,"creatorCardId":333,"numberRolled":4,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Hit"}} 
+ Recived From Player 1 21:28:33 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:28:33 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:28:33 $SHOW_STACK_EFFECT:  
+
+ {"effectId":12} 
+ Recived From Player 1 21:28:36 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":12} 
+ Recived From Player 1 21:28:36 $SHOW_STACK_EFFECT:  
+
+ {"effectId":13} 
+ Recived From Player 1 21:28:39 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":105,"_text":"Remove After Resolve Player Attack Roll On Monster 12  "}} 
+ Recived From Player 1 21:28:39 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":12,"creatorCardId":333,"numberRolled":4,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Hit"}} 
+ Recived From Player 1 21:28:39 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":106,"_text":"Response Remove After Resolve Player Attack Roll On Monster 12"},"childOfId":105} 
+ Recived From Player 1 21:28:39 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":107,"_text":"Wait For Response From Player 1 "},"childOfId":105} 
+ Recived From Player 1 21:28:39 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:28:39 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":107} 
+ Recived From Player 1 21:28:39 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":108,"_text":"Wait For Response From Player 2 "},"childOfId":105} 
+ Recived From Player 1 21:28:39 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:28:39 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:28:39 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":108} 
+ Recived From Player 1 21:28:39 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":106} 
+ Recived From Player 1 21:28:39 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":109,"_text":"Resolve Monster Combat Damage To A Player 13 "}} 
+ Recived From Player 1 21:28:39 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":13,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":4,"lable":"Maggy is going to hurt Daddy Long Legs"}]} 
+ Recived From Player 1 21:28:39 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":13,"text":"Maggy will deal 1 combat damage to Daddy Long Legs "} 
+ Recived From Player 1 21:28:39 $UPDATE_STACK_VIS:  
+
+ {"stackId":13,"text":"Maggy will deal 1 combat damage to Daddy Long Legs"} 
+ Recived From Player 1 21:28:39 $MONSTER_GET_DAMAGED:  
+
+ {"cardId":248,"hpLeft":3,"damageDealerId":333} 
+ Recived From Player 1 21:28:39 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"MONSTER_GET_HIT","args":[{"type":2,"number":1},{"type":0,"number":333},{"type":2}],"result":null,"preventMethod":false,"methodScopeId":248,"scopeIsPlayer":false,"index":6,"originStackId":-1},"isAfterActivation":true,"index":6} 
+ Recived From Player 1 21:28:39 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_COMBAT_DAMAGE_GIVEN","args":[{"type":2,"number":1},{"type":2,"number":4},{"type":0,"number":333},{"type":0,"number":248}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":7,"originStackId":13},"isAfterActivation":true,"index":7} 
+ Recived From Player 1 21:28:39 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":13,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":4,"lable":"Maggy will deal 1 combat damage to Daddy Long Legs "}} 
+ Recived From Player 1 21:28:39 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:28:39 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:28:39 $SHOW_STACK_EFFECT:  
+
+ {"effectId":13} 
+ Recived From Player 1 21:28:42 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":13} 
+ Recived From Player 1 21:28:42 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":110,"_text":"Remove After Resolve Monster Combat Damage To A Player 13  "}} 
+ Recived From Player 1 21:28:42 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":13,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":4,"lable":"Maggy will deal 1 combat damage to Daddy Long Legs "}} 
+ Recived From Player 1 21:28:42 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":111,"_text":"Response Remove After Resolve Monster Combat Damage To A Player 13"},"childOfId":110} 
+ Recived From Player 1 21:28:42 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":112,"_text":"Wait For Response From Player 2 "},"childOfId":110} 
+ Recived From Player 1 21:28:42 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:28:42 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:28:43 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":112} 
+ Recived From Player 1 21:28:43 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":113,"_text":"Wait For Response From Player 1 "},"childOfId":110} 
+ Recived From Player 1 21:28:43 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:28:43 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":113} 
+ Recived From Player 1 21:28:43 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":111} 
+ Recived From Player 1 21:28:43 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":114,"_text":"Stack Was Emptied "}} 
+ Recived From Player 1 21:28:43 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:28:47 $NEXT_STACK_ID:  
+ Recived From Player 1 21:28:47 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":14,"creatorCardId":333,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 is rolling against Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:28:47 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":14,"creatorCardId":333,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 is rolling against Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:28:47 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:28:47 $SHOW_STACK_EFFECT:  
+
+ {"effectId":14} 
+ Recived From Player 1 21:28:50 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":115,"_text":"Add Player Attack Roll On Monster 14 "}} 
+ Recived From Player 1 21:28:50 $ROLL_DICE:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:28:52 $ROLL_DICE_ENDED:  
+
+ {"playerId":1,"numberRolled":2} 
+ Recived From Player 1 21:28:52 $UPDATE_STACK_VIS:  
+
+ {"stackId":14,"text":"player rolled 2 vs Daddy Long Legs<Monster>"} 
+ Recived From Player 1 21:28:52 $SHOW_DICE_ROLL:  
+
+ {"stackId":14} 
+ Recived From Player 1 21:28:55 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":14,"text":"Player 1 rolled 2 vs Daddy Long Legs<Monster>"} 
+ Recived From Player 1 21:28:55 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:28:55 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":14,"creatorCardId":333,"numberRolled":2,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 rolled 2 vs Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:28:55 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":116,"_text":"Response Adding Player Attack Roll On Monster 14"},"childOfId":115} 
+ Recived From Player 1 21:28:55 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":117,"_text":"Wait For Response From Player 1 "},"childOfId":115} 
+ Recived From Player 1 21:28:55 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:28:55 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":117} 
+ Recived From Player 1 21:28:55 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":118,"_text":"Wait For Response From Player 2 "},"childOfId":115} 
+ Recived From Player 1 21:28:55 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:28:55 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:28:55 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":118} 
+ Recived From Player 1 21:28:55 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":116} 
+ Recived From Player 1 21:28:55 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":119,"_text":"Resolve Player Attack Roll On Monster 14 "}} 
+ Recived From Player 1 21:28:55 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":14,"creatorCardId":333,"numberRolled":2,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 rolled 2 vs Daddy Long Legs<Monster>"}]} 
+ Recived From Player 1 21:28:55 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":120,"_text":"Added 0 to original roll"}} 
+ Recived From Player 1 21:28:55 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":14,"text":"Player 1 Rolled 2 Against Daddy Long Legs<Monster> 4"} 
+ Recived From Player 1 21:28:55 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":14,"text":"Player 1 Roll Miss"} 
+ Recived From Player 1 21:28:55 $NEXT_STACK_ID:  
+ Recived From Player 1 21:28:55 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:28:56 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:28:56 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":15,"creatorCardId":333,"entityToDoDamageCardId":248,"entityToTakeDamageCardId":333,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":2,"lable":"Daddy Long Legs is going to hurt Maggy"}} 
+ Recived From Player 1 21:28:56 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":14,"creatorCardId":333,"numberRolled":2,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Miss"}} 
+ Recived From Player 1 21:28:56 $REPLACE_STACK:  
+
+ {"currentStack":[{"entityId":15,"creatorCardId":333,"entityToDoDamageCardId":248,"entityToTakeDamageCardId":333,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":2,"lable":"Daddy Long Legs is going to hurt Maggy"},{"entityId":14,"creatorCardId":333,"numberRolled":2,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Miss"}]} 
+ Recived From Player 1 21:28:56 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:28:56 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ROLL_DICE","args":[{"type":2,"number":2},{"type":2,"number":1},{"type":2,"number":4}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":8,"originStackId":14},"isAfterActivation":true,"index":8} 
+ Recived From Player 1 21:28:56 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":14,"creatorCardId":333,"numberRolled":2,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Miss"}} 
+ Recived From Player 1 21:28:56 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:28:56 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:28:56 $SHOW_STACK_EFFECT:  
+
+ {"effectId":14} 
+ Recived From Player 1 21:28:58 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":14} 
+ Recived From Player 1 21:28:58 $SHOW_STACK_EFFECT:  
+
+ {"effectId":15} 
+ Recived From Player 1 21:29:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":121,"_text":"Remove After Resolve Player Attack Roll On Monster 14  "}} 
+ Recived From Player 1 21:29:01 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":14,"creatorCardId":333,"numberRolled":2,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Miss"}} 
+ Recived From Player 1 21:29:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":122,"_text":"Response Remove After Resolve Player Attack Roll On Monster 14"},"childOfId":121} 
+ Recived From Player 1 21:29:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":123,"_text":"Wait For Response From Player 1 "},"childOfId":121} 
+ Recived From Player 1 21:29:01 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:29:01 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":123} 
+ Recived From Player 1 21:29:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":124,"_text":"Wait For Response From Player 2 "},"childOfId":121} 
+ Recived From Player 1 21:29:02 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:29:02 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:29:02 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":124} 
+ Recived From Player 1 21:29:02 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":122} 
+ Recived From Player 1 21:29:02 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":125,"_text":"Resolve Monster Combat Damage To A Player 15 "}} 
+ Recived From Player 1 21:29:02 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":15,"creatorCardId":333,"entityToDoDamageCardId":248,"entityToTakeDamageCardId":333,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":2,"lable":"Daddy Long Legs is going to hurt Maggy"}]} 
+ Recived From Player 1 21:29:02 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":15,"text":"Daddy Long Legs Is Going To Hurt Maggy For 1 DMG "} 
+ Recived From Player 1 21:29:02 $UPDATE_STACK_VIS:  
+
+ {"stackId":15,"text":"Daddy Long Legs will deal 1 combat damage to Maggy"} 
+ Recived From Player 1 21:29:02 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":15,"text":"Daddy Long Legs will deal 1 combat damage to Maggy"} 
+ Recived From Player 1 21:29:02 $PLAYER_GET_HIT:  
+
+ {"playerId":1,"damage":1,"damageDealerId":248} 
+ Recived From Player 1 21:29:02 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_GET_HIT","args":[{"type":2,"number":1},{"type":0,"number":248}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":9,"originStackId":-1},"isAfterActivation":true,"index":9} 
+ Recived From Player 1 21:29:02 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_COMBAT_DAMAGE_TAKEN","args":[{"type":2,"number":1},{"type":2,"number":2},{"type":0,"number":248}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":10,"originStackId":15},"isAfterActivation":true,"index":10} 
+ Recived From Player 1 21:29:02 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":15,"creatorCardId":333,"entityToDoDamageCardId":248,"entityToTakeDamageCardId":333,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":2,"lable":"Daddy Long Legs will deal 1 combat damage to Maggy"}} 
+ Recived From Player 1 21:29:02 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:29:02 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:29:02 $SHOW_STACK_EFFECT:  
+
+ {"effectId":15} 
+ Recived From Player 1 21:29:05 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":15} 
+ Recived From Player 1 21:29:05 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":126,"_text":"Remove After Resolve Monster Combat Damage To A Player 15  "}} 
+ Recived From Player 1 21:29:05 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":15,"creatorCardId":333,"entityToDoDamageCardId":248,"entityToTakeDamageCardId":333,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":2,"lable":"Daddy Long Legs will deal 1 combat damage to Maggy"}} 
+ Recived From Player 1 21:29:05 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":127,"_text":"Response Remove After Resolve Monster Combat Damage To A Player 15"},"childOfId":126} 
+ Recived From Player 1 21:29:05 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":128,"_text":"Wait For Response From Player 2 "},"childOfId":126} 
+ Recived From Player 1 21:29:05 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:29:05 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:29:05 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":128} 
+ Recived From Player 1 21:29:05 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":129,"_text":"Wait For Response From Player 1 "},"childOfId":126} 
+ Recived From Player 1 21:29:05 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:29:05 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":129} 
+ Recived From Player 1 21:29:05 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":127} 
+ Recived From Player 1 21:29:05 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":130,"_text":"Stack Was Emptied "}} 
+ Recived From Player 1 21:29:05 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:29:10 $NEXT_STACK_ID:  
+ Recived From Player 1 21:29:10 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":16,"creatorCardId":333,"hasLockingStackEffect":false,"itemToPlayCardId":334,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Yum Heart"}} 
+ Recived From Player 1 21:29:10 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":16,"creatorCardId":333,"hasLockingStackEffect":false,"itemToPlayCardId":334,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Yum Heart"}} 
+ Recived From Player 1 21:29:10 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:29:10 $SHOW_STACK_EFFECT:  
+
+ {"effectId":16} 
+ Recived From Player 1 21:29:13 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":131,"_text":"Add Activate Item 16 "}} 
+ Recived From Player 1 21:29:13 $SHOW_ANNOUNCEMENT:  
+
+ {"text":"Player 1 is Choosing Target"} 
+ Recived From Player 1 21:29:15 $HIDE_ANNOUNCEMENT:  
+ Recived From Player 1 21:29:15 $SHOW_DECISION:  
+
+ {"startCardId":334,"endCardId":333} 
+ Recived From Player 1 21:29:18 $USE_ITEM:  
+
+ {"cardId":334} 
+ Recived From Player 1 21:29:18 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:29:18 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":16,"creatorCardId":333,"hasLockingStackEffect":false,"itemToPlayCardId":334,"itemPlayerId":1,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 1 is going to activate Yum Heart"}} 
+ Recived From Player 1 21:29:18 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":132,"_text":"Response Adding Activate Item 16"},"childOfId":131} 
+ Recived From Player 1 21:29:18 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":133,"_text":"Wait For Response From Player 1 "},"childOfId":131} 
+ Recived From Player 1 21:29:18 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:29:18 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":133} 
+ Recived From Player 1 21:29:18 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":134,"_text":"Wait For Response From Player 2 "},"childOfId":131} 
+ Recived From Player 1 21:29:18 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:29:18 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:29:18 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":134} 
+ Recived From Player 1 21:29:18 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":132} 
+ Recived From Player 1 21:29:18 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":135,"_text":"Resolve Activate Item 16 "}} 
+ Recived From Player 1 21:29:18 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":16,"creatorCardId":333,"hasLockingStackEffect":false,"itemToPlayCardId":334,"itemPlayerId":1,"effectToDoData":{"type":1,"index":0},"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 1 is going to activate Yum Heart"}]} 
+ Recived From Player 1 21:29:18 $ACTIVATE_PARTICLE_EFFECT:  
+
+ {"cardId":334,"particleType":6} 
+ Recived From Player 1 21:29:20 $DISABLE_PARTICLE_EFFECT:  
+
+ {"cardId":334,"particleType":6} 
+ Recived From Player 1 21:29:20 $PLAYER_ADD_DMG_PREVENTION:  
+
+ {"playerId":1,"dmgToPrevent":1} 
+ Recived From Player 1 21:29:20 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":16,"text":"Player 1 has activated Yum Heart"} 
+ Recived From Player 1 21:29:20 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ACTIVATE_ITEM","args":[{"type":0,"number":334}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":11,"originStackId":-1},"isAfterActivation":true,"index":11} 
+ Recived From Player 1 21:29:20 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":16,"creatorCardId":333,"hasLockingStackEffect":false,"itemToPlayCardId":334,"itemPlayerId":1,"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 1 has activated Yum Heart"}} 
+ Recived From Player 1 21:29:20 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:29:20 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:29:20 $SHOW_STACK_EFFECT:  
+
+ {"effectId":16} 
+ Recived From Player 1 21:29:23 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":16} 
+ Recived From Player 1 21:29:23 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":136,"_text":"Remove After Resolve Activate Item 16  "}} 
+ Recived From Player 1 21:29:23 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":16,"creatorCardId":333,"hasLockingStackEffect":false,"itemToPlayCardId":334,"itemPlayerId":1,"hasDataBeenCollectedYet":true,"stackEffectType":1,"lable":"Player 1 has activated Yum Heart"}} 
+ Recived From Player 1 21:29:23 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":137,"_text":"Response Remove After Resolve Activate Item 16"},"childOfId":136} 
+ Recived From Player 1 21:29:23 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":138,"_text":"Wait For Response From Player 2 "},"childOfId":136} 
+ Recived From Player 1 21:29:23 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:29:23 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:29:23 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":138} 
+ Recived From Player 1 21:29:23 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":139,"_text":"Wait For Response From Player 1 "},"childOfId":136} 
+ Recived From Player 1 21:29:23 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:29:23 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":139} 
+ Recived From Player 1 21:29:23 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":137} 
+ Recived From Player 1 21:29:23 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":140,"_text":"Stack Was Emptied "}} 
+ Recived From Player 1 21:29:23 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:29:27 $NEXT_STACK_ID:  
+ Recived From Player 1 21:29:27 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":17,"creatorCardId":333,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 is rolling against Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:29:27 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":17,"creatorCardId":333,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 is rolling against Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:29:27 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:29:27 $SHOW_STACK_EFFECT:  
+
+ {"effectId":17} 
+ Recived From Player 1 21:29:30 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":141,"_text":"Add Player Attack Roll On Monster 17 "}} 
+ Recived From Player 1 21:29:30 $ROLL_DICE:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:29:32 $ROLL_DICE_ENDED:  
+
+ {"playerId":1,"numberRolled":6} 
+ Recived From Player 1 21:29:32 $UPDATE_STACK_VIS:  
+
+ {"stackId":17,"text":"player rolled 6 vs Daddy Long Legs<Monster>"} 
+ Recived From Player 1 21:29:32 $SHOW_DICE_ROLL:  
+
+ {"stackId":17} 
+ Recived From Player 1 21:29:35 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":17,"text":"Player 1 rolled 6 vs Daddy Long Legs<Monster>"} 
+ Recived From Player 1 21:29:35 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:29:35 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":17,"creatorCardId":333,"numberRolled":6,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 rolled 6 vs Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:29:35 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":142,"_text":"Response Adding Player Attack Roll On Monster 17"},"childOfId":141} 
+ Recived From Player 1 21:29:35 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":143,"_text":"Wait For Response From Player 1 "},"childOfId":141} 
+ Recived From Player 1 21:29:35 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:29:35 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":143} 
+ Recived From Player 1 21:29:35 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":144,"_text":"Wait For Response From Player 2 "},"childOfId":141} 
+ Recived From Player 1 21:29:35 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:29:35 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:29:35 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":144} 
+ Recived From Player 1 21:29:35 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":142} 
+ Recived From Player 1 21:29:35 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":145,"_text":"Resolve Player Attack Roll On Monster 17 "}} 
+ Recived From Player 1 21:29:35 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":17,"creatorCardId":333,"numberRolled":6,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 rolled 6 vs Daddy Long Legs<Monster>"}]} 
+ Recived From Player 1 21:29:35 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":146,"_text":"Added 0 to original roll"}} 
+ Recived From Player 1 21:29:35 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":17,"text":"Player 1 Rolled 6 Against Daddy Long Legs<Monster> 4"} 
+ Recived From Player 1 21:29:35 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":17,"text":"Player 1 Roll Hit"} 
+ Recived From Player 1 21:29:35 $NEXT_STACK_ID:  
+ Recived From Player 1 21:29:35 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:29:35 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:29:35 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":18,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6,"lable":"Maggy is going to hurt Daddy Long Legs"}} 
+ Recived From Player 1 21:29:35 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":17,"creatorCardId":333,"numberRolled":6,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Hit"}} 
+ Recived From Player 1 21:29:35 $REPLACE_STACK:  
+
+ {"currentStack":[{"entityId":18,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6,"lable":"Maggy is going to hurt Daddy Long Legs"},{"entityId":17,"creatorCardId":333,"numberRolled":6,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Hit"}]} 
+ Recived From Player 1 21:29:35 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:29:35 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ROLL_DICE","args":[{"type":2,"number":6},{"type":2,"number":1},{"type":2,"number":4}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":12,"originStackId":17},"isAfterActivation":true,"index":12} 
+ Recived From Player 1 21:29:35 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":17,"creatorCardId":333,"numberRolled":6,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Hit"}} 
+ Recived From Player 1 21:29:35 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:29:35 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:29:35 $SHOW_STACK_EFFECT:  
+
+ {"effectId":17} 
+ Recived From Player 1 21:29:38 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":17} 
+ Recived From Player 1 21:29:38 $SHOW_STACK_EFFECT:  
+
+ {"effectId":18} 
+ Recived From Player 1 21:29:41 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":147,"_text":"Remove After Resolve Player Attack Roll On Monster 17  "}} 
+ Recived From Player 1 21:29:41 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":17,"creatorCardId":333,"numberRolled":6,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Hit"}} 
+ Recived From Player 1 21:29:41 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":148,"_text":"Response Remove After Resolve Player Attack Roll On Monster 17"},"childOfId":147} 
+ Recived From Player 1 21:29:41 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":149,"_text":"Wait For Response From Player 1 "},"childOfId":147} 
+ Recived From Player 1 21:29:41 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:29:41 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":149} 
+ Recived From Player 1 21:29:41 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":150,"_text":"Wait For Response From Player 2 "},"childOfId":147} 
+ Recived From Player 1 21:29:41 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:29:41 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:29:41 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":150} 
+ Recived From Player 1 21:29:41 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":148} 
+ Recived From Player 1 21:29:41 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":151,"_text":"Resolve Monster Combat Damage To A Player 18 "}} 
+ Recived From Player 1 21:29:41 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":18,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6,"lable":"Maggy is going to hurt Daddy Long Legs"}]} 
+ Recived From Player 1 21:29:41 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":18,"text":"Maggy will deal 1 combat damage to Daddy Long Legs "} 
+ Recived From Player 1 21:29:41 $UPDATE_STACK_VIS:  
+
+ {"stackId":18,"text":"Maggy will deal 1 combat damage to Daddy Long Legs"} 
+ Recived From Player 1 21:29:41 $MONSTER_GET_DAMAGED:  
+
+ {"cardId":248,"hpLeft":2,"damageDealerId":333} 
+ Recived From Player 1 21:29:41 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"MONSTER_GET_HIT","args":[{"type":2,"number":1},{"type":0,"number":333},{"type":2}],"result":null,"preventMethod":false,"methodScopeId":248,"scopeIsPlayer":false,"index":13,"originStackId":-1},"isAfterActivation":true,"index":13} 
+ Recived From Player 1 21:29:41 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_COMBAT_DAMAGE_GIVEN","args":[{"type":2,"number":1},{"type":2,"number":6},{"type":0,"number":333},{"type":0,"number":248}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":14,"originStackId":18},"isAfterActivation":true,"index":14} 
+ Recived From Player 1 21:29:41 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":18,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6,"lable":"Maggy will deal 1 combat damage to Daddy Long Legs "}} 
+ Recived From Player 1 21:29:41 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:29:41 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:29:42 $SHOW_STACK_EFFECT:  
+
+ {"effectId":18} 
+ Recived From Player 1 21:29:44 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":18} 
+ Recived From Player 1 21:29:44 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":152,"_text":"Remove After Resolve Monster Combat Damage To A Player 18  "}} 
+ Recived From Player 1 21:29:44 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":18,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6,"lable":"Maggy will deal 1 combat damage to Daddy Long Legs "}} 
+ Recived From Player 1 21:29:44 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":153,"_text":"Response Remove After Resolve Monster Combat Damage To A Player 18"},"childOfId":152} 
+ Recived From Player 1 21:29:44 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":154,"_text":"Wait For Response From Player 2 "},"childOfId":152} 
+ Recived From Player 1 21:29:44 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:29:44 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:29:44 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":154} 
+ Recived From Player 1 21:29:44 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":155,"_text":"Wait For Response From Player 1 "},"childOfId":152} 
+ Recived From Player 1 21:29:44 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:29:45 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":155} 
+ Recived From Player 1 21:29:45 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":153} 
+ Recived From Player 1 21:29:45 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":156,"_text":"Stack Was Emptied "}} 
+ Recived From Player 1 21:29:45 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:29:47 $NEXT_STACK_ID:  
+ Recived From Player 1 21:29:47 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":19,"creatorCardId":333,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 is rolling against Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:29:47 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":19,"creatorCardId":333,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 is rolling against Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:29:47 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:29:47 $SHOW_STACK_EFFECT:  
+
+ {"effectId":19} 
+ Recived From Player 1 21:29:50 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":157,"_text":"Add Player Attack Roll On Monster 19 "}} 
+ Recived From Player 1 21:29:50 $ROLL_DICE:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:29:52 $ROLL_DICE_ENDED:  
+
+ {"playerId":1,"numberRolled":1} 
+ Recived From Player 1 21:29:52 $UPDATE_STACK_VIS:  
+
+ {"stackId":19,"text":"player rolled 1 vs Daddy Long Legs<Monster>"} 
+ Recived From Player 1 21:29:52 $SHOW_DICE_ROLL:  
+
+ {"stackId":19} 
+ Recived From Player 1 21:29:55 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":19,"text":"Player 1 rolled 1 vs Daddy Long Legs<Monster>"} 
+ Recived From Player 1 21:29:55 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:29:55 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":19,"creatorCardId":333,"numberRolled":1,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 rolled 1 vs Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:29:55 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":158,"_text":"Response Adding Player Attack Roll On Monster 19"},"childOfId":157} 
+ Recived From Player 1 21:29:55 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":159,"_text":"Wait For Response From Player 1 "},"childOfId":157} 
+ Recived From Player 1 21:29:55 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:29:55 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":159} 
+ Recived From Player 1 21:29:55 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":160,"_text":"Wait For Response From Player 2 "},"childOfId":157} 
+ Recived From Player 1 21:29:55 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:29:55 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:29:55 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":160} 
+ Recived From Player 1 21:29:55 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":158} 
+ Recived From Player 1 21:29:55 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":161,"_text":"Resolve Player Attack Roll On Monster 19 "}} 
+ Recived From Player 1 21:29:55 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":19,"creatorCardId":333,"numberRolled":1,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 rolled 1 vs Daddy Long Legs<Monster>"}]} 
+ Recived From Player 1 21:29:55 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":162,"_text":"Added 0 to original roll"}} 
+ Recived From Player 1 21:29:55 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":19,"text":"Player 1 Rolled 1 Against Daddy Long Legs<Monster> 4"} 
+ Recived From Player 1 21:29:55 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":19,"text":"Player 1 Roll Miss"} 
+ Recived From Player 1 21:29:55 $NEXT_STACK_ID:  
+ Recived From Player 1 21:29:55 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:29:55 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:29:55 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":20,"creatorCardId":333,"entityToDoDamageCardId":248,"entityToTakeDamageCardId":333,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":1,"lable":"Daddy Long Legs is going to hurt Maggy"}} 
+ Recived From Player 1 21:29:55 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":19,"creatorCardId":333,"numberRolled":1,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Miss"}} 
+ Recived From Player 1 21:29:55 $REPLACE_STACK:  
+
+ {"currentStack":[{"entityId":20,"creatorCardId":333,"entityToDoDamageCardId":248,"entityToTakeDamageCardId":333,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":1,"lable":"Daddy Long Legs is going to hurt Maggy"},{"entityId":19,"creatorCardId":333,"numberRolled":1,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Miss"}]} 
+ Recived From Player 1 21:29:55 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:29:55 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ROLL_DICE","args":[{"type":2,"number":1},{"type":2,"number":1},{"type":2,"number":4}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":15,"originStackId":19},"isAfterActivation":true,"index":15} 
+ Recived From Player 1 21:29:55 $NEXT_STACK_ID:  
+ Recived From Player 1 21:29:55 $ADD_TO_STACK:  
+
+ {"stackEffect":{"effectCollectedData":null,"entityId":21,"creatorCardId":333,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":248,"effectToDo":{"effectName":"GainStats","cardEffectNum":0,"cardPlayerId":1,"cardId":248,"effctType":0},"isAfterActivation":true,"index":15,"hasDataBeenCollectedYet":false,"stackEffectType":14,"lable":"Activate Daddy Long Legs Effect GainStats<GainStats>"}} 
+ Recived From Player 1 21:29:55 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"effectCollectedData":null,"entityId":21,"creatorCardId":333,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":248,"effectToDo":{"effectName":"GainStats","cardEffectNum":0,"cardPlayerId":1,"cardId":248,"effctType":0},"isAfterActivation":true,"index":15,"hasDataBeenCollectedYet":false,"stackEffectType":14,"lable":"Activate Daddy Long Legs Effect GainStats<GainStats>"}} 
+ Recived From Player 1 21:29:55 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:29:55 $SHOW_STACK_EFFECT:  
+
+ {"effectId":21} 
+ Recived From Player 1 21:29:58 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":163,"_text":"Add Activate Passive Effect 21 "}} 
+ Recived From Player 1 21:29:58 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":21,"text":"Activate Daddy Long Legs effect GainStats<GainStats>"} 
+ Recived From Player 1 21:29:58 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"effectCollectedData":{"effectTargets":[257,248],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":248,"effectCardPlayer":248},"entityId":21,"creatorCardId":333,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":248,"effectToDo":{"effectName":"GainStats","cardEffectNum":0,"cardPlayerId":1,"cardId":248,"effctType":0},"isAfterActivation":true,"index":15,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activate Daddy Long Legs effect GainStats<GainStats>"}} 
+ Recived From Player 1 21:29:58 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":164,"_text":"Response Adding Activate Passive Effect 21"},"childOfId":163} 
+ Recived From Player 1 21:29:58 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":165,"_text":"Wait For Response From Player 1 "},"childOfId":163} 
+ Recived From Player 1 21:29:58 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:29:58 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":165} 
+ Recived From Player 1 21:29:58 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":166,"_text":"Wait For Response From Player 2 "},"childOfId":163} 
+ Recived From Player 1 21:29:58 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:29:58 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:29:58 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":166} 
+ Recived From Player 1 21:29:58 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":164} 
+ Recived From Player 1 21:29:58 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":167,"_text":"Resolve Activate Passive Effect 21 "}} 
+ Recived From Player 1 21:29:58 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":19,"creatorCardId":333,"numberRolled":1,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Miss"},{"effectCollectedData":{"effectTargets":[257,248],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":248,"effectCardPlayer":248},"entityId":21,"creatorCardId":333,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":248,"effectToDo":{"effectName":"GainStats","cardEffectNum":0,"cardPlayerId":1,"cardId":248,"effctType":0},"isAfterActivation":true,"index":15,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activate Daddy Long Legs effect GainStats<GainStats>"}]} 
+ Recived From Player 1 21:29:58 $ACTIVATE_PARTICLE_EFFECT:  
+
+ {"cardId":248,"particleType":6} 
+ Recived From Player 1 21:30:00 $DISABLE_PARTICLE_EFFECT:  
+
+ {"cardId":248,"particleType":6} 
+ Recived From Player 1 21:30:00 $MONSTER_GAIN_ROLL_BONUS:  
+
+ {"cardId":257,"bonusToGain":1} 
+ Recived From Player 1 21:30:00 $MONSTER_GAIN_ROLL_BONUS:  
+
+ {"cardId":248,"bonusToGain":1} 
+ Recived From Player 1 21:30:00 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ROLL_DICE","args":[{"type":2,"number":1},{"type":2,"number":1},{"type":2,"number":4}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":15,"originStackId":19},"isAfterActivation":true,"index":15} 
+ Recived From Player 1 21:30:00 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":21,"text":"Activated Daddy Long Legs Effect"} 
+ Recived From Player 1 21:30:00 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"effectCollectedData":{"effectTargets":[257,248],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":248,"effectCardPlayer":248},"entityId":21,"creatorCardId":333,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":248,"isAfterActivation":true,"index":15,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activated Daddy Long Legs Effect"}} 
+ Recived From Player 1 21:30:01 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":19,"creatorCardId":333,"numberRolled":1,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Miss"}]} 
+ Recived From Player 1 21:30:01 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:30:01 $SHOW_STACK_EFFECT:  
+
+ {"effectId":21} 
+ Recived From Player 1 21:30:03 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":21} 
+ Recived From Player 1 21:30:03 $SHOW_STACK_EFFECT:  
+
+ {"effectId":20} 
+ Recived From Player 1 21:30:06 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":168,"_text":"Remove After Resolve Activate Passive Effect 21  "}} 
+ Recived From Player 1 21:30:06 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"effectCollectedData":{"effectTargets":[257,248],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":248,"effectCardPlayer":248},"entityId":21,"creatorCardId":333,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":248,"isAfterActivation":true,"index":15,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activated Daddy Long Legs Effect"}} 
+ Recived From Player 1 21:30:06 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":169,"_text":"Response Remove After Resolve Activate Passive Effect 21"},"childOfId":168} 
+ Recived From Player 1 21:30:06 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":170,"_text":"Wait For Response From Player 2 "},"childOfId":168} 
+ Recived From Player 1 21:30:06 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:30:07 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:30:07 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":170} 
+ Recived From Player 1 21:30:07 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":171,"_text":"Wait For Response From Player 1 "},"childOfId":168} 
+ Recived From Player 1 21:30:07 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:30:07 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":171} 
+ Recived From Player 1 21:30:07 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":169} 
+ Recived From Player 1 21:30:07 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":172,"_text":"Resolve Player Attack Roll On Monster 19 "}} 
+ Recived From Player 1 21:30:07 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":19,"creatorCardId":333,"numberRolled":1,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Miss"}} 
+ Recived From Player 1 21:30:07 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:30:07 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:30:07 $SHOW_STACK_EFFECT:  
+
+ {"effectId":19} 
+ Recived From Player 1 21:30:10 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":19} 
+ Recived From Player 1 21:30:10 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":173,"_text":"Remove After Resolve Player Attack Roll On Monster 19  "}} 
+ Recived From Player 1 21:30:10 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":19,"creatorCardId":333,"numberRolled":1,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Miss"}} 
+ Recived From Player 1 21:30:10 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":174,"_text":"Response Remove After Resolve Player Attack Roll On Monster 19"},"childOfId":173} 
+ Recived From Player 1 21:30:10 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":175,"_text":"Wait For Response From Player 1 "},"childOfId":173} 
+ Recived From Player 1 21:30:10 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:30:10 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":175} 
+ Recived From Player 1 21:30:10 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":176,"_text":"Wait For Response From Player 2 "},"childOfId":173} 
+ Recived From Player 1 21:30:10 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:30:10 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:30:10 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":176} 
+ Recived From Player 1 21:30:10 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":174} 
+ Recived From Player 1 21:30:10 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":177,"_text":"Resolve Monster Combat Damage To A Player 20 "}} 
+ Recived From Player 1 21:30:10 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":20,"creatorCardId":333,"entityToDoDamageCardId":248,"entityToTakeDamageCardId":333,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":1,"lable":"Daddy Long Legs is going to hurt Maggy"}]} 
+ Recived From Player 1 21:30:10 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":20,"text":"Daddy Long Legs Is Going To Hurt Maggy For 1 DMG "} 
+ Recived From Player 1 21:30:10 $UPDATE_STACK_VIS:  
+
+ {"stackId":20,"text":"Daddy Long Legs will deal 1 combat damage to Maggy"} 
+ Recived From Player 1 21:30:10 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":20,"text":"Daddy Long Legs will deal 1 combat damage to Maggy"} 
+ Recived From Player 1 21:30:10 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_PREVENT_DAMAGE","args":[],"result":0,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":16,"originStackId":-1},"isAfterActivation":true,"index":16} 
+ Recived From Player 1 21:30:10 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":20,"creatorCardId":333,"entityToDoDamageCardId":248,"entityToTakeDamageCardId":333,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":1,"lable":"Daddy Long Legs will deal 1 combat damage to Maggy"}} 
+ Recived From Player 1 21:30:10 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:30:10 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:30:10 $SHOW_STACK_EFFECT:  
+
+ {"effectId":20} 
+ Recived From Player 1 21:30:13 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":20} 
+ Recived From Player 1 21:30:13 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":178,"_text":"Remove After Resolve Monster Combat Damage To A Player 20  "}} 
+ Recived From Player 1 21:30:13 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":20,"creatorCardId":333,"entityToDoDamageCardId":248,"entityToTakeDamageCardId":333,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":1,"lable":"Daddy Long Legs will deal 1 combat damage to Maggy"}} 
+ Recived From Player 1 21:30:13 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":179,"_text":"Response Remove After Resolve Monster Combat Damage To A Player 20"},"childOfId":178} 
+ Recived From Player 1 21:30:13 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":180,"_text":"Wait For Response From Player 2 "},"childOfId":178} 
+ Recived From Player 1 21:30:13 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:30:13 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:30:13 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":180} 
+ Recived From Player 1 21:30:13 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":181,"_text":"Wait For Response From Player 1 "},"childOfId":178} 
+ Recived From Player 1 21:30:13 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:30:13 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":181} 
+ Recived From Player 1 21:30:13 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":179} 
+ Recived From Player 1 21:30:13 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":182,"_text":"Stack Was Emptied "}} 
+ Recived From Player 1 21:30:13 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:30:17 $NEXT_STACK_ID:  
+ Recived From Player 1 21:30:17 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":22,"creatorCardId":333,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 is rolling against Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:30:17 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":22,"creatorCardId":333,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 is rolling against Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:30:17 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:30:17 $SHOW_STACK_EFFECT:  
+
+ {"effectId":22} 
+ Recived From Player 1 21:30:20 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":183,"_text":"Add Player Attack Roll On Monster 22 "}} 
+ Recived From Player 1 21:30:20 $ROLL_DICE:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:30:22 $ROLL_DICE_ENDED:  
+
+ {"playerId":1,"numberRolled":3} 
+ Recived From Player 1 21:30:22 $UPDATE_STACK_VIS:  
+
+ {"stackId":22,"text":"player rolled 3 vs Daddy Long Legs<Monster>"} 
+ Recived From Player 1 21:30:22 $SHOW_DICE_ROLL:  
+
+ {"stackId":22} 
+ Recived From Player 1 21:30:22 $REACTION_TOGGLED:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:30:25 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":22,"text":"Player 1 rolled 3 vs Daddy Long Legs<Monster>"} 
+ Recived From Player 1 21:30:25 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:30:25 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":22,"creatorCardId":333,"numberRolled":3,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 rolled 3 vs Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:30:25 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":184,"_text":"Response Adding Player Attack Roll On Monster 22"},"childOfId":183} 
+ Recived From Player 1 21:30:25 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":185,"_text":"Wait For Response From Player 1 "},"childOfId":183} 
+ Recived From Player 1 21:30:25 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:30:25 $SHOW_TIMER:  
+
+ {"time":90} 
+ Recived From Player 1 21:30:25 $SHOW_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,29,131,26]} 
+ Recived From Player 1 21:30:27 $HIDE_TIMER:  
+ Recived From Player 1 21:30:27 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,29,131,26]} 
+ Recived From Player 1 21:30:27 $NEXT_STACK_ID:  
+ Recived From Player 1 21:30:27 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":23,"creatorCardId":333,"hasLockingStackEffect":false,"hasLockingStackEffectResolved":false,"lootToPlayCardId":131,"lootPlayerId":1,"lable":"Player 1 Is Going To Play The Heirophant ","hasDataBeenCollectedYet":false,"stackEffectType":8}} 
+ Recived From Player 1 21:30:27 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":23,"creatorCardId":333,"hasLockingStackEffect":false,"hasLockingStackEffectResolved":false,"lootToPlayCardId":131,"lootPlayerId":1,"lable":"Player 1 Is Going To Play The Heirophant ","hasDataBeenCollectedYet":false,"stackEffectType":8}} 
+ Recived From Player 1 21:30:27 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:30:27 $SHOW_STACK_EFFECT:  
+
+ {"effectId":23} 
+ Recived From Player 1 21:30:30 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":186,"_text":"Add Play Loot Card 23 "}} 
+ Recived From Player 1 21:30:30 $PLAYER_LOSE_LOOT:  
+
+ {"playerId":1,"cardId":131} 
+ Recived From Player 1 21:30:30 $MOVE_CARD:  
+
+ {"moveIndex":15,"cardId":131,"placeID":339,"flipIfFlipped":true,"playerId":1,"placeType":"Card"} 
+ Recived From Player 1 21:30:30 $MOVE_CARD_TO_PILE:  
+
+ {"type":7,"cardId":131} 
+ Recived From Player 1 21:30:30 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":23,"text":"Player 1 Is Going To Play The Heirophant: PreventDamage"} 
+ Recived From Player 1 21:30:30 $SHOW_ANNOUNCEMENT:  
+
+ {"text":"Player 1 is Choosing Target"} 
+ Recived From Player 1 21:30:38 $HIDE_ANNOUNCEMENT:  
+ Recived From Player 1 21:30:38 $SHOW_DECISION:  
+
+ {"startCardId":131,"endCardId":333} 
+ Recived From Player 1 21:30:41 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:30:41 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":23,"creatorCardId":333,"hasLockingStackEffect":false,"hasLockingStackEffectResolved":false,"lootToPlayCardId":131,"lootPlayerId":1,"effectToDo":{"effectName":"PreventDamage","cardEffectNum":0,"cardPlayerId":1,"cardId":131,"effctType":1},"lable":"Player 1 Is Going To Play The Heirophant: PreventDamage","hasDataBeenCollectedYet":true,"stackEffectType":8}} 
+ Recived From Player 1 21:30:41 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":187,"_text":"Response Adding Play Loot Card 23"},"childOfId":186} 
+ Recived From Player 1 21:30:41 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":188,"_text":"Wait For Response From Player 1 "},"childOfId":186} 
+ Recived From Player 1 21:30:41 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:30:41 $SHOW_TIMER:  
+
+ {"time":90} 
+ Recived From Player 1 21:30:41 $SHOW_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333]} 
+ Recived From Player 1 21:30:50 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333]} 
+ Recived From Player 1 21:30:50 $HIDE_TIMER:  
+ Recived From Player 1 21:30:50 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333]} 
+ Recived From Player 1 21:30:50 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":188} 
+ Recived From Player 1 21:30:50 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":189,"_text":"Wait For Response From Player 2 "},"childOfId":186} 
+ Recived From Player 1 21:30:50 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:30:50 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:30:50 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":189} 
+ Recived From Player 1 21:30:50 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":187} 
+ Recived From Player 1 21:30:50 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":190,"_text":"Resolve Play Loot Card 23 "}} 
+ Recived From Player 1 21:30:50 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":23,"creatorCardId":333,"hasLockingStackEffect":false,"hasLockingStackEffectResolved":false,"lootToPlayCardId":131,"lootPlayerId":1,"effectToDo":{"effectName":"PreventDamage","cardEffectNum":0,"cardPlayerId":1,"cardId":131,"effctType":1},"lable":"Player 1 Is Going To Play The Heirophant: PreventDamage","hasDataBeenCollectedYet":true,"stackEffectType":8}]} 
+ Recived From Player 1 21:30:50 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":23,"text":"Player 1 Plays The Heirophant: PreventDamage"} 
+ Recived From Player 1 21:30:50 $ACTIVATE_PARTICLE_EFFECT:  
+
+ {"cardId":131,"particleType":6} 
+ Recived From Player 1 21:30:52 $DISABLE_PARTICLE_EFFECT:  
+
+ {"cardId":131,"particleType":6} 
+ Recived From Player 1 21:30:52 $PLAYER_ADD_DMG_PREVENTION:  
+
+ {"playerId":1,"dmgToPrevent":2} 
+ Recived From Player 1 21:30:52 $REMOVE_FROM_PILE:  
+
+ {"cardId":131} 
+ Recived From Player 1 21:30:52 $MOVE_CARD:  
+
+ {"moveIndex":16,"cardId":131,"placeID":340,"flipIfFlipped":true,"playerId":1,"placeType":"Card"} 
+ Recived From Player 1 21:30:52 $MOVE_CARD_TO_PILE:  
+
+ {"type":1,"cardId":131} 
+ Recived From Player 1 21:30:52 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":23,"creatorCardId":333,"hasLockingStackEffect":false,"hasLockingStackEffectResolved":false,"lootToPlayCardId":131,"lootPlayerId":1,"lable":"Player 1 Plays The Heirophant: PreventDamage","hasDataBeenCollectedYet":true,"stackEffectType":8}} 
+ Recived From Player 1 21:30:52 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:30:52 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:30:52 $SHOW_STACK_EFFECT:  
+
+ {"effectId":23} 
+ Recived From Player 1 21:30:55 $REACTION_TOGGLED:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:30:55 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":23} 
+ Recived From Player 1 21:30:55 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":191,"_text":"Remove After Resolve Play Loot Card 23  "}} 
+ Recived From Player 1 21:30:55 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":23,"creatorCardId":333,"hasLockingStackEffect":false,"hasLockingStackEffectResolved":false,"lootToPlayCardId":131,"lootPlayerId":1,"lable":"Player 1 Plays The Heirophant: PreventDamage","hasDataBeenCollectedYet":true,"stackEffectType":8}} 
+ Recived From Player 1 21:30:55 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":192,"_text":"Response Remove After Resolve Play Loot Card 23"},"childOfId":191} 
+ Recived From Player 1 21:30:55 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":193,"_text":"Wait For Response From Player 2 "},"childOfId":191} 
+ Recived From Player 1 21:30:55 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:30:56 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:30:56 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":193} 
+ Recived From Player 1 21:30:56 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":194,"_text":"Wait For Response From Player 1 "},"childOfId":191} 
+ Recived From Player 1 21:30:56 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:30:56 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":194} 
+ Recived From Player 1 21:30:56 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":192} 
+ Recived From Player 1 21:30:56 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":195,"_text":"Resolve Player Attack Roll On Monster 22 "}} 
+ Recived From Player 1 21:30:56 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":22,"creatorCardId":333,"numberRolled":3,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 rolled 3 vs Daddy Long Legs<Monster>"}]} 
+ Recived From Player 1 21:30:56 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":196,"_text":"Added 0 to original roll"}} 
+ Recived From Player 1 21:30:56 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":22,"text":"Player 1 Rolled 3 Against Daddy Long Legs<Monster> 5"} 
+ Recived From Player 1 21:30:56 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":22,"text":"Player 1 Roll Miss"} 
+ Recived From Player 1 21:30:56 $NEXT_STACK_ID:  
+ Recived From Player 1 21:30:56 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:30:56 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:30:56 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":24,"creatorCardId":333,"entityToDoDamageCardId":248,"entityToTakeDamageCardId":333,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":3,"lable":"Daddy Long Legs is going to hurt Maggy"}} 
+ Recived From Player 1 21:30:56 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":22,"creatorCardId":333,"numberRolled":3,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Miss"}} 
+ Recived From Player 1 21:30:56 $REPLACE_STACK:  
+
+ {"currentStack":[{"entityId":24,"creatorCardId":333,"entityToDoDamageCardId":248,"entityToTakeDamageCardId":333,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":3,"lable":"Daddy Long Legs is going to hurt Maggy"},{"entityId":22,"creatorCardId":333,"numberRolled":3,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Miss"}]} 
+ Recived From Player 1 21:30:56 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:30:56 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ROLL_DICE","args":[{"type":2,"number":3},{"type":2,"number":1},{"type":2,"number":5}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":17,"originStackId":22},"isAfterActivation":true,"index":17} 
+ Recived From Player 1 21:30:56 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":22,"creatorCardId":333,"numberRolled":3,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Miss"}} 
+ Recived From Player 1 21:30:56 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:30:56 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:30:56 $SHOW_STACK_EFFECT:  
+
+ {"effectId":22} 
+ Recived From Player 1 21:30:59 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":22} 
+ Recived From Player 1 21:30:59 $SHOW_STACK_EFFECT:  
+
+ {"effectId":24} 
+ Recived From Player 1 21:31:02 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":197,"_text":"Remove After Resolve Player Attack Roll On Monster 22  "}} 
+ Recived From Player 1 21:31:02 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":22,"creatorCardId":333,"numberRolled":3,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Miss"}} 
+ Recived From Player 1 21:31:02 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":198,"_text":"Response Remove After Resolve Player Attack Roll On Monster 22"},"childOfId":197} 
+ Recived From Player 1 21:31:02 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":199,"_text":"Wait For Response From Player 1 "},"childOfId":197} 
+ Recived From Player 1 21:31:02 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:31:02 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":199} 
+ Recived From Player 1 21:31:02 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":200,"_text":"Wait For Response From Player 2 "},"childOfId":197} 
+ Recived From Player 1 21:31:02 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:31:02 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:31:02 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":200} 
+ Recived From Player 1 21:31:02 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":198} 
+ Recived From Player 1 21:31:02 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":201,"_text":"Resolve Monster Combat Damage To A Player 24 "}} 
+ Recived From Player 1 21:31:02 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":24,"creatorCardId":333,"entityToDoDamageCardId":248,"entityToTakeDamageCardId":333,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":3,"lable":"Daddy Long Legs is going to hurt Maggy"}]} 
+ Recived From Player 1 21:31:02 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":24,"text":"Daddy Long Legs Is Going To Hurt Maggy For 1 DMG "} 
+ Recived From Player 1 21:31:02 $UPDATE_STACK_VIS:  
+
+ {"stackId":24,"text":"Daddy Long Legs will deal 1 combat damage to Maggy"} 
+ Recived From Player 1 21:31:02 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":24,"text":"Daddy Long Legs will deal 1 combat damage to Maggy"} 
+ Recived From Player 1 21:31:02 $SHOW_ANNOUNCEMENT:  
+
+ {"text":"prevented 2 dmg on Player 1"} 
+ Recived From Player 1 21:31:02 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_PREVENT_DAMAGE","args":[],"result":-1,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":18,"originStackId":-1},"isAfterActivation":true,"index":18} 
+ Recived From Player 1 21:31:02 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":24,"creatorCardId":333,"entityToDoDamageCardId":248,"entityToTakeDamageCardId":333,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":3,"lable":"Daddy Long Legs will deal 1 combat damage to Maggy"}} 
+ Recived From Player 1 21:31:02 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:31:02 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:31:02 $SHOW_STACK_EFFECT:  
+
+ {"effectId":24} 
+ Recived From Player 1 21:31:04 $HIDE_ANNOUNCEMENT:  
+ Recived From Player 1 21:31:05 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":24} 
+ Recived From Player 1 21:31:05 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":202,"_text":"Remove After Resolve Monster Combat Damage To A Player 24  "}} 
+ Recived From Player 1 21:31:05 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":24,"creatorCardId":333,"entityToDoDamageCardId":248,"entityToTakeDamageCardId":333,"isMonsterDoDamage":true,"isPlayerTakeDamage":true,"isMonsterTakeDamage":false,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":3,"lable":"Daddy Long Legs will deal 1 combat damage to Maggy"}} 
+ Recived From Player 1 21:31:05 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":203,"_text":"Response Remove After Resolve Monster Combat Damage To A Player 24"},"childOfId":202} 
+ Recived From Player 1 21:31:05 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":204,"_text":"Wait For Response From Player 2 "},"childOfId":202} 
+ Recived From Player 1 21:31:05 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:31:05 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:31:05 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":204} 
+ Recived From Player 1 21:31:05 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":205,"_text":"Wait For Response From Player 1 "},"childOfId":202} 
+ Recived From Player 1 21:31:05 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:31:05 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":205} 
+ Recived From Player 1 21:31:05 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":203} 
+ Recived From Player 1 21:31:05 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":206,"_text":"Stack Was Emptied "}} 
+ Recived From Player 1 21:31:05 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:31:05 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":185} 
+ Recived From Player 1 21:31:05 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":184} 
+ Recived From Player 1 21:31:09 $NEXT_STACK_ID:  
+ Recived From Player 1 21:31:09 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":25,"creatorCardId":333,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 is rolling against Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:31:09 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":25,"creatorCardId":333,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 is rolling against Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:31:09 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:31:09 $SHOW_STACK_EFFECT:  
+
+ {"effectId":25} 
+ Recived From Player 1 21:31:12 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":207,"_text":"Add Player Attack Roll On Monster 25 "}} 
+ Recived From Player 1 21:31:12 $ROLL_DICE:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:31:14 $ROLL_DICE_ENDED:  
+
+ {"playerId":1,"numberRolled":5} 
+ Recived From Player 1 21:31:14 $UPDATE_STACK_VIS:  
+
+ {"stackId":25,"text":"player rolled 5 vs Daddy Long Legs<Monster>"} 
+ Recived From Player 1 21:31:14 $SHOW_DICE_ROLL:  
+
+ {"stackId":25} 
+ Recived From Player 1 21:31:17 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":25,"text":"Player 1 rolled 5 vs Daddy Long Legs<Monster>"} 
+ Recived From Player 1 21:31:17 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:31:17 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":25,"creatorCardId":333,"numberRolled":5,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 rolled 5 vs Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:31:17 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":208,"_text":"Response Adding Player Attack Roll On Monster 25"},"childOfId":207} 
+ Recived From Player 1 21:31:17 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":209,"_text":"Wait For Response From Player 1 "},"childOfId":207} 
+ Recived From Player 1 21:31:17 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:31:17 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":209} 
+ Recived From Player 1 21:31:17 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":210,"_text":"Wait For Response From Player 2 "},"childOfId":207} 
+ Recived From Player 1 21:31:17 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:31:17 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:31:17 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":210} 
+ Recived From Player 1 21:31:17 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":208} 
+ Recived From Player 1 21:31:17 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":211,"_text":"Resolve Player Attack Roll On Monster 25 "}} 
+ Recived From Player 1 21:31:17 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":25,"creatorCardId":333,"numberRolled":5,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 rolled 5 vs Daddy Long Legs<Monster>"}]} 
+ Recived From Player 1 21:31:17 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":212,"_text":"Added 0 to original roll"}} 
+ Recived From Player 1 21:31:17 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":25,"text":"Player 1 Rolled 5 Against Daddy Long Legs<Monster> 5"} 
+ Recived From Player 1 21:31:17 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":25,"text":"Player 1 Roll Hit"} 
+ Recived From Player 1 21:31:17 $NEXT_STACK_ID:  
+ Recived From Player 1 21:31:17 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:31:17 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:31:17 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":26,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":5,"lable":"Maggy is going to hurt Daddy Long Legs"}} 
+ Recived From Player 1 21:31:17 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":25,"creatorCardId":333,"numberRolled":5,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Hit"}} 
+ Recived From Player 1 21:31:17 $REPLACE_STACK:  
+
+ {"currentStack":[{"entityId":26,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":5,"lable":"Maggy is going to hurt Daddy Long Legs"},{"entityId":25,"creatorCardId":333,"numberRolled":5,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Hit"}]} 
+ Recived From Player 1 21:31:17 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:31:17 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ROLL_DICE","args":[{"type":2,"number":5},{"type":2,"number":1},{"type":2,"number":5}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":19,"originStackId":25},"isAfterActivation":true,"index":19} 
+ Recived From Player 1 21:31:17 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":25,"creatorCardId":333,"numberRolled":5,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Hit"}} 
+ Recived From Player 1 21:31:18 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:31:18 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:31:18 $SHOW_STACK_EFFECT:  
+
+ {"effectId":25} 
+ Recived From Player 1 21:31:20 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":25} 
+ Recived From Player 1 21:31:20 $SHOW_STACK_EFFECT:  
+
+ {"effectId":26} 
+ Recived From Player 1 21:31:23 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":213,"_text":"Remove After Resolve Player Attack Roll On Monster 25  "}} 
+ Recived From Player 1 21:31:23 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":25,"creatorCardId":333,"numberRolled":5,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Hit"}} 
+ Recived From Player 1 21:31:23 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":214,"_text":"Response Remove After Resolve Player Attack Roll On Monster 25"},"childOfId":213} 
+ Recived From Player 1 21:31:23 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":215,"_text":"Wait For Response From Player 1 "},"childOfId":213} 
+ Recived From Player 1 21:31:23 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:31:23 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":215} 
+ Recived From Player 1 21:31:23 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":216,"_text":"Wait For Response From Player 2 "},"childOfId":213} 
+ Recived From Player 1 21:31:23 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:31:23 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:31:24 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":216} 
+ Recived From Player 1 21:31:24 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":214} 
+ Recived From Player 1 21:31:24 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":217,"_text":"Resolve Monster Combat Damage To A Player 26 "}} 
+ Recived From Player 1 21:31:24 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":26,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":5,"lable":"Maggy is going to hurt Daddy Long Legs"}]} 
+ Recived From Player 1 21:31:24 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":26,"text":"Maggy will deal 1 combat damage to Daddy Long Legs "} 
+ Recived From Player 1 21:31:24 $UPDATE_STACK_VIS:  
+
+ {"stackId":26,"text":"Maggy will deal 1 combat damage to Daddy Long Legs"} 
+ Recived From Player 1 21:31:24 $MONSTER_GET_DAMAGED:  
+
+ {"cardId":248,"hpLeft":1,"damageDealerId":333} 
+ Recived From Player 1 21:31:24 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"MONSTER_GET_HIT","args":[{"type":2,"number":1},{"type":0,"number":333},{"type":2}],"result":null,"preventMethod":false,"methodScopeId":248,"scopeIsPlayer":false,"index":20,"originStackId":-1},"isAfterActivation":true,"index":20} 
+ Recived From Player 1 21:31:24 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_COMBAT_DAMAGE_GIVEN","args":[{"type":2,"number":1},{"type":2,"number":5},{"type":0,"number":333},{"type":0,"number":248}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":21,"originStackId":26},"isAfterActivation":true,"index":21} 
+ Recived From Player 1 21:31:24 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":26,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":5,"lable":"Maggy will deal 1 combat damage to Daddy Long Legs "}} 
+ Recived From Player 1 21:31:24 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:31:24 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:31:24 $SHOW_STACK_EFFECT:  
+
+ {"effectId":26} 
+ Recived From Player 1 21:31:27 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":26} 
+ Recived From Player 1 21:31:27 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":218,"_text":"Remove After Resolve Monster Combat Damage To A Player 26  "}} 
+ Recived From Player 1 21:31:27 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":26,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":5,"lable":"Maggy will deal 1 combat damage to Daddy Long Legs "}} 
+ Recived From Player 1 21:31:27 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":219,"_text":"Response Remove After Resolve Monster Combat Damage To A Player 26"},"childOfId":218} 
+ Recived From Player 1 21:31:27 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":220,"_text":"Wait For Response From Player 2 "},"childOfId":218} 
+ Recived From Player 1 21:31:27 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:31:27 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:31:27 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":220} 
+ Recived From Player 1 21:31:27 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":221,"_text":"Wait For Response From Player 1 "},"childOfId":218} 
+ Recived From Player 1 21:31:27 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:31:27 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":221} 
+ Recived From Player 1 21:31:27 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":219} 
+ Recived From Player 1 21:31:27 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":222,"_text":"Stack Was Emptied "}} 
+ Recived From Player 1 21:31:27 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:31:40 $NEXT_STACK_ID:  
+ Recived From Player 1 21:31:40 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":27,"creatorCardId":333,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 is rolling against Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:31:40 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":27,"creatorCardId":333,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 is rolling against Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:31:40 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:31:40 $SHOW_STACK_EFFECT:  
+
+ {"effectId":27} 
+ Recived From Player 1 21:31:43 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":223,"_text":"Add Player Attack Roll On Monster 27 "}} 
+ Recived From Player 1 21:31:43 $ROLL_DICE:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:31:45 $ROLL_DICE_ENDED:  
+
+ {"playerId":1,"numberRolled":6} 
+ Recived From Player 1 21:31:45 $UPDATE_STACK_VIS:  
+
+ {"stackId":27,"text":"player rolled 6 vs Daddy Long Legs<Monster>"} 
+ Recived From Player 1 21:31:45 $SHOW_DICE_ROLL:  
+
+ {"stackId":27} 
+ Recived From Player 1 21:31:48 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":27,"text":"Player 1 rolled 6 vs Daddy Long Legs<Monster>"} 
+ Recived From Player 1 21:31:48 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:31:48 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":27,"creatorCardId":333,"numberRolled":6,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 rolled 6 vs Daddy Long Legs<Monster>"}} 
+ Recived From Player 1 21:31:48 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":224,"_text":"Response Adding Player Attack Roll On Monster 27"},"childOfId":223} 
+ Recived From Player 1 21:31:48 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":225,"_text":"Wait For Response From Player 1 "},"childOfId":223} 
+ Recived From Player 1 21:31:48 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:31:48 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":225} 
+ Recived From Player 1 21:31:48 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":226,"_text":"Wait For Response From Player 2 "},"childOfId":223} 
+ Recived From Player 1 21:31:48 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:31:48 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:31:48 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":226} 
+ Recived From Player 1 21:31:48 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":224} 
+ Recived From Player 1 21:31:48 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":227,"_text":"Resolve Player Attack Roll On Monster 27 "}} 
+ Recived From Player 1 21:31:48 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":27,"creatorCardId":333,"numberRolled":6,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 rolled 6 vs Daddy Long Legs<Monster>"}]} 
+ Recived From Player 1 21:31:48 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":228,"_text":"Added 0 to original roll"}} 
+ Recived From Player 1 21:31:48 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":27,"text":"Player 1 Rolled 6 Against Daddy Long Legs<Monster> 5"} 
+ Recived From Player 1 21:31:48 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":27,"text":"Player 1 Roll Hit"} 
+ Recived From Player 1 21:31:48 $NEXT_STACK_ID:  
+ Recived From Player 1 21:31:48 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:31:48 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:31:48 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":28,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6,"lable":"Maggy is going to hurt Daddy Long Legs"}} 
+ Recived From Player 1 21:31:48 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":27,"creatorCardId":333,"numberRolled":6,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Hit"}} 
+ Recived From Player 1 21:31:48 $REPLACE_STACK:  
+
+ {"currentStack":[{"entityId":28,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6,"lable":"Maggy is going to hurt Daddy Long Legs"},{"entityId":27,"creatorCardId":333,"numberRolled":6,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Hit"}]} 
+ Recived From Player 1 21:31:48 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:31:48 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ROLL_DICE","args":[{"type":2,"number":6},{"type":2,"number":1},{"type":2,"number":5}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":22,"originStackId":27},"isAfterActivation":true,"index":22} 
+ Recived From Player 1 21:31:48 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":27,"creatorCardId":333,"numberRolled":6,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Hit"}} 
+ Recived From Player 1 21:31:48 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:31:48 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:31:48 $SHOW_STACK_EFFECT:  
+
+ {"effectId":27} 
+ Recived From Player 1 21:31:51 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":27} 
+ Recived From Player 1 21:31:51 $SHOW_STACK_EFFECT:  
+
+ {"effectId":28} 
+ Recived From Player 1 21:31:54 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":229,"_text":"Remove After Resolve Player Attack Roll On Monster 27  "}} 
+ Recived From Player 1 21:31:54 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":27,"creatorCardId":333,"numberRolled":6,"rollingPlayerCardId":333,"stackEffectType":2,"attackedMonsterCardId":248,"lable":"Player 1 Roll Hit"}} 
+ Recived From Player 1 21:31:54 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":230,"_text":"Response Remove After Resolve Player Attack Roll On Monster 27"},"childOfId":229} 
+ Recived From Player 1 21:31:54 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":231,"_text":"Wait For Response From Player 1 "},"childOfId":229} 
+ Recived From Player 1 21:31:54 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:31:54 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":231} 
+ Recived From Player 1 21:31:54 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":232,"_text":"Wait For Response From Player 2 "},"childOfId":229} 
+ Recived From Player 1 21:31:54 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:31:54 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:31:54 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":232} 
+ Recived From Player 1 21:31:55 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":230} 
+ Recived From Player 1 21:31:55 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":233,"_text":"Resolve Monster Combat Damage To A Player 28 "}} 
+ Recived From Player 1 21:31:55 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":28,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6,"lable":"Maggy is going to hurt Daddy Long Legs"}]} 
+ Recived From Player 1 21:31:55 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":28,"text":"Maggy will deal 1 combat damage to Daddy Long Legs "} 
+ Recived From Player 1 21:31:55 $UPDATE_STACK_VIS:  
+
+ {"stackId":28,"text":"Maggy will deal 1 combat damage to Daddy Long Legs"} 
+ Recived From Player 1 21:31:55 $MONSTER_GET_DAMAGED:  
+
+ {"cardId":248,"hpLeft":0,"damageDealerId":333} 
+ Recived From Player 1 21:31:55 $NEXT_STACK_ID:  
+ Recived From Player 1 21:31:55 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:31:55 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":28,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6,"lable":"Maggy will deal 1 combat damage to Daddy Long Legs "}} 
+ Recived From Player 1 21:31:55 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":29,"creatorCardId":333,"monsterToDieCardId":248,"stackEffectType":5,"killerId":333,"lable":"[object Object] Is Going To Be Killed by Maggy"}} 
+ Recived From Player 1 21:31:55 $REPLACE_STACK:  
+
+ {"currentStack":[{"entityId":28,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6,"lable":"Maggy will deal 1 combat damage to Daddy Long Legs "},{"entityId":29,"creatorCardId":333,"monsterToDieCardId":248,"stackEffectType":5,"killerId":333,"lable":"[object Object] Is Going To Be Killed by Maggy"}]} 
+ Recived From Player 1 21:31:55 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":29,"creatorCardId":333,"monsterToDieCardId":248,"stackEffectType":5,"killerId":333,"lable":"[object Object] Is Going To Be Killed by Maggy"}} 
+ Recived From Player 1 21:31:55 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:31:55 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:31:55 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"MONSTER_GET_HIT","args":[{"type":2,"number":1},{"type":0,"number":333},{"type":2}],"result":null,"preventMethod":false,"methodScopeId":248,"scopeIsPlayer":false,"index":23,"originStackId":-1},"isAfterActivation":true,"index":23} 
+ Recived From Player 1 21:31:55 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_COMBAT_DAMAGE_GIVEN","args":[{"type":2,"number":1},{"type":2,"number":6},{"type":0,"number":333},{"type":0,"number":248}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":24,"originStackId":28},"isAfterActivation":true,"index":24} 
+ Recived From Player 1 21:31:55 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":28,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6,"lable":"Maggy will deal 1 combat damage to Daddy Long Legs "}} 
+ Recived From Player 1 21:31:55 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:31:55 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:31:55 $SHOW_STACK_EFFECT:  
+
+ {"effectId":28} 
+ Recived From Player 1 21:31:57 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":28} 
+ Recived From Player 1 21:31:58 $SHOW_STACK_EFFECT:  
+
+ {"effectId":29} 
+ Recived From Player 1 21:32:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":234,"_text":"Remove After Resolve Monster Combat Damage To A Player 28  "}} 
+ Recived From Player 1 21:32:01 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":28,"creatorCardId":333,"entityToDoDamageCardId":333,"entityToTakeDamageCardId":248,"isMonsterDoDamage":false,"isMonsterTakeDamage":true,"isPlayerDoDamage":false,"stackEffectType":3,"numberRolled":6,"lable":"Maggy will deal 1 combat damage to Daddy Long Legs "}} 
+ Recived From Player 1 21:32:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":235,"_text":"Response Remove After Resolve Monster Combat Damage To A Player 28"},"childOfId":234} 
+ Recived From Player 1 21:32:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":236,"_text":"Wait For Response From Player 1 "},"childOfId":234} 
+ Recived From Player 1 21:32:01 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:01 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":236} 
+ Recived From Player 1 21:32:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":237,"_text":"Wait For Response From Player 2 "},"childOfId":234} 
+ Recived From Player 1 21:32:01 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:32:01 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:32:01 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":237} 
+ Recived From Player 1 21:32:01 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":235} 
+ Recived From Player 1 21:32:01 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":238,"_text":"Resolve Monster Is Going To Die 29 "}} 
+ Recived From Player 1 21:32:01 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":29,"creatorCardId":333,"monsterToDieCardId":248,"stackEffectType":5,"killerId":333,"lable":"[object Object] Is Going To Be Killed by Maggy"}]} 
+ Recived From Player 1 21:32:01 $DISABLE_PARTICLE_EFFECT:  
+
+ {"cardId":248,"particleType":5} 
+ Recived From Player 1 21:32:01 $CANCEL_ATTACK:  
+ Recived From Player 1 21:32:01 $NEXT_STACK_ID:  
+ Recived From Player 1 21:32:01 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:01 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:32:01 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"}} 
+ Recived From Player 1 21:32:01 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":29,"creatorCardId":333,"monsterToDieCardId":248,"stackEffectType":5,"killerId":333,"lable":"[object Object] Is Going To Be Killed by Maggy"}} 
+ Recived From Player 1 21:32:01 $REPLACE_STACK:  
+
+ {"currentStack":[{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"},{"entityId":29,"creatorCardId":333,"monsterToDieCardId":248,"stackEffectType":5,"killerId":333,"lable":"[object Object] Is Going To Be Killed by Maggy"}]} 
+ Recived From Player 1 21:32:01 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:32:01 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":29,"creatorCardId":333,"monsterToDieCardId":248,"stackEffectType":5,"killerId":333,"lable":"[object Object] Is Going To Be Killed by Maggy"}} 
+ Recived From Player 1 21:32:01 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:32:01 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:32:01 $SHOW_STACK_EFFECT:  
+
+ {"effectId":29} 
+ Recived From Player 1 21:32:04 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":29} 
+ Recived From Player 1 21:32:04 $SHOW_STACK_EFFECT:  
+
+ {"effectId":30} 
+ Recived From Player 1 21:32:07 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":239,"_text":"Remove After Resolve Monster Is Going To Die 29  "}} 
+ Recived From Player 1 21:32:07 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":29,"creatorCardId":333,"monsterToDieCardId":248,"stackEffectType":5,"killerId":333,"lable":"[object Object] Is Going To Be Killed by Maggy"}} 
+ Recived From Player 1 21:32:07 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":240,"_text":"Response Remove After Resolve Monster Is Going To Die 29"},"childOfId":239} 
+ Recived From Player 1 21:32:07 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":241,"_text":"Wait For Response From Player 1 "},"childOfId":239} 
+ Recived From Player 1 21:32:07 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:07 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":241} 
+ Recived From Player 1 21:32:07 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":242,"_text":"Wait For Response From Player 2 "},"childOfId":239} 
+ Recived From Player 1 21:32:07 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:32:07 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:32:07 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":242} 
+ Recived From Player 1 21:32:07 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":240} 
+ Recived From Player 1 21:32:07 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":243,"_text":"Resolve Monster Death Reward 30 "}} 
+ Recived From Player 1 21:32:07 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"}]} 
+ Recived From Player 1 21:32:07 $SET_MONEY:  
+
+ {"playerId":1,"numOfCoins":13} 
+ Recived From Player 1 21:32:07 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":7}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":25,"originStackId":-1},"isAfterActivation":true,"index":25} 
+ Recived From Player 1 21:32:07 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"MONSTER_IS_KILLED","args":[],"result":null,"preventMethod":false,"methodScopeId":248,"scopeIsPlayer":false,"index":26,"originStackId":30},"isAfterActivation":true,"index":26} 
+ Recived From Player 1 21:32:07 $MOVE_CARD:  
+
+ {"moveIndex":17,"cardId":248,"placeID":1,"flipIfFlipped":true,"playerId":1,"placeType":"soulsLayout"} 
+ Recived From Player 1 21:32:08 $GET_SOUL:  
+
+ {"playerId":1,"cardId":248} 
+ Recived From Player 1 21:32:08 $REMOVE_FROM_PASSIVE_MANAGER:  
+
+ {"cardId":248} 
+ Recived From Player 1 21:32:08 $REMOVE_MONSTER:  
+
+ {"holderId":2,"monsterId":248} 
+ Recived From Player 1 21:32:08 $NEXT_STACK_ID:  
+ Recived From Player 1 21:32:08 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"}} 
+ Recived From Player 1 21:32:08 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"}} 
+ Recived From Player 1 21:32:08 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:32:08 $SHOW_STACK_EFFECT:  
+
+ {"effectId":31} 
+ Recived From Player 1 21:32:11 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":244,"_text":"Add Reffil Empty Monster Slot 31 "}} 
+ Recived From Player 1 21:32:11 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:11 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"}} 
+ Recived From Player 1 21:32:11 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":245,"_text":"Response Adding Reffil Empty Monster Slot 31"},"childOfId":244} 
+ Recived From Player 1 21:32:11 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":246,"_text":"Wait For Response From Player 1 "},"childOfId":244} 
+ Recived From Player 1 21:32:11 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:11 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":246} 
+ Recived From Player 1 21:32:11 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":247,"_text":"Wait For Response From Player 2 "},"childOfId":244} 
+ Recived From Player 1 21:32:11 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:32:11 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:32:11 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":247} 
+ Recived From Player 1 21:32:11 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":245} 
+ Recived From Player 1 21:32:11 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":248,"_text":"Resolve Reffil Empty Monster Slot 31 "}} 
+ Recived From Player 1 21:32:11 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"},{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"}]} 
+ Recived From Player 1 21:32:11 $DRAW_CARD:  
+
+ {"deckType":2} 
+ Recived From Player 1 21:32:11 $FLIP_CARD:  
+
+ {"cardId":299} 
+ Recived From Player 1 21:32:11 $ADD_MONSTER:  
+
+ {"monsterPlaceId":2,"monsterId":299} 
+ Recived From Player 1 21:32:11 $NEW_MONSTER_ON_PLACE:  
+
+ {"cardId":299,"monsterPlaceId":2} 
+ Recived From Player 1 21:32:11 $NEXT_STACK_ID:  
+ Recived From Player 1 21:32:11 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":false,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"}} 
+ Recived From Player 1 21:32:11 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":false,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"}} 
+ Recived From Player 1 21:32:11 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:32:11 $SHOW_STACK_EFFECT:  
+
+ {"effectId":32} 
+ Recived From Player 1 21:32:14 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":249,"_text":"Add Activate Item 32 "}} 
+ Recived From Player 1 21:32:14 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:14 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":false,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"}} 
+ Recived From Player 1 21:32:14 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":250,"_text":"Response Adding Activate Item 32"},"childOfId":249} 
+ Recived From Player 1 21:32:14 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":251,"_text":"Wait For Response From Player 1 "},"childOfId":249} 
+ Recived From Player 1 21:32:14 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:14 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":251} 
+ Recived From Player 1 21:32:14 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":252,"_text":"Wait For Response From Player 2 "},"childOfId":249} 
+ Recived From Player 1 21:32:14 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:32:14 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:32:14 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":252} 
+ Recived From Player 1 21:32:14 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":250} 
+ Recived From Player 1 21:32:14 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":253,"_text":"Resolve Activate Item 32 "}} 
+ Recived From Player 1 21:32:14 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"},{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"},{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":false,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"}]} 
+ Recived From Player 1 21:32:14 $NEXT_STACK_ID:  
+ Recived From Player 1 21:32:14 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":33,"text":"Player 1 Is About To Roll A Dice"} 
+ Recived From Player 1 21:32:14 $NEXT_STACK_ID:  
+ Recived From Player 1 21:32:14 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":34,"text":"Player 1 Is About To Roll A Dice"} 
+ Recived From Player 1 21:32:14 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":34,"creatorCardId":333,"stackEffectToLock":{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":false,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"},"hasLockingStackEffect":false,"stackEffectType":11,"lable":"Player 1 Is About To Roll A Dice"}} 
+ Recived From Player 1 21:32:14 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":34,"creatorCardId":333,"stackEffectToLock":{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":false,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"},"hasLockingStackEffect":false,"stackEffectType":11,"lable":"Player 1 Is About To Roll A Dice"}} 
+ Recived From Player 1 21:32:14 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:32:14 $SHOW_STACK_EFFECT:  
+
+ {"effectId":34} 
+ Recived From Player 1 21:32:17 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":254,"_text":"Add Roll Dice 34 "}} 
+ Recived From Player 1 21:32:17 $ROLL_DICE:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:20 $ROLL_DICE_ENDED:  
+
+ {"playerId":1,"numberRolled":5} 
+ Recived From Player 1 21:32:20 $UPDATE_STACK_VIS:  
+
+ {"stackId":34,"text":"player 1 rolled 5"} 
+ Recived From Player 1 21:32:20 $SHOW_DICE_ROLL:  
+
+ {"stackId":34} 
+ Recived From Player 1 21:32:23 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":34,"text":"Player 1 Rolled 5"} 
+ Recived From Player 1 21:32:23 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:23 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":34,"creatorCardId":333,"stackEffectToLock":{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":false,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"},"hasLockingStackEffect":false,"numberRolled":5,"stackEffectType":11,"lable":"Player 1 Rolled 5"}} 
+ Recived From Player 1 21:32:23 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":255,"_text":"Response Adding Roll Dice 34"},"childOfId":254} 
+ Recived From Player 1 21:32:23 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":256,"_text":"Wait For Response From Player 1 "},"childOfId":254} 
+ Recived From Player 1 21:32:23 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:23 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":256} 
+ Recived From Player 1 21:32:23 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":257,"_text":"Wait For Response From Player 2 "},"childOfId":254} 
+ Recived From Player 1 21:32:23 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:32:23 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:32:23 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":257} 
+ Recived From Player 1 21:32:23 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":255} 
+ Recived From Player 1 21:32:23 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":258,"_text":"Resolve Roll Dice 34 "}} 
+ Recived From Player 1 21:32:23 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"},{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"},{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":false,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"},{"entityId":34,"creatorCardId":333,"stackEffectToLock":{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":false,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"},"hasLockingStackEffect":false,"numberRolled":5,"stackEffectType":11,"lable":"Player 1 Rolled 5"}]} 
+ Recived From Player 1 21:32:23 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ROLL_DICE","args":[{"type":2,"number":5},{"type":2,"number":3}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":27,"originStackId":34},"isAfterActivation":true,"index":27} 
+ Recived From Player 1 21:32:23 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":34,"creatorCardId":333,"stackEffectToLock":{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":true,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"},"hasLockingStackEffect":false,"numberRolled":5,"stackEffectType":11,"lable":"Player 1 Rolled 5"}} 
+ Recived From Player 1 21:32:23 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"},{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"},{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":true,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"}]} 
+ Recived From Player 1 21:32:23 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:32:23 $SHOW_STACK_EFFECT:  
+
+ {"effectId":34} 
+ Recived From Player 1 21:32:26 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":34} 
+ Recived From Player 1 21:32:26 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":259,"_text":"Remove After Resolve Roll Dice 34  "}} 
+ Recived From Player 1 21:32:26 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":34,"creatorCardId":333,"stackEffectToLock":{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":true,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"},"hasLockingStackEffect":false,"numberRolled":5,"stackEffectType":11,"lable":"Player 1 Rolled 5"}} 
+ Recived From Player 1 21:32:26 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":260,"_text":"Response Remove After Resolve Roll Dice 34"},"childOfId":259} 
+ Recived From Player 1 21:32:26 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":261,"_text":"Wait For Response From Player 2 "},"childOfId":259} 
+ Recived From Player 1 21:32:26 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:32:26 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:32:26 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":261} 
+ Recived From Player 1 21:32:26 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":262,"_text":"Wait For Response From Player 1 "},"childOfId":259} 
+ Recived From Player 1 21:32:26 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:26 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":262} 
+ Recived From Player 1 21:32:26 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":260} 
+ Recived From Player 1 21:32:26 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":263,"_text":"Resolve Activate Item 32 "}} 
+ Recived From Player 1 21:32:26 $ACTIVATE_PARTICLE_EFFECT:  
+
+ {"cardId":299,"particleType":6} 
+ Recived From Player 1 21:32:28 $DISABLE_PARTICLE_EFFECT:  
+
+ {"cardId":299,"particleType":6} 
+ Recived From Player 1 21:32:28 $PLAYER_GET_HIT:  
+
+ {"playerId":1,"damage":1,"damageDealerId":299} 
+ Recived From Player 1 21:32:28 $NEXT_STACK_ID:  
+ Recived From Player 1 21:32:28 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:32:28 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"}} 
+ Recived From Player 1 21:32:28 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"}} 
+ Recived From Player 1 21:32:28 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":true,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"}} 
+ Recived From Player 1 21:32:28 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":35,"creatorCardId":333,"playerToDieCardId":333,"stackEffectType":15,"killerId":299,"lable":"Player 1 Is About To Die"}} 
+ Recived From Player 1 21:32:28 $REPLACE_STACK:  
+
+ {"currentStack":[{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"},{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"},{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":true,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"},{"entityId":35,"creatorCardId":333,"playerToDieCardId":333,"stackEffectType":15,"killerId":299,"lable":"Player 1 Is About To Die"}]} 
+ Recived From Player 1 21:32:28 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":35,"creatorCardId":333,"playerToDieCardId":333,"stackEffectType":15,"killerId":299,"lable":"Player 1 Is About To Die"}} 
+ Recived From Player 1 21:32:28 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:32:28 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:28 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_GET_HIT","args":[{"type":2,"number":1},{"type":0,"number":299}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":28,"originStackId":-1},"isAfterActivation":true,"index":28} 
+ Recived From Player 1 21:32:28 $DRAW_CARD:  
+
+ {"deckType":5} 
+ Recived From Player 1 21:32:28 $REGISTER_PASSIVE_ITEM:  
+
+ {"cardId":203} 
+ Recived From Player 1 21:32:28 $MOVE_CARD:  
+
+ {"moveIndex":18,"cardId":203,"placeID":1,"flipIfFlipped":true,"playerId":1,"placeType":"Desk"} 
+ Recived From Player 1 21:32:29 $ADD_AN_ITEM:  
+
+ {"playerId":1,"cardId":203,"isReward":true} 
+ Recived From Player 1 21:32:29 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":203}],"result":true,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":29,"originStackId":-1},"isAfterActivation":true,"index":29} 
+ Recived From Player 1 21:32:29 $NEXT_STACK_ID:  
+ Recived From Player 1 21:32:29 $ADD_TO_STACK:  
+
+ {"stackEffect":{"effectCollectedData":null,"entityId":36,"creatorCardId":333,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":203,"effectToDo":{"effectName":"AddAttackOpportunity","cardEffectNum":0,"cardPlayerId":1,"cardId":203,"effctType":0},"isAfterActivation":true,"index":29,"hasDataBeenCollectedYet":false,"stackEffectType":14,"lable":"Activate Skeleton Key Effect AddAttackOpportunity<AddAttackOpportunity>"}} 
+ Recived From Player 1 21:32:29 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"effectCollectedData":null,"entityId":36,"creatorCardId":333,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":203,"effectToDo":{"effectName":"AddAttackOpportunity","cardEffectNum":0,"cardPlayerId":1,"cardId":203,"effctType":0},"isAfterActivation":true,"index":29,"hasDataBeenCollectedYet":false,"stackEffectType":14,"lable":"Activate Skeleton Key Effect AddAttackOpportunity<AddAttackOpportunity>"}} 
+ Recived From Player 1 21:32:29 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:32:29 $SHOW_STACK_EFFECT:  
+
+ {"effectId":36} 
+ Recived From Player 1 21:32:32 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":264,"_text":"Add Activate Passive Effect 36 "}} 
+ Recived From Player 1 21:32:32 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":36,"text":"Activate Skeleton Key effect AddAttackOpportunity<AddAttackOpportunity>"} 
+ Recived From Player 1 21:32:32 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"effectCollectedData":{"effectTargets":[333],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":333,"effectCardPlayer":333},"entityId":36,"creatorCardId":333,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":203,"effectToDo":{"effectName":"AddAttackOpportunity","cardEffectNum":0,"cardPlayerId":1,"cardId":203,"effctType":0},"isAfterActivation":true,"index":29,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activate Skeleton Key effect AddAttackOpportunity<AddAttackOpportunity>"}} 
+ Recived From Player 1 21:32:32 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":265,"_text":"Response Adding Activate Passive Effect 36"},"childOfId":264} 
+ Recived From Player 1 21:32:32 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":266,"_text":"Wait For Response From Player 1 "},"childOfId":264} 
+ Recived From Player 1 21:32:32 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:32 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":266} 
+ Recived From Player 1 21:32:32 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":267,"_text":"Wait For Response From Player 2 "},"childOfId":264} 
+ Recived From Player 1 21:32:32 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:32:32 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:32:32 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":267} 
+ Recived From Player 1 21:32:32 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":265} 
+ Recived From Player 1 21:32:32 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":268,"_text":"Resolve Activate Passive Effect 36 "}} 
+ Recived From Player 1 21:32:32 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"},{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"},{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":true,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"},{"effectCollectedData":{"effectTargets":[333],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":333,"effectCardPlayer":333},"entityId":36,"creatorCardId":333,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":203,"effectToDo":{"effectName":"AddAttackOpportunity","cardEffectNum":0,"cardPlayerId":1,"cardId":203,"effctType":0},"isAfterActivation":true,"index":29,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activate Skeleton Key effect AddAttackOpportunity<AddAttackOpportunity>"}]} 
+ Recived From Player 1 21:32:32 $ACTIVATE_PARTICLE_EFFECT:  
+
+ {"cardId":203,"particleType":6} 
+ Recived From Player 1 21:32:34 $DISABLE_PARTICLE_EFFECT:  
+
+ {"cardId":203,"particleType":6} 
+ Recived From Player 1 21:32:34 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":203}],"result":true,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":29,"originStackId":-1},"isAfterActivation":true,"index":29} 
+ Recived From Player 1 21:32:34 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":36,"text":"Activated Skeleton Key Effect"} 
+ Recived From Player 1 21:32:34 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"effectCollectedData":{"effectTargets":[333],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":333,"effectCardPlayer":333},"entityId":36,"creatorCardId":333,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":203,"isAfterActivation":true,"index":29,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activated Skeleton Key Effect"}} 
+ Recived From Player 1 21:32:34 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"},{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"},{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":true,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"}]} 
+ Recived From Player 1 21:32:34 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:32:34 $SHOW_STACK_EFFECT:  
+
+ {"effectId":36} 
+ Recived From Player 1 21:32:37 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":36} 
+ Recived From Player 1 21:32:37 $SHOW_STACK_EFFECT:  
+
+ {"effectId":35} 
+ Recived From Player 1 21:32:40 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":269,"_text":"Remove After Resolve Activate Passive Effect 36  "}} 
+ Recived From Player 1 21:32:40 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"effectCollectedData":{"effectTargets":[333],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":333,"effectCardPlayer":333},"entityId":36,"creatorCardId":333,"hasLockingStackEffect":false,"cardActivatorId":1,"cardWithEffectId":203,"isAfterActivation":true,"index":29,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activated Skeleton Key Effect"}} 
+ Recived From Player 1 21:32:40 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":270,"_text":"Response Remove After Resolve Activate Passive Effect 36"},"childOfId":269} 
+ Recived From Player 1 21:32:40 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":271,"_text":"Wait For Response From Player 2 "},"childOfId":269} 
+ Recived From Player 1 21:32:40 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:32:40 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:32:40 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":271} 
+ Recived From Player 1 21:32:40 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":272,"_text":"Wait For Response From Player 1 "},"childOfId":269} 
+ Recived From Player 1 21:32:40 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:40 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":272} 
+ Recived From Player 1 21:32:40 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":270} 
+ Recived From Player 1 21:32:40 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":273,"_text":"Resolve Player Death 35 "}} 
+ Recived From Player 1 21:32:40 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"},{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"},{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":true,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"},{"entityId":35,"creatorCardId":333,"playerToDieCardId":333,"stackEffectType":15,"killerId":299,"lable":"Player 1 Is About To Die"}]} 
+ Recived From Player 1 21:32:40 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":35,"text":"Player 1 Has Died"} 
+ Recived From Player 1 21:32:41 $NEXT_STACK_ID:  
+ Recived From Player 1 21:32:41 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:32:41 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"}} 
+ Recived From Player 1 21:32:41 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"}} 
+ Recived From Player 1 21:32:41 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":true,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"}} 
+ Recived From Player 1 21:32:41 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":35,"creatorCardId":333,"playerToDieCardId":333,"stackEffectType":15,"killerId":299,"lable":"Player 1 Has Died"}} 
+ Recived From Player 1 21:32:41 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":37,"creatorCardId":333,"playerToPayCardId":333,"stackEffectType":16,"lable":"Player 1 Is About To Pay Death Penalties"}} 
+ Recived From Player 1 21:32:41 $REPLACE_STACK:  
+
+ {"currentStack":[{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"},{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"},{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":true,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"},{"entityId":35,"creatorCardId":333,"playerToDieCardId":333,"stackEffectType":15,"killerId":299,"lable":"Player 1 Has Died"},{"entityId":37,"creatorCardId":333,"playerToPayCardId":333,"stackEffectType":16,"lable":"Player 1 Is About To Pay Death Penalties"}]} 
+ Recived From Player 1 21:32:41 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":37,"creatorCardId":333,"playerToPayCardId":333,"stackEffectType":16,"lable":"Player 1 Is About To Pay Death Penalties"}} 
+ Recived From Player 1 21:32:41 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:32:41 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:41 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":35,"creatorCardId":333,"playerToDieCardId":333,"stackEffectType":15,"killerId":299,"lable":"Player 1 Has Died"}} 
+ Recived From Player 1 21:32:41 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"},{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"},{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":true,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"}]} 
+ Recived From Player 1 21:32:41 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:32:41 $SHOW_STACK_EFFECT:  
+
+ {"effectId":35} 
+ Recived From Player 1 21:32:43 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":35} 
+ Recived From Player 1 21:32:43 $SHOW_STACK_EFFECT:  
+
+ {"effectId":37} 
+ Recived From Player 1 21:32:46 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":274,"_text":"Remove After Resolve Player Death 35  "}} 
+ Recived From Player 1 21:32:46 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":35,"creatorCardId":333,"playerToDieCardId":333,"stackEffectType":15,"killerId":299,"lable":"Player 1 Has Died"}} 
+ Recived From Player 1 21:32:46 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":275,"_text":"Response Remove After Resolve Player Death 35"},"childOfId":274} 
+ Recived From Player 1 21:32:46 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":276,"_text":"Wait For Response From Player 1 "},"childOfId":274} 
+ Recived From Player 1 21:32:46 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:46 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":276} 
+ Recived From Player 1 21:32:46 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":277,"_text":"Wait For Response From Player 2 "},"childOfId":274} 
+ Recived From Player 1 21:32:47 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:32:47 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:32:47 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":277} 
+ Recived From Player 1 21:32:47 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":275} 
+ Recived From Player 1 21:32:47 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":278,"_text":"Resolve Player Death Penalties 37 "}} 
+ Recived From Player 1 21:32:47 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"},{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"},{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":true,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"},{"entityId":37,"creatorCardId":333,"playerToPayCardId":333,"stackEffectType":16,"lable":"Player 1 Is About To Pay Death Penalties"}]} 
+ Recived From Player 1 21:32:47 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":279,"_text":"Player 1 pays Penalties"}} 
+ Recived From Player 1 21:32:47 $SET_MONEY:  
+
+ {"playerId":1,"numOfCoins":12} 
+ Recived From Player 1 21:32:47 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":-1}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":30,"originStackId":-1},"isAfterActivation":true,"index":30} 
+ Recived From Player 1 21:32:47 $SHOW_ANNOUNCEMENT:  
+
+ {"text":"Player undefined is Choosing Target"} 
+ Recived From Player 1 21:32:51 $HIDE_ANNOUNCEMENT:  
+ Recived From Player 1 21:32:51 $PLAYER_LOSE_LOOT:  
+
+ {"playerId":1,"cardId":26} 
+ Recived From Player 1 21:32:51 $MOVE_CARD:  
+
+ {"moveIndex":19,"cardId":26,"placeID":340,"flipIfFlipped":true,"playerId":1,"placeType":"Card"} 
+ Recived From Player 1 21:32:52 $MOVE_CARD_TO_PILE:  
+
+ {"type":1,"cardId":26} 
+ Recived From Player 1 21:32:52 $REMOVE_FROM_PASSIVE_MANAGER:  
+
+ {"cardId":203} 
+ Recived From Player 1 21:32:52 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_LOSE_ITEM","args":[{"type":0,"number":203}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":31,"originStackId":-1},"isAfterActivation":true,"index":31} 
+ Recived From Player 1 21:32:52 $MOVE_CARD:  
+
+ {"moveIndex":20,"cardId":203,"placeID":342,"flipIfFlipped":true,"playerId":1,"placeType":"Card"} 
+ Recived From Player 1 21:32:52 $MOVE_CARD_TO_PILE:  
+
+ {"type":5,"cardId":203} 
+ Recived From Player 1 21:32:52 $USE_ITEM:  
+
+ {"cardId":333} 
+ Recived From Player 1 21:32:52 $USE_ITEM:  
+
+ {"cardId":334} 
+ Recived From Player 1 21:32:52 $PLAYER_DIED:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:52 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":37,"text":"Player 1 Paid Death Penalties"} 
+ Recived From Player 1 21:32:52 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":37,"creatorCardId":333,"playerToPayCardId":333,"stackEffectType":16,"lable":"Player 1 Paid Death Penalties"}} 
+ Recived From Player 1 21:32:52 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"},{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"},{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":true,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 is going to activate Spiked Chest"}]} 
+ Recived From Player 1 21:32:52 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:32:52 $SHOW_STACK_EFFECT:  
+
+ {"effectId":37} 
+ Recived From Player 1 21:32:55 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":37} 
+ Recived From Player 1 21:32:55 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":280,"_text":"Remove After Resolve Player Death Penalties 37  "}} 
+ Recived From Player 1 21:32:55 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":37,"creatorCardId":333,"playerToPayCardId":333,"stackEffectType":16,"lable":"Player 1 Paid Death Penalties"}} 
+ Recived From Player 1 21:32:55 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":281,"_text":"Response Remove After Resolve Player Death Penalties 37"},"childOfId":280} 
+ Recived From Player 1 21:32:55 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":282,"_text":"Wait For Response From Player 2 "},"childOfId":280} 
+ Recived From Player 1 21:32:55 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:32:55 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:32:55 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":282} 
+ Recived From Player 1 21:32:55 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":283,"_text":"Wait For Response From Player 1 "},"childOfId":280} 
+ Recived From Player 1 21:32:56 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:56 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":283} 
+ Recived From Player 1 21:32:56 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":281} 
+ Recived From Player 1 21:32:56 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":284,"_text":"Resolve Activate Item 32 "}} 
+ Recived From Player 1 21:32:56 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":32,"text":"Player 1 has activated Spiked Chest"} 
+ Recived From Player 1 21:32:56 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_ACTIVATE_ITEM","args":[{"type":0,"number":299}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":32,"originStackId":-1},"isAfterActivation":true,"index":32} 
+ Recived From Player 1 21:32:56 $MOVE_CARD:  
+
+ {"moveIndex":21,"cardId":299,"placeID":342,"flipIfFlipped":true,"playerId":1,"placeType":"Card"} 
+ Recived From Player 1 21:32:56 $MOVE_CARD_TO_PILE:  
+
+ {"type":2,"cardId":299} 
+ Recived From Player 1 21:32:56 $REMOVE_MONSTER:  
+
+ {"holderId":2,"monsterId":299} 
+ Recived From Player 1 21:32:56 $NEXT_STACK_ID:  
+ Recived From Player 1 21:32:56 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":38,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"}} 
+ Recived From Player 1 21:32:56 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":38,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"}} 
+ Recived From Player 1 21:32:56 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:32:56 $SHOW_STACK_EFFECT:  
+
+ {"effectId":38} 
+ Recived From Player 1 21:32:59 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":285,"_text":"Add Reffil Empty Monster Slot 38 "}} 
+ Recived From Player 1 21:32:59 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:59 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":38,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"}} 
+ Recived From Player 1 21:32:59 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":286,"_text":"Response Adding Reffil Empty Monster Slot 38"},"childOfId":285} 
+ Recived From Player 1 21:32:59 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":287,"_text":"Wait For Response From Player 1 "},"childOfId":285} 
+ Recived From Player 1 21:32:59 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:32:59 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":287} 
+ Recived From Player 1 21:32:59 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":288,"_text":"Wait For Response From Player 2 "},"childOfId":285} 
+ Recived From Player 1 21:32:59 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:32:59 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:32:59 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":288} 
+ Recived From Player 1 21:32:59 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":286} 
+ Recived From Player 1 21:32:59 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":289,"_text":"Resolve Reffil Empty Monster Slot 38 "}} 
+ Recived From Player 1 21:32:59 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"},{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"},{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":true,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 has activated Spiked Chest"},{"entityId":38,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"}]} 
+ Recived From Player 1 21:32:59 $DRAW_CARD:  
+
+ {"deckType":2} 
+ Recived From Player 1 21:32:59 $FLIP_CARD:  
+
+ {"cardId":230} 
+ Recived From Player 1 21:32:59 $REGISTER_PASSIVE_ITEM:  
+
+ {"cardId":230} 
+ Recived From Player 1 21:32:59 $ADD_MONSTER:  
+
+ {"monsterPlaceId":2,"monsterId":230} 
+ Recived From Player 1 21:32:59 $NEW_MONSTER_ON_PLACE:  
+
+ {"cardId":230,"monsterPlaceId":2} 
+ Recived From Player 1 21:32:59 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":38,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"}} 
+ Recived From Player 1 21:32:59 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"},{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"},{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":true,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 has activated Spiked Chest"}]} 
+ Recived From Player 1 21:33:00 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:33:00 $SHOW_STACK_EFFECT:  
+
+ {"effectId":38} 
+ Recived From Player 1 21:33:02 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":38} 
+ Recived From Player 1 21:33:02 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":290,"_text":"Remove After Resolve Reffil Empty Monster Slot 38  "}} 
+ Recived From Player 1 21:33:02 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":38,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"}} 
+ Recived From Player 1 21:33:02 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":291,"_text":"Response Remove After Resolve Reffil Empty Monster Slot 38"},"childOfId":290} 
+ Recived From Player 1 21:33:02 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":292,"_text":"Wait For Response From Player 2 "},"childOfId":290} 
+ Recived From Player 1 21:33:02 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:33:02 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:33:03 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":292} 
+ Recived From Player 1 21:33:03 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":293,"_text":"Wait For Response From Player 1 "},"childOfId":290} 
+ Recived From Player 1 21:33:03 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:33:03 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":293} 
+ Recived From Player 1 21:33:03 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":291} 
+ Recived From Player 1 21:33:03 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":294,"_text":"Resolve Activate Item 32 "}} 
+ Recived From Player 1 21:33:03 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":true,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 has activated Spiked Chest"}} 
+ Recived From Player 1 21:33:03 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"},{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"}]} 
+ Recived From Player 1 21:33:03 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:33:03 $SHOW_STACK_EFFECT:  
+
+ {"effectId":32} 
+ Recived From Player 1 21:33:06 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":32} 
+ Recived From Player 1 21:33:06 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":295,"_text":"Remove After Resolve Activate Item 32  "}} 
+ Recived From Player 1 21:33:06 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":32,"creatorCardId":333,"hasLockingStackEffect":true,"hasLockingStackEffectResolved":true,"itemToPlayCardId":299,"itemPlayerId":1,"hasDataBeenCollectedYet":false,"stackEffectType":1,"lable":"Player 1 has activated Spiked Chest"}} 
+ Recived From Player 1 21:33:06 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":296,"_text":"Response Remove After Resolve Activate Item 32"},"childOfId":295} 
+ Recived From Player 1 21:33:06 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":297,"_text":"Wait For Response From Player 1 "},"childOfId":295} 
+ Recived From Player 1 21:33:06 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:33:06 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":297} 
+ Recived From Player 1 21:33:06 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":298,"_text":"Wait For Response From Player 2 "},"childOfId":295} 
+ Recived From Player 1 21:33:06 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:33:06 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:33:06 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":298} 
+ Recived From Player 1 21:33:06 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":296} 
+ Recived From Player 1 21:33:06 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":299,"_text":"Resolve Reffil Empty Monster Slot 31 "}} 
+ Recived From Player 1 21:33:06 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"}} 
+ Recived From Player 1 21:33:06 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"}]} 
+ Recived From Player 1 21:33:06 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:33:06 $SHOW_STACK_EFFECT:  
+
+ {"effectId":31} 
+ Recived From Player 1 21:33:09 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":31} 
+ Recived From Player 1 21:33:09 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":300,"_text":"Remove After Resolve Reffil Empty Monster Slot 31  "}} 
+ Recived From Player 1 21:33:09 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":31,"creatorCardId":333,"slotType":2,"slotToFillId":2,"stackEffectType":10,"lable":"Refill holder2 Slot"}} 
+ Recived From Player 1 21:33:09 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":301,"_text":"Response Remove After Resolve Reffil Empty Monster Slot 31"},"childOfId":300} 
+ Recived From Player 1 21:33:09 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":302,"_text":"Wait For Response From Player 2 "},"childOfId":300} 
+ Recived From Player 1 21:33:09 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:33:09 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:33:09 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":302} 
+ Recived From Player 1 21:33:09 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":303,"_text":"Wait For Response From Player 1 "},"childOfId":300} 
+ Recived From Player 1 21:33:09 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:33:09 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":303} 
+ Recived From Player 1 21:33:09 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":301} 
+ Recived From Player 1 21:33:09 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":304,"_text":"Resolve Monster Death Reward 30 "}} 
+ Recived From Player 1 21:33:09 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"}} 
+ Recived From Player 1 21:33:09 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:33:09 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:33:09 $SHOW_STACK_EFFECT:  
+
+ {"effectId":30} 
+ Recived From Player 1 21:33:12 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":30} 
+ Recived From Player 1 21:33:12 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":305,"_text":"Remove After Resolve Monster Death Reward 30  "}} 
+ Recived From Player 1 21:33:12 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":30,"creatorCardId":333,"monsterCardWithRewardId":248,"playerCardIdToReward":333,"stackEffectType":7,"lable":"Player 1 Is Going To Get Daddy Long Legs<Monster>'s Reward"}} 
+ Recived From Player 1 21:33:12 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":306,"_text":"Response Remove After Resolve Monster Death Reward 30"},"childOfId":305} 
+ Recived From Player 1 21:33:12 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":307,"_text":"Wait For Response From Player 1 "},"childOfId":305} 
+ Recived From Player 1 21:33:12 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:33:12 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":307} 
+ Recived From Player 1 21:33:12 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":308,"_text":"Wait For Response From Player 2 "},"childOfId":305} 
+ Recived From Player 1 21:33:12 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:33:12 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:33:12 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":308} 
+ Recived From Player 1 21:33:12 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":306} 
+ Recived From Player 1 21:33:12 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":309,"_text":"Stack Was Emptied "}} 
+ Recived From Player 1 21:33:12 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:33:12 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:33:12 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:33:12 $REPLACE_STACK:  
+
+ {"currentStack":[]} 
+ Recived From Player 1 21:33:12 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:33:12 $END_TURN:  
+ Recived From Player 1 21:33:12 $SET_TURN:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:33:12 $START_TURN:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:33:13 $STACK_EMPTIED:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:33:16 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[]} 
+ Recived From Player 1 21:33:16 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:33:16 $MOVE_CARD_END:  
+
+ {"moveIndex":22,"cardId":137,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 21:33:19 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[]} 
+ Recived From Player 1 21:33:20 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:33:25 $MOVE_CARD_END:  
+
+ {"moveIndex":23,"cardId":137,"flipIfFlipped":true,"playerId":2} 
+ Recived From Player 1 21:33:25 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[]} 
+ Recived From Player 1 21:33:25 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:33:35 $MOVE_CARD_END:  
+
+ {"moveIndex":24,"cardId":91,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 21:33:36 $MOVE_CARD_END:  
+
+ {"moveIndex":25,"cardId":125,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 21:33:36 $MOVE_CARD_END:  
+
+ {"moveIndex":26,"cardId":137,"flipIfFlipped":true,"playerId":2} 
+ Recived From Player 1 21:33:39 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[]} 
+ Recived From Player 1 21:33:40 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:34:05 $STACK_EMPTIED:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:34:05 $RECHARGE_ITEM:  
+
+ {"cardId":333} 
+ Recived From Player 1 21:34:05 $PLAYER_RECHARGE_ITEM:  
+
+ {"playerId":1,"cardId":333} 
+ Recived From Player 1 21:34:05 $RECHARGE_ITEM:  
+
+ {"cardId":334} 
+ Recived From Player 1 21:34:05 $PLAYER_RECHARGE_ITEM:  
+
+ {"playerId":1,"cardId":334} 
+ Recived From Player 1 21:34:05 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:34:05 $NEXT_STACK_ID:  
+ Recived From Player 1 21:34:05 $ADD_TO_STACK:  
+
+ {"stackEffect":{"entityId":41,"creatorCardId":333,"turnPlayerCardId":333,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+ Recived From Player 1 21:34:05 $ADD_SE_VIS_PREV:  
+
+ {"stackEffect":{"entityId":41,"creatorCardId":333,"turnPlayerCardId":333,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+ Recived From Player 1 21:34:05 $SET_STACK_ICON:  
+
+ {"iconIndex":0} 
+ Recived From Player 1 21:34:05 $SHOW_STACK_EFFECT:  
+
+ {"effectId":41} 
+ Recived From Player 1 21:34:05 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:34:08 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":330,"_text":"Add Start Turn Loot Draw 41 "}} 
+ Recived From Player 1 21:34:08 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:34:08 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":41,"creatorCardId":333,"turnPlayerCardId":333,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+ Recived From Player 1 21:34:08 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":331,"_text":"Response Adding Start Turn Loot Draw 41"},"childOfId":330} 
+ Recived From Player 1 21:34:08 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":332,"_text":"Wait For Response From Player 1 "},"childOfId":330} 
+ Recived From Player 1 21:34:08 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:34:08 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":332} 
+ Recived From Player 1 21:34:08 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":333,"_text":"Wait For Response From Player 2 "},"childOfId":330} 
+ Recived From Player 1 21:34:08 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:34:08 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:34:08 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":333} 
+ Recived From Player 1 21:34:08 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":331} 
+ Recived From Player 1 21:34:08 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":334,"_text":"Resolve Start Turn Loot Draw 41 "}} 
+ Recived From Player 1 21:34:08 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[{"entityId":41,"creatorCardId":333,"turnPlayerCardId":333,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}]} 
+ Recived From Player 1 21:34:08 $DRAW_CARD:  
+
+ {"deckType":1} 
+ Recived From Player 1 21:34:08 $MOVE_CARD:  
+
+ {"moveIndex":27,"cardId":138,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":-7.599999904632568,"y":-0.20000000298023224,"z":0},"playerId":1,"placeType":"Hand"} 
+ Recived From Player 1 21:34:08 $CARD_DRAWN:  
+
+ {"playerId":1,"deckType":1,"drawnCardId":138} 
+ Recived From Player 1 21:34:08 $FLIP_CARD:  
+
+ {"cardId":138} 
+ Recived From Player 1 21:34:08 $PLAYER_GET_LOOT:  
+
+ {"playerId":1,"cardId":138} 
+ Recived From Player 1 21:34:08 $UPDATE_PASSIVE_DATA:  
+
+ {"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":138}],"result":null,"preventMethod":false,"methodScopeId":333,"scopeIsPlayer":true,"index":33,"originStackId":-1},"isAfterActivation":true,"index":33} 
+ Recived From Player 1 21:34:08 $STACK_EFFECT_LABLE_CHANGE:  
+
+ {"stackId":41,"text":"Player 1 Has Drawn Loot For Start Turn"} 
+ Recived From Player 1 21:34:08 $UPDATE_STACK_EFFECT:  
+
+ {"stackEffect":{"entityId":41,"creatorCardId":333,"turnPlayerCardId":333,"stackEffectType":13,"lable":"Player 1 Has Drawn Loot For Start Turn"}} 
+ Recived From Player 1 21:34:08 $UPDATE_RESOLVING_STACK_EFFECTS:  
+
+ {"stackEffects":[]} 
+ Recived From Player 1 21:34:09 $SET_STACK_ICON:  
+
+ {"iconIndex":1} 
+ Recived From Player 1 21:34:09 $SHOW_STACK_EFFECT:  
+
+ {"effectId":41} 
+ Recived From Player 1 21:34:11 $REMOVE_SE_VIS_PREV:  
+
+ {"stackEffectId":41} 
+ Recived From Player 1 21:34:11 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":335,"_text":"Remove After Resolve Start Turn Loot Draw 41  "}} 
+ Recived From Player 1 21:34:11 $REMOVE_FROM_STACK:  
+
+ {"stackEffect":{"entityId":41,"creatorCardId":333,"turnPlayerCardId":333,"stackEffectType":13,"lable":"Player 1 Has Drawn Loot For Start Turn"}} 
+ Recived From Player 1 21:34:11 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":336,"_text":"Response Remove After Resolve Start Turn Loot Draw 41"},"childOfId":335} 
+ Recived From Player 1 21:34:11 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":337,"_text":"Wait For Response From Player 2 "},"childOfId":335} 
+ Recived From Player 1 21:34:11 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:34:12 $GET_REACTION:  
+
+ {"playerId":2,"activePlayerId":1} 
+ Recived From Player 1 21:34:12 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":337} 
+ Recived From Player 1 21:34:12 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":338,"_text":"Wait For Response From Player 1 "},"childOfId":335} 
+ Recived From Player 1 21:34:12 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:34:12 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":338} 
+ Recived From Player 1 21:34:12 $ACTION_MASSAGE_REMOVE:  
+
+ {"id":336} 
+ Recived From Player 1 21:34:12 $ACTION_MASSAGE_ADD:  
+
+ {"massage":{"_id":339,"_text":"Stack Was Emptied "}} 
+ Recived From Player 1 21:34:12 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:34:14 $GIVE_PLAYER_PRIORITY:  
+
+ {"playerId":1} 
+ Recived From Player 1 21:34:14 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:34:14 $REPLACE_STACK:  
+
+ {"currentStack":[]} 
+ Recived From Player 1 21:34:14 $CLEAR_SE_VIS:  
+ Recived From Player 1 21:34:14 $END_TURN:  
+ Recived From Player 1 21:34:14 $SET_TURN:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:34:14 $START_TURN:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:34:14 $STACK_EMPTIED:  
+
+ {"playerId":2} 
+ Recived From Player 1 21:34:17 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:34:17 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:34:17 $MOVE_CARD_END:  
+
+ {"moveIndex":28,"cardId":51,"flipIfFlipped":false,"playerId":2} 
+ Recived From Player 1 21:34:21 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:34:21 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:34:38 $MOVE_CARD_END:  
+
+ {"moveIndex":29,"cardId":51,"flipIfFlipped":true,"playerId":2} 
+ Recived From Player 1 21:34:39 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:34:39 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:34:44 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:34:44 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:34:52 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:34:52 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:34:56 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:34:56 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:35:01 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:35:01 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:35:01 $MOVE_CARD_END:  
+
+ {"moveIndex":30,"cardId":51,"flipIfFlipped":true,"playerId":2} 
+ Recived From Player 1 21:35:05 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:35:05 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:35:41 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:35:41 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:35:54 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:35:54 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:36:00 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:36:00 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:36:08 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:36:08 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:36:16 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:36:16 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:36:20 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:36:20 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:36:22 $MOVE_CARD_END:  
+
+ {"moveIndex":31,"cardId":234,"flipIfFlipped":true,"playerId":2} 
+ Recived From Player 1 21:36:25 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:36:25 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:36:29 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:36:29 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:37:12 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:37:12 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:37:13 $MOVE_CARD_END:  
+
+ {"moveIndex":32,"cardId":178,"flipIfFlipped":true,"playerId":2} 
+ Recived From Player 1 21:37:19 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:37:19 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:37:22 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:37:22 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:37:32 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:37:32 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:37:37 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:37:37 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:38:18 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:38:19 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:38:21 $MOVE_CARD_END:  
+
+ {"moveIndex":33,"cardId":125,"flipIfFlipped":true,"playerId":2} 
+ Recived From Player 1 21:38:39 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:38:39 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false} 
+ Recived From Player 1 21:38:41 $MOVE_CARD_END:  
+
+ {"moveIndex":34,"cardId":125,"flipIfFlipped":true,"playerId":2} 
+ Recived From Player 1 21:38:45 $HIDE_REACTIONS:  
+
+ {"playerId":1,"cardsIds":[333,334]} 
+ Recived From Player 1 21:38:45 $RESPOND_TO:  
+
+ {"playerId":2,"stackEffectResponse":false}

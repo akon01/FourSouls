@@ -24,7 +24,7 @@ export default class InfiniteAttack extends Effect {
    */
   async doEffect(stack: StackEffectInterface[], data?: PassiveEffectData) {
 
-    TurnsManager.currentTurn.attackPlays += 1;
+    TurnsManager.currentTurn.getTurnPlayer().attackPlays += 1;
 
     return data
   }

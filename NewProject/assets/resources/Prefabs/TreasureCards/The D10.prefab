@@ -328,7 +328,12 @@
       "__id__": 8
     },
     "chooseTypes": [],
+    "filterFromPassiveMeta": false,
+    "targetCollectorFromPassiveMeta": null,
     "flavorText": "Choose A Monster To Cover",
+    "otherPlayersFlavorText": "",
+    "isMultiCardChoice": false,
+    "numOfCardsToChoose": 1,
     "_id": ""
   },
   {
@@ -377,6 +382,7 @@
       "__id__": 2
     },
     "_enabled": true,
+    "isSilent": false,
     "cost": null,
     "preCondition": null,
     "conditions": [
@@ -392,7 +398,8 @@
       }
     ],
     "_effectCard": null,
-    "optional": true,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": true,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "optionalFlavorText": "Do You Want To Put A New Monster?",
     "discardOldMonster": false,
@@ -734,7 +741,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "8256368e-a8c8-4d1d-9107-5a94b2413fd3"
+      "__uuid__": "2a22ffa3-254f-481f-bbcb-2b0dfdf65ecc"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -747,9 +754,7 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "5025785a-4110-41d8-93d2-5ba70b314c30"
-    },
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -762,6 +767,8 @@
     "_enabled": true,
     "cardName": "The D10",
     "doNotMake": false,
+    "cardMask": null,
+    "cardSprite": null,
     "makeMultiCards": false,
     "numOfCopies": 2,
     "copiesSprites": [],
@@ -789,7 +796,6 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
-    "availableParticles": [],
     "_id": ""
   },
   {
@@ -801,9 +807,10 @@
     },
     "_enabled": true,
     "type": 0,
-    "activated": false,
+    "needsRecharge": false,
     "eternal": false,
     "lastOwnedBy": null,
+    "isGuppyItem": false,
     "_id": ""
   },
   {

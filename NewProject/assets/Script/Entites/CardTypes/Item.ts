@@ -29,6 +29,9 @@ export default class Item extends cc.Component {
 
 
   rechargeItem(sendToServer: boolean) {
+    if (this.type == ITEM_TYPE.PASSIVE || this.type == ITEM_TYPE.TO_ADD_PASSIVE || this.type == ITEM_TYPE.PASSIVE_AND_PAID) {
+      return
+    }
     if (sendToServer) {
       let id = this.node.getComponent("Card")._cardId
       ServerClient.$.send(Signal.RECHARGE_ITEM, { cardId: id })
@@ -39,6 +42,9 @@ export default class Item extends cc.Component {
   }
 
   useItem(sendToServer: boolean) {
+    if (this.type == ITEM_TYPE.PASSIVE || this.type == ITEM_TYPE.TO_ADD_PASSIVE || this.type == ITEM_TYPE.PASSIVE_AND_PAID) {
+      return
+    }
     if (sendToServer) {
       ServerClient.$.send(Signal.USE_ITEM, { cardId: this.node.getComponent("Card")._cardId })
     }

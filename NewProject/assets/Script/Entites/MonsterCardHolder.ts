@@ -99,6 +99,7 @@ export default class MonsterCardHolder extends cc.Component {
         await PassiveManager.registerPassiveItem(this.activeMonster, true)
       }
     }
+    await PassiveManager.testForPassiveAfter(passiveMeta)
   }
 
   async getNextMonster(sendToServer: boolean) {
@@ -153,7 +154,9 @@ export default class MonsterCardHolder extends cc.Component {
     if (MonsterField.activeMonsters.includes(monster)) {
       MonsterField.activeMonsters.splice(MonsterField.activeMonsters.indexOf(monster), 1)
       monster.getComponent(Monster).monsterPlace = null;
-      PassiveManager.removePassiveItemEffects(monster, sendToServer)
+      if (!monster.getComponent(Monster).isCurse) {
+        PassiveManager.removePassiveItemEffects(monster, sendToServer)
+      }
     }
 
     if (sendToServer) {
@@ -191,15 +194,15 @@ export default class MonsterCardHolder extends cc.Component {
       const activeMonster = this._activeMonster.getComponent(Monster);
       this.hpLable.string =
         "🖤:" + activeMonster.currentHp;
-      if (activeMonster.bonusDamage != 0) {
+      if (activeMonster._bonusDamage != 0) {
         this.dmgLable.string =
           "🏹:" + activeMonster.calculateDamage();
         this.dmgLable.node.active = true;
       } else {
         this.dmgLable.node.active = false;
       }
-      if (activeMonster.rollBonus > 0) {
-        this.rollBonusLable.string = "🎲:" + (activeMonster.rollBonus + activeMonster.rollValue)
+      if (activeMonster._rollBonus > 0) {
+        this.rollBonusLable.string = "🎲:" + (activeMonster._rollBonus + activeMonster.rollValue)
         this.rollBonusLable.node.active = true
       } else {
         this.rollBonusLable.node.active = false

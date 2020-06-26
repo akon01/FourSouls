@@ -18,7 +18,6 @@
     "_parent": null,
     "_children": [],
     "_active": true,
-    "_level": 1,
     "_components": [
       {
         "__id__": 2
@@ -51,18 +50,6 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_zIndex": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
@@ -78,7 +65,19 @@
         1,
         1
       ]
-    }
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "cc.Sprite",
@@ -88,10 +87,15 @@
       "__id__": 1
     },
     "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "2db2718b-bca3-4324-96b3-981341cdd40a"
+      "__uuid__": "d26ec738-7fab-4e1d-bcd5-2e54ea928f13"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -104,7 +108,6 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_state": 0,
     "_atlas": null,
     "_id": ""
   },
@@ -117,24 +120,36 @@
     },
     "_enabled": true,
     "cardName": "We Need To Go Deeper!",
-    "cardId": 0,
-    "moving": false,
-    "dragStartPos": null,
-    "xDiff": null,
-    "yDiff": null,
-    "isInHand": false,
-    "isOnDesk": false,
-    "originalParent": null,
-    "newPos": null,
+    "doNotMake": false,
+    "cardMask": null,
+    "cardSprite": null,
+    "makeMultiCards": false,
+    "numOfCopies": 2,
+    "copiesSprites": [],
+    "_cardId": 0,
+    "_isInHand": false,
+    "_isOnDesk": false,
+    "_originalParent": null,
+    "_originalWidth": null,
     "topDeckof": null,
-    "wasDragged": false,
+    "souls": 0,
     "type": 2,
-    "currentCardLayout": null,
-    "hasDraggableComp": false,
+    "isGoingToBePlayed": false,
+    "_isAttackable": false,
+    "_isBuyable": false,
+    "_isPlayable": false,
+    "_isActivateable": false,
+    "_isReactable": false,
+    "_isRequired": false,
+    "_requiredFor": null,
     "frontSprite": null,
     "backSprite": null,
-    "isFlipped": false,
-    "ownedBy": null,
+    "_isFlipped": false,
+    "_ownedBy": null,
+    "hasCounter": false,
+    "_effectCounterLable": null,
+    "_counters": 0,
+    "_hasEventsBeenModified": false,
     "_id": ""
   },
   {
@@ -147,10 +162,21 @@
     "_enabled": true,
     "monsterPlace": null,
     "HP": null,
+    "currentHp": 0,
     "rollValue": "",
+    "_rollBonus": 0,
     "DMG": null,
-    "isAttacked": false,
+    "_bonusDamage": 0,
+    "_isAttacked": false,
     "hasEffect": true,
+    "isNonMonster": false,
+    "_dmgPrevention": [],
+    "_thisTurnKiller": null,
+    "reward": null,
+    "killer": null,
+    "isCurse": false,
+    "_isDead": false,
+    "_lastHitRoll": 0,
     "_id": ""
   },
   {
@@ -159,7 +185,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": ""
+      "__uuid__": "236aff8a-12fa-4c59-b6ee-c7253b4ec69b"
     },
     "fileId": "74xrl7Ss9GNLi7htp7h56D",
     "sync": false

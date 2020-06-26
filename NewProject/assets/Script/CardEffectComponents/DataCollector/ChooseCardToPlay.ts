@@ -4,18 +4,18 @@ import CardManager from "../../Managers/CardManager";
 import { EffectTarget } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
 import Effect from "../CardEffects/Effect";
-import { CHOOSE_CARD_TYPE, GAME_EVENTS } from "./../../Constants";
+import { CHOOSE_CARD_TYPE, GAME_EVENTS, CARD_TYPE } from "./../../Constants";
 import DataCollector from "./DataCollector";
 import DecisionMarker from "../../Entites/Decision Marker";
 import { whevent } from "../../../ServerClient/whevent";
 import AnnouncementLable from "../../LableScripts/Announcement Lable";
+import PileManager from "../../Managers/PileManager";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SelectLootToPlay extends DataCollector {
   collectorName = "SelectLootToPlay";
-  isEffectChosen: boolean = false;
   cardChosen: cc.Node;
   playerId: number;
 
@@ -80,6 +80,7 @@ export default class SelectLootToPlay extends DataCollector {
       const card = cards[i];
       await CardManager.unRequiredForDataCollector(card);
     }
+    await PileManager.addCardToPile(CARD_TYPE.LOOT_PLAY, cardPlayed, true)
     const cardId = cardPlayed.getComponent(Card)._cardId;
 
     return new Promise((resolve, reject) => {

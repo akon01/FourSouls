@@ -1,6 +1,7 @@
 import IFilter from "./FilterInterface";
 import Card from "../../Entites/GameEntities/Card";
 import Item from "../../Entites/CardTypes/Item";
+import { ITEM_TYPE } from "../../Constants";
 
 const { ccclass, property } = cc._decorator;
 
@@ -8,7 +9,9 @@ enum ITEM_FILTERS {
     IS_NOT_CHARGED,
     IS_CHARGED,
     IS_NOT_ETERNAL,
-    IS_NOT_NAMED
+    IS_NOT_NAMED,
+    IS_ACTIVATED_ITEM,
+    IS__NOT_ACTIVATED_ITEM
 }
 
 @ccclass('ItemFilter')
@@ -38,6 +41,10 @@ export default class ItemFilter implements IFilter {
                 return 'comp.eternal == false'
             case ITEM_FILTERS.IS_NOT_NAMED:
                 return `comp.node.getComponent('Card').cardName != ${this.stringInput}`
+            case ITEM_FILTERS.IS_ACTIVATED_ITEM:
+                return `(comp.type == 1 || comp.type == 5 || comp.type == 2 || comp.type == 7)`
+            case ITEM_FILTERS.IS__NOT_ACTIVATED_ITEM:
+                return `!(comp.type == 1 || comp.type == 5 || comp.type == 2 || comp.type == 7)`
             default:
                 break;
         }

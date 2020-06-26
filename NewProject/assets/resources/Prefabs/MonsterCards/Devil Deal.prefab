@@ -95,7 +95,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "32c39f8b-bf9d-4ea7-a389-67f45760d92e"
+      "__uuid__": "953b89ec-32c3-4e47-b605-be7aea6c2d3c"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -108,9 +108,7 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "68990513-9e33-4419-bf7a-b0a0b6296f78"
-    },
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -123,6 +121,8 @@
     "_enabled": true,
     "cardName": "Devil Deal",
     "doNotMake": false,
+    "cardMask": null,
+    "cardSprite": null,
     "makeMultiCards": false,
     "numOfCopies": 2,
     "copiesSprites": [],
@@ -134,6 +134,7 @@
     "topDeckof": null,
     "souls": 0,
     "type": 2,
+    "isGoingToBePlayed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -149,7 +150,6 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
-    "availableParticles": [],
     "_id": ""
   },
   {
@@ -164,18 +164,19 @@
     "HP": null,
     "currentHp": 0,
     "rollValue": "",
-    "rollBonus": 0,
+    "_rollBonus": 0,
     "DMG": null,
-    "bonusDamage": 0,
-    "isAttacked": false,
+    "_bonusDamage": 0,
+    "_isAttacked": false,
     "hasEffect": true,
     "isNonMonster": false,
-    "souls": 0,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
     "reward": null,
     "killer": null,
+    "isCurse": false,
     "_isDead": false,
+    "_lastHitRoll": 0,
     "_id": ""
   },
   {

@@ -319,8 +319,6 @@ export default class DecisionMarker extends cc.Component {
             Logger.error(`no stack effect to show`, { CurrentStack: Stack._currentStack, stackEffectToShowId: effectId })
             return
         }
-        cc.error(`show stack effect decision marker`)
-        cc.log(stackEffect._lable)
         this.setCurrentStackPreview(StackEffectVisManager.$.previewPool.getByStackEffect(stackEffect).getComponent(StackEffectPreview))
         if (this.currentStackIcon != null) {
             this.stackEffectPreview.setStackIcon(this.currentStackIcon)

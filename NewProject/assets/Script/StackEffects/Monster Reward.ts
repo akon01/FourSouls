@@ -74,7 +74,7 @@ export default class MonsterRewardStackEffect extends StackEffectConcrete {
     }
 
     async putOnStack() {
-        const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.MONSTER_IS_KILLED, [this.numberRolled], null, this.monsterWithReward.node, this.entityId)
+        const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.MONSTER_IS_KILLED, [this.numberRolled, this.monsterWithReward.killer], null, this.monsterWithReward.node, this.entityId)
         const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
 
         const turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
@@ -95,6 +95,7 @@ export default class MonsterRewardStackEffect extends StackEffectConcrete {
         this.monsterWithReward._isDead = true
         const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.MONSTER_IS_KILLED, [], null, this.monsterWithReward.node, this.entityId)
         await PassiveManager.testForPassiveAfter(passiveMeta)
+        await Stack.fizzleStackEffect(this, true, true)
         cc.error(`after passive check, discard top monster or give souls card`)
         if (cardComp.souls == 0) {
             await this.monsterWithReward.monsterPlace.discardTopMonster(true)

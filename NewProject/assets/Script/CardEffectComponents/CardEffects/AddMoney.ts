@@ -25,11 +25,14 @@ export default class AddMoney extends Effect {
    */
   async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
 
+    if (this.hasLockingResolve) {
+      this.numOfCoins = this.lockingResolve
+    }
+
     if (this.multiTarget) {
       let targets = data.getTargets(TARGETTYPE.PLAYER)
       if (targets.length == 0) {
-        cc.log(`no targets`)
-        return
+        throw new Error(`no targets`)
       }
 
       for (let i = 0; i < targets.length; i++) {

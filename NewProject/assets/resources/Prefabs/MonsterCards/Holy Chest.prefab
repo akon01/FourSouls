@@ -203,6 +203,7 @@
       "__id__": 6
     },
     "_enabled": true,
+    "isSilent": false,
     "cost": null,
     "preCondition": null,
     "conditions": [],
@@ -214,7 +215,8 @@
       }
     ],
     "_effectCard": null,
-    "optional": false,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "optionalFlavorText": "",
     "effectsToChain": [
@@ -399,6 +401,7 @@
       "__id__": 12
     },
     "_enabled": true,
+    "isSilent": false,
     "cost": null,
     "preCondition": null,
     "conditions": [],
@@ -410,7 +413,8 @@
       }
     ],
     "_effectCard": null,
-    "optional": false,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "optionalFlavorText": "",
     "damageToPrevent": 2,
@@ -589,6 +593,7 @@
       "__id__": 18
     },
     "_enabled": true,
+    "isSilent": false,
     "cost": null,
     "preCondition": null,
     "conditions": [],
@@ -600,11 +605,13 @@
       }
     ],
     "_effectCard": null,
-    "optional": false,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "optionalFlavorText": "",
     "numOfTimes": 1,
     "isOnlyMonsterDeck": false,
+    "makeMust": false,
     "_id": ""
   },
   {
@@ -790,6 +797,7 @@
       "__id__": 25
     },
     "_enabled": true,
+    "isSilent": false,
     "cost": null,
     "preCondition": null,
     "conditions": [],
@@ -801,7 +809,8 @@
       }
     ],
     "_effectCard": null,
-    "optional": false,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "optionalFlavorText": "",
     "numOfCoins": 7,
@@ -1315,7 +1324,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "885f8c3b-0101-4219-bb56-eef581c8c86f"
+      "__uuid__": "2dc294b8-a050-46a2-b48b-21446302983e"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -1328,9 +1337,7 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "b3e12067-3ff3-4574-8d12-44c89382c608"
-    },
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -1343,6 +1350,8 @@
     "_enabled": true,
     "cardName": "Holy Chest",
     "doNotMake": false,
+    "cardMask": null,
+    "cardSprite": null,
     "makeMultiCards": false,
     "numOfCopies": 2,
     "copiesSprites": [],
@@ -1354,6 +1363,7 @@
     "topDeckof": null,
     "souls": 0,
     "type": 2,
+    "isGoingToBePlayed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -1369,7 +1379,6 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
-    "availableParticles": [],
     "_id": ""
   },
   {
@@ -1384,17 +1393,17 @@
     "HP": null,
     "currentHp": 0,
     "rollValue": "",
-    "rollBonus": 0,
+    "_rollBonus": 0,
     "DMG": null,
-    "bonusDamage": 0,
-    "isAttacked": false,
+    "_bonusDamage": 0,
+    "_isAttacked": false,
     "hasEffect": true,
     "isNonMonster": false,
-    "souls": 0,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
     "reward": null,
     "killer": null,
+    "isCurse": false,
     "_isDead": false,
     "_lastHitRoll": 0,
     "_id": ""

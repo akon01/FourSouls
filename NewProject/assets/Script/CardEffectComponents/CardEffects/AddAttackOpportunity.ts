@@ -1,12 +1,11 @@
 import { TARGETTYPE } from "../../Constants";
 import Player from "../../Entites/GameEntities/Player";
+import Stack from "../../Entites/Stack";
 import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
+import TurnsManager from "../../Managers/TurnsManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import Effect from "./Effect";
-import TurnsManager from "../../Managers/TurnsManager";
-import Stack from "../../Entites/Stack";
-
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,6 +19,8 @@ export default class AddAttackOpportunity extends Effect {
   @property
   isOnlyMonsterDeck: boolean = false;
 
+  @property
+  makeMust: boolean = false;
 
   /**
    *
@@ -27,20 +28,25 @@ export default class AddAttackOpportunity extends Effect {
    */
   async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
 
-
-    let targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER)
+    const targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER)
     if (targetPlayerCard == null) {
-      cc.log(`target player is null`)
+      throw new Error(`target player is null`)
     } else {
-      let player: Player = PlayerManager.getPlayerByCard(targetPlayerCard as cc.Node)
+      const player: Player = PlayerManager.getPlayerByCard(targetPlayerCard as cc.Node)
       if (!this.isOnlyMonsterDeck) {
         player.attackPlays += this.numOfTimes
-        TurnsManager.currentTurn.attackPlays = player.attackPlays;
+        //if the player must attack a monster
+        if (this.makeMust) {
+          player._mustAttackPlays += this.numOfTimes
+        }
       } else {
-        TurnsManager.currentTurn.monsterDeckAttackPlays += this.numOfTimes;
+        //if the player must attack the monster deck
+        player._attackDeckPlays += this.numOfTimes;
+        if (this.makeMust) {
+          player._mustDeckAttackPlays += this.numOfTimes
+        }
       }
     }
-
 
     if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack

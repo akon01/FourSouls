@@ -22,7 +22,13 @@ export default interface EffectInterface {
 
   hasSubAction: boolean;
 
+  isSilent: boolean;
+
   effectData: ActiveEffectData | PassiveEffectData;
+
+  hasLockingResolve: boolean
+
+  lockingResolve: number
 
   reverseEffect();
 

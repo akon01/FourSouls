@@ -126,8 +126,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
+      "width": 75,
+      "height": 35
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -243,7 +243,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9deaf5bb-c1f5-4ffc-af31-323aba302c9e"
+      "__uuid__": "20150ec6-9a26-4959-8aff-a37e6495c21c"
     },
     "fileId": "54AcA8/0pBUrV57xO2v46N",
     "sync": false
@@ -329,7 +329,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9deaf5bb-c1f5-4ffc-af31-323aba302c9e"
+      "__uuid__": "20150ec6-9a26-4959-8aff-a37e6495c21c"
     },
     "fileId": "adATT8ZyBPCp6mUr1fS/AJ",
     "sync": false
@@ -342,6 +342,7 @@
       "__id__": 2
     },
     "_enabled": true,
+    "isSilent": false,
     "cost": null,
     "preCondition": {
       "__id__": 7
@@ -355,7 +356,8 @@
       }
     ],
     "_effectCard": null,
-    "optional": false,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "optionalFlavorText": "",
     "effectsToChain": [
@@ -376,6 +378,7 @@
       "__id__": 11
     },
     "_enabled": true,
+    "isSilent": false,
     "cost": null,
     "preCondition": null,
     "conditions": [],
@@ -387,7 +390,8 @@
       }
     ],
     "_effectCard": null,
-    "optional": false,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "optionalFlavorText": "",
     "numberOfItemsToDestroy": 1,
@@ -539,7 +543,12 @@
       "__id__": 14
     },
     "chooseTypes": [],
+    "filterFromPassiveMeta": false,
+    "targetCollectorFromPassiveMeta": null,
     "flavorText": "Choose An Item To Destroy",
+    "otherPlayersFlavorText": "",
+    "isMultiCardChoice": false,
+    "numOfCardsToChoose": 1,
     "_id": ""
   },
   {
@@ -576,7 +585,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9deaf5bb-c1f5-4ffc-af31-323aba302c9e"
+      "__uuid__": "20150ec6-9a26-4959-8aff-a37e6495c21c"
     },
     "fileId": "547Xplwp9N+LRU4+bgirsy",
     "sync": false
@@ -587,7 +596,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9deaf5bb-c1f5-4ffc-af31-323aba302c9e"
+      "__uuid__": "20150ec6-9a26-4959-8aff-a37e6495c21c"
     },
     "fileId": "a6VAKx/BZNMbtgNek5YCeP",
     "sync": false
@@ -600,6 +609,7 @@
       "__id__": 20
     },
     "_enabled": true,
+    "isSilent": false,
     "cost": null,
     "preCondition": null,
     "conditions": [],
@@ -611,7 +621,8 @@
       }
     ],
     "_effectCard": null,
-    "optional": false,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "optionalFlavorText": "",
     "_id": ""
@@ -648,7 +659,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 75,
-      "height": 22.5
+      "height": 35
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -767,7 +778,12 @@
         "__id__": 29
       }
     ],
+    "filterFromPassiveMeta": false,
+    "targetCollectorFromPassiveMeta": null,
     "flavorText": "Choose An Item To Steal",
+    "otherPlayersFlavorText": "",
+    "isMultiCardChoice": false,
+    "numOfCardsToChoose": 1,
     "_id": ""
   },
   {
@@ -844,7 +860,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9deaf5bb-c1f5-4ffc-af31-323aba302c9e"
+      "__uuid__": "20150ec6-9a26-4959-8aff-a37e6495c21c"
     },
     "fileId": "a8IVB8VjlH14DGP4SiT9o8",
     "sync": false
@@ -855,7 +871,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9deaf5bb-c1f5-4ffc-af31-323aba302c9e"
+      "__uuid__": "20150ec6-9a26-4959-8aff-a37e6495c21c"
     },
     "fileId": "e45EBScWJH6K6dmC+xBY+p",
     "sync": false
@@ -866,7 +882,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9deaf5bb-c1f5-4ffc-af31-323aba302c9e"
+      "__uuid__": "20150ec6-9a26-4959-8aff-a37e6495c21c"
     },
     "fileId": "bfknfOXWRGro8ZTW3sk3hv",
     "sync": false
@@ -1117,7 +1133,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9deaf5bb-c1f5-4ffc-af31-323aba302c9e"
+      "__uuid__": "20150ec6-9a26-4959-8aff-a37e6495c21c"
     },
     "fileId": "74PdgzuIZHzrymxPA2m1d4",
     "sync": false
@@ -1175,7 +1191,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9deaf5bb-c1f5-4ffc-af31-323aba302c9e"
+      "__uuid__": "20150ec6-9a26-4959-8aff-a37e6495c21c"
     },
     "fileId": "cfIXhHsKlN15M8scLCrr17",
     "sync": false
@@ -1196,7 +1212,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "805e033b-67dd-483d-98cd-a5753f570769"
+      "__uuid__": "1f71a619-e92c-4e0a-9c06-20f8f8afc4ef"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -1209,9 +1225,7 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "79622a07-1da3-4023-8819-3b538352bc7d"
-    },
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -1224,6 +1238,8 @@
     "_enabled": true,
     "cardName": "The Devil",
     "doNotMake": false,
+    "cardMask": null,
+    "cardSprite": null,
     "makeMultiCards": false,
     "numOfCopies": 2,
     "copiesSprites": [],
@@ -1251,7 +1267,6 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
-    "availableParticles": [],
     "_id": ""
   },
   {
@@ -1287,7 +1302,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "9deaf5bb-c1f5-4ffc-af31-323aba302c9e"
+      "__uuid__": "20150ec6-9a26-4959-8aff-a37e6495c21c"
     },
     "fileId": "74xrl7Ss9GNLi7htp7h56D",
     "sync": false

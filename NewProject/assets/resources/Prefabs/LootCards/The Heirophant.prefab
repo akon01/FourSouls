@@ -118,7 +118,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 75,
-      "height": 30
+      "height": 35
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -129,8 +129,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        5.5,
-        -76,
+        -0.184,
+        -38.486,
         0,
         0,
         0,
@@ -239,7 +239,12 @@
         "__id__": 11
       }
     ],
+    "filterFromPassiveMeta": false,
+    "targetCollectorFromPassiveMeta": null,
     "flavorText": "Choose A Player To Prevent DMG To",
+    "otherPlayersFlavorText": "",
+    "isMultiCardChoice": false,
+    "numOfCardsToChoose": 1,
     "_id": ""
   },
   {
@@ -354,7 +359,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "580a6e76-fd57-4150-beaf-789a1507b3ea"
+      "__uuid__": "2f344483-b1d3-48ca-a590-1f2e182df5b7"
     },
     "fileId": "ffZk8EAgVPmrcSbBddgDKx",
     "sync": false
@@ -367,6 +372,7 @@
       "__id__": 2
     },
     "_enabled": true,
+    "isSilent": false,
     "cost": null,
     "preCondition": null,
     "conditions": [],
@@ -378,7 +384,8 @@
       }
     ],
     "_effectCard": null,
-    "optional": false,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "optionalFlavorText": "",
     "damageToPrevent": 2,
@@ -391,7 +398,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "580a6e76-fd57-4150-beaf-789a1507b3ea"
+      "__uuid__": "2f344483-b1d3-48ca-a590-1f2e182df5b7"
     },
     "fileId": "86AkisoKtHYJDphAcNLIZH",
     "sync": false
@@ -642,7 +649,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "580a6e76-fd57-4150-beaf-789a1507b3ea"
+      "__uuid__": "2f344483-b1d3-48ca-a590-1f2e182df5b7"
     },
     "fileId": "75Oxvi7IxMA6s3jxf6giG+",
     "sync": false
@@ -700,7 +707,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "580a6e76-fd57-4150-beaf-789a1507b3ea"
+      "__uuid__": "2f344483-b1d3-48ca-a590-1f2e182df5b7"
     },
     "fileId": "f7rfkmB3ZAxYBxQeeL3tkz",
     "sync": false
@@ -721,7 +728,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "d5ad9120-0b4c-4263-ba20-60f0a5f197ca"
+      "__uuid__": "ec351385-8eaf-4f87-a278-3879364d8329"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -734,9 +741,7 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "04cdb486-4fa4-40b5-b22e-06c602be8236"
-    },
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -749,6 +754,8 @@
     "_enabled": true,
     "cardName": "The Heirophant",
     "doNotMake": false,
+    "cardMask": null,
+    "cardSprite": null,
     "makeMultiCards": false,
     "numOfCopies": 2,
     "copiesSprites": [],
@@ -776,7 +783,6 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
-    "availableParticles": [],
     "_id": ""
   },
   {
@@ -812,7 +818,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "580a6e76-fd57-4150-beaf-789a1507b3ea"
+      "__uuid__": "2f344483-b1d3-48ca-a590-1f2e182df5b7"
     },
     "fileId": "74xrl7Ss9GNLi7htp7h56D",
     "sync": false

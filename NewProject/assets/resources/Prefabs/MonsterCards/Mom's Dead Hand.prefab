@@ -95,7 +95,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "ad296bbb-a83d-4290-a189-cb4efd86e9a8"
+      "__uuid__": "e848f5c1-58f8-474a-ac36-d1ed4b7af48f"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -108,9 +108,7 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "419abe99-cd82-4392-abe2-4b7360cf6ace"
-    },
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -123,6 +121,8 @@
     "_enabled": true,
     "cardName": "Mom's Dead Hand",
     "doNotMake": false,
+    "cardMask": null,
+    "cardSprite": null,
     "makeMultiCards": false,
     "numOfCopies": 2,
     "copiesSprites": [],
@@ -134,6 +134,7 @@
     "topDeckof": null,
     "souls": 0,
     "type": 2,
+    "isGoingToBePlayed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -149,7 +150,6 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
-    "availableParticles": [],
     "_id": ""
   },
   {
@@ -164,17 +164,17 @@
     "HP": 2,
     "currentHp": 0,
     "rollValue": 5,
-    "rollBonus": 0,
+    "_rollBonus": 0,
     "DMG": 1,
-    "bonusDamage": 0,
-    "isAttacked": false,
+    "_bonusDamage": 0,
+    "_isAttacked": false,
     "hasEffect": true,
     "isNonMonster": false,
-    "souls": 0,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
     "reward": null,
     "killer": null,
+    "isCurse": false,
     "_isDead": false,
     "_lastHitRoll": 0,
     "_id": ""

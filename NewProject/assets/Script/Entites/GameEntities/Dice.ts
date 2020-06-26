@@ -65,7 +65,7 @@ export default class Dice extends cc.Component {
 
     this.doRoll();
     await this.waitForDiceRoll()
-
+    cc.log(`wait for roll over, roled ${this.currentRolledNumber}`)
     switch (this.rollType) {
       case ROLL_TYPE.ATTACK:
         if ((this.currentRolledNumber + player.attackRollBonus) <= 6) {
@@ -141,7 +141,7 @@ export default class Dice extends cc.Component {
     const timesToRoll = Math.floor(Math.random() * 5) + 4;
     let i = 0;
     const check = () => {
-      if (i < timesToRoll) {
+      if (i <= timesToRoll) {
         setTimeout(() => {
           this.diceChange();
           i++;

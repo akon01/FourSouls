@@ -68,6 +68,7 @@ export default class RollDiceStackEffect extends StackEffectConcrete {
         const playerCard = CardManager.getCardById(this.creatorCardId, true);
         const player = PlayerManager.getPlayerByCard(playerCard);
         const numberRolled = await player.rollDice(ROLL_TYPE.EFFECT)
+        cc.log(`in roll dice stack effect rolled ${numberRolled}`)
         this.numberRolled = numberRolled
         StackEffectVisManager.$.updatePreviewByStackId(this.entityId, `player ${player.playerId} rolled ${numberRolled}`)
         this.visualRepesentation.extraSprite = player.dice.diceSprite.spriteFrame

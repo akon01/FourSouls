@@ -20,7 +20,10 @@ export default class DeactivateItem extends Effect {
   async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
     let targetItem = data.getTarget(TARGETTYPE.ITEM);
     if (targetItem == null) {
-      cc.log(`no item to deactivate`)
+      targetItem = data.getTarget(TARGETTYPE.CARD);
+    }
+    if (targetItem == null) {
+      throw new Error(`no item to deactivate`)
     } else {
       //let cardPlayer = PlayerManager.getPlayerByCard(targetItem as cc.Node);
       (targetItem as cc.Node).getComponent(Item).useItem(true)
@@ -29,6 +32,6 @@ export default class DeactivateItem extends Effect {
 
     if (data instanceof PassiveEffectData) {
       return data
-    } else return stack
+    } else { return stack }
   }
 }

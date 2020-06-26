@@ -46,6 +46,7 @@ var fs = require("fs");
 var whevent = require("whevent");
 var match_1 = require("./entities/match");
 var signal_1 = require("./enums/signal");
+var Card_1 = require("./entities/Card");
 var Server = /** @class */ (function () {
     function Server() {
         this.wss = null;
@@ -213,6 +214,7 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.bindEvents = function () {
         whevent.on(signal_1["default"].SET_MAX_ITEMS_STORE, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].SEND_CARD_DATA, this.getCardData, this);
         whevent.on(signal_1["default"].LOG, this.logFromPlayer, this);
         whevent.on(signal_1["default"].LOG_ERROR, this.logErrorFromPlayer, this);
         whevent.on(signal_1["default"].MATCH, this.onRequestMatch, this);
@@ -312,6 +314,7 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].PLAYER_HEAL, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].PLAYER_ADD_DMG_PREVENTION, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].PLAYER_DIED, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].PLAYER_ADD_CURSE, this.onBroadcastExceptOrigin, this);
         //
         //monster events
         whevent.on(signal_1["default"].MONSTER_GAIN_DMG, this.onBroadcastExceptOrigin, this);
@@ -344,14 +347,25 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].SHOW_TIMER, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].HIDE_TIMER, this.onBroadcastExceptOrigin, this);
     };
+    Server.prototype.getCardData = function (_a) {
+        var player = _a.player, data = _a.data;
+        var _b, _c;
+        if (((_c = (_b = player) === null || _b === void 0 ? void 0 : _b.match) === null || _c === void 0 ? void 0 : _c.cards.length) == 0) {
+            var allCards = JSON.parse(data.data.allCards);
+            allCards.forEach(function (card) { return player.match.cards.push(new Card_1.Card(card.cardId, card.cardName)); });
+            player.match.cards = allCards;
+        }
+    };
     Server.prototype.onBroadcastExceptOrigin = function (_a) {
         var player = _a.player, data = _a.data;
-        player.match.broadcastExept(player, data.signal, data);
+        var _b, _c;
+        (_c = (_b = player) === null || _b === void 0 ? void 0 : _b.match) === null || _c === void 0 ? void 0 : _c.broadcastExept(player, data.signal, data);
     };
     Server.prototype.onSendToSpecificPlayer = function (_a) {
         var player = _a.player, data = _a.data;
+        var _b, _c;
         var playerToSendToId = data.data.playerId;
-        player.match.broadcastToPlayer(playerToSendToId, data.signal, data);
+        (_c = (_b = player) === null || _b === void 0 ? void 0 : _b.match) === null || _c === void 0 ? void 0 : _c.broadcastToPlayer(playerToSendToId, data.signal, data);
     };
     Server.prototype.logFromPlayer = function (_a) {
         var player = _a.player, data = _a.data;
@@ -378,11 +392,12 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.onFinishLoad = function (_a) {
         var player = _a.player, data = _a.data;
+        var _b, _c;
         player.match.loadedPlayers += 1;
-        player.match.firstPlayerId = data.data.turnPlayerId;
+        player.match.firstPlayerId = data.data.id;
         if (player.match.loadedPlayers == player.match.players.length) {
             console.log("on finish load");
-            player.match.broadcast(signal_1["default"].FINISH_LOAD, { id: player.match.firstPlayerId });
+            (_c = (_b = player) === null || _b === void 0 ? void 0 : _b.match) === null || _c === void 0 ? void 0 : _c.broadcast(signal_1["default"].FINISH_LOAD, { id: player.match.firstPlayerId });
         }
     };
     Server.prototype.moveToTable = function (_a) {
@@ -397,9 +412,10 @@ var Server = /** @class */ (function () {
     //END
     Server.prototype.onResolveActions = function (_a) {
         var player = _a.player, data = _a.data;
+        var _b, _c;
         var firstPlayer = player.match.getPlayerById(data.data.originalPlayer);
         firstPlayer.send(signal_1["default"].RESOLVE_ACTIONS, data);
-        player.match.broadcastExept(firstPlayer, signal_1["default"].OTHER_PLAYER_RESOLVE_REACTION, data);
+        (_c = (_b = player) === null || _b === void 0 ? void 0 : _b.match) === null || _c === void 0 ? void 0 : _c.broadcastExept(firstPlayer, signal_1["default"].OTHER_PLAYER_RESOLVE_REACTION, data);
         //add broadcast to other players with diffrent signal to exceute "other side action stack"
     };
     Server.prototype.onValidate = function (_a) {
@@ -451,9 +467,11 @@ var Server = /** @class */ (function () {
         console.log("Player " + player.uuid + " has encountered an error!", err);
     };
     Server.prototype.onMessage = function (player, message) {
+        var _a, _b;
         try {
             var data = JSON.parse(Buffer.from(message, "base64").toString());
-            console.log("Recived From Player " + player.uuid + ": ", data);
+            var recivedData = (_b = (_a = player) === null || _a === void 0 ? void 0 : _a.match) === null || _b === void 0 ? void 0 : _b.parser.parseData(data.data);
+            console.log(data.signal + " Recived From Player " + player.uuid + ": ", recivedData);
             console.log("\n");
             var id = player.uuid;
             if (this.logger) {

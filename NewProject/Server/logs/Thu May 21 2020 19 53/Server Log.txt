@@ -1,0 +1,4322 @@
+Start Log 
+
+ Player 1 19:53:14 $MATCH:  
+
+ Player 1 19:53:14 $START_GAME:  
+
+ Player 1 19:53:14 $MOVE_TO_TABLE:  
+
+ Player 2 19:53:14 $MOVE_TO_TABLE:  
+
+ Player 1 19:53:24 $FINISH_LOAD:  
+{"id":1,"turnPlayerId":2} 
+
+ Player 2 19:53:24 $FINISH_LOAD:  
+{"id":2,"turnPlayerId":2} 
+
+ Player 2 19:53:24 $SET_CHAR:  
+{"originPlayerId":2,"playerId":1,"charCardId":335,"itemCardId":336} 
+
+ Player 1 19:53:24 $ASSIGN_CHAR_TO_PLAYER:  
+{"playerId":1,"charCardId":335,"itemCardId":336} 
+
+ Player 1 19:53:24 $SET_CHAR_END:  
+{"playerId":2} 
+
+ Player 2 19:53:24 $CHOOSE_FOR_EDEN:  
+{"playerId":2,"originPlayerId":2} 
+
+ Player 2 19:53:24 $DECK_ARRAGMENT:  
+{"deckType":5,"arrangement":[221,147,194,143,171,177,200,205,174,207,161,220,153,162,197,168,204,208,225,148,144,152,195,216,149,169,217,186,187,156,180,170,178,164,154,192,159,167,179,218,196,142,160,155,203,141,213,163,185,210,222,215,145,172,202,157,166,146,182,165,209,151,181,173,214,201,224,193,188,219,199,212,223,189,190,191,150,211,198,206,176,183,184,158,175]} 
+
+ Player 2 19:53:28 $EDEN_CHOSEN:  
+{"cardId":147,"playerId":2} 
+
+ Player 2 19:53:28 $DECK_ARRAGMENT:  
+{"deckType":5,"arrangement":[221,194,143,171,177,200,205,174,207,161,220,153,162,197,168,204,208,225,148,144,152,195,216,149,169,217,186,187,156,180,170,178,164,154,192,159,167,179,218,196,142,160,155,203,141,213,163,185,210,222,215,145,172,202,157,166,146,182,165,209,151,181,173,214,201,224,193,188,219,199,212,223,189,190,191,150,211,198,206,176,183,184,158,175]} 
+
+ Player 2 19:53:28 $FLIP_CARD:  
+{"cardId":147} 
+
+ Player 2 19:53:28 $REGISTER_PASSIVE_ITEM:  
+{"cardId":147} 
+
+ Player 2 19:53:28 $ASSIGN_CHAR_TO_PLAYER:  
+{"playerId":2,"charCardId":331,"itemCardId":147} 
+
+ Player 2 19:53:28 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":147}],"result":true,"preventMethod":false,"methodScopeId":331,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+
+ Player 2 19:53:28 $NEXT_STACK_ID:  
+
+ Player 2 19:53:28 $ADD_TO_STACK:  
+{"stackEffect":{"effectCollectedData":null,"entityId":1,"creatorCardId":331,"hasLockingStackEffect":false,"cardActivatorId":2,"cardWithEffectId":147,"effectToDo":{"effectName":"GainStats","cardEffectNum":0,"cardPlayerId":2,"cardId":147,"effctType":0},"isAfterActivation":true,"index":1,"hasDataBeenCollectedYet":false,"stackEffectType":14,"lable":"Activate Brimstone Effect GainStats<GainStats>"}} 
+
+ Player 2 19:53:28 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"effectCollectedData":null,"entityId":1,"creatorCardId":331,"hasLockingStackEffect":false,"cardActivatorId":2,"cardWithEffectId":147,"effectToDo":{"effectName":"GainStats","cardEffectNum":0,"cardPlayerId":2,"cardId":147,"effctType":0},"isAfterActivation":true,"index":1,"hasDataBeenCollectedYet":false,"stackEffectType":14,"lable":"Activate Brimstone Effect GainStats<GainStats>"}} 
+
+ Player 2 19:53:28 $SET_STACK_ICON:  
+{"iconIndex":0} 
+
+ Player 2 19:53:28 $SHOW_STACK_EFFECT:  
+{"effectId":1} 
+
+ Player 2 19:53:31 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":0,"_text":"Add Activate Passive Effect 1 "}} 
+
+ Player 2 19:53:31 $STACK_EFFECT_LABLE_CHANGE:  
+{"stackId":1,"text":"Activate Brimstone effect GainStats<GainStats>"} 
+
+ Player 2 19:53:31 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"effectCollectedData":{"effectTargets":[331],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":331,"effectCardPlayer":331},"entityId":1,"creatorCardId":331,"hasLockingStackEffect":false,"cardActivatorId":2,"cardWithEffectId":147,"effectToDo":{"effectName":"GainStats","cardEffectNum":0,"cardPlayerId":2,"cardId":147,"effctType":0},"isAfterActivation":true,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activate Brimstone effect GainStats<GainStats>"}} 
+
+ Player 2 19:53:31 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":1,"_text":"Response Adding Activate Passive Effect 1"},"childOfId":0} 
+
+ Player 2 19:53:31 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":2,"_text":"Resolve Activate Passive Effect 1 "}} 
+
+ Player 2 19:53:31 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[{"effectCollectedData":{"effectTargets":[331],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":331,"effectCardPlayer":331},"entityId":1,"creatorCardId":331,"hasLockingStackEffect":false,"cardActivatorId":2,"cardWithEffectId":147,"effectToDo":{"effectName":"GainStats","cardEffectNum":0,"cardPlayerId":2,"cardId":147,"effctType":0},"isAfterActivation":true,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activate Brimstone effect GainStats<GainStats>"}]} 
+
+ Player 2 19:53:31 $ACTIVATE_PARTICLE_EFFECT:  
+{"cardId":147,"particleType":6} 
+
+ Player 2 19:53:33 $DISABLE_PARTICLE_EFFECT:  
+{"cardId":147,"particleType":6} 
+
+ Player 2 19:53:33 $PLAYER_GAIN_DMG:  
+{"playerId":2,"DMGToGain":1,"isTemp":false} 
+
+ Player 2 19:53:33 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":147}],"result":true,"preventMethod":false,"methodScopeId":331,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+
+ Player 2 19:53:33 $STACK_EFFECT_LABLE_CHANGE:  
+{"stackId":1,"text":"Activated Brimstone Effect"} 
+
+ Player 2 19:53:33 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"effectCollectedData":{"effectTargets":[331],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":331,"effectCardPlayer":331},"entityId":1,"creatorCardId":331,"hasLockingStackEffect":false,"cardActivatorId":2,"cardWithEffectId":147,"isAfterActivation":true,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activated Brimstone Effect"}} 
+
+ Player 2 19:53:33 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[]} 
+
+ Player 2 19:53:33 $SET_STACK_ICON:  
+{"iconIndex":1} 
+
+ Player 2 19:53:33 $SHOW_STACK_EFFECT:  
+{"effectId":1} 
+
+ Player 2 19:53:36 $REMOVE_SE_VIS_PREV:  
+{"stackEffectId":1} 
+
+ Player 2 19:53:36 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":3,"_text":"Remove After Resolve Activate Passive Effect 1  "}} 
+
+ Player 2 19:53:36 $REMOVE_FROM_STACK:  
+{"stackEffect":{"effectCollectedData":{"effectTargets":[331],"chainEffectsData":[],"methodArgs":[],"isPassive":true,"terminateOriginal":false,"effectCardOwner":331,"effectCardPlayer":331},"entityId":1,"creatorCardId":331,"hasLockingStackEffect":false,"cardActivatorId":2,"cardWithEffectId":147,"isAfterActivation":true,"index":1,"hasDataBeenCollectedYet":true,"stackEffectType":14,"lable":"Activated Brimstone Effect"}} 
+
+ Player 2 19:53:36 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":4,"_text":"Response Remove After Resolve Activate Passive Effect 1"},"childOfId":3} 
+
+ Player 2 19:53:36 $ACTION_MASSAGE_REMOVE:  
+{"id":4} 
+
+ Player 2 19:53:36 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":5,"_text":"Stack Was Emptied "}} 
+
+ Player 2 19:53:36 $CLEAR_SE_VIS:  
+
+ Player 2 19:53:36 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_ADD_ITEM","args":[{"type":0,"number":332}],"result":null,"preventMethod":false,"methodScopeId":331,"scopeIsPlayer":true,"index":2,"originStackId":-1},"isAfterActivation":true,"index":2} 
+
+ Player 2 19:53:36 $DECK_ARRAGMENT:  
+{"deckType":1,"arrangement":[86,84,6,39,32,49,103,131,38,118,54,130,67,87,111,64,14,99,7,98,69,114,76,117,137,8,19,35,56,113,102,58,127,94,70,29,24,96,110,4,83,13,60,107,11,77,63,89,30,10,44,133,48,126,90,122,15,50,124,25,109,125,93,52,136,34,20,75,112,36,46,51,101,91,95,128,59,22,120,66,21,74,27,40,138,81,26,53,33,119,62,18,100,31,115,108,61,17,134,121,71,45,73,135,65,37,9,116,123,42,97,68,47,105,16,88,41,55,43,106,92,139,23,104,72,79,132,78,82,28,80,5,129,57,12,85]} 
+
+ Player 2 19:53:36 $DECK_ARRAGMENT:  
+{"deckType":2,"arrangement":[249,236,280,242,315,261,282,313,230,318,256,302,273,254,293,229,291,308,285,316,275,265,299,262,288,314,300,255,269,231,289,320,309,277,270,245,281,250,233,246,294,290,263,258,247,286,276,228,301,237,292,307,271,251,268,283,296,244,248,306,252,279,267,232,238,317,297,257,259,243,240,304,274,227,260,287,239,298,319,284,303,310,305,311,253,235,272,278,312,295,241,234,264,266]} 
+
+ Player 2 19:53:36 $DECK_ARRAGMENT:  
+{"deckType":5,"arrangement":[176,158,178,189,146,175,150,182,163,191,203,149,224,216,172,220,214,169,164,166,187,181,145,155,153,173,204,218,143,199,225,217,222,184,157,165,185,162,167,196,202,142,174,209,197,180,206,190,171,183,198,144,215,152,160,195,151,200,156,223,188,208,210,194,141,219,212,207,213,177,201,192,221,205,179,161,159,154,148,193,186,211,170,168]} 
+
+ Player 2 19:53:36 $DRAW_CARD:  
+{"deckType":5} 
+
+ Player 2 19:53:37 $FLIP_CARD:  
+{"cardId":168} 
+
+ Player 2 19:53:37 $ADD_STORE_CARD:  
+{"cardId":168} 
+
+ Player 2 19:53:37 $DRAW_CARD:  
+{"deckType":5} 
+
+ Player 2 19:53:37 $FLIP_CARD:  
+{"cardId":170} 
+
+ Player 2 19:53:37 $ADD_STORE_CARD:  
+{"cardId":170} 
+
+ Player 2 19:53:37 $DRAW_CARD:  
+{"deckType":2} 
+
+ Player 2 19:53:37 $FLIP_CARD:  
+{"cardId":266} 
+
+ Player 2 19:53:37 $REGISTER_PASSIVE_ITEM:  
+{"cardId":266} 
+
+ Player 2 19:53:37 $ADD_MONSTER:  
+{"monsterPlaceId":1,"monsterId":266} 
+
+ Player 2 19:53:37 $NEW_MONSTER_ON_PLACE:  
+{"cardId":266,"monsterPlaceId":1} 
+
+ Player 2 19:53:37 $DRAW_CARD:  
+{"deckType":2} 
+
+ Player 2 19:53:37 $FLIP_CARD:  
+{"cardId":264} 
+
+ Player 2 19:53:37 $REGISTER_PASSIVE_ITEM:  
+{"cardId":264} 
+
+ Player 2 19:53:37 $ADD_MONSTER:  
+{"monsterPlaceId":2,"monsterId":264} 
+
+ Player 2 19:53:37 $NEW_MONSTER_ON_PLACE:  
+{"cardId":264,"monsterPlaceId":2} 
+
+ Player 2 19:53:37 $REGISTER_PASSIVE_ITEM:  
+{"cardId":322} 
+
+ Player 2 19:53:37 $REGISTER_PASSIVE_ITEM:  
+{"cardId":323} 
+
+ Player 2 19:53:37 $REGISTER_PASSIVE_ITEM:  
+{"cardId":324} 
+
+ Player 2 19:53:37 $SET_MONEY:  
+{"playerId":1,"numOfCoins":3} 
+
+ Player 2 19:53:37 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":3}],"result":null,"preventMethod":false,"methodScopeId":335,"scopeIsPlayer":true,"index":3,"originStackId":-1},"isAfterActivation":true,"index":3} 
+
+ Player 2 19:53:37 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 19:53:37 $MOVE_CARD:  
+{"moveIndex":1,"cardId":85,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 19:53:37 $MOVE_CARD_END:  
+{"moveIndex":1,"cardId":85,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 19:53:37 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":85} 
+
+ Player 2 19:53:37 $FLIP_CARD:  
+{"cardId":85} 
+
+ Player 2 19:53:37 $FLIP_CARD:  
+{"cardId":85} 
+
+ Player 2 19:53:37 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":85} 
+
+ Player 2 19:53:37 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":85}],"result":null,"preventMethod":false,"methodScopeId":335,"scopeIsPlayer":true,"index":4,"originStackId":-1},"isAfterActivation":true,"index":4} 
+
+ Player 2 19:53:37 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 19:53:37 $MOVE_CARD:  
+{"moveIndex":2,"cardId":12,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 19:53:37 $MOVE_CARD_END:  
+{"moveIndex":2,"cardId":12,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 19:53:37 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":12} 
+
+ Player 2 19:53:37 $FLIP_CARD:  
+{"cardId":12} 
+
+ Player 2 19:53:37 $FLIP_CARD:  
+{"cardId":12} 
+
+ Player 2 19:53:37 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":12} 
+
+ Player 2 19:53:37 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":12}],"result":null,"preventMethod":false,"methodScopeId":335,"scopeIsPlayer":true,"index":5,"originStackId":-1},"isAfterActivation":true,"index":5} 
+
+ Player 2 19:53:37 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 19:53:37 $MOVE_CARD:  
+{"moveIndex":3,"cardId":57,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 19:53:38 $MOVE_CARD_END:  
+{"moveIndex":3,"cardId":57,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 19:53:38 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":57} 
+
+ Player 2 19:53:38 $FLIP_CARD:  
+{"cardId":57} 
+
+ Player 2 19:53:38 $FLIP_CARD:  
+{"cardId":57} 
+
+ Player 2 19:53:38 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":57} 
+
+ Player 2 19:53:38 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":57}],"result":null,"preventMethod":false,"methodScopeId":335,"scopeIsPlayer":true,"index":6,"originStackId":-1},"isAfterActivation":true,"index":6} 
+
+ Player 2 19:53:38 $SET_MONEY:  
+{"playerId":2,"numOfCoins":3} 
+
+ Player 2 19:53:38 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_CHANGE_MONEY","args":[{"type":2,"number":3}],"result":null,"preventMethod":false,"methodScopeId":331,"scopeIsPlayer":true,"index":7,"originStackId":-1},"isAfterActivation":true,"index":7} 
+
+ Player 2 19:53:38 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 19:53:38 $MOVE_CARD:  
+{"moveIndex":4,"cardId":129,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 19:53:38 $MOVE_CARD_END:  
+{"moveIndex":4,"cardId":129,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 19:53:38 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":129} 
+
+ Player 2 19:53:38 $FLIP_CARD:  
+{"cardId":129} 
+
+ Player 2 19:53:38 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":129} 
+
+ Player 2 19:53:38 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":129}],"result":null,"preventMethod":false,"methodScopeId":331,"scopeIsPlayer":true,"index":8,"originStackId":-1},"isAfterActivation":true,"index":8} 
+
+ Player 2 19:53:38 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 19:53:38 $MOVE_CARD:  
+{"moveIndex":5,"cardId":5,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 19:53:38 $MOVE_CARD_END:  
+{"moveIndex":5,"cardId":5,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 19:53:38 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":5} 
+
+ Player 2 19:53:38 $FLIP_CARD:  
+{"cardId":5} 
+
+ Player 2 19:53:38 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":5} 
+
+ Player 2 19:53:38 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":5}],"result":null,"preventMethod":false,"methodScopeId":331,"scopeIsPlayer":true,"index":9,"originStackId":-1},"isAfterActivation":true,"index":9} 
+
+ Player 2 19:53:38 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 2 19:53:38 $MOVE_CARD:  
+{"moveIndex":6,"cardId":80,"placeID":2,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":2,"placeType":"Hand"} 
+
+ Player 1 19:53:39 $MOVE_CARD_END:  
+{"moveIndex":6,"cardId":80,"flipIfFlipped":false,"playerId":2} 
+
+ Player 2 19:53:39 $CARD_DRAWN:  
+{"playerId":2,"deckType":1,"drawnCardId":80} 
+
+ Player 2 19:53:39 $FLIP_CARD:  
+{"cardId":80} 
+
+ Player 2 19:53:39 $PLAYER_GET_LOOT:  
+{"playerId":2,"cardId":80} 
+
+ Player 2 19:53:39 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":80}],"result":null,"preventMethod":false,"methodScopeId":331,"scopeIsPlayer":true,"index":10,"originStackId":-1},"isAfterActivation":true,"index":10} 
+
+ Player 2 19:53:39 $GAME_HAS_STARTED:  
+
+ Player 2 19:53:39 $SET_TURN:  
+{"playerId":1} 
+
+ Player 2 19:53:39 $START_TURN:  
+{"playerId":1} 
+
+ Player 2 19:53:39 $UPDATE_ACTIONS:  
+
+ Player 1 19:53:39 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 19:53:39 $NEXT_STACK_ID:  
+
+ Player 1 19:53:39 $ADD_TO_STACK:  
+{"stackEffect":{"entityId":2,"creatorCardId":335,"turnPlayerCardId":335,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+
+ Player 1 19:53:39 $ADD_SE_VIS_PREV:  
+{"stackEffect":{"entityId":2,"creatorCardId":335,"turnPlayerCardId":335,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+
+ Player 1 19:53:39 $SET_STACK_ICON:  
+{"iconIndex":0} 
+
+ Player 1 19:53:39 $SHOW_STACK_EFFECT:  
+{"effectId":2} 
+
+ Player 1 19:53:42 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":6,"_text":"Add Start Turn Loot Draw 2 "}} 
+
+ Player 1 19:53:42 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 19:53:42 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":2,"creatorCardId":335,"turnPlayerCardId":335,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}} 
+
+ Player 1 19:53:42 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":7,"_text":"Response Adding Start Turn Loot Draw 2"},"childOfId":6} 
+
+ Player 1 19:53:42 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":8,"_text":"Wait For Response From Player 1 "},"childOfId":6} 
+
+ Player 1 19:53:42 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 19:53:42 $ACTION_MASSAGE_REMOVE:  
+{"id":8} 
+
+ Player 1 19:53:42 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":9,"_text":"Wait For Response From Player 2 "},"childOfId":6} 
+
+ Player 1 19:53:42 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 19:53:42 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 19:53:42 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[331]} 
+
+ Player 2 19:53:42 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 19:53:42 $ACTION_MASSAGE_REMOVE:  
+{"id":9} 
+
+ Player 1 19:53:42 $ACTION_MASSAGE_REMOVE:  
+{"id":7} 
+
+ Player 1 19:53:42 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":10,"_text":"Resolve Start Turn Loot Draw 2 "}} 
+
+ Player 1 19:53:42 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[{"entityId":2,"creatorCardId":335,"turnPlayerCardId":335,"stackEffectType":13,"lable":"Player 1 Is About To Loot For Start Turn"}]} 
+
+ Player 1 19:53:42 $DRAW_CARD:  
+{"deckType":1} 
+
+ Player 1 19:53:42 $MOVE_CARD:  
+{"moveIndex":7,"cardId":28,"placeID":1,"flipIfFlipped":false,"firstPos":{"x":-7.600000000000023,"y":-0.19999999999998863,"z":0},"playerId":1,"placeType":"Hand"} 
+
+ Player 2 19:53:42 $MOVE_CARD_END:  
+{"moveIndex":7,"cardId":28,"flipIfFlipped":false,"playerId":1} 
+
+ Player 1 19:53:42 $CARD_DRAWN:  
+{"playerId":1,"deckType":1,"drawnCardId":28} 
+
+ Player 1 19:53:42 $FLIP_CARD:  
+{"cardId":28} 
+
+ Player 1 19:53:42 $PLAYER_GET_LOOT:  
+{"playerId":1,"cardId":28} 
+
+ Player 1 19:53:42 $UPDATE_PASSIVE_DATA:  
+{"passiveData":{"passiveEvent":"PLAYER_GAIN_LOOT","args":[{"type":0,"number":28}],"result":null,"preventMethod":false,"methodScopeId":335,"scopeIsPlayer":true,"index":1,"originStackId":-1},"isAfterActivation":true,"index":1} 
+
+ Player 1 19:53:42 $STACK_EFFECT_LABLE_CHANGE:  
+{"stackId":2,"text":"Player 1 Has Drawn Loot For Start Turn"} 
+
+ Player 1 19:53:42 $UPDATE_STACK_EFFECT:  
+{"stackEffect":{"entityId":2,"creatorCardId":335,"turnPlayerCardId":335,"stackEffectType":13,"lable":"Player 1 Has Drawn Loot For Start Turn"}} 
+
+ Player 1 19:53:42 $UPDATE_RESOLVING_STACK_EFFECTS:  
+{"stackEffects":[]} 
+
+ Player 1 19:53:42 $SET_STACK_ICON:  
+{"iconIndex":1} 
+
+ Player 1 19:53:42 $SHOW_STACK_EFFECT:  
+{"effectId":2} 
+
+ Player 1 19:53:45 $REMOVE_SE_VIS_PREV:  
+{"stackEffectId":2} 
+
+ Player 1 19:53:45 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":11,"_text":"Remove After Resolve Start Turn Loot Draw 2  "}} 
+
+ Player 1 19:53:45 $REMOVE_FROM_STACK:  
+{"stackEffect":{"entityId":2,"creatorCardId":335,"turnPlayerCardId":335,"stackEffectType":13,"lable":"Player 1 Has Drawn Loot For Start Turn"}} 
+
+ Player 1 19:53:45 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":12,"_text":"Response Remove After Resolve Start Turn Loot Draw 2"},"childOfId":11} 
+
+ Player 1 19:53:45 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":13,"_text":"Wait For Response From Player 2 "},"childOfId":11} 
+
+ Player 1 19:53:45 $GIVE_PLAYER_PRIORITY:  
+{"playerId":2} 
+
+ Player 1 19:53:45 $GET_REACTION:  
+{"playerId":2,"activePlayerId":1} 
+
+ Player 2 19:53:45 $HIDE_REACTIONS:  
+{"playerId":2,"cardsIds":[331]} 
+
+ Player 2 19:53:45 $RESPOND_TO:  
+{"playerId":1,"stackEffectResponse":false} 
+
+ Player 1 19:53:45 $ACTION_MASSAGE_REMOVE:  
+{"id":13} 
+
+ Player 1 19:53:45 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":14,"_text":"Wait For Response From Player 1 "},"childOfId":11} 
+
+ Player 1 19:53:45 $GIVE_PLAYER_PRIORITY:  
+{"playerId":1} 
+
+ Player 1 19:53:45 $ACTION_MASSAGE_REMOVE:  
+{"id":14} 
+
+ Player 1 19:53:45 $ACTION_MASSAGE_REMOVE:  
+{"id":12} 
+
+ Player 1 19:53:45 $ACTION_MASSAGE_ADD:  
+{"massage":{"_id":15,"_text":"Stack Was Emptied "}} 
+
+ Player 1 19:53:45 $CLEAR_SE_VIS:  
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:50 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:50 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:51 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:51 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:52 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:52 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:53 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:53 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:54 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:54 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:55 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:55 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:56 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:56 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:56 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:56 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:56 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:56 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:56 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:56 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:56 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:56 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:56 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:56 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:56 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:56 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:56 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:56 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:56 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:56 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:56 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:56 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:56 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:53:56 $REACTION_TOGGLED:  
+{"playerId":2} 
+
+ Player 1 19:53:56 $REACTION_TOGGLED:  
+{"playerId":1} 
+
+ Player 2 19:59:24 $MATCH: 

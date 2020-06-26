@@ -1,6 +1,6 @@
 import Signal from "../../../Misc/Signal";
 import ServerClient from "../../../ServerClient/ServerClient";
-import { TARGETTYPE } from "../../Constants";
+import { TARGETTYPE, CARD_TYPE } from "../../Constants";
 import CardEffect from "../../Entites/CardEffect";
 import Card from "../../Entites/GameEntities/Card";
 import Player from "../../Entites/GameEntities/Player";
@@ -15,18 +15,18 @@ import PileManager from "../../Managers/PileManager";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class AddTrinket extends Effect {
-  effectName = "AddTrinket";
+export default class AddTrinketOrCurse extends Effect {
+  effectName = "AddTrinketOrCurse";
 
   @property({
-    type: cc.Node, override: true, visible: function (this: AddTrinket) {
+    type: cc.Node, override: true, visible: function (this: AddTrinketOrCurse) {
       if (!this.addMuiliEffect) { return true; }
     }
   })
   itemEffectToAdd: cc.Node = null;
 
   @property({
-    type: [cc.Node], visible: function (this: AddTrinket) {
+    type: [cc.Node], visible: function (this: AddTrinketOrCurse) {
       if (this.addMuiliEffect) { return true; }
     }
   })
@@ -36,11 +36,14 @@ export default class AddTrinket extends Effect {
   addMuiliEffect: boolean = false;
 
   @property({
-    type: DataCollector, visible: function (this: AddTrinket) {
+    type: DataCollector, visible: function (this: AddTrinketOrCurse) {
       if (this.addMuiliEffect) { return true }
     }
   })
   multiEffectCollector: DataCollector = null
+
+  @property
+  isCurse: boolean = false
 
   /**
    *
@@ -50,15 +53,21 @@ export default class AddTrinket extends Effect {
     const targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER)
 
     if (targetPlayerCard == null) {
-      cc.log(`target player is null`)
+      throw new Error(`target player is null`)
     } else {
       if (targetPlayerCard instanceof cc.Node) {
         const player: Player = PlayerManager.getPlayerByCard(targetPlayerCard);
         this.removeAddTrinketEffect()
         const thisCard = Card.getCardNodeByChild(this.node.parent)
+        thisCard.getComponent(Card).type = CARD_TYPE.TREASURE;
         ServerClient.$.send(Signal.CARD_ADD_TRINKET, { cardId: thisCard.getComponent(Card)._cardId, playerId: player.playerId, addMuiliEffect: this.addMuiliEffect })
-        PileManager.removeFromPile(thisCard, true)
+        if (!this.isCurse) {
+          PileManager.removeFromPile(thisCard, true)
+        }
         await player.addItem(thisCard, true, true);
+        if (this.isCurse) {
+          player.addCurse(thisCard, true)
+        }
       }
     }
 

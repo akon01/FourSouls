@@ -33,6 +33,8 @@ export default interface StackEffectInterface {
 
     previewId: number
 
+    isSilent: boolean
+
     name: string;
 
     setLable(text: string, sendToServer: boolean)

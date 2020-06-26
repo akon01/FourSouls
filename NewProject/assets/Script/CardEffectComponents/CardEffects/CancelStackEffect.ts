@@ -23,16 +23,16 @@ export default class CancelStackEffect extends Effect {
   ) {
     let targetStackEffectToCancel = data.getTarget(TARGETTYPE.STACK_EFFECT)
     if (targetStackEffectToCancel == null) {
-      cc.log(`no target stack effect`)
+      throw new Error(`no target stack effect`)
     } else {
       if (!(targetStackEffectToCancel instanceof cc.Node)) {
-        await Stack.fizzleStackEffect(targetStackEffectToCancel, true)
+        await Stack.fizzleStackEffect(targetStackEffectToCancel, true, true)
       }
     }
 
 
 
-    if (data instanceof PassiveEffectData) return data
+    if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack
   }
 }

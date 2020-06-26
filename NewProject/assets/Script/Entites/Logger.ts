@@ -178,10 +178,14 @@ export class Logger {
                                 data.push(t)
                                 break;
                             default:
-                                name = dataEntry[0]
-                                if (typeof t != "string") {
-                                    data.push(JSON.stringify(t))
-                                } else { data.push(t) }
+                                try {
+                                    name = dataEntry[0]
+                                    if (typeof t != "string") {
+                                        data.push(JSON.stringify(t))
+                                    } else { data.push(t) }
+                                } catch (e) {
+                                    cc.error(e)
+                                }
                                 break;
                         }
                         sentData.push({ name: name, data: data })

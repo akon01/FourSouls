@@ -117,8 +117,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 85,
-      "height": 22.5
+      "width": 75,
+      "height": 35
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -239,8 +239,12 @@
         "__id__": 9
       }
     ],
+    "filterFromPassiveMeta": false,
+    "targetCollectorFromPassiveMeta": null,
     "flavorText": "Choose A Monster Or Player To Deal 1 DMG To",
-    "test": null,
+    "otherPlayersFlavorText": "",
+    "isMultiCardChoice": false,
+    "numOfCardsToChoose": 1,
     "_id": ""
   },
   {
@@ -315,7 +319,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a8c7d7b3-4b0b-474b-8d87-57b2c9045f3b"
+      "__uuid__": "0f6b1756-b2aa-4b35-a779-0cd2db8d7635"
     },
     "fileId": "3a291X0SRAD5QqriR6Cz/5",
     "sync": false
@@ -328,6 +332,7 @@
       "__id__": 2
     },
     "_enabled": true,
+    "isSilent": false,
     "cost": null,
     "preCondition": null,
     "conditions": [],
@@ -339,7 +344,8 @@
       }
     ],
     "_effectCard": null,
-    "optional": false,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "optionalFlavorText": "",
     "damageToDeal": 1,
@@ -352,7 +358,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a8c7d7b3-4b0b-474b-8d87-57b2c9045f3b"
+      "__uuid__": "0f6b1756-b2aa-4b35-a779-0cd2db8d7635"
     },
     "fileId": "cfDeLGnC5FUo75uQwyEg67",
     "sync": false
@@ -603,7 +609,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a8c7d7b3-4b0b-474b-8d87-57b2c9045f3b"
+      "__uuid__": "0f6b1756-b2aa-4b35-a779-0cd2db8d7635"
     },
     "fileId": "51JvVijRBM/4gwmMSwnKoC",
     "sync": false
@@ -661,7 +667,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a8c7d7b3-4b0b-474b-8d87-57b2c9045f3b"
+      "__uuid__": "0f6b1756-b2aa-4b35-a779-0cd2db8d7635"
     },
     "fileId": "0cqCWOlCBPB565ljIFskEh",
     "sync": false
@@ -682,7 +688,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "b71092bb-6041-4f41-b04c-1f51f89abf0b"
+      "__uuid__": "2f49ffdb-8225-4332-90cd-db177b5a5537"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -695,9 +701,7 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "de75f3f1-a5b3-4a7c-ac40-6584f6d3f083"
-    },
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -739,7 +743,6 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
-    "availableParticles": [],
     "_id": ""
   },
   {
@@ -775,7 +778,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a8c7d7b3-4b0b-474b-8d87-57b2c9045f3b"
+      "__uuid__": "0f6b1756-b2aa-4b35-a779-0cd2db8d7635"
     },
     "fileId": "74xrl7Ss9GNLi7htp7h56D",
     "sync": false

@@ -2,6 +2,7 @@ import CardPreviewManager from "../Managers/CardPreviewManager"; import Card fro
 import AnnouncementLable from "../LableScripts/Announcement Lable";
 import PlayerManager from "../Managers/PlayerManager";
 import Player from "./GameEntities/Player";
+import CardAutoComplete from "../LableScripts/Card AutoComplete";
 
 const { ccclass, property } = cc._decorator;
 
@@ -115,27 +116,40 @@ export default class CardPreview extends cc.Component {
         });
     }
 
+    changeCardByName(text: string) {
+        const card = CardAutoComplete.getClosestCardByTextStatic(text)
+        if (card != null && card != undefined) {
+            cc.log(`change me to ${card.name}`)
+            this.setCard(card, true)
+        }
+    }
+
     addEffectToPreview(effect: cc.Node) {
+        cc.error(`add effect to card preview`)
         const originalParent = effect.parent;
         const originalY = effect.y;
+        cc.log(`effect original parent`, effect.parent)
 
         const parentHeight = originalParent.height;
-        const cardNode = this.node.getChildByName(`CardPreview`)
-        const yPositionScale = cardNode.height / parentHeight;
+        cc.log(`parent hegight : ${parentHeight}`)
+        const preview = this.node.getChildByName(`CardPreview`)
+        cc.log(`preview `, preview)
+        const yPositionScale = preview.height / parentHeight;
 
         const heightScale = effect.height / parentHeight;
-        const widthScale = cardNode.width / originalParent.width;
+        const widthScale = preview.width / originalParent.width;
 
-        const name = effect.name + " " + cardNode.childrenCount
-        cardNode.addChild(cc.instantiate(effect), 1, name);
-        const newEffect = cardNode.getChildByName(name);
+        const name = effect.name + " " + preview.childrenCount
+        preview.addChild(cc.instantiate(effect), 1, name);
+        const newEffect = preview.getChildByName(name);
         newEffect.getComponent(Effect)._effectCard = originalParent;
         this.effectChildren.push(newEffect);
+        cc.log(`width:${newEffect.width}; height:${newEffect.height}; cardHeight:${preview.height}; scale:${heightScale}`)
 
         //TODO:REMOVE /2 after changing all prefabs to right size.
-        newEffect.width = cardNode.width
+        newEffect.width = preview.width
         //TODO:REMOVE /2 after changing all prefabs to right size.
-        newEffect.height = cardNode.height * heightScale;
+        newEffect.height = preview.height * heightScale;
 
         const newY = originalY * yPositionScale;
         //TODO:REMOVE /2 after changing all prefabs to right size.
@@ -151,18 +165,19 @@ export default class CardPreview extends cc.Component {
         return newEffect
     }
 
-    async chooseEffectFromCard(card: cc.Node): Promise<cc.Node> {
+    async chooseEffectFromCard(card: cc.Node, withPassives: boolean): Promise<cc.Node> {
         //  this.showCardPreview(card, false);
 
         CardPreviewManager.openPreview(this.node)
         this.exitButton.getComponent(cc.Button).interactable = false;
         const index = CardPreviewManager.previewsToChooseFrom.push(this.node) - 1
-        let cardEffects = card.getComponent(CardEffect).paidEffects
+        const cardEffectComp = card.getComponent(CardEffect);
+        let cardEffects = [...cardEffectComp.paidEffects, ...cardEffectComp.activeEffects, ...cardEffectComp.passiveEffects]
         // let cardEffects = card.getComponent(CardEffect).activeEffects;
         //cardEffects = cardEffects.concat(card.getComponent(CardEffect).paidEffects)
         //let effects be chosen on click
-        for (let i = 0; i < cardEffects.length; i++) {
-            const effect = cardEffects[i];
+        for (let i = 0; i < cardEffectComp.paidEffects.length; i++) {
+            const effect = cardEffectComp.paidEffects[i];
             const preCondition = effect.getComponent(Effect).preCondition
             if (preCondition != null && preCondition.testCondition()) {
 
@@ -172,9 +187,8 @@ export default class CardPreview extends cc.Component {
                 this.addEffectToPreview(effect)
             }
         }
-        cardEffects = card.getComponent(CardEffect).activeEffects;
-        for (let i = 0; i < cardEffects.length; i++) {
-            const effect = cardEffects[i];
+        for (let i = 0; i < cardEffectComp.activeEffects.length; i++) {
+            const effect = cardEffectComp.activeEffects[i];
             const preCondition = effect.getComponent(Effect).preCondition
             const itemComp = card.getComponent(Item)
             if (itemComp != null) {
@@ -196,6 +210,12 @@ export default class CardPreview extends cc.Component {
                 }
             }
         }
+        if (withPassives) {
+            for (const effect of cardEffectComp.passiveEffects) {
+                this.addEffectToPreview(effect)
+            }
+        }
+
         AnnouncementLable.$.showAnnouncement(`Player ${PlayerManager.mePlayer.getComponent(Player).playerId} Is Choosing Effect From ${card.name}`, 0, true)
         const chosenEffect = await this.testForEffectChosen();
         AnnouncementLable.$.hideAnnouncement(true)
@@ -248,12 +268,22 @@ export default class CardPreview extends cc.Component {
 
     onLoad() {
         this.node.opacity = 255;
-        this.counterLable = this.counter.getComponentInChildren(cc.Label);
-        this.extraLable = this.extraInfo.getComponentInChildren(cc.Label);
-        this.extraInfo.active = false
-        this.counterLable.string = ""
-        this.cardSprite = this.node.getChildByName("CardPreview").getComponent(cc.Sprite)
-        this.counter.active = false;
+        if (this.counter) {
+            this.counterLable = this.counter.getComponentInChildren(cc.Label);
+        }
+        if (this.extraInfo) {
+            this.extraLable = this.extraInfo.getComponentInChildren(cc.Label);
+            this.extraInfo.active = false
+        }
+        if (this.counterLable) {
+            this.counterLable.string = ""
+        }
+        if (this.node.getChildByName("CardPreview")) {
+            this.cardSprite = this.node.getChildByName("CardPreview").getComponent(cc.Sprite)
+        }
+        if (this.counter) {
+            this.counter.active = false;
+        }
     }
 
     start() {
@@ -261,10 +291,10 @@ export default class CardPreview extends cc.Component {
     }
 
     update(dt) {
-        if (this.card != null && this.card.getComponent(Card)._counters > 0) {
+        if (this.card != null && this.card.getComponent(Card)._counters > 0 && this.counter && this.counterLable) {
             this.counter.active = true;
             this.counterLable.string = this.card.getComponent(Card)._counters.toString()
-        } else {
+        } else if (this.counter && this.counterLable) {
             this.counter.active = false;
             this.counterLable.string = ""
         }

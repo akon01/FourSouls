@@ -15,6 +15,8 @@ import PassiveManager, { PassiveMeta } from "./PassiveManager";
 import DecisionMarker from "../Entites/Decision Marker";
 import { whevent } from "../../ServerClient/whevent";
 import PlayerStatsViewer from "../Entites/Player Stats Viewer";
+import ReactionToggle from "../Entites/Reaction Toggle";
+import TurnsManager from "./TurnsManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -54,6 +56,18 @@ export default class PlayerManager extends cc.Component {
   static $: PlayerManager = null;
 
   static isLoaded: boolean = false;
+
+  static getPlayersSortedByTurnPlayer() {
+    let players = [TurnsManager.getCurrentTurn().getTurnPlayer()]
+    const filteredPlayers = this.players.filter(p => p != players[0].node);
+    for (let i = 0; i < filteredPlayers.length; i++) {
+      const currentPlayer = players[players.length - 1]
+      players.push(this.getNextPlayer(currentPlayer))
+    }
+    return players;
+  }
+
+
 
 
   static async init(serverId: number) {
@@ -253,14 +267,14 @@ export default class PlayerManager extends cc.Component {
       const playerComp: Player = PlayerManager.players[i].getComponent(Player);
 
       let fullCharCard
-      //only for test of characters:
-      // if (i == 0) {
-      //   cc.log(`i is zero`)
-      //   fullCharCard = CardManager.characterDeck.find(card => card.char.getComponent(Card).cardName == "Lilith")
-      // } else {
-      fullCharCard = CardManager.characterDeck.pop();
-      //   cc.log(fullCharCard)
-      // }
+      ////only for test of characters:
+      if (i == 0) {
+        cc.log(`i is zero`)
+        fullCharCard = CardManager.characterDeck.find(card => card.char.getComponent(Card).cardName == "Bumbo")
+      } else {
+        fullCharCard = CardManager.characterDeck.pop();
+        //   cc.log(fullCharCard)
+      }
       // special case: Eden
       if (fullCharCard.char.getComponent(Card).cardName == "Eden") {
         isEden = true
@@ -332,21 +346,22 @@ export default class PlayerManager extends cc.Component {
           playerComp._putCharLeft = true;
           // //position hand
 
-          playerComp._reactionToggle = deskNode.getComponent(PlayerDesk).playerStatsLayout.reactionToggle.getComponent(cc.Toggle);
+          playerComp._reactionToggle = deskNode.getComponent(PlayerDesk).playerStatsLayout.reactionToggle.getComponent(ReactionToggle);
 
 
-          playerComp._reactionToggle.node.on(cc.Node.EventType.TOUCH_END, async () => {
-            let event;
-            ServerClient.$.send(Signal.REACTION_TOGGLED, { playerId: PlayerManager.mePlayer.getComponent(Player).playerId })
-            cc.log(`reaction btn touch end`)
-            !PlayerManager.mePlayer.getComponent(Player)._reactionToggle.isChecked == true ? event = BUTTON_STATE.ENABLED : event = BUTTON_STATE.DISABLED;
-            if (event == BUTTON_STATE.ENABLED) {
-              if (!PlayerManager.mePlayer.getComponent(Player)._inGetResponse) {
-                event = BUTTON_STATE.DISABLED
-              }
-            }
-            ButtonManager.enableButton(ButtonManager.$.skipButton, event);
-          }, this);
+          playerComp._reactionToggle.setSelfReactionEvent()
+          // playerComp._reactionToggle.node.on(cc.Node.EventType.TOUCH_END, async () => {
+          //   let event;
+          //   ServerClient.$.send(Signal.REACTION_TOGGLED, { playerId: PlayerManager.mePlayer.getComponent(Player).playerId })
+          //   cc.log(`reaction btn touch end`)
+          //   !PlayerManager.mePlayer.getComponent(Player)._reactionToggle.isChecked == true ? event = BUTTON_STATE.ENABLED : event = BUTTON_STATE.DISABLED;
+          //   if (event == BUTTON_STATE.ENABLED) {
+          //     if (!PlayerManager.mePlayer.getComponent(Player)._inGetResponse) {
+          //       event = BUTTON_STATE.DISABLED
+          //     }
+          //   }
+          //   ButtonManager.enableButton(ButtonManager.$.skipButton, event);
+          // }, this);
 
           ButtonManager.enableButton(ButtonManager.$.NoButton, BUTTON_STATE.DISABLED);
 
@@ -367,7 +382,7 @@ export default class PlayerManager extends cc.Component {
 
           deskNode.getComponent(PlayerDesk).playerStatsLayout.node.getComponent(PlayerStatsViewer).player = playerComp
           // attach money lable to player
-          playerComp._reactionToggle = deskNode.getComponent(PlayerDesk).playerStatsLayout.reactionToggle.getComponent(cc.Toggle);
+          playerComp._reactionToggle = deskNode.getComponent(PlayerDesk).playerStatsLayout.reactionToggle.getComponent(ReactionToggle);
 
 
           moneyLable.active = true
@@ -383,7 +398,7 @@ export default class PlayerManager extends cc.Component {
           playerNode = PlayerManager.getPlayerById(id).node;
           playerComp = playerNode.getComponent(Player);
           deskNode.getComponent(PlayerDesk).playerStatsLayout.node.getComponent(PlayerStatsViewer).player = playerComp
-          playerComp._reactionToggle = deskNode.getComponent(PlayerDesk).playerStatsLayout.reactionToggle.getComponent(cc.Toggle);
+          playerComp._reactionToggle = deskNode.getComponent(PlayerDesk).playerStatsLayout.reactionToggle.getComponent(ReactionToggle);
           // attach money lable to player
 
           moneyLable.active = true
@@ -399,7 +414,7 @@ export default class PlayerManager extends cc.Component {
           playerComp = playerNode.getComponent(Player);
           playerComp._putCharLeft = true;
           deskNode.getComponent(PlayerDesk).playerStatsLayout.node.getComponent(PlayerStatsViewer).player = playerComp
-          playerComp._reactionToggle = deskNode.getComponent(PlayerDesk).playerStatsLayout.reactionToggle.getComponent(cc.Toggle);
+          playerComp._reactionToggle = deskNode.getComponent(PlayerDesk).playerStatsLayout.reactionToggle.getComponent(ReactionToggle);
           // attach money lable to player
           moneyLable.active = true
           hpLable.active = true
@@ -485,7 +500,7 @@ export default class PlayerManager extends cc.Component {
         if (card == lootCard) { return player; }
       }
       if (player.soulsLayout) {
-        for (const soulCard of player.soulsLayout.children) {
+        for (const soulCard of player.soulCards) {
           if (card == soulCard) { return player; }
         }
       }

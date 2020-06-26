@@ -28,7 +28,7 @@ export default class PlayerPayPenalties extends Condition {
 
     const selectedPlayerCard = this.conditionData.getTarget(TARGETTYPE.PLAYER)
     if (selectedPlayerCard == null) {
-      cc.log("no selected player")
+      throw new Error("no selected player")
     } else {
       if (selectedPlayerCard instanceof cc.Node) {
         const selectedPlayer = PlayerManager.getPlayerByCard(selectedPlayerCard)

@@ -56,18 +56,14 @@ export default class PlayerDeathPenalties extends StackEffectConcrete {
     }
 
     async putOnStack() {
-        //TODO add passive check for every "before paying penalties" and "when a player would die"
-
         const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_PAY_DEATH_PANELTIES, [], null, this.playerToPay.node, this.entityId)
         const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
         passiveMeta.args = afterPassiveMeta.args;
 
         //if prevent death, dont continue
         if (!afterPassiveMeta.continue) {
-            await Stack.fizzleStackEffect(this, true)
+            await Stack.fizzleStackEffect(this, true, true)
             return
-            // cc.log(`b4 fizzle player death penalties`)
-            // cc.log(`after fizzle player death penalties`)
         }
         const turnPlayer = TurnsManager.currentTurn.getTurnPlayer()
         turnPlayer.givePriority(true)
@@ -80,6 +76,8 @@ export default class PlayerDeathPenalties extends StackEffectConcrete {
         this.playerToPay._isDead = true
         ServerClient.$.send(Signal.PLAYER_DIED, { playerId: this.playerToPay.playerId })
         this.setLable(`Player ${this.playerToPay.playerId} Paid Death Penalties`, true)
+        const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_PAY_DEATH_PANELTIES, [], null, this.playerToPay.node, this.entityId)
+        await PassiveManager.testForPassiveAfter(passiveMeta)
         // if (TurnsManager.currentTurn.getTurnPlayer().playerId == this.playerToPay.playerId) {
         //     //   Stack.removeFromCurrentStackEffectResolving()
         //     this.playerToPay.endTurn(true);

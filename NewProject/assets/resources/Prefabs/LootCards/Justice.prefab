@@ -237,7 +237,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "7cb444f7-7323-4cda-9d04-eee5811a70cc"
+      "__uuid__": "73de712d-b86b-480c-92a5-6a88c1a4ee9f"
     },
     "fileId": "33BtC5JdhLXK6sV8JBOZI6",
     "sync": false
@@ -320,7 +320,12 @@
       "__id__": 8
     },
     "chooseTypes": [],
+    "filterFromPassiveMeta": false,
+    "targetCollectorFromPassiveMeta": null,
     "flavorText": "Choose A Player",
+    "otherPlayersFlavorText": "",
+    "isMultiCardChoice": false,
+    "numOfCardsToChoose": 1,
     "_id": ""
   },
   {
@@ -363,7 +368,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "7cb444f7-7323-4cda-9d04-eee5811a70cc"
+      "__uuid__": "73de712d-b86b-480c-92a5-6a88c1a4ee9f"
     },
     "fileId": "4fcALEeURBJYUGcfanTVYR",
     "sync": false
@@ -376,6 +381,7 @@
       "__id__": 2
     },
     "_enabled": true,
+    "isSilent": false,
     "cost": null,
     "preCondition": null,
     "conditions": [],
@@ -390,7 +396,8 @@
       }
     ],
     "_effectCard": null,
-    "optional": false,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "optionalFlavorText": "",
     "_id": ""
@@ -401,7 +408,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "7cb444f7-7323-4cda-9d04-eee5811a70cc"
+      "__uuid__": "73de712d-b86b-480c-92a5-6a88c1a4ee9f"
     },
     "fileId": "cccLPuR8dOsoJnVkJWozNr",
     "sync": false
@@ -652,7 +659,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "7cb444f7-7323-4cda-9d04-eee5811a70cc"
+      "__uuid__": "73de712d-b86b-480c-92a5-6a88c1a4ee9f"
     },
     "fileId": "77caY+PSlE6qG2BhYGW1tE",
     "sync": false
@@ -710,7 +717,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "7cb444f7-7323-4cda-9d04-eee5811a70cc"
+      "__uuid__": "73de712d-b86b-480c-92a5-6a88c1a4ee9f"
     },
     "fileId": "909g7qtm5BTK0rIGW+mxFG",
     "sync": false
@@ -731,7 +738,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "cd78826d-6229-448c-93a2-29c7b309f8f5"
+      "__uuid__": "01adef87-9689-4d50-923e-57830e3aaa6d"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -744,9 +751,7 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "de75f3f1-a5b3-4a7c-ac40-6584f6d3f083"
-    },
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -759,6 +764,8 @@
     "_enabled": true,
     "cardName": "Justice",
     "doNotMake": false,
+    "cardMask": null,
+    "cardSprite": null,
     "makeMultiCards": false,
     "numOfCopies": 2,
     "copiesSprites": [],
@@ -786,7 +793,6 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
-    "availableParticles": [],
     "_id": ""
   },
   {
@@ -822,7 +828,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "7cb444f7-7323-4cda-9d04-eee5811a70cc"
+      "__uuid__": "73de712d-b86b-480c-92a5-6a88c1a4ee9f"
     },
     "fileId": "74xrl7Ss9GNLi7htp7h56D",
     "sync": false

@@ -245,7 +245,7 @@ export default class CardEffect extends cc.Component {
     }
     try {
       let doEffect = true
-      if (chosenEffect.optional) {
+      if (chosenEffect.optionalAfterDataCollection) {
         cc.log(chosenEffect)
         doEffect = await PlayerManager.getPlayerById(this.cardPlayerId).giveYesNoChoice(chosenEffect.optionalFlavorText)
       }
@@ -378,6 +378,9 @@ export default class CardEffect extends cc.Component {
    * @param effect an effect of this card
    */
   getEffectIndexAndType(effect: Effect) {
+    if (!effect) {
+      throw new Error(`Cant Get Effect Index And Type Of Null Effect`)
+    }
     //const splitName = effect.effectName
     for (let i = 0; i < this.activeEffects.length; i++) {
       if (!this.activeEffects[i]) { throw new Error(`Empty Active Effect Slot`) }

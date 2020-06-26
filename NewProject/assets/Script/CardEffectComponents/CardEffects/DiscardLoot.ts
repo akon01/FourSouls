@@ -24,7 +24,7 @@ export default class DiscardLoot extends Effect {
 
     const targetLoots = data.getTargets(TARGETTYPE.CARD)
     if (targetLoots.length == 0) {
-      cc.log(`no targets`)
+      throw new Error(`no targets`)
     } else {
       let player: Player
       for (let i = 0; i < targetLoots.length; i++) {

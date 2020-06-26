@@ -14,6 +14,8 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class Effect extends cc.Component implements EffectInterface {
 
+  @property
+  isSilent: boolean = false;
 
   effectData: ActiveEffectData | PassiveEffectData = null;
 
@@ -45,10 +47,18 @@ export default class Effect extends cc.Component implements EffectInterface {
   _effectCard: cc.Node = null;
 
   @property
-  optional: boolean = false;
+  optionalAfterDataCollection: boolean = false;
+
+  @property
+  optionalBeforeDataCollection: boolean = false;
 
   @property
   hasPlayerChoiceToActivateInChainEffects: boolean = false;
+
+  @property
+  hasLockingResolve: boolean = false;
+
+  lockingResolve = 0;
 
   @property
   optionalFlavorText: string = ''

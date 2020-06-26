@@ -23,6 +23,7 @@ import ChainEffects from "../CardEffectComponents/CardEffects/ChainEffects";
 import { whevent } from "../../ServerClient/whevent";
 import ServerClient from "../../ServerClient/ServerClient";
 import Signal from "../../Misc/Signal";
+import MultiPassiveEffectsChooseAsEffect from "../CardEffectComponents/CardEffects/MultiEffectChooseAsEffect";
 
 export default class ActivatePassiveEffect extends StackEffectConcrete {
 
@@ -76,6 +77,10 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
         this.isAfterActivation = isAfterActivation
         let firstLable
         if (this.effectToDo) {
+            //if the effect should be silent 
+            if (this.effectToDo.isSilent) {
+                this.isSilent = true
+            }
             const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
             if (prev && this.effectToDo.node) {
                 prev.addSelectedEffectHighlight(this.effectToDo.node)
@@ -123,6 +128,13 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
         if (this.effectToDo) {
             //special cases:
             //EFfect has "Player may activate"
+            if (this.effectToDo.optionalBeforeDataCollection) {
+                const doEffect = await cardOwner.getComponent(Player).giveYesNoChoice(this.effectToDo.optionalFlavorText)
+                if (!doEffect) {
+                    await Stack.fizzleStackEffect(this, false, true)
+                    return
+                }
+            }
 
             if (this.effectToDo instanceof MultiEffectRollEffect) {
                 for (const effect of this.effectToDo.effectsAndNumbers.map(eAn => eAn.effect)) {
@@ -184,8 +196,11 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
                     Logger.error(error)
                 }
             }
-
-        } else { selectedEffect = this.effectToDo }
+        } else if (this.effectToDo instanceof MultiPassiveEffectsChooseAsEffect) {
+            selectedEffect = await this.effectToDo.chooseAnEffect(this.cardWithEffect)
+        } else {
+            selectedEffect = this.effectToDo
+        }
         this.effectToDo = selectedEffect
         const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
         if (prev && this.effectToDo.node) {
@@ -193,7 +208,7 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
         }
         await this.doCardEffect(this.effectToDo, this.hasDataBeenCollectedYet);
         this.setLable(`Activated ${this.cardWithEffect.name} Effect`, true)
-        this.effectToDo = null;
+        // this.effectToDo = null;
         this.effectPassiveMeta = null
 
     }

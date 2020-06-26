@@ -1,4 +1,4 @@
-import { GAME_EVENTS, STACK_EFFECT_TYPE } from "../Constants";
+import { GAME_EVENTS, STACK_EFFECT_TYPE, PASSIVE_EVENTS } from "../Constants";
 import Card from "../Entites/GameEntities/Card";
 import Player from "../Entites/GameEntities/Player";
 import Stack from "../Entites/Stack";
@@ -14,6 +14,7 @@ import { PlayerDeathVis } from "./StackEffectVisualRepresentation/Player Death V
 import { whevent } from "../../ServerClient/whevent";
 import ServerClient from "../../ServerClient/ServerClient";
 import Signal from "../../Misc/Signal";
+import PassiveManager, { PassiveMeta } from "../Managers/PassiveManager";
 
 export default class PlayerDeath extends StackEffectConcrete {
     visualRepesentation: PlayerDeathVis;
@@ -65,7 +66,16 @@ export default class PlayerDeath extends StackEffectConcrete {
     }
 
     async resolve() {
-        this.playerToDie._thisTurnKiller = this.killer;
+
+        let killer = this.killer
+        const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_IS_KILLED, [killer], null, this.playerToDie.node, this.entityId)
+        const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+        if (!afterPassiveMeta.continue) {
+            return
+        }
+        killer = afterPassiveMeta.args[0]
+        this.killer = killer
+        this.playerToDie._thisTurnKiller = killer;
         this.setLable(`Player ${this.playerToDie.playerId} Has Died`, true)
         for (let i = 0; i < this.playerToDie._curses.length; i++) {
             const curse = this.playerToDie._curses[i];
@@ -75,7 +85,10 @@ export default class PlayerDeath extends StackEffectConcrete {
             await BattleManager.cancelAttack(true)
         }
         const playerPenalty = new PlayerDeathPenalties(this.playerToDie.character.getComponent(Card)._cardId, this.playerToDie.character)
+        //make silent
+        await Stack.fizzleStackEffect(this, true, true)
         await Stack.addToStackAbove(playerPenalty)
+        await PassiveManager.testForPassiveAfter(passiveMeta)
         // await Stack.addToStackBelow(playerPenalty, this, true)
     }
 

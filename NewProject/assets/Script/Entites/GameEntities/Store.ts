@@ -10,6 +10,7 @@ import Stack from "../Stack";
 import Card from "./Card";
 import Deck from "./Deck";
 import { Logger } from "../Logger";
+import PileManager from "../../Managers/PileManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -70,6 +71,10 @@ export default class Store extends cc.Component {
   }
 
 
+  async discardStoreCard(card: cc.Node, sendToServer: boolean) {
+    await PileManager.addCardToPile(CARD_TYPE.TREASURE, card, sendToServer)
+    await this.removeFromStore(card, sendToServer)
+  }
 
   async removeFromStore(storeItem: cc.Node, sendToserver: boolean) {
     if (

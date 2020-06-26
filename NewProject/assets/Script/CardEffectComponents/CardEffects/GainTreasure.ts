@@ -25,7 +25,7 @@ export default class GainTreasure extends Effect {
 
     const targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER);
     if (targetPlayerCard == null) {
-      cc.log(`no player`)
+      throw new Error(`no player`)
     } else {
       const player: Player = PlayerManager.getPlayerByCard(targetPlayerCard as cc.Node)
       const treasureDeck = CardManager.treasureDeck

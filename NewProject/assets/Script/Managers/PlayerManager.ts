@@ -81,11 +81,11 @@ export default class PlayerManager extends cc.Component {
     this.createDice();
     this.assingHands();
 
-    cc.loader.releaseResDir("Prefabs/Entities/", cc.Prefab)
+    cc.resources.release("Prefabs/Entities/", cc.Prefab)
   }
 
   static async preLoadPrefabs() {
-    cc.loader.loadResDir("Prefabs/Entities/", function (err, rsc) {
+    cc.resources.loadDir<cc.Prefab>("Prefabs/Entities/", function (err, rsc) {
       for (let i = 0; i < rsc.length; i++) {
         const prefab: cc.Prefab = rsc[i];
         switch (prefab.name) {

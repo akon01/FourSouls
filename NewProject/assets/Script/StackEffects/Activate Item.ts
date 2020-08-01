@@ -90,7 +90,7 @@ export default class ActivateItem extends StackEffectConcrete {
         //let player choose effect b4 going in the stack
         if (cardEffect.hasMultipleEffects) {
             //if the card has multiple effects and the player needs to choose
-            if (cardEffect.multiEffectCollector.cost != null) {
+            if (cardEffect.multiEffectCollector.cost != null && cardEffect.multiEffectCollector.cost.testPreCondition()) {
                 await cardEffect.multiEffectCollector.cost.takeCost()
             }
             if (cardEffect.multiEffectCollector instanceof MultiEffectChoose) {

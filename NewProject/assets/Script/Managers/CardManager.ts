@@ -150,7 +150,7 @@ export default class CardManager extends cc.Component {
     // this.makeCharDeck();
     this.sendCardInfoToServer()
 
-    cc.loader.releaseResDir("Sprites/CardBacks", cc.Prefab)
+    cc.resources.release("Sprites/CardBacks", cc.Prefab)
 
 
 
@@ -174,47 +174,42 @@ export default class CardManager extends cc.Component {
   }
 
   static async preLoadPrefabs() {
-    cc.loader.loadResDir("Prefabs/CharacterCards/CharCardsPrefabs", function (
+    cc.resources.loadDir("Prefabs/CharacterCards/CharCardsPrefabs", function (
       err,
       rsc,
-      urls
     ) {
       if (err) {
         cc.log(err)
         cc.log(rsc)
-        cc.log(urls)
       }
       for (let i = 0; i < rsc.length; i++) {
         const prefab = rsc[i];
         CardManager.charCardsPrefabs.push(prefab);
       }
-      cc.loader.loadResDir("Prefabs/CharacterCards/CharItemCards", function (
+      cc.resources.loadDir("Prefabs/CharacterCards/CharItemCards", function (
         err,
         rsc,
-        url
       ) {
         if (err) {
           cc.log(err)
           cc.log(rsc)
-          cc.log(urls)
         }
         for (let i = 0; i < rsc.length; i++) {
           const prefab = rsc[i];
           CardManager.charItemCardsPrefabs.push(prefab);
         }
         CardManager.makeCharDeck()
-        cc.loader.releaseResDir("Prefabs/CharacterCards/CharCardsPrefabs", cc.Prefab)
-        cc.loader.releaseResDir("Prefabs/CharacterCards/CharItemCards", cc.Prefab)
+        cc.resources.release("Prefabs/CharacterCards/CharCardsPrefabs", cc.Prefab)
+        cc.resources.release("Prefabs/CharacterCards/CharItemCards", cc.Prefab)
         CardManager.charCardsPrefabs = []
         CardManager.charItemCardsPrefabs = []
-        cc.loader.loadResDir(
+        cc.resources.loadDir<cc.SpriteFrame>(
           "Sprites/CardBacks",
           cc.SpriteFrame,
-          (err, rsc, urls) => {
+          (err, rsc) => {
             if (err) {
               cc.log(err)
               cc.log(rsc)
-              cc.log(urls)
             }
             for (let i = 0; i < rsc.length; i++) {
               const sprite: cc.SpriteFrame = rsc[i];
@@ -232,41 +227,52 @@ export default class CardManager extends cc.Component {
                   break;
               }
             }
-            cc.loader.loadResDir("Prefabs/LootCards", cc.Prefab, (err, rsc, urls) => {
+            cc.resources.loadDir<cc.Prefab>("Prefabs/LootCards", cc.Prefab, (err, rsc) => {
               if (err) {
                 cc.log(err)
-                cc.log(rsc.map(rs => rs.nativeUrl))
-                cc.log(urls)
               }
               CardManager.lootDeck.getComponent(Deck).cardsPrefab.push(...rsc)
               CardManager.makeDeckCards(CardManager.lootDeck.getComponent(Deck))
-              cc.loader.releaseResDir("Prefabs/LootCards", cc.Prefab)
-              cc.loader.loadResDir("Prefabs/TreasureCards", cc.Prefab, (err, rsc, urls) => {
+              CardManager.lootDeck.getComponent(Deck)._cards.getCards().forEach(card => {
+                if (card.getComponent(Card).type != CARD_TYPE.LOOT) {
+                  cc.error(`card ${card.name} is in loot deck, should not be here!`)
+                }
+              });
+              cc.resources.release("Prefabs/LootCards", cc.Prefab)
+              cc.resources.loadDir<cc.Prefab>("Prefabs/TreasureCards", cc.Prefab, (err, rsc) => {
                 if (err) {
                   cc.log(err)
                   cc.log(rsc)
-                  cc.log(urls)
                 }
                 CardManager.treasureDeck.getComponent(Deck).cardsPrefab.push(...rsc)
                 CardManager.makeDeckCards(CardManager.treasureDeck.getComponent(Deck))
-                cc.loader.releaseResDir("Prefabs/TreasureCards", cc.Prefab)
-                cc.loader.loadResDir("Prefabs/Complete Monster Cards", cc.Prefab, (err, rsc, urls) => {
+                CardManager.treasureDeck.getComponent(Deck)._cards.getCards().forEach(card => {
+                  if (card.getComponent(Card).type != CARD_TYPE.TREASURE) {
+                    cc.error(`card ${card.name} is in treausre deck, should not be here!`)
+                  }
+                })
+                cc.resources.release("Prefabs/TreasureCards", cc.Prefab)
+                cc.resources.loadDir<cc.Prefab>("Prefabs/Complete Monster Cards", cc.Prefab, (err, rsc) => {
                   if (err) {
                     cc.log(err)
                     cc.log(rsc)
-                    cc.log(urls)
                   }
                   CardManager.monsterDeck.getComponent(Deck).cardsPrefab.push(...rsc)
                   CardManager.makeDeckCards(CardManager.monsterDeck.getComponent(Deck))
-                  cc.loader.releaseResDir("Prefabs/Complete Monster Cards", cc.Prefab)
-                  cc.loader.loadResDir("Prefabs/Bonus Souls", cc.Prefab, (err, rsc, urls) => {
+                  CardManager.monsterDeck.getComponent(Deck)._cards.getCards().forEach(card => {
+                    if (card.getComponent(Card).type != CARD_TYPE.MONSTER) {
+                      cc.error(`card ${card.name} is in monster deck, should not be here!`)
+                    }
+                  })
+                  cc.resources.release("Prefabs/Complete Monster Cards", cc.Prefab)
+                  cc.resources.loadDir<cc.Prefab>("Prefabs/Bonus Souls", cc.Prefab, (err, rsc) => {
                     if (err) {
                       throw err
                     }
-                    cc.loader.releaseResDir("Prefabs/Bonus Souls", cc.Prefab)
+                    cc.resources.release("Prefabs/Bonus Souls", cc.Prefab)
                     CardManager.bonusDeck.getComponent(Deck).cardsPrefab.push(...rsc)
                     CardManager.makeDeckCards(CardManager.bonusDeck.getComponent(Deck))
-                    cc.loader.releaseResDir("Prefabs/Bonus Souls", cc.Prefab)
+                    cc.resources.release("Prefabs/Bonus Souls", cc.Prefab)
                     cc.log(`end bonus`)
                     whevent.emit(GAME_EVENTS.CARD_MANAGER_LOAD_PREFAB)
                   })
@@ -836,8 +842,6 @@ export default class CardManager extends cc.Component {
       if (!card.active) {
         card.active = true
       }
-      card.x = 0
-      card.y = 0
     }
 
     const originalPos = canvas.convertToNodeSpaceAR(card.parent.convertToWorldSpaceAR(card.getPosition()));

@@ -124,7 +124,7 @@ export default class CardPreview extends cc.Component {
         }
     }
 
-    addEffectToPreview(effect: cc.Node) {
+    addEffectToPreview(effect: cc.Node, isDoNotAddClickEvent?: boolean) {
         cc.error(`add effect to card preview`)
         const originalParent = effect.parent;
         const originalY = effect.y;
@@ -136,7 +136,7 @@ export default class CardPreview extends cc.Component {
         cc.log(`preview `, preview)
         const yPositionScale = preview.height / parentHeight;
 
-        const heightScale = effect.height / parentHeight;
+        const heightScale = preview.height / parentHeight;
         const widthScale = preview.width / originalParent.width;
 
         const name = effect.name + " " + preview.childrenCount
@@ -147,21 +147,23 @@ export default class CardPreview extends cc.Component {
         cc.log(`width:${newEffect.width}; height:${newEffect.height}; cardHeight:${preview.height}; scale:${heightScale}`)
 
         //TODO:REMOVE /2 after changing all prefabs to right size.
-        newEffect.width = preview.width
+        newEffect.width = effect.width * widthScale
         //TODO:REMOVE /2 after changing all prefabs to right size.
-        newEffect.height = preview.height * heightScale;
+        newEffect.height = effect.height * heightScale;
 
         const newY = originalY * yPositionScale;
         //TODO:REMOVE /2 after changing all prefabs to right size.
         newEffect.setPosition(0, newY);
         cc.log(`added ${newEffect.name} to preview`)
-        newEffect.once(cc.Node.EventType.TOUCH_START, async () => {
-            await this.hideCardPreview();
-            cc.log(`chosen ${effect.name}`)
-            this.effectChosen = effect;
-            whevent.emit(GAME_EVENTS.CARD_PREVIEW_CHOOSE_EFFECT, effect)
-            //  CardPreview.wasEffectChosen = true;
-        }, this);
+        if (isDoNotAddClickEvent == false || isDoNotAddClickEvent == undefined) {
+            newEffect.once(cc.Node.EventType.TOUCH_START, async () => {
+                await this.hideCardPreview();
+                cc.log(`chosen ${effect.name}`)
+                this.effectChosen = effect;
+                whevent.emit(GAME_EVENTS.CARD_PREVIEW_CHOOSE_EFFECT, effect)
+                //  CardPreview.wasEffectChosen = true;
+            }, this);
+        }
         return newEffect
     }
 

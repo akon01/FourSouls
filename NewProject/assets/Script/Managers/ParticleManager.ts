@@ -25,14 +25,14 @@ export default class ParticleManager extends cc.Component {
     activatedEffects: Map<cc.Node, PARTICLE_TYPES[]> = new Map();
 
     static activateParticleEffect(card: cc.Node, particleType: PARTICLE_TYPES, sendToServer: boolean) {
-
-        //cc.log(card)
         if (card == undefined || card == null) {
             throw new Error(`No card to activate particle effect on`)
         }
 
         const particleSys: cc.ParticleSystem = card.getComponentInChildren(cc.ParticleSystem)
         const particle = this.$.particleEffects.find(particle => particle.name == particleType)
+        cc.error(`activate particle with type ${particleType}`)
+        cc.log(particle.effect.name)
         if (!particle) { throw new Error("No particle found by type") }
 
         particleSys.stopSystem()

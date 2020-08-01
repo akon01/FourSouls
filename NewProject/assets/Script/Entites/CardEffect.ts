@@ -85,6 +85,12 @@ export default class CardEffect extends cc.Component {
     let innerBoolPool = []
 
     // if (!itemIsActivated) {
+    if (this.multiEffectCollector?.cost != undefined) {
+      if (this.multiEffectCollector?.cost?.testPreCondition()) {
+        return true
+      } else return false
+    }
+
 
     for (const activeEffect of this.activeEffects) {
       if (!activeEffect) { throw new Error(`An Empty Active Effect Slot In ${this.node.name}`) }

@@ -89,7 +89,7 @@ export default class DecisionMarker extends cc.Component {
         previewWidget.updateAlignment()
         this.cardPreview.node.active = true
         cc.log(effectChosen)
-        const effect = this.cardPreview.addEffectToPreview(effectChosen)
+        const effect = this.cardPreview.addEffectToPreview(effectChosen, true)
 
 
         const topLeft = this.canvas.convertToNodeSpaceAR(effect.parent.convertToWorldSpaceAR(cc.v2(effect.x - effect.width / 2, effect.y + effect.height / 2)))

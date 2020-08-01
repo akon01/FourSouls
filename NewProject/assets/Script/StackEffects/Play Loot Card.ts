@@ -86,7 +86,7 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
 
         //let player choose effect b4 going in the stack
         if (cardEffect.hasMultipleEffects) {
-            if (cardEffect.multiEffectCollector.cost != null) {
+            if (cardEffect.multiEffectCollector.cost != null && cardEffect.multiEffectCollector.cost.testPreCondition()) {
                 await cardEffect.multiEffectCollector.cost.takeCost()
             }
             //if the card has multiple effects and the player needs to choose

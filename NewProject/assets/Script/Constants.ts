@@ -224,6 +224,7 @@ export enum BUTTON_STATE {
 }
 
 export enum GAME_EVENTS {
+  DID_CHOOSE_FROM,
   EDEN_WAS_CHOSEN,
   CARD_EFFECT_ANIM_END,
   PLAYER_RESPOND,
@@ -366,6 +367,9 @@ export enum PASSIVE_EVENTS {
    * args: [numberRolled for killing the monster(0 if not available),monster killer(if available)]
    */
   MONSTER_IS_KILLED = "MONSTER_IS_KILLED",
+  /**
+   * args: [new Monster Card, Old Monster Card]
+   */
   NEW_ACTIVE_MONSTER = "NEW_ACTIVE_MONSTER",
   MONSTER_PREVENT_DAMAGE = "MONSTER_PREVENT_DAMAGE",
 

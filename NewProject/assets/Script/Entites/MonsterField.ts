@@ -1,14 +1,18 @@
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
+import ChooseCardTypeAndFilter from "../CardEffectComponents/ChooseCardTypeAndFilter";
+import ChooseCard from "../CardEffectComponents/DataCollector/ChooseCard";
 import CardManager from "../Managers/CardManager";
+import CardPreviewManager from "../Managers/CardPreviewManager";
 import PassiveManager from "../Managers/PassiveManager";
 import PlayerManager from "../Managers/PlayerManager";
 import TurnsManager from "../Managers/TurnsManager";
-import { CARD_HEIGHT, CARD_WIDTH, COLORS } from "./../Constants";
+import { CARD_HEIGHT, CARD_WIDTH, CHOOSE_CARD_TYPE, COLORS } from "./../Constants";
 import CardEffect from "./CardEffect";
 import { CardLayout } from "./CardLayout";
 import Monster from "./CardTypes/Monster";
 import Card from "./GameEntities/Card";
+import Player from "./GameEntities/Player";
 import MonsterCardHolder from "./MonsterCardHolder";
 
 const { ccclass, property } = cc._decorator;
@@ -69,6 +73,21 @@ export default class MonsterField extends cc.Component {
     CardManager.allCards.push(monsterCard);
     CardManager.onTableCards.push(monsterCard);
 
+  }
+
+  static async givePlayerChoiceToCoverPlace(monsterToCoverWith: Monster, player: Player) {
+    const chooseCard = new ChooseCard();
+    chooseCard.flavorText = "Choose A Monster To Cover"
+    await CardPreviewManager.getPreviews(Array.of(monsterToCoverWith.node), true)
+    CardPreviewManager.showToOtherPlayers(monsterToCoverWith.node);
+    chooseCard.chooseType = new ChooseCardTypeAndFilter()
+    chooseCard.chooseType.chooseType = CHOOSE_CARD_TYPE.MONSTER_PLACES
+    const monsterInSpotChosen = await chooseCard.collectData({ cardPlayerId: player.playerId })
+    const activeMonsterSelected = monsterInSpotChosen.effectTargetCard.getComponent(Monster)
+    const monsterCardHolder: MonsterCardHolder = MonsterField.getMonsterPlaceById(
+      activeMonsterSelected.monsterPlace.id
+    );
+    await MonsterField.addMonsterToExsistingPlace(monsterCardHolder.id, monsterToCoverWith.node, true)
   }
 
   static getMonsterPlaceByActiveMonsterId(

@@ -16,8 +16,6 @@ import DataParser from "./entities/dataParser";
 
 declare const Buffer;
 
-
-
 export default class Server {
   static $: Server = null;
 
@@ -29,8 +27,6 @@ export default class Server {
   constructor() {
     Server.$ = this;
   }
-
-
 
   async init() {
     console.log("Loading config...");
@@ -52,7 +48,7 @@ export default class Server {
   }
 
   async test(dirName: string) {
-    var fs = require('fs')
+    const fs = require("fs")
     // const readline = require('readline');
     // const readinterface = readline.createInterface({
     //   input: fs.createReadStream('/MainGame.fire'),
@@ -71,9 +67,7 @@ export default class Server {
     //   }
     //   console.log(`end of read file`);
 
-
     //   //  console.log(data);
-
 
     //   // fs.appendFileSync('/test3.txt', "start", (err2) => {
     //   //   if (err2) throw err2;
@@ -89,7 +83,7 @@ export default class Server {
       }
       filenames.forEach(file => {
         if (!file.endsWith(`.meta`)) {
-          fs.readFile(dirName + '/' + file, 'utf8', (err, content: string) => {
+          fs.readFile(dirName + "/" + file, "utf8", (err, content: string) => {
             if (err) {
               console.log(err);
               return
@@ -103,20 +97,18 @@ export default class Server {
   }
 
   private doIt(data: { lines: string, fileName: string, dirName }) {
-    var fs = require('fs')
+    const fs = require("fs")
 
-    let regexp = new RegExp('"width": (\\d+.+\\d+|\\d+)', 'g')
-    let regexp2 = new RegExp('"height": (\\d+.+\\d+|\\d+)', 'g')
-    let regexp3 = new RegExp('"array": \\[\\n *\\d*,\\n *([\\s\\S]+?),', 'g')
+    const regexp = new RegExp('"width": (\\d+.+\\d+|\\d+)', "g")
+    const regexp2 = new RegExp('"height": (\\d+.+\\d+|\\d+)', "g")
+    const regexp3 = new RegExp('"array": \\[\\n *\\d*,\\n *([\\s\\S]+?),', "g")
 
     let newText = data.lines.replace(regexp3, (subString: string, args: string) => {
       const number = Number.parseFloat(args)
       const newString = subString.replace(args, (number / 2).toFixed(2));
 
-
       return newString
     })
-
 
     newText = newText.replace(regexp, (subString: string, args: string) => {
       const number = Number.parseFloat(args)
@@ -132,15 +124,13 @@ export default class Server {
 
     fs.unlink(data.dirName + `/` + data.fileName, () => {
 
-      fs.appendFileSync(data.dirName + '/' + data.fileName, newText, (err2) => {
-        if (err2) throw err2;
+      fs.appendFileSync(data.dirName + "/" + data.fileName, newText, (err2) => {
+        if (err2) { throw err2; }
       })
     })
 
-
     // for (let i = 0; i < data.lines.length; i++) {
     //   const line = data.lines[i];
-
 
     //   let newLine = line
     //   let regexFound = line.match(regexp)
@@ -180,7 +170,6 @@ export default class Server {
 
     console.log(`finished`);
 
-
   }
 
   private checkRegex(regexFound: RegExpMatchArray, newLine: string, word: string) {
@@ -194,7 +183,7 @@ export default class Server {
         console.log(`number is not 0`);
 
         number = number / 2;
-        if (word != 'array') {
+        if (word != "array") {
 
           newLine = `"${word}": ${number.toFixed(2)}`
         } else {
@@ -204,7 +193,7 @@ export default class Server {
         console.log(oldLine.endsWith(`,`));
 
         if (oldLine.endsWith(`,`)) {
-          newLine = newLine + ','
+          newLine = newLine + ","
         }
         console.log(` line changed : ${oldLine}  to ${newLine} `);
       } else {
@@ -328,6 +317,8 @@ export default class Server {
     whevent.on(signal.PLAYER_ADD_DMG_PREVENTION, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.PLAYER_DIED, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.PLAYER_ADD_CURSE, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.MAKE_CHOOSE_FROM, this.onSendToSpecificPlayer, this);
+    whevent.on(signal.FINISH_MAKE_CHOOSE_FROM, this.onSendToSpecificPlayer, this);
     //
 
     //monster events
@@ -362,6 +353,10 @@ export default class Server {
 
     whevent.on(signal.ACTION_MASSAGE_ADD, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.ACTION_MASSAGE_REMOVE, this.onBroadcastExceptOrigin, this);
+
+    //Single Card Events
+    whevent.on(signal.SET_CONCURENT_EFFECT_DATA, this.onBroadcastExceptOrigin, this);
+
 
     //Announcement Lable
 

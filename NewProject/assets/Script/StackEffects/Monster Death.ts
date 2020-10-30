@@ -66,7 +66,7 @@ export default class MonsterDeath extends StackEffectConcrete {
         //add Passive Check for all the +X/-X To dice rolls to add on top of the stack
     }
 
-    async resolve() {
+    async resolve(true) {
         if (BattleManager.currentlyAttackedMonster != null && this.monsterToDie.node == BattleManager.currentlyAttackedMonster.node) {
             await BattleManager.cancelAttack(true)
         }

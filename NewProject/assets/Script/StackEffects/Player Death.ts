@@ -65,7 +65,7 @@ export default class PlayerDeath extends StackEffectConcrete {
         turnPlayer.givePriority(true)
     }
 
-    async resolve() {
+    async resolve(true) {
 
         let killer = this.killer
         const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_IS_KILLED, [killer], null, this.playerToDie.node, this.entityId)

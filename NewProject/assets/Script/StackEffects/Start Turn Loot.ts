@@ -62,7 +62,7 @@ export default class StartTurnLoot extends StackEffectConcrete {
 
     }
 
-    async resolve() {
+    async resolve(true) {
         //  let cardToDraw = await CardManager.lootDeck.getComponent(Deck).drawCard(true)
         await this.turnPlayer.drawCard(CardManager.lootDeck, true)
         this.setLable(`Player ${this.turnPlayer.playerId} Has Drawn Loot For Start Turn`, true)

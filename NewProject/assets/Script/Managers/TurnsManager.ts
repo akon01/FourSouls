@@ -109,6 +109,7 @@ export default class TurnsManager extends cc.Component {
         player._isDead = false;
         player.isFirstHitInTurn = true
         player._mustAttackPlays = 0;
+        player._mustAttackMonsters = []
         player._mustDeckAttackPlays = 0
         player._attackDeckPlays = 0
         //player.damage = player.calculateDamage()

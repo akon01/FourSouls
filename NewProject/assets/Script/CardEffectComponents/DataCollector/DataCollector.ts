@@ -5,8 +5,7 @@ import Cost from "../Costs/Cost";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class DataCollector extends cc.Component
-  implements DataCollectorInterface {
+export default class DataCollector extends cc.Component implements DataCollectorInterface {
   private _isCardChosen: boolean = false;
   set isCardChosen(boolean: boolean) {
     this._isCardChosen = boolean

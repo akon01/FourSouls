@@ -67,6 +67,15 @@ export default class Monster extends cc.Component {
   isNonMonster: boolean = false;
 
   @property
+  isBoss: boolean = false;
+
+  @property
+  isMegaBoss: boolean = false;
+
+  @property
+  isMonsterWhoCantBeAttacked: boolean = false
+
+  @property
   _dmgPrevention: number[] = [];
 
   @property

@@ -87,7 +87,7 @@ export default class RefillEmptySlot extends StackEffectConcrete {
         turnPlayer.givePriority(true)
     }
 
-    async resolve() {
+    async resolve(true) {
         this.hasResolved = true
         switch (this.slotType) {
             case CARD_TYPE.TREASURE:

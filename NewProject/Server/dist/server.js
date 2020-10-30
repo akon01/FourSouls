@@ -78,7 +78,7 @@ var Server = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var fs;
             return __generator(this, function (_a) {
-                fs = require('fs');
+                fs = require("fs");
                 // const readline = require('readline');
                 // const readinterface = readline.createInterface({
                 //   input: fs.createReadStream('/MainGame.fire'),
@@ -110,7 +110,7 @@ var Server = /** @class */ (function () {
                     }
                     filenames.forEach(function (file) {
                         if (!file.endsWith(".meta")) {
-                            fs.readFile(dirName + '/' + file, 'utf8', function (err, content) {
+                            fs.readFile(dirName + "/" + file, "utf8", function (err, content) {
                                 if (err) {
                                     console.log(err);
                                     return;
@@ -125,10 +125,10 @@ var Server = /** @class */ (function () {
         });
     };
     Server.prototype.doIt = function (data) {
-        var fs = require('fs');
-        var regexp = new RegExp('"width": (\\d+.+\\d+|\\d+)', 'g');
-        var regexp2 = new RegExp('"height": (\\d+.+\\d+|\\d+)', 'g');
-        var regexp3 = new RegExp('"array": \\[\\n *\\d*,\\n *([\\s\\S]+?),', 'g');
+        var fs = require("fs");
+        var regexp = new RegExp('"width": (\\d+.+\\d+|\\d+)', "g");
+        var regexp2 = new RegExp('"height": (\\d+.+\\d+|\\d+)', "g");
+        var regexp3 = new RegExp('"array": \\[\\n *\\d*,\\n *([\\s\\S]+?),', "g");
         var newText = data.lines.replace(regexp3, function (subString, args) {
             var number = Number.parseFloat(args);
             var newString = subString.replace(args, (number / 2).toFixed(2));
@@ -144,9 +144,10 @@ var Server = /** @class */ (function () {
         });
         //const fileName = data.fileName.replace(new RegExp(`\\.prefab`), ` test.prefab`)
         fs.unlink(data.dirName + "/" + data.fileName, function () {
-            fs.appendFileSync(data.dirName + '/' + data.fileName, newText, function (err2) {
-                if (err2)
+            fs.appendFileSync(data.dirName + "/" + data.fileName, newText, function (err2) {
+                if (err2) {
                     throw err2;
+                }
             });
         });
         // for (let i = 0; i < data.lines.length; i++) {
@@ -194,7 +195,7 @@ var Server = /** @class */ (function () {
             if (number != 0) {
                 console.log("number is not 0");
                 number = number / 2;
-                if (word != 'array') {
+                if (word != "array") {
                     newLine = "\"" + word + "\": " + number.toFixed(2);
                 }
                 else {
@@ -202,7 +203,7 @@ var Server = /** @class */ (function () {
                 }
                 console.log(oldLine.endsWith(","));
                 if (oldLine.endsWith(",")) {
-                    newLine = newLine + ',';
+                    newLine = newLine + ",";
                 }
                 console.log(" line changed : " + oldLine + "  to " + newLine + " ");
             }
@@ -315,6 +316,8 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].PLAYER_ADD_DMG_PREVENTION, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].PLAYER_DIED, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].PLAYER_ADD_CURSE, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].MAKE_CHOOSE_FROM, this.onSendToSpecificPlayer, this);
+        whevent.on(signal_1["default"].FINISH_MAKE_CHOOSE_FROM, this.onSendToSpecificPlayer, this);
         //
         //monster events
         whevent.on(signal_1["default"].MONSTER_GAIN_DMG, this.onBroadcastExceptOrigin, this);
@@ -341,6 +344,8 @@ var Server = /** @class */ (function () {
         //Action Lable
         whevent.on(signal_1["default"].ACTION_MASSAGE_ADD, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].ACTION_MASSAGE_REMOVE, this.onBroadcastExceptOrigin, this);
+        //Single Card Events
+        whevent.on(signal_1["default"].SET_CONCURENT_EFFECT_DATA, this.onBroadcastExceptOrigin, this);
         //Announcement Lable
         whevent.on(signal_1["default"].SHOW_ANNOUNCEMENT, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].HIDE_ANNOUNCEMENT, this.onBroadcastExceptOrigin, this);

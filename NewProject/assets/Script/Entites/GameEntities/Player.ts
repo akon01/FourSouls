@@ -127,6 +127,9 @@ export default class Player extends cc.Component {
   _mustAttackPlays: number = 0;
 
   @property
+  _mustAttackMonsters: Monster[] = []
+
+  @property
   _mustDeckAttackPlays: number = 0;
 
   @property
@@ -250,6 +253,9 @@ export default class Player extends cc.Component {
   @property({ visible: false })
   isFirstHitInTurn: boolean = true
 
+  @property
+  _numOfItemsToRecharge: number = -1;
+
   /// Admin Methods Only!
 
   broadcastUpdateProperites(propertiesToChange) {
@@ -324,7 +330,6 @@ export default class Player extends cc.Component {
   // }
 
   async drawCard(deck: cc.Node, sendToServer: boolean, alreadyDrawnCard?: cc.Node) {
-
 
     let drawnCard: cc.Node
     if (alreadyDrawnCard != null) {
@@ -415,7 +420,7 @@ export default class Player extends cc.Component {
 
     return new Promise((resolve) => {
       whevent.onOnce(GAME_EVENTS.PLAYER_CLICKED_NEXT, () => {
-        resolve();
+        resolve(true);
       })
     });
   }
@@ -571,7 +576,6 @@ export default class Player extends cc.Component {
       await Stack.addToStack(purchaseItem, sendToServer)
     }
   }
-
 
   async addItem(itemToAdd: cc.Node, sendToServer: boolean, isReward: boolean) {
     let itemCardComp: Card = itemToAdd.getComponent(Card);
@@ -760,6 +764,10 @@ export default class Player extends cc.Component {
     if (sendToServer) {
       await PassiveManager.testForPassiveAfter(passiveMeta)
     }
+  }
+
+  calcNumOfItemsToCharge() {
+    return (this._numOfItemsToRecharge == -1) ? this.activeItems.length : this._numOfItemsToRecharge
   }
 
   async startTurn(numOfCardToDraw: number, numberOfItemsToCharge: number, sendToServer: boolean) {
@@ -1309,8 +1317,6 @@ export default class Player extends cc.Component {
   @property
   _responseTimeout = null;
 
-
-
   async getResponse(askingPlayerId: number) {
     if (askingPlayerId == -1) {
       throw new Error(`Get Response asked from id -1, shuold not happen`)
@@ -1417,7 +1423,6 @@ export default class Player extends cc.Component {
     characterItem.setParent(itemPlace)
     characterItem.setPosition(0, 0)
 
-
     itemPlace.removeComponent(cc.Sprite)
 
     character.getComponent(Character).player = this
@@ -1431,7 +1436,6 @@ export default class Player extends cc.Component {
     this.activeItems.push(character);
     await this.addItemByType(characterItem, sendToServer);
 
-
     if (sendToServer) {
       ServerClient.$.send(Signal.ASSIGN_CHAR_TO_PLAYER, { playerId: this.playerId, charCardId: character.getComponent(Card)._cardId, itemCardId: characterItem.getComponent(Card)._cardId })
 
@@ -1444,8 +1448,6 @@ export default class Player extends cc.Component {
         passiveMeta.result = await PassiveManager.testForPassiveAfter(passiveMeta)
       }
     }
-
-
 
   }
 

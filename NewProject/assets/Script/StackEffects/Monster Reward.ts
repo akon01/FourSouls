@@ -84,7 +84,7 @@ export default class MonsterRewardStackEffect extends StackEffectConcrete {
 
     }
 
-    async resolve() {
+    async resolve(true) {
         if (this.hasLockingStackEffect) {
             await Stack.addToStack(this.lockingStackEffect, true)
             this.monsterReward.rollNumber = this.LockingResolve;

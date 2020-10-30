@@ -174,8 +174,11 @@ export default class ServerClient extends cc.Component {
     whevent.on(Signal.CHOOSE_FOR_EDEN, this.onPlayerActionFromServer, this);
 
     //Action Lable
-    whevent.on(Signal.ACTION_MASSAGE_ADD, this.onPlayerActionFromServer, this);
+
     whevent.on(Signal.ACTION_MASSAGE_REMOVE, this.onPlayerActionFromServer, this);
+
+    //Signle Card Evenets
+    whevent.on(Signal.SET_CONCURENT_EFFECT_DATA, this.onPlayerActionFromServer, this);
 
     //Announcement Lable
     whevent.on(Signal.SHOW_ANNOUNCEMENT, this.onPlayerActionFromServer, this);

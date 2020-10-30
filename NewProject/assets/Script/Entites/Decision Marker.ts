@@ -69,7 +69,7 @@ export default class DecisionMarker extends cc.Component {
     waitForDecisionHide() {
         return new Promise((resolve, reject) => {
             whevent.onOnce(GAME_EVENTS.HIDE_DECISION, () => {
-                resolve()
+                resolve(true)
             })
         })
     }

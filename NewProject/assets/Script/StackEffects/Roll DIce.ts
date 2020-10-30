@@ -80,7 +80,7 @@ export default class RollDiceStackEffect extends StackEffectConcrete {
         //add Passive Check for all the +X/-X To dice rolls to add on top of the stack
     }
 
-    async resolve() {
+    async resolve(true) {
         const playerCard = CardManager.getCardById(this.creatorCardId, true);
         const player = PlayerManager.getPlayerByCard(playerCard);
         let playerRollValue = player.calculateFinalRoll(this.numberRolled, ROLL_TYPE.EFFECT)

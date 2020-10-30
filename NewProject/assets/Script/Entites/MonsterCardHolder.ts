@@ -59,6 +59,7 @@ export default class MonsterCardHolder extends cc.Component {
   }
 
   async setActiveMonster(monsterCard: cc.Node, sendToServer: boolean) {
+    const currentActiveMonster = this.activeMonster
     if (sendToServer) {
       if (this.activeMonster && MonsterField.activeMonsters.includes(this.activeMonster)) {
         MonsterField.activeMonsters.splice(MonsterField.activeMonsters.indexOf(this.activeMonster), 1)
@@ -66,7 +67,7 @@ export default class MonsterCardHolder extends cc.Component {
         PassiveManager.removePassiveItemEffects(this.activeMonster, sendToServer)
       }
     }
-    const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.NEW_ACTIVE_MONSTER, [monsterCard], null, monsterCard);
+    const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.NEW_ACTIVE_MONSTER, [monsterCard, currentActiveMonster], null, monsterCard);
     if (PlayerManager.mePlayer == TurnsManager.currentTurn.getTurnPlayer().node) {
       const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta);
       monsterCard = afterPassiveMeta.args[0];

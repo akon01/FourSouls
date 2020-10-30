@@ -174,7 +174,7 @@ export default class CardPreview extends cc.Component {
         this.exitButton.getComponent(cc.Button).interactable = false;
         const index = CardPreviewManager.previewsToChooseFrom.push(this.node) - 1
         const cardEffectComp = card.getComponent(CardEffect);
-        let cardEffects = [...cardEffectComp.paidEffects, ...cardEffectComp.activeEffects, ...cardEffectComp.passiveEffects]
+        const cardEffects = [...cardEffectComp.paidEffects, ...cardEffectComp.activeEffects, ...cardEffectComp.passiveEffects]
         // let cardEffects = card.getComponent(CardEffect).activeEffects;
         //cardEffects = cardEffects.concat(card.getComponent(CardEffect).paidEffects)
         //let effects be chosen on click
@@ -242,21 +242,6 @@ export default class CardPreview extends cc.Component {
             })
         });
     }
-
-    // showToOtherPlayers(card: cc.Node) {
-    //   let currentPlayer = TurnsManager.currentTurn.PlayerId;
-    //   let srvData = {
-    //     cardToShowId: card.getComponent(Card)._cardId,
-    //     playerId: currentPlayer
-    //   };
-    //   Server.$.send(Signal.SHOWCARDPREVIEW, srvData);
-    // }
-
-    // chooseEffect() {
-    //     this.effectChosen = this.node;
-    //     whevent.emit(GAME_EVENTS.CARD_PREVIEW_CHOOSE_EFFECT, this.effectChosen)
-    //     // CardPreview.wasEffectChosen = true;
-    // }
 
     disableExit() {
         this.exitButton.interactable = false;

@@ -99,9 +99,17 @@ export default class DataInterpreter {
         let effectData: ActiveEffectData | PassiveEffectData;
         if (serverEffectData != null) {
             if (serverEffectData.isPassive) {
-                effectData = new PassiveEffectData()
-                if (serverEffectData.methodArgs) {
-                    effectData.methodArgs = serverEffectData.methodArgs;
+                effectData = new PassiveEffectData() as PassiveEffectData
+                const x = new Map<string, any>()
+                if (serverEffectData.methodArgs && typeof serverEffectData.methodArgs == typeof x) {
+                    debugger
+                    serverEffectData.methodArgs.forEach((arg, type, map) => {
+                        if (type == typeof cc.Node) {
+                            (effectData as PassiveEffectData).methodArgs.push(CardManager.getCardById(arg))
+                        } else {
+                            (effectData as PassiveEffectData).methodArgs.push(arg)
+                        }
+                    });
                     effectData.terminateOriginal = serverEffectData.terminateOriginal
                 }
             } else {
@@ -183,7 +191,18 @@ export default class DataInterpreter {
         if (effectData instanceof PassiveEffectData) {
             serverEffectData.isPassive = true;
             if (effectData.methodArgs != null) {
-                serverEffectData.methodArgs = effectData.methodArgs;
+                debugger
+                effectData.methodArgs.forEach(arg => {
+                    if (arg instanceof cc.Component) {
+                        arg = Card.getCardNodeByChild(arg.node)
+                    }
+                    if (arg instanceof cc.Node) {
+                        serverEffectData.methodArgs.set(typeof arg, arg.getComponent(Card)._cardId)
+                    } else {
+                        serverEffectData.methodArgs.set(typeof arg, arg)
+                    }
+                });
+                //  serverEffectData.methodArgs = effectData.methodArgs;
             }
             if (effectData.terminateOriginal != null) {
                 serverEffectData.terminateOriginal = effectData.terminateOriginal
@@ -391,7 +410,7 @@ export class ServerEffectData {
         effectIndex: number,
         data: any[];
     }> = []
-    methodArgs: any[] = [];
+    methodArgs: Map<string, any> = new Map();
     terminateOriginal: boolean
     isPassive: boolean
 }

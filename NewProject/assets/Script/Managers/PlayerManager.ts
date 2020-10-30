@@ -58,7 +58,7 @@ export default class PlayerManager extends cc.Component {
   static isLoaded: boolean = false;
 
   static getPlayersSortedByTurnPlayer() {
-    let players = [TurnsManager.getCurrentTurn().getTurnPlayer()]
+    const players = [TurnsManager.getCurrentTurn().getTurnPlayer()]
     const filteredPlayers = this.players.filter(p => p != players[0].node);
     for (let i = 0; i < filteredPlayers.length; i++) {
       const currentPlayer = players[players.length - 1]
@@ -66,9 +66,6 @@ export default class PlayerManager extends cc.Component {
     }
     return players;
   }
-
-
-
 
   static async init(serverId: number) {
     //  await this.preLoadPrefabs();
@@ -169,7 +166,7 @@ export default class PlayerManager extends cc.Component {
     for (let i = 1; i <= PlayerManager.players.length; i++) {
       // for (let i = 1; i <= 4; i++) {
       //   var newNode: cc.Node = cc.instantiate(PlayerManager.dicePrefab);
-      let newNode: Dice = this.$.desks.map(desk => desk.dice)[i - 1];
+      const newNode: Dice = this.$.desks.map(desk => desk.dice)[i - 1];
       newNode.diceId = ++CardManager.cardsId;
       newNode.node.name = "Dice" + i;
       PlayerManager.dice.push(newNode.node);
@@ -218,12 +215,10 @@ export default class PlayerManager extends cc.Component {
     return array;
   }
 
-
-
   static async waitForSetCharOver() {
     return new Promise((resolve, reject) => {
       whevent.onOnce(GAME_EVENTS.END_SET_CHAR, () => {
-        resolve()
+        resolve(true)
       })
     })
   }
@@ -336,8 +331,8 @@ export default class PlayerManager extends cc.Component {
       const handWidget: cc.Widget = handNode.getComponent(cc.Widget);
       const deskWidget: cc.Widget = deskNode.getComponent(cc.Widget);
       handWidget.alignMode = cc.Widget.AlignMode.ONCE;
-      let moneyLable: cc.Node = playerStats.coins.node
-      let hpLable: cc.Node = playerStats.hp.node
+      const moneyLable: cc.Node = playerStats.coins.node
+      const hpLable: cc.Node = playerStats.hp.node
       let id: number
       switch (i) {
         case 0:
@@ -347,7 +342,6 @@ export default class PlayerManager extends cc.Component {
           // //position hand
 
           playerComp._reactionToggle = deskNode.getComponent(PlayerDesk).playerStatsLayout.reactionToggle.getComponent(ReactionToggle);
-
 
           playerComp._reactionToggle.setSelfReactionEvent()
           // playerComp._reactionToggle.node.on(cc.Node.EventType.TOUCH_END, async () => {
@@ -379,14 +373,11 @@ export default class PlayerManager extends cc.Component {
           playerNode = PlayerManager.getPlayerById(id).node;
           playerComp = playerNode.getComponent(Player);
 
-
           deskNode.getComponent(PlayerDesk).playerStatsLayout.node.getComponent(PlayerStatsViewer).player = playerComp
           // attach money lable to player
           playerComp._reactionToggle = deskNode.getComponent(PlayerDesk).playerStatsLayout.reactionToggle.getComponent(ReactionToggle);
 
-
           moneyLable.active = true
-
 
           hpLable.active = true
           break;

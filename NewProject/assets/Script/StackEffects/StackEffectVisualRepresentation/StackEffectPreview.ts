@@ -64,11 +64,9 @@ export default class StackEffectPreview extends cc.Component {
         this.stackIcon.node.active = false
     }
 
-
     unuse() {
         this.cardEffectMask.active = false;
     }
-
 
     setStackEffect(stackEffect: StackEffectInterface) {
         this.stackEffect = stackEffect;
@@ -112,7 +110,6 @@ export default class StackEffectPreview extends cc.Component {
 
         const yPositionScale = preview.height / parentHeight;
 
-
         const heightScale = preview.height / parentHeight;
         const widthScale = preview.width / originalParent.width;
 
@@ -121,7 +118,6 @@ export default class StackEffectPreview extends cc.Component {
         // const newEffect = cardNode.getChildByName(name);
         //   newEffect.getComponent(Effect)._effectCard = originalParent;
         //this.effectChildren.push(newEffect);
-
 
         this.cardEffectMask.width = effect.width * widthScale;
 

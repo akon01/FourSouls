@@ -1,9 +1,11 @@
-import { CHOOSE_CARD_TYPE, PASSIVE_TYPE } from "../../Constants";
+import { CHOOSE_CARD_TYPE, ITEM_TYPE, PASSIVE_TYPE } from "../../Constants";
 import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import Condition from "../CardConditions/Condition";
 import Cost from "../Costs/Cost";
 import DataCollector from "../DataCollector/DataCollector";
+import EffectDataConcurencyBase from "../EffectDataConcurency/EffectDataConcurencyBase";
+import IEffectDataConcurency from "../EffectDataConcurency/IEffectDataConcurency";
 import PreCondition from "../PreConditions/PreCondition";
 import EffectInterface from "./EffectInterface";
 
@@ -61,6 +63,17 @@ export default class Effect extends cc.Component implements EffectInterface {
   lockingResolve = 0;
 
   @property
+  hasDataConcurency: boolean = false;
+
+  @property({
+    visible: function (this: Effect) {
+      return this.hasDataConcurency
+    }, type: EffectDataConcurencyBase
+  })
+  dataConcurencyComponent: IEffectDataConcurency = null
+
+
+  @property
   optionalFlavorText: string = ''
   /**
    *
@@ -74,6 +87,9 @@ export default class Effect extends cc.Component implements EffectInterface {
 
   }
 
+  runDataConcurency(effectData: ActiveEffectData | PassiveEffectData, numOfEffect: number, type: ITEM_TYPE, sendToServer: boolean) {
+    this.dataConcurencyComponent.runDataConcurency(effectData, numOfEffect, type, sendToServer)
+  }
 
   onLoad() {
     this._effectCard = this.node.parent;

@@ -125,7 +125,7 @@ export default class ActivateItem extends StackEffectConcrete {
 
     }
 
-    async resolve() {
+    async resolve(true) {
         cc.log(`resolve activate ${this.itemToActivate.name}`)
         let selectedEffect: Effect = this.effectToDo;
         const cardEffect = this.itemToActivate.getComponent(CardEffect)

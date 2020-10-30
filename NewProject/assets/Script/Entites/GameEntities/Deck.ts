@@ -78,7 +78,7 @@ export default class Deck extends cc.Component {
       return newCard;
     } else {
       this.resuffleDeck();
-      return null;
+      return this.drawCard(sendToServer)
     }
   }
 

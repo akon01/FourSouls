@@ -50,7 +50,7 @@ export default class StackEffectConcrete implements StackEffectInterface {
         this.creationTurnId = TurnsManager.currentTurn.turnId;
     }
 
-    resolve() {
+    resolve(true) {
         throw new Error("Method not implemented.");
     }
     putOnStack() {

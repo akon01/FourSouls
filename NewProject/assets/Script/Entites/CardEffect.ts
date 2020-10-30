@@ -1,25 +1,22 @@
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
+import { whevent } from "../../ServerClient/whevent";
 import Effect from "../CardEffectComponents/CardEffects/Effect";
 import ChainCollector from "../CardEffectComponents/DataCollector/ChainCollector";
 import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
 import { EFFECT_ANIMATION_TIME, GAME_EVENTS, ITEM_TYPE, PARTICLE_TYPES } from "../Constants";
 import EffectsAndOptionalChoice from "../EffectAndOptionalChoice";
-import CardManager from "../Managers/CardManager";
+import AnnouncementLable from "../LableScripts/Announcement Lable";
 import DataInterpreter, { ActiveEffectData, EffectData, PassiveEffectData, ServerEffectData } from "../Managers/DataInterpreter";
 import ParticleManager from "../Managers/ParticleManager";
 import PlayerManager from "../Managers/PlayerManager";
+import SoundManager from "../Managers/SoundManager";
 import StackEffectInterface from "../StackEffects/StackEffectInterface";
 import Item from "./CardTypes/Item";
 import Card from "./GameEntities/Card";
-import Player from "./GameEntities/Player";
 import { Logger } from "./Logger";
 import { ServerEffect } from "./ServerCardEffect";
 import Stack from "./Stack";
-import ChainEffects from "../CardEffectComponents/CardEffects/ChainEffects";
-import SoundManager from "../Managers/SoundManager";
-import AnnouncementLable from "../LableScripts/Announcement Lable";
-import { whevent } from "../../ServerClient/whevent";
 
 const { ccclass, property } = cc._decorator;
 
@@ -61,6 +58,9 @@ export default class CardEffect extends cc.Component {
   effectData: ServerEffectData = null;
 
   @property({ visible: false })
+  concurentEffectData: ActiveEffectData | PassiveEffectData = null
+
+  @property({ visible: false })
   data: {} = {};
 
   @property({ visible: false })
@@ -88,9 +88,8 @@ export default class CardEffect extends cc.Component {
     if (this.multiEffectCollector?.cost != undefined) {
       if (this.multiEffectCollector?.cost?.testPreCondition()) {
         return true
-      } else return false
+      } else { return false }
     }
-
 
     for (const activeEffect of this.activeEffects) {
       if (!activeEffect) { throw new Error(`An Empty Active Effect Slot In ${this.node.name}`) }
@@ -179,76 +178,12 @@ export default class CardEffect extends cc.Component {
    *
    * @param data {effect}
    */
-
   async doEffectByNumAndType(
     numOfEffect: number,
     type: ITEM_TYPE,
     effectData: any) {
     let serverEffectStack = null;
-    let chosenEffect: Effect
-    switch (type) {
-      case ITEM_TYPE.ACTIVE:
-        for (let i = 0; i < this.activeEffects.length; i++) {
-          const effect = this.activeEffects[i].getComponent(Effect);
-          if (i == numOfEffect) {
-            chosenEffect = effect
-            // try {
-            //   serverEffectStack = await effect.doEffect(
-            //     Stack._currentStack,
-            //     effectData
-            //   );
-            // } catch (error) {
-            //   cc.error(error)
-            // }
-            break;
-          }
-        }
-        break;
-      case ITEM_TYPE.PASSIVE:
-        for (let i = 0; i < this.passiveEffects.length; i++) {
-          const effect = this.passiveEffects[i].getComponent(Effect);
-          if (i == numOfEffect) {
-            chosenEffect = effect
-            // try {
-            //   serverEffectStack = await effect.doEffect(
-            //     Stack._currentStack,
-            //     effectData
-            //   );
-            // } catch (error) {
-            //   cc.error(error)
-            // }
-            break;
-          }
-        }
-        break;
-      case ITEM_TYPE.TO_ADD_PASSIVE:
-        for (let i = 0; i < this.toAddPassiveEffects.length; i++) {
-          const effect = this.toAddPassiveEffects[i].getComponent(Effect);
-          if (i == numOfEffect) {
-            chosenEffect = effect
-            // try {
-            //   serverEffectStack = await effect.doEffect(
-            //     Stack._currentStack,
-            //     effectData
-            //   );
-            // } catch (error) {
-            //   cc.error(error)
-            // }
-            break;
-          }
-        }
-        break;
-      case ITEM_TYPE.PAID:
-        for (let i = 0; i < this.paidEffects.length; i++) {
-          const effect = this.paidEffects[i].getComponent(Effect);
-          if (i == numOfEffect) {
-            chosenEffect = effect
-            break;
-          }
-        }
-      default:
-        break;
-    }
+    const chosenEffect: Effect = this.getEffectByNumAndType(numOfEffect, type)
     try {
       let doEffect = true
       if (chosenEffect.optionalAfterDataCollection) {
@@ -256,11 +191,14 @@ export default class CardEffect extends cc.Component {
         doEffect = await PlayerManager.getPlayerById(this.cardPlayerId).giveYesNoChoice(chosenEffect.optionalFlavorText)
       }
       if (doEffect) {
-
         serverEffectStack = await chosenEffect.doEffect(
           Stack._currentStack,
           effectData
         );
+
+        if (chosenEffect.hasDataConcurency) {
+          chosenEffect.runDataConcurency(effectData, numOfEffect, type, true)
+        }
       } else {
         return effectData
       }
@@ -491,7 +429,7 @@ export default class CardEffect extends cc.Component {
       whevent.onOnce(GAME_EVENTS.CARD_EFFECT_ANIM_END, (cardWithAnim: cc.Node) => {
         if (cardWithAnim == this.node) {
           ParticleManager.disableParticleEffect(this.node, PARTICLE_TYPES.ACTIVATE_EFFECT, true)
-          resolve()
+          resolve(true)
         }
       })
 
@@ -561,3 +499,4 @@ export default class CardEffect extends cc.Component {
 
   // update (dt) {}
 }
+

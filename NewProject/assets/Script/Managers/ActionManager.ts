@@ -45,6 +45,7 @@ import SoundManager from "./SoundManager";
 import AnimationManager from "./Animation Manager";
 import AnnouncementLable from "../LableScripts/Announcement Lable";
 import { whevent } from "../../ServerClient/whevent";
+import ChooseCard from "../CardEffectComponents/DataCollector/ChooseCard";
 
 const { ccclass } = cc._decorator;
 
@@ -123,7 +124,7 @@ export default class ActionManager extends cc.Component {
     //if the stack is empty and the player hp is above 0
     if (Stack._currentStack.length == 0 && player._Hp > 0) {
 
-      //if the player doesnt have must attack mosnter/deck , let him skip turn 
+      //if the player doesnt have must attack mosnter/deck , let him skip turn
       if (player._mustAttackPlays <= 0 && player._mustDeckAttackPlays <= 0) {
         // make next turn btn available
         ButtonManager.enableButton(ButtonManager.$.nextTurnButton, BUTTON_STATE.ENABLED)
@@ -224,10 +225,19 @@ export default class ActionManager extends cc.Component {
   private static decideForAttackable(monsterDeck: Deck) {
     const monsters = [...MonsterField.activeMonsters, monsterDeck.node]
     const turnPlayer = TurnsManager.currentTurn.getTurnPlayer();
+    if (turnPlayer._mustAttackMonsters.length > 0) {
+      turnPlayer._mustAttackMonsters.forEach(monster => {
+        this.updateCardAction(monster.node, CARD_ACTIONS.ATTACKABLE);
+      });
+      return
+    }
     if (turnPlayer.attackPlays > 0 || turnPlayer._mustAttackPlays > 0) {
       for (let i = 0; i < monsters.length; i++) {
         const activeMonster = monsters[i];
-        this.updateCardAction(activeMonster, CARD_ACTIONS.ATTACKABLE);
+        const monsterComp = activeMonster.getComponent(Monster);
+        if ((monsterComp != null && !monsterComp.isMonsterWhoCantBeAttacked) || monsterComp == null) {
+          this.updateCardAction(activeMonster, CARD_ACTIONS.ATTACKABLE);
+        }
       }
     } else {
       for (let i = 0; i < monsters.length; i++) {
@@ -329,7 +339,7 @@ export default class ActionManager extends cc.Component {
   static waitForCheckingDeadEntities() {
     return new Promise((resolve) => {
       whevent.onOnce(GAME_EVENTS.CHECK_FOR_DEAD_ENTITIES, () => {
-        resolve();
+        resolve(true);
       })
     });
   }
@@ -415,6 +425,8 @@ export default class ActionManager extends cc.Component {
     let stackEffect: StackEffectConcrete
     let converter = new ServerStackEffectConverter();
     const cards = new CardSet()
+    let cardsToChooseFrom: cc.Node[]
+    let chosenCards: cc.Node[] = []
     switch (signal) {
       case Signal.END_GAME:
         MainScript.endGame(data.playerId, false)
@@ -740,6 +752,22 @@ export default class ActionManager extends cc.Component {
         Stack.hasOtherPlayerRespond = data.stackEffectResponse;
         whevent.emit(GAME_EVENTS.PLAYER_RESPOND)
         break;
+      case Signal.MAKE_CHOOSE_FROM:
+        cardsToChooseFrom = data.cards.map(cid => CardManager.getCardById(cid, true))
+        const chooseCard = new ChooseCard();
+        chooseCard.flavorText = data.flavorText
+        chosenCards = []
+        for (let index = 0; index < data.numOfCardsToChoose; index++) {
+          const cardChosenData = await chooseCard.requireChoosingACard(cardsToChooseFrom)
+          const cardChosen = CardManager.getCardById(cardChosenData.cardChosenId)
+          chosenCards.push(cardChosen)
+          cardsToChooseFrom.splice(cardsToChooseFrom.indexOf(cardChosen), 1)
+        }
+        ServerClient.$.send(Signal.FINISH_MAKE_CHOOSE_FROM, { playerId: data.originPlayerId, chosenCards: chosenCards.map(c => c.getComponent(Card)._cardId) })
+        break;
+      case Signal.FINISH_MAKE_CHOOSE_FROM:
+        whevent.emit(GAME_EVENTS.DID_CHOOSE_FROM, data.chosenCards);
+        break;
       case Signal.DO_STACK_EFFECT:
         Stack.replaceStack(data.currentStack.map(stackEffect => converter.convertToStackEffect(stackEffect)), false)
         const newStack = await Stack.doStackEffectFromTop(false)
@@ -906,7 +934,7 @@ export default class ActionManager extends cc.Component {
 
         // filter eden available cards:
         let cardsNotFiltered = true
-        const cardsToChooseFrom: cc.Node[] = []
+        cardsToChooseFrom = []
         let i = 0
         do {
           const cardToChoose = CardManager.treasureDeck.getComponent(Deck)._cards.getCard(i);
@@ -921,7 +949,7 @@ export default class ActionManager extends cc.Component {
           i++;
           if (i > CardManager.treasureDeck.getComponent(Deck)._cards.length - 1) { cc.error(`i is bigger than cards length, not possible!`) }
         } while (cardsNotFiltered);
-        const chosenCards = await CardPreviewManager.selectFromCards(cardsToChooseFrom, 1)
+        chosenCards = await CardPreviewManager.selectFromCards(cardsToChooseFrom, 1)
         const chosen = chosenCards.pop()
         if (chosen) {
           ServerClient.$.send(Signal.EDEN_CHOSEN, { cardId: chosen.getComponent(Card)._cardId, playerId: data.originPlayerId })
@@ -1018,6 +1046,17 @@ export default class ActionManager extends cc.Component {
         break;
       ///
 
+      case Signal.SET_CONCURENT_EFFECT_DATA:
+        card = CardManager.getCardById(data.cardId)
+        debugger
+        const effectData = DataInterpreter.convertToEffectData(data.effectData)
+        const cardEffectComp = card.getComponent(CardEffect)
+        const num = data.numOfEffect;
+        const type = data.type;
+        const effect = cardEffectComp.getEffectByNumAndType(num, type)
+        effect.runDataConcurency(effectData, num, type, false)
+        break
+
       case Signal.DECK_ARRAGMENT:
 
         data.arrangement.map(id => cards.push(CardManager.getCardById(id, true)))
@@ -1029,7 +1068,7 @@ export default class ActionManager extends cc.Component {
         card.getComponent(Card)._counters += data.numOfCounters
         break;
       default:
-
+        Logger.error(`Recived Signal ${signal} but no Definition In ActionManager`)
         break;
     }
 

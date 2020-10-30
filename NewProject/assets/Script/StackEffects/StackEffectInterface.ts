@@ -41,7 +41,7 @@ export default interface StackEffectInterface {
 
 
 
-    resolve()
+    resolve(true)
 
     putOnStack()
 

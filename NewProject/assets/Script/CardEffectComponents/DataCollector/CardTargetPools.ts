@@ -1,16 +1,15 @@
-
 import { CARD_POOLS, COLLECTORTYPE } from "../../Constants";
+import Deck from "../../Entites/GameEntities/Deck";
 import Player from "../../Entites/GameEntities/Player";
 import Store from "../../Entites/GameEntities/Store";
 import MonsterField from "../../Entites/MonsterField";
 import BattleManager from "../../Managers/BattleManager";
+import CardManager from "../../Managers/CardManager";
 import { EffectTarget } from "../../Managers/DataInterpreter";
+import PileManager from "../../Managers/PileManager";
 import PlayerManager from "../../Managers/PlayerManager";
 import TurnsManager from "../../Managers/TurnsManager";
 import DataCollector from "./DataCollector";
-import CardManager from "../../Managers/CardManager";
-import Deck from "../../Entites/GameEntities/Deck";
-import PileManager from "../../Managers/PileManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -22,12 +21,37 @@ export default class CardTargetPools extends DataCollector {
     @property({ type: cc.Enum(CARD_POOLS) })
     targetPool: CARD_POOLS = 1;
 
+    @property(cc.Node)
+    exceptCard: cc.Node = null
+
     /**
      *
      * @param data cardPlayerId:Player who played the card
      * @returns {target:cc.node of the player who played the card}
      */
     collectData(data) {
+        const result = this.GetByPool(data)
+        if (result == null) {
+            return result;
+        }
+        if (this.exceptCard != null) {
+            if (result instanceof EffectTarget) {
+                if (result.effectTargetCard == this.exceptCard) {
+                    return null
+                } else {
+                    return result
+                }
+            } else if (Array.isArray(result)) {
+                if (result[0] instanceof EffectTarget) {
+                    return (result as EffectTarget[]).filter(r => r.effectTargetCard != this.exceptCard)
+                } else {
+                    return (result as cc.Node[]).filter(r => r != this.exceptCard)
+                }
+            }
+        }
+    }
+
+    GetByPool(data): EffectTarget[] | EffectTarget | cc.Node[] {
         let players: cc.Node[] = []
         switch (this.targetPool) {
             case CARD_POOLS.ACTIVE_MONSTERS:
@@ -61,7 +85,7 @@ export default class CardTargetPools extends DataCollector {
             case CARD_POOLS.STORE_CARDS:
                 return Store.storeCards
             case CARD_POOLS.TOP_OF_DECKS:
-                let cards = [CardManager.treasureDeck.getComponent(Deck)._cards[CardManager.treasureDeck.getComponent(Deck)._cards.length - 1],
+                const cards = [CardManager.treasureDeck.getComponent(Deck)._cards[CardManager.treasureDeck.getComponent(Deck)._cards.length - 1],
                 CardManager.monsterDeck.getComponent(Deck)._cards.getCard(CardManager.monsterDeck.getComponent(Deck)._cards.length - 1),
                 CardManager.lootDeck.getComponent(Deck)._cards.getCard(CardManager.lootDeck.getComponent(Deck)._cards.length - 1)
                 ]
@@ -77,3 +101,4 @@ export default class CardTargetPools extends DataCollector {
     }
 
 }
+

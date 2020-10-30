@@ -116,8 +116,6 @@ export default class CardManager extends cc.Component {
   @property(cc.Prefab)
   effectCounterPrefab: cc.Prefab = null
 
-
-
   static effectCounter: cc.Node = null;
 
   static $: CardManager = null
@@ -151,8 +149,6 @@ export default class CardManager extends cc.Component {
     this.sendCardInfoToServer()
 
     cc.resources.release("Sprites/CardBacks", cc.Prefab)
-
-
 
     return true
   }
@@ -298,7 +294,6 @@ export default class CardManager extends cc.Component {
     });
   }
 
-
   static getDeckByType(deckType: CARD_TYPE) {
     switch (deckType) {
       case CARD_TYPE.LOOT:
@@ -314,7 +309,6 @@ export default class CardManager extends cc.Component {
   }
 
   static isCheckingForEmptyFields: boolean = false;
-
 
   /**
    * Search in allCards and Decks for a matching card/Deck
@@ -479,8 +473,6 @@ export default class CardManager extends cc.Component {
     deck.addToDeckOnTop(card, false);
   }
 
-
-
   static makeDeckCards(deck: Deck) {
     deck._cardId = ++this.cardsId
     deck.node.getComponent(Card)._cardId = deck._cardId
@@ -572,7 +564,6 @@ export default class CardManager extends cc.Component {
     }
     return false
   }
-
 
   static makeMonsterAttackable(monsterCard: cc.Node) {
     if (!this.checkIfIAmTurnPlayer()) {

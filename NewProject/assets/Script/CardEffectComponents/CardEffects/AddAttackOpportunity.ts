@@ -1,4 +1,5 @@
 import { TARGETTYPE } from "../../Constants";
+import Monster from "../../Entites/CardTypes/Monster";
 import Player from "../../Entites/GameEntities/Player";
 import Stack from "../../Entites/Stack";
 import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
@@ -22,6 +23,20 @@ export default class AddAttackOpportunity extends Effect {
   @property
   makeMust: boolean = false;
 
+  @property({
+    visible: function (this: AddAttackOpportunity) {
+      return (this.makeMust) ? true : false
+    }
+  })
+  makeSpecificMonsterMust: boolean = false;
+
+  @property({
+    visible: function (this: AddAttackOpportunity) {
+      return (this.makeSpecificMonsterMust) ? true : false
+    }
+  })
+  specificMonsterToMake: Monster = null
+
   /**
    *
    * @param data {target:PlayerId}
@@ -38,6 +53,9 @@ export default class AddAttackOpportunity extends Effect {
         //if the player must attack a monster
         if (this.makeMust) {
           player._mustAttackPlays += this.numOfTimes
+          if (this.makeSpecificMonsterMust) {
+            player._mustAttackMonsters.push(this.specificMonsterToMake)
+          }
         }
       } else {
         //if the player must attack the monster deck

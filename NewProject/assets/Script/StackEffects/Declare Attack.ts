@@ -90,7 +90,6 @@ export default class DeclareAttack extends StackEffectConcrete {
         }
 
         const monsterDeck = CardManager.monsterDeck.getComponent(Deck);
-        let monsterCardHolder: MonsterCardHolder;
         let newMonster = this.cardBeingAttacked;
         //if the card was the mosnter deck
         if (this.cardBeingAttacked == monsterDeck.node) {
@@ -104,29 +103,24 @@ export default class DeclareAttack extends StackEffectConcrete {
                 this.attackingPlayer._attackDeckPlays -= 1
             }
             cc.log(`chosen card is top deck ${this.cardBeingAttacked.name}`)
-            const chooseCard = new ChooseCard();
-            chooseCard.flavorText = "Choose A Monster To Cover"
             newMonster = monsterDeck.drawCard(true);
-            await CardPreviewManager.getPreviews(Array.of(newMonster), true)
-            CardPreviewManager.showToOtherPlayers(newMonster);
-            chooseCard.chooseType = new ChooseCardTypeAndFilter()
-            chooseCard.chooseType.chooseType = CHOOSE_CARD_TYPE.MONSTER_PLACES
-            const monsterInSpotChosen = await chooseCard.collectData({ cardPlayerId: this.attackingPlayer.playerId })
-            const activeMonsterSelected = monsterInSpotChosen.effectTargetCard.getComponent(Monster)
-            monsterCardHolder = MonsterField.getMonsterPlaceById(
-                activeMonsterSelected.monsterPlace.id
-            );
-            await MonsterField.addMonsterToExsistingPlace(monsterCardHolder.id, newMonster, true)
+            await MonsterField.givePlayerChoiceToCoverPlace(newMonster.getComponent(Monster), this.attackingPlayer)
             this.cardBeingAttacked = newMonster;
         }
+        const monsterComp = this.cardBeingAttacked.getComponent(Monster);
         //if the drawn card is a non-monster play its effect
-        if (this.cardBeingAttacked.getComponent(Monster).isNonMonster) {
+        if (monsterComp.isNonMonster) {
             //  await this.attackingPlayer.activateCard(this.cardBeingAttacked, true)
             //if the drawn card is a monster, declare attack
+        } else if (monsterComp.isMonsterWhoCantBeAttacked) {
+
         } else {
+            if (this.attackingPlayer._mustAttackMonsters.includes(monsterComp)) {
+                this.attackingPlayer._mustAttackMonsters.splice(this.attackingPlayer._mustAttackMonsters.indexOf(monsterComp))
+            }
             await BattleManager.declareAttackOnMonster(this.cardBeingAttacked, true);
+            this.setLable(`Player ${this.attackingPlayer.playerId} Has Entered Battle with ${this.cardBeingAttacked.name}`, true)
         }
-        this.setLable(`Player ${this.attackingPlayer.playerId} Has Entered Battle with ${this.cardBeingAttacked.name}`, true)
 
         passiveMeta.result = null
         //do passive effects after!

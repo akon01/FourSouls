@@ -5,6 +5,8 @@ import PlayerManager from "../../Managers/PlayerManager";
 import Condition from "./Condition";
 import TurnsManager from "../../Managers/TurnsManager";
 import Card from "../../Entites/GameEntities/Card";
+import Monster from "../../Entites/CardTypes/Monster";
+import CardEffect from "../../Entites/CardEffect";
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,15 +18,60 @@ export default class NewActiveMonster extends Condition {
   @property
   isOwnerTurnOnly: boolean = true;
 
+  @property
+  isSpecificNewMonster: boolean = true;
+
+  @property({
+    visible: function (this: NewActiveMonster) {
+      return this.isSpecificNewMonster
+    }, type: Monster
+  })
+  specificNewMonster: Monster = null
+
+  @property
+  isSpecificNotNewMonster: boolean = false;
+
+  @property({
+    visible: function (this: NewActiveMonster) {
+      return this.isSpecificNotNewMonster
+    }, type: Monster
+  })
+  specificNotNewMonster: Monster = null
+
+  @property
+  notInConcurentData: boolean = false;
+
   async testCondition(meta: PassiveMeta) {
-    let turnPlayer: Player = TurnsManager.currentTurn.getTurnPlayer()
+    const turnPlayer: Player = TurnsManager.currentTurn.getTurnPlayer()
     const thisCard = Card.getCardNodeByChild(this.node)
-    let cardOwner = PlayerManager.getPlayerByCard(thisCard);
-    if (this.isOwnerTurnOnly) {
-      if (turnPlayer.name == cardOwner.name) {
-        return true
-      } else return false
+    const cardOwner = PlayerManager.getPlayerByCard(thisCard);
+    const newMosnterCard = meta.args[0] as cc.Node
+    let result = true;
+    const monsterComp = newMosnterCard.getComponent(Monster);
+    if (this.isSpecificNewMonster) {
+      if (this.specificNewMonster != monsterComp) {
+        result = false;
+      }
     }
-    return true
+    if (this.isSpecificNotNewMonster) {
+      if (this.specificNotNewMonster == monsterComp) {
+        result = false
+      }
+    }
+    if (this.notInConcurentData) {
+      const concurentData = thisCard.getComponent(CardEffect).concurentEffectData;
+      if (concurentData != null) {
+        const allTargets = concurentData.getAllTargets().nodes
+        if (allTargets.includes(monsterComp.node)) {
+          result = false
+        }
+      }
+    }
+    if (this.isOwnerTurnOnly) {
+      if (turnPlayer.name != cardOwner.name) {
+        result = false
+      }
+    }
+    return result;
   }
 }

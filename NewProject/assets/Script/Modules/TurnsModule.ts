@@ -75,7 +75,7 @@ export class Turn {
     cc.log(`turn player ${player.name}`)
     cc.log(`me player ${PlayerManager.mePlayer.name}`)
     if (player.node.name == PlayerManager.mePlayer.name) {
-      await player.startTurn(player.drawPlays, player.activeItems.length, true)
+      await player.startTurn(player.drawPlays, player.calcNumOfItemsToCharge(), true)
     } else {
       ServerClient.$.send(Signal.START_TURN, { playerId: player.playerId })
     }

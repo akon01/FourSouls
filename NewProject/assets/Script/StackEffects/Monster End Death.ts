@@ -59,7 +59,7 @@ export default class MonsterEndDeath extends StackEffectConcrete {
 
     }
 
-    async resolve() {
+    async resolve(true) {
         const turnPlayer = PlayerManager.getPlayerById(TurnsManager.currentTurn.PlayerId)
         if (this.monsterWhoDied.node.getComponent(Card).souls > 0) {
             await turnPlayer.getSoulCard(this.monsterWhoDied.node, true)

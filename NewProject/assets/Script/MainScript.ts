@@ -227,7 +227,7 @@ export default class MainScript extends cc.Component {
       const mosnterHolderId = ids[i];
       let newMonster = CardManager.monsterDeck.getComponent(Deck).drawCard(true)
       while (newMonster.getComponent(Monster).isNonMonster) {
-        CardManager.monsterDeck.getComponent(Deck).addToDeckOnBottom(newMonster, true)
+        CardManager.monsterDeck.getComponent(Deck).addToDeckOnBottom(newMonster, 0, true)
         newMonster = CardManager.monsterDeck.getComponent(Deck).drawCard(true)
       }
       await MonsterField.addMonsterToExsistingPlace(mosnterHolderId, newMonster, true)
@@ -269,13 +269,34 @@ export default class MainScript extends cc.Component {
       // let over = await ActionManager.updateActions();
 
       ServerClient.$.send(Signal.UPDATE_ACTIONS)
+      var number = MainScript.countNodes(cc.find("Canvas"), 0, new Set<cc.Node>())
+      const allCards = CardManager.allCards.getCards()
+      allCards.forEach(card => {
+        number = MainScript.countNodes(card, number, new Set<cc.Node>())
+      });
 
+      cc.error(`the number of nodes is :${number}`)
     }
   }
 
-  updateActions() {
+  static countNodes(node: cc.Node, number: number, nodeSet: Set<cc.Node>) {
+    number += 1
+    if (node.childrenCount == 0) {
+      return number;
+    }
+    for (let i = 0; i < node.children.length; i++) {
+      const child = node.children[i];
+      //if (!nodeSet.has(child)) {
+      // nodeSet.add(child)
+      number = MainScript.countNodes(child, number, nodeSet)
+      // }
+    }
+    return number
+  }
+
+  async updateActions() {
     if (MainScript.currentPlayerNode == PlayerManager.mePlayer) {
-      ActionManager.updateActionsForTurnPlayer(MainScript.currentPlayerNode);
+      await ActionManager.updateActionsForTurnPlayer(MainScript.currentPlayerNode);
     } else {
       ActionManager.updateActionsForNotTurnPlayer(PlayerManager.mePlayer);
     }

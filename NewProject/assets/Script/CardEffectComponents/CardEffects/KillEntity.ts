@@ -1,5 +1,6 @@
 import Character from "../../Entites/CardTypes/Character";
 import Monster from "../../Entites/CardTypes/Monster";
+import Card from "../../Entites/GameEntities/Card";
 import Stack from "../../Entites/Stack";
 import BattleManager from "../../Managers/BattleManager";
 import CardManager from "../../Managers/CardManager";
@@ -31,17 +32,22 @@ export default class KillEntity extends Effect {
       await this.doForMultipleTargets(data)
     } else {
       let targetEntity = data.getTarget(TARGETTYPE.PLAYER)
-      if (targetEntity == null) { targetEntity = data.getTarget(TARGETTYPE.MONSTER) }
-
+      if (targetEntity == null) {
+         targetEntity = data.getTarget(TARGETTYPE.MONSTER)
+         }
       if (targetEntity == null) {
         throw new Error("no target entity to kill")
       } else {
         let entityComp;
         entityComp = (targetEntity as cc.Node).getComponent(Character);
-        const owner = CardManager.getCardOwner(this.node.parent)
+        const owner = CardManager.getCardOwner(Card.getCardNodeByChild( this.node.parent))
         if (entityComp == null) {
           entityComp = (targetEntity as cc.Node).getComponent(Monster);
-          await (targetEntity as cc.Node).getComponent(Monster).kill(owner)
+          if(entityComp!=null){
+            await entityComp.kill(owner)
+          } else {
+            throw new Error(`Entity Is Not Char Nor Monster,Cant Kill`)
+          }
         } else {
           if (entityComp instanceof Character) {
             await PlayerManager.getPlayerByCard(entityComp.node).killPlayer(true, owner)

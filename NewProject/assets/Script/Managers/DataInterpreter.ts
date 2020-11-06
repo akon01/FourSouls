@@ -30,7 +30,7 @@ export default class DataInterpreter {
                 if (isChainCollectorData) {
                     effectData.chainEffectsData = data;
                 } else {
-                    if (Array.isArray(data)) {
+                    if (Array.isArray(data) && data.length > 0) {
                         if (data[0] instanceof EffectTarget) {
                             effectData.effectTargets = data;
                         } else if (data[0] instanceof cc.Node) {
@@ -57,7 +57,6 @@ export default class DataInterpreter {
             }
         } else {
             effectData = new PassiveEffectData();
-
             if (data != null) {
                 if (data.newArgs != null) {
                     effectData.methodArgs = data.newArgs
@@ -95,14 +94,16 @@ export default class DataInterpreter {
         return effectData
     }
 
-    static convertToEffectData(serverEffectData: ServerEffectData) {
+    static convertToEffectData(serverEffectData: IEffectData): ActiveEffectData | PassiveEffectData {
         let effectData: ActiveEffectData | PassiveEffectData;
-        if (serverEffectData != null) {
+        if (!(serverEffectData instanceof ServerEffectData)) {
+            return serverEffectData as ActiveEffectData | PassiveEffectData
+        }
+        if (serverEffectData != null && serverEffectData instanceof ServerEffectData) {
             if (serverEffectData.isPassive) {
                 effectData = new PassiveEffectData() as PassiveEffectData
                 const x = new Map<string, any>()
                 if (serverEffectData.methodArgs && typeof serverEffectData.methodArgs == typeof x) {
-                    debugger
                     serverEffectData.methodArgs.forEach((arg, type, map) => {
                         if (type == typeof cc.Node) {
                             (effectData as PassiveEffectData).methodArgs.push(CardManager.getCardById(arg))
@@ -191,13 +192,12 @@ export default class DataInterpreter {
         if (effectData instanceof PassiveEffectData) {
             serverEffectData.isPassive = true;
             if (effectData.methodArgs != null) {
-                debugger
                 effectData.methodArgs.forEach(arg => {
                     if (arg instanceof cc.Component) {
                         arg = Card.getCardNodeByChild(arg.node)
                     }
                     if (arg instanceof cc.Node) {
-                        serverEffectData.methodArgs.set(typeof arg, arg.getComponent(Card)._cardId)
+                        serverEffectData.methodArgs.set(typeof cc.Node, arg.getComponent(Card)._cardId)
                     } else {
                         serverEffectData.methodArgs.set(typeof arg, arg)
                     }
@@ -299,8 +299,12 @@ export class EffectData {
         return targets
     }
 
-    addTarget(target) {
-        if (target instanceof EffectTarget) {
+    addTarget(target: EffectTarget | EffectTarget[]) {
+        if (Array.isArray(target)) {
+            target.forEach(inTarget => {
+                this.addTarget(inTarget)
+            });
+        } else if (target instanceof EffectTarget) {
             this.effectTargets.push(target)
         } else {
             const newTarget = new EffectTarget(target);
@@ -309,17 +313,26 @@ export class EffectData {
     }
 }
 
-export class PassiveEffectData extends EffectData {
+export class PassiveEffectData extends EffectData implements IEffectData {
     methodArgs: any[] = [];
     terminateOriginal: boolean = false;
 
     getTargets(targetType: TARGETTYPE) {
         const targets: EffectTarget[] = []
+        if (targetType == TARGETTYPE.CARD) {
+            for (const target of this.effectTargets) {
+                if (target.targetType != TARGETTYPE.STACK_EFFECT) {
+                    targets.push(target)
+                }
+            }
+            return targets.map(target => target.effectTargetCard)
+        }
         for (const target of this.effectTargets) {
-            if (target.targetType == targetType) { targets.push(target) }
+            if (target.targetType == targetType) {
+                targets.push(target)
+            }
         }
         if (targetType != TARGETTYPE.STACK_EFFECT) {
-
             return targets.map(target => target.effectTargetCard);
         } else { return targets.map(target => target.effectTargetStackEffectId); }
     }
@@ -346,13 +359,11 @@ export class PassiveEffectData extends EffectData {
 
 }
 
-export class ActiveEffectData extends EffectData {
+export class ActiveEffectData extends EffectData implements IEffectData {
 
     effectOriginPlayer: cc.Node;
     cardEffect: ServerEffect;
     numberRolled: number;
-
-
 
     getTargets(targetType: TARGETTYPE) {
         const targets: EffectTarget[] = []
@@ -395,7 +406,11 @@ export class ActiveEffectData extends EffectData {
 
 }
 
-export class ServerEffectData {
+export interface IEffectData {
+
+}
+
+export class ServerEffectData implements IEffectData {
 
     effectTargetCard: number;
     effectTargets: number[] = [];

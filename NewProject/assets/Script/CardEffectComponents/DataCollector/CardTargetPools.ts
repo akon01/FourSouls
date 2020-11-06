@@ -1,4 +1,6 @@
 import { CARD_POOLS, COLLECTORTYPE } from "../../Constants";
+import Item from "../../Entites/CardTypes/Item";
+import Card from "../../Entites/GameEntities/Card";
 import Deck from "../../Entites/GameEntities/Deck";
 import Player from "../../Entites/GameEntities/Player";
 import Store from "../../Entites/GameEntities/Store";
@@ -48,11 +50,15 @@ export default class CardTargetPools extends DataCollector {
                     return (result as cc.Node[]).filter(r => r != this.exceptCard)
                 }
             }
+        } else {
+            return result;
         }
     }
 
     GetByPool(data): EffectTarget[] | EffectTarget | cc.Node[] {
         let players: cc.Node[] = []
+        let playerComps: Player[]
+        let myId: number = 0
         switch (this.targetPool) {
             case CARD_POOLS.ACTIVE_MONSTERS:
                 return MonsterField.activeMonsters.map(monster => new EffectTarget(monster))
@@ -94,6 +100,34 @@ export default class CardTargetPools extends DataCollector {
                 return PlayerManager.players.map(player => player.getComponent(Player).soulCards).map(c => new EffectTarget(c))
             case CARD_POOLS.DISCARD_PILES:
                 return PileManager.getTopCardOfPiles().map(c => new EffectTarget(c))
+            case CARD_POOLS.IN_DECK_GUPPY_ITEMS:
+                return CardManager.treasureDeck.getComponent(Deck)._cards.filter(e => e.getComponent(Item).isGuppyItem).map(c => new EffectTarget(c))
+            case CARD_POOLS.PLAYER_TO_YOUR_LEFT:
+                myId = PlayerManager.mePlayer.getComponent(Player).playerId
+                if (myId == PlayerManager.players.length) {
+                    return new EffectTarget(PlayerManager.players[0].getComponent(Player).character)
+                }
+                return new EffectTarget(PlayerManager.players[myId].getComponent(Player).character)
+            case CARD_POOLS.PLAYER_TO_YOUR_RIGHT:
+                myId = PlayerManager.mePlayer.getComponent(Player).playerId
+                if (myId == 1) {
+                    return new EffectTarget(PlayerManager.players[PlayerManager.players.length - 1].getComponent(Player).character)
+                }
+                return new EffectTarget(PlayerManager.players[myId - 1 - 1].getComponent(Player).character)
+            case CARD_POOLS.RANDOM_OTHER_PLAYER_LOOT_NOT_BEING_PLAYED:
+                playerComps = PlayerManager.players.filter(player => {
+                    if (player.uuid != PlayerManager.mePlayer.uuid) {
+                        return true
+                    }
+                }).map(p => p.getComponent(Player))
+                const handCards: cc.Node[] = []
+                playerComps.forEach(player => {
+                    player.handCards.filter(c => !c.getComponent(Card).isGoingToBePlayed).forEach(card => {
+                        handCards.push(card)
+                    })
+                })
+                const rand = Math.floor(Math.random() * handCards.length)
+                return new EffectTarget(handCards[rand])
             default:
                 break;
         }

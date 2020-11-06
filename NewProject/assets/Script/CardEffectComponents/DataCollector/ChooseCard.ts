@@ -42,6 +42,9 @@ export default class ChooseCard extends DataCollector {
   @property({ visible: false })
   otherPlayer: Player = null
 
+  @property
+  isChooseFromPreviewManager: boolean = false
+
   @property({
     type: ChooseCardTypeAndFilter, visible: function (this: ChooseCard) {
       if (!this.multiType) { return true }
@@ -138,18 +141,28 @@ export default class ChooseCard extends DataCollector {
 
     if (this.isMultiCardChoice) {
       let chosenCards: EffectTarget[] = []
-      for (let i = 0; i < this.numOfCardsToChoose; i++) {
-        cardsToChooseFrom = cardsToChooseFrom.filter(card => !chosenCards.map(target => target.effectTargetCard).includes(card))
-        chosenCards.push(await this.getCardTargetFromPlayer(cardsToChooseFrom))
+      if (this.isChooseFromPreviewManager) {
+        chosenCards = (await CardPreviewManager.selectFromCards(cardsToChooseFrom, this.numOfCardsToChoose)).map(e => new EffectTarget(e))
+      } else {
+        for (let i = 0; i < this.numOfCardsToChoose; i++) {
+          cardsToChooseFrom = cardsToChooseFrom.filter(card => !chosenCards.map(target => target.effectTargetCard).includes(card))
+
+          chosenCards.push(await this.getCardTargetFromPlayer(cardsToChooseFrom))
+        }
       }
       return chosenCards
     } else {
-      return await this.getCardTargetFromPlayer(cardsToChooseFrom);
+      if (this.isChooseFromPreviewManager) {
+        return (await CardPreviewManager.selectFromCards(cardsToChooseFrom, 1)).map(e => new EffectTarget(e))
+      } else {
+        return await this.getCardTargetFromPlayer(cardsToChooseFrom);
+      }
     }
 
   }
 
   private async getCardTargetFromPlayer(cardsToChooseFrom: cc.Node[]) {
+
     const cardChosenData: {
       cardChosenId: number;
       playerId: number;
@@ -314,13 +327,36 @@ export default class ChooseCard extends DataCollector {
         return cardsToReturn;
       case CHOOSE_CARD_TYPE.ALL_PLAYERS_NON_ETERNAL_ITEMS:
         PlayerManager.players.forEach(player => {
-          cardsToReturn = cardsToReturn.concat((player.getComponent(Player).deskCards.filter(card => {
+          const playerComp = player.getComponent(Player);
+          cardsToReturn = cardsToReturn.concat((playerComp.deskCards.filter(card => {
             if (!card.getComponent(Item).eternal) { return true; }
-          }).filter(c => !player.getComponent(Player)._curses.includes(c))))
+          }).filter(c => !playerComp._curses.includes(c))))
+        })
+        return cardsToReturn;
+      case CHOOSE_CARD_TYPE.OTHER_PLAYERS_NON_ETERNAL_ITEMS:
+        PlayerManager.players.forEach(player => {
+          const playerComp = player.getComponent(Player);
+          if (playerComp.me) { return }
+          cardsToReturn = cardsToReturn.concat((playerComp.deskCards.filter(card => {
+            if (!card.getComponent(Item).eternal) { return true; }
+          }).filter(c => !playerComp._curses.includes(c))))
         })
         return cardsToReturn;
       case CHOOSE_CARD_TYPE.STORE_CARDS:
         return Store.storeCards;
+      case CHOOSE_CARD_TYPE.IN_TREASURE_DECK_GUPPY_ITEMS:
+        var x = CardManager.treasureDeck.getComponent(Deck)._cards.getCards().filter(e => e.getComponent(Item).isGuppyItem)
+        return x
+      case CHOOSE_CARD_TYPE.MOST_SOULS_PLAYERS:
+        players = PlayerManager.players.map(p => p.getComponent(Player))
+        let mostSoulsPlayers: Player[] = []
+        players.forEach(player => {
+          mostSoulsPlayers = mostSoulsPlayers.filter(p => p.souls >= player.souls)
+          if (mostSoulsPlayers.length == 0 || mostSoulsPlayers.some(p => p.souls == player.souls)) {
+            mostSoulsPlayers.push(player)
+          }
+        })
+        return mostSoulsPlayers.map(p => p.character)
       default:
         break;
     }
@@ -376,7 +412,7 @@ export default class ChooseCard extends DataCollector {
     if (this.otherPlayersFlavorText == '') {
       AnnouncementLable.$.showAnnouncement(`Player ${this.playerId} is Choosing Target`, 0, true)
     } else {
-      AnnouncementLable.$.showAnnouncement(this.otherPlayersFlavorText, 0, true)
+      AnnouncementLable.$.sendToServerShowAnnouncment(this.otherPlayersFlavorText)
     }
     return new Promise((resolve, reject) => {
       whevent.onOnce(GAME_EVENTS.CHOOSE_CARD_CARD_CHOSEN, (data) => {

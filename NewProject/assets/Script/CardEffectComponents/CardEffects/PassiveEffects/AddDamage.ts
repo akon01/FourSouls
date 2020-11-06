@@ -1,9 +1,4 @@
-import Effect from "../Effect";
-import DataCollector from "../../DataCollector/DataCollector";
-import { ServerEffect } from "../../../Entites/ServerCardEffect";
-import CardManager from "../../../Managers/CardManager";
-import PlayerManager from "../../../Managers/PlayerManager";
-import Player from "../../../Entites/GameEntities/Player";
+
 import PassiveEffect from "../PassiveEffect";
 
 import StackEffectInterface from "../../../StackEffects/StackEffectInterface";
@@ -17,8 +12,13 @@ export default class AddDamage extends PassiveEffect {
   effectName = "AddDamage";
 
 
-  @property(cc.Integer)
+  @property({visible:function(this:AddDamage){
+    return !this.isDoubleIncomingDamage
+  }})
   damageToAdd: number = 0;
+
+  @property
+  isDoubleIncomingDamage:boolean =false;
 
   /**
    *
@@ -28,7 +28,11 @@ export default class AddDamage extends PassiveEffect {
     let terminateOriginal = data.terminateOriginal;
     let args = data.methodArgs;
     //should be money count
-    args[0] = args[0] + this.damageToAdd
+    if(!this.isDoubleIncomingDamage){
+      args[0] = args[0] + this.damageToAdd
+    } else {
+      args[0]=args[0]*2
+    }
     return data
   }
 }

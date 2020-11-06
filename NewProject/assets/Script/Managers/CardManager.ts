@@ -1,7 +1,7 @@
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
 import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
-import { CARD_TYPE, GAME_EVENTS, ITEM_TYPE, PARTICLE_TYPES, TIME_TO_DRAW } from "../Constants";
+import { CARD_TYPE, GAME_EVENTS, ITEM_TYPE, PARTICLE_TYPES, PASSIVE_EVENTS, TIME_TO_DRAW } from "../Constants";
 import CardEffect from "../Entites/CardEffect";
 import { CardLayout } from "../Entites/CardLayout";
 import Character from "../Entites/CardTypes/Character";
@@ -23,7 +23,7 @@ import PileManager from "./PileManager";
 import PlayerManager from "./PlayerManager";
 import { whevent } from "../../ServerClient/whevent";
 import TurnsManager from "./TurnsManager";
-import PassiveManager from "./PassiveManager";
+import PassiveManager, { PassiveMeta } from "./PassiveManager";
 import { CardSet } from "../Entites/Card Set";
 
 const { ccclass, property } = cc._decorator;
@@ -32,11 +32,11 @@ const { ccclass, property } = cc._decorator;
 export default class CardManager extends cc.Component {
   static cardsId: number = 0;
 
-  static onTableCards: cc.Node[] = [];
+  static onTableCards: Set<number> = new Set();
 
-  static inDecksCards: cc.Node[] = [];
+  static inDecksCardsIds: number[] = [];
 
-  static allCards: CardSet = new CardSet()
+  static allCards: Set<number> = new Set<number>()
 
   static allPlayers: cc.Node[] = [];
 
@@ -64,9 +64,9 @@ export default class CardManager extends cc.Component {
 
   static cardPrefab: cc.Prefab = null;
 
-  static charCardsPrefabs = [];
+  static charCardsPrefabs: cc.Prefab[] = [];
 
-  static charItemCardsPrefabs = [];
+  static charItemCardsPrefabs: cc.Prefab[] = [];
 
   static charCardBack: cc.SpriteFrame = null;
 
@@ -120,6 +120,11 @@ export default class CardManager extends cc.Component {
 
   static $: CardManager = null
 
+
+  static GetAllCards() {
+    return Array.from(this.allCards.values()).map(cardId => this.getCardById(cardId))
+  }
+
   static async init() {
     this.effectCounter = cc.instantiate(this.$.effectCounterPrefab)
     this.bonusDeck.active = false
@@ -154,7 +159,7 @@ export default class CardManager extends cc.Component {
   }
 
   static sendCardInfoToServer() {
-    const allCards = this.allCards.getCards()
+    const allCards = this.GetAllCards()
     const cardMap = []
     allCards.forEach(card => {
       cardMap.push({ cardId: card.getComponent(Card)._cardId, cardName: card.getComponent(Card).cardName })
@@ -170,7 +175,7 @@ export default class CardManager extends cc.Component {
   }
 
   static async preLoadPrefabs() {
-    cc.resources.loadDir("Prefabs/CharacterCards/CharCardsPrefabs", function (
+    cc.resources.loadDir<cc.Prefab>("Prefabs/CharacterCards/CharCardsPrefabs", function (
       err,
       rsc,
     ) {
@@ -182,7 +187,7 @@ export default class CardManager extends cc.Component {
         const prefab = rsc[i];
         CardManager.charCardsPrefabs.push(prefab);
       }
-      cc.resources.loadDir("Prefabs/CharacterCards/CharItemCards", function (
+      cc.resources.loadDir<cc.Prefab>("Prefabs/CharacterCards/CharItemCards", function (
         err,
         rsc,
       ) {
@@ -195,6 +200,9 @@ export default class CardManager extends cc.Component {
           CardManager.charItemCardsPrefabs.push(prefab);
         }
         CardManager.makeCharDeck()
+        // CardManager.charCardsPrefabs.concat(CardManager.charItemCardsPrefabs).forEach(prefab => {
+        //   cc.assetManager.releaseAsset(prefab); 
+        // });
         cc.resources.release("Prefabs/CharacterCards/CharCardsPrefabs", cc.Prefab)
         cc.resources.release("Prefabs/CharacterCards/CharItemCards", cc.Prefab)
         CardManager.charCardsPrefabs = []
@@ -234,7 +242,11 @@ export default class CardManager extends cc.Component {
                   cc.error(`card ${card.name} is in loot deck, should not be here!`)
                 }
               });
-              cc.resources.release("Prefabs/LootCards", cc.Prefab)
+
+              CardManager.lootDeck.getComponent(Deck).cardsPrefab.forEach(prefab => {
+                cc.assetManager.releaseAsset(prefab);
+              });
+              //  cc.resources.release("Prefabs/LootCards", cc.Prefab)
               cc.resources.loadDir<cc.Prefab>("Prefabs/TreasureCards", cc.Prefab, (err, rsc) => {
                 if (err) {
                   cc.log(err)
@@ -247,7 +259,10 @@ export default class CardManager extends cc.Component {
                     cc.error(`card ${card.name} is in treausre deck, should not be here!`)
                   }
                 })
-                cc.resources.release("Prefabs/TreasureCards", cc.Prefab)
+                CardManager.treasureDeck.getComponent(Deck).cardsPrefab.forEach(prefab => {
+                  cc.assetManager.releaseAsset(prefab);
+                });
+                //  cc.resources.release("Prefabs/TreasureCards", cc.Prefab)
                 cc.resources.loadDir<cc.Prefab>("Prefabs/Complete Monster Cards", cc.Prefab, (err, rsc) => {
                   if (err) {
                     cc.log(err)
@@ -260,7 +275,10 @@ export default class CardManager extends cc.Component {
                       cc.error(`card ${card.name} is in monster deck, should not be here!`)
                     }
                   })
-                  cc.resources.release("Prefabs/Complete Monster Cards", cc.Prefab)
+                  CardManager.monsterDeck.getComponent(Deck).cardsPrefab.forEach(prefab => {
+                    cc.assetManager.releaseAsset(prefab);
+                  });
+                  //   cc.resources.release("Prefabs/Complete Monster Cards", cc.Prefab)
                   cc.resources.loadDir<cc.Prefab>("Prefabs/Bonus Souls", cc.Prefab, (err, rsc) => {
                     if (err) {
                       throw err
@@ -315,12 +333,6 @@ export default class CardManager extends cc.Component {
    * @param cardId a card id to get from all cards
    */
   static getCardById(cardId: number, includeInDecksCards?: boolean): cc.Node {
-    for (let i = 0; i < CardManager.allCards.length; i++) {
-      const card: Card = CardManager.allCards.getCards()[i].getComponent(Card);
-      if (card._cardId == cardId) {
-        return card.node;
-      }
-    }
     const decks = CardManager.getAllDecks();
     for (let i = 0; i < decks.length; i++) {
       const deck = decks[i].getComponent(Deck);
@@ -372,24 +384,15 @@ export default class CardManager extends cc.Component {
       }
 
     }
-
-    //  if (includeInDecksCards) {
-    for (let i = 0; i < this.inDecksCards.length; i++) {
-      const inDeckCard = this.inDecksCards[i].getComponent(Card);
-
-      if (inDeckCard._cardId == cardId) {
-        return inDeckCard.node;
-      }
-    }
-    // }
     throw new Error(`No card found with id ${cardId}`)
 
   }
 
   static getCardByName(name: string) {
+    const allCards = this.GetAllCards()
     const regEx: RegExp = new RegExp(name, "i")
-    for (let i = 0; i < CardManager.allCards.length; i++) {
-      const card: Card = CardManager.allCards.getCards()[i].getComponent(Card);
+    for (let i = 0; i < allCards.length; i++) {
+      const card: Card = allCards[i].getComponent(Card);
       if (card.cardName.search(regEx) != -1) {
         return card.node;
       }
@@ -429,14 +432,6 @@ export default class CardManager extends cc.Component {
       }
     }
 
-    for (let i = 0; i < this.inDecksCards.length; i++) {
-      const inDeckCard = this.inDecksCards[i].getComponent(Card);
-
-      if (inDeckCard.cardName.search(regEx) != -1) {
-        return inDeckCard.node;
-      }
-    }
-
     cc.error(`no card found`)
     return null;
   }
@@ -470,7 +465,7 @@ export default class CardManager extends cc.Component {
     cardComp._cardId = ++CardManager.cardsId;
 
     cardComp.flipCard(false);
-    deck.addToDeckOnTop(card, false);
+    deck.addToDeckOnTop(card, 0, false);
   }
 
   static makeDeckCards(deck: Deck) {
@@ -486,8 +481,8 @@ export default class CardManager extends cc.Component {
         newCard.destroy()
         continue
       }
-      newCard.getComponent(Card).frontSprite = newCard.getComponent(cc.Sprite).spriteFrame;
-      newCard.getComponent(Card).setSprites()
+      cardComp.frontSprite = newCard.getComponent(cc.Sprite).spriteFrame;
+      cardComp.setSprites()
       if (cardComp.hasCounter) {
 
         cardComp.addCountLable()
@@ -495,24 +490,25 @@ export default class CardManager extends cc.Component {
 
       // AnimationManager.addAnimationNode(newCard)
       this.addCardToDeck(newCard, deck)
-      this.allCards.push(newCard)
+      this.allCards.add(cardComp._cardId)
       if (cardComp.makeMultiCards) {
         for (let j = 0; j < cardComp.numOfCopies; j++) {
           const copyCard = cc.instantiate(newCard);
           //  copyCard.getComponent(Card).setSprites()
+          const copyCardComp = copyCard.getComponent(Card);
           if (cardComp.copiesSprites[j]) {
-            copyCard.getComponent(Card).frontSprite = cardComp.copiesSprites[j]
+            copyCardComp.frontSprite = cardComp.copiesSprites[j]
           } else {
-            copyCard.getComponent(Card).frontSprite = newCard.getComponent(Card).frontSprite
+            copyCardComp.frontSprite = cardComp.frontSprite
           }
           if (cardComp.hasCounter) {
             cardComp.addCountLable()
           }
 
           copyCard.name = cardComp.node.name + `(${j})`
-          copyCard.getComponent(Card).cardName = cardComp.cardName + `(${j})`
+          copyCardComp.cardName = cardComp.cardName + `(${j})`
           this.addCardToDeck(copyCard, deck)
-          this.allCards.push(copyCard)
+          this.allCards.add(copyCardComp._cardId)
         }
       }
     }
@@ -526,20 +522,23 @@ export default class CardManager extends cc.Component {
 
     for (let j = 0; j < CardManager.charCardsPrefabs.length; j++) {
       characterNode = cc.instantiate(CardManager.charCardsPrefabs[j]);
+      const characterComp = characterNode.getComponent(Character);
       //   AnimationManager.addAnimationNode(characterNode)
-      if (characterNode.getComponent(Character).charItemPrefab) {
+      if (characterComp.charItemPrefab) {
         characterItemNode = cc.instantiate(
-          characterNode.getComponent(Character).charItemPrefab
+          characterComp.charItemPrefab
         );
         //  AnimationManager.addAnimationNode(characterItemNode)
       }
-      characterNode.getComponent(Card).setSprites()
-      characterNode.getComponent(Card)._cardId = ++CardManager.cardsId;
-      characterNode.getComponent(Card).frontSprite = characterNode.getComponent(cc.Sprite).spriteFrame;
+      const characterCardComp = characterNode.getComponent(Card);
+      characterCardComp.setSprites()
+      characterCardComp._cardId = ++CardManager.cardsId;
+      characterCardComp.frontSprite = characterNode.getComponent(cc.Sprite).spriteFrame;
       if (characterItemNode) {
-        characterItemNode.getComponent(Card).setSprites()
-        characterItemNode.getComponent(Card)._cardId = ++CardManager.cardsId;
-        characterItemNode.getComponent(Card).frontSprite = characterItemNode.getComponent(cc.Sprite).spriteFrame;
+        const charItemCardComp = characterItemNode.getComponent(Card);
+        charItemCardComp.setSprites()
+        charItemCardComp._cardId = ++CardManager.cardsId;
+        charItemCardComp.frontSprite = characterItemNode.getComponent(cc.Sprite).spriteFrame;
         // characterItemNode.parent = cc.director.getScene();
       }
       const fullCharCards: { char: cc.Node; item: cc.Node } = {
@@ -548,9 +547,9 @@ export default class CardManager extends cc.Component {
       };
       //characterNode.parent = cc.director.getScene();
       CardManager.characterDeck.push(fullCharCards);
-      CardManager.allCards.push(fullCharCards.char)
+      CardManager.allCards.add(fullCharCards.char.getComponent(Card)._cardId)
       if (fullCharCards.item) {
-        CardManager.allCards.push(fullCharCards.item)
+        CardManager.allCards.add(fullCharCards.item.getComponent(Card)._cardId)
       }
       // CardManager.characterItemDeck.put(characterItemNode)
     }
@@ -565,17 +564,25 @@ export default class CardManager extends cc.Component {
     return false
   }
 
-  static makeMonsterAttackable(monsterCard: cc.Node) {
+  static async makeMonsterAttackable(monsterCard: cc.Node) {
     if (!this.checkIfIAmTurnPlayer()) {
       return
     }
     const cardComp = monsterCard.getComponent(Card);
     if (!cardComp._isAttackable) {
-      cardComp._hasEventsBeenModified = true;
-    }
+      const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.MONSTER_MADE_ATTACKABLE, [monsterCard], null, monsterCard)
+      const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+      passiveMeta.args = afterPassiveMeta.args
+      if (afterPassiveMeta.continue) {
 
-    AnimationManager.$.showAnimation(monsterCard, ANIM_COLORS.RED)
-    cardComp._isAttackable = true;
+        cardComp._hasEventsBeenModified = true;
+
+        AnimationManager.$.showAnimation(monsterCard, ANIM_COLORS.RED)
+
+        cardComp._isAttackable = true;
+        await PassiveManager.testForPassiveAfter(passiveMeta)
+      }
+    }
     this.makeCardPreviewable(monsterCard);
   }
 
@@ -920,9 +927,10 @@ export default class CardManager extends cc.Component {
   }
 
   static removeMoveAnimation(moveIndex: number) {
-    this.activeMoveAnimations = this.activeMoveAnimations.filter((moveAnim) => {
-      moveAnim.index != moveIndex
-    })
+    cc.error(`b4 active indexes ${this.activeMoveAnimations.map(s => s.index).toString()}`)
+    this.activeMoveAnimations = this.activeMoveAnimations.filter((moveAnim) => moveAnim.index != moveIndex
+    )
+    cc.error(`after active indexes ${this.activeMoveAnimations.map(s => s.index).toString()}`)
     whevent.emit(GAME_EVENTS.CARD_MANAGER_MOVE_ANIM_END, moveIndex)
   }
 
@@ -946,6 +954,11 @@ export default class CardManager extends cc.Component {
         }
       })
     });
+  }
+
+
+  static getOnTableCards() {
+    return Array.from(this.onTableCards.values()).map(cardId => this.getCardById(cardId))
   }
 
   static updateOnTableCards() {
@@ -1028,9 +1041,9 @@ export default class CardManager extends cc.Component {
   }
 
   static removeFromInAllDecksCards(cardToRemove: cc.Node) {
-    const index = this.inDecksCards.indexOf(cardToRemove);
-    if (this.inDecksCards.length < index) {
-      this.inDecksCards.splice(index, 1);
+    const index = this.inDecksCardsIds.indexOf(cardToRemove.getComponent(Card)._cardId);
+    if (this.inDecksCardsIds.length < index) {
+      this.inDecksCardsIds.splice(index, 1);
     }
   }
 

@@ -143,7 +143,7 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
                 }
             } else if (this.effectToDo instanceof ChainEffects) {
                 for (const effect of this.effectToDo.effectsToChain) {
-                    await this.checkForSpeciealCollector(effect, id)
+                    await this.checkForSpeciealCollector(effect, id) 
                 }
             } else {
                 await this.checkForSpeciealCollector(this.effectToDo, id)

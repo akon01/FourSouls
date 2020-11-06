@@ -66,7 +66,7 @@ export default class TakeDamage implements StackEffectInterface {
         // turnPlayer.givePriority(true)
     }
 
-    async resolve(true) {
+    async resolve() {
         cc.log('resolve combat damage')
         switch (this.isPlayerTakeDamage) {
             case true:

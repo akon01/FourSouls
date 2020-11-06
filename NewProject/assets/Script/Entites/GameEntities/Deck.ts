@@ -44,19 +44,22 @@ export default class Deck extends cc.Component {
   @property
   _hasEventsBeenModified: boolean = false;
 
-  addToDeckOnTop(card: cc.Node, sendToServer: boolean) {
+  addToDeckOnTop(card: cc.Node, offset: number, sendToServer: boolean) {
 
+    const cardComp = card.getComponent(Card);
     if (this._cards.includes(card)) {
       this._cards.splice(this._cards.indexOf(card), 1)
     } else {
-      CardManager.inDecksCards.push(card);
+      CardManager.inDecksCardsIds.push(cardComp._cardId);
     }
-    this._cards.push(card);
+    const index = (this._cards.length != 0) ? this._cards.length - 1 : 0
+    var newOffset = offset != 0 ? offset - 1 : offset
+    this._cards.splice(index - newOffset, 0, card);
     // CardManager.monsterCardPool.put(card);
     card.setParent(null)
     const serverData = {
       signal: Signal.DECK_ADD_TO_TOP,
-      srvData: { deckType: this.deckType, cardId: card.getComponent(Card)._cardId },
+      srvData: { deckType: this.deckType, cardId: cardComp._cardId },
     };
     if (sendToServer) {
       ServerClient.$.send(serverData.signal, serverData.srvData)
@@ -66,7 +69,8 @@ export default class Deck extends cc.Component {
     if (this._cards.length != 0) {
       const newCard = this._cards.pop();
 
-      if (!newCard.getComponent(Card)._isFlipped) { newCard.getComponent(Card).flipCard(false) }
+      const newCardComp = newCard.getComponent(Card);
+      if (!newCardComp._isFlipped) { newCardComp.flipCard(false) }
       if (newCard.parent == null) {
         newCard.parent = CardManager.$.onTableCardsHolder
         newCard.setPosition(this.node.getPosition())
@@ -114,17 +118,19 @@ export default class Deck extends cc.Component {
 
   }
 
-  addToDeckOnBottom(card: cc.Node, sendToServer: boolean) {
+  addToDeckOnBottom(card: cc.Node, offset: number, sendToServer: boolean) {
+    const cardComp = card.getComponent(Card);
     if (this._cards.includes(card)) {
       this._cards.splice(this._cards.indexOf(card), 1)
     } else {
-      CardManager.inDecksCards.push(card);
+      CardManager.inDecksCardsIds.push(cardComp._cardId);
     }
-    this._cards.unshift(card);
+    var newOffset = offset != 0 ? offset - 1 : offset
+    this._cards.splice(0 + newOffset, 0, card);
     card.setParent(null)
     const serverData = {
       signal: Signal.DECK_ADD_TO_BOTTOM,
-      srvData: { deckType: this.deckType, cardId: card.getComponent(Card)._cardId },
+      srvData: { deckType: this.deckType, cardId: cardComp._cardId, offset },
     };
     if (sendToServer) {
       ServerClient.$.send(serverData.signal, serverData.srvData)
@@ -147,6 +153,7 @@ export default class Deck extends cc.Component {
       array[currentIndex] = array[randomIndex];
       array[randomIndex] = temporaryValue;
     }
+
 
     return array;
   }

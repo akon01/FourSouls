@@ -175,6 +175,12 @@ export default class Player extends cc.Component {
   firstAttackRollBonus: number = 0;
 
   @property
+  nextAttackRollBonus: number = 0
+
+  @property
+  tempNextAttackRollBonus: number = 0
+
+  @property
   tempFirstAttackRollBonus: number = 0;
 
   @property
@@ -290,6 +296,18 @@ export default class Player extends cc.Component {
 
   }
 
+  monsterCardHolderId = 0;
+
+  getMonsterCardHolderId(): number {
+    if (this.monsterCardHolderId == 1) {
+      this.monsterCardHolderId = 0;
+      return 1;
+    } else {
+      this.monsterCardHolderId++;
+      return 0;
+    }
+  }
+
   async giveCard(card: cc.Node) {
     card.parent = CardManager.$.onTableCardsHolder
     await CardManager.moveCardTo(card, this.hand.node, true, true)
@@ -304,7 +322,7 @@ export default class Player extends cc.Component {
         break
       case CARD_TYPE.MONSTER:
         CardManager.monsterDeck.getComponent(Deck).drawSpecificCard(card, true)
-        await MonsterField.addMonsterToExsistingPlace(MonsterField.getMonsterCardHoldersIds()[0], card, true)
+        await MonsterField.addMonsterToExsistingPlace(MonsterField.getMonsterCardHoldersIds()[this.getMonsterCardHolderId()], card, true)
         break;
       default:
         break;
@@ -451,10 +469,14 @@ export default class Player extends cc.Component {
     let endRollNumber: number = 0;
     switch (rollType) {
       case ROLL_TYPE.ATTACK:
-        endRollNumber += rolledNumber + this.attackRollBonus + this.tempAttackRollBonus
+        endRollNumber += rolledNumber + this.attackRollBonus + this.tempAttackRollBonus + this.nextAttackRollBonus + this.tempNextAttackRollBonus
+        this.nextAttackRollBonus = 0
+        this.tempNextAttackRollBonus = 0
         break;
       case ROLL_TYPE.FIRST_ATTACK:
-        endRollNumber += rolledNumber + this.attackRollBonus + this.tempAttackRollBonus + this.firstAttackRollBonus + this.tempFirstAttackRollBonus;
+        endRollNumber += rolledNumber + this.attackRollBonus + this.tempAttackRollBonus + this.firstAttackRollBonus + this.tempFirstAttackRollBonus + this.nextAttackRollBonus + this.tempNextAttackRollBonus;
+        this.nextAttackRollBonus = 0
+        this.tempNextAttackRollBonus = 0
         break;
       default:
       case ROLL_TYPE.EFFECT:
@@ -464,6 +486,7 @@ export default class Player extends cc.Component {
     }
     if (endRollNumber > 6) { endRollNumber = 6 }
     if (endRollNumber < 1) { endRollNumber = 1 }
+
     return endRollNumber;
   }
 
@@ -1049,13 +1072,23 @@ export default class Player extends cc.Component {
     return true;
   }
 
-  async gainAttackRollBonus(bonusToGain: number, isTillEndOfTurn: boolean, sendToServer: boolean) {
+  async gainAttackRollBonus(bonusToGain: number, isTillEndOfTurn: boolean, isOnlyNextAttack: boolean, sendToServer: boolean) {
     if (isTillEndOfTurn) {
-      this.tempAttackRollBonus += bonusToGain;
-    } else { this.attackRollBonus += bonusToGain; }
+      if (isOnlyNextAttack) {
+        this.tempNextAttackRollBonus += bonusToGain
+      } else {
+        this.tempAttackRollBonus += bonusToGain;
+      }
+    } else {
+      if (isOnlyNextAttack) {
+        this.nextAttackRollBonus += bonusToGain
+      } else {
+        this.attackRollBonus += bonusToGain;
+      }
+    }
     const serverData = {
       signal: Signal.PLAYER_GAIN_ATTACK_ROLL_BONUS,
-      srvData: { playerId: this.playerId, bonusToGain: bonusToGain, isTemp: isTillEndOfTurn },
+      srvData: { playerId: this.playerId, bonusToGain: bonusToGain, isTemp: isTillEndOfTurn, isOnlyNextAttack },
     };
     if (sendToServer) {
       ServerClient.$.send(serverData.signal, serverData.srvData)
@@ -1112,6 +1145,12 @@ export default class Player extends cc.Component {
 
   async getSoulCard(cardWithSoul: cc.Node, sendToServer: boolean) {
 
+    const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_GET_SOUL_CARD, [cardWithSoul], null, this.node)
+    if (sendToServer) {
+      const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
+      cardWithSoul = afterPassiveMeta.args[0]
+    }
+
     this.soulCards.push(cardWithSoul)
     this.souls += cardWithSoul.getComponent(Card).souls;
     const id = this.playerId;
@@ -1127,13 +1166,13 @@ export default class Player extends cc.Component {
       cardWithSoul.setParent(this.soulsLayout)
       cardWithSoul.setPosition(0, 0)
       ServerClient.$.send(serverData.signal, serverData.srvData)
-      // await this.waitForSoulCardMove()
+      const monster = cardWithSoul.getComponent(Monster);
       if (this.souls >= 4 + this._extraSoulsNeededToWin) {
         whevent.emit(GAME_EVENTS.GAME_OVER, this.playerId)
-        // cc.find('MainScript').emit('gameOver', this.playerId)
-      } else if (cardWithSoul.getComponent(Monster) && cardWithSoul.getComponent(Monster).monsterPlace != null) {
-        await cardWithSoul.getComponent(Monster).monsterPlace.removeMonster(cardWithSoul, sendToServer);
+      } else if (monster && monster.monsterPlace != null) {
+        await monster.monsterPlace.removeMonster(cardWithSoul, sendToServer);
       };
+      passiveMeta.result = await PassiveManager.testForPassiveAfter(passiveMeta)
     }
   }
 

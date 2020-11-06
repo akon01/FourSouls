@@ -6,6 +6,7 @@ import PlayerManager from "../../Managers/PlayerManager";
 import Condition from "./Condition";
 import DataCollector from "../DataCollector/DataCollector";
 import Card from "../../Entites/GameEntities/Card";
+import Monster from "../../Entites/CardTypes/Monster";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,35 +18,51 @@ export default class PlayerDeclareAttack extends Condition {
   @property({ type: DataCollector, tooltip: 'Only Put If Not In "Add Passive Effect" Active effect' })
   dataCollector: DataCollector = null
 
+@property
+isPlayerFromData:boolean = true
+
+  @property
+  isOnSpecificMonster:boolean = false
+
+  @property({visible:function(this:PlayerDeclareAttack){
+    return this.isOnSpecificMonster
+  },type:Monster})
+  specificMonster:Monster= null
 
   conditionData: ActiveEffectData = null;
 
   async testCondition(meta: PassiveMeta) {
 
-    cc.log(this.conditionData)
-
     let player: Player = meta.methodScope.getComponent(Player);
+    const attackedMonster = meta.args[0] as cc.Node
     const thisCard = Card.getCardNodeByChild(this.node)
     //   let playerName = PlayerManager.getPlayerByCardId(this.conditionData.cardChosenId).name; 
     let selectedPlayerCard = this.conditionData.getTarget(TARGETTYPE.PLAYER)
-    if (selectedPlayerCard == null) {
-      cc.log('no selected player')
-    } else {
-      if (selectedPlayerCard instanceof cc.Node) {
-        let selectedPlayer = PlayerManager.getPlayerByCard(selectedPlayerCard)
-        if (
-          player instanceof Player &&
-          player.playerId == selectedPlayer.playerId
-          // &&
-          //    meta.passiveEvent == PASSIVE_EVENTS.PLAYER_DECLARE_ATTACK
-        ) {
-          return true;
-        } else {
-          return false;
+    var answer = true
+    if(this.isPlayerFromData){
+      if (selectedPlayerCard == null) {
+     throw new Error("no selected Player when needed")
+      } else {
+        if (selectedPlayerCard instanceof cc.Node) {
+          let selectedPlayer = PlayerManager.getPlayerByCard(selectedPlayerCard)
+          if (
+            player.playerId != selectedPlayer.playerId
+          ) {
+            answer=false
+          }
+            
         }
       }
     }
-    cc.log(selectedPlayerCard)
+    if(!(player instanceof Player )){
+      answer=false
+    }
+    if(this.isOnSpecificMonster){
+      if(this.specificMonster=attackedMonster.getComponent(Monster)){
+        answer=false
+      }
+    }
 
+    return answer
   }
 }

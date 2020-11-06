@@ -154,14 +154,17 @@ export default class Monster extends cc.Component {
 
         if (damage > 0) {
           const cardId = this.node.getComponent(Card)._cardId
+          const dmgDealerCardID = damageDealer.getComponent(Card)._cardId;
           const serverData = {
             signal: Signal.MONSTER_GET_DAMAGED,
-            srvData: { cardId: cardId, hpLeft: this.currentHp, damageDealerId: damageDealer.getComponent(Card)._cardId }
+            srvData: { cardId: cardId, hpLeft: this.currentHp, dmgDlrId: dmgDealerCardID }
           };
           //ParticleManager.activateParticleEffect(this.node, PARTICLE_TYPES.MONSTER_GET_HIT)
           ParticleManager.runParticleOnce(this.node, PARTICLE_TYPES.MONSTER_GET_HIT)
           SoundManager.$.playSound(SoundManager.$.monsterGetHit)
           if (sendToServer) {
+            //debugger
+            cc.error(serverData.srvData.toString())
             ServerClient.$.send(serverData.signal, serverData.srvData)
             if (this.currentHp == 0) {
               this.killer = damageDealer

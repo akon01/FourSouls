@@ -22,6 +22,9 @@ export default class ParticleManager extends cc.Component {
     @property({ type: [EffectMap], multiline: true })
     particleEffects: EffectMap[] = [];
 
+    @property(cc.AnimationClip)
+    glows: cc.AnimationClip[] = []
+
     activatedEffects: Map<cc.Node, PARTICLE_TYPES[]> = new Map();
 
     static activateParticleEffect(card: cc.Node, particleType: PARTICLE_TYPES, sendToServer: boolean) {

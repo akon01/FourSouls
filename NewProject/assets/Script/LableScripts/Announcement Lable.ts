@@ -31,8 +31,13 @@ export default class AnnouncementLable extends cc.Component {
             }, 1000 * time);
         }
         if (sendToServer) {
-            ServerClient.$.send(Signal.SHOW_ANNOUNCEMENT, { text: text })
+            AnnouncementLable.$.sendToServerShowAnnouncment(text)
         }
+    }
+
+
+    sendToServerShowAnnouncment(text:string){
+        ServerClient.$.send(Signal.SHOW_ANNOUNCEMENT, { text: text })
     }
 
     hideAnnouncement(sendToServer: boolean) {

@@ -76,6 +76,11 @@ export default class GainStats extends Effect {
   @property()
   gainAttackRollBonus: boolean = false;
 
+  @property({visible:function(this:GainStats){
+    return this.gainAttackRollBonus
+  }})
+  isOnlyNextAttack:boolean =false
+
   @property({
     visible: function (this: GainStats) {
       if (this.gainAttackRollBonus) return true
@@ -108,6 +113,7 @@ export default class GainStats extends Effect {
     }
   })
   firstAttackRollBonusToGainTemp: boolean = false;
+
 
   isReveseable = true
 
@@ -182,7 +188,11 @@ export default class GainStats extends Effect {
         await player.gainRollBonus(this.rollBonusToGain, this.rollBonusTemp, true)
       }
       if (this.gainAttackRollBonus) {
-        await player.gainAttackRollBonus(this.attackRollBonusToGain, this.attackRollBonusTemp, true)
+        if(this.isOnlyNextAttack){
+          await player.gainAttackRollBonus(this.attackRollBonusToGain, this.attackRollBonusTemp, true,true)
+        } else {
+          await player.gainAttackRollBonus(this.attackRollBonusToGain, this.attackRollBonusTemp, false,true)
+        }
       }
       if (this.gainFirstAttackRollBonus) {
         await player.gainFirstAttackRollBonus(this.firstAttackRollBonusToGain, this.firstAttackRollBonusToGainTemp, true)
@@ -222,7 +232,11 @@ export default class GainStats extends Effect {
           await player.gainRollBonus(-this.rollBonusToGain, this.rollBonusTemp, true)
         }
         if (this.gainAttackRollBonus) {
-          await player.gainAttackRollBonus(-this.attackRollBonusToGain, this.attackRollBonusTemp, true)
+          if(this.isOnlyNextAttack){
+            await player.gainAttackRollBonus(-this.attackRollBonusToGain, this.attackRollBonusTemp, true,true)
+          } else {
+            await player.gainAttackRollBonus(-this.attackRollBonusToGain, this.attackRollBonusTemp, false,true)
+          }
         }
         if (this.gainFirstAttackRollBonus) {
           await player.gainFirstAttackRollBonus(-this.firstAttackRollBonusToGain, this.firstAttackRollBonusToGainTemp, true)

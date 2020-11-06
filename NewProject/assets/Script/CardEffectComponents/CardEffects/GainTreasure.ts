@@ -14,8 +14,23 @@ const { ccclass, property } = cc._decorator;
 export default class GainTreasure extends Effect {
   effectName = "GainTreasure";
 
-  @property(cc.Integer)
+  @property({visible:function(this:GainTreasure){
+    return !this.isSpecificTreasure
+  }})
   numOfTreasure: number = 0;
+
+  @property
+  isSpecificTreasure:boolean = false
+
+  @property({visible:function(this:GainTreasure){
+    return this.isSpecificTreasure
+  }})
+  isSpecificFromDataCollector:boolean = false
+
+  @property({visible:function(this:GainTreasure){
+    return this.isSpecificTreasure && !this.isSpecificFromDataCollector
+  }})
+  specificTreasure:cc.Node = null
 
   /**
    *
@@ -29,8 +44,16 @@ export default class GainTreasure extends Effect {
     } else {
       const player: Player = PlayerManager.getPlayerByCard(targetPlayerCard as cc.Node)
       const treasureDeck = CardManager.treasureDeck
-      for (let i = 0; i < this.numOfTreasure; i++) {
-        await player.addItem(treasureDeck, true, true)
+      if(this.isSpecificTreasure){
+          if(this.isSpecificFromDataCollector){
+            player.addItem(data.getTarget(TARGETTYPE.ITEM) as cc.Node,true,true)
+          } else {
+            player.addItem(this.specificTreasure,true,true)
+          }
+      } else {
+        for (let i = 0; i < this.numOfTreasure; i++) {
+          await player.addItem(treasureDeck, true, true)
+        }
       }
     }
 

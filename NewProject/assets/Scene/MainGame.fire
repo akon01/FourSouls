@@ -63,7 +63,7 @@
     "_is3DNode": true,
     "_groupIndex": 0,
     "groupIndex": 0,
-    "autoReleaseAssets": false,
+    "autoReleaseAssets": true,
     "_id": "2d2f792f-a40c-49bb-a189-ed176a246e49"
   },
   {
@@ -651,7 +651,7 @@
       "array": [
         0,
         0,
-        513.5530644441722,
+        527.4094709047232,
         0,
         0,
         0,
@@ -955,7 +955,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -5707,6 +5707,8 @@
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
     "optionalFlavorText": "",
     "_id": "74fKWMMBJLkZ/nna9GL6sQ"
   },
@@ -9323,7 +9325,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -10398,6 +10400,8 @@
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
     "optionalFlavorText": "",
     "_id": "b6/5FjMzNHd6AEIWwpFpNa"
   },
@@ -11962,7 +11966,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -13067,6 +13071,8 @@
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
     "optionalFlavorText": "",
     "_id": "9bzNINMO5KVa7ydeAZCXaa"
   },
@@ -14631,7 +14637,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -15706,6 +15712,8 @@
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
     "optionalFlavorText": "",
     "_id": "f3RwCQTU5PTLcrvlg8rp70"
   },
@@ -31616,7 +31624,9 @@
       "__id__": 718
     },
     "_enabled": true,
-    "_normalMaterial": null,
+    "_normalMaterial": {
+      "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+    },
     "_grayMaterial": null,
     "duration": 0.1,
     "zoomScale": 1.1,
@@ -32089,7 +32099,9 @@
       "__id__": 728
     },
     "_enabled": true,
-    "_normalMaterial": null,
+    "_normalMaterial": {
+      "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+    },
     "_grayMaterial": null,
     "duration": 0.1,
     "zoomScale": 1.1,
@@ -42781,6 +42793,17 @@
         "__id__": 984
       }
     ],
+    "glows": [
+      {
+        "__uuid__": "a0c2284f-0e51-481c-80cb-d696189c4da1"
+      },
+      {
+        "__uuid__": "629f055a-1d08-4b2b-9cb9-87d8dca831b8"
+      },
+      {
+        "__uuid__": "0e59a0d7-9bcf-4812-8b70-f45b2851d167"
+      }
+    ],
     "_id": "1djnUkzclInJSzXm9KtlHp"
   },
   {
@@ -43843,6 +43866,8 @@
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
     "optionalFlavorText": "",
     "_id": "582VLcqwpEb4U9aPazDjLd"
   },
@@ -44183,7 +44208,7 @@
     "_texture": {
       "__uuid__": "d0a82d39-bede-46c4-b698-c81ff0dedfff"
     },
-    "_stopped": false,
+    "_stopped": true,
     "playOnLoad": false,
     "autoRemoveOnFinish": false,
     "totalParticles": 150,
@@ -44552,6 +44577,7 @@
     "hasMultipleEffects": false,
     "multiEffectCollector": null,
     "effectData": null,
+    "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],

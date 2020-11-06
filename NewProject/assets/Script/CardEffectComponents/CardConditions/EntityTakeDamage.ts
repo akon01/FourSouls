@@ -28,6 +28,14 @@ export default class EntityTakeDamage extends Condition {
   })
   entityWhoTookDamage: cc.Node = null;
 
+  @property
+  isSpesificRoll:boolean = false;
+
+  @property({visible:function(this:EntityTakeDamage){
+    return this.isSpesificRoll
+  }})
+  specificRoll:number = 1
+
   event = null
   events = [PASSIVE_EVENTS.MONSTER_GET_HIT, PASSIVE_EVENTS.PLAYER_GET_HIT]
 
@@ -63,6 +71,11 @@ export default class EntityTakeDamage extends Condition {
       if (this.isSpecificToEntityTakesDamage) {
         if (target != scope.node) {
           answer = false;
+        }
+      }
+      if(this.isSpesificRoll){
+        if(this.specificRoll!=meta.args[2]){
+          answer=false
         }
       }
     } else {

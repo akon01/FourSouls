@@ -268,7 +268,10 @@ export default class PassiveManager extends cc.Component {
 
         if (isTrue) { cc.log(`test condition ${condition.name} for ${passiveEffect.name} on ${effectCard.name} card`) }
         try {
-          if (isTrue && (await condition.testCondition(passiveMeta) == false)) { isTrue = false; }
+          if (isTrue && (await condition.testCondition(passiveMeta) == false)) {
+            cc.log(`failed`)
+             isTrue = false;
+             }
         } catch (error) {
           Logger.error(error, passiveMeta)
           isTrue = false
@@ -280,6 +283,7 @@ export default class PassiveManager extends cc.Component {
       if (isTrue) {
         allPassivesToActivate.push(passiveEffect)
       } else {
+        cc.log(`test passive Conditions for Event: ${passiveMeta.passiveEvent} false`)
         //condition wasnt true, do nothning
       }
     }

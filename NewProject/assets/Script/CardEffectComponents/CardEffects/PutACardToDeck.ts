@@ -19,6 +19,9 @@ export default class PutACardToDeck extends Effect {
   effectName = "PutACardToDeck";
 
   @property
+  numOfCardsOffset: number = 0;
+
+  @property
   putOnBottomOfDeck: boolean = false;
 
   /**
@@ -32,7 +35,6 @@ export default class PutACardToDeck extends Effect {
   ) {
     cc.log(data);
     const cardTargets = data.getTargets(TARGETTYPE.CARD);
-
     if (cardTargets == null || cardTargets.length == 0) {
       throw new Error(`no target in ${this.name}`);
     } else {
@@ -56,14 +58,15 @@ export default class PutACardToDeck extends Effect {
 
   async putInDeck(card: cc.Node) {
     cc.log(`put in deck of ${card.name}`);
-    const deck = CardManager.getDeckByType(card.getComponent(Card).type).getComponent(Deck);
+    const cardComp = card.getComponent(Card);
+    const deck = CardManager.getDeckByType(cardComp.type).getComponent(Deck);
 
     if (deck._cards.includes(card)) { deck._cards.splice(deck._cards.indexOf(card), 1); }
 
     if (this.putOnBottomOfDeck) {
-      await deck.addToDeckOnBottom(card, true);
+      await deck.addToDeckOnBottom(card, this.numOfCardsOffset, true);
     } else {
-      await deck.addToDeckOnTop(card, true);
+      await deck.addToDeckOnTop(card, this.numOfCardsOffset, true);
     }
 
     switch (deck.deckType) {
@@ -75,8 +78,8 @@ export default class PutACardToDeck extends Effect {
       case CARD_TYPE.MONSTER:
         if (MonsterField.activeMonsters.includes(card)) {
           cc.log(`b4 put `);
-          const cardComp = (card).getComponent(Card)._cardId;
-          const monsterCardHolder = MonsterField.getMonsterPlaceByActiveMonsterId(cardComp);
+          const cardId = cardComp._cardId;
+          const monsterCardHolder = MonsterField.getMonsterPlaceByActiveMonsterId(cardId);
           cc.log(`b4 remove monster of monster holder`);
           await monsterCardHolder.removeMonster(card, true);
           cc.log(`after remove monster of monster holder`);

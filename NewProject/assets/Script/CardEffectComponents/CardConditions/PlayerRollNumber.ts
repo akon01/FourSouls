@@ -7,6 +7,7 @@ import DataCollector from "../DataCollector/DataCollector";
 import Condition from "./Condition";
 import Card from "../../Entites/GameEntities/Card";
 import PlayerManager from "../../Managers/PlayerManager";
+import Monster from "../../Entites/CardTypes/Monster";
 
 const { ccclass, property } = cc._decorator;
 
@@ -41,6 +42,16 @@ export default class PlayerRollNumber extends Condition {
 
   @property
   isOnlyAttackingPlayer: boolean = false;
+
+  @property({visible:function(this:PlayerRollNumber){
+    return this.isOnlyAttackingPlayer
+  }})
+  isSpecificMonsterAttacked:boolean =false;
+
+  @property({visible:function(this:PlayerRollNumber){
+    return this.isOnlyAttackingPlayer&&this.isSpecificMonsterAttacked
+  }})
+  specificMonsterAttacked:Monster =null;
 
   @property
   isOwnerOnly: boolean = false;
@@ -78,6 +89,12 @@ export default class PlayerRollNumber extends Condition {
     if (this.isOnlyAttackingPlayer) {
       if (!(BattleManager.currentlyAttackedMonsterNode != null && player == TurnsManager.currentTurn.getTurnPlayer())) {
         answer = false;
+      } else {
+        if(this.isSpecificMonsterAttacked){
+          if(this.specificMonsterAttacked!=BattleManager.currentlyAttackedMonster){
+            answer =false;
+          }
+        }
       }
     }
     if (this.isOwnerOnly) {

@@ -276,6 +276,8 @@
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
     "optionalFlavorText": "",
     "effectsToChain": [
       {
@@ -316,6 +318,8 @@
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
     "optionalFlavorText": "",
     "_id": ""
   },
@@ -508,6 +512,8 @@
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
     "optionalFlavorText": "",
     "_id": ""
   },
@@ -652,6 +658,8 @@
     },
     "_enabled": true,
     "dataCollector": null,
+    "isPlayerFromData": false,
+    "specificMonster": null,
     "_id": ""
   },
   {
@@ -700,6 +708,8 @@
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
     "optionalFlavorText": "",
     "numOfTimes": 1,
     "isOnlyMonsterDeck": false,
@@ -899,6 +909,8 @@
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
     "optionalFlavorText": "",
     "_id": ""
   },
@@ -1095,6 +1107,8 @@
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
     "optionalFlavorText": "",
     "numOfTimes": -1,
     "isOnlyMonsterDeck": false,
@@ -1470,6 +1484,7 @@
     "hasMultipleEffects": false,
     "multiEffectCollector": null,
     "effectData": null,
+    "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],

@@ -107,7 +107,7 @@ export default class CombatDamage extends StackEffectConcrete {
         // add Passive Check for all the +X/-X To dice rolls to add on top of the stack
     }
 
-    async resolve(true) {
+    async resolve() {
         cc.error(`combat dmg resolve`)
         let player: Player;
         let damage: number;
@@ -151,9 +151,7 @@ export default class CombatDamage extends StackEffectConcrete {
             if (damage > 0) {
                 monster._lastHitRoll = this.numberRolled
             }
-            cc.error(`b4 monster take dmg`)
-            await monster.takeDamaged(damage, true, this.entityToDoDamageCard);
-            cc.error(`After monster take dmg`)
+            await monster.takeDamaged(damage, true, this.entityToDoDamageCard,this.numberRolled);
             // add death check! 
 
             const thisResult = await PassiveManager.testForPassiveAfter(passiveMeta);

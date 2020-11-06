@@ -263,13 +263,13 @@ export default class PlayerManager extends cc.Component {
 
       let fullCharCard
       ////only for test of characters:
-      if (i == 0) {
-        cc.log(`i is zero`)
-        fullCharCard = CardManager.characterDeck.find(card => card.char.getComponent(Card).cardName == "Bumbo")
-      } else {
+    //  if (i == 0) {
+     //   cc.log(`i is zero`)
+      //  fullCharCard = CardManager.characterDeck.find(card => card.char.getComponent(Card).cardName == "Bumbo")
+     // } else {
         fullCharCard = CardManager.characterDeck.pop();
         //   cc.log(fullCharCard)
-      }
+    //  }
       // special case: Eden
       if (fullCharCard.char.getComponent(Card).cardName == "Eden") {
         isEden = true
@@ -529,6 +529,7 @@ export default class PlayerManager extends cc.Component {
         return player.getComponent(Player);
       }
     }
+    return TurnsManager.currentTurn.getTurnPlayer()
   }
 
   static getNextPlayer(player: Player) {

@@ -76,7 +76,7 @@ export default class PurchaseItem extends StackEffectConcrete {
         //add Passive Check for buying (maybe from shop or not)
     }
 
-    async resolve(true) {
+    async resolve() {
         const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_BUY_ITEM, [-this.cost, this.itemToPurchase], null, this.playerWhoBuys.node, this.entityId)
 
         const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)

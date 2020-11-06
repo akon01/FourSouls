@@ -22,6 +22,19 @@ export default class MonsterIsKilled extends Condition {
   })
   specificMonsterCard: cc.Node = null
 
+  
+  @property
+  isSpecificNotMonster: boolean = false;
+
+  @property({
+    type: cc.Node,
+    visible: function (this: MonsterIsKilled) {
+      if (this.isSpecificNotMonster) { return true }
+    }
+  })
+  specificNotMonsterCard: cc.Node = null
+
+
   @property
   isSpecificRoll: boolean = false;
 
@@ -43,6 +56,11 @@ export default class MonsterIsKilled extends Condition {
     }
     if (this.isSpecificMonster) {
       if (monster.node != this.specificMonsterCard) {
+        answer = false;
+      }
+    }
+    if(this.isSpecificNotMonster){
+      if(monster.node == this.specificNotMonsterCard){
         answer = false;
       }
     }

@@ -6,7 +6,7 @@ import ChainCollector from "../DataCollector/ChainCollector";
 import Effect from "./Effect";
 import { Logger } from "../../Entites/Logger";
 import Card from "../../Entites/GameEntities/Card";
-import DataInterpreter from "../../Managers/DataInterpreter";
+import DataInterpreter, { ActiveEffectData, PassiveEffectData, ServerEffectData } from "../../Managers/DataInterpreter";
 
 const { ccclass, property } = cc._decorator;
 
@@ -25,7 +25,7 @@ export default class ChainEffects extends Effect {
 
   async doEffect(
     stack: StackEffectInterface[],
-    data?: Array<{}>
+    data?:  ActiveEffectData | PassiveEffectData
   ) {
 
     const effectsData = [];
@@ -33,6 +33,7 @@ export default class ChainEffects extends Effect {
     const cardEffectComp = this.node.parent.getComponent(CardEffect)
     const effectData = this.node.getComponentInChildren(ChainCollector).effectsData
     for (let i = 0; i < this.effectsToChain.length; i++) {
+      let afterEffectData =null
       const effect = this.effectsToChain[i];
       // cc.log(effect.effectData)
       if (effect.hasPlayerChoiceToActivateInChainEffects) {
@@ -40,42 +41,44 @@ export default class ChainEffects extends Effect {
         const yesOrNo = await PlayerManager.getPlayerById(cardEffectComp.cardPlayerId).giveYesNoChoice(effect.optionalFlavorText)
         cc.log(yesOrNo)
         if (yesOrNo) {
-          try {
-            const thisCard = Card.getCardNodeByChild(effect.node);
-            let effectData
-            if (effect.effectData) {
-              effectData = effect.effectData
-            } else {
-              effectData = await thisCard.getComponent(CardEffect).collectEffectData(effect, { cardId: thisCard.getComponent(Card)._cardId, cardPlayerId: cardEffectComp.cardPlayerId }, true)
-            }
-            cc.log(effectData)
-            cc.log(`do effect ${effect.effectName} of ${cardEffectComp.node.name} in chain effect`)
-            await effect.doEffect(
-              stack,
-              DataInterpreter.convertToEffectData(effectData)
-            );
-          } catch (error) {
-            Logger.error(`${effect.effectName} has failed`)
-            Logger.error(error, effect.effectData)
-          }
+       afterEffectData=   await this.doInnerEffect(effect, cardEffectComp, stack,data);
 
         }
       } else {
-        try {
-          cc.log(`do effect ${effect.effectName} of ${cardEffectComp.node.name} in chain effect`)
-          await effect.doEffect(
-            stack,
-            effect.effectData
-          );
-        } catch (error) {
-          Logger.error(`${effect.effectName} has failed`, effect.effectData)
-          Logger.error(error)
-        }
-
+        afterEffectData=   await this.doInnerEffect(effect, cardEffectComp, stack,data);
+      }
+      if(afterEffectData instanceof ActiveEffectData ){
+        (data as ActiveEffectData).addTarget(afterEffectData.effectTargets);
+      } else if (afterEffectData instanceof PassiveEffectData){
+        (data as PassiveEffectData).terminateOriginal = (afterEffectData.terminateOriginal)? true :(data as PassiveEffectData).terminateOriginal
       }
     }
     if (this.conditions.length > 0) {
       return data;
     } else { return stack }
+  }
+
+  private async doInnerEffect(effect: Effect, cardEffectComp: CardEffect, stack: StackEffectInterface[],data:ActiveEffectData|PassiveEffectData) {
+    try {
+      const thisCard = Card.getCardNodeByChild(effect.node);
+      let effectData:ActiveEffectData|PassiveEffectData|ServerEffectData;
+      if (effect.effectData) {
+        effectData = effect.effectData;
+      } else {
+        effectData = await thisCard.getComponent(CardEffect).collectEffectData(effect, { cardId: thisCard.getComponent(Card)._cardId, cardPlayerId: cardEffectComp.cardPlayerId }, true);
+      }
+      if(!effectData){
+        effectData = data
+      }
+      cc.log(effectData);
+      cc.log(`do effect ${effect.effectName} of ${cardEffectComp.node.name} in chain effect`);
+     return await effect.doEffect(
+        stack,
+        DataInterpreter.convertToEffectData(effectData)
+      );
+    } catch (error) {
+      Logger.error(`${effect.effectName} has failed`);
+      Logger.error(error, effect.effectData);
+    }
   }
 }

@@ -1,3 +1,5 @@
+import Card from "./GameEntities/Card";
+
 export class CardSet implements Iterable<cc.Node> {
 
     constructor() {
@@ -21,27 +23,27 @@ export class CardSet implements Iterable<cc.Node> {
 
     private pointer = 0
 
-    private cardSet: Set<cc.Node> = null
+    private cardSet: Set<number> = null
 
     private cardArray: cc.Node[] = null
 
     length: number = 0
 
     fill(card: cc.Node, startIndex: number, endIndex: number) {
-        if (this.cardSet.has(card)) {
+        if (this.cardSet.has(card.getComponent(Card)._cardId)) {
             return false;
         }
         this.cardArray = this.cardArray.fill(card, startIndex, endIndex)
-        this.cardSet.add(card)
+        this.cardSet.add(card.getComponent(Card)._cardId)
         return true
     }
 
     push(card: cc.Node) {
-        if (this.cardSet.has(card)) {
+        if (this.cardSet.has(card.getComponent(Card)._cardId)) {
             return false
         } else {
             this.cardArray.push(card)
-            this.cardSet.add(card)
+            this.cardSet.add(card.getComponent(Card)._cardId)
             this.length++
             return true
         }
@@ -64,7 +66,7 @@ export class CardSet implements Iterable<cc.Node> {
         return this.cardArray
     }
 
-    filter(filterFun: (i) => any) {
+    filter(filterFun: (value:cc.Node,index?:number,array?:cc.Node[]) => unknown) {
         return this.cardArray.filter(filterFun)
     }
 
@@ -81,16 +83,38 @@ export class CardSet implements Iterable<cc.Node> {
 
     pop() {
         const card = this.cardArray.pop()
-        this.cardSet.delete(card)
+        this.cardSet.delete(card.getComponent(Card)._cardId)
         this.length--
         return card
     }
 
-    splice(cardIndex: number, deleteCount?: number) {
-        const card = this.cardArray[cardIndex]
-        if (card) {
-            this.cardSet.delete(card)
-            this.length--
+    splice(cardIndex: number, deleteCount: number,newElemnt?:cc.Node) {
+        let arrayMaxIndex = (this.cardArray.length==0)? 0:this.cardArray.length-1
+        if(cardIndex>arrayMaxIndex){
+            throw new Error("Card Index Is Larger Than Card Array Length")
+        }
+        for (let i = 0; i < deleteCount; i++) {
+            arrayMaxIndex = (this.cardArray.length==0)? 0:this.cardArray.length-1
+            var isLonger = (arrayMaxIndex<cardIndex+i)
+            if(isLonger){
+                break
+            }
+            const card = this.cardArray[cardIndex+i]
+            if (card) {
+                this.cardSet.delete(card.getComponent(Card)._cardId)
+                this.length--      
+                if(!newElemnt){
+                    return this.cardArray.splice(cardIndex, deleteCount)
+                }
+            }
+        }
+        
+        if(newElemnt){
+            if(!this.cardSet.has(newElemnt.getComponent(Card)._cardId)){
+                this.cardSet.add(newElemnt.getComponent(Card)._cardId)
+                this.length++
+                return this.cardArray.splice(cardIndex, deleteCount,newElemnt)
+            }
             return this.cardArray.splice(cardIndex, deleteCount)
         }
     }
@@ -104,11 +128,12 @@ export class CardSet implements Iterable<cc.Node> {
     }
 
     unshift(card: cc.Node) {
-        if (this.cardSet.has(card)) {
+        if (this.cardSet.has(card.getComponent(Card)._cardId)) {
             return false
         } else {
             this.cardArray.unshift(card)
         }
     }
+
 
 }

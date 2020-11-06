@@ -543,6 +543,8 @@
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
     "optionalFlavorText": "",
     "numOfLoot": 1,
     "multiTarget": false,
@@ -715,8 +717,8 @@
     ],
     "filterFromPassiveMeta": false,
     "targetCollectorFromPassiveMeta": null,
-    "flavorText": "",
-    "otherPlayersFlavorText": "",
+    "flavorText": "Choose A Play Or Monster To Get HIt",
+    "otherPlayersFlavorText": "Who Sees This??",
     "isMultiCardChoice": false,
     "numOfCardsToChoose": 1,
     "_id": ""
@@ -810,14 +812,20 @@
     "conditions": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
-    "dataCollector": [],
+    "dataCollector": [
+      {
+        "__id__": 19
+      }
+    ],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
     "optionalFlavorText": "",
-    "damageToDeal": 0,
+    "damageToDeal": 1,
     "multipleTargets": false,
     "_id": ""
   },
@@ -1010,6 +1018,8 @@
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
     "optionalFlavorText": "",
     "_id": ""
   },
@@ -1142,6 +1152,7 @@
       "__id__": 9
     },
     "effectData": null,
+    "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],

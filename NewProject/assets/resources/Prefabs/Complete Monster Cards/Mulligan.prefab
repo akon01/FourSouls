@@ -231,8 +231,10 @@
     "_enabled": true,
     "isSpecificMonster": true,
     "specificMonsterCard": {
-      "__id__": 3
+      "__id__": 1
     },
+    "isSpecificNotMonster": false,
+    "specificNotMonsterCard": null,
     "isSpecificRoll": false,
     "specificRolls": [],
     "_id": ""
@@ -264,7 +266,7 @@
         "__id__": 4
       }
     ],
-    "passiveType": 1,
+    "passiveType": 2,
     "passiveEffectToAdd": null,
     "dataCollector": [],
     "_effectCard": null,
@@ -272,6 +274,8 @@
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
     "optionalFlavorText": "",
     "fieldType": 1,
     "howMuchToAdd": 1,
@@ -466,6 +470,9 @@
     "_isAttacked": false,
     "hasEffect": true,
     "isNonMonster": false,
+    "isBoss": false,
+    "isMegaBoss": false,
+    "isMonsterWhoCantBeAttacked": false,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
     "reward": {
@@ -499,6 +506,7 @@
     "hasMultipleEffects": false,
     "multiEffectCollector": null,
     "effectData": null,
+    "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],

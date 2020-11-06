@@ -9,7 +9,6 @@ import Signal from "../../Misc/Signal";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
 export default class StackEffectConcrete implements StackEffectInterface {
 
     entityId: number;
@@ -50,7 +49,7 @@ export default class StackEffectConcrete implements StackEffectInterface {
         this.creationTurnId = TurnsManager.currentTurn.turnId;
     }
 
-    resolve(true) {
+    resolve() {
         throw new Error("Method not implemented.");
     }
     putOnStack() {

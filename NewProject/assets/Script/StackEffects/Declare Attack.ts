@@ -74,7 +74,7 @@ export default class DeclareAttack extends StackEffectConcrete {
 
     async resolve() {
 
-        const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_DECLARE_ATTACK, [], null, this.attackingPlayer.node, this.entityId)
+        const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_DECLARE_ATTACK, [this.cardBeingAttacked], null, this.attackingPlayer.node, this.entityId)
         const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
         if (!afterPassiveMeta.continue) { return }
         passiveMeta.args = afterPassiveMeta.args;
@@ -113,7 +113,7 @@ export default class DeclareAttack extends StackEffectConcrete {
             //  await this.attackingPlayer.activateCard(this.cardBeingAttacked, true)
             //if the drawn card is a monster, declare attack
         } else if (monsterComp.isMonsterWhoCantBeAttacked) {
-
+            debugger
         } else {
             if (this.attackingPlayer._mustAttackMonsters.includes(monsterComp)) {
                 this.attackingPlayer._mustAttackMonsters.splice(this.attackingPlayer._mustAttackMonsters.indexOf(monsterComp))

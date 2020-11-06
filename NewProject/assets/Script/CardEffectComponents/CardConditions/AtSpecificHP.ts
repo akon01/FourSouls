@@ -20,10 +20,6 @@ export default class AtSpecificHp extends Condition {
   @property
   isOrBelowHp: boolean = false;
 
-  @property(Effect)
-  myEffect: Effect = null;
-
-
   isActive: boolean = false;
 
   @property

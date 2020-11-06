@@ -90,7 +90,7 @@ export default class LootThenPutOnTop extends Effect {
     const lootDeck = CardManager.lootDeck.getComponent(Deck);
     await CardManager.moveCardTo(card, lootDeck.node, true, false);
     await player.loseLoot(card, true)
-    await lootDeck.addToDeckOnTop(card, true)
+    await lootDeck.addToDeckOnTop(card,0, true)
   }
 
   async discardACard(card: cc.Node, player: Player) {

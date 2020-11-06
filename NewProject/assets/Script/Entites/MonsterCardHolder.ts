@@ -68,7 +68,7 @@ export default class MonsterCardHolder extends cc.Component {
       }
     }
     const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.NEW_ACTIVE_MONSTER, [monsterCard, currentActiveMonster], null, monsterCard);
-    if (PlayerManager.mePlayer == TurnsManager.currentTurn.getTurnPlayer().node) {
+    if (TurnsManager.isCurrentPlayer(PlayerManager.mePlayer)) {
       const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta);
       monsterCard = afterPassiveMeta.args[0];
       this._activeMonster = monsterCard;
@@ -100,7 +100,9 @@ export default class MonsterCardHolder extends cc.Component {
         await PassiveManager.registerPassiveItem(this.activeMonster, true)
       }
     }
-    await PassiveManager.testForPassiveAfter(passiveMeta)
+    if(TurnsManager.isCurrentPlayer(PlayerManager.mePlayer)){
+      await PassiveManager.testForPassiveAfter(passiveMeta)
+    }
   }
 
   async getNextMonster(sendToServer: boolean) {
@@ -202,7 +204,7 @@ export default class MonsterCardHolder extends cc.Component {
       } else {
         this.dmgLable.node.active = false;
       }
-      if (activeMonster._rollBonus > 0) {
+      if (activeMonster._rollBonus != 0) {
         this.rollBonusLable.string = "🎲:" + (activeMonster._rollBonus + activeMonster.rollValue)
         this.rollBonusLable.node.active = true
       } else {

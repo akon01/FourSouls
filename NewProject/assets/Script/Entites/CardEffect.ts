@@ -263,14 +263,12 @@ export default class CardEffect extends cc.Component {
     oldData: { cardPlayerId: number; cardId: number },
     isFromChainCollector?: boolean
   ) {
-    let data: ServerEffectData;
+    let data: any;
     let endData: ActiveEffectData | PassiveEffectData = null;
-
     // const isActive = (this.getEffectIndexAndType(effect).type == ITEM_TYPE.ACTIVE) ? true : false
     const isActive = effect.conditions.length == 0 ? true : false
-
     if (effect.dataCollector != null) {
-      if (effect.dataCollector instanceof DataCollector) {
+      if (effect.dataCollector instanceof DataCollector) { 
         data = await effect.dataCollector.collectData(oldData)
         endData = DataInterpreter.makeEffectData(data, this.node, oldData.cardPlayerId, isActive, false)
       } else {
@@ -284,7 +282,7 @@ export default class CardEffect extends cc.Component {
             AnnouncementLable.$.showAnnouncement(error.error, 3, true)
             Logger.error(error)
           }
-          cc.log(`data collected from ${dataCollector.collectorName}`)
+          cc.log(`data collected from ${dataCollector.collectorName}: `,data)
 
           if (endData == null) {
             cc.log(`first data collected in ${effect.effectName} which have ${effect.dataCollector.length} collectors`)

@@ -137,7 +137,7 @@ export default class Stack extends cc.Component {
                 let newStack
                 try {
                     cc.log(`Stack State: Resolve Stack Effect`, stackEffect)
-                    newStack = await stackEffect.resolve(true)
+                    newStack = await stackEffect.resolve()
                     if (!stackEffect.checkForFizzle()) {
                         ServerClient.$.send(Signal.UPDATE_STACK_EFFECT, { stackEffect: stackEffect.convertToServerStackEffect() })
                     } else {
@@ -170,7 +170,7 @@ export default class Stack extends cc.Component {
             //     this.addToCurrentStackEffectResolving(stackEffect, true)
             // }
             ServerClient.$.send(Signal.DO_STACK_EFFECT, { originPlayerId: mePlayer.playerId, playerId: stackEffectPlayer.playerId, currentStack: serverStack })
-            const newStack = await this.waitForStackEffectresolve(true);
+            const newStack = await this.waitForStackEffectresolve();
             ActionLable.$.removeMessage(amId, true)
             await this.replaceStack(newStack, sendToServer)
             if (sendToServer) {
@@ -332,7 +332,7 @@ export default class Stack extends cc.Component {
 
     static async doStackEffectSilent(stackEffect: StackEffectConcrete) {
         await stackEffect.putOnStack()
-        await stackEffect.resolve(true)
+        await stackEffect.resolve()
     }
 
     static async fizzleStackEffect(stackEffect: StackEffectInterface, isSilent: boolean, sendToServer: boolean) {
@@ -502,7 +502,7 @@ export default class Stack extends cc.Component {
         });
     }
 
-    static waitForStackEffectresolve(true): Promise<StackEffectInterface[]> {
+    static waitForStackEffectresolve(): Promise<StackEffectInterface[]> {
         return new Promise((resolve, reject) => {
             whevent.onOnce(GAME_EVENTS.STACK_STACK_EFFECT_RESOLVED_AT_OTHER_PLAYER, () => {
                 this.hasStackEffectResolvedAtAnotherPlayer = false;

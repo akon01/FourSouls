@@ -9,6 +9,8 @@ import Stack from "../Entites/Stack";
 import { Turn } from "../Modules/TurnsModule";
 import PlayerManager from "./PlayerManager";
 import Store from "../Entites/GameEntities/Store";
+import CardEffect from "../Entites/CardEffect";
+import HeadlessHorsmanCondition from "../CardEffectComponents/CardConditions/Card Specific Conditions/Headless Horseman Condition";
 
 const { ccclass, property } = cc._decorator;
 
@@ -98,6 +100,7 @@ export default class TurnsManager extends cc.Component {
         player.tempAttackRollBonus = 0
         player.tempNonAttackRollBonus = 0
         player.tempFirstAttackRollBonus = 0
+        player.tempNextAttackRollBonus=0
         player.tempBaseDamage = 0
         player.lastAttackRoll = 0
         player.lastRoll = 0
@@ -116,12 +119,20 @@ export default class TurnsManager extends cc.Component {
         // player.broadcastUpdateProperites({ _tempHpBonus: player._tempHpBonus, tempAttackRollBonus: player.tempAttackRollBonus})
         await player.heal(player.character.getComponent(Character).hp + player._hpBonus, false, true)
       }
-      for (const monster of MonsterField.activeMonsters.map(monster => monster.getComponent(Monster))) {
+      const activeMonsters = MonsterField.activeMonsters;
+      const activeMonstersComps = activeMonsters.map(monster => monster.getComponent(Monster));
+      for (const monster of activeMonstersComps) {
         monster._rollBonus = 0;
         monster._bonusDamage = 0;
         monster._thisTurnKiller = null;
         monster._lastHitRoll = 0
         await monster.heal(monster.HP, false, true)
+      }
+      ////Special Conditions To Do: TODO: Should not be here at all.
+      const headlessHorsmanCard=activeMonstersComps.filter(c=>c.node.name=="Headless Horseman")[0]
+      if(headlessHorsmanCard){
+        const condition= headlessHorsmanCard.node.getComponentInChildren(HeadlessHorsmanCondition)
+        condition._isFirstTime=true
       }
       if (sendToServer) {
         ServerClient.$.send(Signal.END_TURN)

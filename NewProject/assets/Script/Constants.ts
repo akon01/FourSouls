@@ -147,6 +147,8 @@ export enum INPUT_TYPE {
 }
 
 
+
+
 export enum CHOOSE_CARD_TYPE {
   ALL_PLAYERS = 1,
   MY_HAND = 2,
@@ -171,6 +173,9 @@ export enum CHOOSE_CARD_TYPE {
   NON_ATTACKED_ACTIVE_MONSTERS = 21,
   ALL_PLAYERS_SOUL_CARDS = 22,
   PILES = 23,
+  IN_TREASURE_DECK_GUPPY_ITEMS = 24,
+  OTHER_PLAYERS_NON_ETERNAL_ITEMS = 25,
+  MOST_SOULS_PLAYERS = 26
 }
 
 export enum PLAYER_FILTERS {
@@ -201,6 +206,10 @@ export enum CARD_POOLS {
   YOUR_ACTIVES = 12,
   YOUR_ACTIVES_AND_PAID = 13,
   YOUR_PASSIVES = 14,
+  IN_DECK_GUPPY_ITEMS = 15,
+  PLAYER_TO_YOUR_RIGHT = 16,
+  PLAYER_TO_YOUR_LEFT = 17,
+  RANDOM_OTHER_PLAYER_LOOT_NOT_BEING_PLAYED = 18
 }
 
 export enum BUTTON_STATE {
@@ -268,7 +277,9 @@ export class SIGNAL_GROUPS {
   PARTICLE = [Signal.ACTIVATE_PARTICLE_EFFECT, Signal.DISABLE_PARTICLE_EFFECT]
   ACTION_MESSAGE = [Signal.ACTION_MASSAGE_ADD, Signal.ACTION_MASSAGE_REMOVE];
 
-  TESTG = [].concat(this.PARTICLE, this.CARD_MOVEMENT, this.ACTION_MESSAGE, this.STACK, this.REACTION)
+  TESTG = [].concat(this.PARTICLE,
+    this.CARD_MOVEMENT,
+    this.ACTION_MESSAGE, this.STACK, this.REACTION)
   //[Signal.ADD_TO_STACK, Signal.REMOVE_FROM_STACK, Signal.RESPOND_TO, Signal.GET_REACTION, Signal.GIVE_PLAYER_PRIORITY, Signal.ACTION_MASSAGE, Signal]
 
   getGroup(type: string) {
@@ -291,6 +302,16 @@ export enum TARGETTYPE {
 }
 
 export enum PASSIVE_EVENTS {
+  /**
+   * scope- player who got the soul
+   * args - card with soul
+   */
+  PLAYER_GET_SOUL_CARD = "$PLAYER_GET_SOUL_CARD",
+  /**
+   * scope - monster who got made attackable
+   * args -  monster who got made attackable
+   */
+  MONSTER_MADE_ATTACKABLE = "$MONSTER_MADE_ATTACKABLE",
   /**
    * scope  player who got killed
    * args [killer]
@@ -350,6 +371,10 @@ export enum PASSIVE_EVENTS {
   PLAYER_END_TURN = "PLAYER_END_TURN",
   PLAYER_START_TURN = "PLAYER_START_TURN",
   PLAYER_BUY_ITEM = "PLAYER_BUY_ITEM",
+  /**
+   * scope- attacking player
+   * args:attacked monster / monster Deck
+   */
   PLAYER_DECLARE_ATTACK = "PLAYER_DECLARE_ATTACK",
   PLAYER_FIRST_ATTACK_ROLL_OF_TURN = "PLAYER_FIRST_ATTACK_ROLL_OF_TURN",
   /**
@@ -359,7 +384,7 @@ export enum PASSIVE_EVENTS {
   PLAYER_ADD_ITEM = "PLAYER_ADD_ITEM",
   /**
    * scope -  monster who got hit
-     * args = damage,damageDealer
+     * args = damage,damageDealer,If monster number rolled
      */
   MONSTER_GET_HIT = "MONSTER_GET_HIT",
   /**
@@ -393,17 +418,17 @@ export enum STACK_EFFECT_VIS_TYPE {
   MEGA_BOSS_ACTION
 }
 
-export const TIME_TO_DRAW = 0.3;
-export const TIME_TO_BUY = 0.5;
+export const TIME_TO_DRAW = 0.3 / 2;
+export const TIME_TO_BUY = 0.5 / 2;
 export const BLINKING_SPEED = 1;
-export const TIME_TO_PLAY_LOOT = 0.4;
-export const TIME_TO_SHOW_PREVIEW = 0.5;
-export const TIME_TO_HIDE_PREVIEW = 0.5;
-export const TIME_TO_ROTATE_ACTIVATION = 0.3;
+export const TIME_TO_PLAY_LOOT = 0.4 / 2;
+export const TIME_TO_SHOW_PREVIEW = 0.5 / 2;
+export const TIME_TO_HIDE_PREVIEW = 0.5 / 2;
+export const TIME_TO_ROTATE_ACTIVATION = 0.3 / 2;
 export const TIME_TO_REACT_ON_ACTION = 90;
-export const TIME_FOR_DICE_ROLL = 0.3;
-export const TIME_FOR_MONSTER_DISCARD = 1;
-export const TIME_FOR_TREASURE_DISCARD = 2;
+export const TIME_FOR_DICE_ROLL = 0.3 / 2;
+export const TIME_FOR_MONSTER_DISCARD = 1 / 2;
+export const TIME_FOR_TREASURE_DISCARD = 2 / 2;
 export const MAX_NUM_OF_HISTORY_ITEM = 50
 export const PARTICLE_SYS_MAX = 40
 export const EFFECT_ANIMATION_TIME = 2;

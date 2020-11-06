@@ -46,8 +46,8 @@ export default class FilterOtherDataCollector extends DataCollector {
      * @returns {target:cc.node of the player who played the card}
      */
     collectData(data) {
-        const collectedData = this.dataCollector.collectData(data) as ActiveEffectData | PassiveEffectData
-        const cards = collectedData.getAllTargets().nodes
+        const collectedData = this.dataCollector.collectData(data) as EffectTarget[]
+        const cards = collectedData.map(et=>et.effectTargetCard)
         return this.applyFilterToCards(cards).map(c => new EffectTarget(c))
     }
 

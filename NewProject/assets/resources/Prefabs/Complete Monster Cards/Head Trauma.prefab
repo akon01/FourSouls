@@ -1,1 +1,513 @@
-[{"__type__": "cc.Prefab", "_name": "", "_objFlags": 0, "_native": "", "data": {"__id__": 1}, "optimizationPolicy": 0, "asyncLoadAssets": false, "readonly": false}, {"__type__": "cc.Node", "_name": "Head Trauma", "_objFlags": 0, "_parent": null, "_children": [{"__id__": 2}], "_active": true, "_components": [{"__id__": 11}, {"__id__": 12}, {"__id__": 13}, {"__id__": 14}], "_prefab": {"__id__": 15}, "_opacity": 255, "_color": {"__type__": "cc.Color", "r": 255, "g": 255, "b": 255, "a": 255}, "_contentSize": {"__type__": "cc.Size", "width": 100, "height": 140}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}, "_trs": {"__type__": "TypedArray", "ctor": "Float64Array", "array": [-178, 0, 0, 0, 0, 0, 1, 1, 1, 1]}, "_eulerAngles": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_skewX": 0, "_skewY": 0, "_is3DNode": false, "_groupIndex": 0, "groupIndex": 0, "_id": ""}, {"__type__": "cc.Node", "_name": "DiscardLoot", "_objFlags": 0, "_parent": {"__id__": 1}, "_children": [{"__id__": 3}, {"__id__": 6}], "_active": true, "_components": [{"__id__": 9}], "_prefab": {"__id__": 10}, "_opacity": 255, "_color": {"__type__": "cc.Color", "r": 255, "g": 255, "b": 255, "a": 255}, "_contentSize": {"__type__": "cc.Size", "width": 50, "height": 15}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}, "_trs": {"__type__": "TypedArray", "ctor": "Float64Array", "array": [0, -34.244, 0, 0, 0, 0, 1, 1, 1, 1]}, "_eulerAngles": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_skewX": 0, "_skewY": 0, "_is3DNode": false, "_groupIndex": 0, "groupIndex": 0, "_id": ""}, {"__type__": "cc.Node", "_name": "ChooseFromTargetCard", "_objFlags": 0, "_parent": {"__id__": 2}, "_children": [], "_active": true, "_components": [{"__id__": 4}], "_prefab": {"__id__": 8}, "_opacity": 255, "_color": {"__type__": "cc.Color", "r": 255, "g": 255, "b": 255, "a": 255}, "_contentSize": {"__type__": "cc.Size", "width": 0, "height": 0}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}, "_trs": {"__type__": "TypedArray", "ctor": "Float64Array", "array": [0, 0, 0, 0, 0, 0, 1, 1, 1, 1]}, "_eulerAngles": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_skewX": 0, "_skewY": 0, "_is3DNode": false, "_groupIndex": 0, "groupIndex": 0, "_id": ""}, {"__type__": "20bc9bfF8tH6ZIb1S6uQ6nK", "_name": "", "_objFlags": 0, "node": {"__id__": 3}, "_enabled": true, "isItems": false, "isLootCards": true, "isRandom": false, "flavorText": "", "isMultiCardChoice": true, "numberOfCardsToChoose": 2, "dataCollectorToRun": {"__id__": 5}, "_id": ""}, {"__type__": "534c9fgrh9PoLNR7le7KAFe", "_name": "", "_objFlags": 0, "node": {"__id__": 6}, "_enabled": true, "_id": ""}, {"__type__": "cc.Node", "_name": "TurnPlayer", "_objFlags": 0, "_parent": {"__id__": 2}, "_children": [], "_active": true, "_components": [{"__id__": 5}], "_prefab": {"__id__": 7}, "_opacity": 255, "_color": {"__type__": "cc.Color", "r": 255, "g": 255, "b": 255, "a": 255}, "_contentSize": {"__type__": "cc.Size", "width": 0, "height": 0}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}, "_trs": {"__type__": "TypedArray", "ctor": "Float64Array", "array": [0, 0, 0, 0, 0, 0, 1, 1, 1, 1]}, "_eulerAngles": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_skewX": 0, "_skewY": 0, "_is3DNode": false, "_groupIndex": 0, "groupIndex": 0, "_id": ""}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__uuid__": "e0cd7744-e7d9-41d1-ac3c-036519873a87"}, "fileId": "15xWLnvt5MZY03dwWoseoM", "sync": false}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__uuid__": "e0cd7744-e7d9-41d1-ac3c-036519873a87"}, "fileId": "d2ok23aIBApo5Gk/9kZgMp", "sync": false}, {"__type__": "d6f46KdVWpKban15DT2Bjq9", "_name": "", "_objFlags": 0, "node": {"__id__": 2}, "_enabled": true, "cost": null, "preCondition": null, "conditions": [], "passiveType": 1, "passiveEffectToAdd": null, "dataCollector": [{"__id__": 4}], "_effectCard": null, "optionalAfterDataCollection": false, "optionalBeforeDataCollection": false, "hasPlayerChoiceToActivateInChainEffects": false, "optionalFlavorText": "", "numOfLoot": 2, "_id": ""}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__uuid__": "e0cd7744-e7d9-41d1-ac3c-036519873a87"}, "fileId": "d3IU5JDy5Hy6ipIFsyI77i", "sync": false}, {"__type__": "cc.Sprite", "_name": "", "_objFlags": 0, "node": {"__id__": 1}, "_enabled": true, "_materials": [{"__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"}], "_srcBlendFactor": 770, "_dstBlendFactor": 771, "_spriteFrame": {"__uuid__": "f56182b8-ec65-4ead-a8e4-a66a9c684c0b"}, "_type": 0, "_sizeMode": 0, "_fillType": 0, "_fillCenter": {"__type__": "cc.Vec2", "x": 0, "y": 0}, "_fillStart": 0, "_fillRange": 0, "_isTrimmedMode": true, "_atlas": null, "_id": ""}, {"__type__": "469baVqArxNIJpM2pHjkHeJ", "_name": "", "_objFlags": 0, "node": {"__id__": 1}, "_enabled": true, "cardName": "Head Trauma", "doNotMake": false, "cardMask": null, "cardSprite": null, "makeMultiCards": false, "numOfCopies": 2, "copiesSprites": [], "_cardId": 0, "_isInHand": false, "_isOnDesk": false, "_originalParent": null, "_originalWidth": null, "topDeckof": null, "souls": 0, "type": 2, "isGoingToBePlayed": false, "_isAttackable": false, "_isBuyable": false, "_isPlayable": false, "_isActivateable": false, "_isReactable": false, "_isRequired": false, "_requiredFor": null, "frontSprite": null, "backSprite": null, "_isFlipped": false, "_ownedBy": null, "hasCounter": false, "_effectCounterLable": null, "_counters": 0, "_hasEventsBeenModified": false, "_id": ""}, {"__type__": "4ac15aQszVPe5b55U9/MQys", "_name": "", "_objFlags": 0, "node": {"__id__": 1}, "_enabled": true, "monsterPlace": null, "HP": null, "currentHp": 0, "rollValue": "", "rollBonus": 0, "DMG": null, "bonusDamage": 0, "isAttacked": false, "hasEffect": true, "isNonMonster": true, "_dmgPrevention": [], "_thisTurnKiller": null, "reward": null, "killer": null, "_isDead": false, "_lastHitRoll": 0, "_id": ""}, {"__type__": "bd535UKRTNDu7iLPx8/+FlC", "_name": "", "_objFlags": 0, "node": {"__id__": 1}, "_enabled": true, "hasDestroySelfEffect": false, "conditions": [], "activeEffects": [{"__id__": 2}], "passiveEffects": [], "toAddPassiveEffects": [], "paidEffects": [], "test123": [], "hasMultipleEffects": false, "multiEffectCollector": null, "effectData": null, "data": {}, "cardPlayerId": 0, "serverEffectStack": [], "_id": ""}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__uuid__": "e0cd7744-e7d9-41d1-ac3c-036519873a87"}, "fileId": "74xrl7Ss9GNLi7htp7h56D", "sync": false}]
+[
+  {
+    "__type__": "cc.Prefab",
+    "_name": "",
+    "_objFlags": 0,
+    "_native": "",
+    "data": {
+      "__id__": 1
+    },
+    "optimizationPolicy": 0,
+    "asyncLoadAssets": false,
+    "readonly": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "Head Trauma",
+    "_objFlags": 0,
+    "_parent": null,
+    "_children": [
+      {
+        "__id__": 2
+      }
+    ],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 11
+      },
+      {
+        "__id__": 12
+      },
+      {
+        "__id__": 13
+      },
+      {
+        "__id__": 14
+      }
+    ],
+    "_prefab": {
+      "__id__": 15
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 100,
+      "height": 140
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        -178,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "DiscardLoot",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [
+      {
+        "__id__": 3
+      },
+      {
+        "__id__": 6
+      }
+    ],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 9
+      }
+    ],
+    "_prefab": {
+      "__id__": 10
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 50,
+      "height": 15
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        -34.244,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "ChooseFromTargetCard",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 2
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 4
+      }
+    ],
+    "_prefab": {
+      "__id__": 8
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "20bc9bfF8tH6ZIb1S6uQ6nK",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 3
+    },
+    "_enabled": true,
+    "isItems": false,
+    "isLootCards": true,
+    "isRandom": false,
+    "flavorText": "",
+    "isMultiCardChoice": true,
+    "numberOfCardsToChoose": 2,
+    "dataCollectorToRun": {
+      "__id__": 5
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "534c9fgrh9PoLNR7le7KAFe",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 6
+    },
+    "_enabled": true,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "TurnPlayer",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 2
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 5
+      }
+    ],
+    "_prefab": {
+      "__id__": 7
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "e0cd7744-e7d9-41d1-ac3c-036519873a87"
+    },
+    "fileId": "15xWLnvt5MZY03dwWoseoM",
+    "sync": false
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "e0cd7744-e7d9-41d1-ac3c-036519873a87"
+    },
+    "fileId": "d2ok23aIBApo5Gk/9kZgMp",
+    "sync": false
+  },
+  {
+    "__type__": "d6f46KdVWpKban15DT2Bjq9",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "cost": null,
+    "preCondition": null,
+    "conditions": [],
+    "passiveType": 1,
+    "passiveEffectToAdd": null,
+    "dataCollector": [
+      {
+        "__id__": 4
+      }
+    ],
+    "_effectCard": null,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "optionalFlavorText": "",
+    "numOfLoot": 2,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "e0cd7744-e7d9-41d1-ac3c-036519873a87"
+    },
+    "fileId": "d3IU5JDy5Hy6ipIFsyI77i",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_spriteFrame": {
+      "__uuid__": "f56182b8-ec65-4ead-a8e4-a66a9c684c0b"
+    },
+    "_type": 0,
+    "_sizeMode": 0,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
+    "_id": ""
+  },
+  {
+    "__type__": "469baVqArxNIJpM2pHjkHeJ",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "cardName": "Head Trauma",
+    "doNotMake": false,
+    "cardMask": null,
+    "cardSprite": null,
+    "makeMultiCards": false,
+    "numOfCopies": 2,
+    "copiesSprites": [],
+    "_cardId": 0,
+    "_isInHand": false,
+    "_isOnDesk": false,
+    "_originalParent": null,
+    "_originalWidth": null,
+    "topDeckof": null,
+    "souls": 0,
+    "type": 2,
+    "isGoingToBePlayed": false,
+    "_isAttackable": false,
+    "_isBuyable": false,
+    "_isPlayable": false,
+    "_isActivateable": false,
+    "_isReactable": false,
+    "_isRequired": false,
+    "_requiredFor": null,
+    "frontSprite": null,
+    "backSprite": null,
+    "_isFlipped": false,
+    "_ownedBy": null,
+    "hasCounter": false,
+    "_effectCounterLable": null,
+    "_counters": 0,
+    "_hasEventsBeenModified": false,
+    "_id": ""
+  },
+  {
+    "__type__": "4ac15aQszVPe5b55U9/MQys",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "monsterPlace": null,
+    "HP": null,
+    "currentHp": 0,
+    "rollValue": "",
+    "rollBonus": 0,
+    "DMG": null,
+    "bonusDamage": 0,
+    "isAttacked": false,
+    "hasEffect": true,
+    "isNonMonster": true,
+    "_dmgPrevention": [],
+    "_thisTurnKiller": null,
+    "reward": null,
+    "killer": null,
+    "_isDead": false,
+    "_lastHitRoll": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "bd535UKRTNDu7iLPx8/+FlC",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "hasDestroySelfEffect": false,
+    "conditions": [],
+    "activeEffects": [
+      {
+        "__id__": 2
+      }
+    ],
+    "passiveEffects": [],
+    "toAddPassiveEffects": [],
+    "paidEffects": [],
+    "test123": [],
+    "hasMultipleEffects": false,
+    "multiEffectCollector": null,
+    "effectData": null,
+    "data": {},
+    "cardPlayerId": 0,
+    "serverEffectStack": [],
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "e0cd7744-e7d9-41d1-ac3c-036519873a87"
+    },
+    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "sync": false
+  }
+]

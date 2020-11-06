@@ -22,6 +22,7 @@ import ServerClient from "../../ServerClient/ServerClient";
 import { whevent } from "../../ServerClient/whevent";
 import Store from "../Entites/GameEntities/Store";
 import AnnouncementLable from "./Announcement Lable";
+import CardAutoComplete from "./Card AutoComplete";
 
 const { ccclass, property } = cc._decorator;
 
@@ -49,6 +50,8 @@ export default class AdminConsole extends cc.Component {
     @property(cc.Node)
     menuNode: cc.Node = null
 
+    autoComplete = new CardAutoComplete();
+
     static $: AdminConsole
 
     static noPrintSignal: string[] = []
@@ -59,16 +62,18 @@ export default class AdminConsole extends cc.Component {
         if (extra) { flag = extra.split(" ")[1] }
         switch (command) {
             case ADMIN_COMMANDS.CARD:
-                let card = CardManager.getCardByName(extra)
+                let card = null
+                //    card = this._autoCompleteCard;
+                card = this.autoComplete.getClosestCardByText(extra)
                 if (card == null) {
-                    card = this._autoCompleteCard;
+                    card = CardManager.getCardByName(extra)
                 }
                 await mePlayer.giveCard(card)
                 await ActionManager.updateActions()
                 break;
             case ADMIN_COMMANDS.ROLL:
                 await mePlayer.gainRollBonus(Number(extra), true, true)
-                await mePlayer.gainAttackRollBonus(Number(extra), true, true)
+                await mePlayer.gainAttackRollBonus(Number(extra), true, false, true)
                 break;
             case ADMIN_COMMANDS.DICE:
                 const num = Number.parseInt(extra)
@@ -84,7 +89,7 @@ export default class AdminConsole extends cc.Component {
                 await mePlayer.gainHeartContainer(Number.parseInt(extra), true, true)
                 break;
             case ADMIN_COMMANDS.SOUL:
-                const soulCard = CardManager.monsterDeck.getComponent(Deck).drawSpecificCard(CardManager.monsterDeck.getComponent(Deck)._cards.filter(card => card.getComponent(Monster).souls > 0)[0], true)
+                const soulCard = CardManager.monsterDeck.getComponent(Deck).drawSpecificCard(CardManager.monsterDeck.getComponent(Deck)._cards.filter(card => card.getComponent(Card).souls > 0)[0], true)
                 await mePlayer.getSoulCard(soulCard, true)
                 break
             case ADMIN_COMMANDS.DMG:
@@ -207,7 +212,7 @@ export default class AdminConsole extends cc.Component {
                             default:
                                 break;
                         }
-                        deck.addToDeckOnTop(card, true)
+                        deck.addToDeckOnTop(card, 0, true)
                         break;
                     case `raise`:
                         let toSendSignal: number = 0;
@@ -316,7 +321,7 @@ export default class AdminConsole extends cc.Component {
                 break;
             case "roll":
                 await mePlayer.gainRollBonus(Number(commandText), true, true)
-                await mePlayer.gainAttackRollBonus(Number(commandText), true, true)
+                await mePlayer.gainAttackRollBonus(Number(commandText), true, false, true)
                 break;
             case "dice":
                 const num = Number.parseInt(commandText)
@@ -332,7 +337,7 @@ export default class AdminConsole extends cc.Component {
                 await mePlayer.gainHeartContainer(Number.parseInt(commandText), true, true)
                 break;
             case `soul`:
-                const soulCard = CardManager.monsterDeck.getComponent(Deck).drawSpecificCard(CardManager.monsterDeck.getComponent(Deck)._cards.filter(card => card.getComponent(Monster).souls > 0)[0], true)
+                const soulCard = CardManager.monsterDeck.getComponent(Deck).drawSpecificCard(CardManager.monsterDeck.getComponent(Deck)._cards.filter(card => card.getComponent(Card).souls > 0)[0], true)
                 await mePlayer.getSoulCard(soulCard, true)
                 break
             case `dmg`:
@@ -429,8 +434,8 @@ export default class AdminConsole extends cc.Component {
     }
 
     testForEmptyEffects() {
-        let cardsWithEffects = CardManager.allCards.filter(card => card.getComponent(CardEffect))
-        cardsWithEffects = cardsWithEffects.concat(CardManager.inDecksCards.filter(card => card.getComponent(CardEffect)))
+        let cardsWithEffects = CardManager.GetAllCards().filter(card => card.getComponent(CardEffect))
+        cardsWithEffects = cardsWithEffects.concat(CardManager.inDecksCardsIds.map(id => CardManager.getCardById(id)).filter(card => card.getComponent(CardEffect)))
         const cardSet = new Set<cc.Node>();
         for (const card of cardsWithEffects) {
             cardSet.add(card)
@@ -484,6 +489,7 @@ export default class AdminConsole extends cc.Component {
 
     async autoCompleteCardName(text?: string) {
 
+        var auto = new CardAutoComplete();
         let currentText
         if (text) {
             currentText = text
@@ -492,19 +498,9 @@ export default class AdminConsole extends cc.Component {
         }
         const cmdWord = currentText.split(" ")[0]
         currentText = currentText.replace(cmdWord + " ", "")
-        if (currentText != "" && cmdWord == "card") {
-            const regEx = new RegExp("^" + currentText.trim() + ".*", "i")
-            const availableCards = CardManager.allCards.filter(cardNode => {
-                const card = cardNode.getComponent(Card)
-                if (regEx.test(card.cardName)) { return true }
-            })
-            availableCards.push(...CardManager.inDecksCards.filter(cardNode => {
-                const card = cardNode.getComponent(Card)
-                if (regEx.test(card.cardName)) { return true }
-            }))
-            cc.log(availableCards.map(card => card.getComponent(Card).cardName))
-            this._autoCompleteCard = availableCards[availableCards.length - 1]
-        }
+        this._autoCompleteCard = auto.getClosestCardByText(currentText)
+        return true
+
     }
 
     showMenu() {

@@ -19,6 +19,9 @@ export default class NewActiveMonster extends Condition {
   isOwnerTurnOnly: boolean = true;
 
   @property
+  isOnlyForAttackableMonsters:boolean =false;
+
+  @property
   isSpecificNewMonster: boolean = true;
 
   @property({
@@ -56,6 +59,11 @@ export default class NewActiveMonster extends Condition {
     if (this.isSpecificNotNewMonster) {
       if (this.specificNotNewMonster == monsterComp) {
         result = false
+      }
+    }
+    if(this.isOnlyForAttackableMonsters){
+      if(monsterComp.isNonMonster || monsterComp.isMonsterWhoCantBeAttacked){
+        result= false;
       }
     }
     if (this.notInConcurentData) {

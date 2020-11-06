@@ -21,7 +21,7 @@ export default class CardAutoComplete extends cc.Component {
     static getClosestCardByTextStatic(text: string) {
 
         const allCards = new Map<string, cc.Node>()
-        CardManager.allCards.getCards().forEach(card => allCards.set(card.getComponent(Card).cardName, card))
+        CardManager.GetAllCards().forEach(card => allCards.set(card.getComponent(Card).cardName, card))
         let availalbleAnswers = new Map<string, cc.Node>();
         allCards.forEach((card, cardName) => {
             if (cardName.toLowerCase().startsWith(text.toLowerCase())) {

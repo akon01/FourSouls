@@ -51,7 +51,7 @@ export default class PutTopCardOfDeckOnBottom extends Effect {
     if (deck._cards.length > 1) {
       const card = deck._cards.getCard(deck._cards.length - 1)// []
       deck.drawSpecificCard(card, true)
-      deck.addToDeckOnBottom(card, true)
+      deck.addToDeckOnBottom(card,0,true)
     }
 
     if (this.conditions.length > 0) {

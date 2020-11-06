@@ -1,1 +1,1570 @@
-[{"__type__": "cc.Prefab", "_name": "", "_objFlags": 0, "_native": "", "data": {"__id__": 1}, "optimizationPolicy": 0, "asyncLoadAssets": false, "readonly": false}, {"__type__": "cc.Node", "_name": "Forever Alone", "_objFlags": 0, "_parent": null, "_children": [{"__id__": 2}, {"__id__": 5}, {"__id__": 14}, {"__id__": 21}, {"__id__": 30}, {"__id__": 39}], "_active": true, "_components": [{"__id__": 46}, {"__id__": 47}, {"__id__": 48}, {"__id__": 49}], "_prefab": {"__id__": 50}, "_opacity": 255, "_color": {"__type__": "cc.Color", "r": 255, "g": 255, "b": 255, "a": 255}, "_contentSize": {"__type__": "cc.Size", "width": 100, "height": 140}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}, "_trs": {"__type__": "TypedArray", "ctor": "Float64Array", "array": [-178, 0, 0, 0, 0, 0, 1, 1, 1, 1]}, "_eulerAngles": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_skewX": 0, "_skewY": 0, "_is3DNode": false, "_groupIndex": 0, "groupIndex": 0, "_id": ""}, {"__type__": "cc.Node", "_name": "ChooseEffect", "_objFlags": 0, "_parent": {"__id__": 1}, "_children": [], "_active": true, "_components": [{"__id__": 3}], "_prefab": {"__id__": 4}, "_opacity": 255, "_color": {"__type__": "cc.Color", "r": 255, "g": 255, "b": 255, "a": 255}, "_contentSize": {"__type__": "cc.Size", "width": 0, "height": 0}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}, "_trs": {"__type__": "TypedArray", "ctor": "Float64Array", "array": [0, 0, 0, 0, 0, 0, 1, 1, 1, 1]}, "_eulerAngles": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_skewX": 0, "_skewY": 0, "_is3DNode": false, "_groupIndex": 0, "groupIndex": 0, "_id": ""}, {"__type__": "ce95faJnNBDHKS8n+Mrz8OK", "_name": "", "_objFlags": 0, "node": {"__id__": 2}, "_enabled": true, "_id": ""}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"}, "fileId": "44gRHV9S9GeZprqqxsQCpd", "sync": false}, {"__type__": "cc.Node", "_name": "StealMoney", "_objFlags": 0, "_parent": {"__id__": 1}, "_children": [{"__id__": 6}], "_active": true, "_components": [{"__id__": 12}], "_prefab": {"__id__": 13}, "_opacity": 255, "_color": {"__type__": "cc.Color", "r": 255, "g": 255, "b": 255, "a": 255}, "_contentSize": {"__type__": "cc.Size", "width": 85.5, "height": 6.5}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}, "_trs": {"__type__": "TypedArray", "ctor": "Float64Array", "array": [0, -28.75, 0, 0, 0, 0, 1, 1, 1, 1]}, "_eulerAngles": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_skewX": 0, "_skewY": 0, "_is3DNode": false, "_groupIndex": 0, "groupIndex": 0, "_id": ""}, {"__type__": "cc.Node", "_name": "ChooseCard", "_objFlags": 0, "_parent": {"__id__": 5}, "_children": [], "_active": true, "_components": [{"__id__": 7}], "_prefab": {"__id__": 11}, "_opacity": 255, "_color": {"__type__": "cc.Color", "r": 255, "g": 255, "b": 255, "a": 255}, "_contentSize": {"__type__": "cc.Size", "width": 0, "height": 0}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}, "_trs": {"__type__": "TypedArray", "ctor": "Float64Array", "array": [0, 0, 0, 0, 0, 0, 1, 1, 1, 1]}, "_eulerAngles": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_skewX": 0, "_skewY": 0, "_is3DNode": false, "_groupIndex": 0, "groupIndex": 0, "_id": ""}, {"__type__": "b4dd13gjjJIk556pQaiqi12", "_name": "", "_objFlags": 0, "node": {"__id__": 6}, "_enabled": true, "multiType": false, "otherPlayer": null, "chooseType": {"__id__": 8}, "chooseTypes": [], "flavorText": "Choose A Player To Steal From", "test": null, "_id": ""}, {"__type__": "ChooseCardTypeAndFilter", "chooseType": 1, "applyFilter": true, "componentName": "Character", "isMultiFilter": false, "filterStatement": {"__id__": 9}, "filterStatements": []}, {"__type__": "FilterConcrete", "filterType": 1, "filterMaker": null, "componentType": 0, "playerFilter": {"__id__": 10}, "monsterFilter": null, "cardFilter": null, "itemFilter": null}, {"__type__": "PlayerFilter", "filter": 2, "quantity": 0}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"}, "fileId": "fdu4Zpp+5BEoPa0Ko+3FGH", "sync": false}, {"__type__": "e4a93Z/e7ZGZZ2r00n9/vS1", "_name": "", "_objFlags": 0, "node": {"__id__": 5}, "_enabled": true, "cost": null, "preCondition": null, "conditions": [], "passiveType": 1, "passiveEffectToAdd": null, "dataCollector": [{"__id__": 7}], "_effectCard": null, "optional": false, "hasPlayerChoiceToActivateInChainEffects": false, "optionalFlavorText": "", "numOfCoins": 1, "_id": ""}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"}, "fileId": "0aRg2iLJNO5INvIN4Cdg9z", "sync": false}, {"__type__": "cc.Node", "_name": "LookAtTopDeck", "_objFlags": 0, "_parent": {"__id__": 1}, "_children": [{"__id__": 15}], "_active": true, "_components": [{"__id__": 19}], "_prefab": {"__id__": 20}, "_opacity": 255, "_color": {"__type__": "cc.Color", "r": 255, "g": 255, "b": 255, "a": 255}, "_contentSize": {"__type__": "cc.Size", "width": 85.5, "height": 6.5}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}, "_trs": {"__type__": "TypedArray", "ctor": "Float64Array", "array": [0, -36, 0, 0, 0, 0, 1, 1, 1, 1]}, "_eulerAngles": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_skewX": 0, "_skewY": 0, "_is3DNode": false, "_groupIndex": 0, "groupIndex": 0, "_id": ""}, {"__type__": "cc.Node", "_name": "ChooseCard", "_objFlags": 0, "_parent": {"__id__": 14}, "_children": [], "_active": true, "_components": [{"__id__": 16}], "_prefab": {"__id__": 18}, "_opacity": 255, "_color": {"__type__": "cc.Color", "r": 255, "g": 255, "b": 255, "a": 255}, "_contentSize": {"__type__": "cc.Size", "width": 0, "height": 0}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}, "_trs": {"__type__": "TypedArray", "ctor": "Float64Array", "array": [0, 0, 0, 0, 0, 0, 1, 1, 1, 1]}, "_eulerAngles": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_skewX": 0, "_skewY": 0, "_is3DNode": false, "_groupIndex": 0, "groupIndex": 0, "_id": ""}, {"__type__": "b4dd13gjjJIk556pQaiqi12", "_name": "", "_objFlags": 0, "node": {"__id__": 15}, "_enabled": true, "multiType": false, "otherPlayer": null, "chooseType": {"__id__": 17}, "chooseTypes": [], "flavorText": "Choose A Top Card To Look At", "test": null, "_id": ""}, {"__type__": "ChooseCardTypeAndFilter", "chooseType": 3, "applyFilter": false, "componentName": "", "isMultiFilter": false, "filterStatement": null, "filterStatements": []}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"}, "fileId": "6aYsT5Z+JIvLIVDTJDQr6R", "sync": false}, {"__type__": "a394brACpNNBY2W+icW3Ktm", "_name": "", "_objFlags": 0, "node": {"__id__": 14}, "_enabled": true, "cost": null, "preCondition": null, "conditions": [], "passiveType": 1, "passiveEffectToAdd": null, "dataCollector": [{"__id__": 16}], "_effectCard": null, "optional": false, "hasPlayerChoiceToActivateInChainEffects": false, "optionalFlavorText": "", "numOfCards": 1, "_id": ""}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"}, "fileId": "59CQ3BQkFNyb0PHHzJEzbv", "sync": false}, {"__type__": "cc.Node", "_name": "DiscardAndDrawLoot", "_objFlags": 0, "_parent": {"__id__": 1}, "_children": [{"__id__": 22}], "_active": true, "_components": [{"__id__": 28}], "_prefab": {"__id__": 29}, "_opacity": 255, "_color": {"__type__": "cc.Color", "r": 255, "g": 255, "b": 255, "a": 255}, "_contentSize": {"__type__": "cc.Size", "width": 85.5, "height": 9.49}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}, "_trs": {"__type__": "TypedArray", "ctor": "Float64Array", "array": [0, -43.95, 0, 0, 0, 0, 1, 1, 1, 1]}, "_eulerAngles": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_skewX": 0, "_skewY": 0, "_is3DNode": false, "_groupIndex": 0, "groupIndex": 0, "_id": ""}, {"__type__": "cc.Node", "_name": "ChooseCard", "_objFlags": 0, "_parent": {"__id__": 21}, "_children": [], "_active": true, "_components": [{"__id__": 23}], "_prefab": {"__id__": 27}, "_opacity": 255, "_color": {"__type__": "cc.Color", "r": 255, "g": 255, "b": 255, "a": 255}, "_contentSize": {"__type__": "cc.Size", "width": 0, "height": 0}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}, "_trs": {"__type__": "TypedArray", "ctor": "Float64Array", "array": [0, 0, 0, 0, 0, 0, 1, 1, 1, 1]}, "_eulerAngles": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_skewX": 0, "_skewY": 0, "_is3DNode": false, "_groupIndex": 0, "groupIndex": 0, "_id": ""}, {"__type__": "b4dd13gjjJIk556pQaiqi12", "_name": "", "_objFlags": 0, "node": {"__id__": 22}, "_enabled": true, "multiType": false, "otherPlayer": null, "chooseType": {"__id__": 24}, "chooseTypes": [], "flavorText": "Choose A Loot To Discard", "test": null, "_id": ""}, {"__type__": "ChooseCardTypeAndFilter", "chooseType": 2, "applyFilter": true, "componentName": "Card", "isMultiFilter": false, "filterStatement": {"__id__": 25}, "filterStatements": []}, {"__type__": "FilterConcrete", "filterType": 1, "filterMaker": null, "componentType": 2, "playerFilter": null, "monsterFilter": null, "cardFilter": {"__id__": 26}, "itemFilter": null}, {"__type__": "CardFilter", "filter": 0}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"}, "fileId": "5e3oiNSxVFVbgR2xRFVlMc", "sync": false}, {"__type__": "498250Dh1ZDlrDh29KkeOHg", "_name": "", "_objFlags": 0, "node": {"__id__": 21}, "_enabled": true, "cost": null, "preCondition": null, "conditions": [], "passiveType": 1, "passiveEffectToAdd": null, "dataCollector": [{"__id__": 23}], "_effectCard": null, "optional": false, "hasPlayerChoiceToActivateInChainEffects": false, "optionalFlavorText": "", "_id": ""}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"}, "fileId": "68GGLuF+lJyq1f487oTdMc", "sync": false}, {"__type__": "cc.Node", "_name": "RechargeItem", "_objFlags": 0, "_parent": {"__id__": 1}, "_children": [{"__id__": 31}, {"__id__": 34}], "_active": true, "_components": [{"__id__": 37}], "_prefab": {"__id__": 38}, "_opacity": 255, "_color": {"__type__": "cc.Color", "r": 255, "g": 255, "b": 255, "a": 255}, "_contentSize": {"__type__": "cc.Size", "width": 85.5, "height": 8}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}, "_trs": {"__type__": "TypedArray", "ctor": "Float64Array", "array": [0, -52.65, 0, 0, 0, 0, 1, 1, 1, 1]}, "_eulerAngles": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_skewX": 0, "_skewY": 0, "_is3DNode": false, "_groupIndex": 0, "groupIndex": 0, "_id": ""}, {"__type__": "cc.Node", "_name": "CardActivated", "_objFlags": 0, "_parent": {"__id__": 30}, "_children": [], "_active": true, "_components": [{"__id__": 32}], "_prefab": {"__id__": 33}, "_opacity": 255, "_color": {"__type__": "cc.Color", "r": 255, "g": 255, "b": 255, "a": 255}, "_contentSize": {"__type__": "cc.Size", "width": 0, "height": 0}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}, "_trs": {"__type__": "TypedArray", "ctor": "Float64Array", "array": [0, 0, 0, 0, 0, 0, 1, 1, 1, 1]}, "_eulerAngles": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_skewX": 0, "_skewY": 0, "_is3DNode": false, "_groupIndex": 0, "groupIndex": 0, "_id": ""}, {"__type__": "0175bFUYExPf5FCIvNA1zX2", "_name": "", "_objFlags": 0, "node": {"__id__": 31}, "_enabled": true, "_id": ""}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"}, "fileId": "17f+MWYqxL8ov5i+2ti/vu", "sync": false}, {"__type__": "cc.Node", "_name": "TakeDamage", "_objFlags": 0, "_parent": {"__id__": 30}, "_children": [], "_active": true, "_components": [{"__id__": 35}], "_prefab": {"__id__": 36}, "_opacity": 255, "_color": {"__type__": "cc.Color", "r": 255, "g": 255, "b": 255, "a": 255}, "_contentSize": {"__type__": "cc.Size", "width": 0, "height": 0}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}, "_trs": {"__type__": "TypedArray", "ctor": "Float64Array", "array": [0, 0, 0, 0, 0, 0, 1, 1, 1, 1]}, "_eulerAngles": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_skewX": 0, "_skewY": 0, "_is3DNode": false, "_groupIndex": 0, "groupIndex": 0, "_id": ""}, {"__type__": "398b8MXAmROaK6OKY16PjV6", "_name": "", "_objFlags": 0, "node": {"__id__": 34}, "_enabled": true, "_id": ""}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"}, "fileId": "cbDAtHDzxBAKboshWsMWxV", "sync": false}, {"__type__": "14ed6MlA1pOLYkroRqoh1T+", "_name": "", "_objFlags": 0, "node": {"__id__": 30}, "_enabled": true, "cost": null, "preCondition": null, "conditions": [{"__id__": 35}], "passiveType": 2, "passiveEffectToAdd": null, "dataCollector": [{"__id__": 32}], "_effectCard": null, "optional": false, "hasPlayerChoiceToActivateInChainEffects": false, "optionalFlavorText": "", "_id": ""}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"}, "fileId": "6a0mXgkPJOjaL8R3AQLt60", "sync": false}, {"__type__": "cc.Node", "_name": "Mask Node", "_objFlags": 0, "_parent": {"__id__": 1}, "_children": [{"__id__": 40}], "_active": true, "_components": [{"__id__": 43}, {"__id__": 44}], "_prefab": {"__id__": 45}, "_opacity": 255, "_color": {"__type__": "cc.Color", "r": 255, "g": 255, "b": 255, "a": 255}, "_contentSize": {"__type__": "cc.Size", "width": 100, "height": 140}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}, "_trs": {"__type__": "TypedArray", "ctor": "Float64Array", "array": [0, 0, 0, 0, 0, 0, 1, 1, 1, 1]}, "_eulerAngles": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_skewX": 0, "_skewY": 0, "_is3DNode": false, "_groupIndex": 0, "groupIndex": 0, "_id": ""}, {"__type__": "cc.Node", "_name": "Particle", "_objFlags": 0, "_parent": {"__id__": 39}, "_children": [], "_active": true, "_components": [{"__id__": 41}], "_prefab": {"__id__": 42}, "_opacity": 255, "_color": {"__type__": "cc.Color", "r": 255, "g": 255, "b": 255, "a": 255}, "_contentSize": {"__type__": "cc.Size", "width": 0, "height": 0}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}, "_trs": {"__type__": "TypedArray", "ctor": "Float64Array", "array": [0, 0, 0, 0, 0, 0, 1, 5, 5, 1]}, "_eulerAngles": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_skewX": 0, "_skewY": 0, "_is3DNode": false, "_groupIndex": 0, "groupIndex": 0, "_id": ""}, {"__type__": "cc.ParticleSystem", "_name": "", "_objFlags": 0, "node": {"__id__": 40}, "_enabled": true, "_materials": [{"__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"}], "_srcBlendFactor": 770, "_dstBlendFactor": 1, "_custom": false, "_file": {"__uuid__": "b2687ac4-099e-403c-a192-ff477686f4f5"}, "_spriteFrame": {"__uuid__": "472df5d3-35e7-4184-9e6c-7f41bee65ee3"}, "_texture": {"__uuid__": "d0a82d39-bede-46c4-b698-c81ff0dedfff"}, "_stopped": true, "playOnLoad": false, "autoRemoveOnFinish": false, "totalParticles": 200, "duration": -1, "emissionRate": 999.999985098839, "life": 0.20000000298023224, "lifeVar": 0.5, "_startColor": {"__type__": "cc.Color", "r": 202, "g": 200, "b": 86, "a": 163}, "_startColorVar": {"__type__": "cc.Color", "r": 229, "g": 255, "b": 173, "a": 198}, "_endColor": {"__type__": "cc.Color", "r": 173, "g": 161, "b": 19, "a": 214}, "_endColorVar": {"__type__": "cc.Color", "r": 107, "g": 249, "b": 249, "a": 188}, "angle": 360, "angleVar": 360, "startSize": 3.369999885559082, "startSizeVar": 50, "endSize": 30.31999969482422, "endSizeVar": 0, "startSpin": -47.369998931884766, "startSpinVar": 0, "endSpin": -47.369998931884766, "endSpinVar": -142.11000061035156, "sourcePos": {"__type__": "cc.Vec2", "x": 0, "y": 0}, "posVar": {"__type__": "cc.Vec2", "x": 7, "y": 7}, "_positionType": 1, "positionType": 1, "emitterMode": 0, "gravity": {"__type__": "cc.Vec2", "x": 0.25, "y": 0.8600000143051147}, "speed": 0, "speedVar": 190.7899932861328, "tangentialAccel": -92.11000061035156, "tangentialAccelVar": 65.79000091552734, "radialAccel": -671.0499877929688, "radialAccelVar": 65.79000091552734, "rotationIsDir": false, "startRadius": 0, "startRadiusVar": 0, "endRadius": 0, "endRadiusVar": 0, "rotatePerS": 0, "rotatePerSVar": 0, "_N$preview": true, "_id": ""}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"}, "fileId": "78AvayX/tLiIGT2vIdaBvh", "sync": false}, {"__type__": "cc.Mask", "_name": "", "_objFlags": 0, "node": {"__id__": 39}, "_enabled": true, "_materials": [{"__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"}], "_spriteFrame": null, "_type": 0, "_segments": 64, "_N$alphaThreshold": 0, "_N$inverted": true, "_id": ""}, {"__type__": "cc.Widget", "_name": "", "_objFlags": 0, "node": {"__id__": 39}, "_enabled": true, "alignMode": 1, "_target": null, "_alignFlags": 45, "_left": 0, "_right": 0, "_top": 0, "_bottom": 0, "_verticalCenter": 0, "_horizontalCenter": 0, "_isAbsLeft": true, "_isAbsRight": true, "_isAbsTop": true, "_isAbsBottom": true, "_isAbsHorizontalCenter": true, "_isAbsVerticalCenter": true, "_originalWidth": 0, "_originalHeight": 0, "_id": ""}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"}, "fileId": "c1L4dMB0xB7pfnCnjwbfC0", "sync": false}, {"__type__": "cc.Sprite", "_name": "", "_objFlags": 0, "node": {"__id__": 1}, "_enabled": true, "_materials": [{"__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"}], "_srcBlendFactor": 770, "_dstBlendFactor": 771, "_spriteFrame": {"__uuid__": "f97c6720-b7f9-4fc8-b139-214696f4bdfd"}, "_type": 0, "_sizeMode": 0, "_fillType": 0, "_fillCenter": {"__type__": "cc.Vec2", "x": 0, "y": 0}, "_fillStart": 0, "_fillRange": 0, "_isTrimmedMode": true, "_atlas": null, "_id": ""}, {"__type__": "469baVqArxNIJpM2pHjkHeJ", "_name": "", "_objFlags": 0, "node": {"__id__": 1}, "_enabled": true, "cardName": "Forever Alone", "doNotMake": false, "cardMask": null, "cardSprite": null, "makeMultiCards": false, "numOfCopies": 2, "copiesSprites": [], "_cardId": 0, "_isInHand": false, "_isOnDesk": false, "_originalParent": null, "_originalWidth": null, "topDeckof": null, "souls": 0, "type": 4, "isGoingToBePlayed": false, "_isAttackable": false, "_isBuyable": false, "_isPlayable": false, "_isActivateable": false, "_isReactable": false, "_isRequired": false, "_requiredFor": null, "frontSprite": null, "backSprite": null, "_isFlipped": false, "_ownedBy": null, "hasCounter": false, "_effectCounterLable": null, "_counters": 0, "_hasEventsBeenModified": false, "availableParticles": [], "_id": ""}, {"__type__": "b5e97fLQIJGGq1XOyBEfLay", "_name": "", "_objFlags": 0, "node": {"__id__": 1}, "_enabled": true, "type": 1, "activated": false, "eternal": true, "lastOwnedBy": null, "_id": ""}, {"__type__": "bd535UKRTNDu7iLPx8/+FlC", "_name": "", "_objFlags": 0, "node": {"__id__": 1}, "_enabled": true, "hasDestroySelfEffect": false, "conditions": [], "activeEffects": [{"__id__": 5}, {"__id__": 14}, {"__id__": 21}], "passiveEffects": [{"__id__": 30}], "toAddPassiveEffects": [], "paidEffects": [], "test123": [], "hasMultipleEffects": true, "multiEffectCollector": {"__id__": 3}, "effectData": null, "data": {}, "cardPlayerId": 0, "serverEffectStack": [], "_id": ""}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"}, "fileId": "74xrl7Ss9GNLi7htp7h56D", "sync": false}]
+[
+  {
+    "__type__": "cc.Prefab",
+    "_name": "",
+    "_objFlags": 0,
+    "_native": "",
+    "data": {
+      "__id__": 1
+    },
+    "optimizationPolicy": 0,
+    "asyncLoadAssets": false,
+    "readonly": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "Forever Alone",
+    "_objFlags": 0,
+    "_parent": null,
+    "_children": [
+      {
+        "__id__": 2
+      },
+      {
+        "__id__": 5
+      },
+      {
+        "__id__": 14
+      },
+      {
+        "__id__": 21
+      },
+      {
+        "__id__": 30
+      },
+      {
+        "__id__": 39
+      }
+    ],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 46
+      },
+      {
+        "__id__": 47
+      },
+      {
+        "__id__": 48
+      },
+      {
+        "__id__": 49
+      }
+    ],
+    "_prefab": {
+      "__id__": 50
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 100,
+      "height": 140
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        -178,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "ChooseEffect",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 3
+      }
+    ],
+    "_prefab": {
+      "__id__": 4
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "ce95faJnNBDHKS8n+Mrz8OK",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"
+    },
+    "fileId": "44gRHV9S9GeZprqqxsQCpd",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "StealMoney",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [
+      {
+        "__id__": 6
+      }
+    ],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 12
+      }
+    ],
+    "_prefab": {
+      "__id__": 13
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 85.5,
+      "height": 6.5
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        -28.75,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "ChooseCard",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 5
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 7
+      }
+    ],
+    "_prefab": {
+      "__id__": 11
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "b4dd13gjjJIk556pQaiqi12",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 6
+    },
+    "_enabled": true,
+    "multiType": false,
+    "otherPlayer": null,
+    "chooseType": {
+      "__id__": 8
+    },
+    "chooseTypes": [],
+    "flavorText": "Choose A Player To Steal From",
+    "test": null,
+    "_id": ""
+  },
+  {
+    "__type__": "ChooseCardTypeAndFilter",
+    "chooseType": 1,
+    "applyFilter": true,
+    "componentName": "Character",
+    "isMultiFilter": false,
+    "filterStatement": {
+      "__id__": 9
+    },
+    "filterStatements": []
+  },
+  {
+    "__type__": "FilterConcrete",
+    "filterType": 1,
+    "filterMaker": null,
+    "componentType": 0,
+    "playerFilter": {
+      "__id__": 10
+    },
+    "monsterFilter": null,
+    "cardFilter": null,
+    "itemFilter": null
+  },
+  {
+    "__type__": "PlayerFilter",
+    "filter": 2,
+    "quantity": 0
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"
+    },
+    "fileId": "fdu4Zpp+5BEoPa0Ko+3FGH",
+    "sync": false
+  },
+  {
+    "__type__": "e4a93Z/e7ZGZZ2r00n9/vS1",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 5
+    },
+    "_enabled": true,
+    "cost": null,
+    "preCondition": null,
+    "conditions": [],
+    "passiveType": 1,
+    "passiveEffectToAdd": null,
+    "dataCollector": [
+      {
+        "__id__": 7
+      }
+    ],
+    "_effectCard": null,
+    "optional": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "optionalFlavorText": "",
+    "numOfCoins": 1,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"
+    },
+    "fileId": "0aRg2iLJNO5INvIN4Cdg9z",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "LookAtTopDeck",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [
+      {
+        "__id__": 15
+      }
+    ],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 19
+      }
+    ],
+    "_prefab": {
+      "__id__": 20
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 85.5,
+      "height": 6.5
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        -36,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "ChooseCard",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 14
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 16
+      }
+    ],
+    "_prefab": {
+      "__id__": 18
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "b4dd13gjjJIk556pQaiqi12",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 15
+    },
+    "_enabled": true,
+    "multiType": false,
+    "otherPlayer": null,
+    "chooseType": {
+      "__id__": 17
+    },
+    "chooseTypes": [],
+    "flavorText": "Choose A Top Card To Look At",
+    "test": null,
+    "_id": ""
+  },
+  {
+    "__type__": "ChooseCardTypeAndFilter",
+    "chooseType": 3,
+    "applyFilter": false,
+    "componentName": "",
+    "isMultiFilter": false,
+    "filterStatement": null,
+    "filterStatements": []
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"
+    },
+    "fileId": "6aYsT5Z+JIvLIVDTJDQr6R",
+    "sync": false
+  },
+  {
+    "__type__": "a394brACpNNBY2W+icW3Ktm",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 14
+    },
+    "_enabled": true,
+    "cost": null,
+    "preCondition": null,
+    "conditions": [],
+    "passiveType": 1,
+    "passiveEffectToAdd": null,
+    "dataCollector": [
+      {
+        "__id__": 16
+      }
+    ],
+    "_effectCard": null,
+    "optional": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "optionalFlavorText": "",
+    "numOfCards": 1,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"
+    },
+    "fileId": "59CQ3BQkFNyb0PHHzJEzbv",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "DiscardAndDrawLoot",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [
+      {
+        "__id__": 22
+      }
+    ],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 28
+      }
+    ],
+    "_prefab": {
+      "__id__": 29
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 85.5,
+      "height": 9.49
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        -43.95,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "ChooseCard",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 21
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 23
+      }
+    ],
+    "_prefab": {
+      "__id__": 27
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "b4dd13gjjJIk556pQaiqi12",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 22
+    },
+    "_enabled": true,
+    "multiType": false,
+    "otherPlayer": null,
+    "chooseType": {
+      "__id__": 24
+    },
+    "chooseTypes": [],
+    "flavorText": "Choose A Loot To Discard",
+    "test": null,
+    "_id": ""
+  },
+  {
+    "__type__": "ChooseCardTypeAndFilter",
+    "chooseType": 2,
+    "applyFilter": true,
+    "componentName": "Card",
+    "isMultiFilter": false,
+    "filterStatement": {
+      "__id__": 25
+    },
+    "filterStatements": []
+  },
+  {
+    "__type__": "FilterConcrete",
+    "filterType": 1,
+    "filterMaker": null,
+    "componentType": 2,
+    "playerFilter": null,
+    "monsterFilter": null,
+    "cardFilter": {
+      "__id__": 26
+    },
+    "itemFilter": null
+  },
+  {
+    "__type__": "CardFilter",
+    "filter": 0
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"
+    },
+    "fileId": "5e3oiNSxVFVbgR2xRFVlMc",
+    "sync": false
+  },
+  {
+    "__type__": "498250Dh1ZDlrDh29KkeOHg",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 21
+    },
+    "_enabled": true,
+    "cost": null,
+    "preCondition": null,
+    "conditions": [],
+    "passiveType": 1,
+    "passiveEffectToAdd": null,
+    "dataCollector": [
+      {
+        "__id__": 23
+      }
+    ],
+    "_effectCard": null,
+    "optional": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "optionalFlavorText": "",
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"
+    },
+    "fileId": "68GGLuF+lJyq1f487oTdMc",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "RechargeItem",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [
+      {
+        "__id__": 31
+      },
+      {
+        "__id__": 34
+      }
+    ],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 37
+      }
+    ],
+    "_prefab": {
+      "__id__": 38
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 85.5,
+      "height": 8
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        -52.65,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "CardActivated",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 30
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 32
+      }
+    ],
+    "_prefab": {
+      "__id__": 33
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "0175bFUYExPf5FCIvNA1zX2",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 31
+    },
+    "_enabled": true,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"
+    },
+    "fileId": "17f+MWYqxL8ov5i+2ti/vu",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "TakeDamage",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 30
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 35
+      }
+    ],
+    "_prefab": {
+      "__id__": 36
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "398b8MXAmROaK6OKY16PjV6",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 34
+    },
+    "_enabled": true,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"
+    },
+    "fileId": "cbDAtHDzxBAKboshWsMWxV",
+    "sync": false
+  },
+  {
+    "__type__": "14ed6MlA1pOLYkroRqoh1T+",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 30
+    },
+    "_enabled": true,
+    "cost": null,
+    "preCondition": null,
+    "conditions": [
+      {
+        "__id__": 35
+      }
+    ],
+    "passiveType": 2,
+    "passiveEffectToAdd": null,
+    "dataCollector": [
+      {
+        "__id__": 32
+      }
+    ],
+    "_effectCard": null,
+    "optional": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "optionalFlavorText": "",
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"
+    },
+    "fileId": "6a0mXgkPJOjaL8R3AQLt60",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "Mask Node",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [
+      {
+        "__id__": 40
+      }
+    ],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 43
+      },
+      {
+        "__id__": 44
+      }
+    ],
+    "_prefab": {
+      "__id__": 45
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 100,
+      "height": 140
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "Particle",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 39
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 41
+      }
+    ],
+    "_prefab": {
+      "__id__": 42
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        5,
+        5,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.ParticleSystem",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 40
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 1,
+    "_custom": false,
+    "_file": {
+      "__uuid__": "b2687ac4-099e-403c-a192-ff477686f4f5"
+    },
+    "_spriteFrame": {
+      "__uuid__": "472df5d3-35e7-4184-9e6c-7f41bee65ee3"
+    },
+    "_texture": {
+      "__uuid__": "d0a82d39-bede-46c4-b698-c81ff0dedfff"
+    },
+    "_stopped": true,
+    "playOnLoad": false,
+    "autoRemoveOnFinish": false,
+    "totalParticles": 200,
+    "duration": -1,
+    "emissionRate": 999.999985098839,
+    "life": 0.20000000298023224,
+    "lifeVar": 0.5,
+    "_startColor": {
+      "__type__": "cc.Color",
+      "r": 202,
+      "g": 200,
+      "b": 86,
+      "a": 163
+    },
+    "_startColorVar": {
+      "__type__": "cc.Color",
+      "r": 229,
+      "g": 255,
+      "b": 173,
+      "a": 198
+    },
+    "_endColor": {
+      "__type__": "cc.Color",
+      "r": 173,
+      "g": 161,
+      "b": 19,
+      "a": 214
+    },
+    "_endColorVar": {
+      "__type__": "cc.Color",
+      "r": 107,
+      "g": 249,
+      "b": 249,
+      "a": 188
+    },
+    "angle": 360,
+    "angleVar": 360,
+    "startSize": 3.369999885559082,
+    "startSizeVar": 50,
+    "endSize": 30.31999969482422,
+    "endSizeVar": 0,
+    "startSpin": -47.369998931884766,
+    "startSpinVar": 0,
+    "endSpin": -47.369998931884766,
+    "endSpinVar": -142.11000061035156,
+    "sourcePos": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "posVar": {
+      "__type__": "cc.Vec2",
+      "x": 7,
+      "y": 7
+    },
+    "_positionType": 1,
+    "positionType": 1,
+    "emitterMode": 0,
+    "gravity": {
+      "__type__": "cc.Vec2",
+      "x": 0.25,
+      "y": 0.8600000143051147
+    },
+    "speed": 0,
+    "speedVar": 190.7899932861328,
+    "tangentialAccel": -92.11000061035156,
+    "tangentialAccelVar": 65.79000091552734,
+    "radialAccel": -671.0499877929688,
+    "radialAccelVar": 65.79000091552734,
+    "rotationIsDir": false,
+    "startRadius": 0,
+    "startRadiusVar": 0,
+    "endRadius": 0,
+    "endRadiusVar": 0,
+    "rotatePerS": 0,
+    "rotatePerSVar": 0,
+    "_N$preview": true,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"
+    },
+    "fileId": "78AvayX/tLiIGT2vIdaBvh",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Mask",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 39
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_spriteFrame": null,
+    "_type": 0,
+    "_segments": 64,
+    "_N$alphaThreshold": 0,
+    "_N$inverted": true,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 39
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 45,
+    "_left": 0,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 0,
+    "_originalHeight": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"
+    },
+    "fileId": "c1L4dMB0xB7pfnCnjwbfC0",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_spriteFrame": {
+      "__uuid__": "f97c6720-b7f9-4fc8-b139-214696f4bdfd"
+    },
+    "_type": 0,
+    "_sizeMode": 0,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
+    "_id": ""
+  },
+  {
+    "__type__": "469baVqArxNIJpM2pHjkHeJ",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "cardName": "Forever Alone",
+    "doNotMake": false,
+    "cardMask": null,
+    "cardSprite": null,
+    "makeMultiCards": false,
+    "numOfCopies": 2,
+    "copiesSprites": [],
+    "_cardId": 0,
+    "_isInHand": false,
+    "_isOnDesk": false,
+    "_originalParent": null,
+    "_originalWidth": null,
+    "topDeckof": null,
+    "souls": 0,
+    "type": 4,
+    "isGoingToBePlayed": false,
+    "_isAttackable": false,
+    "_isBuyable": false,
+    "_isPlayable": false,
+    "_isActivateable": false,
+    "_isReactable": false,
+    "_isRequired": false,
+    "_requiredFor": null,
+    "frontSprite": null,
+    "backSprite": null,
+    "_isFlipped": false,
+    "_ownedBy": null,
+    "hasCounter": false,
+    "_effectCounterLable": null,
+    "_counters": 0,
+    "_hasEventsBeenModified": false,
+    "availableParticles": [],
+    "_id": ""
+  },
+  {
+    "__type__": "b5e97fLQIJGGq1XOyBEfLay",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "type": 1,
+    "activated": false,
+    "eternal": true,
+    "lastOwnedBy": null,
+    "_id": ""
+  },
+  {
+    "__type__": "bd535UKRTNDu7iLPx8/+FlC",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "hasDestroySelfEffect": false,
+    "conditions": [],
+    "activeEffects": [
+      {
+        "__id__": 5
+      },
+      {
+        "__id__": 14
+      },
+      {
+        "__id__": 21
+      }
+    ],
+    "passiveEffects": [
+      {
+        "__id__": 30
+      }
+    ],
+    "toAddPassiveEffects": [],
+    "paidEffects": [],
+    "test123": [],
+    "hasMultipleEffects": true,
+    "multiEffectCollector": {
+      "__id__": 3
+    },
+    "effectData": null,
+    "data": {},
+    "cardPlayerId": 0,
+    "serverEffectStack": [],
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "8ec11ae6-baf0-4871-b6d6-139b5b29762d"
+    },
+    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "sync": false
+  }
+]

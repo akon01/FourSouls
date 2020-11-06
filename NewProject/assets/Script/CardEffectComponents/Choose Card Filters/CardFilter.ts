@@ -15,7 +15,7 @@ export default class CardFilter implements IFilter {
 
 
     getStatement() {
-        // const comp = new Card()
+         const comp = new Card()
         // if(comp.isGoingToBePlayed == false)
         switch (this.filter) {
             case CARD_FILTERS.IS_NOT_GOING_TO_BE_PLAYED:

@@ -84,7 +84,7 @@ export default class MonsterRewardStackEffect extends StackEffectConcrete {
 
     }
 
-    async resolve(true) {
+    async resolve() {
         if (this.hasLockingStackEffect) {
             await Stack.addToStack(this.lockingStackEffect, true)
             this.monsterReward.rollNumber = this.LockingResolve;
@@ -96,12 +96,15 @@ export default class MonsterRewardStackEffect extends StackEffectConcrete {
         const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.MONSTER_IS_KILLED, [], null, this.monsterWithReward.node, this.entityId)
         await PassiveManager.testForPassiveAfter(passiveMeta)
         await Stack.fizzleStackEffect(this, true, true)
+
         cc.error(`after passive check, discard top monster or give souls card`)
-        if (cardComp.souls == 0) {
-            await this.monsterWithReward.monsterPlace.discardTopMonster(true)
-            //await PileManager.addCardToPile(CARD_TYPE.MONSTER, this.monsterWithReward.node, true);
-        } else {
-            await turnPlayer.getSoulCard(this.monsterWithReward.node, true)
+        if (this.monsterWithReward.monsterPlace) {
+            if (cardComp.souls == 0) {
+                await this.monsterWithReward.monsterPlace.discardTopMonster(true)
+                //await PileManager.addCardToPile(CARD_TYPE.MONSTER, this.monsterWithReward.node, true);
+            } else {
+                await turnPlayer.getSoulCard(this.monsterWithReward.node, true)
+            }
         }
         // await Stack.fizzleStackEffect(this, true)
     }

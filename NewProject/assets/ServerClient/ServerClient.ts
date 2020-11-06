@@ -263,8 +263,17 @@ export default class ServerClient extends cc.Component {
     whevent.emit(Events.LOST_CONNECTION, {});
   }
 
+  reviver(key, value) {
+    if(typeof value === 'object' && value !== null) {
+      if (value.dataType === 'Map') {
+        return new Map(value.value);
+      }
+    }
+    return value;
+  }
+
   onMessage({ data }) {
-    const pack = JSON.parse(atob(data));
+    const pack = JSON.parse(atob(data),this.reviver);
     whevent.emit(pack.signal, pack.data);
     if (
       pack.signal == Signal.REACTION ||
@@ -273,6 +282,20 @@ export default class ServerClient extends cc.Component {
       cc.log(++this.reactionCounter);
     }
     //cc.log('%cRECEIVE:', 'color:#4A3;', pack.signal, pack.data);
+  }
+  
+
+
+  replacer(key, value) {
+    const originalObject = this[key];
+    if(originalObject instanceof Map) {
+      return {
+        dataType: 'Map',
+        value: Array.from(originalObject.entries()), // or with spread: value: [...originalObject]
+      };
+    } else {
+      return value;
+    }
   }
 
   send(signal: string, data?: any) {
@@ -283,7 +306,7 @@ export default class ServerClient extends cc.Component {
     Logger.printMethodSignal([signal, data], true)
     // cc.log("%cSENDING:", "color:#36F;", signal, time);
     // cc.log(data)
-    this.ws.send(btoa(JSON.stringify({ signal, data })));
+    this.ws.send(btoa(JSON.stringify({ signal, data },this.replacer)));
   }
 
   onUUID(uuid: number) {

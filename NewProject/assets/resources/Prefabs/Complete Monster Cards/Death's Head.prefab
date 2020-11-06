@@ -242,6 +242,7 @@
     },
     "_enabled": true,
     "isOwnerTurnOnly": false,
+    "isOnlyForAttackableMonsters": false,
     "isSpecificNewMonster": true,
     "specificNewMonster": {
       "__id__": 5
@@ -766,6 +767,7 @@
     },
     "_enabled": true,
     "isOwnerTurnOnly": false,
+    "isOnlyForAttackableMonsters": true,
     "isSpecificNewMonster": false,
     "specificNewMonster": null,
     "isSpecificNotNewMonster": true,
@@ -1693,6 +1695,10 @@
     "_enabled": true,
     "isSpecificMonster": false,
     "specificMonsterCard": null,
+    "isSpecificNotMonster": true,
+    "specificNotMonsterCard": {
+      "__id__": 1
+    },
     "isSpecificRoll": false,
     "specificRolls": [],
     "_id": ""

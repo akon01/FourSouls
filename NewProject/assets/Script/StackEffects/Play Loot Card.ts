@@ -117,7 +117,7 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
 
     }
 
-    async resolve(true) {
+    async resolve() {
         let selectedEffect: Effect = null;
         const cardEffect = this.lootToPlay.getComponent(CardEffect)
         this.lootPlayer._lootCardsPlayedThisTurn.push(this.lootToPlay)

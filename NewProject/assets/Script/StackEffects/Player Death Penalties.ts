@@ -69,7 +69,7 @@ export default class PlayerDeathPenalties extends StackEffectConcrete {
         turnPlayer.givePriority(true)
     }
 
-    async resolve(true) {
+    async resolve() {
         const amId = ActionLable.$.publishMassage(`Player ${this.playerToPay.playerId} pays Penalties`, 0, true)
         await this.playerToPay.payPenalties(true)
         ActionLable.$.removeMessage(amId, true)

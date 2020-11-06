@@ -70,7 +70,7 @@ export default class MonsterField extends cc.Component {
         await TurnsManager.currentTurn.getTurnPlayer().activateCard(monsterCard)
       }
     }
-    CardManager.allCards.push(monsterCard);
+    CardManager.allCards.add(monsterCard.getComponent(Card)._cardId);
     CardManager.onTableCards.push(monsterCard);
 
   }

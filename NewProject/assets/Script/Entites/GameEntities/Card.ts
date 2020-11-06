@@ -5,6 +5,7 @@ import { CARD_HEIGHT, CARD_TYPE, CARD_WIDTH, PASSIVE_EVENTS, ROLL_TYPE } from ".
 import PassiveManager, { PassiveMeta } from "../../Managers/PassiveManager";
 import Player from "./Player";
 import CardManager from "../../Managers/CardManager";
+import ParticleManager from "../../Managers/ParticleManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -162,6 +163,11 @@ export default class Card extends cc.Component {
     cardSprite.getComponent(cc.Widget).updateAlignment();
     glowSprite.getComponent(cc.Widget).target = this.node
     glowSprite.getComponent(cc.Widget).updateAlignment();
+    const glows = ParticleManager.$.glows
+    for (let index = 0; index < glows.length; index++) {
+      const glow = glows[index];
+      glowSprite.getComponent(cc.Animation).addClip(glow)
+    }
     cardSprite.getComponent(cc.Sprite).spriteFrame = this.node.getComponent(cc.Sprite).spriteFrame
     if (!sprites.isChildOf(this.node)) {
       this.node.addChild(sprites)

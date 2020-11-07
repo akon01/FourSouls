@@ -215,7 +215,7 @@ export default class MainScript extends cc.Component {
       if (deck.suffleInTheStart) {
         deck.shuffleDeck()
       } else {
-        ServerClient.$.send(Signal.DECK_ARRAGMENT, { deckType: deck.deckType, arrangement: deck._cards.map(card => card.getComponent(Card)._cardId) })
+        ServerClient.$.send(Signal.DECK_ARRAGMENT, { deckType: deck.deckType, arrangement: deck.getCards().map(card => card.getComponent(Card)._cardId) })
       }
 
     }
@@ -270,7 +270,7 @@ export default class MainScript extends cc.Component {
 
       ServerClient.$.send(Signal.UPDATE_ACTIONS)
       var number = MainScript.countNodes(cc.find("Canvas"), 0, new Set<cc.Node>())
-      const allCards = CardManager.allCards.getCards()
+      const allCards = CardManager.GetAllCards()
       allCards.forEach(card => {
         number = MainScript.countNodes(card, number, new Set<cc.Node>())
       });

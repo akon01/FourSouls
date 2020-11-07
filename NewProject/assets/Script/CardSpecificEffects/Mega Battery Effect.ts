@@ -30,7 +30,7 @@ export default class MegaBatteryEffect extends Effect {
       throw new Error('no target')
     } else {
       let player = PlayerManager.getPlayerByCard(targetPlayerCard as cc.Node)
-      let itemsToRecharge = player.deskCards.filter(card => {
+      let itemsToRecharge = player.getDeskCards().filter(card => {
         let item = card.getComponent(Item)
         if ((item.type == ITEM_TYPE.ACTIVE || item.type == ITEM_TYPE.ACTIVE_AND_PASSIVE || item.type == ITEM_TYPE.ACTIVE_AND_PAID || item.type == ITEM_TYPE.ALL) && item.needsRecharge) {
           return true

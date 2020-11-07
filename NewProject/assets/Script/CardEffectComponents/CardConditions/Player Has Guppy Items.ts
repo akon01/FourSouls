@@ -26,7 +26,7 @@ export default class PlayerHasGuppyItems extends Condition {
     let player: Player = meta.methodScope.getComponent(Player);
     if (
       player instanceof Player &&
-      player.deskCards.filter(item => item.getComponent(Item).isGuppyItem).length >= this.numOfItems &&
+      player.getDeskCards().filter(item => item.getComponent(Item).isGuppyItem).length >= this.numOfItems &&
       this.event == meta.passiveEvent
     ) {
       return true;

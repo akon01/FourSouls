@@ -28,7 +28,12 @@ export default class ServerMonsterReward implements ServerStackEffectInterface {
         this.creatorCardId = stackEffect.creatorCardId;
         this.hasLockingStackEffect = stackEffect.hasLockingStackEffect;
         this.hasLockingStackEffectResolved = stackEffect.hasLockingStackEffectResolved;
-        this.monsterCardWithRewardId = stackEffect.monsterReward.node.parent.getComponent(Card)._cardId
+        //TODO: After checking and reworking all monster cards ,remove first part of if
+        if (stackEffect.monsterReward.attachedToCardId == 0) {
+            this.monsterCardWithRewardId = stackEffect.monsterReward.node.parent.getComponent(Card)._cardId
+        } else {
+            this.monsterCardWithRewardId = stackEffect.monsterReward.attachedToCardId
+        }
         this.playerCardIdToReward = stackEffect.playerToReward.character.getComponent(Card)._cardId
         this.stackEffectType = stackEffect.stackEffectType;
         this.numberRolled = stackEffect.numberRolled

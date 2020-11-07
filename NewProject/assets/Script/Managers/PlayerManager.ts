@@ -237,7 +237,7 @@ export default class PlayerManager extends cc.Component {
     } else {
       itemCard = fullCharCard.item;
     }
-    CardManager.onTableCards.push(charCard, itemCard);
+    CardManager.addOnTableCards([charCard, itemCard]);
     if (player.node != this.mePlayer) {
       ServerClient.$.send(Signal.SET_CHAR, { originPlayerId: this.mePlayer.getComponent(Player).playerId, playerId: player.playerId, charCardId: charCard.getComponent(Card)._cardId, itemCardId: itemCard.getComponent(Card)._cardId })
       await this.waitForSetCharOver()
@@ -263,13 +263,13 @@ export default class PlayerManager extends cc.Component {
 
       let fullCharCard
       ////only for test of characters:
-    //  if (i == 0) {
-     //   cc.log(`i is zero`)
+      //  if (i == 0) {
+      //   cc.log(`i is zero`)
       //  fullCharCard = CardManager.characterDeck.find(card => card.char.getComponent(Card).cardName == "Bumbo")
-     // } else {
-        fullCharCard = CardManager.characterDeck.pop();
-        //   cc.log(fullCharCard)
-    //  }
+      // } else {
+      fullCharCard = CardManager.characterDeck.pop();
+      //   cc.log(fullCharCard)
+      //  }
       // special case: Eden
       if (fullCharCard.char.getComponent(Card).cardName == "Eden") {
         isEden = true
@@ -282,7 +282,7 @@ export default class PlayerManager extends cc.Component {
     }
     // special case: Eden
     if (isEden) {
-      CardManager.onTableCards.push(edenItem)
+      CardManager.addOnTableCards([edenItem])
       const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_ADD_ITEM, [edenItem], null, edenPlayer.node);
       const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta);
       edenItem = afterPassiveMeta.args[0];
@@ -471,16 +471,18 @@ export default class PlayerManager extends cc.Component {
       if (player.character == card) { return player; }
       if (player.characterItem == card) { return player; }
 
-      for (let j = 0; j < player.handCards.length; j++) {
-        const testedCard = player.handCards[j];
+      const handCards = player.getHandCards();
+      for (let j = 0; j < handCards.length; j++) {
+        const testedCard = handCards[j];
 
         if (card == testedCard) {
           return player;
         }
       }
 
-      for (let j = 0; j < player.deskCards.length; j++) {
-        const testedCard = player.deskCards[j];
+      const deskCards = player.getDeskCards()
+      for (let j = 0; j < deskCards.length; j++) {
+        const testedCard = deskCards[j];
 
         if (card == testedCard) {
           return player;
@@ -491,7 +493,8 @@ export default class PlayerManager extends cc.Component {
         if (card == lootCard) { return player; }
       }
       if (player.soulsLayout) {
-        for (const soulCard of player.soulCards) {
+        const soulCards = player.getSoulCards();
+        for (const soulCard of soulCards) {
           if (card == soulCard) { return player; }
         }
       }

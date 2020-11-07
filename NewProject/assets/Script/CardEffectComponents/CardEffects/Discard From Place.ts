@@ -33,7 +33,7 @@ export default class DiscardFromPlace extends Effect {
         await monsterComp.monsterPlace.discardTopMonster(true)
         continue
       }
-      if (Store.storeCards.includes(target)) {
+      if (Store.getStoreCards().includes(target)) {
         await Store.$.discardStoreCard(target, true)
         continue
       }

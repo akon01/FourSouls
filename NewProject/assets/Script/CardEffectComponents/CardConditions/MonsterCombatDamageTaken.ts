@@ -53,7 +53,7 @@ export default class MonsterCombatDamageTaken extends Condition {
       }
     }
     if (this.isOwnerOnly) {
-      if (owner != meta.methodScope) {
+      if (owner.node != meta.methodScope) {
         answer = false
       }
     }

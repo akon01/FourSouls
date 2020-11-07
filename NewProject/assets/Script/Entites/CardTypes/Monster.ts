@@ -13,6 +13,8 @@ import MonsterCardHolder from "../MonsterCardHolder";
 import Stack from "../Stack";
 import SoundManager from "../../Managers/SoundManager";
 import AnnouncementLable from "../../LableScripts/Announcement Lable";
+import MonsterRewardDescription from "../../CardEffectComponents/MonsterRewards/Monster Reward Description";
+import BattleManager from "../../Managers/BattleManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -89,6 +91,19 @@ export default class Monster extends cc.Component {
     }
   })
   reward: MonsterReward = null;
+
+  @property({ type: MonsterRewardDescription })
+  monsterRewardDescription: MonsterRewardDescription = null
+
+  getReward() { 
+    const reward = BattleManager.getRewardByType(this.monsterRewardDescription.rewardType)
+    reward.doubleReward = this.monsterRewardDescription.doubleReward
+    reward.rollNumber = this.monsterRewardDescription.rollNumber
+    reward.hasRoll = this.monsterRewardDescription.hasRoll
+    reward.setRewardQuantity(this.monsterRewardDescription.quantity)
+    reward.attachedToCardId = Card.getCardNodeByChild(this.node).getComponent(Card)._cardId
+    return reward
+  }
 
   @property({ visible: false })
   killer: cc.Node = null;

@@ -1,3 +1,4 @@
+import { REWARD_TYPES } from "../../Constants";
 import Player from "../../Entites/GameEntities/Player";
 import CardManager from "../../Managers/CardManager";
 import MonsterReward from "./MonsterReward";
@@ -14,6 +15,12 @@ export default class RollGainLoot extends MonsterReward {
 
   @property
   numOfLootToAdd: number = 0;
+
+  type: REWARD_TYPES = REWARD_TYPES.rollLoot
+
+  setRewardQuantity(number: number) {
+    this.numOfLootToAdd = number
+  }
 
   async rewardPlayer(playerToReward: cc.Node, sendToServer: boolean) {
     const player = playerToReward.getComponent(Player)

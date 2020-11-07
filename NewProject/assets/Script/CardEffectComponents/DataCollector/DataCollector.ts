@@ -6,14 +6,17 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class DataCollector extends cc.Component implements DataCollectorInterface {
-  private _isCardChosen: boolean = false;
-  set isCardChosen(boolean: boolean) {
-    this._isCardChosen = boolean
+  isCardChosen: boolean = false
+  isEffectChosen: boolean = false
+
+  setIsCardChosen(is: boolean) {
+    this.isCardChosen = is
   }
-  private _isEffectChosen: boolean = false;
-  set isEffectChosen(boolean: boolean) {
-    this._isEffectChosen = boolean
+
+  setIsEffectChosen(is: boolean) {
+    this.isEffectChosen = is
   }
+
   cardChosen: cc.Node;
   collectorName = "CardPlayer";
   hasSubAction: boolean = false;

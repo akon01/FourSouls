@@ -40,7 +40,7 @@ export default class RefillEmptySlot extends StackEffectConcrete {
         }
         switch (this.slotType) {
             case CARD_TYPE.TREASURE:
-                if (Store.storeCards.length == Store.maxNumOfItems && this.hasResolved == false) {
+                if (Store.getStoreCards().length == Store.maxNumOfItems && this.hasResolved == false) {
                     this.isToBeFizzled = true
                     return true
                 }

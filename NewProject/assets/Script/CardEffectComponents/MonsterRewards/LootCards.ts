@@ -2,6 +2,7 @@ import DataCollector from "../DataCollector/DataCollector";
 import Player from "../../Entites/GameEntities/Player";
 import MonsterReward from "./MonsterReward";
 import CardManager from "../../Managers/CardManager";
+import { REWARD_TYPES } from "../../Constants";
 
 
 const { ccclass, property } = cc._decorator;
@@ -14,8 +15,14 @@ export default class LootCards extends MonsterReward {
 
   rollNumber: number = 0;
 
+  type: REWARD_TYPES = REWARD_TYPES.loot
+
   @property
   numOfCardsToLoot: number = 0;
+
+  setRewardQuantity(number: number) {
+    this.numOfCardsToLoot = number
+  }
 
   async rewardPlayer(playerToReward: cc.Node, sendToServer: boolean) {
     if (this.doubleReward) {

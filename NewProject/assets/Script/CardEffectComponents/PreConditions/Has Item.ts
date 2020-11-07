@@ -17,7 +17,9 @@ export default class HasItems extends PreCondition {
     const owner = CardManager.getCardOwner(thisCard);
     if (owner) {
       const player = PlayerManager.getPlayerByCard(owner)
-      const playerItems = [...player.activeItems.filter(item => { if (!item.getComponent(Item).eternal) { return true } }), ...player.passiveItems.filter(item => { if (!item.getComponent(Item).eternal) { return true } }), ...player.paidItems.filter(item => { if (!item.getComponent(Item).eternal) { return true } })]
+      const playerItems = [...player.getActiveItems().filter(item => { if (!item.getComponent(Item).eternal) { return true } }),
+      ...player.getPassiveItems().filter(item => { if (!item.getComponent(Item).eternal) { return true } }),
+      ...player.getPaidItems().filter(item => { if (!item.getComponent(Item).eternal) { return true } })]
       cc.log(playerItems)
       if (playerItems.length >= this.itemsNeeded) {
         return true

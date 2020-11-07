@@ -40,7 +40,7 @@ export default class PurchaseItem extends StackEffectConcrete {
             this.isToBeFizzled = true
             return true
         }
-        if (!Store.storeCards.includes(this.itemToPurchase)) {
+        if (!Store.getStoreCards().includes(this.itemToPurchase)) {
             this.isToBeFizzled = true
             return true
         }
@@ -59,7 +59,7 @@ export default class PurchaseItem extends StackEffectConcrete {
 
         this.itemToPurchase = itemToPurchase;
         this.playerWhoBuys = PlayerManager.getPlayerById(playerWhoBuysId)
-        if (Store.storeCards.includes(itemToPurchase)) {
+        if (Store.getStoreCards().includes(itemToPurchase)) {
             this.cost = this.playerWhoBuys.getStoreCost()
         } else { this.cost = Store.topCardCost }
         this.visualRepesentation = new PurchaseItemVis(this.itemToPurchase, this.playerWhoBuys, this.cost)

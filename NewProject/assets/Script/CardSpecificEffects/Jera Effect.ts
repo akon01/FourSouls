@@ -34,7 +34,7 @@ export default class JeraEffect extends Effect {
     } else {
       if (targetPlayerCard instanceof cc.Node) {
         let player: Player = PlayerManager.getPlayerByCard(targetPlayerCard)
-        let numOfCardsToDraw = player.handCards.length
+        let numOfCardsToDraw = player.getHandCards().length
         for (let i = 0; i < numOfCardsToDraw; i++) {
           await player.drawCard(CardManager.lootDeck, true)
         }

@@ -36,7 +36,7 @@ export default class CursedChestEffect extends Effect {
     }
     const deck: Deck = CardManager.treasureDeck.getComponent(Deck)
     const guppyItems: Item[] = [];
-    deck._cards.getCards().forEach(card => {
+    deck.getCards().forEach(card => {
       if (card.getComponent(Item).isGuppyItem) {
         guppyItems.push(card.getComponent(Item))
       }

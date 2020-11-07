@@ -1,8 +1,5 @@
-import { EDOM } from "constants";
 
-
-
-export default class EffectTextPos  {
+export default class EffectTextPos {
 
 
     Ystart: number = 0;
@@ -10,7 +7,7 @@ export default class EffectTextPos  {
 
     Yend: number = 0;
 
-    constructor(start:number,end:number) {
+    constructor(start: number, end: number) {
         this.Ystart = start;
         this.Yend = end
     }

@@ -1,3 +1,4 @@
+import { REWARD_TYPES } from "../../Constants";
 import Player from "../../Entites/GameEntities/Player";
 import MonsterReward from "./MonsterReward";
 
@@ -13,6 +14,11 @@ export default class RollGainMoney extends MonsterReward {
 
   doubleReward: boolean = false;
 
+  type: REWARD_TYPES = REWARD_TYPES.rollMoney
+
+  setRewardQuantity(number: number) {
+    this.numOfMoneyToAdd = number
+  }
 
   @property
   numOfMoneyToAdd: number = 0;

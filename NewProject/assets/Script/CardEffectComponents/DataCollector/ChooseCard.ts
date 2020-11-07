@@ -32,9 +32,11 @@ export default class ChooseCard extends DataCollector {
 
   // private _isCardChosen: boolean = false;
 
-  set isCardChosen(boolean: boolean) {
+  setIsCardChosen(boolean: boolean) {
+    this.isCardChosen = boolean;
     whevent.emit(GAME_EVENTS.CHOOSE_CARD_CARD_CHOSEN, boolean)
   }
+
 
   @property
   multiType: boolean = false;
@@ -98,7 +100,6 @@ export default class ChooseCard extends DataCollector {
     const player = PlayerManager.getPlayerById(data.cardPlayerId)
     this.playerId = data.cardPlayerId;
 
-    //  let cardsToChooseFrom: Set<cc.Node> = new Set()
     let cardsToChooseFrom: cc.Node[] = []
     if (this.multiType) {
       for (const filterComp of this.chooseTypes) {
@@ -220,23 +221,23 @@ export default class ChooseCard extends DataCollector {
 
       // Get all of the chosen player hand cards
       case CHOOSE_CARD_TYPE.MY_HAND:
-        return mePlayer.handCards;
+        return mePlayer.getHandCards();
       case CHOOSE_CARD_TYPE.PILES:
         return PileManager.getTopCardOfPiles()
       case CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND:
-        return spesificPlayer.handCards
+        return spesificPlayer.getHandCards()
       case CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_ITEMS_WITHOUT_ETERNALS:
-        return spesificPlayer.deskCards.filter(card => { if (!(card.getComponent(Item).eternal)) { return true } })
+        return spesificPlayer.getDeskCards().filter(card => { if (!(card.getComponent(Item).eternal)) { return true } })
       case CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_ITEMS:
-        return spesificPlayer.deskCards
+        return spesificPlayer.getDeskCards()
       case CHOOSE_CARD_TYPE.DECKS:
         cardsToReturn = CardManager.getAllDecks();
         return cardsToReturn;
       case CHOOSE_CARD_TYPE.MONSTER_PLACES:
-        const monsterPlaces = MonsterField.activeMonsters;
+        const monsterPlaces = MonsterField.getActiveMonsters();
         return monsterPlaces;
       case CHOOSE_CARD_TYPE.NON_ATTACKED_ACTIVE_MONSTERS:
-        return MonsterField.activeMonsters.filter(monster => {
+        return MonsterField.getActiveMonsters().filter(monster => {
           if (BattleManager.currentlyAttackedMonsterNode != monster || Stack._currentStack.findIndex(se => {
             if (se instanceof ActivateItem &&
               se.itemToActivate.getComponent(Monster) != null &&
@@ -247,7 +248,7 @@ export default class ChooseCard extends DataCollector {
         })
 
       case CHOOSE_CARD_TYPE.MY_NON_ETERNALS:
-        cardsToReturn = mePlayer.deskCards.filter(
+        cardsToReturn = mePlayer.getDeskCards().filter(
           card => !card.getComponent(Item).eternal
         );
         return cardsToReturn;
@@ -255,18 +256,18 @@ export default class ChooseCard extends DataCollector {
         cardsToReturn
         players = PlayerManager.players.map(player => player.getComponent(Player))
         for (const player of players) {
-          //    let activeItems = player.activeItems.map(activeItem => { if (activeItem.getComponent(Item).activated) return activeItem })
+          //    let activeItems = player.getActiveItems().map(activeItem => { if (activeItem.getComponent(Item).activated) return activeItem })
           //  
-          cardsToReturn = cardsToReturn.concat(player.activeItems, player.passiveItems, player.paidItems).filter(c => !player._curses.includes(c))
+          cardsToReturn = cardsToReturn.concat(player.getActiveItems(), player.getPassiveItems(), player.getPaidItems()).filter(c => !player._curses.includes(c))
         }
         return cardsToReturn;
       case CHOOSE_CARD_TYPE.ALL_PLAYERS_ACTIVATED_ITEMS:
 
         players = PlayerManager.players.map(player => player.getComponent(Player))
         for (const player of players) {
-          //    let activeItems = player.activeItems.map(activeItem => { if (activeItem.getComponent(Item).activated) return activeItem })
+          //    let activeItems = player.getActiveItems().map(activeItem => { if (activeItem.getComponent(Item).activated) return activeItem })
           //
-          cardsToReturn = cardsToReturn.concat(player.activeItems.filter(item => {
+          cardsToReturn = cardsToReturn.concat(player.getActiveItems().filter(item => {
             if (item.getComponent(Item).needsRecharge) {
               return true
             }
@@ -277,7 +278,7 @@ export default class ChooseCard extends DataCollector {
       case CHOOSE_CARD_TYPE.ALL_PLAYERS_SOUL_CARDS:
         players = PlayerManager.players.map(player => player.getComponent(Player))
         for (const player of players) {
-          //    let activeItems = player.activeItems.map(activeItem => { if (activeItem.getComponent(Item).activated) return activeItem })
+          //    let activeItems = player.getActiveItems().map(activeItem => { if (activeItem.getComponent(Item).activated) return activeItem })
           //
           cardsToReturn = cardsToReturn.concat(player.soulsLayout.children)
         }
@@ -286,9 +287,9 @@ export default class ChooseCard extends DataCollector {
         cardsToReturn
         players = PlayerManager.players.map(player => player.getComponent(Player))
         for (const player of players) {
-          //    let activeItems = player.activeItems.map(activeItem => { if (activeItem.getComponent(Item).activated) return activeItem })
+          //    let activeItems = player.getActiveItems().map(activeItem => { if (activeItem.getComponent(Item).activated) return activeItem })
           //
-          cardsToReturn = cardsToReturn.concat(player.activeItems.filter(item => {
+          cardsToReturn = cardsToReturn.concat(player.getActiveItems().filter(item => {
             if (!item.getComponent(Item).needsRecharge) {
               return true
             }
@@ -297,17 +298,17 @@ export default class ChooseCard extends DataCollector {
         }
         return cardsToReturn;
       case CHOOSE_CARD_TYPE.MY_ITEMS:
-        cardsToReturn = mePlayer.deskCards.filter(
+        cardsToReturn = mePlayer.getDeskCards().filter(
           card => !card.getComponent(Item).eternal
         );
         return cardsToReturn;
       case CHOOSE_CARD_TYPE.MY_ACTIVATED_ITEMS:
-        cardsToReturn = mePlayer.deskCards.filter(
+        cardsToReturn = mePlayer.getDeskCards().filter(
           card => card.getComponent(Item).needsRecharge
         );
         return cardsToReturn;
       case CHOOSE_CARD_TYPE.MY_NON_ACTIVATED_ITEMS:
-        cardsToReturn = mePlayer.deskCards.filter(
+        cardsToReturn = mePlayer.getDeskCards().filter(
           card => !card.getComponent(Item).needsRecharge
         );
         return cardsToReturn;
@@ -317,7 +318,7 @@ export default class ChooseCard extends DataCollector {
           mePlayer = PlayerManager.players[index].getComponent(Player);
           playerCards.push(mePlayer.character);
         }
-        cardsToReturn = MonsterField.activeMonsters.concat(playerCards);
+        cardsToReturn = MonsterField.getActiveMonsters().concat(playerCards);
 
         return cardsToReturn;
       case CHOOSE_CARD_TYPE.MY_CURSES:
@@ -328,7 +329,7 @@ export default class ChooseCard extends DataCollector {
       case CHOOSE_CARD_TYPE.ALL_PLAYERS_NON_ETERNAL_ITEMS:
         PlayerManager.players.forEach(player => {
           const playerComp = player.getComponent(Player);
-          cardsToReturn = cardsToReturn.concat((playerComp.deskCards.filter(card => {
+          cardsToReturn = cardsToReturn.concat((playerComp.getDeskCards().filter(card => {
             if (!card.getComponent(Item).eternal) { return true; }
           }).filter(c => !playerComp._curses.includes(c))))
         })
@@ -337,15 +338,15 @@ export default class ChooseCard extends DataCollector {
         PlayerManager.players.forEach(player => {
           const playerComp = player.getComponent(Player);
           if (playerComp.me) { return }
-          cardsToReturn = cardsToReturn.concat((playerComp.deskCards.filter(card => {
+          cardsToReturn = cardsToReturn.concat((playerComp.getDeskCards().filter(card => {
             if (!card.getComponent(Item).eternal) { return true; }
           }).filter(c => !playerComp._curses.includes(c))))
         })
         return cardsToReturn;
       case CHOOSE_CARD_TYPE.STORE_CARDS:
-        return Store.storeCards;
+        return Store.getStoreCards();
       case CHOOSE_CARD_TYPE.IN_TREASURE_DECK_GUPPY_ITEMS:
-        var x = CardManager.treasureDeck.getComponent(Deck)._cards.getCards().filter(e => e.getComponent(Item).isGuppyItem)
+        var x = CardManager.treasureDeck.getComponent(Deck).getCards().filter(e => e.getComponent(Item).isGuppyItem)
         return x
       case CHOOSE_CARD_TYPE.MOST_SOULS_PLAYERS:
         players = PlayerManager.players.map(p => p.getComponent(Player))

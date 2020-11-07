@@ -36,7 +36,7 @@ export default class EqualLootAndMoneyOfPlayer extends Effect {
       let rewardedPlayer = players[0]
       let playerToEqualTo = players[1]
 
-      const cardDiff = playerToEqualTo.handCards.length - rewardedPlayer.handCards.length
+      const cardDiff = playerToEqualTo.getHandCards().length - rewardedPlayer.getHandCards().length
       for (let i = 0; i < cardDiff; i++) {
         let loot = CardManager.lootDeck.getComponent(Deck).drawCard(true)
         await rewardedPlayer.gainLoot(loot, true)

@@ -21,7 +21,7 @@ export default class CardOwnerGainCoin extends Condition {
     const player: Player = meta.methodScope.getComponent(Player);
     if (
       player instanceof Player &&
-      player.handCards.length == this.numOfLootsNeeded &&
+      player.getHandCards().length == this.numOfLootsNeeded &&
       this.events.includes(meta.passiveEvent)
     ) {
       return true;

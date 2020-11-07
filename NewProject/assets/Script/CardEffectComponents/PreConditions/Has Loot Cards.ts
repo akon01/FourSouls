@@ -18,7 +18,7 @@ export default class HasLootCards extends PreCondition {
     let owner = CardManager.getCardOwner(thisCard);
     if (owner) {
       let player = PlayerManager.getPlayerByCard(owner)
-      if (player.handCards.length > 0) {
+      if (player.getHandCards().length > 0) {
         return true
       } else return false
     } else {

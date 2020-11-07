@@ -1,7 +1,7 @@
 import { TARGETTYPE } from "../../Constants";
 import Player from "../../Entites/GameEntities/Player";
 import CardPreviewManager from "../../Managers/CardPreviewManager";
-import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
+import { ActiveEffectData, EffectTarget, PassiveEffectData } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import { CHOOSE_CARD_TYPE } from "./../../Constants";
@@ -50,14 +50,15 @@ export default class LookAtPlayerHand extends Effect {
         const players = (playersCards as cc.Node[]).map(card => PlayerManager.getPlayerByCard(card))
         for (let i = 0; i < players.length; i++) {
           const player = players[i];
-          player.handCards.forEach(card => card.getComponent(Card).flipCard(false))
-          await CardPreviewManager.getPreviews(player.handCards, true)
+          const playerHandCards = player.getHandCards();
+          playerHandCards.forEach(card => card.getComponent(Card).flipCard(false))
+          await CardPreviewManager.getPreviews(playerHandCards, true)
           if (this.isAlsoMayStealAChosenCard) {
             await this.stealACardFromPlayer(player, originalPlayer)
           }
           await originalPlayer.giveNextClick(this.optionalFlavorText)
-          player.handCards.forEach(card => card.getComponent(Card).flipCard(false))
-          await CardPreviewManager.removeFromCurrentPreviews(player.handCards)
+          playerHandCards.forEach(card => card.getComponent(Card).flipCard(false))
+          await CardPreviewManager.removeFromCurrentPreviews(playerHandCards)
         }
       }
     } else {
@@ -68,13 +69,14 @@ export default class LookAtPlayerHand extends Effect {
         if (player == null) {
           throw new Error("No Target Found")
         } else {
-          const cardsToSee: cc.Node[] = player.handCards
-          player.handCards.forEach(card => card.getComponent(Card).flipCard(false))
+          const playerHandCards = player.getHandCards();
+          const cardsToSee: cc.Node[] = playerHandCards
+          playerHandCards.forEach(card => card.getComponent(Card).flipCard(false))
           await CardPreviewManager.getPreviews(cardsToSee, true)
           if (this.isAlsoMayStealAChosenCard) {
             await this.stealACardFromPlayer(player, originalPlayer)
           }
-          player.handCards.forEach(card => card.getComponent(Card).flipCard(false))
+          playerHandCards.forEach(card => card.getComponent(Card).flipCard(false))
         }
       }
     }
@@ -99,7 +101,7 @@ export default class LookAtPlayerHand extends Effect {
     const chosenCard = cardTarget.effectTargetCard
     const data = new ActiveEffectData()
     data.addTarget(chosenCard)
-    data.addTarget(originalPlayer.character)
+    data.addTarget(new EffectTarget(originalPlayer.character))
     await steal.doEffect(null, data)
 
 

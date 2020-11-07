@@ -65,7 +65,32 @@ export default class Player extends cc.Component {
   @property(cc.Component)
   hand: CardLayout = null;
 
-  handCards: cc.Node[] = [];
+  private handCards: Set<number> = null
+
+  getHandCards() {
+    return Array.from(this.handCards.values()).map(cid => CardManager.getCardById(cid))
+  }
+
+  addHandCards(cards: cc.Node[]) {
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.handCards.add(card)
+    });
+  }
+
+  setHandCards(cards: cc.Node[]) {
+    this.handCards.clear()
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.handCards.add(card)
+    });
+  }
+  removeFromHandCards(cards: cc.Node[]) {
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.handCards.delete(card)
+    });
+  }
 
   @property(cc.Component)
   dice: Dice = null;
@@ -80,13 +105,95 @@ export default class Player extends cc.Component {
   characterItem: cc.Node = null;
 
   @property({ visible: false })
-  activeItems: cc.Node[] = [];
+  activeItems: Set<number> = null
+
+  getActiveItems() {
+
+    return Array.from(this.activeItems.values()).map(cid => CardManager.getCardById(cid))
+  }
+
+  addActiveItems(cards: cc.Node[]) {
+
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.activeItems.add(card)
+    });
+  }
+
+  setActiveItems(cards: cc.Node[]) {
+
+    this.activeItems.clear()
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.activeItems.add(card)
+    });
+  }
+  removeFromActiveItems(cards: cc.Node[]) {
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.activeItems.delete(card)
+    });
+  }
 
   @property({ visible: false })
-  passiveItems: cc.Node[] = [];
+  private passiveItems: Set<number> = null
+
+  getPassiveItems() {
+
+    return Array.from(this.passiveItems.values()).map(cid => CardManager.getCardById(cid))
+  }
+
+  addPassiveItems(cards: cc.Node[]) {
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.passiveItems.add(card)
+    });
+  }
+
+  setPassiveItems(cards: cc.Node[]) {
+    this.passiveItems.clear()
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.passiveItems.add(card)
+    });
+  }
+  removeFromPassiveItems(cards: cc.Node[]) {
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.passiveItems.delete(card)
+    });
+  }
+
 
   @property({ visible: false })
-  paidItems: cc.Node[] = [];
+  private paidItems: Set<number> = null
+
+  getPaidItems() {
+
+    return Array.from(this.paidItems.values()).map(cid => CardManager.getCardById(cid))
+  }
+
+  addPaidItems(cards: cc.Node[]) {
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.paidItems.add(card)
+    });
+  }
+
+  setPaidItems(cards: cc.Node[]) {
+    this.paidItems.clear()
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.paidItems.add(card)
+    });
+  }
+  removeFromPaidItems(cards: cc.Node[]) {
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.paidItems.delete(card)
+    });
+  }
+
 
   @property({ visible: false })
   desk: PlayerDesk = null;
@@ -98,7 +205,32 @@ export default class Player extends cc.Component {
   souls: number = 0;
 
   @property({ visible: false })
-  soulCards: cc.Node[] = []
+  private soulCards: Set<number> = null
+
+  getSoulCards() {
+    return Array.from(this.soulCards.values()).map(cid => CardManager.getCardById(cid))
+  }
+
+  addSoulCards(cards: cc.Node[]) {
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.soulCards.add(card)
+    });
+  }
+
+  setSoulCards(cards: cc.Node[]) {
+    this.soulCards.clear()
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.soulCards.add(card)
+    });
+  }
+  removeFromSoulCards(cards: cc.Node[]) {
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.soulCards.delete(card)
+    });
+  }
 
   @property
   _extraSoulsNeededToWin: number = 0;
@@ -106,7 +238,33 @@ export default class Player extends cc.Component {
   @property
   _putCharLeft: boolean = false;
 
-  deskCards: cc.Node[] = [];
+  private deskCards: Set<number> = null
+
+  getDeskCards() {
+    return Array.from(this.deskCards.values()).map(cid => CardManager.getCardById(cid))
+  }
+
+  addDeskCards(cards: cc.Node[]) {
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.deskCards.add(card)
+    });
+  }
+
+  setDeskCards(cards: cc.Node[]) {
+    this.deskCards.clear()
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.deskCards.add(card)
+    });
+  }
+  removeFromDeskCards(cards: cc.Node[]) {
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.deskCards.delete(card)
+    });
+  }
+
 
   @property
   lootCardPlays: number = 0;
@@ -517,7 +675,7 @@ export default class Player extends cc.Component {
 
   async loseLoot(loot: cc.Node, sendToServer: boolean) {
     this.hand.removeCardFromLayout(loot)
-    this.handCards.splice(this.handCards.indexOf(loot), 1)
+    this.removeFromHandCards([loot])
     const serverData = {
       signal: Signal.PLAYER_LOSE_LOOT,
       srvData: { playerId: this.playerId, cardId: loot.getComponent(Card)._cardId },
@@ -535,7 +693,7 @@ export default class Player extends cc.Component {
     }
     this.hand.addCardToLayout(loot)
     loot.getComponent(Card)._ownedBy = this;
-    this.handCards.push(loot)
+    this.addHandCards([loot])
     if (loot.getComponent(Card)._isFlipped) {
       if (this.playerId == PlayerManager.mePlayer.getComponent(Player).playerId) {
         loot.getComponent(Card).flipCard(sendToServer)
@@ -708,7 +866,7 @@ export default class Player extends cc.Component {
       await this.changeMoney(-1, true)
     }
     // lose 1 loot if you have any
-    if (this.handCards.length > 0) {
+    if (this.handCards.size > 0) {
       const chooseCard = new ChooseCard();
       chooseCard.playerId = this.playerId
       chooseCard.flavorText = "Choose A Loot To Discard"
@@ -727,7 +885,7 @@ export default class Player extends cc.Component {
       await PileManager.addCardToPile(CARD_TYPE.LOOT, chosenCard, true)
     }
 
-    const nonEternalItems = this.deskCards.filter(
+    const nonEternalItems = this.getDeskCards().filter(
       card => (!card.getComponent(Item).eternal)
     );
     // lose 1 non-eternal item if you have any
@@ -749,7 +907,7 @@ export default class Player extends cc.Component {
       await PileManager.addCardToPile(chosenCard.getComponent(Card).type, chosenCard, true)
     }
 
-    this.activeItems.forEach(item => item.getComponent(Item).useItem(true))
+    this.getActiveItems().forEach(item => item.getComponent(Item).useItem(true))
     return true
   }
 
@@ -776,10 +934,15 @@ export default class Player extends cc.Component {
       itemToLose = afterPassiveMeta.args[0]
     }
     this.itemsLostThisTurn.push(itemToLose)
-    this.deskCards = this.deskCards.filter(item => item != itemToLose)
-    this.activeItems = this.activeItems.filter(item => item != itemToLose)
-    this.passiveItems = this.passiveItems.filter(item => item != itemToLose)
-    this.paidItems = this.paidItems.filter(item => item != itemToLose)
+
+    this.deskCards.clear()
+    const newDeskCards = this.getDeskCards().filter(item => item != itemToLose).map(card => card.getComponent(Card)._cardId)
+    newDeskCards.forEach(card => {
+      this.deskCards.add(card)
+    });
+    this.removeFromActiveItems([itemToLose])
+    this.removeFromPassiveItems([itemToLose])
+    this.removeFromPaidItems([itemToLose])
     if (sendToServer) {
       PassiveManager.removePassiveItemEffects(itemToLose, true)
     }
@@ -790,7 +953,7 @@ export default class Player extends cc.Component {
   }
 
   calcNumOfItemsToCharge() {
-    return (this._numOfItemsToRecharge == -1) ? this.activeItems.length : this._numOfItemsToRecharge
+    return (this._numOfItemsToRecharge == -1) ? this.activeItems.size : this._numOfItemsToRecharge
   }
 
   async startTurn(numOfCardToDraw: number, numberOfItemsToCharge: number, sendToServer: boolean) {
@@ -809,9 +972,10 @@ export default class Player extends cc.Component {
         return
       }
 
+      const activeItems = this.getActiveItems();
       // recharge items
-      if (numberOfItemsToCharge == this.activeItems.length) {
-        for (const item of this.activeItems) {
+      if (numberOfItemsToCharge == activeItems.length) {
+        for (const item of activeItems) {
           if (item.getComponent(Item).needsRecharge) {
             await this.rechargeItem(item, sendToServer)
           }
@@ -820,7 +984,7 @@ export default class Player extends cc.Component {
         const chooseCard = new ChooseCard();
         chooseCard.flavorText = "Choose Item To Recharge"
         for (let i = 0; i < numberOfItemsToCharge; i++) {
-          const cardChosenData = await chooseCard.requireChoosingACard(this.activeItems)
+          const cardChosenData = await chooseCard.requireChoosingACard(activeItems)
           const item = CardManager.getCardById(cardChosenData.cardChosenId, true).getComponent(Item)
           if (item.needsRecharge) {
             await this.rechargeItem(item.node, sendToServer)
@@ -1151,7 +1315,7 @@ export default class Player extends cc.Component {
       cardWithSoul = afterPassiveMeta.args[0]
     }
 
-    this.soulCards.push(cardWithSoul)
+    this.addSoulCards([cardWithSoul])
     this.souls += cardWithSoul.getComponent(Card).souls;
     const id = this.playerId;
 
@@ -1179,7 +1343,7 @@ export default class Player extends cc.Component {
   loseSoul(cardWithSoul: cc.Node, sendToServer: boolean) {
 
     this.souls -= cardWithSoul.getComponent(Card).souls;
-    this.soulCards = this.soulCards.filter(c => c != cardWithSoul)
+    this.removeFromSoulCards([cardWithSoul])
     const id = this.playerId;
 
     const serverData = {
@@ -1284,13 +1448,15 @@ export default class Player extends cc.Component {
   calculateReactions() {
     this.reactCardNode = [];
 
-    const reactableItems = [...this.activeItems, ...this.paidItems]
+    const paidItems = this.getPaidItems();
+    const activeItems = this.getActiveItems();
+    const reactableItems = [...activeItems, ...paidItems]
 
     for (let i = 0; i < reactableItems.length; i++) {
       const reactableItem = reactableItems[i].getComponent(Item);
       const cardEffectComp = reactableItem.node.getComponent(CardEffect);
       try {
-        if (this.paidItems.includes(reactableItem.node) && cardEffectComp.testEffectsPreConditions(false)) {
+        if (paidItems.includes(reactableItem.node) && cardEffectComp.testEffectsPreConditions(false)) {
           this.reactCardNode.push(reactableItem.node);
         } else if (!reactableItem.needsRecharge && cardEffectComp.testEffectsPreConditions(false)) {
           this.reactCardNode.push(reactableItem.node);
@@ -1300,7 +1466,8 @@ export default class Player extends cc.Component {
       }
     }
     if (TurnsManager.currentTurn.getTurnPlayer() == this && this.lootCardPlays > 0) {
-      for (const handCard of this.handCards) {
+      const handCards = this.getHandCards();
+      for (const handCard of handCards) {
         this.reactCardNode.push(handCard)
       }
       // if(this.reactCardNode.length == 0) this._reactionToggle.uncheck()
@@ -1472,14 +1639,18 @@ export default class Player extends cc.Component {
     this.character = character;
     this.characterItem = characterItem;
     this.cards.push(character, characterItem);
-    this.activeItems.push(character);
+    this.addActiveItems([character]);
     await this.addItemByType(characterItem, sendToServer);
 
     if (sendToServer) {
       ServerClient.$.send(Signal.ASSIGN_CHAR_TO_PLAYER, { playerId: this.playerId, charCardId: character.getComponent(Card)._cardId, itemCardId: characterItem.getComponent(Card)._cardId })
 
     }
-    if ((characterItem.getComponent(Item).type == ITEM_TYPE.PASSIVE || characterItem.getComponent(Item).type == ITEM_TYPE.ACTIVE_AND_PASSIVE || characterItem.getComponent(Item).type == ITEM_TYPE.PASSIVE_AND_PAID) && sendToServer) {
+    const charItemItemComp = characterItem.getComponent(Item);
+    if ((charItemItemComp.type == ITEM_TYPE.PASSIVE ||
+      charItemItemComp.type == ITEM_TYPE.ACTIVE_AND_PASSIVE ||
+      charItemItemComp.type == ITEM_TYPE.PASSIVE_AND_PAID)
+      && sendToServer) {
 
       const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_ADD_ITEM, [characterItem], null, this.node)
       if (this.node == PlayerManager.mePlayer) {
@@ -1496,34 +1667,34 @@ export default class Player extends cc.Component {
   async addItemByType(characterItem: cc.Node, sendToServer: boolean) {
     switch (characterItem.getComponent(Item).type) {
       case ITEM_TYPE.ACTIVE:
-        this.activeItems.push(characterItem);
+        this.addActiveItems([characterItem]);
         break;
       case ITEM_TYPE.PASSIVE:
-        this.passiveItems.push(characterItem);
+        this.addPassiveItems([characterItem]);
         await PassiveManager.registerPassiveItem(characterItem, sendToServer);
         break;
       case ITEM_TYPE.PAID:
-        this.paidItems.push(characterItem);
+        this.addPaidItems([characterItem]);
         break;
       case ITEM_TYPE.ACTIVE_AND_PASSIVE:
-        this.passiveItems.push(characterItem);
-        this.activeItems.push(characterItem);
+        this.addPassiveItems([characterItem]);
+        this.addActiveItems([characterItem]);
         await PassiveManager.registerPassiveItem(characterItem, sendToServer);
         break;
       case ITEM_TYPE.ACTIVE_AND_PAID:
-        this.activeItems.push(characterItem);
-        this.paidItems.push(characterItem);
+        this.addActiveItems([characterItem]);
+        this.addPaidItems([characterItem]);
         break;
       case ITEM_TYPE.PASSIVE_AND_PAID:
-        this.passiveItems.push(characterItem);
-        this.paidItems.push(characterItem);
+        this.addPassiveItems([characterItem]);
+        this.addPaidItems([characterItem]);
         await PassiveManager.registerPassiveItem(characterItem, sendToServer);
         break;
       case ITEM_TYPE.ALL:
-        this.activeItems.push(characterItem);
-        this.passiveItems.push(characterItem);
+        this.addActiveItems([characterItem]);
+        this.addPassiveItems([characterItem]);
         await PassiveManager.registerPassiveItem(characterItem, sendToServer);
-        this.paidItems.push(characterItem);
+        this.addPaidItems([characterItem]);
         break;
       default:
         break;
@@ -1533,6 +1704,12 @@ export default class Player extends cc.Component {
   // LIFE-CYCLE CALLBACKS:
 
   onLoad() {
+    this.activeItems = new Set();
+    this.paidItems = new Set();
+    this.passiveItems = new Set();
+    this.deskCards = new Set();
+    this.handCards = new Set();
+    this.soulCards = new Set();
   }
 
   start() { }

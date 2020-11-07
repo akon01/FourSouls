@@ -59,6 +59,8 @@ export default class AdminConsole extends cc.Component {
     async doCommand(command: ADMIN_COMMANDS, extra?: any) {
         const mePlayer = PlayerManager.mePlayer.getComponent(Player)
         let flag
+        const myActiveItems = mePlayer.getActiveItems();
+        const monsterDeck = CardManager.monsterDeck.getComponent(Deck);
         if (extra) { flag = extra.split(" ")[1] }
         switch (command) {
             case ADMIN_COMMANDS.CARD:
@@ -89,7 +91,8 @@ export default class AdminConsole extends cc.Component {
                 await mePlayer.gainHeartContainer(Number.parseInt(extra), true, true)
                 break;
             case ADMIN_COMMANDS.SOUL:
-                const soulCard = CardManager.monsterDeck.getComponent(Deck).drawSpecificCard(CardManager.monsterDeck.getComponent(Deck)._cards.filter(card => card.getComponent(Card).souls > 0)[0], true)
+
+                const soulCard = monsterDeck.drawSpecificCard(monsterDeck.getCards().filter(card => card.getComponent(Card).souls > 0)[0], true)
                 await mePlayer.getSoulCard(soulCard, true)
                 break
             case ADMIN_COMMANDS.DMG:
@@ -137,8 +140,9 @@ export default class AdminConsole extends cc.Component {
                 break
 
             case ADMIN_COMMANDS.CHARGE:
-                for (let i = 0; i < mePlayer.activeItems.length; i++) {
-                    const item = mePlayer.activeItems[i];
+
+                for (let i = 0; i < myActiveItems.length; i++) {
+                    const item = myActiveItems[i];
                     await item.getComponent(Item).rechargeItem(true)
                 }
                 // tslint:disable-next-line: no-floating-promises
@@ -179,8 +183,8 @@ export default class AdminConsole extends cc.Component {
                         for (let i = 0; i < 10; i++) {
                             await mePlayer.drawCard(CardManager.lootDeck, true)
                             const treasureDeck = CardManager.treasureDeck.getComponent(Deck);
-                            const aPassiveItem = treasureDeck._cards.getCards().find(card => card.getComponent(Item).type == ITEM_TYPE.PASSIVE)
-                            const aActiveItem = treasureDeck._cards.getCards().find(card => { if (card.getComponent(Item).type == ITEM_TYPE.ACTIVE || card.getComponent(Item).type == ITEM_TYPE.PAID || card.getComponent(Item).type == ITEM_TYPE.ACTIVE_AND_PAID || card.getComponent(Item).type == ITEM_TYPE.ACTIVE_AND_PASSIVE) return true })
+                            const aPassiveItem = treasureDeck.getCards().find(card => card.getComponent(Item).type == ITEM_TYPE.PASSIVE)
+                            const aActiveItem = treasureDeck.getCards().find(card => { if (card.getComponent(Item).type == ITEM_TYPE.ACTIVE || card.getComponent(Item).type == ITEM_TYPE.PAID || card.getComponent(Item).type == ITEM_TYPE.ACTIVE_AND_PAID || card.getComponent(Item).type == ITEM_TYPE.ACTIVE_AND_PASSIVE) return true })
                             if (aActiveItem) {
                                 await mePlayer.giveCard(aActiveItem)
                             }
@@ -201,7 +205,7 @@ export default class AdminConsole extends cc.Component {
                         let deck: Deck = null
                         switch (cardcomp.type) {
                             case CARD_TYPE.MONSTER:
-                                deck = CardManager.monsterDeck.getComponent(Deck)
+                                deck = monsterDeck
                                 break;
                             case CARD_TYPE.LOOT:
                                 deck = CardManager.lootDeck.getComponent(Deck)
@@ -303,6 +307,8 @@ export default class AdminConsole extends cc.Component {
         const mePlayer = PlayerManager.mePlayer.getComponent(Player)
         let commandText = this.consoleEditBox.string;
         const cmdWord = commandText.split(" ")[0]
+        const myActiveItems = mePlayer.getActiveItems();
+        const monsterDeck = CardManager.monsterDeck.getComponent(Deck);
         const flag = commandText.split(" ")[1]
         if (flag == "g") {
             commandText = commandText.replace(cmdWord + " g" + " ", "")
@@ -337,7 +343,7 @@ export default class AdminConsole extends cc.Component {
                 await mePlayer.gainHeartContainer(Number.parseInt(commandText), true, true)
                 break;
             case `soul`:
-                const soulCard = CardManager.monsterDeck.getComponent(Deck).drawSpecificCard(CardManager.monsterDeck.getComponent(Deck)._cards.filter(card => card.getComponent(Card).souls > 0)[0], true)
+                const soulCard = monsterDeck.drawSpecificCard(monsterDeck.getCards().filter(card => card.getComponent(Card).souls > 0)[0], true)
                 await mePlayer.getSoulCard(soulCard, true)
                 break
             case `dmg`:
@@ -385,8 +391,8 @@ export default class AdminConsole extends cc.Component {
                 cc.log('available commands:  log,coins X,heal X,hp X,dmg X,dice X,soul,charge,roll +/-X,card "Name",run,stackTrace,stack')
                 break;
             case "charge":
-                for (let i = 0; i < mePlayer.activeItems.length; i++) {
-                    const item = mePlayer.activeItems[i];
+                for (let i = 0; i < myActiveItems.length; i++) {
+                    const item = myActiveItems[i];
                     await item.getComponent(Item).rechargeItem(true)
                 }
                 // tslint:disable-next-line: no-floating-promises
@@ -400,10 +406,12 @@ export default class AdminConsole extends cc.Component {
                 break
             case "char":
                 //let mePlayer = PlayerManager.mePlayer.getComponent(Player)
-                mePlayer.activeItems.splice(mePlayer.activeItems.indexOf(mePlayer.character))
+                mePlayer.removeFromActiveItems([mePlayer.character])
                 if (mePlayer.characterItem.getComponent(Item).type == ITEM_TYPE.PASSIVE) {
-                    mePlayer.activeItems.splice(mePlayer.passiveItems.indexOf(mePlayer.characterItem))
-                } else { mePlayer.activeItems.splice(mePlayer.activeItems.indexOf(mePlayer.characterItem)) }
+                    mePlayer.removeFromPassiveItems([mePlayer.characterItem])
+                } else {
+                    mePlayer.removeFromActiveItems([mePlayer.characterItem])
+                }
                 const fullCharCard: {
                     char: cc.Node;
                     item: cc.Node;

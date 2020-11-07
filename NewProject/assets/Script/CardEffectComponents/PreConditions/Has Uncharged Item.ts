@@ -17,8 +17,7 @@ export default class HasUnchargedItems extends PreCondition {
     const owner = CardManager.getCardOwner(thisCard);
     if (owner) {
       const player = PlayerManager.getPlayerByCard(owner)
-      cc.log(player.activeItems)
-      const playerItems = [...player.activeItems.filter(item => item.getComponent(Item).needsRecharge)]
+      const playerItems = [...player.getActiveItems().filter(item => item.getComponent(Item).needsRecharge)]
       cc.log(playerItems)
       if (playerItems.length >= this.itemsNeeded) {
         return true

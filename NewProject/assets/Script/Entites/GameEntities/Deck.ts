@@ -24,7 +24,19 @@ export default class Deck extends cc.Component {
   // topBlankCard: cc.Node = null;
 
   @property
-  _cards: CardSet = null
+  private _cards: number[] = []
+
+  getCardsLength() {
+    return this._cards.length
+  }
+
+  removeCard(card: cc.Node | number) {
+    if (card instanceof cc.Node) {
+      return this._cards.splice(this._cards.indexOf(card.getComponent(Card)._cardId), 1)
+    } else {
+      return this._cards.splice(this._cards.indexOf(card, 1))
+    }
+  }
 
   @property
   suffleInTheStart: boolean = false;
@@ -47,14 +59,14 @@ export default class Deck extends cc.Component {
   addToDeckOnTop(card: cc.Node, offset: number, sendToServer: boolean) {
 
     const cardComp = card.getComponent(Card);
-    if (this._cards.includes(card)) {
-      this._cards.splice(this._cards.indexOf(card), 1)
+    if (this._cards.includes(cardComp._cardId)) {
+      this._cards.splice(this._cards.indexOf(cardComp._cardId), 1)
     } else {
       CardManager.inDecksCardsIds.push(cardComp._cardId);
     }
     const index = (this._cards.length != 0) ? this._cards.length - 1 : 0
     var newOffset = offset != 0 ? offset - 1 : offset
-    this._cards.splice(index - newOffset, 0, card);
+    this._cards.splice(index - newOffset, 0, cardComp._cardId);
     // CardManager.monsterCardPool.put(card);
     card.setParent(null)
     const serverData = {
@@ -67,8 +79,8 @@ export default class Deck extends cc.Component {
   }
   drawCard(sendToServer: boolean): cc.Node {
     if (this._cards.length != 0) {
-      const newCard = this._cards.pop();
-
+      const newCardId = this._cards.pop();
+      const newCard = CardManager.getCardById(newCardId)
       const newCardComp = newCard.getComponent(Card);
       if (!newCardComp._isFlipped) { newCardComp.flipCard(false) }
       if (newCard.parent == null) {
@@ -88,45 +100,55 @@ export default class Deck extends cc.Component {
 
   resuffleDeck() {
 
-    this._cards.set(this.pile.getCards())
+    this._cards = this.pile.getCards().map(card => card.getComponent(Card)._cardId)
     this.shuffleDeck()
   }
 
   async discardTopCard() {
-    const topCard = this._cards.getCard(this._cards.length - 1)
+    const topCard = CardManager.getCardById(this._cards.pop())
     this.drawSpecificCard(topCard, true)
     await PileManager.addCardToPile(this.deckType, topCard, true)
-
   }
+
+
 
   drawSpecificCard(cardToDraw: cc.Node, sendToServer: boolean): cc.Node {
     if (this._cards.length != 0) {
-      const newCard = this._cards.splice(this._cards.indexOf(cardToDraw), 1);
-      if (!newCard[0].getComponent(Card)._isFlipped) { newCard[0].getComponent(Card).flipCard(false) }
-      if (newCard[0].parent == null) {
-        newCard[0].parent = CardManager.$.onTableCardsHolder
-        newCard[0].setPosition(this.node.getPosition())
+      const cardComp = cardToDraw.getComponent(Card);
+      const newCard = CardManager.getCardById(this._cards.splice(this._cards.indexOf(cardComp._cardId), 1)[0]);
+      const newCardComp = newCard.getComponent(Card)
+      if (!newCardComp._isFlipped) { newCardComp.flipCard(false) }
+      if (newCard.parent == null) {
+        newCard.parent = CardManager.$.onTableCardsHolder
+        newCard.setPosition(this.node.getPosition())
       }
-      CardManager.removeFromInAllDecksCards(newCard[0]);
+      CardManager.removeFromInAllDecksCards(newCard);
       if (sendToServer) {
-        ServerClient.$.send(Signal.DECK_ARRAGMENT, { deckType: this.deckType, arrangement: this._cards.map(card => card.getComponent(Card)._cardId) })
+        ServerClient.$.send(Signal.DECK_ARRAGMENT, { deckType: this.deckType, arrangement: this._cards })
       }
-      return newCard[0];
+      return newCard;
     } else {
       return null;
     }
+  }
 
+  hasCard(card: cc.Node | number) {
+    if (card instanceof cc.Node) {
+      return this._cards.includes(card.getComponent(Card)._cardId)
+    } else {
+      return this._cards.includes(card)
+    }
   }
 
   addToDeckOnBottom(card: cc.Node, offset: number, sendToServer: boolean) {
     const cardComp = card.getComponent(Card);
-    if (this._cards.includes(card)) {
-      this._cards.splice(this._cards.indexOf(card), 1)
+    if (this.hasCard(card)) {
+      this._cards.splice(this._cards.indexOf(cardComp._cardId), 1)
     } else {
       CardManager.inDecksCardsIds.push(cardComp._cardId);
     }
     var newOffset = offset != 0 ? offset - 1 : offset
-    this._cards.splice(0 + newOffset, 0, card);
+    this._cards.splice(0 + newOffset, 0, cardComp._cardId);
     card.setParent(null)
     const serverData = {
       signal: Signal.DECK_ADD_TO_BOTTOM,
@@ -137,8 +159,12 @@ export default class Deck extends cc.Component {
     }
   }
 
-  shuffle(cardSet: CardSet) {
-    const array = cardSet.getCards()
+  getCards() {
+    return this._cards.map(cid => CardManager.getCardById(cid))
+  }
+
+  shuffle() {
+    const array = this._cards
     let currentIndex = array.length, temporaryValue, randomIndex;
 
     // While there remain elements to shuffle...
@@ -161,17 +187,20 @@ export default class Deck extends cc.Component {
   shuffleDeck() {
     const randomSeed = Math.floor(Math.log(new Date().getTime()))
     const randomTimes = Math.random() * randomSeed
-    const currentArrangment = this._cards.getCards()
     for (let i = 0; i < randomTimes; i++) {
-      this._cards.set(this.shuffle(this._cards))
+      this._cards = this.shuffle()
     }
 
-    ServerClient.$.send(Signal.DECK_ARRAGMENT, { deckType: this.deckType, arrangement: this._cards.map(card => card.getComponent(Card)._cardId) })
+    ServerClient.$.send(Signal.DECK_ARRAGMENT, { deckType: this.deckType, arrangement: this._cards })
 
   }
 
-  setDeckCards(cards: CardSet) {
-    this._cards = cards
+  setDeckCards(cards: number[] | cc.Node[]) {
+    if (cards[0] instanceof cc.Node) {
+      this._cards = (cards as cc.Node[]).map(card => card.getComponent(Card)._cardId)
+    } else {
+      this._cards = cards as number[]
+    }
   }
 
   createNewTopBlank() { }
@@ -182,7 +211,7 @@ export default class Deck extends cc.Component {
 
     this.node.width = CARD_WIDTH;
     this.node.height = CARD_HEIGHT;
-    this._cards = new CardSet()
+    this._cards = []
     // const sprite = this.topBlankCard.getComponent(cc.Sprite);
     // if (this.topBlankCard.getComponent(Card)._isFlipped) { this.topBlankCard.getComponent(Card).flipCard(false) }
     // sprite.enabled = false;

@@ -15,7 +15,8 @@ const { ccclass, property } = cc._decorator;
 export default class ChooseStackEffect extends DataCollector {
   collectorName = "ChooseStackEffect";
   //isEffectChosen: boolean = false;
-  set isEffectChosen(boolean: boolean) {
+  setIsEffectChosen(boolean: boolean) {
+    this.isEffectChosen = boolean;
     whevent.emit(GAME_EVENTS.CHOOSE_STACK_EFFECT_CHOSEN, boolean)
   }
   stackEffectChosen: StackEffectInterface;

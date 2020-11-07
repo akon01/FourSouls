@@ -29,7 +29,7 @@ export default class TinyHandCollector extends DataCollector {
      */
     collectData(data) {
         let player = PlayerManager.getPlayerById(data.cardPlayerId);
-        const numToDiscard = player.handCards.length - 2
+        const numToDiscard = player.getHandCards().length - 2
         this.chooseCard.numOfCardsToChoose = numToDiscard;
         this.discardLoot.numOfLoot = numToDiscard;
     }

@@ -21,7 +21,8 @@ export default class ChooseFromTargetCard extends DataCollector {
 
   // isCardChosen: boolean = false;
 
-  set isCardChosen(boolean: boolean) {
+  setIsCardChosen(boolean: boolean) {
+    this.isCardChosen = boolean
     whevent.emit(GAME_EVENTS.CHOOSE_FROM_TARGET_CARD_CARD_CHOSEN, boolean)
   }
 
@@ -84,11 +85,11 @@ export default class ChooseFromTargetCard extends DataCollector {
     const targetPlayer = PlayerManager.getPlayerByCard(target.effectTargetCard)
 
     if (this.isItems) {
-      cardsToChooseFrom = cardsToChooseFrom.concat(targetPlayer.deskCards.filter(card => {
+      cardsToChooseFrom = cardsToChooseFrom.concat(targetPlayer.getDeskCards().filter(card => {
         if (card.getComponent(Character)) { return false; }
       }))
     }
-    if (this.isLootCards) { cardsToChooseFrom = cardsToChooseFrom.concat(targetPlayer.handCards) }
+    if (this.isLootCards) { cardsToChooseFrom = cardsToChooseFrom.concat(targetPlayer.getHandCards()) }
     if (cardsToChooseFrom.length == 0) {
       cc.log(targetPlayer)
       throw new Error("No Cards To Choose From!")

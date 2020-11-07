@@ -301,6 +301,11 @@ export enum TARGETTYPE {
   PLAYER, MONSTER, ITEM, PILE, DECK, CARD, STACK_EFFECT
 }
 
+
+export enum REWARD_TYPES {
+  money, loot, treasure, nothing, rollMoney, rollLoot, rollTreasure
+}
+
 export enum PASSIVE_EVENTS {
   /**
    * scope- player who got the soul

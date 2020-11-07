@@ -5,7 +5,7 @@ import ServerClient from "../../../ServerClient/ServerClient";
 import { ITEM_TYPE } from "../../Constants";
 import CardEffect from "../../Entites/CardEffect";
 import Card from "../../Entites/GameEntities/Card";
-import DataInterpreter, { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
+import DataInterpreter, { ActiveEffectData, EffectTarget, PassiveEffectData } from "../../Managers/DataInterpreter";
 import EffectDataConcurencyBase from "./EffectDataConcurencyBase";
 
 const { ccclass, property } = cc._decorator;
@@ -22,10 +22,10 @@ export default class SaveData extends EffectDataConcurencyBase {
         if (this.isAddative) {
             const targets = newEffectData.getAllTargets()
             targets.nodes.forEach(nodeTarget => {
-                cardEffect.concurentEffectData.addTarget(nodeTarget)
+                cardEffect.concurentEffectData.addTarget(new EffectTarget(nodeTarget))
             });
             targets.stackEffects.forEach(stackTargets => {
-                cardEffect.concurentEffectData.addTarget(stackTargets)
+                cardEffect.concurentEffectData.addTarget(new EffectTarget(stackTargets))
             })
         } else {
             cardEffect.concurentEffectData = newEffectData

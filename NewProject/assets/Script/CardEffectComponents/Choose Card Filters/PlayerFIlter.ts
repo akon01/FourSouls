@@ -33,7 +33,7 @@ export default class PlayerFilter implements IFilter {
     getStatement() {
         const comp: Character = new Character()
         if (comp.player.me == false) {
-            comp.player.activeItems.concat(comp.player.paidItems,comp.player.passiveItems).filter(card=>!card.getComponent(Item).eternal)
+            comp.player.getActiveItems().concat(comp.player.getPaidItems(), comp.player.getPassiveItems()).filter(card => !card.getComponent(Item).eternal)
         }
         switch (this.filter) {
             case PLAYER_FILTERS.IS_NOT_DEAD:

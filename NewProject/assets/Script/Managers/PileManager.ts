@@ -39,7 +39,7 @@ export default class PileManager extends cc.Component {
     this.setDeck(PileManager.treasureCardPile, CardManager.treasureDeck.getComponent(Deck))
     this.setDeck(PileManager.monsterCardPile, CardManager.monsterDeck.getComponent(Deck))
     const piles = [PileManager.lootPlayPile.node, PileManager.lootCardPileNode, PileManager.treasureCardPileNode, PileManager.monsterCardPileNode]
-    piles.forEach(pile => CardManager.allCards.add(pile.getComponent(Card)._cardId))
+    piles.forEach(pile => CardManager.allCards.push(pile))
     piles.forEach(pile => {
       cc.log(`add animation node to ${pile.name}`)
       // AnimationManager.addAnimationNode(pile)
@@ -94,24 +94,24 @@ export default class PileManager extends cc.Component {
   }
 
   static async addCardToPile(type: CARD_TYPE, card: cc.Node, sendToServer: boolean) {
+    const cardComp = card.getComponent(Card);
     switch (type) {
-
       case CARD_TYPE.LOOT:
-        CardManager.onTableCards.push(card);
+        CardManager.addOnTableCards([card]);
         if (sendToServer) {
           await CardManager.moveCardTo(card, PileManager.lootCardPileNode, sendToServer, true)
         }
         PileManager.lootCardPile.addCardToTopPile(card)
         break;
       case CARD_TYPE.LOOT_PLAY:
-        CardManager.onTableCards.push(card);
+        CardManager.addOnTableCards([card]);
         if (sendToServer) {
           await CardManager.moveCardTo(card, PileManager.lootPlayPile.node, sendToServer, true)
         }
         PileManager.lootPlayPile.addCardToTopPile(card)
         break;
       case CARD_TYPE.MONSTER:
-        CardManager.onTableCards.push(card);
+        CardManager.addOnTableCards([card]);
         if (sendToServer) {
           await CardManager.moveCardTo(card, PileManager.monsterCardPileNode, sendToServer, true)
         }
@@ -120,8 +120,8 @@ export default class PileManager extends cc.Component {
         }
         break;
       case CARD_TYPE.TREASURE:
-        if (CardManager.onTableCards.find(tableCard => tableCard.uuid == card.uuid) == undefined) {
-          CardManager.onTableCards.push(card);
+        if (CardManager.getOnTableCards().find(tableCard => tableCard.uuid == card.uuid) == undefined) {
+          CardManager.addOnTableCards([card]);
         }
         if (sendToServer) {
           await CardManager.moveCardTo(card, PileManager.monsterCardPileNode, sendToServer, true)

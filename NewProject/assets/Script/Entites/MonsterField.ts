@@ -27,7 +27,7 @@ export default class MonsterField extends cc.Component {
 
   static monsterCardHolders: MonsterCardHolder[] = [];
 
-  static activeMonsters: cc.Node[] = [];
+  static activeMonsters: Set<number> = null
 
   static holderIds = 0;
 
@@ -39,6 +39,13 @@ export default class MonsterField extends cc.Component {
   @property
   widgetPadding: number = 0;
 
+  static getActiveMonsters() {
+    return Array.from(this.activeMonsters.values()).map(cid => CardManager.getCardById(cid))
+  }
+
+  static removeFromActiveMonsters(card: cc.Node) {
+    this.activeMonsters.delete(card.getComponent(Card)._cardId)
+  }
   /**
    *
    * @param monsterPlaceId id of the place to put the monster
@@ -70,8 +77,8 @@ export default class MonsterField extends cc.Component {
         await TurnsManager.currentTurn.getTurnPlayer().activateCard(monsterCard)
       }
     }
-    CardManager.allCards.add(monsterCard.getComponent(Card)._cardId);
-    CardManager.onTableCards.push(monsterCard);
+    CardManager.allCards.push(monsterCard);
+    CardManager.addOnTableCards([monsterCard]);
 
   }
 
@@ -158,11 +165,11 @@ export default class MonsterField extends cc.Component {
   }
 
   static async updateActiveMonsters() {
-    MonsterField.activeMonsters = [];
+    MonsterField.activeMonsters.clear();
     for (let i = 0; i < MonsterField.monsterCardHolders.length; i++) {
       const monsterPlace = MonsterField.monsterCardHolders[i];
       if (monsterPlace.activeMonster != null) {
-        MonsterField.activeMonsters.push(monsterPlace.activeMonster);
+        MonsterField.activeMonsters.add(monsterPlace.activeMonster.getComponent(Card)._cardId);
         const monsterEffect = monsterPlace.activeMonster.getComponent(CardEffect)
         if (monsterEffect != null && monsterEffect.passiveEffects.length > 0 && !PassiveManager.isCardRegistered(monsterPlace.activeMonster)) {
 
@@ -183,6 +190,7 @@ export default class MonsterField extends cc.Component {
     for (let i = 0; i < 2; i++) {
       MonsterField.getNewMonsterHolder();
     }
+    MonsterField.activeMonsters = new Set();
     // MonsterField.monsterCardHolders.push(new MonsterPlace(++MonsterField.placesIds));
     // MonsterField.monsterCardHolders.push(new MonsterPlace(++MonsterField.placesIds));
   }

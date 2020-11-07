@@ -48,10 +48,10 @@ export default class PutTopCardOfDeckOnBottom extends Effect {
       deck = (data.getTarget(TARGETTYPE.DECK) as cc.Node).getComponent(Deck)
     }
     const cardsToSee = [];
-    if (deck._cards.length > 1) {
-      const card = deck._cards.getCard(deck._cards.length - 1)// []
+    if (deck.getCardsLength() > 1) {
+      const card = deck.getCards()[deck.getCardsLength() - 1]// []
       deck.drawSpecificCard(card, true)
-      deck.addToDeckOnBottom(card,0,true)
+      deck.addToDeckOnBottom(card, 0, true)
     }
 
     if (this.conditions.length > 0) {

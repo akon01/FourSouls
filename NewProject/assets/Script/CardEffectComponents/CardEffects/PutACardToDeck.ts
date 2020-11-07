@@ -61,7 +61,9 @@ export default class PutACardToDeck extends Effect {
     const cardComp = card.getComponent(Card);
     const deck = CardManager.getDeckByType(cardComp.type).getComponent(Deck);
 
-    if (deck._cards.includes(card)) { deck._cards.splice(deck._cards.indexOf(card), 1); }
+    if (deck.hasCard(card)) {
+      deck.removeCard(card);
+    }
 
     if (this.putOnBottomOfDeck) {
       await deck.addToDeckOnBottom(card, this.numOfCardsOffset, true);
@@ -71,12 +73,12 @@ export default class PutACardToDeck extends Effect {
 
     switch (deck.deckType) {
       case CARD_TYPE.TREASURE:
-        if (Store.storeCards.includes(card)) {
+        if (Store.getStoreCards().includes(card)) {
           await Store.$.removeFromStore(card, true);
         }
         break;
       case CARD_TYPE.MONSTER:
-        if (MonsterField.activeMonsters.includes(card)) {
+        if (MonsterField.getActiveMonsters().includes(card)) {
           cc.log(`b4 put `);
           const cardId = cardComp._cardId;
           const monsterCardHolder = MonsterField.getMonsterPlaceByActiveMonsterId(cardId);

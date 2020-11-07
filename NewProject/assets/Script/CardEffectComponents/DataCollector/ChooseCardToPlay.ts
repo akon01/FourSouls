@@ -20,8 +20,8 @@ export default class SelectLootToPlay extends DataCollector {
   playerId: number;
 
   // isCardChosen: boolean = false;
-
-  set isCardChosen(boolean: boolean) {
+  setIsCardChosen(boolean: boolean) {
+    this.isCardChosen = boolean;
     whevent.emit(GAME_EVENTS.SELECT_LOOT_TO_PLAY_CARD_CHOSEN, boolean)
   }
 

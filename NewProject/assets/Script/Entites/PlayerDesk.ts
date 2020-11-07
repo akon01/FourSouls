@@ -71,7 +71,7 @@ export default class PlayerDesk extends cc.Component {
   addToDesk(card: Card) {
 
     const player = PlayerManager.getPlayerById(this._playerId)
-    player.deskCards.push(card.node)
+    player.addDeskCards([card.node])
     const deskComp: PlayerDesk = this;
     card._isOnDesk = true;
     const itemComp = card.getComponent(Item);
@@ -120,7 +120,7 @@ export default class PlayerDesk extends cc.Component {
     const deskComp: PlayerDesk = this.node.getComponent(PlayerDesk);
     card._isOnDesk = false;
     const player = PlayerManager.getPlayerById(this._playerId)
-    player.deskCards.splice(player.deskCards.indexOf(card.node), 1)
+    player.removeFromDeskCards([card.node])
     const itemComp = card.getComponent(Item);
     let lane: cc.Node
     let layout: cc.Node

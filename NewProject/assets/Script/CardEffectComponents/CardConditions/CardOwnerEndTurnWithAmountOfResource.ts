@@ -31,7 +31,7 @@ export default class CardOwnerEndTurnWithAmountOfResource extends Condition {
     ) {
       switch (this.resource) {
         case PLAYER_RESOURCES.LOOT:
-          if (cardOwner.handCards.length == this.amount) {
+          if (cardOwner.getHandCards().length == this.amount) {
             return true
           } else {
             return false

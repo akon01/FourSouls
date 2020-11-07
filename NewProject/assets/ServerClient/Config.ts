@@ -3,6 +3,7 @@
  * @author wheatup
  */
 import Events from "../Misc/Events";
+import { whevent } from "./whevent";
 
 const { ccclass, property } = cc._decorator;
 

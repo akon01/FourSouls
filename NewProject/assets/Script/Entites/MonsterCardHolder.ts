@@ -60,9 +60,10 @@ export default class MonsterCardHolder extends cc.Component {
 
   async setActiveMonster(monsterCard: cc.Node, sendToServer: boolean) {
     const currentActiveMonster = this.activeMonster
+    const activeMonsters = MonsterField.getActiveMonsters()
     if (sendToServer) {
-      if (this.activeMonster && MonsterField.activeMonsters.includes(this.activeMonster)) {
-        MonsterField.activeMonsters.splice(MonsterField.activeMonsters.indexOf(this.activeMonster), 1)
+      if (this.activeMonster && activeMonsters.includes(this.activeMonster)) {
+        MonsterField.removeFromActiveMonsters(this.activeMonster)
         this.activeMonster.getComponent(Monster).monsterPlace = null;
         PassiveManager.removePassiveItemEffects(this.activeMonster, sendToServer)
       }
@@ -90,7 +91,7 @@ export default class MonsterCardHolder extends cc.Component {
     this.node.width = monsterCard.width;
     this.node.height = monsterCard.height;
 
-    MonsterField.activeMonsters.push(monsterCard)
+    MonsterField.activeMonsters.add(monsterCard.getComponent(Card)._cardId)
     CardManager.makeCardPreviewable(monsterCard)
 
     const monsterEffect = this.activeMonster.getComponent(CardEffect)
@@ -100,7 +101,7 @@ export default class MonsterCardHolder extends cc.Component {
         await PassiveManager.registerPassiveItem(this.activeMonster, true)
       }
     }
-    if(TurnsManager.isCurrentPlayer(PlayerManager.mePlayer)){
+    if (TurnsManager.isCurrentPlayer(PlayerManager.mePlayer)) {
       await PassiveManager.testForPassiveAfter(passiveMeta)
     }
   }
@@ -126,8 +127,9 @@ export default class MonsterCardHolder extends cc.Component {
 
   async addToMonsters(monsterCard: cc.Node, sendToServer: boolean) {
 
-    if (monsterCard.getComponent(Card)._isFlipped) {
-      monsterCard.getComponent(Card).flipCard(sendToServer);
+    const monsterCardComp = monsterCard.getComponent(Card);
+    if (monsterCardComp._isFlipped) {
+      monsterCardComp.flipCard(sendToServer);
     }
     for (const monster of this.monsters) {
       monster.active = false;
@@ -137,7 +139,7 @@ export default class MonsterCardHolder extends cc.Component {
     await this.setActiveMonster(monsterCard, sendToServer);
 
     if (sendToServer) {
-      ServerClient.$.send(Signal.ADD_MONSTER, { monsterPlaceId: this.id, monsterId: monsterCard.getComponent(Card)._cardId });
+      ServerClient.$.send(Signal.ADD_MONSTER, { monsterPlaceId: this.id, monsterId: monsterCardComp._cardId });
     }
 
   }
@@ -154,8 +156,8 @@ export default class MonsterCardHolder extends cc.Component {
 
   async removeMonster(monster: cc.Node, sendToServer: boolean) {
     this.monsters.splice(this.monsters.indexOf(monster));
-    if (MonsterField.activeMonsters.includes(monster)) {
-      MonsterField.activeMonsters.splice(MonsterField.activeMonsters.indexOf(monster), 1)
+    if (MonsterField.getActiveMonsters().includes(monster)) {
+      MonsterField.removeFromActiveMonsters(monster)
       monster.getComponent(Monster).monsterPlace = null;
       if (!monster.getComponent(Monster).isCurse) {
         PassiveManager.removePassiveItemEffects(monster, sendToServer)

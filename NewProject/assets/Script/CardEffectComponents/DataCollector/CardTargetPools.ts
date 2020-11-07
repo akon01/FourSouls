@@ -59,21 +59,25 @@ export default class CardTargetPools extends DataCollector {
         let players: cc.Node[] = []
         let playerComps: Player[]
         let myId: number = 0
+        const treasureDeck = CardManager.treasureDeck.getComponent(Deck);
+        const monsterDeck = CardManager.monsterDeck.getComponent(Deck)
+        const lootDeck = CardManager.lootDeck.getComponent(Deck)
+        const mePlayer = PlayerManager.mePlayer.getComponent(Player);
         switch (this.targetPool) {
             case CARD_POOLS.ACTIVE_MONSTERS:
-                return MonsterField.activeMonsters.map(monster => new EffectTarget(monster))
+                return MonsterField.getActiveMonsters().map(monster => new EffectTarget(monster))
             case CARD_POOLS.ACTIVE_MONSTERS_NOT_ATTACKED:
-                return MonsterField.activeMonsters.map(monster => new EffectTarget(monster)).filter(monster => monster.effectTargetCard != BattleManager.currentlyAttackedMonsterNode)
+                return MonsterField.getActiveMonsters().map(monster => new EffectTarget(monster)).filter(monster => monster.effectTargetCard != BattleManager.currentlyAttackedMonsterNode)
             case CARD_POOLS.YOUR_HAND:
-                return PlayerManager.mePlayer.getComponent(Player).handCards.map(card => new EffectTarget(card))
+                return mePlayer.getHandCards().map(card => new EffectTarget(card))
             case CARD_POOLS.YOUR_ACTIVES:
-                return PlayerManager.mePlayer.getComponent(Player).activeItems.map(card => new EffectTarget(card))
+                return mePlayer.getActiveItems().map(card => new EffectTarget(card))
             case CARD_POOLS.YOUR_ACTIVES_AND_PAID:
-                return PlayerManager.mePlayer.getComponent(Player).activeItems.concat(PlayerManager.mePlayer.getComponent(Player).paidItems).map(card => new EffectTarget(card))
+                return mePlayer.getActiveItems().concat(mePlayer.getPaidItems()).map(card => new EffectTarget(card))
             case CARD_POOLS.YOUR_PASSIVES:
-                return PlayerManager.mePlayer.getComponent(Player).passiveItems.map(card => new EffectTarget(card))
+                return mePlayer.getPassiveItems().map(card => new EffectTarget(card))
             case CARD_POOLS.YOUR_CHARACTER:
-                return new EffectTarget(PlayerManager.mePlayer.getComponent(Player).character)
+                return new EffectTarget(mePlayer.character)
             case CARD_POOLS.ALL_PLAYERS:
                 const turnPlayerId = TurnsManager.getCurrentTurn().PlayerId
                 return PlayerManager.getPlayersSortedByTurnPlayer().map(player => new EffectTarget(player.character))
@@ -89,27 +93,28 @@ export default class CardTargetPools extends DataCollector {
                 if (TurnsManager.currentTurn.battlePhase) { players = players.filter(player => player != TurnsManager.currentTurn.getTurnPlayer().node) }
                 return players.map(player => new EffectTarget(player.getComponent(Player).character))
             case CARD_POOLS.STORE_CARDS:
-                return Store.storeCards
+                return Store.getStoreCards()
             case CARD_POOLS.TOP_OF_DECKS:
-                const cards = [CardManager.treasureDeck.getComponent(Deck)._cards[CardManager.treasureDeck.getComponent(Deck)._cards.length - 1],
-                CardManager.monsterDeck.getComponent(Deck)._cards.getCard(CardManager.monsterDeck.getComponent(Deck)._cards.length - 1),
-                CardManager.lootDeck.getComponent(Deck)._cards.getCard(CardManager.lootDeck.getComponent(Deck)._cards.length - 1)
+
+                const cards: cc.Node[] = [treasureDeck.getCards()[treasureDeck.getCardsLength() - 1],
+                monsterDeck.getCards()[monsterDeck.getCardsLength() - 1],
+                lootDeck.getCards()[lootDeck.getCardsLength() - 1]
                 ]
                 return cards.map(card => new EffectTarget(card))
             case CARD_POOLS.PLAYERS_SOULS:
-                return PlayerManager.players.map(player => player.getComponent(Player).soulCards).map(c => new EffectTarget(c))
+                return PlayerManager.players.map(player => player.getComponent(Player).getSoulCards()).map(c => new EffectTarget(c))
             case CARD_POOLS.DISCARD_PILES:
                 return PileManager.getTopCardOfPiles().map(c => new EffectTarget(c))
             case CARD_POOLS.IN_DECK_GUPPY_ITEMS:
-                return CardManager.treasureDeck.getComponent(Deck)._cards.filter(e => e.getComponent(Item).isGuppyItem).map(c => new EffectTarget(c))
+                return treasureDeck.getCards().filter(e => e.getComponent(Item).isGuppyItem).map(c => new EffectTarget(c))
             case CARD_POOLS.PLAYER_TO_YOUR_LEFT:
-                myId = PlayerManager.mePlayer.getComponent(Player).playerId
+                myId = mePlayer.playerId
                 if (myId == PlayerManager.players.length) {
                     return new EffectTarget(PlayerManager.players[0].getComponent(Player).character)
                 }
                 return new EffectTarget(PlayerManager.players[myId].getComponent(Player).character)
             case CARD_POOLS.PLAYER_TO_YOUR_RIGHT:
-                myId = PlayerManager.mePlayer.getComponent(Player).playerId
+                myId = mePlayer.playerId
                 if (myId == 1) {
                     return new EffectTarget(PlayerManager.players[PlayerManager.players.length - 1].getComponent(Player).character)
                 }
@@ -122,7 +127,7 @@ export default class CardTargetPools extends DataCollector {
                 }).map(p => p.getComponent(Player))
                 const handCards: cc.Node[] = []
                 playerComps.forEach(player => {
-                    player.handCards.filter(c => !c.getComponent(Card).isGoingToBePlayed).forEach(card => {
+                    player.getHandCards().filter(c => !c.getComponent(Card).isGoingToBePlayed).forEach(card => {
                         handCards.push(card)
                     })
                 })

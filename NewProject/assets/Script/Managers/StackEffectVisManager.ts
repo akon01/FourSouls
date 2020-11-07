@@ -254,7 +254,7 @@ export default class StackEffectVisManager extends cc.Component {
         );
         stackPreview.node.once(cc.Node.EventType.TOUCH_START, () => {
             dataCollector.cardChosen = stackPreview.node;
-            dataCollector.isEffectChosen = true;
+            dataCollector.setIsEffectChosen(true);
             this.hidePreviews();
         }, this)
     }

@@ -10,7 +10,7 @@ const { ccclass, property } = cc._decorator;
 export default class Pile extends cc.Component {
 
     @property
-    private cards: CardSet = null
+    cards: number[] = []
 
     @property
     topId: number = null;
@@ -23,7 +23,7 @@ export default class Pile extends cc.Component {
 
 
     addCardToTopPile(card: cc.Node) {
-        this.cards.push(card);
+        this.cards.push(card.getComponent(Card)._cardId);
 
         this.setTopCard(card)
         //this.pileSprite.spriteFrame = card.getComponent(cc.Sprite).spriteFrame;
@@ -32,12 +32,12 @@ export default class Pile extends cc.Component {
     }
 
     addCardToBottomPile(card: cc.Node) {
-        this.cards.fill(card, 0, 1);
+        this.cards.splice(0, 0, card.getComponent(Card)._cardId);
         return this.cards;
     }
 
     getCards() {
-        return this.cards.getCards();
+        return this.cards.map(cid => CardManager.getCardById(cid))
     }
 
     setTopCard(card: cc.Node) {
@@ -51,10 +51,11 @@ export default class Pile extends cc.Component {
     }
 
     removeFromPile(card: cc.Node) {
-        this.cards.splice(this.cards.indexOf(card), 1)
-        if (card.getComponent(Card)._cardId == this.topId) {
+        const cardComp = card.getComponent(Card);
+        this.cards.splice(this.cards.indexOf(cardComp._cardId), 1)
+        if (cardComp._cardId == this.topId) {
             if (this.cards.length > 0) {
-                this.setTopCard(this.cards[this.cards.length - 1])
+                this.setTopCard(CardManager.getCardById(this.cards[this.cards.length - 1]))
             } else {
                 this.setTopCard(null)
             }
@@ -64,7 +65,7 @@ export default class Pile extends cc.Component {
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        this.cards = new CardSet();
+        this.cards = [];
         this.pileSprite = this.node.getComponent(cc.Sprite);
         this.node.on(cc.Node.EventType.TOUCH_START, async () => {
             await CardPreviewManager.getPreviews(Array.of(this.node), true)

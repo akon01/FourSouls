@@ -20,8 +20,10 @@ export default class DiscardLoot extends Cost {
         if (cardOwner) {
             let player = PlayerManager.getPlayerByCard(cardOwner)
             let chosenLoot: cc.Node
-            if (player.handCards.length == 1) {
-                chosenLoot = player.handCards[0]
+
+            const handCards = player.getHandCards();
+            if (handCards.length == 1) {
+                chosenLoot = handCards[0]
             } else {
                 let chooseCard = new ChooseCard()
                 chooseCard.flavorText = "Choose Loot To Discard"

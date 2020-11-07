@@ -74,9 +74,8 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
     }
     const cardsToSee = [];
     for (let i = 0; i < this.numOfCardsToSee; i++) {
-      if (deck._cards.length > i) {
-        const card = deck._cards.getCard(deck._cards.length - 1 - i)// []
-        cardsToSee.push(card);
+      if (deck.getCardsLength() > i) {
+        cardsToSee.push(deck.getCards()[deck.getCardsLength() - i])
       }
     }
 
@@ -104,25 +103,25 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
     if (!this.putOnBottomOfDeck) {
       for (let i = 0; i < selectedQueue.length; i++) {
         const selectedCard = selectedQueue[selectedQueue.length - i - 1];
-        deck.addToDeckOnTop(selectedCard, 0,true)
+        deck.addToDeckOnTop(selectedCard, 0, true)
       }
       let notSelectedCards: cc.Node[] = [];
       notSelectedCards = cardsToSee.filter(card => !selectedQueue.includes(card))
       for (let i = 0; i < notSelectedCards.length; i++) {
         const card = notSelectedCards[i];
-        deck.addToDeckOnBottom(card, 0,true)
+        deck.addToDeckOnBottom(card, 0, true)
         // await PileManager.addCardToPile(this.deckType, card, true)
       }
     } else {
       for (let i = 0; i < selectedQueue.length; i++) {
         const selectedCard = selectedQueue[i];
-        deck.addToDeckOnBottom(selectedCard,0 ,true)
+        deck.addToDeckOnBottom(selectedCard, 0, true)
       }
       let notSelectedCards: cc.Node[] = [];
       notSelectedCards = cardsToSee.filter(card => !selectedQueue.includes(card))
       for (let i = 0; i < notSelectedCards.length; i++) {
         const card = notSelectedCards[i];
-        deck.addToDeckOnTop(card,0, true)
+        deck.addToDeckOnTop(card, 0, true)
         // await PileManager.addCardToPile(this.deckType, card, true)
       }
     }

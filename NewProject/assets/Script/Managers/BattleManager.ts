@@ -1,6 +1,7 @@
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
-import { PARTICLE_TYPES, STACK_EFFECT_TYPE } from "../Constants";
+import MonsterReward from "../CardEffectComponents/MonsterRewards/MonsterReward";
+import { PARTICLE_TYPES, REWARD_TYPES, STACK_EFFECT_TYPE } from "../Constants";
 import Monster from "../Entites/CardTypes/Monster";
 import Card from "../Entites/GameEntities/Card";
 import Player from "../Entites/GameEntities/Player";
@@ -21,6 +22,15 @@ export default class BattleManager extends cc.Component {
   static firstAttack: boolean = true;
 
   static inBattle: boolean = false;
+
+  @property({ type: [MonsterReward] })
+  availableReward: MonsterReward[] = []
+
+  static getRewardByType(type: REWARD_TYPES) {
+    return BattleManager.$.availableReward.filter(reward => reward.type == type)[0]
+  }
+
+  static $: BattleManager = null
 
   static async declareAttackOnMonster(monsterCard: cc.Node, sendToServer: boolean) {
     //
@@ -91,7 +101,9 @@ export default class BattleManager extends cc.Component {
 
   // LIFE-CYCLE CALLBACKS:
 
-  // onLoad () {}
+  onLoad() {
+    BattleManager.$ = this;
+  }
 
   start() { }
 

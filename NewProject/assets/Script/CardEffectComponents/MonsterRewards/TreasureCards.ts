@@ -1,3 +1,4 @@
+import { REWARD_TYPES } from "../../Constants";
 import Deck from "../../Entites/GameEntities/Deck";
 import Player from "../../Entites/GameEntities/Player";
 import CardManager from "../../Managers/CardManager";
@@ -14,8 +15,14 @@ export default class TreasureCards extends MonsterReward {
 
   rollNumber: number = 0;
 
+  type: REWARD_TYPES = REWARD_TYPES.treasure
+
   @property
   numOfIemsToGet: number = 0;
+
+  setRewardQuantity(number: number) {
+    this.numOfIemsToGet = number
+  }
 
   async rewardPlayer(playerToReward: cc.Node, sendToServer: boolean) {
     if (this.doubleReward) {

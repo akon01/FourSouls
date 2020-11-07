@@ -6,7 +6,7 @@ import { ITEM_TYPE } from "../../Constants";
 import CardEffect from "../../Entites/CardEffect";
 import Card from "../../Entites/GameEntities/Card";
 import MonsterField from "../../Entites/MonsterField";
-import DataInterpreter, { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
+import DataInterpreter, { ActiveEffectData, EffectTarget, PassiveEffectData } from "../../Managers/DataInterpreter";
 import EffectDataConcurencyBase from "./EffectDataConcurencyBase";
 
 const { ccclass, property } = cc._decorator;
@@ -20,9 +20,9 @@ export default class SaveCurrentActiveMonsters extends EffectDataConcurencyBase 
     runDataConcurency(newEffectData: ActiveEffectData | PassiveEffectData, numOfEffect: number, type: ITEM_TYPE, sendToServer: boolean) {
         const cardEffect = this.node.getComponent(CardEffect)
         if (this.isAddative) {
-            const targets = MonsterField.activeMonsters
+            const targets = MonsterField.getActiveMonsters()
             targets.forEach(nodeTarget => {
-                cardEffect.concurentEffectData.addTarget(nodeTarget)
+                cardEffect.concurentEffectData.addTarget(new EffectTarget(nodeTarget))
             });
         } else {
             cardEffect.concurentEffectData = newEffectData

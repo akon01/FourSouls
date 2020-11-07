@@ -40,9 +40,7 @@ export default class DeclareAttack extends StackEffectConcrete {
             this.isToBeFizzled = true
             return true
         }
-        if (!MonsterField.activeMonsters.includes(this.cardBeingAttacked)) {
-            cc.log(this.cardBeingAttacked)
-            cc.log(MonsterField.activeMonsters)
+        if (!MonsterField.getActiveMonsters().includes(this.cardBeingAttacked)) {
             this.isToBeFizzled = true
             return true
         }

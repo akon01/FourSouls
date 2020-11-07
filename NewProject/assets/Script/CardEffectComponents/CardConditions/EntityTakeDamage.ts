@@ -29,12 +29,14 @@ export default class EntityTakeDamage extends Condition {
   entityWhoTookDamage: cc.Node = null;
 
   @property
-  isSpesificRoll:boolean = false;
+  isSpesificRoll: boolean = false;
 
-  @property({visible:function(this:EntityTakeDamage){
-    return this.isSpesificRoll
-  }})
-  specificRoll:number = 1
+  @property({
+    visible: function (this: EntityTakeDamage) {
+      return this.isSpesificRoll
+    }
+  })
+  specificRoll: number = 1
 
   event = null
   events = [PASSIVE_EVENTS.MONSTER_GET_HIT, PASSIVE_EVENTS.PLAYER_GET_HIT]
@@ -47,6 +49,7 @@ export default class EntityTakeDamage extends Condition {
     let target
     let isAPlayer = true
     let subject
+    debugger
     if (this.conditionData != null || this.conditionData != undefined) {
       subject = this.conditionData.getTarget(TARGETTYPE.PLAYER) as cc.Node
       if (!subject) {
@@ -73,9 +76,9 @@ export default class EntityTakeDamage extends Condition {
           answer = false;
         }
       }
-      if(this.isSpesificRoll){
-        if(this.specificRoll!=meta.args[2]){
-          answer=false
+      if (this.isSpesificRoll) {
+        if (this.specificRoll != meta.args[2]) {
+          answer = false
         }
       }
     } else {

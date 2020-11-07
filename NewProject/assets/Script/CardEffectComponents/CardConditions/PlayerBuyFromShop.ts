@@ -45,7 +45,7 @@ export default class PlayerBuyFromShop extends Condition {
           if (
             player instanceof Player &&
             player.playerId == selectedPlayer.playerId &&
-            new Set(Store.storeCards.concat(Store.thisTurnStoreCards)).has(meta.args[1])
+            new Set(Store.getStoreCards().concat(Store.thisTurnStoreCards)).has(meta.args[1])
           ) {
             return true;
           } else {
@@ -54,7 +54,7 @@ export default class PlayerBuyFromShop extends Condition {
         }
       }
     } else {
-      if (player instanceof Player && new Set(Store.storeCards.concat(Store.thisTurnStoreCards)).has(meta.args[1])) {
+      if (player instanceof Player && new Set(Store.getStoreCards().concat(Store.thisTurnStoreCards)).has(meta.args[1])) {
         return true
       } else {
         return false

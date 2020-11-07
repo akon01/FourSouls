@@ -32,11 +32,37 @@ const { ccclass, property } = cc._decorator;
 export default class CardManager extends cc.Component {
   static cardsId: number = 0;
 
-  static onTableCards: Set<number> = new Set();
+  private static onTableCards: Set<number> = null
+
+  static getOnTableCards() {
+    return Array.from(this.onTableCards.values()).map(cid => CardManager.getCardById(cid))
+  }
+
+  static addOnTableCards(cards: cc.Node[]) {
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.onTableCards.add(card)
+    });
+  }
+
+  static setOnTableCards(cards: cc.Node[]) {
+    this.onTableCards.clear()
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.onTableCards.add(card)
+    });
+  }
+  static removeFromOnTableCards(cards: cc.Node[]) {
+    const cardsToAdd = cards.map(card => card.getComponent(Card)._cardId)
+    cardsToAdd.forEach(card => {
+      this.onTableCards.delete(card)
+    });
+  }
+
 
   static inDecksCardsIds: number[] = [];
 
-  static allCards: Set<number> = new Set<number>()
+  static allCards: CardSet = new CardSet()
 
   static allPlayers: cc.Node[] = [];
 
@@ -122,7 +148,7 @@ export default class CardManager extends cc.Component {
 
 
   static GetAllCards() {
-    return Array.from(this.allCards.values()).map(cardId => this.getCardById(cardId))
+    return this.allCards.getCards()
   }
 
   static async init() {
@@ -168,7 +194,7 @@ export default class CardManager extends cc.Component {
   }
 
   static async registerBonusSouls() {
-    const cards = CardManager.bonusDeck.getComponent(Deck)._cards.getCards()
+    const cards = CardManager.bonusDeck.getComponent(Deck).getCards()
     for (const card of cards) {
       await PassiveManager.registerPassiveItem(card, true)
     }
@@ -235,9 +261,11 @@ export default class CardManager extends cc.Component {
               if (err) {
                 cc.log(err)
               }
-              CardManager.lootDeck.getComponent(Deck).cardsPrefab.push(...rsc)
-              CardManager.makeDeckCards(CardManager.lootDeck.getComponent(Deck))
-              CardManager.lootDeck.getComponent(Deck)._cards.getCards().forEach(card => {
+              const lootDeck = CardManager.lootDeck.getComponent(Deck);
+              lootDeck.cardsPrefab.push(...rsc)
+              CardManager.makeDeckCards(lootDeck)
+              const cards = lootDeck.getCards()
+              cards.forEach(card => {
                 if (card.getComponent(Card).type != CARD_TYPE.LOOT) {
                   cc.error(`card ${card.name} is in loot deck, should not be here!`)
                 }
@@ -254,7 +282,7 @@ export default class CardManager extends cc.Component {
                 }
                 CardManager.treasureDeck.getComponent(Deck).cardsPrefab.push(...rsc)
                 CardManager.makeDeckCards(CardManager.treasureDeck.getComponent(Deck))
-                CardManager.treasureDeck.getComponent(Deck)._cards.getCards().forEach(card => {
+                CardManager.treasureDeck.getComponent(Deck).getCards().forEach(card => {
                   if (card.getComponent(Card).type != CARD_TYPE.TREASURE) {
                     cc.error(`card ${card.name} is in treausre deck, should not be here!`)
                   }
@@ -270,7 +298,7 @@ export default class CardManager extends cc.Component {
                   }
                   CardManager.monsterDeck.getComponent(Deck).cardsPrefab.push(...rsc)
                   CardManager.makeDeckCards(CardManager.monsterDeck.getComponent(Deck))
-                  CardManager.monsterDeck.getComponent(Deck)._cards.getCards().forEach(card => {
+                  CardManager.monsterDeck.getComponent(Deck).getCards().forEach(card => {
                     if (card.getComponent(Card).type != CARD_TYPE.MONSTER) {
                       cc.error(`card ${card.name} is in monster deck, should not be here!`)
                     }
@@ -328,11 +356,22 @@ export default class CardManager extends cc.Component {
 
   static isCheckingForEmptyFields: boolean = false;
 
+
+
   /**
    * Search in allCards and Decks for a matching card/Deck
    * @param cardId a card id to get from all cards
    */
   static getCardById(cardId: number, includeInDecksCards?: boolean): cc.Node {
+
+    const allCards = this.GetAllCards()
+    for (let i = 0; i < allCards.length; i++) {
+      const card = allCards[i].getComponent(Card);
+      if (card._cardId == cardId) {
+        return card.node
+      }
+    }
+
     const decks = CardManager.getAllDecks();
     for (let i = 0; i < decks.length; i++) {
       const deck = decks[i].getComponent(Deck);
@@ -350,40 +389,6 @@ export default class CardManager extends cc.Component {
         return dice;
       }
     }
-    for (let i = 0; i < PlayerManager.players.map(player => player.getComponent(Player)).length; i++) {
-      const player = PlayerManager.players.map(player => player.getComponent(Player))[i];
-      for (let j = 0; j < player.deskCards.length; j++) {
-        const card = player.deskCards[j].getComponent(Card);
-        if (card._cardId == cardId) {
-          return card.node;
-        }
-      }
-      for (let j = 0; j < player.handCards.length; j++) {
-        const card = player.handCards[j].getComponent(Card);
-        if (card._cardId == cardId) {
-          return card.node;
-        }
-      }
-      for (let j = 0; j < player.activeItems.length; j++) {
-        const card = player.activeItems[j].getComponent(Card);
-        if (card._cardId == cardId) {
-          return card.node;
-        }
-      }
-      for (let j = 0; j < player.passiveItems.length; j++) {
-        const card = player.passiveItems[j].getComponent(Card);
-        if (card._cardId == cardId) {
-          return card.node;
-        }
-      }
-      for (let j = 0; j < player.paidItems.length; j++) {
-        const card = player.paidItems[j].getComponent(Card);
-        if (card._cardId == cardId) {
-          return card.node;
-        }
-      }
-
-    }
     throw new Error(`No card found with id ${cardId}`)
 
   }
@@ -397,41 +402,6 @@ export default class CardManager extends cc.Component {
         return card.node;
       }
     }
-
-    for (let i = 0; i < PlayerManager.players.map(player => player.getComponent(Player)).length; i++) {
-      const player = PlayerManager.players.map(player => player.getComponent(Player))[i];
-      for (let j = 0; j < player.deskCards.length; j++) {
-        const card = player.deskCards[j].getComponent(Card);
-        if (card.cardName.search(regEx) != -1) {
-          return card.node;
-        }
-      }
-      for (let j = 0; j < player.handCards.length; j++) {
-        const card = player.handCards[j].getComponent(Card);
-        if (card.cardName.search(regEx) != -1) {
-          return card.node;
-        }
-      }
-      for (let j = 0; j < player.activeItems.length; j++) {
-        const card = player.activeItems[j].getComponent(Card);
-        if (card.cardName.search(regEx) != -1) {
-          return card.node;
-        }
-      }
-      for (let j = 0; j < player.passiveItems.length; j++) {
-        const card = player.passiveItems[j].getComponent(Card);
-        if (card.cardName.search(regEx) != -1) {
-          return card.node;
-        }
-      }
-      for (let j = 0; j < player.paidItems.length; j++) {
-        const card = player.paidItems[j].getComponent(Card);
-        if (card.cardName.search(regEx) != -1) {
-          return card.node;
-        }
-      }
-    }
-
     cc.error(`no card found`)
     return null;
   }
@@ -490,7 +460,7 @@ export default class CardManager extends cc.Component {
 
       // AnimationManager.addAnimationNode(newCard)
       this.addCardToDeck(newCard, deck)
-      this.allCards.add(cardComp._cardId)
+      this.allCards.push(newCard)
       if (cardComp.makeMultiCards) {
         for (let j = 0; j < cardComp.numOfCopies; j++) {
           const copyCard = cc.instantiate(newCard);
@@ -508,7 +478,7 @@ export default class CardManager extends cc.Component {
           copyCard.name = cardComp.node.name + `(${j})`
           copyCardComp.cardName = cardComp.cardName + `(${j})`
           this.addCardToDeck(copyCard, deck)
-          this.allCards.add(copyCardComp._cardId)
+          this.allCards.push(copyCard)
         }
       }
     }
@@ -547,9 +517,9 @@ export default class CardManager extends cc.Component {
       };
       //characterNode.parent = cc.director.getScene();
       CardManager.characterDeck.push(fullCharCards);
-      CardManager.allCards.add(fullCharCards.char.getComponent(Card)._cardId)
+      CardManager.allCards.push(fullCharCards.char)
       if (fullCharCards.item) {
-        CardManager.allCards.add(fullCharCards.item.getComponent(Card)._cardId)
+        CardManager.allCards.push(fullCharCards.item)
       }
       // CardManager.characterItemDeck.put(characterItemNode)
     }
@@ -602,7 +572,7 @@ export default class CardManager extends cc.Component {
   }
 
   static makeLootPlayable(lootCard: cc.Node) {
-    if (!PlayerManager.mePlayer.getComponent(Player).handCards.includes(lootCard)) {
+    if (!PlayerManager.mePlayer.getComponent(Player).getHandCards().includes(lootCard)) {
       return
     }
     const cardComp = lootCard.getComponent(Card);
@@ -620,7 +590,8 @@ export default class CardManager extends cc.Component {
 
   static makeItemActivateable(item: cc.Node) {
     const me = PlayerManager.mePlayer.getComponent(Player)
-    const myItems = [...me.activeItems, ...me.paidItems, ...me.passiveItems]
+    const myItems = [...me.getActiveItems(), ...me.getPaidItems(), ...me.getPaidItems()]
+
     if (!myItems.includes(item)) {
       return
     }
@@ -803,19 +774,16 @@ export default class CardManager extends cc.Component {
     const players = PlayerManager.players;
     for (let i = 0; i < players.length; i++) {
       const player = players[i].getComponent(Player);
-      player.handCards = [];
-      player.deskCards = [];
-      player.handCards = player.handCards.concat(player.hand.layoutCards);
-      player.deskCards = player.deskCards.concat(
-        player.desk.activeItemLayout.getComponent(CardLayout).layoutCards,
-        player.desk.passiveItemLayout.getComponent(CardLayout).layoutCards,
-      );
-      player.deskCards.push(player.characterItem);
-      player.deskCards.push(player.character);
+
+      player.setDeskCards([player.character, player.characterItem, ...player.desk.activeItemLayout.getComponent(CardLayout).layoutCards, ...player.desk.passiveItemLayout.getComponent(CardLayout).layoutCards])
+      player.setHandCards(player.hand.layoutCards)
+
       if (PlayerManager.mePlayer == player.node) {
-        for (const handCard of player.handCards) {
-          if (handCard.getComponent(Card)._isFlipped) {
-            handCard.getComponent(Card).flipCard(false);
+        const handCards = player.getHandCards();
+        for (const handCard of handCards) {
+          const cardComp = handCard.getComponent(Card);
+          if (cardComp._isFlipped) {
+            cardComp.flipCard(false);
           }
         }
       }
@@ -957,42 +925,36 @@ export default class CardManager extends cc.Component {
   }
 
 
-  static getOnTableCards() {
-    return Array.from(this.onTableCards.values()).map(cardId => this.getCardById(cardId))
-  }
 
   static updateOnTableCards() {
-    this.onTableCards = [];
+    this.onTableCards.clear()
     if (PileManager.lootCardPile != null) {
-      this.onTableCards = this.onTableCards.concat(
-        Store.storeCards,
-        MonsterField.activeMonsters,
-        PileManager.lootCardPile.getCards(),
-        PileManager.treasureCardPile.getCards(),
-        PileManager.monsterCardPile.getCards(),
-      );
-
+      const cardsToAdd = [...Array.from(Store.storeCards.values()), ...Array.from(MonsterField.activeMonsters.values()), ...PileManager.lootCardPile.cards, ...PileManager.treasureCardPile.cards, ...PileManager.monsterCardPile.cards]
+      cardsToAdd.forEach(card => {
+        this.onTableCards.add(card)
+      })
     } else {
       const lootPile = cc.find("Canvas/LootCardPile").getComponent(Pile)
       const treasurePile = cc.find("Canvas/TreasureCardPile").getComponent(Pile)
       const monsterPile = cc.find("Canvas/MonsterCardPile").getComponent(Pile)
 
-      this.onTableCards = this.onTableCards.concat(
-        Store.storeCards,
-        MonsterField.activeMonsters,
-        lootPile.getCards(),
-        treasurePile.getCards(),
-        monsterPile.getCards(),
-      );
+      const cardsToAdd = [...Array.from(Store.storeCards.values()), ...Array.from(MonsterField.activeMonsters.values()), ...lootPile.cards, ...treasurePile.cards, ...monsterPile.cards]
+      cardsToAdd.forEach(card => {
+        this.onTableCards.add(card)
+      })
     }
 
     for (let i = 0; i < PlayerManager.players.length; i++) {
       const player = PlayerManager.players[i].getComponent(Player);
-      this.onTableCards = this.onTableCards.concat(player.deskCards);
+      player.getDeskCards().forEach(card => {
+        this.onTableCards.add(card.getComponent(Card)._cardId)
+      })
+      this.addOnTableCards(player.getDeskCards());
     }
-    for (const tableCard of this.onTableCards) {
-      if (tableCard.getComponent(Card)._isFlipped) {
-        tableCard.getComponent(Card).flipCard(false);
+    for (const tableCard of this.getOnTableCards()) {
+      const cardComp = tableCard.getComponent(Card);
+      if (cardComp._isFlipped) {
+        cardComp.flipCard(false);
       }
     }
   }
@@ -1053,7 +1015,7 @@ export default class CardManager extends cc.Component {
     for (let i = 0; i < PlayerManager.players.length; i++) {
       const otherPlayer = PlayerManager.players[i].getComponent(Player);
       if (player.getComponent(Player).playerId != otherPlayer.playerId) {
-        otherPlayersHandCards.concat(otherPlayer.handCards);
+        otherPlayersHandCards.concat(otherPlayer.getHandCards());
       }
     }
 
@@ -1070,6 +1032,7 @@ export default class CardManager extends cc.Component {
     CardManager.bonusDeck = cc.find("Canvas/Bonus Deck");
     CardManager.store = cc.find("Canvas/Store");
     CardManager.monsterField = cc.find("Canvas/MonsterField");
+    CardManager.onTableCards = new Set();
   }
 
   start() { }

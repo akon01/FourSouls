@@ -114,8 +114,8 @@ export default class CardPreviewManager extends cc.Component {
 
     static disableAllCardsActions() {
         if (CardManager.allCards.length != 0) {
-            const cards = CardManager.onTableCards.concat(...PlayerManager.players.map(player => {
-                return player.getComponent(Player).handCards
+            const cards = CardManager.getOnTableCards().concat(...PlayerManager.players.map(player => {
+                return player.getComponent(Player).getHandCards()
             })).filter(card => {
                 if (card.parent != null) { return true }
             })
@@ -151,7 +151,7 @@ export default class CardPreviewManager extends cc.Component {
                 await preview.getComponent(CardPreview).hideCardPreview();
                 if (cardComp._requiredFor) {
                     cardComp._requiredFor.cardChosen = card;
-                    cardComp._requiredFor.isCardChosen = true
+                    cardComp._requiredFor.setIsCardChosen(true)
                 } else {
                     throw new Error("card has Requierd For Flag, but no data collector set as requiredFor.");
                 }

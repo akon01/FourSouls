@@ -18,7 +18,7 @@ const { ccclass, property } = cc._decorator;
 export default class Store extends cc.Component {
   static maxNumOfItems: number = 2;
 
-  static storeCards: cc.Node[] = [];
+  static storeCards: Set<number> = null
 
   static thisTurnStoreCards: cc.Node[] = []
 
@@ -27,6 +27,10 @@ export default class Store extends cc.Component {
   static topCardCost: number = 10;
 
   static $: Store = null;
+
+  static getStoreCards() {
+    return Array.from(this.storeCards.values()).map(cid => CardManager.getCardById(cid))
+  }
 
   @property
   layout: cc.Layout = null;
@@ -45,25 +49,26 @@ export default class Store extends cc.Component {
   }
 
   addStoreCard(sendToServer: boolean, cardToAdd?: cc.Node) {
-    if (Store.maxNumOfItems > Store.storeCards.length) {
+    if (Store.maxNumOfItems > Store.storeCards.size) {
       let newTreasure: cc.Node
       if (cardToAdd != null) {
         newTreasure = cardToAdd
       } else {
         newTreasure = CardManager.treasureDeck.getComponent(Deck).drawCard(sendToServer);
       }
-      if (newTreasure.getComponent(Card)._isFlipped) {
-        newTreasure.getComponent(Card).flipCard(sendToServer);
+      const treasureCardComp = newTreasure.getComponent(Card);
+      if (treasureCardComp._isFlipped) {
+        treasureCardComp.flipCard(sendToServer);
       }
       CardManager.allCards.push(newTreasure);
-      CardManager.onTableCards.push(newTreasure);
-      Store.storeCards.push(newTreasure);
+      CardManager.addOnTableCards([newTreasure]);
+      Store.storeCards.add(treasureCardComp._cardId);
       Store.thisTurnStoreCards.push(newTreasure)
       newTreasure.setPosition(0, 0)
       newTreasure.setParent(this.node)
       //this.node.addChild(newTreasure);
       this.layout.updateLayout();
-      const cardId = newTreasure.getComponent(Card)._cardId
+      const cardId = treasureCardComp._cardId
       if (sendToServer) {
         ServerClient.$.send(Signal.ADD_STORE_CARD, { cardId: cardId })
       }
@@ -77,12 +82,14 @@ export default class Store extends cc.Component {
   }
 
   async removeFromStore(storeItem: cc.Node, sendToserver: boolean) {
+    const storeCards = Store.getStoreCards();
     if (
-      ((Store.storeCards.findIndex(card => card == storeItem, this) != -1))
+      ((storeCards.findIndex(card => card == storeItem, this) != -1))
     ) {
-      Store.storeCards.splice(Store.storeCards.indexOf(storeItem), 1);
+      const itemCardComp = storeItem.getComponent(Card);
+      Store.storeCards.delete(itemCardComp._cardId)
       if (sendToserver) {
-        ServerClient.$.send(Signal.REMOVE_ITEM_FROM_SHOP, { cardId: storeItem.getComponent(Card)._cardId })
+        ServerClient.$.send(Signal.REMOVE_ITEM_FROM_SHOP, { cardId: itemCardComp._cardId })
         const refillStoreSE = new RefillEmptySlot(TurnsManager.currentTurn.getTurnPlayer().character.getComponent(Card)._cardId, null, CARD_TYPE.TREASURE)
         await Stack.addToStackAbove(refillStoreSE)
       }
@@ -99,6 +106,7 @@ export default class Store extends cc.Component {
     Store.$ = this;
     this.layout = this.node.getComponent(cc.Layout);
     this.node.dispatchEvent(new cc.Event.EventCustom("StoreInit", true));
+    Store.storeCards = new Set();
   }
 
   start() { }

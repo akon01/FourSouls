@@ -24,12 +24,12 @@ export default class PeepEffect extends Effect {
    */
   async doEffect(
     stack: StackEffectInterface[],
-    data: PassiveEffectData|ActiveEffectData
+    data: PassiveEffectData | ActiveEffectData
   ) {
     const monsterDeck = CardManager.monsterDeck.getComponent(Deck);
 
-    const peep = monsterDeck._cards.filter((card)=>{card.name=="The Bloat"})[0]
-    if(!peep){
+    const peep = monsterDeck.getCards().filter((card) => { card.name == "The Bloat" })[0]
+    if (!peep) {
       throw new Error("The Bloat is not in the deck")
     } else {
       await MonsterField.givePlayerChoiceToCoverPlace(peep.getComponent(Monster), TurnsManager.getCurrentTurn().getTurnPlayer())

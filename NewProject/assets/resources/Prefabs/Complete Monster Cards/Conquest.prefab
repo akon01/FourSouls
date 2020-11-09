@@ -19,28 +19,25 @@
     "_children": [
       {
         "__id__": 2
-      },
-      {
-        "__id__": 11
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 14
+        "__id__": 11
+      },
+      {
+        "__id__": 12
+      },
+      {
+        "__id__": 13
       },
       {
         "__id__": 15
-      },
-      {
-        "__id__": 16
-      },
-      {
-        "__id__": 17
       }
     ],
     "_prefab": {
-      "__id__": 18
+      "__id__": 16
     },
     "_opacity": 255,
     "_color": {
@@ -232,6 +229,7 @@
       "__id__": 3
     },
     "_enabled": true,
+    "cost": null,
     "_id": ""
   },
   {
@@ -321,6 +319,8 @@
     "specificMonsterCard": {
       "__id__": 1
     },
+    "isSpecificNotMonster": false,
+    "specificNotMonsterCard": null,
     "isSpecificRoll": false,
     "specificRolls": [],
     "_id": ""
@@ -344,6 +344,7 @@
       "__id__": 2
     },
     "_enabled": true,
+    "isSilent": false,
     "cost": null,
     "preCondition": null,
     "conditions": [
@@ -362,10 +363,15 @@
     "optionalAfterDataCollection": false,
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
     "optionalFlavorText": "",
     "numOfTimes": 1,
     "isOnlyMonsterDeck": false,
     "makeMust": true,
+    "makeSpecificMonsterMust": false,
+    "specificMonsterToMake": null,
     "_id": ""
   },
   {
@@ -377,93 +383,6 @@
       "__uuid__": "a30ec3e8-3b1e-410e-97b9-3d4ec7cf58e5"
     },
     "fileId": "49MpgUhqtEnZYYgi7TfIbd",
-    "sync": false
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "GainMoney",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 12
-      }
-    ],
-    "_prefab": {
-      "__id__": 13
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "82c5bZEAZ1Oobq1Oh3I6fMe",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 11
-    },
-    "_enabled": true,
-    "hasRoll": false,
-    "numOfMoneyToAdd": 6,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "a30ec3e8-3b1e-410e-97b9-3d4ec7cf58e5"
-    },
-    "fileId": "eelC3RyMtMvbbr3bl+wlKp",
     "sync": false
   },
   {
@@ -551,21 +470,34 @@
     "HP": 2,
     "currentHp": 0,
     "rollValue": 3,
-    "rollBonus": 0,
+    "_rollBonus": 0,
     "DMG": 1,
-    "bonusDamage": 0,
-    "isAttacked": false,
+    "_bonusDamage": 0,
+    "_isAttacked": false,
     "hasEffect": true,
     "isNonMonster": false,
+    "isBoss": true,
+    "isMegaBoss": false,
+    "isMonsterWhoCantBeAttacked": false,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
-    "reward": {
-      "__id__": 12
+    "reward": null,
+    "monsterRewardDescription": {
+      "__id__": 14
     },
     "killer": null,
+    "isCurse": false,
     "_isDead": false,
     "_lastHitRoll": 0,
     "_id": ""
+  },
+  {
+    "__type__": "MonsterRewardDescription",
+    "rewardType": 0,
+    "hasRoll": false,
+    "rollNumber": 0,
+    "quantity": 6,
+    "doubleReward": false
   },
   {
     "__type__": "bd535UKRTNDu7iLPx8/+FlC",
@@ -589,6 +521,7 @@
     "hasMultipleEffects": false,
     "multiEffectCollector": null,
     "effectData": null,
+    "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],

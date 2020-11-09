@@ -19,28 +19,25 @@
     "_children": [
       {
         "__id__": 2
-      },
-      {
-        "__id__": 8
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 11
+        "__id__": 8
+      },
+      {
+        "__id__": 9
+      },
+      {
+        "__id__": 10
       },
       {
         "__id__": 12
-      },
-      {
-        "__id__": 13
-      },
-      {
-        "__id__": 14
       }
     ],
     "_prefab": {
-      "__id__": 15
+      "__id__": 13
     },
     "_opacity": 255,
     "_color": {
@@ -233,6 +230,8 @@
     "specificMonsterCard": {
       "__id__": 1
     },
+    "isSpecificNotMonster": false,
+    "specificNotMonsterCard": null,
     "isSpecificRoll": false,
     "specificRolls": [],
     "_id": ""
@@ -256,6 +255,7 @@
       "__id__": 2
     },
     "_enabled": true,
+    "isSilent": false,
     "cost": null,
     "preCondition": null,
     "conditions": [
@@ -270,6 +270,9 @@
     "optionalAfterDataCollection": false,
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
     "optionalFlavorText": "",
     "fieldType": 1,
     "howMuchToAdd": 2,
@@ -284,93 +287,6 @@
       "__uuid__": "a0853ee6-b2d7-45b7-ae88-036653625ef7"
     },
     "fileId": "4fXCquVLdKJ7cL1srrys3x",
-    "sync": false
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "TreasureCards",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 9
-      }
-    ],
-    "_prefab": {
-      "__id__": 10
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "39fa4KAtgVJIY18wZRb1zuk",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 8
-    },
-    "_enabled": true,
-    "hasRoll": false,
-    "numOfIemsToGet": 1,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "a0853ee6-b2d7-45b7-ae88-036653625ef7"
-    },
-    "fileId": "14aslBtRNBeYUSy95woBW7",
     "sync": false
   },
   {
@@ -458,21 +374,34 @@
     "HP": 4,
     "currentHp": 0,
     "rollValue": 3,
-    "rollBonus": 0,
+    "_rollBonus": 0,
     "DMG": 2,
-    "bonusDamage": 0,
-    "isAttacked": false,
+    "_bonusDamage": 0,
+    "_isAttacked": false,
     "hasEffect": true,
     "isNonMonster": false,
+    "isBoss": false,
+    "isMegaBoss": false,
+    "isMonsterWhoCantBeAttacked": false,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
-    "reward": {
-      "__id__": 9
+    "reward": null,
+    "monsterRewardDescription": {
+      "__id__": 11
     },
     "killer": null,
+    "isCurse": false,
     "_isDead": false,
     "_lastHitRoll": 0,
     "_id": ""
+  },
+  {
+    "__type__": "MonsterRewardDescription",
+    "rewardType": 2,
+    "hasRoll": false,
+    "rollNumber": 0,
+    "quantity": 1,
+    "doubleReward": false
   },
   {
     "__type__": "bd535UKRTNDu7iLPx8/+FlC",
@@ -496,6 +425,7 @@
     "hasMultipleEffects": false,
     "multiEffectCollector": null,
     "effectData": null,
+    "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],

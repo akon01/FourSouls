@@ -78,6 +78,10 @@ export default class PlayerManager extends cc.Component {
     this.createDice();
     this.assingHands();
 
+    const prefabs = [PlayerManager.$.handPrefab, PlayerManager.$.playerPrefab, PlayerManager.$.dicePrefab, PlayerManager.$.playerDeskPrefab]
+    prefabs.forEach(prefab => {
+      cc.assetManager.releaseAsset(prefab)
+    })
     cc.resources.release("Prefabs/Entities/", cc.Prefab)
   }
 

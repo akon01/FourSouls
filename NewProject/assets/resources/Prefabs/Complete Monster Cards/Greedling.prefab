@@ -19,28 +19,25 @@
     "_children": [
       {
         "__id__": 2
-      },
-      {
-        "__id__": 5
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 17
+        "__id__": 14
+      },
+      {
+        "__id__": 15
+      },
+      {
+        "__id__": 16
       },
       {
         "__id__": 18
-      },
-      {
-        "__id__": 19
-      },
-      {
-        "__id__": 20
       }
     ],
     "_prefab": {
-      "__id__": 21
+      "__id__": 19
     },
     "_opacity": 255,
     "_color": {
@@ -91,93 +88,6 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "GainMoney",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 3
-      }
-    ],
-    "_prefab": {
-      "__id__": 4
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "82c5bZEAZ1Oobq1Oh3I6fMe",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
-    },
-    "_enabled": true,
-    "hasRoll": false,
-    "numOfMoneyToAdd": 7,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "342e7065-fd58-409d-8a45-9a176c0ed465"
-    },
-    "fileId": "22pCNjIMRK1rFEL0AMM7c1",
-    "sync": false
-  },
-  {
-    "__type__": "cc.Node",
     "_name": "AddMoney",
     "_objFlags": 0,
     "_parent": {
@@ -185,20 +95,20 @@
     },
     "_children": [
       {
-        "__id__": 6
+        "__id__": 3
       },
       {
-        "__id__": 9
+        "__id__": 6
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 15
+        "__id__": 12
       }
     ],
     "_prefab": {
-      "__id__": 16
+      "__id__": 13
     },
     "_opacity": 255,
     "_color": {
@@ -252,17 +162,17 @@
     "_name": "MonsterIsKilled",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 5
+      "__id__": 2
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 7
+        "__id__": 4
       }
     ],
     "_prefab": {
-      "__id__": 8
+      "__id__": 5
     },
     "_opacity": 255,
     "_color": {
@@ -316,13 +226,15 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 6
+      "__id__": 3
     },
     "_enabled": true,
     "isSpecificMonster": true,
     "specificMonsterCard": {
       "__id__": 1
     },
+    "isSpecificNotMonster": false,
+    "specificNotMonsterCard": null,
     "isSpecificRoll": false,
     "specificRolls": [],
     "_id": ""
@@ -343,17 +255,17 @@
     "_name": "ChooseCard",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 5
+      "__id__": 2
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 10
+        "__id__": 7
       }
     ],
     "_prefab": {
-      "__id__": 14
+      "__id__": 11
     },
     "_opacity": 255,
     "_color": {
@@ -407,20 +319,23 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 6
     },
     "_enabled": true,
+    "cost": null,
     "multiType": false,
     "otherPlayer": null,
+    "isChooseFromPreviewManager": false,
     "chooseType": {
-      "__id__": 11
+      "__id__": 8
     },
     "chooseTypes": [],
     "filterFromPassiveMeta": false,
     "targetCollectorFromPassiveMeta": null,
     "flavorText": "Choose A Player To Lose 7 Cent",
     "otherPlayersFlavorText": "",
-    "test": null,
+    "isMultiCardChoice": false,
+    "numOfCardsToChoose": 1,
     "_id": ""
   },
   {
@@ -430,7 +345,7 @@
     "componentName": "Character",
     "isMultiFilter": false,
     "filterStatement": {
-      "__id__": 12
+      "__id__": 9
     },
     "filterStatements": []
   },
@@ -440,7 +355,7 @@
     "filterMaker": null,
     "componentType": 0,
     "playerFilter": {
-      "__id__": 13
+      "__id__": 10
     },
     "monsterFilter": null,
     "cardFilter": null,
@@ -467,29 +382,34 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 5
+      "__id__": 2
     },
     "_enabled": true,
+    "isSilent": false,
     "cost": null,
     "preCondition": null,
     "conditions": [
       {
-        "__id__": 7
+        "__id__": 4
       }
     ],
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "dataCollector": [
       {
-        "__id__": 10
+        "__id__": 7
       }
     ],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
     "optionalFlavorText": "",
     "numOfCoins": -7,
+    "isAllMoneyTargetHas": false,
     "multiTarget": false,
     "_id": ""
   },
@@ -589,21 +509,34 @@
     "HP": 2,
     "currentHp": 0,
     "rollValue": 5,
-    "rollBonus": 0,
+    "_rollBonus": 0,
     "DMG": 1,
-    "bonusDamage": 0,
-    "isAttacked": false,
+    "_bonusDamage": 0,
+    "_isAttacked": false,
     "hasEffect": true,
     "isNonMonster": false,
+    "isBoss": false,
+    "isMegaBoss": false,
+    "isMonsterWhoCantBeAttacked": false,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
-    "reward": {
-      "__id__": 3
+    "reward": null,
+    "monsterRewardDescription": {
+      "__id__": 17
     },
     "killer": null,
+    "isCurse": false,
     "_isDead": false,
     "_lastHitRoll": 0,
     "_id": ""
+  },
+  {
+    "__type__": "MonsterRewardDescription",
+    "rewardType": 0,
+    "hasRoll": false,
+    "rollNumber": 0,
+    "quantity": 7,
+    "doubleReward": false
   },
   {
     "__type__": "bd535UKRTNDu7iLPx8/+FlC",
@@ -618,7 +551,7 @@
     "activeEffects": [],
     "passiveEffects": [
       {
-        "__id__": 5
+        "__id__": 2
       }
     ],
     "toAddPassiveEffects": [],
@@ -627,6 +560,7 @@
     "hasMultipleEffects": false,
     "multiEffectCollector": null,
     "effectData": null,
+    "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],

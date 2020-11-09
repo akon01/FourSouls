@@ -6,8 +6,23 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class DataCollector extends cc.Component implements DataCollectorInterface {
+
+  resetInEditor() {
+    this.setDataCollectorId();
+  }
+
+  @property
+  DataCollectorId: number = -1
+
   isCardChosen: boolean = false
   isEffectChosen: boolean = false
+
+  setDataCollectorId() {
+    if (this.node && this.DataCollectorId == -1) {
+      const comps = this.node.getComponents(DataCollector);
+      this.DataCollectorId = comps.findIndex(ed => ed == this);
+    }
+  }
 
   setIsCardChosen(is: boolean) {
     this.isCardChosen = is

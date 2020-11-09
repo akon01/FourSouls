@@ -18,6 +18,8 @@ export default interface EffectInterface {
 
   conditions: Condition[];
 
+  _effectCard: cc.Node;
+
   preCondition: PreCondition;
 
   hasSubAction: boolean;

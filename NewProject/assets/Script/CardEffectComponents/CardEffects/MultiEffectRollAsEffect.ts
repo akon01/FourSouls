@@ -10,7 +10,7 @@ const { ccclass, property } = cc._decorator;
 
 
 
-@ccclass
+@ccclass("MultiEffectRollEffect")
 export default class MultiEffectRollEffect extends Effect {
   effectName = "MultiEffectRoll";
 

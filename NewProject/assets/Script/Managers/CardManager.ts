@@ -228,9 +228,13 @@ export default class CardManager extends cc.Component {
         CardManager.makeCharDeck()
         // CardManager.charCardsPrefabs.concat(CardManager.charItemCardsPrefabs).forEach(prefab => {
         //   cc.assetManager.releaseAsset(prefab); 
-        // });
-        cc.resources.release("Prefabs/CharacterCards/CharCardsPrefabs", cc.Prefab)
-        cc.resources.release("Prefabs/CharacterCards/CharItemCards", cc.Prefab)
+        // });+
+        // CardManager.charItemCardsPrefabs.forEach(prefab => {
+        //   cc.assetManager.releaseAsset(prefab)
+        // })
+        // CardManager.charCardsPrefabs.forEach(prefab => {
+        //   cc.assetManager.releaseAsset(prefab)
+        // })
         CardManager.charCardsPrefabs = []
         CardManager.charItemCardsPrefabs = []
         cc.resources.loadDir<cc.SpriteFrame>(
@@ -311,10 +315,12 @@ export default class CardManager extends cc.Component {
                     if (err) {
                       throw err
                     }
-                    cc.resources.release("Prefabs/Bonus Souls", cc.Prefab)
+
                     CardManager.bonusDeck.getComponent(Deck).cardsPrefab.push(...rsc)
                     CardManager.makeDeckCards(CardManager.bonusDeck.getComponent(Deck))
-                    cc.resources.release("Prefabs/Bonus Souls", cc.Prefab)
+                    CardManager.bonusDeck.getComponent(Deck).cardsPrefab.forEach(prefab => {
+                      cc.assetManager.releaseAsset(prefab);
+                    })
                     cc.log(`end bonus`)
                     whevent.emit(GAME_EVENTS.CARD_MANAGER_LOAD_PREFAB)
                   })

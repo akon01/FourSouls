@@ -16,6 +16,14 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class Effect extends cc.Component implements EffectInterface {
 
+  resetInEditor() {
+    debugger
+    this.setEffectId();
+  }
+
+  @property
+  EffectId: number = -1
+
   @property
   isSilent: boolean = false;
 
@@ -27,10 +35,16 @@ export default class Effect extends cc.Component implements EffectInterface {
   @property(PreCondition)
   preCondition: PreCondition = null;
 
+  @property
+  preConditionId: number = -1;
+
   hasSubAction: boolean = false;
 
   @property({ type: [Condition] })
   conditions: Condition[] = [];
+
+  @property({ type: cc.Integer, step: 1 })
+  conditionsIds: number[] = []
 
   @property({ type: cc.Enum(PASSIVE_TYPE) })
   passiveType: PASSIVE_TYPE = 1;
@@ -38,12 +52,18 @@ export default class Effect extends cc.Component implements EffectInterface {
   @property(Effect)
   passiveEffectToAdd: Effect = null;
 
+  @property
+  passiveEffectToAddId: number = -1
+
   effectName: string = null;
 
   chooseType: CHOOSE_CARD_TYPE = null;
 
   @property([DataCollector])
   dataCollector: DataCollector[] = [];
+
+  @property({ type: cc.Integer, step: 1 })
+  dataCollectorsIds: number[] = []
 
   @property
   _effectCard: cc.Node = null;
@@ -75,6 +95,14 @@ export default class Effect extends cc.Component implements EffectInterface {
 
   @property
   optionalFlavorText: string = ''
+  setEffectId() {
+    debugger
+    if (this.node && this.EffectId == -1) {
+      const comps = this.node.getComponents(Effect);
+      this.EffectId = comps.findIndex(ed => ed == this);
+    }
+  }
+
   /**
    *
    * @param data {target:Player}

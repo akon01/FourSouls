@@ -15,11 +15,16 @@ import SoundManager from "../../Managers/SoundManager";
 import AnnouncementLable from "../../LableScripts/Announcement Lable";
 import MonsterRewardDescription from "../../CardEffectComponents/MonsterRewards/Monster Reward Description";
 import BattleManager from "../../Managers/BattleManager";
+import Effect from "../../CardEffectComponents/CardEffects/Effect";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Monster extends cc.Component {
+
+
+
+
   @property({ visible: false })
   monsterPlace: MonsterCardHolder = null;
 
@@ -95,7 +100,7 @@ export default class Monster extends cc.Component {
   @property({ type: MonsterRewardDescription })
   monsterRewardDescription: MonsterRewardDescription = null
 
-  getReward() { 
+  getReward() {
     const reward = BattleManager.getRewardByType(this.monsterRewardDescription.rewardType)
     reward.doubleReward = this.monsterRewardDescription.doubleReward
     reward.rollNumber = this.monsterRewardDescription.rollNumber

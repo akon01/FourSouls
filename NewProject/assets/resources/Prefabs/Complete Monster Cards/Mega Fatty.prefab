@@ -19,28 +19,25 @@
     "_children": [
       {
         "__id__": 2
-      },
-      {
-        "__id__": 11
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 14
+        "__id__": 11
+      },
+      {
+        "__id__": 12
+      },
+      {
+        "__id__": 13
       },
       {
         "__id__": 15
-      },
-      {
-        "__id__": 16
-      },
-      {
-        "__id__": 17
       }
     ],
     "_prefab": {
-      "__id__": 18
+      "__id__": 16
     },
     "_opacity": 255,
     "_color": {
@@ -321,6 +318,7 @@
       "__id__": 6
     },
     "_enabled": true,
+    "cost": null,
     "_id": ""
   },
   {
@@ -342,6 +340,7 @@
       "__id__": 2
     },
     "_enabled": true,
+    "isSilent": false,
     "cost": null,
     "preCondition": null,
     "conditions": [
@@ -360,6 +359,9 @@
     "optionalAfterDataCollection": false,
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
     "optionalFlavorText": "",
     "hpToHeal": 1,
     "isMultiTarget": false,
@@ -374,93 +376,6 @@
       "__uuid__": "a9b901f2-b198-4aad-8775-4839b913b232"
     },
     "fileId": "e4dsGxF+xPfqlaA9jSVoVD",
-    "sync": false
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "LootCards",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 12
-      }
-    ],
-    "_prefab": {
-      "__id__": 13
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "a7abfo1oIdODqWm9zQAhQsi",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 11
-    },
-    "_enabled": true,
-    "hasRoll": false,
-    "numOfCardsToLoot": 2,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "a9b901f2-b198-4aad-8775-4839b913b232"
-    },
-    "fileId": "25RQkq9ptA4KWuMfvXekDW",
     "sync": false
   },
   {
@@ -548,21 +463,34 @@
     "HP": 3,
     "currentHp": 0,
     "rollValue": 3,
-    "rollBonus": 0,
+    "_rollBonus": 0,
     "DMG": 1,
-    "bonusDamage": 0,
-    "isAttacked": false,
+    "_bonusDamage": 0,
+    "_isAttacked": false,
     "hasEffect": true,
     "isNonMonster": false,
+    "isBoss": true,
+    "isMegaBoss": false,
+    "isMonsterWhoCantBeAttacked": false,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
-    "reward": {
-      "__id__": 12
+    "reward": null,
+    "monsterRewardDescription": {
+      "__id__": 14
     },
     "killer": null,
+    "isCurse": false,
     "_isDead": false,
     "_lastHitRoll": 0,
     "_id": ""
+  },
+  {
+    "__type__": "MonsterRewardDescription",
+    "rewardType": 1,
+    "hasRoll": false,
+    "rollNumber": 0,
+    "quantity": 2,
+    "doubleReward": false
   },
   {
     "__type__": "bd535UKRTNDu7iLPx8/+FlC",
@@ -586,6 +514,7 @@
     "hasMultipleEffects": false,
     "multiEffectCollector": null,
     "effectData": null,
+    "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],

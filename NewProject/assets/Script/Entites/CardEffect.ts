@@ -1,6 +1,7 @@
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
 import { whevent } from "../../ServerClient/whevent";
+import DealDamageV2 from "../CardEffectComponents/CardEffects/DealDamageV2";
 import Effect from "../CardEffectComponents/CardEffects/Effect";
 import ChainCollector from "../CardEffectComponents/DataCollector/ChainCollector";
 import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
@@ -11,6 +12,7 @@ import DataInterpreter, { ActiveEffectData, EffectData, PassiveEffectData, Serve
 import ParticleManager from "../Managers/ParticleManager";
 import PlayerManager from "../Managers/PlayerManager";
 import SoundManager from "../Managers/SoundManager";
+import { handleEffect } from "../reset";
 import StackEffectInterface from "../StackEffects/StackEffectInterface";
 import Item from "./CardTypes/Item";
 import Card from "./GameEntities/Card";
@@ -26,20 +28,33 @@ export default class CardEffect extends cc.Component {
   @property
   hasDestroySelfEffect: boolean = false;
 
+
   @property(cc.Node)
   conditions: cc.Node[] = [];
 
   @property(cc.Node)
   activeEffects: cc.Node[] = [];
 
+  @property({ type: cc.Integer, step: 1 })
+  activeEffectsIds: number[] = []
+
   @property(cc.Node)
   passiveEffects: cc.Node[] = [];
+
+  @property({ type: cc.Integer, step: 1 })
+  passiveEffectsIds: number[] = []
 
   @property(cc.Node)
   toAddPassiveEffects: cc.Node[] = [];
 
+  @property({ type: cc.Integer, step: 1 })
+  toAddPassiveEffectsIds: number[] = []
+
   @property(cc.Node)
   paidEffects: cc.Node[] = [];
+
+  @property({ type: cc.Integer, step: 1 })
+  paidEffectsIds: number[] = []
 
   @property({ type: [EffectsAndOptionalChoice], multiline: true })
   test123: EffectsAndOptionalChoice[] = []
@@ -68,6 +83,12 @@ export default class CardEffect extends cc.Component {
 
   @property
   serverEffectStack: ServerEffect[] = [];
+
+  addEffect(effect: Effect, effectType: ITEM_TYPE) {
+    const newEffect: Effect = this.node.addComponent(effect.constructor.name)
+    newEffect.resetInEditor()
+    handleEffect(newEffect, effect, this.node, effectType)
+  }
 
   /**
    * @throws an error if there is an empty active effect slot in the cardEffect
@@ -220,13 +241,14 @@ export default class CardEffect extends cc.Component {
           }
         }
         break;
-      case ITEM_TYPE.PASSIVE:
+      case ITEM_TYPE.PASSIVE: {
         for (let i = 0; i < this.passiveEffects.length; i++) {
           const effect = this.passiveEffects[i].getComponent(Effect);
           if (i == effectNum) {
             return effect
           }
         }
+      }
         break;
       case ITEM_TYPE.TO_ADD_PASSIVE:
         for (let i = 0; i < this.toAddPassiveEffects.length; i++) {
@@ -268,7 +290,7 @@ export default class CardEffect extends cc.Component {
     // const isActive = (this.getEffectIndexAndType(effect).type == ITEM_TYPE.ACTIVE) ? true : false
     const isActive = effect.conditions.length == 0 ? true : false
     if (effect.dataCollector != null) {
-      if (effect.dataCollector instanceof DataCollector) { 
+      if (effect.dataCollector instanceof DataCollector) {
         data = await effect.dataCollector.collectData(oldData)
         endData = DataInterpreter.makeEffectData(data, this.node, oldData.cardPlayerId, isActive, false)
       } else {
@@ -282,7 +304,7 @@ export default class CardEffect extends cc.Component {
             AnnouncementLable.$.showAnnouncement(error.error, 3, true)
             Logger.error(error)
           }
-          cc.log(`data collected from ${dataCollector.collectorName}: `,data)
+          cc.log(`data collected from ${dataCollector.collectorName}: `, data)
 
           if (endData == null) {
             cc.log(`first data collected in ${effect.effectName} which have ${effect.dataCollector.length} collectors`)
@@ -489,7 +511,11 @@ export default class CardEffect extends cc.Component {
 
   // LIFE-CYCLE CALLBACKS:
 
-  //  onLoad () {
+  onLoad() {
+    this.passiveEffectsDesc.forEach(effect => {
+      effect._effectCard = Card.getCardNodeByChild(this.node)
+    });
+  }
 
   //  }
 

@@ -11,9 +11,6 @@ const { ccclass, property } = cc._decorator;
 export default class PreventDamage extends Effect {
   effectName = "PreventDamage";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
-
   @property
   isPreventAllDamage: boolean = false;
 

@@ -25,10 +25,12 @@ export default class MultiEffectChoose extends DataCollector {
     const player = PlayerManager.getPlayerById(data.cardPlayerId)
     await ActionManager.updateActionsForNotTurnPlayer(player.node)
     CardPreviewManager.setFalvorText("Select An Effect To Activate")
-    const allActivatedEffects = [...data.cardPlayed.getComponent(CardEffect).activeEffects, ...data.cardPlayed.getComponent(CardEffect).paidEffects]
+    const cardPlayerCardEffect = data.cardPlayed.getComponent(CardEffect);
+    const allActivatedEffects = [...cardPlayerCardEffect.getActiveEffects(), ...cardPlayerCardEffect.getPaidEffects()]
     const availableToActivateEffects = allActivatedEffects.filter(effect => {
-      if (effect.getComponent(Effect).preCondition) {
-        if (effect.getComponent(Effect).preCondition.getComponent(PreCondition).testCondition()) {
+      const preCondition = effect.getPreCondition();
+      if (preCondition) {
+        if (preCondition.testCondition()) {
           return true
         }
       } else {
@@ -37,7 +39,7 @@ export default class MultiEffectChoose extends DataCollector {
     })
 
     if (availableToActivateEffects.length == 1) {
-      return availableToActivateEffects[0].getComponent(Effect)
+      return availableToActivateEffects[0]
     }
 
 

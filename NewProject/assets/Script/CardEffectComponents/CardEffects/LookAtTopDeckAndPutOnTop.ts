@@ -55,7 +55,8 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
     data?: ActiveEffectData
   ) {
     let deck: Deck;
-    if (this.dataCollector instanceof Array && this.dataCollector.length < 0 || this.dataCollector == null) {
+    const dataCollectors = this.getDataCollectors();
+    if (dataCollectors instanceof Array && dataCollectors.length < 0 || dataCollectors == null) {
       switch (this.deckType) {
         case CARD_TYPE.LOOT:
           deck = CardManager.lootDeck.getComponent(Deck)
@@ -126,7 +127,7 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
       }
     }
 
-    if (this.conditions.length > 0) {
+    if (this.conditionsIds.length > 0) {
       return data;
     } else { return stack }
   }

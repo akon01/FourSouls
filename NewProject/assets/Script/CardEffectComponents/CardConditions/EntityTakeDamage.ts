@@ -15,9 +15,6 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class EntityTakeDamage extends Condition {
 
-  @property({ type: DataCollector, tooltip: 'Only Put If Not In "Add Passive Effect" Active effect' })
-  dataCollector: DataCollector = null
-
   @property
   isSpecificToEntityTakesDamage: boolean = false;
 

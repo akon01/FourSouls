@@ -5,6 +5,10 @@ import DataCollector from "./DataCollector";
 import Player from "../../Entites/GameEntities/Player";
 import { ActiveEffectData, EffectTarget, PassiveEffectData } from "../../Managers/DataInterpreter";
 import FilterConcrete from "../Choose Card Filters/FilterConcrete";
+import IdAndName from "../IdAndNameComponent";
+import { Card } from "../../../../Server/src/entities/Card";
+import CardEffect from "../../Entites/CardEffect";
+import { createNewDataCollector } from "../../reset";
 
 
 
@@ -12,11 +16,23 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class FilterOtherDataCollector extends DataCollector {
+
+
+    setWithOld(data: FilterOtherDataCollector) {
+        const newCollectorId = createNewDataCollector(this.node, data.dataCollector)
+        this.dataCollectorId = IdAndName.getNew(newCollectorId, data.dataCollector.collectorName)
+        data.dataCollector = null
+    }
+
+
     type = COLLECTORTYPE.AUTO;
     collectorName = 'FilterOtherDataCollector';
 
     @property({ type: DataCollector })
     dataCollector: DataCollector = null
+
+    @property({ type: IdAndName })
+    dataCollectorId: IdAndName = null
 
     @property()
     componentName: string = '';
@@ -47,7 +63,7 @@ export default class FilterOtherDataCollector extends DataCollector {
      */
     collectData(data) {
         const collectedData = this.dataCollector.collectData(data) as EffectTarget[]
-        const cards = collectedData.map(et=>et.effectTargetCard)
+        const cards = collectedData.map(et => et.effectTargetCard)
         return this.applyFilterToCards(cards).map(c => new EffectTarget(c))
     }
 

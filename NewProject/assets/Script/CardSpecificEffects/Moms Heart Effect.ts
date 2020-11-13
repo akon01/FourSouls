@@ -19,8 +19,6 @@ const { ccclass, property } = cc._decorator;
 export default class MomsHeartEffect extends Effect {
   effectName = "MomsHeartEffect";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
 
 
   /**

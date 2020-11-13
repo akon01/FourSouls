@@ -29,6 +29,7 @@ import Stack from "./Stack";
 import { whevent } from "../../ServerClient/whevent";
 import CardPreview from "./Card Preview";
 import { Logger } from "./Logger";
+import Effect from "../CardEffectComponents/CardEffects/Effect";
 
 const { ccclass, property } = cc._decorator;
 
@@ -74,7 +75,7 @@ export default class DecisionMarker extends cc.Component {
         })
     }
 
-    async showEffectChosen(card: cc.Node, effectChosen: cc.Node) {
+    async showEffectChosen(card: cc.Node, effectChosen: Effect) {
         if (this._decisionTimeout) {
             clearTimeout(this._decisionTimeout)
             DecisionMarker.$.hideDecision()

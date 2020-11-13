@@ -1,5 +1,7 @@
 import CostInterface from "./CostInterface";
 import PreCondition from "../PreConditions/PreCondition";
+import IdAndName from "../IdAndNameComponent";
+import CardEffect from "../../Entites/CardEffect";
 
 
 const { ccclass, property } = cc._decorator;
@@ -16,10 +18,14 @@ export default class Cost extends cc.Component implements CostInterface {
     costId: number = -1
 
     @property(PreCondition)
-    preCondition: PreCondition
+    preCondition: PreCondition = null
 
-    @property
-    preConditionId: number
+    @property({ type: IdAndName, multiline: true })
+    preConditionId: IdAndName = null
+
+    getPreCondition() {
+        return this.node.getComponent(CardEffect).getPreCondtion(this.preConditionId.id)
+    }
 
     setCostId() {
         if (this.node && this.costId == -1) {
@@ -29,11 +35,11 @@ export default class Cost extends cc.Component implements CostInterface {
     }
 
     testPreCondition(): boolean {
-        if (!this.preCondition) {
+        if (!this.preConditionId) {
             cc.error('No PreCondition On Cost')
             return true
         }
-        return this.preCondition.testCondition()
+        return this.getPreCondition().testCondition()
     }
 
 

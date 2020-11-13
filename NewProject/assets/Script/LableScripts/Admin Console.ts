@@ -453,7 +453,8 @@ export default class AdminConsole extends cc.Component {
             let cardString = `${card.name}:\n`
             const effectComp = card.getComponent(CardEffect);
             let count = 0
-            for (const effect of effectComp.activeEffects) {
+            const activeEffects = effectComp.getActiveEffects();
+            for (const effect of activeEffects) {
                 if (!effect) { count++ }
             }
             if (count != 0) {
@@ -461,9 +462,10 @@ export default class AdminConsole extends cc.Component {
             }
             count = 0
             let passiveString = "No Conditions:\n"
-            for (const effect of effectComp.passiveEffects) {
+            const passiveEffects = effectComp.getPassiveEffects();
+            for (const effect of passiveEffects) {
                 if (!effect) { count++ }
-                if (effect.getComponent(Effect).conditions.length == 0) { passiveString = passiveString + `${effect.name} \n` }
+                if (effect.conditionsIds.length == 0) { passiveString = passiveString + `${effect.name} \n` }
             }
             if (count != 0) {
                 cardString = cardString.concat(`Empty Passive Effects:${count}\n`)
@@ -472,14 +474,16 @@ export default class AdminConsole extends cc.Component {
                 cardString = cardString.concat(passiveString)
             }
             count = 0
-            for (const effect of effectComp.paidEffects) {
+            const paidEffects = effectComp.getPaidEffects();
+            for (const effect of paidEffects) {
                 if (!effect) { count++ }
             }
             if (count != 0) {
                 cardString = cardString.concat(`Empty Paid Effects:${count}\n`)
             }
             count = 0
-            for (const effect of effectComp.toAddPassiveEffects) {
+            const toAddPassiveEffects = effectComp.getToAddPassiveEffects();
+            for (const effect of toAddPassiveEffects) {
                 if (!effect) { count++ }
             }
             if (count != 0) {

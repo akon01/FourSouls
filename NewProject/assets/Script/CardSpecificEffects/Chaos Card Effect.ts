@@ -17,9 +17,6 @@ const { ccclass, property } = cc._decorator;
 export default class ChaosCardEffect extends Effect {
   effectName = "ChaosCardEffect";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
-
 
   /**
    *

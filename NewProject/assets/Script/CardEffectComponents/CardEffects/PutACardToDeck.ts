@@ -51,7 +51,7 @@ export default class PutACardToDeck extends Effect {
       }
     }
 
-    if (this.conditions.length > 0) {
+    if (this.conditionsIds.length > 0) {
       return data;
     } else { return stack; }
   }

@@ -15,9 +15,6 @@ const { ccclass, property } = cc._decorator;
 export default class SteamySaleEffect2 extends Effect {
   effectName = "SteamySaleEffect2";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
-
   @property(SteamySaleEffect)
   steamySaleEffect1: SteamySaleEffect = null
 

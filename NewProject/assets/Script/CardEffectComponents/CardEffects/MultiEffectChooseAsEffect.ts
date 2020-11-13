@@ -12,10 +12,11 @@ export default class MultiPassiveEffectsChooseAsEffect extends Effect {
 
   async chooseAnEffect(cardWithEffects: cc.Node) {
     const preview = CardPreviewManager.addPreview(cardWithEffects)
-    const allActivatedEffects = [...cardWithEffects.getComponent(CardEffect).passiveEffects]
+    const allActivatedEffects = [...cardWithEffects.getComponent(CardEffect).getPassiveEffects()]
     const availableToActivateEffects = allActivatedEffects.filter(effect => {
-      if (effect.getComponent(Effect).preCondition) {
-        if (effect.getComponent(Effect).preCondition.getComponent(PreCondition).testCondition()) {
+      const preCondition = effect.getPreCondition();
+      if (preCondition) {
+        if (preCondition.testCondition()) {
           return true
         }
       } else {
@@ -24,12 +25,12 @@ export default class MultiPassiveEffectsChooseAsEffect extends Effect {
     })
 
     if (availableToActivateEffects.length == 1) {
-      return availableToActivateEffects[0].getComponent(Effect)
+      return availableToActivateEffects[0]
     }
     const effectChosen = await preview.chooseEffectFromCard(cardWithEffects, true);
     CardPreviewManager.setFalvorText("")
     //  DecisionMarker.$.showEffectChosen(Card.getCardNodeByChild(this.node), effectChosen, player.node, true)
-    return effectChosen.getComponent(Effect)
+    return effectChosen
   }
 
 }

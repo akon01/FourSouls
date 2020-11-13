@@ -171,7 +171,7 @@ export default class MonsterField extends cc.Component {
       if (monsterPlace.activeMonster != null) {
         MonsterField.activeMonsters.add(monsterPlace.activeMonster.getComponent(Card)._cardId);
         const monsterEffect = monsterPlace.activeMonster.getComponent(CardEffect)
-        if (monsterEffect != null && monsterEffect.passiveEffects.length > 0 && !PassiveManager.isCardRegistered(monsterPlace.activeMonster)) {
+        if (monsterEffect != null && monsterEffect.passiveEffectsIds.length > 0 && !PassiveManager.isCardRegistered(monsterPlace.activeMonster)) {
 
           if (TurnsManager.isCurrentPlayer(PlayerManager.mePlayer)) {
             await PassiveManager.registerPassiveItem(monsterPlace.activeMonster, true)

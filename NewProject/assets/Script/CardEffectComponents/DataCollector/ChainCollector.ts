@@ -4,14 +4,23 @@ import Card from "../../Entites/GameEntities/Card";
 import DataInterpreter, { ActiveEffectData, PassiveEffectData, ServerEffectData } from "../../Managers/DataInterpreter";
 import ChainEffects from "../CardEffects/ChainEffects";
 import Effect from "../CardEffects/Effect";
+import IdAndName from "../IdAndNameComponent";
 import DataCollector from "./DataCollector";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class ChainCollector extends DataCollector {
+
   type = COLLECTORTYPE.AUTO;
   collectorName = "ChainCollector";
+
+  @property({ type: IdAndName, multiline: true })
+  chainEffectsId: IdAndName = null
+
+  getChainEffects() {
+    return this.node.getComponent(CardEffect).getEffect<ChainEffects>(this.chainEffectsId.id)
+  }
 
   // @property(DataCollector)
   // dataCollectors: DataCollector[] = [];
@@ -24,7 +33,7 @@ export default class ChainCollector extends DataCollector {
    * @returns {target:cc.node of the card that was played}
    */
   async collectData(data) {
-    const effects = this.node.parent.getComponent(ChainEffects).effectsToChain
+    const effects = this.getChainEffects().getEffectsToChain()
     let effectsData: ActiveEffectData | PassiveEffectData;
     for (let i = 0; i < effects.length; i++) {
       const effect = effects[i]
@@ -32,7 +41,7 @@ export default class ChainCollector extends DataCollector {
       cc.log(`in chain collector, collecting for ${effect.name}`)
       //   let endData: ActiveEffectData | PassiveEffectData = null;
       let endData: ServerEffectData
-      if (effect.dataCollector && !effect.hasPlayerChoiceToActivateInChainEffects) {
+      if (effect.dataCollectorsIds.length > 0 && !effect.hasPlayerChoiceToActivateInChainEffects) {
         endData = await Card.getCardNodeByChild(effect.node).getComponent(CardEffect).collectEffectData(effect, data)
 
       }
@@ -45,13 +54,5 @@ export default class ChainCollector extends DataCollector {
     // let data2 = { cardOwner: player.playerId };
     this.effectsData = effectsData
     return effectsData;
-  }
-
-  getEffectData(effect: Effect) {
-    const effects = this.node.parent.getComponent(ChainEffects).effectsToChain
-    // for (let i = 0; i < this.effectsData.length; i++) {
-    //   const effectIndex = this.effectsData[i].effectIndex;
-    //   if (effects.indexOf(effect) == effectIndex) return this.effectsData[i].data
-    // }
   }
 }

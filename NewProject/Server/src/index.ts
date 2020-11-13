@@ -2,7 +2,7 @@
  * Server entry point
  * @author wheatup
  */
-
+//ts-ignore
 import Server from "./server";
 
 const server = new Server();

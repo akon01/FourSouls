@@ -641,7 +641,7 @@ export default class ActionManager extends cc.Component {
       case Signal.CARD_ADD_TRINKET:
         player = PlayerManager.getPlayerById(data.playerId)
         card = CardManager.getCardById(data.cardId)
-        const addTrinketEffect = card.getComponent(CardEffect).activeEffects[0].getComponent(AddTrinketOrCurse)
+        const addTrinketEffect = card.getComponent(AddTrinketOrCurse)
         addTrinketEffect.removeAddTrinketEffect()
         break;
       case Signal.ADD_AN_ITEM:
@@ -741,11 +741,12 @@ export default class ActionManager extends cc.Component {
         break;
       case Signal.REGISTER_ONE_TURN_PASSIVE_EFFECT:
         card = CardManager.getCardById(data.cardId);
-        const cardEffect = card.getComponent(CardEffect).toAddPassiveEffects[data.effectIndex.index].getComponent(Effect)
-        for (let i = 0; i < cardEffect.conditions.length; i++) {
+        const cardEffect = card.getComponent(CardEffect).getToAddPassiveEffects()[data.effectIndex.index]
+        const conditions = cardEffect.getConditions();
+        for (let i = 0; i < conditions.length; i++) {
           const conditionData = data.conditionData[i];
           const t = DataInterpreter.convertToEffectData(conditionData);
-          cardEffect.conditions[i].conditionData = t
+          conditions[i].conditionData = t
         }
         await PassiveManager.registerOneTurnPassiveEffect(cardEffect, false)
         break;

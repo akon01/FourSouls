@@ -15,9 +15,6 @@ const { ccclass, property } = cc._decorator;
 export default class InfiniteAttack extends Effect {
   effectName = "InfiniteAttack";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
-
   /**
    *
    * @param data {target:PlayerId}

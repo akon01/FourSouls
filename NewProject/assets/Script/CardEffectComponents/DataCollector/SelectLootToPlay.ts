@@ -13,7 +13,7 @@ import PileManager from "../../Managers/PileManager";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('SelectLootToPlay')
 export default class SelectLootToPlay extends DataCollector {
   collectorName = "SelectLootToPlay";
   cardChosen: cc.Node;
@@ -36,7 +36,7 @@ export default class SelectLootToPlay extends DataCollector {
     const player = PlayerManager.getPlayerById(data.cardPlayerId)
     this.playerId = data.cardPlayerId;
     //what cards to choose from
-    const chooseType = this.node.parent.getComponent(Effect).chooseType;
+    const chooseType = CHOOSE_CARD_TYPE.MY_HAND;
     const cardsToChooseFrom = this.getCardsToChoose(chooseType, player);
     const cardPlayedData = await this.requireChoosingACard(cardsToChooseFrom);
     const cardPlayed = CardManager.getCardById(cardPlayedData.cardPlayedId, true);

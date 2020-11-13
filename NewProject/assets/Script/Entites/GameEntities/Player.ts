@@ -808,7 +808,7 @@ export default class Player extends cc.Component {
     //    let action = new MoveLootToPile({ lootCard: lootCard }, playerId);
     if (sendToServer) {
       let hasLockingEffect: boolean;
-      const collector = lootCard.getComponent(CardEffect).multiEffectCollector;
+      const collector = lootCard.getComponent(CardEffect).getMultiEffectCollector();
       if (collector != null && !(collector instanceof MultiEffectChoose)) {
         hasLockingEffect = true;
       } else { hasLockingEffect = false; }
@@ -1297,7 +1297,7 @@ export default class Player extends cc.Component {
     card = afterPassiveMeta.args[0]
 
     let hasLockingEffect: boolean;
-    const collector = card.getComponent(CardEffect).multiEffectCollector;
+    const collector = card.getComponent(CardEffect).getMultiEffectCollector();
     if (collector != null && !(collector instanceof MultiEffectChoose)) {
       hasLockingEffect = true;
     } else { hasLockingEffect = false; }

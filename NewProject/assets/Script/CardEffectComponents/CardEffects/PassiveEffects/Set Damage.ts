@@ -11,9 +11,6 @@ const { ccclass, property } = cc._decorator;
 export default class SetDamage extends Effect {
   effectName = "SetDamage";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
-
 
   @property
   damageToSet: number = 1;

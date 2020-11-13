@@ -23,13 +23,6 @@ export default class PlayerBuyFromShop extends Condition {
   @property()
   needsDataCollector: boolean = true;
 
-  @property({
-    type: DataCollector, visible: function (this: PlayerBuyFromShop) {
-      if (this.isSpecificPlayerOnly) { return true }
-    }, tooltip: 'Only Put If Not In "Add Passive Effect" Active effect'
-  })
-  dataCollector: DataCollector = null
-
   async testCondition(meta: PassiveMeta) {
 
     const player: Player = meta.methodScope.getComponent(Player);

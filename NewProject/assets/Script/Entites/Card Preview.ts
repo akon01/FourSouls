@@ -15,7 +15,7 @@ export default class CardPreview extends cc.Component {
     @property(cc.Button)
     exitButton: cc.Button = null;
 
-    effectChosen: cc.Node = null;
+    effectChosen: Effect = null;
 
     isSelected: boolean = false;
 
@@ -39,6 +39,9 @@ export default class CardPreview extends cc.Component {
 
     @property
     hasTouchProperty: boolean = false;
+
+    @property(cc.Node)
+    effectChooseNode: cc.Node = null
 
     @property
     _groupUuid: string = null
@@ -124,11 +127,11 @@ export default class CardPreview extends cc.Component {
         }
     }
 
-    addEffectToPreview(effect: cc.Node, isDoNotAddClickEvent?: boolean) {
+    addEffectToPreview(effect: Effect, isDoNotAddClickEvent?: boolean) {
         cc.error(`add effect to card preview`)
-        const originalParent = effect.parent;
-        const originalY = effect.y;
-        cc.log(`effect original parent`, effect.parent)
+        const originalParent = effect.node;
+        const originalY = effect.effectPosition.y;
+        cc.log(`effect original parent`, effect.node)
 
         const parentHeight = originalParent.height;
         cc.log(`parent hegight : ${parentHeight}`)
@@ -140,16 +143,16 @@ export default class CardPreview extends cc.Component {
         const widthScale = preview.width / originalParent.width;
 
         const name = effect.name + " " + preview.childrenCount
-        preview.addChild(cc.instantiate(effect), 1, name);
+        preview.addChild(cc.instantiate(this.effectChooseNode), 1, name);
         const newEffect = preview.getChildByName(name);
         newEffect.getComponent(Effect)._effectCard = originalParent;
         this.effectChildren.push(newEffect);
         cc.log(`width:${newEffect.width}; height:${newEffect.height}; cardHeight:${preview.height}; scale:${heightScale}`)
 
         //TODO:REMOVE /2 after changing all prefabs to right size.
-        newEffect.width = effect.width * widthScale
+        newEffect.width = effect.effectPosition.width * widthScale
         //TODO:REMOVE /2 after changing all prefabs to right size.
-        newEffect.height = effect.height * heightScale;
+        newEffect.height = effect.effectPosition.height * heightScale;
 
         const newY = originalY * yPositionScale;
         //TODO:REMOVE /2 after changing all prefabs to right size.
@@ -167,20 +170,23 @@ export default class CardPreview extends cc.Component {
         return newEffect
     }
 
-    async chooseEffectFromCard(card: cc.Node, withPassives: boolean): Promise<cc.Node> {
+    async chooseEffectFromCard(card: cc.Node, withPassives: boolean): Promise<Effect> {
         //  this.showCardPreview(card, false);
 
         CardPreviewManager.openPreview(this.node)
         this.exitButton.getComponent(cc.Button).interactable = false;
         const index = CardPreviewManager.previewsToChooseFrom.push(this.node) - 1
         const cardEffectComp = card.getComponent(CardEffect);
-        const cardEffects = [...cardEffectComp.paidEffects, ...cardEffectComp.activeEffects, ...cardEffectComp.passiveEffects]
+        const paidEffects = cardEffectComp.getPaidEffects();
+        const activeEffects = cardEffectComp.getActiveEffects();
+        const passiveEffects = cardEffectComp.getPassiveEffects();
+        const cardEffects = [...paidEffects, ...activeEffects, ...passiveEffects]
         // let cardEffects = card.getComponent(CardEffect).activeEffects;
         //cardEffects = cardEffects.concat(card.getComponent(CardEffect).paidEffects)
         //let effects be chosen on click
-        for (let i = 0; i < cardEffectComp.paidEffects.length; i++) {
-            const effect = cardEffectComp.paidEffects[i];
-            const preCondition = effect.getComponent(Effect).preCondition
+        for (let i = 0; i < paidEffects.length; i++) {
+            const effect = paidEffects[i];
+            const preCondition = effect.getPreCondition()
             if (preCondition != null && preCondition.testCondition()) {
 
                 this.addEffectToPreview(effect);
@@ -189,9 +195,10 @@ export default class CardPreview extends cc.Component {
                 this.addEffectToPreview(effect)
             }
         }
-        for (let i = 0; i < cardEffectComp.activeEffects.length; i++) {
-            const effect = cardEffectComp.activeEffects[i];
-            const preCondition = effect.getComponent(Effect).preCondition
+
+        for (let i = 0; i < activeEffects.length; i++) {
+            const effect = activeEffects[i];
+            const preCondition = effect.getPreCondition()
             const itemComp = card.getComponent(Item)
             if (itemComp != null) {
                 if (!itemComp.needsRecharge) {
@@ -213,7 +220,7 @@ export default class CardPreview extends cc.Component {
             }
         }
         if (withPassives) {
-            for (const effect of cardEffectComp.passiveEffects) {
+            for (const effect of passiveEffects) {
                 this.addEffectToPreview(effect)
             }
         }
@@ -225,17 +232,17 @@ export default class CardPreview extends cc.Component {
         await DecisionMarker.$.showEffectChosen(card, chosenEffect)
         CardPreviewManager.previewsToChooseFrom.splice(index, 1)
         //disable effects be chosen on click
-        for (let i = 0; i < cardEffects.length; i++) {
-            const effect = cardEffects[i];
-            effect.off(cc.Node.EventType.TOUCH_START);
-        }
+        // for (let i = 0; i < cardEffects.length; i++) {
+        //     const effect = cardEffects[i];
+        //     effect.off(cc.Node.EventType.TOUCH_START);
+        // }
         this.exitButton.getComponent(cc.Button).interactable = true;
-        return new Promise<cc.Node>((resolve, reject) => {
+        return new Promise<Effect>((resolve, reject) => {
             resolve(chosenEffect);
         });
     }
 
-    testForEffectChosen(): Promise<cc.Node> {
+    testForEffectChosen(): Promise<Effect> {
         return new Promise((resolve, reject) => {
             whevent.onOnce(GAME_EVENTS.CARD_PREVIEW_CHOOSE_EFFECT, (effect) => {
                 resolve(effect)

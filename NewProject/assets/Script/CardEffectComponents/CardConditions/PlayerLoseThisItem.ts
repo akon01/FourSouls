@@ -13,10 +13,6 @@ export default class PlayerLoseThisItem extends Condition {
 
   event = PASSIVE_EVENTS.PLAYER_LOSE_ITEM
 
-  @property({ type: DataCollector, tooltip: 'Only Put If Not In "Add Passive Effect" Active effect' })
-  dataCollector: DataCollector = null
-
-
   conditionData: ActiveEffectData = null;
 
   async testCondition(meta: PassiveMeta) {

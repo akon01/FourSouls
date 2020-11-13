@@ -105,19 +105,18 @@ export default class PassiveManager extends cc.Component {
     const cardEffect = itemToRegister.getComponent(CardEffect)
     if (itemToRegister.getComponent(CardEffect) != null) {
 
-      if (cardEffect.passiveEffects.length > 0) {
+      if (cardEffect.passiveEffectsIds.length > 0) {
         if (!this.isCardRegistered(itemToRegister)) {
           this.passiveItems.push(itemToRegister);
-          const cardPassives = cardEffect.passiveEffects.map(effectNode => {
-            if (effectNode) { return effectNode.getComponent(Effect); }
-          });
+          const cardPassives = cardEffect.getPassiveEffects()
           for (const passive of cardPassives) {
             if (!passive) { continue }
+            const conditions = passive.getConditions();
             //test check to see if any effects are registered with condition data already collected, if so , when registering on server, convert to ActiveEffectData\PassiveEffectData
-            if (passive.conditions.includes(null)) {
+            if (conditions.includes(null)) {
               throw new Error(`Trying to register a passive with a place for condition but none selected.`)
             }
-            if (passive.conditions.find(condition => condition.conditionData != null) != undefined) {
+            if (conditions.find(condition => condition.conditionData != null) != undefined) {
               throw new Error(`trying to register a passive effect with condition data, change algorithm to pass the data thru the server`)
             }
             if (passive.passiveType == PASSIVE_TYPE.AFTER) {
@@ -145,7 +144,8 @@ export default class PassiveManager extends cc.Component {
 
   static removePassiveItemEffects(item: cc.Node, sendToServer: boolean) {
     if (this.isCardRegistered(item)) {
-      const cardPassives = item.getComponent(CardEffect).passiveEffects.map(effectNode => effectNode.getComponent(Effect));
+      const passiveEffects = item.getComponent(CardEffect).getPassiveEffects();
+      const cardPassives = passiveEffects
       this.passiveItems.splice(this.passiveItems.indexOf(item), 1)
       for (const passive of cardPassives) {
         if (!passive) { continue };
@@ -187,8 +187,9 @@ export default class PassiveManager extends cc.Component {
       if (!card) { effect.node.parent.parent.getComponent(Card) }
       const effectIndex = card.node.getComponent(CardEffect).getEffectIndexAndType(effect)
       const conditionsData: ServerEffectData[] = [];
-      for (let i = 0; i < effect.conditions.length; i++) {
-        const condition = effect.conditions[i];
+      const conditions = effect.getConditions();
+      for (let i = 0; i < conditions.length; i++) {
+        const condition = conditions[i];
         try {
           conditionsData.push(DataInterpreter.convertToServerData(condition.conditionData))
         } catch (error) {
@@ -232,12 +233,13 @@ export default class PassiveManager extends cc.Component {
       const effectCard = passiveEffect.node.parent;
 
       let isTrue = true;
-      if (passiveEffect.conditions.length == 0) {
+      if (passiveEffect.conditionsIds.length == 0) {
         cc.error(`passive effect ${passiveEffect.effectName} on ${Card.getCardNodeByChild(passiveEffect.node).name} has no conditions`)
         isTrue = false;
       }
-      for (let i = 0; i < passiveEffect.conditions.length; i++) {
-        const condition = passiveEffect.conditions[i];
+      const conditions = passiveEffect.getConditions();
+      for (let i = 0; i < conditions.length; i++) {
+        const condition = conditions[i];
         if (!condition) { throw new Error("Empty condition space in Effect") }
         if (condition.event) {
           condition.event == passiveMeta.passiveEvent ? isTrue = true : isTrue = false
@@ -251,7 +253,8 @@ export default class PassiveManager extends cc.Component {
           if (!isOneOfTheEvents) { isTrue = false }
         }
 
-        if (isTrue && condition.dataCollector != null) {
+        const conditionDataCollector = condition.getDataCollector();
+        if (isTrue && conditionDataCollector != null) {
           cc.log(`${condition.name} is true and has data collector`)
           let cardOwner
           cardOwner = PlayerManager.getPlayerByCard(effectCard)
@@ -260,7 +263,7 @@ export default class PassiveManager extends cc.Component {
           } else {
             cardOwner = cardOwner.character
           }
-          const x = await condition.dataCollector.collectData({ cardPlayerId: cardOwner.getComponent(Card)._cardId, cardId: effectCard.getComponent(Card)._cardId })
+          const x = await conditionDataCollector.collectData({ cardPlayerId: cardOwner.getComponent(Card)._cardId, cardId: effectCard.getComponent(Card)._cardId })
           condition.conditionData = DataInterpreter.makeEffectData(x, effectCard, cardOwner.getComponent(Card)._cardId, false, false)
         } else if (condition.isAddPassiveEffect && !condition.conditionData && condition.needsDataCollector) {
           throw new Error(`Effect ${passiveEffect.effectName} is an "Add Passive Effect", its condition ${condition.name} doesn't have condition data`)
@@ -270,8 +273,8 @@ export default class PassiveManager extends cc.Component {
         try {
           if (isTrue && (await condition.testCondition(passiveMeta) == false)) {
             cc.log(`failed`)
-             isTrue = false;
-             }
+            isTrue = false;
+          }
         } catch (error) {
           Logger.error(error, passiveMeta)
           isTrue = false
@@ -353,8 +356,8 @@ export default class PassiveManager extends cc.Component {
       const effect = passivesToActivate[i];
       cardToActivate = Card.getCardNodeByChild(effect.node);
 
-      passiveIndex = cardToActivate
-        .getComponent(CardEffect)
+      const cardEffectComp = cardToActivate.getComponent(CardEffect);
+      passiveIndex = cardEffectComp
         .getEffectIndexAndType(effect);
       let player: Player
       if (cardToActivate.getComponent(Monster) == null) {
@@ -369,8 +372,8 @@ export default class PassiveManager extends cc.Component {
       cardActivatorId = player.playerId;
       let activatePassiveEffect: ActivatePassiveEffect
       let hasLockingEffect;
-      const multiEffectRollEffect = cardToActivate.getComponent(CardEffect).passiveEffects[0];
-      if (multiEffectRollEffect != null && multiEffectRollEffect.getComponent(Effect) instanceof MultiEffectRollEffect) {
+      const multiEffectRollEffect = cardEffectComp.getPassiveEffects()[0];
+      if (multiEffectRollEffect != null && multiEffectRollEffect instanceof MultiEffectRollEffect) {
         hasLockingEffect = true;
       } else { hasLockingEffect = false; }
       let hasDataBeenColleced: boolean
@@ -425,11 +428,11 @@ export default class PassiveManager extends cc.Component {
     for (let i = 0; i < passivesToActivate.length; i++) {
       const passiveEffect = passivesToActivate[i];
       const cardActivated: cc.Node = Card.getCardNodeByChild(passiveEffect.node);
-      const passiveIndex = cardActivated
-        .getComponent(CardEffect)
+      const cardEffectComp = cardActivated.getComponent(CardEffect);
+      const passiveIndex = cardEffectComp
         .getEffectIndexAndType(passiveEffect);
       let hasLockingEffect;
-      const multiEffectRollEffect = cardActivated.getComponent(CardEffect).passiveEffects[0];
+      const multiEffectRollEffect = cardEffectComp.getPassiveEffects()[0];
       if (multiEffectRollEffect != null && multiEffectRollEffect.getComponent(Effect) instanceof MultiEffectRollEffect) {
         hasLockingEffect = true;
       } else { hasLockingEffect = false; }

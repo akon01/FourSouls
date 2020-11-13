@@ -27,7 +27,7 @@ export default class PlayLootCard extends Effect {
     let hasLockingEffect;
     const card = data.getTarget(TARGETTYPE.CARD)
 
-    const collector = (card as cc.Node).getComponent(CardEffect).multiEffectCollector;
+    const collector = (card as cc.Node).getComponent(CardEffect).getMultiEffectCollector();
     if (collector != null && !(collector instanceof MultiEffectChoose)) {
       hasLockingEffect = true;
     } else { hasLockingEffect = false; }

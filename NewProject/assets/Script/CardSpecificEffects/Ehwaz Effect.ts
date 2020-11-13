@@ -17,9 +17,6 @@ const { ccclass, property } = cc._decorator;
 export default class EhwazEffect extends Effect {
   effectName = "EhwazEffect";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
-
   /**
    *
    * @param data {target:PlayerId}

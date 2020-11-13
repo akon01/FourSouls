@@ -27,8 +27,8 @@ export default class MultiEffectRollEffect extends Effect {
 
     cc.log(`get by number rolled ${numberRolled}`)
     let cardEffectComp = cardPlayed.getComponent(CardEffect);
-    let effects: cc.Node[] = [];
-    effects = effects.concat(cardEffectComp.activeEffects, cardEffectComp.paidEffects, cardEffectComp.passiveEffects)
+    let effects: Effect[] = [];
+    effects = effects.concat(cardEffectComp.getActiveEffects(), cardEffectComp.getPaidEffects(), cardEffectComp.getPassiveEffects())
     let chosenEffect: Effect = null;
     for (let i = 0; i < this.effectsAndNumbers.length; i++) {
       const eAn = this.effectsAndNumbers[i];

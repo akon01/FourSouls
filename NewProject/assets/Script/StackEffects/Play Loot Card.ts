@@ -86,18 +86,19 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
 
         //let player choose effect b4 going in the stack
         if (cardEffect.hasMultipleEffects) {
-            if (cardEffect.multiEffectCollector.cost != null && cardEffect.multiEffectCollector.cost.testPreCondition()) {
-                await cardEffect.multiEffectCollector.cost.takeCost()
+            const multiEffectCollector = cardEffect.getMultiEffectCollector();
+            if (multiEffectCollector.cost != null && multiEffectCollector.cost.testPreCondition()) {
+                await multiEffectCollector.cost.takeCost()
             }
             //if the card has multiple effects and the player needs to choose
-            if (cardEffect.multiEffectCollector instanceof MultiEffectChoose) {
-                const effectChosen = await cardEffect.multiEffectCollector.collectData({ cardPlayed: this.lootToPlay, cardPlayerId: this.lootPlayer.playerId })
+            if (multiEffectCollector instanceof MultiEffectChoose) {
+                const effectChosen = await multiEffectCollector.collectData({ cardPlayed: this.lootToPlay, cardPlayerId: this.lootPlayer.playerId })
                 this.effectToDo = effectChosen;
 
                 //this.setLable(`Player ${this.lootPlayer.playerId} play ${this.lootToPlay.name}: ${this.effectToDo.effectName}`,true)
             }
         } else {
-            this.effectToDo = cardEffect.activeEffects[0].getComponent(Effect)
+            this.effectToDo = cardEffect.getActiveEffects()[0]
             // this.setLable(`Player ${this.lootPlayer.playerId} play ${this.lootToPlay.name}: ${this.effectToDo.effectName}`,true)
         }
         //if the effect is chosen already and the player needs to choose targets, let him now.
@@ -122,17 +123,19 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
         const cardEffect = this.lootToPlay.getComponent(CardEffect)
         this.lootPlayer._lootCardsPlayedThisTurn.push(this.lootToPlay)
         cc.log(`this loot card has locking stack effect ${this.hasLockingStackEffect}`)
+        const multiEffectCollector = cardEffect.getMultiEffectCollector();
         if (this.effectToDo == null) {
             //if this effect has locking stack effect (first only "roll:" for a dice roll) and it has not yet resolved
             if (this.hasLockingStackEffect && this.hasLockingStackEffectResolved == false) {
 
                 let lockingStackEffect: StackEffectInterface
-                if (cardEffect.multiEffectCollector instanceof MultiEffectRoll) {
+
+                if (multiEffectCollector instanceof MultiEffectRoll) {
 
                     lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
                 }
-                if (cardEffect.multiEffectCollector instanceof IMultiEffectRollAndCollect) {
-                    await cardEffect.multiEffectCollector.collectData({ cardPlayed: this.lootToPlay, cardPlayerId: this.lootPlayer.playerId })
+                if (multiEffectCollector instanceof IMultiEffectRollAndCollect) {
+                    await multiEffectCollector.collectData({ cardPlayed: this.lootToPlay, cardPlayerId: this.lootPlayer.playerId })
                     lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
                 }
 
@@ -142,9 +145,9 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
                 //if this effect has locking stack effect (first only "roll:" for a dice roll) and it has resolved
             }
             if (this.hasLockingStackEffect && this.hasLockingStackEffectResolved == true) {
-                if (cardEffect.multiEffectCollector instanceof MultiEffectRoll || cardEffect.multiEffectCollector instanceof IMultiEffectRollAndCollect) {
+                if (multiEffectCollector instanceof MultiEffectRoll || multiEffectCollector instanceof IMultiEffectRollAndCollect) {
                     try {
-                        selectedEffect = cardEffect.multiEffectCollector.getEffectByNumberRolled(this.LockingResolve, this.lootToPlay)
+                        selectedEffect = multiEffectCollector.getEffectByNumberRolled(this.LockingResolve, this.lootToPlay)
                     } catch (error) {
                         Logger.error(error)
                     }

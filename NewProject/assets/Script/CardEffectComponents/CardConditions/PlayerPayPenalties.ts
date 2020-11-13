@@ -16,9 +16,6 @@ export default class PlayerPayPenalties extends Condition {
 
   conditionData: ActiveEffectData | PassiveEffectData = null;
 
-  @property({ type: DataCollector, tooltip: 'If In "Add Passive Effect" No Need' })
-  dataCollector: DataCollector = null
-
   async testCondition(meta: PassiveMeta) {
 
     const player: Player = meta.methodScope.getComponent(Player);

@@ -10,9 +10,6 @@ const { ccclass, property } = cc._decorator;
 export default class CreditCardEffect2 extends Effect {
   effectName = "CreditCardEffect2";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
-
   originalCost: number = 0
 
 

@@ -15,8 +15,6 @@ const { ccclass, property } = cc._decorator;
 export default class JeraEffect extends Effect {
   effectName = "JeraEffect";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
 
 
   /**

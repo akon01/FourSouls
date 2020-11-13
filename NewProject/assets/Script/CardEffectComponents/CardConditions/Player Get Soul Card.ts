@@ -14,9 +14,6 @@ export default class PlayerGetSoulCard extends Condition {
 
   event = PASSIVE_EVENTS.PLAYER_GET_SOUL_CARD
 
-  @property({ type: DataCollector, tooltip: 'Only Put If Not In "Add Passive Effect" Active effect' })
-  dataCollector: DataCollector = null
-
   @property
   isOnSpecificMonster: boolean = false;
 

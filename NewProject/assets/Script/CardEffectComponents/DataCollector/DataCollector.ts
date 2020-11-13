@@ -1,6 +1,7 @@
 import { COLLECTORTYPE, COLORS } from "../../Constants";
 import DataCollectorInterface from "./DataCollectorInterface";
 import Cost from "../Costs/Cost";
+import IdAndName from "../IdAndNameComponent";
 
 const { ccclass, property } = cc._decorator;
 
@@ -9,6 +10,10 @@ export default class DataCollector extends cc.Component implements DataCollector
 
   resetInEditor() {
     this.setDataCollectorId();
+  }
+
+  setWithOld(oldDataCollector: DataCollector) {
+
   }
 
   @property
@@ -38,6 +43,9 @@ export default class DataCollector extends cc.Component implements DataCollector
 
   @property(Cost)
   cost: Cost = null;
+
+  @property({ type: IdAndName })
+  costId: IdAndName = null
 
   /**
    *

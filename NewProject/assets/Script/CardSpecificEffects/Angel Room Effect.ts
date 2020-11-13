@@ -12,9 +12,6 @@ const { ccclass, property } = cc._decorator;
 export default class AngelRoomEffect extends Effect {
   effectName = "AngelRoomEffect";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
-
   @property(cc.Integer)
   numOfCoins: number = 0;
 

@@ -12,8 +12,6 @@ const { ccclass, property } = cc._decorator;
 export default class MegaBatteryEffect extends Effect {
   effectName = "MegaBatteryEffect";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
 
 
   /**

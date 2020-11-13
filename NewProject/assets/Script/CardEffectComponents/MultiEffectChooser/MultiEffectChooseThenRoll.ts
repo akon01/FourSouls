@@ -88,8 +88,6 @@ export default class MultiEffectChooseThenRoll extends IMultiEffectRollAndCollec
 
   getEffectByNumberRolled(numberRolled: number, cardPlayed: cc.Node) {
     const cardEffectComp = cardPlayed.getComponent(CardEffect);
-    let effects: cc.Node[] = [];
-    effects = effects.concat(cardEffectComp.activeEffects, cardEffectComp.paidEffects, cardEffectComp.passiveEffects)
     let chosenEffect: Effect = null;
     for (let i = 0; i < this.effectsAndNumbers.length; i++) {
       const eAn = this.effectsAndNumbers[i];

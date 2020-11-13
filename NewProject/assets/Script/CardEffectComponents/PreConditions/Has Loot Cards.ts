@@ -6,8 +6,16 @@ import Card from "../../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass("HasLootCards")
 export default class HasLootCards extends PreCondition {
+
+  /**
+   *
+   */
+  constructor() {
+    super();
+
+  }
 
   @property
   cardsNeeded: number = 1;

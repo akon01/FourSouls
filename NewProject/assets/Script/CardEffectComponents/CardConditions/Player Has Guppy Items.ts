@@ -14,9 +14,6 @@ export default class PlayerHasGuppyItems extends Condition {
 
   event = PASSIVE_EVENTS.PLAYER_ADD_ITEM
 
-  @property({ visible: false, type: DataCollector, tooltip: 'Only Put If Not In "Add Passive Effect" Active effect' })
-  dataCollector: DataCollector = null
-
   @property
   numOfItems: number = 2;
 

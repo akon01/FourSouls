@@ -14,9 +14,6 @@ export default class PlayerLandAttack extends Condition {
 
   event = PASSIVE_EVENTS.PLAYER_LAND_ATTACK
 
-  @property({ type: DataCollector, tooltip: 'Only Put If Not In "Add Passive Effect" Active effect' })
-  dataCollector: DataCollector = null
-
   @property
   isOnSpecificRoll: boolean = false
 

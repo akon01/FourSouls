@@ -75,10 +75,12 @@ export default class ActivateItem extends StackEffectConcrete {
         }
         const cardEffect = this.itemToActivate.getComponent(CardEffect);
         if (!cardEffect.hasMultipleEffects) {
-            if (cardEffect.activeEffects[0]) {
-                this.effectToDo = cardEffect.activeEffects[0].getComponent(Effect)
-            } else if (cardEffect.paidEffects[0]) {
-                this.effectToDo = cardEffect.paidEffects[0].getComponent(Effect)
+            const activeEffects = cardEffect.getActiveEffects();
+            const paidEffects = cardEffect.getPaidEffects()[0];
+            if (activeEffects[0]) {
+                this.effectToDo = activeEffects[0]
+            } else if (paidEffects) {
+                this.effectToDo = paidEffects[0]
             }
         }
     }
@@ -89,12 +91,13 @@ export default class ActivateItem extends StackEffectConcrete {
         const cardEffect = this.itemToActivate.getComponent(CardEffect)
         //let player choose effect b4 going in the stack
         if (cardEffect.hasMultipleEffects) {
+            const multiEffectCollector = cardEffect.getMultiEffectCollector();
             //if the card has multiple effects and the player needs to choose
-            if (cardEffect.multiEffectCollector.cost != null && cardEffect.multiEffectCollector.cost.testPreCondition()) {
-                await cardEffect.multiEffectCollector.cost.takeCost()
+            if (multiEffectCollector.cost != null && multiEffectCollector.cost.testPreCondition()) {
+                await multiEffectCollector.cost.takeCost()
             }
-            if (cardEffect.multiEffectCollector instanceof MultiEffectChoose) {
-                const effectChosen = await cardEffect.multiEffectCollector.collectData({ cardPlayed: this.itemToActivate, cardPlayerId: this.itemPlayer.playerId })
+            if (multiEffectCollector instanceof MultiEffectChoose) {
+                const effectChosen = await multiEffectCollector.collectData({ cardPlayed: this.itemToActivate, cardPlayerId: this.itemPlayer.playerId })
                 this.effectToDo = effectChosen;
             }
         }
@@ -130,14 +133,15 @@ export default class ActivateItem extends StackEffectConcrete {
         let selectedEffect: Effect = this.effectToDo;
         const cardEffect = this.itemToActivate.getComponent(CardEffect)
         // if (this.effectToDo == null) {
-
+        const multiEffectCollector = cardEffect.getMultiEffectCollector();
         //if this effect has locking stack effect (first only "roll:" for a dice roll) and it has not yet resolved
         if (this.hasLockingStackEffect && this.hasLockingStackEffectResolved == false) {
             let lockingStackEffect: StackEffectInterface
+
             //if card has multiple effects that needs a lock, lock here
-            if (cardEffect.multiEffectCollector) {
-                if (cardEffect.multiEffectCollector instanceof IMultiEffectRollAndCollect) {
-                    await cardEffect.multiEffectCollector.collectData({ cardPlayed: this.itemToActivate, cardPlayerId: this.itemPlayer.playerId })
+            if (multiEffectCollector) {
+                if (multiEffectCollector instanceof IMultiEffectRollAndCollect) {
+                    await multiEffectCollector.collectData({ cardPlayed: this.itemToActivate, cardPlayerId: this.itemPlayer.playerId })
                 }
             }
             lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
@@ -148,13 +152,13 @@ export default class ActivateItem extends StackEffectConcrete {
 
         if (this.hasLockingStackEffect && this.hasLockingStackEffectResolved == true) {
 
-            if (cardEffect.multiEffectCollector != null) {
-                if (cardEffect.multiEffectCollector instanceof MultiEffectRoll || cardEffect.multiEffectCollector instanceof IMultiEffectRollAndCollect) {
+            if (multiEffectCollector != null) {
+                if (multiEffectCollector instanceof MultiEffectRoll || multiEffectCollector instanceof IMultiEffectRollAndCollect) {
                     // const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_ROLL_DICE, [this.LockingResolve, ROLL_TYPE.EFFECT], null, this.itemPlayer.node, this.entityId)
                     // const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
                     // this.LockingResolve = afterPassiveMeta.args[0]
                     try {
-                        selectedEffect = cardEffect.multiEffectCollector.getEffectByNumberRolled(this.LockingResolve, this.itemToActivate)
+                        selectedEffect = multiEffectCollector.getEffectByNumberRolled(this.LockingResolve, this.itemToActivate)
                     } catch (error) {
                         Logger.error(error)
                     }
@@ -186,8 +190,8 @@ export default class ActivateItem extends StackEffectConcrete {
         }
         this.setLable(`Player ${this.itemPlayer.playerId} has activated ${this.itemToActivate.name}`, true)
         const cardEffectComp = this.itemToActivate.getComponent(CardEffect)
-        const effects = [...cardEffectComp.activeEffects, ...cardEffectComp.paidEffects]
-        if (!effects.map(ef => ef.getComponent(Effect)).includes(this.effectToDo)) {
+        const effects = [...cardEffectComp.getActiveEffects(), ...cardEffectComp.getPaidEffects()]
+        if (!effects.includes(this.effectToDo)) {
             this.effectToDo = null;
         }
 

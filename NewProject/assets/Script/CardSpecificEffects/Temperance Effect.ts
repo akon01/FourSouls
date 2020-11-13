@@ -12,9 +12,6 @@ const { ccclass, property } = cc._decorator;
 export default class TemperanceEffect extends Effect {
   effectName = "TemperanceEffect";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
-
   @property
   dmgToTake: number = 0;
 

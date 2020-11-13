@@ -1,6 +1,8 @@
 import ConditionInterface from "./ConditionInterface";
 import { PassiveEffectData, ActiveEffectData } from "../../Managers/DataInterpreter";
 import DataCollector from "../DataCollector/DataCollector";
+import IdAndName from "../IdAndNameComponent";
+import CardEffect from "../../Entites/CardEffect";
 
 const { ccclass, property } = cc._decorator;
 
@@ -13,14 +15,19 @@ export default class Condition extends cc.Component
     this.setConditionId();
   }
 
-  @property
+  @property({ type: cc.Integer, step: 1 })
   conditionId: number = -1;
   isAddPassiveEffect: boolean = false;;
   events: Array<import("../../Constants").PASSIVE_EVENTS> = [];
   event: import("../../Constants").PASSIVE_EVENTS;
   conditionData: ActiveEffectData | PassiveEffectData;
   dataCollector: import("../DataCollector/DataCollector").default;
-  dataCollectorId: number
+  @property({ type: IdAndName, multiline: true })
+  dataCollectorId: IdAndName = null
+
+  getDataCollector() {
+    return this.node.getComponent(CardEffect).getDataCollector(this.dataCollectorId.id)
+  }
   needsDataCollector: boolean = true
   setConditionId() {
     if (this.node && this.conditionId == -1) {

@@ -1,10 +1,13 @@
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
 import { whevent } from "../../ServerClient/whevent";
-import DealDamageV2 from "../CardEffectComponents/CardEffects/DealDamageV2";
+import Condition from "../CardEffectComponents/CardConditions/Condition";
 import Effect from "../CardEffectComponents/CardEffects/Effect";
+import Cost from "../CardEffectComponents/Costs/Cost";
 import ChainCollector from "../CardEffectComponents/DataCollector/ChainCollector";
 import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
+import IdAndName from "../CardEffectComponents/IdAndNameComponent";
+import PreCondition from "../CardEffectComponents/PreConditions/PreCondition";
 import { EFFECT_ANIMATION_TIME, GAME_EVENTS, ITEM_TYPE, PARTICLE_TYPES } from "../Constants";
 import EffectsAndOptionalChoice from "../EffectAndOptionalChoice";
 import AnnouncementLable from "../LableScripts/Announcement Lable";
@@ -32,32 +35,54 @@ export default class CardEffect extends cc.Component {
   @property(cc.Node)
   conditions: cc.Node[] = [];
 
+  getCondition(id: number) {
+    return this.node.getComponents(Condition)[id]
+  }
+
   @property(cc.Node)
   activeEffects: cc.Node[] = [];
 
-  @property({ type: cc.Integer, step: 1 })
-  activeEffectsIds: number[] = []
+
+  getActiveEffects() {
+    return this.activeEffectsIds.map(eid => eid.id).map(id => this.getEffect(id))
+  }
+
+  @property({ type: IdAndName, multiline: true })
+  activeEffectsIds: IdAndName[] = []
 
   @property(cc.Node)
   passiveEffects: cc.Node[] = [];
 
-  @property({ type: cc.Integer, step: 1 })
-  passiveEffectsIds: number[] = []
+  getPassiveEffects() {
+    return this.passiveEffectsIds.map(eid => eid.id).map(id => this.getEffect(id))
+  }
+
+  @property({ type: IdAndName, multiline: true })
+  passiveEffectsIds: IdAndName[] = []
 
   @property(cc.Node)
   toAddPassiveEffects: cc.Node[] = [];
 
-  @property({ type: cc.Integer, step: 1 })
-  toAddPassiveEffectsIds: number[] = []
+  getToAddPassiveEffects() {
+    return this.toAddPassiveEffectsIds.map(eid => eid.id).map(id => this.getEffect(id))
+  }
+
+  @property({ type: IdAndName, multiline: true })
+  toAddPassiveEffectsIds: IdAndName[] = []
 
   @property(cc.Node)
   paidEffects: cc.Node[] = [];
 
-  @property({ type: cc.Integer, step: 1 })
-  paidEffectsIds: number[] = []
+  getPaidEffects() {
+    return this.paidEffectsIds.map(eid => eid.id).map(id => this.getEffect(id))
+  }
 
-  @property({ type: [EffectsAndOptionalChoice], multiline: true })
-  test123: EffectsAndOptionalChoice[] = []
+  @property({ type: IdAndName, multiline: true })
+  paidEffectsIds: IdAndName[] = []
+
+  getEffect<T extends Effect>(id: number) {
+    return this.node.getComponents(Effect)[id] as T
+  }
 
   @property
   hasMultipleEffects: boolean = false;
@@ -68,6 +93,33 @@ export default class CardEffect extends cc.Component {
     }
   })
   multiEffectCollector: DataCollector = null;
+
+  getMultiEffectCollector() {
+    return this.getDataCollector(this.multiEffectCollectorId.id)
+  }
+
+  getDataCollector<T extends DataCollector>(id: number) {
+    return this.node.getComponents(DataCollector)[id] as T
+  }
+
+  getCost(id: number) {
+    return this.node.getComponents(Cost)[id]
+  }
+
+  getCondtion(id: number) {
+    return this.node.getComponents(Condition)[id]
+  }
+
+  getPreCondtion(id: number) {
+    return this.node.getComponents(PreCondition)[id]
+  }
+
+  @property({
+    type: IdAndName, visible: function (this: CardEffect) {
+      if (this.hasMultipleEffects) { return true }
+    }
+  })
+  multiEffectCollectorId: IdAndName = null
 
   @property({ visible: false })
   effectData: ServerEffectData = null;
@@ -84,10 +136,10 @@ export default class CardEffect extends cc.Component {
   @property
   serverEffectStack: ServerEffect[] = [];
 
-  addEffect(effect: Effect, effectType: ITEM_TYPE) {
+  addEffect(effect: Effect, effectType: ITEM_TYPE, addToEffectList: boolean) {
     const newEffect: Effect = this.node.addComponent(effect.constructor.name)
     newEffect.resetInEditor()
-    handleEffect(newEffect, effect, this.node, effectType)
+    return handleEffect(newEffect, effect, this.node, effectType, addToEffectList)
   }
 
   /**
@@ -97,6 +149,10 @@ export default class CardEffect extends cc.Component {
   testEffectsPreConditions(withPassives: boolean) {
     const boolPool: boolean[] = []
     const itemComp = this.node.getComponent(Item)
+    const activeEffects = this.getActiveEffects();
+    const passiveEffects = this.getPassiveEffects();
+    const toAddPassiveEffects = this.getToAddPassiveEffects();
+    const paidEffects = this.getPaidEffects();
     let itemIsActivated: boolean
     if (itemComp != null) {
       itemIsActivated = itemComp.needsRecharge
@@ -112,9 +168,10 @@ export default class CardEffect extends cc.Component {
       } else { return false }
     }
 
-    for (const activeEffect of this.activeEffects) {
+
+    for (const activeEffect of activeEffects) {
       if (!activeEffect) { throw new Error(`An Empty Active Effect Slot In ${this.node.name}`) }
-      const preCondition = activeEffect.getComponent(Effect).preCondition
+      const preCondition = activeEffect.getPreCondition()
       if (itemComp) {
         if (itemComp.needsRecharge) {
           continue
@@ -133,7 +190,7 @@ export default class CardEffect extends cc.Component {
 
     }
 
-    if (innerBoolPool.length >= this.activeEffects.filter(effect => { if (effect.getComponent(Effect).preCondition == null) { return true } }).length) {
+    if (innerBoolPool.length >= activeEffects.filter(effect => { if (effect.getPreCondition() == null) { return true } }).length) {
       boolPool.push(true)
     }
     // } else {
@@ -141,9 +198,9 @@ export default class CardEffect extends cc.Component {
     //}
     innerBoolPool = []
     if (withPassives) {
-      for (const passiveEffect of this.passiveEffects) {
+      for (const passiveEffect of passiveEffects) {
         if (!passiveEffect) { throw new Error(`An Empty Passive Effect Slot In ${this.node.name}`) }
-        const preCondition = passiveEffect.getComponent(Effect).preCondition
+        const preCondition = passiveEffect.getPreCondition()
         if (preCondition != null && preCondition.testCondition()) {
 
           return true;
@@ -152,14 +209,14 @@ export default class CardEffect extends cc.Component {
         }
       }
 
-      if (innerBoolPool.length >= this.passiveEffects.filter(effect => { if (effect.getComponent(Effect).preCondition == null) { return true } }).length) {
+      if (innerBoolPool.length >= passiveEffects.filter(effect => { if (effect.getPreCondition() == null) { return true } }).length) {
         boolPool.push(true)
       }
       innerBoolPool = []
     }
-    for (const paidEffect of this.paidEffects) {
+    for (const paidEffect of paidEffects) {
       if (!paidEffect) { throw new Error(`An Empty Paid Effect Slot In ${this.node.name}`) }
-      const preCondition = paidEffect.getComponent(Effect).preCondition
+      const preCondition = paidEffect.getPreCondition()
       if (preCondition != null && preCondition.testCondition()) {
 
         return true;
@@ -168,13 +225,13 @@ export default class CardEffect extends cc.Component {
       }
     }
 
-    if (innerBoolPool.length >= this.paidEffects.filter(effect => { if (effect.getComponent(Effect).preCondition == null) { return true } }).length) {
+    if (innerBoolPool.length >= paidEffects.filter(effect => { if (effect.getPreCondition() == null) { return true } }).length) {
       boolPool.push(true)
     }
     innerBoolPool = []
-    for (const toAddPassiveEffect of this.toAddPassiveEffects) {
+    for (const toAddPassiveEffect of toAddPassiveEffects) {
       if (!toAddPassiveEffect) { throw new Error(`An Empty ToAdd Passive Effect Slot In ${this.node.name}`) }
-      const preCondition = toAddPassiveEffect.getComponent(Effect).preCondition
+      const preCondition = toAddPassiveEffect.getPreCondition()
       if (preCondition != null && preCondition.testCondition()) {
 
         return true;
@@ -183,7 +240,7 @@ export default class CardEffect extends cc.Component {
       }
     }
 
-    if (innerBoolPool.length >= this.toAddPassiveEffects.filter(effect => { if (effect.getComponent(Effect).preCondition == null) { return true } }).length) {
+    if (innerBoolPool.length >= toAddPassiveEffects.filter(effect => { if (effect.getPreCondition() == null) { return true } }).length) {
       boolPool.push(true)
     }
 
@@ -234,16 +291,18 @@ export default class CardEffect extends cc.Component {
 
     switch (effectType) {
       case ITEM_TYPE.ACTIVE:
-        for (let i = 0; i < this.activeEffects.length; i++) {
-          const effect = this.activeEffects[i].getComponent(Effect);
+        const activeEffects = this.getActiveEffects();
+        for (let i = 0; i < activeEffects.length; i++) {
+          const effect = activeEffects[i]
           if (i == effectNum) {
             return effect
           }
         }
         break;
       case ITEM_TYPE.PASSIVE: {
-        for (let i = 0; i < this.passiveEffects.length; i++) {
-          const effect = this.passiveEffects[i].getComponent(Effect);
+        const passiveEffects = this.getPassiveEffects();
+        for (let i = 0; i < passiveEffects.length; i++) {
+          const effect = passiveEffects[i]
           if (i == effectNum) {
             return effect
           }
@@ -251,16 +310,18 @@ export default class CardEffect extends cc.Component {
       }
         break;
       case ITEM_TYPE.TO_ADD_PASSIVE:
-        for (let i = 0; i < this.toAddPassiveEffects.length; i++) {
-          const effect = this.toAddPassiveEffects[i].getComponent(Effect);
+        const toAddPassiveEffects = this.getToAddPassiveEffects();
+        for (let i = 0; i < toAddPassiveEffects.length; i++) {
+          const effect = toAddPassiveEffects[i]
           if (i == effectNum) {
             return effect
           }
         }
         break;
       case ITEM_TYPE.PAID:
-        for (let i = 0; i < this.paidEffects.length; i++) {
-          const effect = this.paidEffects[i].getComponent(Effect);
+        const paidEffects = this.getPaidEffects();
+        for (let i = 0; i < paidEffects.length; i++) {
+          const effect = paidEffects[i]
           if (i == effectNum) {
             return effect
           }
@@ -288,37 +349,33 @@ export default class CardEffect extends cc.Component {
     let data: any;
     let endData: ActiveEffectData | PassiveEffectData = null;
     // const isActive = (this.getEffectIndexAndType(effect).type == ITEM_TYPE.ACTIVE) ? true : false
-    const isActive = effect.conditions.length == 0 ? true : false
-    if (effect.dataCollector != null) {
-      if (effect.dataCollector instanceof DataCollector) {
-        data = await effect.dataCollector.collectData(oldData)
-        endData = DataInterpreter.makeEffectData(data, this.node, oldData.cardPlayerId, isActive, false)
-      } else {
-        for (let o = 0; o < effect.dataCollector.length; o++) {
-          const dataCollector = effect.dataCollector[o];
-          cc.log(`collecting data for ${effect.name} with ${dataCollector.name}`)
-          try {
-            data = await dataCollector.collectData(oldData)
+    const isActive = effect.conditionsIds.length == 0 ? true : false
+    if (effect.dataCollectorsIds.length > 0) {
+      const dataCollectors = effect.getDataCollectors();
+      for (let o = 0; o < dataCollectors.length; o++) {
+        const dataCollector = dataCollectors[o];
+        cc.log(`collecting data for ${effect.name} with ${dataCollector.name}`)
+        try {
+          data = await dataCollector.collectData(oldData)
 
-          } catch (error) {
-            AnnouncementLable.$.showAnnouncement(error.error, 3, true)
-            Logger.error(error)
-          }
-          cc.log(`data collected from ${dataCollector.collectorName}: `, data)
+        } catch (error) {
+          AnnouncementLable.$.showAnnouncement(error.error, 3, true)
+          Logger.error(error)
+        }
+        cc.log(`data collected from ${dataCollector.collectorName}: `, data)
 
-          if (endData == null) {
-            cc.log(`first data collected in ${effect.effectName} which have ${effect.dataCollector.length} collectors`)
-            if (dataCollector instanceof ChainCollector) {
-              endData = DataInterpreter.makeEffectData(data, this.node, oldData.cardPlayerId, isActive, true)
-            } else {
-              endData = DataInterpreter.makeEffectData(data, this.node, oldData.cardPlayerId, isActive, false)
-            }
+        if (endData == null) {
+          cc.log(`first data collected in ${effect.effectName} which have ${effect.dataCollectorsIds.length} collectors`)
+          if (dataCollector instanceof ChainCollector) {
+            endData = DataInterpreter.makeEffectData(data, this.node, oldData.cardPlayerId, isActive, true)
           } else {
-            cc.log(`Not first collector , end data is `)
-            cc.log(endData)
-            endData.addTarget(data)
-            cc.log(endData)
+            endData = DataInterpreter.makeEffectData(data, this.node, oldData.cardPlayerId, isActive, false)
           }
+        } else {
+          cc.log(`Not first collector , end data is `)
+          cc.log(endData)
+          endData.addTarget(data)
+          cc.log(endData)
         }
       }
     } else {
@@ -345,10 +402,14 @@ export default class CardEffect extends cc.Component {
     if (!effect) {
       throw new Error(`Cant Get Effect Index And Type Of Null Effect`)
     }
+    const activeEffects = this.getActiveEffects();
+    const passiveEffects = this.getPassiveEffects();
+    const toAddPassiveEffects = this.getToAddPassiveEffects();
+    const paidEffects = this.getPaidEffects();
     //const splitName = effect.effectName
-    for (let i = 0; i < this.activeEffects.length; i++) {
-      if (!this.activeEffects[i]) { throw new Error(`Empty Active Effect Slot`) }
-      const testedEffect = this.activeEffects[i].getComponent(Effect);
+    for (let i = 0; i < activeEffects.length; i++) {
+      if (!activeEffects[i]) { throw new Error(`Empty Active Effect Slot`) }
+      const testedEffect = activeEffects[i]
       //const splitTestedName = testedEffect.effectName
 
       if (effect.uuid == testedEffect.uuid) {
@@ -356,9 +417,9 @@ export default class CardEffect extends cc.Component {
         return { type: ITEM_TYPE.ACTIVE, index: i };
       }
     }
-    for (let i = 0; i < this.passiveEffects.length; i++) {
-      if (!this.passiveEffects[i]) { throw new Error(`Empty Passive Effect Slot`) }
-      const passiveEffect = this.passiveEffects[i].getComponent(Effect);
+    for (let i = 0; i < passiveEffects.length; i++) {
+      if (!passiveEffects[i]) { throw new Error(`Empty Passive Effect Slot`) }
+      const passiveEffect = passiveEffects[i];
       // const splitTestedName = passiveEffect.effectName
       // if (splitName[1] == splitTestedName[1]) {
 
@@ -366,9 +427,9 @@ export default class CardEffect extends cc.Component {
         return { type: ITEM_TYPE.PASSIVE, index: i };
       }
     }
-    for (let i = 0; i < this.toAddPassiveEffects.length; i++) {
-      if (!this.toAddPassiveEffects[i]) { throw new Error(`Empty ToAdd Passive Effect Slot`) }
-      const toAddPassiveEffect = this.toAddPassiveEffects[i].getComponent(Effect);
+    for (let i = 0; i < toAddPassiveEffects.length; i++) {
+      if (!toAddPassiveEffects[i]) { throw new Error(`Empty ToAdd Passive Effect Slot`) }
+      const toAddPassiveEffect = toAddPassiveEffects[i]
       // const splitTestedName = toAddPassiveEffect.effectName
       //if (splitName[1] == splitTestedName[1]) {
 
@@ -376,9 +437,9 @@ export default class CardEffect extends cc.Component {
         return { type: ITEM_TYPE.TO_ADD_PASSIVE, index: i };
       }
     }
-    for (let i = 0; i < this.paidEffects.length; i++) {
-      if (!this.paidEffects[i]) { throw new Error(`Empty Paid Effect Slot`) }
-      const paidEffect = this.paidEffects[i].getComponent(Effect);
+    for (let i = 0; i < paidEffects.length; i++) {
+      if (!paidEffects[i]) { throw new Error(`Empty Paid Effect Slot`) }
+      const paidEffect = paidEffects[i]
       // const splitTestedName = paidEffect.effectName
       // if (splitName[1] == splitTestedName[1]) {
 
@@ -412,21 +473,22 @@ export default class CardEffect extends cc.Component {
       cardPlayed.getComponent(Card)._cardId,
       effectData.type
     );
+    const cost = cardEffect.getCost()
     //pay costs like counters/destroing items and so on
-    if (cardEffect.cost != null) {
-      await cardEffect.cost.takeCost()
+    if (cost != null) {
+      await cost.takeCost()
     }
 
     const cardPlayedData = { cardPlayerId: cardPlayerId, cardId: cardPlayed.getComponent(Card)._cardId }
 
     if (collectEffectData) {
-      if (cardEffect.dataCollector != null) {
+      if (cardEffect.dataCollectorsIds.length > 0) {
         const data = await this.collectEffectData(cardEffect, cardPlayedData);
         //    cc.log(data)
         this.effectData = data
       } else {
-        if (cardEffect.dataCollector) {
-          Logger.error(`need to collect data for ${cardEffect.name} with ${cardEffect.dataCollector} but cant!`)
+        if (cardEffect.dataCollectorsIds.length > 0) {
+          Logger.error(`need to collect data for ${cardEffect.name}  but cant!`)
         }
       }
     }
@@ -512,9 +574,7 @@ export default class CardEffect extends cc.Component {
   // LIFE-CYCLE CALLBACKS:
 
   onLoad() {
-    this.passiveEffectsDesc.forEach(effect => {
-      effect._effectCard = Card.getCardNodeByChild(this.node)
-    });
+
   }
 
   //  }

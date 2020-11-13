@@ -1,50 +1,103 @@
 
+import { Card } from "../../Server/src/entities/Card";
 import Condition from "./CardEffectComponents/CardConditions/Condition";
 import Effect from "./CardEffectComponents/CardEffects/Effect";
+import Cost from "./CardEffectComponents/Costs/Cost";
 import DataCollector from "./CardEffectComponents/DataCollector/DataCollector";
+import EffectDataConcurencyBase from "./CardEffectComponents/EffectDataConcurency/EffectDataConcurencyBase";
+import IEffectDataConcurency from "./CardEffectComponents/EffectDataConcurency/IEffectDataConcurency";
+import IdAndName from "./CardEffectComponents/IdAndNameComponent";
 import PreCondition from "./CardEffectComponents/PreConditions/PreCondition";
 import { ITEM_TYPE } from "./Constants";
+import EffectPosition from "./EffectPosition";
 import CardEffect from "./Entites/CardEffect";
 
 const { ccclass, property } = cc._decorator;
 
-export function handleEffect(newComp: Effect, oldComp: Effect, node: cc.Node, effectType: ITEM_TYPE) {
+export function handleEffect(newComp: Effect, oldComp: Effect, node: cc.Node, effectType: ITEM_TYPE, addToEffectList: boolean) {
     const cardEffectComp = node.getComponent(CardEffect);
     copyEffect(oldComp, newComp)
-    switch (effectType) {
-        case ITEM_TYPE.ACTIVE:
-            cardEffectComp.activeEffectsIds.push(newComp.EffectId)
-            break;
-        case ITEM_TYPE.PASSIVE:
-            cardEffectComp.passiveEffectsIds.push(newComp.EffectId)
-            break;
-        case ITEM_TYPE.PAID:
-            cardEffectComp.paidEffectsIds.push(newComp.EffectId)
-            break;
-        case ITEM_TYPE.TO_ADD_PASSIVE:
-            cardEffectComp.toAddPassiveEffectsIds.push(newComp.EffectId)
-            break;
-        default:
-            break;
+    if (addToEffectList) {
+        switch (effectType) {
+            case ITEM_TYPE.ACTIVE:
+                cardEffectComp.activeEffectsIds.push(IdAndName.getNew(newComp.EffectId, newComp.effectName))
+                break;
+            case ITEM_TYPE.PASSIVE:
+                cardEffectComp.passiveEffectsIds.push(IdAndName.getNew(newComp.EffectId, newComp.effectName))
+                break;
+            case ITEM_TYPE.PAID:
+                cardEffectComp.paidEffectsIds.push(IdAndName.getNew(newComp.EffectId, newComp.effectName))
+                break;
+            case ITEM_TYPE.TO_ADD_PASSIVE:
+                cardEffectComp.toAddPassiveEffectsIds.push(IdAndName.getNew(newComp.EffectId, newComp.effectName))
+                break;
+            default:
+                break;
+        }
     }
     handleEffectConditions(newComp, node);
     handleEffectPreConditions(newComp, node);
     handleEffectDataCollectors(newComp, node);
+    handleEffectDataConcurrencyComp(newComp, node)
     handleEffectPassiveToAdd(newComp, node);
+    if (cardEffectComp.multiEffectCollector) {
+        const newDataCollector: DataCollector = node.addComponent(cardEffectComp.multiEffectCollector.constructor.name);
+        newDataCollector.setDataCollectorId()
+        cardEffectComp.multiEffectCollectorId = IdAndName.getNew(newDataCollector.DataCollectorId, newDataCollector.collectorName)
+        copyEffect(cardEffectComp.multiEffectCollector, newDataCollector);
+        if (cardEffectComp.multiEffectCollector.cost) {
+            handleDataCollectorCost(cardEffectComp.multiEffectCollector, node)
+        }
+        cardEffectComp.multiEffectCollector = null
+
+    }
+
+    newComp.effectPosition = new EffectPosition()
+    newComp.effectPosition.x = oldComp.node.x
+    newComp.effectPosition.y = oldComp.node.y
+    newComp.effectPosition.height = oldComp.node.height
+    newComp.effectPosition.width = oldComp.node.width
+    return newComp.EffectId
 }
+
+export function handleEffectCosts(newComp: Effect, node: cc.Node) {
+    if (newComp.cost) {
+        const newCost: Cost = node.addComponent(newComp.cost.constructor.name);
+        // copyEffect(newComp.passiveEffectToAdd, newEffect);
+        newCost.setCostId()
+        newComp.costId = IdAndName.getNew(newCost.costId, newCost.name)
+        copyEffect(newComp.cost, newCost);
+        newComp.cost = null
+    }
+}
+
+
+export function handleEffectDataConcurrencyComp(newComp: Effect, node: cc.Node) {
+    if (newComp.dataConcurencyComponent) {
+        const newConcurrency: EffectDataConcurencyBase = node.addComponent(newComp.dataConcurencyComponent.constructor.name);
+        // copyEffect(newComp.passiveEffectToAdd, newEffect);
+        newConcurrency.setDataConcurencyId()
+        newComp.dataConcurencyComponentId = IdAndName.getNew(newConcurrency.concurencyId, newConcurrency.name)
+        copyEffect(newComp.dataConcurencyComponent, newConcurrency);
+        newComp.dataConcurencyComponent = null
+    }
+}
+
+
 
 export function handleEffectConditions(newComp: Effect, node: cc.Node) {
     const condIds = [];
     newComp.conditions.forEach(condition => {
         const newCond: Condition = node.addComponent(condition.constructor.name);
         newCond.setConditionId()
-        condIds.push(newCond.conditionId);
+        condIds.push(IdAndName.getNew(newCond.conditionId, newCond.name));
         copyEffect(condition, newCond);
         if (newCond.dataCollector) {
             handleConditionDataCollectors(newCond, node)
         }
     });
     newComp.conditionsIds = condIds;
+    newComp.conditions = []
 }
 
 
@@ -52,21 +105,59 @@ export function handleConditionDataCollectors(condition: Condition, node: cc.Nod
     if (condition.dataCollector) {
         const newDataCollector: DataCollector = node.addComponent(condition.dataCollector.constructor.name);
         newDataCollector.setDataCollectorId()
-        condition.dataCollectorId = newDataCollector.DataCollectorId
+        condition.dataCollectorId = IdAndName.getNew(newDataCollector.DataCollectorId, newDataCollector.collectorName)
         copyEffect(condition.dataCollector, newDataCollector);
+        if (newDataCollector.cost) {
+            handleDataCollectorCost(newDataCollector, node)
+        }
+        condition.dataCollector = null
+    }
+}
 
+
+export function handleDataCollectorCost(dataCollector: DataCollector, node: cc.Node) {
+    if (dataCollector.cost) {
+        const newCost: Cost = node.addComponent(dataCollector.cost.constructor.name);
+        newCost.setCostId()
+        dataCollector.costId = IdAndName.getNew(newCost.costId, newCost.name)
+        copyEffect(dataCollector.cost, newCost);
+        if (newCost.preCondition) {
+            handleCostPreCondition(newCost, node)
+        }
+        dataCollector.cost = null
+    }
+}
+
+
+export function handleCostPreCondition(cost: Cost, node: cc.Node) {
+    if (cost.preCondition) {
+        const newPrecondition: PreCondition = node.addComponent(cost.preCondition.constructor.name);
+        newPrecondition.setPreConditionId()
+        cost.preConditionId = IdAndName.getNew(newPrecondition.preConditionId, newPrecondition.name)
+        copyEffect(cost.preCondition, newPrecondition);
+        if (newPrecondition.dataCollector) {
+            handlePreConditionDataCollectors(newPrecondition, node)
+        }
+        cost.preCondition = null
     }
 }
 
 export function handleEffectDataCollectors(newComp: Effect, node: cc.Node) {
     const dataCollectorIds = [];
     newComp.dataCollector.forEach(dataCollector => {
-        const newDataCollector: DataCollector = node.addComponent(dataCollector.constructor.name);
-        newDataCollector.setDataCollectorId()
-        dataCollectorIds.push(newDataCollector.DataCollectorId);
-        copyEffect(dataCollector, newDataCollector);
+        const id = createNewDataCollector(node, dataCollector);
+        dataCollectorIds.push(IdAndName.getNew(id, dataCollector.collectorName))
     });
     newComp.dataCollectorsIds = dataCollectorIds;
+    newComp.dataCollector = []
+}
+
+export function createNewDataCollector(node: cc.Node, dataCollector: DataCollector) {
+    const newDataCollector: DataCollector = node.addComponent(dataCollector.constructor.name);
+    newDataCollector.setDataCollectorId();
+    newDataCollector.setWithOld(dataCollector)
+    copyEffect(dataCollector, newDataCollector);
+    return newDataCollector.DataCollectorId
 }
 
 export function handleEffectPassiveToAdd(newComp: Effect, node: cc.Node) {
@@ -74,12 +165,10 @@ export function handleEffectPassiveToAdd(newComp: Effect, node: cc.Node) {
         const newEffect: Effect = node.addComponent(newComp.passiveEffectToAdd.constructor.name);
         // copyEffect(newComp.passiveEffectToAdd, newEffect);
         newEffect.setEffectId()
-        newComp.passiveEffectToAddId = newEffect.EffectId
-
-        handleEffect(newComp.passiveEffectToAdd, newComp.passiveEffectToAdd, node, ITEM_TYPE.TO_ADD_PASSIVE)
-
+        newComp.passiveEffectToAddId = IdAndName.getNew(newEffect.EffectId, newEffect.effectName)
+        handleEffect(newEffect, newComp.passiveEffectToAdd, node, ITEM_TYPE.TO_ADD_PASSIVE, true)
+        newComp.passiveEffectToAdd = null
     }
-
 }
 
 export function handleEffectPreConditions(newComp: Effect, node: cc.Node) {
@@ -90,7 +179,8 @@ export function handleEffectPreConditions(newComp: Effect, node: cc.Node) {
         if (newComp.preCondition.dataCollector) {
             handlePreConditionDataCollectors(newComp.preCondition, node)
         }
-        newComp.preConditionId = newCond.preConditionId
+        newComp.preConditionId = IdAndName.getNew(newCond.preConditionId, newCond.name)
+        newComp.preCondition = null
     }
 }
 
@@ -98,8 +188,9 @@ export function handlePreConditionDataCollectors(preCondition: PreCondition, nod
     if (preCondition.dataCollector) {
         const newDataCollector: DataCollector = node.addComponent(preCondition.dataCollector.constructor.name);
         newDataCollector.setDataCollectorId()
-        preCondition.dataCollectorId = newDataCollector.DataCollectorId
+        preCondition.dataCollectorId = IdAndName.getNew(newDataCollector.DataCollectorId, newDataCollector.collectorName)
         copyEffect(preCondition.dataCollector, newDataCollector);
+        preCondition.dataCollector = null
     }
 }
 
@@ -110,7 +201,6 @@ export function copyEffect(oldEffect: cc.Component, newEffect: cc.Component) {
     for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
         const oldVal = oldEffect[key]
-        debugger
         if (key.includes('Id') && newEffect[key] > oldVal) {
 
         } else {
@@ -137,28 +227,39 @@ export function getEffectType(node: cc.Node, effect: Effect) {
 
 @ccclass
 export default class Reset extends cc.Component {
+
+    @property(cc.Boolean)
+    isFirstTime = true
+
     resetInEditor() {
-        if (this.node) {
+        if (this.node && this.isFirstTime) {
             const effects = this.node.children.filter(child => child.getComponent(Effect) != null)
-            for (let i = 0; i < effects.length; i++) {
-                const effectNode = effects[i];
-                const oldComp = effectNode.getComponent(Effect)
-                const type = oldComp.constructor.name
-                const newComp: Effect = this.node.addComponent(type)
-                newComp.resetInEditor()
-                newComp.setEffectId()
-                copyEffect(oldComp, newComp)
-                handleEffect(newComp, oldComp, this.node, getEffectType(this.node, oldComp));
+            try {
+                for (let i = 0; i < effects.length; i++) {
+                    const effectNode = effects[i];
+                    const oldComp = effectNode.getComponent(Effect)
+                    const type = oldComp.constructor.name
+                    const newComp: Effect = this.node.addComponent(type)
+                    newComp.resetInEditor()
+                    newComp.setEffectId()
+                    copyEffect(oldComp, newComp)
+                    handleEffect(newComp, oldComp, this.node, getEffectType(this.node, oldComp), true);
+                }
+                const cardEffect = this.node.getComponent(CardEffect);
+                cardEffect.activeEffects = []
+                cardEffect.passiveEffects = []
+                cardEffect.paidEffects = []
+                cardEffect.toAddPassiveEffects = []
+                this.node.removeAllChildren()
+                this.isFirstTime = false
+            } catch (error) {
+                throw error
             }
-            this.node.removeAllChildren()
         }
+
+
     }
 
-
-
-
-    @property(cc.Label)
-    label: cc.Label = null;
 
     @property
     text: string = 'hello';

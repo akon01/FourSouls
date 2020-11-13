@@ -15,19 +15,18 @@ export default class PlayerDeclareAttack extends Condition {
 
   event = PASSIVE_EVENTS.PLAYER_DECLARE_ATTACK
 
-  @property({ type: DataCollector, tooltip: 'Only Put If Not In "Add Passive Effect" Active effect' })
-  dataCollector: DataCollector = null
-
-@property
-isPlayerFromData:boolean = true
+  @property
+  isPlayerFromData: boolean = true
 
   @property
-  isOnSpecificMonster:boolean = false
+  isOnSpecificMonster: boolean = false
 
-  @property({visible:function(this:PlayerDeclareAttack){
-    return this.isOnSpecificMonster
-  },type:Monster})
-  specificMonster:Monster= null
+  @property({
+    visible: function (this: PlayerDeclareAttack) {
+      return this.isOnSpecificMonster
+    }, type: Monster
+  })
+  specificMonster: Monster = null
 
   conditionData: ActiveEffectData = null;
 
@@ -39,27 +38,27 @@ isPlayerFromData:boolean = true
     //   let playerName = PlayerManager.getPlayerByCardId(this.conditionData.cardChosenId).name; 
     let selectedPlayerCard = this.conditionData.getTarget(TARGETTYPE.PLAYER)
     var answer = true
-    if(this.isPlayerFromData){
+    if (this.isPlayerFromData) {
       if (selectedPlayerCard == null) {
-     throw new Error("no selected Player when needed")
+        throw new Error("no selected Player when needed")
       } else {
         if (selectedPlayerCard instanceof cc.Node) {
           let selectedPlayer = PlayerManager.getPlayerByCard(selectedPlayerCard)
           if (
             player.playerId != selectedPlayer.playerId
           ) {
-            answer=false
+            answer = false
           }
-            
+
         }
       }
     }
-    if(!(player instanceof Player )){
-      answer=false
+    if (!(player instanceof Player)) {
+      answer = false
     }
-    if(this.isOnSpecificMonster){
-      if(this.specificMonster=attackedMonster.getComponent(Monster)){
-        answer=false
+    if (this.isOnSpecificMonster) {
+      if (this.specificMonster = attackedMonster.getComponent(Monster)) {
+        answer = false
       }
     }
 

@@ -14,9 +14,6 @@ const { ccclass, property } = cc._decorator;
 export default class PreventDeathPenalties extends Effect {
   effectName = "PreventDeathPenalties";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
-
   /**
    *
    * @param data {target:PlayerId}

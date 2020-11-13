@@ -43,8 +43,7 @@ export default class MultiEffectRoll extends DataCollector {
     const numberRolled = currentStackEffect.LockingResolve;
     // let numberRolled = await diceRoll.collectData({ cardPlayerId: data.cardPlayerId, cardId: player.dice.diceId });
     const cardEffectComp = card.getComponent(CardEffect);
-    let effects: cc.Node[] = [];
-    effects = effects.concat(cardEffectComp.activeEffects, cardEffectComp.paidEffects, cardEffectComp.passiveEffects)
+
     let chosenEffect: Effect = null;
     for (let i = 0; i < this.effectsAndNumbers.length; i++) {
       const eAn = this.effectsAndNumbers[i];
@@ -57,15 +56,13 @@ export default class MultiEffectRoll extends DataCollector {
 
     }
     cc.log(chosenEffect)
-    await DecisionMarker.$.showEffectChosen(Card.getCardNodeByChild(this.node), chosenEffect.node)
+    await DecisionMarker.$.showEffectChosen(Card.getCardNodeByChild(this.node), chosenEffect)
     cc.log(chosenEffect.name)
     return chosenEffect;
   }
 
   getEffectByNumberRolled(numberRolled: number, cardPlayed: cc.Node) {
     const cardEffectComp = cardPlayed.getComponent(CardEffect);
-    let effects: cc.Node[] = [];
-    effects = effects.concat(cardEffectComp.activeEffects, cardEffectComp.paidEffects, cardEffectComp.passiveEffects)
     let chosenEffect: Effect = null;
     for (let i = 0; i < this.effectsAndNumbers.length; i++) {
       const eAn = this.effectsAndNumbers[i];

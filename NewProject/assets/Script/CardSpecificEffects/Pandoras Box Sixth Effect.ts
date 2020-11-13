@@ -12,10 +12,6 @@ const { ccclass, property } = cc._decorator;
 export default class PandorasBoxSixthEffect extends Effect {
   effectName = "PandorasBoxSixthEffect";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
-
-
   /**
    *
    * @param data {target:PlayerId}

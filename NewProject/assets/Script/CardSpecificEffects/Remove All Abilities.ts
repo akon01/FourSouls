@@ -17,9 +17,6 @@ const { ccclass, property } = cc._decorator;
 export default class RemoveAllAbilities extends Effect {
   effectName = "RemoveAllAbilities";
 
-  @property({ type: DataCollector, override: true })
-  dataCollector = null;
-
 
   /**
    *
@@ -41,10 +38,10 @@ export default class RemoveAllAbilities extends Effect {
       const cardEffect = targetCard.getComponent(CardEffect)
       targetCard.getComponent(Item).enabled = false;
       cardEffect.enabled = false
-      cardEffect.activeEffects = []
-      cardEffect.paidEffects = []
-      cardEffect.passiveEffects = []
-      cardEffect.toAddPassiveEffects = []
+      cardEffect.activeEffectsIds = []
+      cardEffect.paidEffectsIds = []
+      cardEffect.passiveEffectsIds = []
+      cardEffect.toAddPassiveEffectsIds = []
     }
     if (data instanceof PassiveEffectData) { return data }
     return stack

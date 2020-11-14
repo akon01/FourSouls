@@ -13,7 +13,7 @@ import Card from "../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass("ChaosCardEffect")
 export default class ChaosCardEffect extends Effect {
   effectName = "ChaosCardEffect";
 

@@ -10,7 +10,7 @@ import Stack from "../Entites/Stack";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('SteamySaleEffect')
 export default class SteamySaleEffect extends Effect {
   effectName = "SteamySaleEffect";
 

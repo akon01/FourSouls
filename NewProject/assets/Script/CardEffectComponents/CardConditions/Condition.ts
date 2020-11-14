@@ -11,9 +11,14 @@ export default class Condition extends cc.Component
   implements ConditionInterface {
 
   resetInEditor() {
-    debugger
     this.setConditionId();
   }
+
+  setWithOld(data) {
+
+  }
+
+  newCompCondition: Condition = null
 
   @property({ type: cc.Integer, step: 1 })
   conditionId: number = -1;
@@ -21,6 +26,7 @@ export default class Condition extends cc.Component
   events: Array<import("../../Constants").PASSIVE_EVENTS> = [];
   event: import("../../Constants").PASSIVE_EVENTS;
   conditionData: ActiveEffectData | PassiveEffectData;
+  @property(DataCollector)
   dataCollector: import("../DataCollector/DataCollector").default;
   @property({ type: IdAndName, multiline: true })
   dataCollectorId: IdAndName = null

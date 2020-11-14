@@ -21,6 +21,7 @@ import { whevent } from "../../../ServerClient/whevent";
 import AnnouncementLable from "../../LableScripts/Announcement Lable";
 import GetTargetFromPassiveMeta from "./GetTargetFromPassiveMeta";
 import PileManager from "../../Managers/PileManager";
+import IdAndName from "../IdAndNameComponent";
 
 const { ccclass, property } = cc._decorator;
 
@@ -73,6 +74,15 @@ export default class ChooseCard extends DataCollector {
   targetCollectorFromPassiveMeta: GetTargetFromPassiveMeta = null
 
 
+  @property({
+    visible: function (this: ChooseCard) {
+      if (this.filterFromPassiveMeta) { return true }
+    }
+    , type: IdAndName
+  })
+  targetCollectorFromPassiveMetaId: IdAndName = new IdAndName()
+
+
   @property
   flavorText: string = ""
 
@@ -96,7 +106,7 @@ export default class ChooseCard extends DataCollector {
    * @returns {target:cc.node of the player who played the card}
    */
 
-  async collectData(data: { cardPlayerId }): Promise<any> {
+  async collectData(data: { cardPlayerId }): Promise<EffectTarget | EffectTarget[]> {
     const player = PlayerManager.getPlayerById(data.cardPlayerId)
     this.playerId = data.cardPlayerId;
 
@@ -222,6 +232,10 @@ export default class ChooseCard extends DataCollector {
       // Get all of the chosen player hand cards
       case CHOOSE_CARD_TYPE.MY_HAND:
         return mePlayer.getHandCards();
+      case CHOOSE_CARD_TYPE.MY_SOUL_CARDS:
+        ///Set to True, Cant Really See Accuired Soul Cards, SO Choose form previewes
+        this.isChooseFromPreviewManager = true
+        return mePlayer.getSoulCards()
       case CHOOSE_CARD_TYPE.PILES:
         return PileManager.getTopCardOfPiles()
       case CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND:

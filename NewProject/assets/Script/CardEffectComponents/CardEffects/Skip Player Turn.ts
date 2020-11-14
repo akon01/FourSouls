@@ -9,7 +9,7 @@ import Effect from "./Effect";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('SkipPlayerTurn')
 export default class SkipPlayerTurn extends Effect {
   chooseType = CHOOSE_CARD_TYPE.ALL_PLAYERS;
 

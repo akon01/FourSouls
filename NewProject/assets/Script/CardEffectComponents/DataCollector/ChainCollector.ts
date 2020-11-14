@@ -16,7 +16,7 @@ export default class ChainCollector extends DataCollector {
   collectorName = "ChainCollector";
 
   @property({ type: IdAndName, multiline: true })
-  chainEffectsId: IdAndName = null
+  chainEffectsId: IdAndName = new IdAndName()
 
   getChainEffects() {
     return this.node.getComponent(CardEffect).getEffect<ChainEffects>(this.chainEffectsId.id)

@@ -5,6 +5,7 @@ import PreCondition from "../PreConditions/PreCondition";
 import Cost from "../Costs/Cost";
 import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
 import EffectPosition from "../../EffectPosition";
+import Effect from "./Effect";
 
 const { ccclass, property } = cc._decorator;
 
@@ -34,6 +35,7 @@ export default interface EffectInterface {
   lockingResolve: number
 
   effectPosition: EffectPosition
+  setWithOld(oldEffect: Effect)
 
   reverseEffect();
 

@@ -9,7 +9,7 @@ import Card from "../../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass("PlayerLandAttack")
 export default class PlayerLandAttack extends Condition {
 
   event = PASSIVE_EVENTS.PLAYER_LAND_ATTACK

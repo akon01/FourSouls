@@ -16,28 +16,36 @@
     "_name": "Goat Head",
     "_objFlags": 0,
     "_parent": null,
-    "_children": [
-      {
-        "__id__": 2
-      }
-    ],
+    "_children": [],
     "_active": true,
     "_components": [
       {
+        "__id__": 2
+      },
+      {
+        "__id__": 3
+      },
+      {
+        "__id__": 4
+      },
+      {
+        "__id__": 5
+      },
+      {
+        "__id__": 7
+      },
+      {
+        "__id__": 11
+      },
+      {
+        "__id__": 12
+      },
+      {
         "__id__": 14
-      },
-      {
-        "__id__": 15
-      },
-      {
-        "__id__": 16
-      },
-      {
-        "__id__": 17
       }
     ],
     "_prefab": {
-      "__id__": 18
+      "__id__": 15
     },
     "_opacity": 255,
     "_color": {
@@ -85,386 +93,6 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "DiscardAndDrawLoot",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [
-      {
-        "__id__": 3
-      },
-      {
-        "__id__": 6
-      },
-      {
-        "__id__": 9
-      }
-    ],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 12
-      }
-    ],
-    "_prefab": {
-      "__id__": 13
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 85,
-      "height": 40
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        -40,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "ChooseFromTargetCard",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 4
-      }
-    ],
-    "_prefab": {
-      "__id__": 8
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "20bc9bfF8tH6ZIb1S6uQ6nK",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 3
-    },
-    "_enabled": true,
-    "isItems": false,
-    "isLootCards": true,
-    "isRandom": false,
-    "flavorText": "Choose Cards To Redraw",
-    "isMultiCardChoice": true,
-    "numberOfCardsToChoose": 0,
-    "dataCollectorToRun": {
-      "__id__": 5
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "7dab8c90ZJG8Zh8owOKS3GI",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 6
-    },
-    "_enabled": true,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "CardOwner",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 5
-      }
-    ],
-    "_prefab": {
-      "__id__": 7
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "073bebac-7eff-48c6-bb18-562c55b446a2"
-    },
-    "fileId": "4cFB0myK1KS5MtdYjkoHy7",
-    "sync": false
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "073bebac-7eff-48c6-bb18-562c55b446a2"
-    },
-    "fileId": "90P2JRRyJCsKQ1NKLC184d",
-    "sync": false
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "CardOwnerEndTurn",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 10
-      }
-    ],
-    "_prefab": {
-      "__id__": 11
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "a74b5do9WpCubAaQ1nxxmhJ",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 9
-    },
-    "_enabled": true,
-    "isCardOwnerOnly": true,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "073bebac-7eff-48c6-bb18-562c55b446a2"
-    },
-    "fileId": "7f45G5W6tMQpkc7VJR1kcQ",
-    "sync": false
-  },
-  {
-    "__type__": "498250Dh1ZDlrDh29KkeOHg",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
-    },
-    "_enabled": true,
-    "isSilent": false,
-    "cost": null,
-    "preCondition": null,
-    "conditions": [
-      {
-        "__id__": 10
-      }
-    ],
-    "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "dataCollector": [
-      {
-        "__id__": 4
-      }
-    ],
-    "_effectCard": null,
-    "optionalAfterDataCollection": false,
-    "optionalBeforeDataCollection": true,
-    "hasPlayerChoiceToActivateInChainEffects": false,
-    "optionalFlavorText": "",
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "073bebac-7eff-48c6-bb18-562c55b446a2"
-    },
-    "fileId": "a2V7vt3+ND35xmc7k1XlCO",
-    "sync": false
   },
   {
     "__type__": "cc.Sprite",
@@ -565,20 +193,144 @@
     "hasDestroySelfEffect": false,
     "conditions": [],
     "activeEffects": [],
-    "passiveEffects": [
+    "activeEffectsIds": [],
+    "passiveEffects": [],
+    "passiveEffectsIds": [
       {
-        "__id__": 2
+        "__id__": 6
       }
     ],
     "toAddPassiveEffects": [],
+    "toAddPassiveEffectsIds": [],
     "paidEffects": [],
-    "test123": [],
+    "paidEffectsIds": [],
     "hasMultipleEffects": false,
     "multiEffectCollector": null,
+    "multiEffectCollectorId": null,
     "effectData": null,
+    "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
+    "_id": ""
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "DiscardAndDrawLoot",
+    "id": 0
+  },
+  {
+    "__type__": "498250Dh1ZDlrDh29KkeOHg",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "effectPosition": {
+      "__id__": 8
+    },
+    "EffectId": 0,
+    "isSilent": false,
+    "cost": null,
+    "costId": null,
+    "preCondition": null,
+    "preConditionId": null,
+    "conditions": [],
+    "conditionsIds": [
+      {
+        "__id__": 9
+      }
+    ],
+    "passiveType": 1,
+    "passiveEffectToAdd": null,
+    "passiveEffectToAddId": null,
+    "dataCollector": [],
+    "dataCollectorsIds": [
+      {
+        "__id__": 10
+      }
+    ],
+    "_effectCard": null,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": true,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
+    "dataConcurencyComponentId": null,
+    "optionalFlavorText": "",
+    "_id": ""
+  },
+  {
+    "__type__": "EffectPosition",
+    "x": 0,
+    "y": -37.622,
+    "width": 78,
+    "height": 32
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "Goat Head<CardOwnerEndTurn>",
+    "id": 0
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "ChooseFromTargetCard",
+    "id": 0
+  },
+  {
+    "__type__": "a74b5do9WpCubAaQ1nxxmhJ",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "conditionId": 0,
+    "dataCollectorId": null,
+    "isCardOwnerOnly": true,
+    "_id": ""
+  },
+  {
+    "__type__": "20bc9bfF8tH6ZIb1S6uQ6nK",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "DataCollectorId": 0,
+    "cost": null,
+    "costId": null,
+    "isItems": false,
+    "isLootCards": true,
+    "isRandom": false,
+    "flavorText": "Choose Cards To Redraw",
+    "isMultiCardChoice": true,
+    "numberOfCardsToChoose": 0,
+    "dataCollectorToRun": null,
+    "dataCollectorToRunId": {
+      "__id__": 13
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "CardOwner",
+    "id": 1
+  },
+  {
+    "__type__": "7dab8c90ZJG8Zh8owOKS3GI",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "DataCollectorId": 1,
+    "cost": null,
+    "costId": null,
     "_id": ""
   },
   {

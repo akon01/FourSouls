@@ -9,7 +9,7 @@ import Item from "../../Entites/CardTypes/Item";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass("PlayerHasGuppyItems")
 export default class PlayerHasGuppyItems extends Condition {
 
   event = PASSIVE_EVENTS.PLAYER_ADD_ITEM

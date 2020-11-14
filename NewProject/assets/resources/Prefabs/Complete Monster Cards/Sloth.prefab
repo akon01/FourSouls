@@ -16,28 +16,33 @@
     "_name": "Sloth",
     "_objFlags": 0,
     "_parent": null,
-    "_children": [
-      {
-        "__id__": 2
-      }
-    ],
+    "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 11
+        "__id__": 2
+      },
+      {
+        "__id__": 3
+      },
+      {
+        "__id__": 4
+      },
+      {
+        "__id__": 6
+      },
+      {
+        "__id__": 8
       },
       {
         "__id__": 12
       },
       {
         "__id__": 13
-      },
-      {
-        "__id__": 15
       }
     ],
     "_prefab": {
-      "__id__": 16
+      "__id__": 14
     },
     "_opacity": 255,
     "_color": {
@@ -85,301 +90,6 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "DiscardLoot",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [
-      {
-        "__id__": 3
-      },
-      {
-        "__id__": 6
-      }
-    ],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 9
-      }
-    ],
-    "_prefab": {
-      "__id__": 10
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "CardTargetPools",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 4
-      }
-    ],
-    "_prefab": {
-      "__id__": 5
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "22913nx12JFp5jamWHfq9bu",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 3
-    },
-    "_enabled": true,
-    "cost": null,
-    "targetPool": 2,
-    "exceptCard": null,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "8cafba50-6ee5-4599-9755-bbdc3add0a0b"
-    },
-    "fileId": "21KVnG8glIVZdobWcO2omF",
-    "sync": false
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "MonsterIsKilled",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 7
-      }
-    ],
-    "_prefab": {
-      "__id__": 8
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "c1f5bXYnEdHcpfhcPszpH5M",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 6
-    },
-    "_enabled": true,
-    "isSpecificMonster": false,
-    "specificMonsterCard": null,
-    "isSpecificNotMonster": false,
-    "specificNotMonsterCard": null,
-    "isSpecificRoll": false,
-    "specificRolls": [],
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "8cafba50-6ee5-4599-9755-bbdc3add0a0b"
-    },
-    "fileId": "bejqnUvDZMI4jNhdiCuY3q",
-    "sync": false
-  },
-  {
-    "__type__": "d6f46KdVWpKban15DT2Bjq9",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
-    },
-    "_enabled": true,
-    "isSilent": false,
-    "cost": null,
-    "preCondition": null,
-    "conditions": [
-      {
-        "__id__": 7
-      }
-    ],
-    "passiveType": 2,
-    "passiveEffectToAdd": null,
-    "dataCollector": [
-      {
-        "__id__": 4
-      }
-    ],
-    "_effectCard": null,
-    "optionalAfterDataCollection": false,
-    "optionalBeforeDataCollection": false,
-    "hasPlayerChoiceToActivateInChainEffects": false,
-    "hasLockingResolve": false,
-    "hasDataConcurency": false,
-    "dataConcurencyComponent": null,
-    "optionalFlavorText": "",
-    "numOfLoot": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "8cafba50-6ee5-4599-9755-bbdc3add0a0b"
-    },
-    "fileId": "302JFXFQhMHau43ha9IsWi",
-    "sync": false
   },
   {
     "__type__": "cc.Sprite",
@@ -479,7 +189,7 @@
     "_thisTurnKiller": null,
     "reward": null,
     "monsterRewardDescription": {
-      "__id__": 14
+      "__id__": 5
     },
     "killer": null,
     "isCurse": false,
@@ -506,21 +216,124 @@
     "hasDestroySelfEffect": false,
     "conditions": [],
     "activeEffects": [],
-    "passiveEffects": [
+    "activeEffectsIds": [],
+    "passiveEffects": [],
+    "passiveEffectsIds": [
       {
-        "__id__": 2
+        "__id__": 7
       }
     ],
     "toAddPassiveEffects": [],
+    "toAddPassiveEffectsIds": [],
     "paidEffects": [],
-    "test123": [],
+    "paidEffectsIds": [],
     "hasMultipleEffects": false,
     "multiEffectCollector": null,
+    "multiEffectCollectorId": null,
     "effectData": null,
     "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
+    "_id": ""
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "DiscardLoot",
+    "id": 0
+  },
+  {
+    "__type__": "d6f46KdVWpKban15DT2Bjq9",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "effectPosition": {
+      "__id__": 9
+    },
+    "EffectId": 0,
+    "isSilent": false,
+    "cost": null,
+    "costId": null,
+    "preCondition": null,
+    "preConditionId": null,
+    "conditions": [],
+    "conditionsIds": [
+      {
+        "__id__": 10
+      }
+    ],
+    "passiveType": 2,
+    "passiveEffectToAdd": null,
+    "passiveEffectToAddId": null,
+    "dataCollector": [],
+    "dataCollectorsIds": [
+      {
+        "__id__": 11
+      }
+    ],
+    "_effectCard": null,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
+    "dataConcurencyComponentId": null,
+    "optionalFlavorText": "",
+    "numOfLoot": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "EffectPosition",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "Sloth<MonsterIsKilled>",
+    "id": 0
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "CardTargetPools",
+    "id": 0
+  },
+  {
+    "__type__": "c1f5bXYnEdHcpfhcPszpH5M",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "conditionId": 0,
+    "dataCollectorId": null,
+    "isSpecificMonster": false,
+    "specificMonsterCard": null,
+    "isSpecificNotMonster": false,
+    "specificNotMonsterCard": null,
+    "isSpecificRoll": false,
+    "specificRolls": [],
+    "_id": ""
+  },
+  {
+    "__type__": "22913nx12JFp5jamWHfq9bu",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "DataCollectorId": 0,
+    "cost": null,
+    "costId": null,
+    "targetPool": 2,
+    "exceptCard": null,
     "_id": ""
   },
   {

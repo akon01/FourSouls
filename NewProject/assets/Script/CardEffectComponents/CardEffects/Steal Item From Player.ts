@@ -11,7 +11,7 @@ import ChooseCardTypeAndFilter from "../ChooseCardTypeAndFilter";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('StealItemFromPlayer')
 export default class StealItemFromPlayer extends Effect {
 
   effectName = "StealItemFromPlayer";
@@ -26,13 +26,13 @@ export default class StealItemFromPlayer extends Effect {
   ) {
 
 
-    const playerToGiveTo: Player =PlayerManager.getPlayerByCard((data.getTarget(TARGETTYPE.PLAYER) as cc.Node))
+    const playerToGiveTo: Player = PlayerManager.getPlayerByCard((data.getTarget(TARGETTYPE.PLAYER) as cc.Node))
     if (playerToGiveTo == null) {
       throw new Error(`player is null`)
     } else {
-     const cardToTake = data.getTarget(TARGETTYPE.ITEM) as cc.Node;
+      const cardToTake = data.getTarget(TARGETTYPE.ITEM) as cc.Node;
       //p1 choose which loot to get.
-     const playerToTakeFrom = PlayerManager.getPlayerByCard(cardToTake)
+      const playerToTakeFrom = PlayerManager.getPlayerByCard(cardToTake)
       await playerToTakeFrom.loseItem(cardToTake, true)
       await playerToGiveTo.addItem(cardToTake, true, true)
     }

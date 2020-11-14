@@ -4,15 +4,14 @@ import PlayerManager from "../../../Managers/PlayerManager";
 import TurnsManager from "../../../Managers/TurnsManager";
 import PlayerDeathPenalties from "../../../StackEffects/Player Death Penalties";
 import StackEffectInterface from "../../../StackEffects/StackEffectInterface";
-import DataCollector from "../../DataCollector/DataCollector";
 import Effect from "../Effect";
 import { TARGETTYPE } from "../../../Constants";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class PreventDeathPenalties extends Effect {
-  effectName = "PreventDeathPenalties";
+export default class PreventDeathPanelties extends Effect {
+  effectName = "PreventDeathPanelties";
 
   /**
    *

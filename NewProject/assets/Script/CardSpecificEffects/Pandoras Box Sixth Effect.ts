@@ -8,7 +8,7 @@ import Card from "../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('PandorasBoxSixthEffect')
 export default class PandorasBoxSixthEffect extends Effect {
   effectName = "PandorasBoxSixthEffect";
 

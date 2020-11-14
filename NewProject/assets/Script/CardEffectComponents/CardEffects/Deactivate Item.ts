@@ -7,7 +7,7 @@ import Stack from "../../Entites/Stack";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('DeactivateItem')
 export default class DeactivateItem extends Effect {
   effectName = "DeactivateItem";
 

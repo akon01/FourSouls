@@ -9,7 +9,7 @@ import Effect from "./Effect";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass("ModifyDiceRoll")
 export default class ModifyDiceRoll extends Effect {
   chooseType = CHOOSE_CARD_TYPE.MY_HAND;
 

@@ -5,7 +5,7 @@ import Card from "../../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass("HasMoney")
 export default class HasMoney extends PreCondition {
 
   @property

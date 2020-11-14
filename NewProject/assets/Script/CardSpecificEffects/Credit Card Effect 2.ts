@@ -6,7 +6,7 @@ import Store from "../Entites/GameEntities/Store";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass("CreditCardEffect2")
 export default class CreditCardEffect2 extends Effect {
   effectName = "CreditCardEffect2";
 

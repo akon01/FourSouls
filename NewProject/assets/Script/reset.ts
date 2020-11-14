@@ -3,6 +3,7 @@ import { Card } from "../../Server/src/entities/Card";
 import Condition from "./CardEffectComponents/CardConditions/Condition";
 import Effect from "./CardEffectComponents/CardEffects/Effect";
 import Cost from "./CardEffectComponents/Costs/Cost";
+import ChainCollector from "./CardEffectComponents/DataCollector/ChainCollector";
 import DataCollector from "./CardEffectComponents/DataCollector/DataCollector";
 import EffectDataConcurencyBase from "./CardEffectComponents/EffectDataConcurency/EffectDataConcurencyBase";
 import IEffectDataConcurency from "./CardEffectComponents/EffectDataConcurency/IEffectDataConcurency";
@@ -40,23 +41,17 @@ export function handleEffect(newComp: Effect, oldComp: Effect, node: cc.Node, ef
     handleEffectDataCollectors(newComp, node);
     handleEffectDataConcurrencyComp(newComp, node)
     handleEffectPassiveToAdd(newComp, node);
-    if (cardEffectComp.multiEffectCollector) {
-        const newDataCollector: DataCollector = node.addComponent(cardEffectComp.multiEffectCollector.constructor.name);
-        newDataCollector.setDataCollectorId()
-        cardEffectComp.multiEffectCollectorId = IdAndName.getNew(newDataCollector.DataCollectorId, newDataCollector.collectorName)
-        copyEffect(cardEffectComp.multiEffectCollector, newDataCollector);
-        if (cardEffectComp.multiEffectCollector.cost) {
-            handleDataCollectorCost(cardEffectComp.multiEffectCollector, node)
-        }
-        cardEffectComp.multiEffectCollector = null
+    handleEffectCosts(newComp, node)
 
-    }
 
     newComp.effectPosition = new EffectPosition()
     newComp.effectPosition.x = oldComp.node.x
     newComp.effectPosition.y = oldComp.node.y
     newComp.effectPosition.height = oldComp.node.height
     newComp.effectPosition.width = oldComp.node.width
+    oldComp.hasBeenHandled = true
+    oldComp.EffectId = newComp.EffectId
+    newComp.hasBeenHandled = true
     return newComp.EffectId
 }
 
@@ -88,28 +83,30 @@ export function handleEffectDataConcurrencyComp(newComp: Effect, node: cc.Node) 
 export function handleEffectConditions(newComp: Effect, node: cc.Node) {
     const condIds = [];
     newComp.conditions.forEach(condition => {
-        const newCond: Condition = node.addComponent(condition.constructor.name);
-        newCond.setConditionId()
+        const newCond: Condition = createNewCondition(node, condition);
         condIds.push(IdAndName.getNew(newCond.conditionId, newCond.name));
-        copyEffect(condition, newCond);
-        if (newCond.dataCollector) {
-            handleConditionDataCollectors(newCond, node)
-        }
     });
     newComp.conditionsIds = condIds;
     newComp.conditions = []
 }
 
 
+export function createNewCondition(node: cc.Node, condition: Condition) {
+    const newCond: Condition = node.addComponent(condition.constructor.name);
+    newCond.setConditionId();
+    copyEffect(condition, newCond);
+    newCond.setWithOld(condition)
+    if (newCond.dataCollector) {
+        handleConditionDataCollectors(newCond, node);
+    }
+    condition.newCompCondition = newCond
+    return newCond;
+}
+
 export function handleConditionDataCollectors(condition: Condition, node: cc.Node) {
     if (condition.dataCollector) {
-        const newDataCollector: DataCollector = node.addComponent(condition.dataCollector.constructor.name);
-        newDataCollector.setDataCollectorId()
-        condition.dataCollectorId = IdAndName.getNew(newDataCollector.DataCollectorId, newDataCollector.collectorName)
-        copyEffect(condition.dataCollector, newDataCollector);
-        if (newDataCollector.cost) {
-            handleDataCollectorCost(newDataCollector, node)
-        }
+        const newId = createNewDataCollector(node, condition.dataCollector)
+        condition.dataCollectorId = IdAndName.getNew(newId, condition.dataCollector.collectorName)
         condition.dataCollector = null
     }
 }
@@ -128,68 +125,83 @@ export function handleDataCollectorCost(dataCollector: DataCollector, node: cc.N
     }
 }
 
-
 export function handleCostPreCondition(cost: Cost, node: cc.Node) {
     if (cost.preCondition) {
-        const newPrecondition: PreCondition = node.addComponent(cost.preCondition.constructor.name);
-        newPrecondition.setPreConditionId()
-        cost.preConditionId = IdAndName.getNew(newPrecondition.preConditionId, newPrecondition.name)
-        copyEffect(cost.preCondition, newPrecondition);
-        if (newPrecondition.dataCollector) {
-            handlePreConditionDataCollectors(newPrecondition, node)
-        }
+        const newId = createNewPreCondition(node, cost.preCondition)
+        cost.preConditionId = IdAndName.getNew(newId, cost.preCondition.name)
         cost.preCondition = null
     }
 }
 
 export function handleEffectDataCollectors(newComp: Effect, node: cc.Node) {
-    const dataCollectorIds = [];
-    newComp.dataCollector.forEach(dataCollector => {
-        const id = createNewDataCollector(node, dataCollector);
-        dataCollectorIds.push(IdAndName.getNew(id, dataCollector.collectorName))
-    });
-    newComp.dataCollectorsIds = dataCollectorIds;
-    newComp.dataCollector = []
+    const dataCollectorIds = Array.isArray(newComp.dataCollectorsIds) ? newComp.dataCollectorsIds : [];
+    if (newComp.dataCollector) {
+        if (Array.isArray(newComp.dataCollector)) {
+            newComp.dataCollector.forEach(dataCollector => {
+                if (!(dataCollector instanceof ChainCollector)) {
+                    const id = createNewDataCollector(node, dataCollector);
+                    dataCollectorIds.push(IdAndName.getNew(id, dataCollector.collectorName))
+                }
+            });
+        } else {
+            const dataCollector = newComp.dataCollector as DataCollector
+            if (!(dataCollector instanceof ChainCollector)) {
+                const id = createNewDataCollector(node, dataCollector);
+                dataCollectorIds.push(IdAndName.getNew(id, dataCollector.collectorName))
+            }
+        }
+        newComp.dataCollectorsIds = dataCollectorIds;
+        newComp.dataCollector = []
+    }
 }
 
 export function createNewDataCollector(node: cc.Node, dataCollector: DataCollector) {
     const newDataCollector: DataCollector = node.addComponent(dataCollector.constructor.name);
     newDataCollector.setDataCollectorId();
-    newDataCollector.setWithOld(dataCollector)
     copyEffect(dataCollector, newDataCollector);
+    newDataCollector.setWithOld(dataCollector)
+    dataCollector.hasBeenHandled = true
+    dataCollector.DataCollectorId = newDataCollector.DataCollectorId;
+    handleDataCollectorCost(newDataCollector, node)
     return newDataCollector.DataCollectorId
 }
 
 export function handleEffectPassiveToAdd(newComp: Effect, node: cc.Node) {
     if (newComp.passiveEffectToAdd) {
-        const newEffect: Effect = node.addComponent(newComp.passiveEffectToAdd.constructor.name);
-        // copyEffect(newComp.passiveEffectToAdd, newEffect);
-        newEffect.setEffectId()
-        newComp.passiveEffectToAddId = IdAndName.getNew(newEffect.EffectId, newEffect.effectName)
-        handleEffect(newEffect, newComp.passiveEffectToAdd, node, ITEM_TYPE.TO_ADD_PASSIVE, true)
+        if (!newComp.passiveEffectToAdd.hasBeenHandled) {
+            const newEffect: Effect = node.addComponent(newComp.passiveEffectToAdd.constructor.name);
+            // copyEffect(newComp.passiveEffectToAdd, newEffect);
+            newEffect.setEffectId()
+            newComp.passiveEffectToAddId = IdAndName.getNew(newEffect.EffectId, newEffect.effectName)
+            handleEffect(newEffect, newComp.passiveEffectToAdd, node, ITEM_TYPE.TO_ADD_PASSIVE, true)
+        }
         newComp.passiveEffectToAdd = null
     }
 }
 
+export function createNewPreCondition(node: cc.Node, preCondition: PreCondition) {
+    const newCond: PreCondition = node.addComponent(preCondition.constructor.name);
+    newCond.setPreConditionId()
+    copyEffect(preCondition, newCond);
+    newCond.setWithOld(preCondition)
+    if (preCondition.dataCollector) {
+        handlePreConditionDataCollectors(preCondition, node)
+    }
+    return newCond.preConditionId
+}
+
 export function handleEffectPreConditions(newComp: Effect, node: cc.Node) {
     if (newComp.preCondition) {
-        const newCond: PreCondition = node.addComponent(newComp.preCondition.constructor.name);
-        copyEffect(newComp.preCondition, newCond);
-        newCond.setPreConditionId()
-        if (newComp.preCondition.dataCollector) {
-            handlePreConditionDataCollectors(newComp.preCondition, node)
-        }
-        newComp.preConditionId = IdAndName.getNew(newCond.preConditionId, newCond.name)
+        const newId = createNewPreCondition(node, newComp.preCondition)
+        newComp.preConditionId = IdAndName.getNew(newId, newComp.preCondition.name)
         newComp.preCondition = null
     }
 }
 
 export function handlePreConditionDataCollectors(preCondition: PreCondition, node: cc.Node) {
     if (preCondition.dataCollector) {
-        const newDataCollector: DataCollector = node.addComponent(preCondition.dataCollector.constructor.name);
-        newDataCollector.setDataCollectorId()
-        preCondition.dataCollectorId = IdAndName.getNew(newDataCollector.DataCollectorId, newDataCollector.collectorName)
-        copyEffect(preCondition.dataCollector, newDataCollector);
+        const newId = createNewDataCollector(node, preCondition.dataCollector)
+        preCondition.dataCollectorId = IdAndName.getNew(newId, preCondition.dataCollector.collectorName)
         preCondition.dataCollector = null
     }
 }
@@ -225,6 +237,15 @@ export function getEffectType(node: cc.Node, effect: Effect) {
     }
 }
 
+export function createNewEffect(oldComp: Effect, node: cc.Node, addToEffectList: boolean) {
+    const newComp: Effect = node.addComponent(oldComp.constructor.name);
+    newComp.resetInEditor();
+    newComp.setEffectId();
+    copyEffect(oldComp, newComp);
+    newComp.setWithOld(oldComp);
+    return handleEffect(newComp, oldComp, node, getEffectType(node, oldComp), addToEffectList);
+}
+
 @ccclass
 export default class Reset extends cc.Component {
 
@@ -232,18 +253,32 @@ export default class Reset extends cc.Component {
     isFirstTime = true
 
     resetInEditor() {
+        return
         if (this.node && this.isFirstTime) {
             const effects = this.node.children.filter(child => child.getComponent(Effect) != null)
+            const cardEffectComp = this.node.getComponent(CardEffect)
             try {
+                if (cardEffectComp.multiEffectCollector && !cardEffectComp.isHandlingMultiEffectCollector) {
+                    cardEffectComp.isHandlingMultiEffectCollector = true
+                    const newDataCollector: DataCollector = this.node.addComponent(cardEffectComp.multiEffectCollector.constructor.name);
+                    newDataCollector.setDataCollectorId()
+                    cardEffectComp.multiEffectCollectorId = IdAndName.getNew(newDataCollector.DataCollectorId, newDataCollector.collectorName)
+                    copyEffect(cardEffectComp.multiEffectCollector, newDataCollector);
+                    newDataCollector.hasBeenHandled = true
+                    cardEffectComp.multiEffectCollector.hasBeenHandled = true
+                    newDataCollector.setWithOld(cardEffectComp.multiEffectCollector)
+                    if (cardEffectComp.multiEffectCollector.cost) {
+                        handleDataCollectorCost(newDataCollector, this.node)
+                    }
+                    cardEffectComp.multiEffectCollector = null
+                }
+
                 for (let i = 0; i < effects.length; i++) {
                     const effectNode = effects[i];
                     const oldComp = effectNode.getComponent(Effect)
-                    const type = oldComp.constructor.name
-                    const newComp: Effect = this.node.addComponent(type)
-                    newComp.resetInEditor()
-                    newComp.setEffectId()
-                    copyEffect(oldComp, newComp)
-                    handleEffect(newComp, oldComp, this.node, getEffectType(this.node, oldComp), true);
+                    if (!oldComp.hasBeenHandled) {
+                        createNewEffect(oldComp, this.node, true);
+                    }
                 }
                 const cardEffect = this.node.getComponent(CardEffect);
                 cardEffect.activeEffects = []
@@ -263,6 +298,8 @@ export default class Reset extends cc.Component {
 
     @property
     text: string = 'hello';
+
+
 
 
 

@@ -7,15 +7,15 @@ import { PassiveEffectData } from "../../../Managers/DataInterpreter";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
-export default class PreventDamage extends Effect {
-  effectName = "PreventDamage";
+@ccclass('PreventDamagePassive')
+export default class PreventDamagePassive extends Effect {
+  effectName = "PreventDamagePassive";
 
   @property
   isPreventAllDamage: boolean = false;
 
   @property({
-    visible: function (this: PreventDamage) {
+    visible: function (this: PreventDamagePassive) {
       return !this.isPreventAllDamage
     }
   })

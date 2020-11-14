@@ -7,7 +7,7 @@ import { PassiveEffectData } from "../../../Managers/DataInterpreter";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('SetDamage')
 export default class SetDamage extends Effect {
   effectName = "SetDamage";
 

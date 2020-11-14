@@ -16,40 +16,51 @@
     "_name": "BagOTrash",
     "_objFlags": 0,
     "_parent": null,
-    "_children": [
+    "_children": [],
+    "_active": true,
+    "_components": [
       {
         "__id__": 2
       },
       {
-        "__id__": 11
+        "__id__": 3
       },
       {
-        "__id__": 17
+        "__id__": 4
+      },
+      {
+        "__id__": 5
+      },
+      {
+        "__id__": 10
+      },
+      {
+        "__id__": 13
+      },
+      {
+        "__id__": 14
+      },
+      {
+        "__id__": 16
+      },
+      {
+        "__id__": 18
+      },
+      {
+        "__id__": 19
+      },
+      {
+        "__id__": 22
       },
       {
         "__id__": 30
       },
       {
-        "__id__": 6
-      }
-    ],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 36
-      },
-      {
-        "__id__": 37
-      },
-      {
-        "__id__": 38
-      },
-      {
-        "__id__": 39
+        "__id__": 33
       }
     ],
     "_prefab": {
-      "__id__": 40
+      "__id__": 34
     },
     "_opacity": 255,
     "_color": {
@@ -97,942 +108,6 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "MultiEffectChoose",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [
-      {
-        "__id__": 3
-      }
-    ],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 9
-      }
-    ],
-    "_prefab": {
-      "__id__": 10
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 70,
-      "height": 7
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        -22.687,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "Pay Money",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 4
-      }
-    ],
-    "_prefab": {
-      "__id__": 8
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "44d82jakZpG7Y/MypyApbJc",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 3
-    },
-    "_enabled": true,
-    "preCondition": {
-      "__id__": 5
-    },
-    "moneyToPay": 4,
-    "_id": ""
-  },
-  {
-    "__type__": "c197fV1fQlLIpw9LxULfWLG",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 6
-    },
-    "_enabled": true,
-    "moneyNeeded": 4,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "Has Money",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 5
-      }
-    ],
-    "_prefab": {
-      "__id__": 7
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "4c800984-bfbf-49e2-949a-21f84a0c4468"
-    },
-    "fileId": "f58ypnKYdIX5+nd/16b4fe",
-    "sync": false
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "4c800984-bfbf-49e2-949a-21f84a0c4468"
-    },
-    "fileId": "d2CRZxY65MfZkXaGNa9abB",
-    "sync": false
-  },
-  {
-    "__type__": "ce95faJnNBDHKS8n+Mrz8OK",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
-    },
-    "_enabled": true,
-    "cost": {
-      "__id__": 4
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "4c800984-bfbf-49e2-949a-21f84a0c4468"
-    },
-    "fileId": "a0I5bF6ThMG5bdrhVbdXQ9",
-    "sync": false
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "GainLoot",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [
-      {
-        "__id__": 12
-      }
-    ],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 15
-      }
-    ],
-    "_prefab": {
-      "__id__": 16
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 70,
-      "height": 6
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        -28.43,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "CardOwner",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 11
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 13
-      }
-    ],
-    "_prefab": {
-      "__id__": 14
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "7dab8c90ZJG8Zh8owOKS3GI",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 12
-    },
-    "_enabled": true,
-    "cost": null,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "4c800984-bfbf-49e2-949a-21f84a0c4468"
-    },
-    "fileId": "ac22qjYKZEwIn37HFi5mar",
-    "sync": false
-  },
-  {
-    "__type__": "a96d7Yye0ZFo6njiCE50Wn8",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 11
-    },
-    "_enabled": true,
-    "isSilent": false,
-    "cost": null,
-    "preCondition": null,
-    "conditions": [],
-    "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "dataCollector": [
-      {
-        "__id__": 13
-      }
-    ],
-    "_effectCard": null,
-    "optionalAfterDataCollection": false,
-    "optionalBeforeDataCollection": false,
-    "hasPlayerChoiceToActivateInChainEffects": false,
-    "hasLockingResolve": false,
-    "hasDataConcurency": false,
-    "dataConcurencyComponent": null,
-    "optionalFlavorText": "",
-    "numOfLoot": 1,
-    "multiTarget": false,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "4c800984-bfbf-49e2-949a-21f84a0c4468"
-    },
-    "fileId": "04hpKDhdBGm60NPaVWmLx+",
-    "sync": false
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "DealDamage",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [
-      {
-        "__id__": 18
-      }
-    ],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 28
-      }
-    ],
-    "_prefab": {
-      "__id__": 29
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 70,
-      "height": 8
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        -36.184,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "ChooseCard",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 17
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 19
-      }
-    ],
-    "_prefab": {
-      "__id__": 27
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "b4dd13gjjJIk556pQaiqi12",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 18
-    },
-    "_enabled": true,
-    "cost": null,
-    "multiType": true,
-    "otherPlayer": null,
-    "chooseType": {
-      "__id__": 20
-    },
-    "chooseTypes": [
-      {
-        "__id__": 21
-      },
-      {
-        "__id__": 24
-      }
-    ],
-    "filterFromPassiveMeta": false,
-    "targetCollectorFromPassiveMeta": null,
-    "flavorText": "Choose A Play Or Monster To Get HIt",
-    "otherPlayersFlavorText": "Who Sees This??",
-    "isMultiCardChoice": false,
-    "numOfCardsToChoose": 1,
-    "_id": ""
-  },
-  {
-    "__type__": "ChooseCardTypeAndFilter",
-    "chooseType": 0,
-    "applyFilter": false,
-    "componentName": "",
-    "isMultiFilter": false,
-    "filterStatement": null,
-    "filterStatements": []
-  },
-  {
-    "__type__": "ChooseCardTypeAndFilter",
-    "chooseType": 1,
-    "applyFilter": true,
-    "componentName": "Character",
-    "isMultiFilter": false,
-    "filterStatement": {
-      "__id__": 22
-    },
-    "filterStatements": []
-  },
-  {
-    "__type__": "FilterConcrete",
-    "filterType": 1,
-    "filterMaker": null,
-    "componentType": 0,
-    "playerFilter": {
-      "__id__": 23
-    },
-    "monsterFilter": null,
-    "cardFilter": null,
-    "itemFilter": null
-  },
-  {
-    "__type__": "PlayerFilter",
-    "filter": 1,
-    "quantity": 0
-  },
-  {
-    "__type__": "ChooseCardTypeAndFilter",
-    "chooseType": 4,
-    "applyFilter": true,
-    "componentName": "Monster",
-    "isMultiFilter": false,
-    "filterStatement": {
-      "__id__": 25
-    },
-    "filterStatements": []
-  },
-  {
-    "__type__": "FilterConcrete",
-    "filterType": 1,
-    "filterMaker": null,
-    "componentType": 1,
-    "playerFilter": null,
-    "monsterFilter": {
-      "__id__": 26
-    },
-    "cardFilter": null,
-    "itemFilter": null
-  },
-  {
-    "__type__": "MonsterFilter",
-    "filter": 0
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "4c800984-bfbf-49e2-949a-21f84a0c4468"
-    },
-    "fileId": "4cH7mRRRlHZb3C1zN/tsJt",
-    "sync": false
-  },
-  {
-    "__type__": "9c502B4KzBNHr2xumZErU/n",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 17
-    },
-    "_enabled": true,
-    "isSilent": false,
-    "cost": null,
-    "preCondition": null,
-    "conditions": [],
-    "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "dataCollector": [
-      {
-        "__id__": 19
-      }
-    ],
-    "_effectCard": null,
-    "optionalAfterDataCollection": false,
-    "optionalBeforeDataCollection": false,
-    "hasPlayerChoiceToActivateInChainEffects": false,
-    "hasLockingResolve": false,
-    "hasDataConcurency": false,
-    "dataConcurencyComponent": null,
-    "optionalFlavorText": "",
-    "damageToDeal": 1,
-    "multipleTargets": false,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "4c800984-bfbf-49e2-949a-21f84a0c4468"
-    },
-    "fileId": "88JunPxQlPOLGwGYhOEoq0",
-    "sync": false
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "PlayLootCard",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [
-      {
-        "__id__": 31
-      }
-    ],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 34
-      }
-    ],
-    "_prefab": {
-      "__id__": 35
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 70,
-      "height": 10
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        -47.01,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "ChooseCardToPlay",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 30
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 32
-      }
-    ],
-    "_prefab": {
-      "__id__": 33
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "84e8cgJfw5Fept+2p2iMMgM",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 31
-    },
-    "_enabled": true,
-    "cost": null,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "4c800984-bfbf-49e2-949a-21f84a0c4468"
-    },
-    "fileId": "04wbvc3xlD4qHO955aS9XF",
-    "sync": false
-  },
-  {
-    "__type__": "3e26ck2/KpCGLEq1eJEbRu3",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 30
-    },
-    "_enabled": true,
-    "isSilent": false,
-    "cost": null,
-    "preCondition": null,
-    "conditions": [],
-    "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "dataCollector": [
-      {
-        "__id__": 32
-      }
-    ],
-    "_effectCard": null,
-    "optionalAfterDataCollection": false,
-    "optionalBeforeDataCollection": false,
-    "hasPlayerChoiceToActivateInChainEffects": false,
-    "hasLockingResolve": false,
-    "hasDataConcurency": false,
-    "dataConcurencyComponent": null,
-    "optionalFlavorText": "",
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "4c800984-bfbf-49e2-949a-21f84a0c4468"
-    },
-    "fileId": "83QDSl+sFNj5c/aUiBV3js",
-    "sync": false
   },
   {
     "__type__": "cc.Sprite",
@@ -1133,22 +208,26 @@
     "hasDestroySelfEffect": false,
     "conditions": [],
     "activeEffects": [],
+    "activeEffectsIds": [],
     "passiveEffects": [],
+    "passiveEffectsIds": [],
     "toAddPassiveEffects": [],
-    "paidEffects": [
+    "toAddPassiveEffectsIds": [],
+    "paidEffects": [],
+    "paidEffectsIds": [
       {
-        "__id__": 11
+        "__id__": 6
       },
       {
-        "__id__": 17
+        "__id__": 7
       },
       {
-        "__id__": 30
+        "__id__": 8
       }
     ],
-    "test123": [],
     "hasMultipleEffects": true,
-    "multiEffectCollector": {
+    "multiEffectCollector": null,
+    "multiEffectCollectorId": {
       "__id__": 9
     },
     "effectData": null,
@@ -1156,6 +235,361 @@
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
+    "_id": ""
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "GainLoot",
+    "id": 0
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "DealDamage",
+    "id": 1
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "playLootCard",
+    "id": 2
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "MultiEffectChoose",
+    "id": 1
+  },
+  {
+    "__type__": "a96d7Yye0ZFo6njiCE50Wn8",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "effectPosition": {
+      "__id__": 11
+    },
+    "EffectId": 0,
+    "isSilent": false,
+    "cost": null,
+    "costId": null,
+    "preCondition": null,
+    "preConditionId": null,
+    "conditions": [],
+    "conditionsIds": [],
+    "passiveType": 1,
+    "passiveEffectToAdd": null,
+    "passiveEffectToAddId": null,
+    "dataCollector": [],
+    "dataCollectorsIds": [
+      {
+        "__id__": 12
+      }
+    ],
+    "_effectCard": null,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
+    "dataConcurencyComponentId": null,
+    "optionalFlavorText": "",
+    "numOfLoot": 1,
+    "multiTarget": false,
+    "_id": ""
+  },
+  {
+    "__type__": "EffectPosition",
+    "x": 0,
+    "y": -28.43,
+    "width": 70,
+    "height": 6
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "CardOwner",
+    "id": 0
+  },
+  {
+    "__type__": "7dab8c90ZJG8Zh8owOKS3GI",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "DataCollectorId": 0,
+    "cost": null,
+    "costId": null,
+    "_id": ""
+  },
+  {
+    "__type__": "ce95faJnNBDHKS8n+Mrz8OK",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "DataCollectorId": 1,
+    "cost": null,
+    "costId": {
+      "__id__": 15
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "BagOTrash<PayMoneyCost>",
+    "id": 0
+  },
+  {
+    "__type__": "44d82jakZpG7Y/MypyApbJc",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "costId": 0,
+    "preCondition": null,
+    "preConditionId": {
+      "__id__": 17
+    },
+    "moneyToPay": 4,
+    "_id": ""
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "BagOTrash<HasMoney>",
+    "id": 0
+  },
+  {
+    "__type__": "c197fV1fQlLIpw9LxULfWLG",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "preConditionId": 0,
+    "dataCollectorId": null,
+    "moneyNeeded": 4,
+    "_id": ""
+  },
+  {
+    "__type__": "9c502B4KzBNHr2xumZErU/n",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "effectPosition": {
+      "__id__": 20
+    },
+    "EffectId": 1,
+    "isSilent": false,
+    "cost": null,
+    "costId": null,
+    "preCondition": null,
+    "preConditionId": null,
+    "conditions": [],
+    "conditionsIds": [],
+    "passiveType": 1,
+    "passiveEffectToAdd": null,
+    "passiveEffectToAddId": null,
+    "dataCollector": [],
+    "dataCollectorsIds": [
+      {
+        "__id__": 21
+      }
+    ],
+    "_effectCard": null,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
+    "dataConcurencyComponentId": null,
+    "optionalFlavorText": "",
+    "damageToDeal": 1,
+    "isGetDamageToDealFromDataCollector": false,
+    "multipleTargets": false,
+    "_id": ""
+  },
+  {
+    "__type__": "EffectPosition",
+    "x": 0,
+    "y": -36.184,
+    "width": 70,
+    "height": 8
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "ChooseCard",
+    "id": 2
+  },
+  {
+    "__type__": "b4dd13gjjJIk556pQaiqi12",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "DataCollectorId": 2,
+    "cost": null,
+    "costId": null,
+    "multiType": true,
+    "otherPlayer": null,
+    "isChooseFromPreviewManager": false,
+    "chooseType": {
+      "__id__": 23
+    },
+    "chooseTypes": [
+      {
+        "__id__": 24
+      },
+      {
+        "__id__": 27
+      }
+    ],
+    "filterFromPassiveMeta": false,
+    "targetCollectorFromPassiveMeta": null,
+    "flavorText": "Choose A Play Or Monster To Get HIt",
+    "otherPlayersFlavorText": "Who Sees This??",
+    "isMultiCardChoice": false,
+    "numOfCardsToChoose": 1,
+    "_id": ""
+  },
+  {
+    "__type__": "ChooseCardTypeAndFilter",
+    "chooseType": 0,
+    "applyFilter": false,
+    "componentName": "",
+    "isMultiFilter": false,
+    "filterStatement": null,
+    "filterStatements": []
+  },
+  {
+    "__type__": "ChooseCardTypeAndFilter",
+    "chooseType": 1,
+    "applyFilter": true,
+    "componentName": "Character",
+    "isMultiFilter": false,
+    "filterStatement": {
+      "__id__": 25
+    },
+    "filterStatements": []
+  },
+  {
+    "__type__": "FilterConcrete",
+    "filterType": 1,
+    "filterMaker": null,
+    "componentType": 0,
+    "playerFilter": {
+      "__id__": 26
+    },
+    "monsterFilter": null,
+    "cardFilter": null,
+    "itemFilter": null
+  },
+  {
+    "__type__": "PlayerFilter",
+    "filter": 1,
+    "quantity": 0
+  },
+  {
+    "__type__": "ChooseCardTypeAndFilter",
+    "chooseType": 4,
+    "applyFilter": true,
+    "componentName": "Monster",
+    "isMultiFilter": false,
+    "filterStatement": {
+      "__id__": 28
+    },
+    "filterStatements": []
+  },
+  {
+    "__type__": "FilterConcrete",
+    "filterType": 1,
+    "filterMaker": null,
+    "componentType": 1,
+    "playerFilter": null,
+    "monsterFilter": {
+      "__id__": 29
+    },
+    "cardFilter": null,
+    "itemFilter": null
+  },
+  {
+    "__type__": "MonsterFilter",
+    "filter": 0
+  },
+  {
+    "__type__": "3e26ck2/KpCGLEq1eJEbRu3",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "effectPosition": {
+      "__id__": 31
+    },
+    "EffectId": 2,
+    "isSilent": false,
+    "cost": null,
+    "costId": null,
+    "preCondition": null,
+    "preConditionId": null,
+    "conditions": [],
+    "conditionsIds": [],
+    "passiveType": 1,
+    "passiveEffectToAdd": null,
+    "passiveEffectToAddId": null,
+    "dataCollector": [],
+    "dataCollectorsIds": [
+      {
+        "__id__": 32
+      }
+    ],
+    "_effectCard": null,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
+    "dataConcurencyComponentId": null,
+    "optionalFlavorText": "",
+    "_id": ""
+  },
+  {
+    "__type__": "EffectPosition",
+    "x": 0,
+    "y": -47.01,
+    "width": 70,
+    "height": 10
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "SelectLootToPlay",
+    "id": 3
+  },
+  {
+    "__type__": "84e8cgJfw5Fept+2p2iMMgM",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "DataCollectorId": 3,
+    "cost": null,
+    "costId": null,
     "_id": ""
   },
   {

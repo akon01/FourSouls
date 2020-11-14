@@ -8,7 +8,7 @@ import Effect from "./Effect";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('GetSoulCard')
 export default class GetSoulCard extends Effect {
 
   effectName = "GetSoulCard";
@@ -21,7 +21,7 @@ export default class GetSoulCard extends Effect {
     stack: StackEffectInterface[],
     data?: ActiveEffectData | PassiveEffectData
   ) {
-   const playerCard= data.getTarget(TARGETTYPE.PLAYER)
+    const playerCard = data.getTarget(TARGETTYPE.PLAYER)
     const cardToTake = data.getTarget(TARGETTYPE.CARD)
 
     const playerToGiveTo = PlayerManager.getPlayerByCard(playerCard as cc.Node)

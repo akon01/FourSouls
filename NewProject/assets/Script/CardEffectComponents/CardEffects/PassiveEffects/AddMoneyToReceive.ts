@@ -1,13 +1,7 @@
-import Effect from "../Effect";
-import DataCollector from "../../DataCollector/DataCollector";
-import { ServerEffect } from "../../../Entites/ServerCardEffect";
-import CardManager from "../../../Managers/CardManager";
-import PlayerManager from "../../../Managers/PlayerManager";
-import Player from "../../../Entites/GameEntities/Player";
+import { PassiveEffectData } from "../../../Managers/DataInterpreter";
+import StackEffectInterface from "../../../StackEffects/StackEffectInterface";
 import PassiveEffect from "../PassiveEffect";
 
-import StackEffectInterface from "../../../StackEffects/StackEffectInterface";
-import { PassiveEffectData } from "../../../Managers/DataInterpreter";
 
 
 const { ccclass, property } = cc._decorator;

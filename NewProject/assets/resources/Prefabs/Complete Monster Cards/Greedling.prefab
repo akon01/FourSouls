@@ -16,28 +16,33 @@
     "_name": "Greedling",
     "_objFlags": 0,
     "_parent": null,
-    "_children": [
-      {
-        "__id__": 2
-      }
-    ],
+    "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 14
+        "__id__": 2
       },
       {
-        "__id__": 15
+        "__id__": 3
       },
       {
-        "__id__": 16
+        "__id__": 4
       },
       {
-        "__id__": 18
+        "__id__": 6
+      },
+      {
+        "__id__": 8
+      },
+      {
+        "__id__": 12
+      },
+      {
+        "__id__": 13
       }
     ],
     "_prefab": {
-      "__id__": 19
+      "__id__": 17
     },
     "_opacity": 255,
     "_color": {
@@ -85,344 +90,6 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "AddMoney",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [
-      {
-        "__id__": 3
-      },
-      {
-        "__id__": 6
-      }
-    ],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 12
-      }
-    ],
-    "_prefab": {
-      "__id__": 13
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 72,
-      "height": 23
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        -35.39,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "MonsterIsKilled",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 4
-      }
-    ],
-    "_prefab": {
-      "__id__": 5
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        178,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "c1f5bXYnEdHcpfhcPszpH5M",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 3
-    },
-    "_enabled": true,
-    "isSpecificMonster": true,
-    "specificMonsterCard": {
-      "__id__": 1
-    },
-    "isSpecificNotMonster": false,
-    "specificNotMonsterCard": null,
-    "isSpecificRoll": false,
-    "specificRolls": [],
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "342e7065-fd58-409d-8a45-9a176c0ed465"
-    },
-    "fileId": "d7JlxLoadPiKCvJ+K0zhWg",
-    "sync": false
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "ChooseCard",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 7
-      }
-    ],
-    "_prefab": {
-      "__id__": 11
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "b4dd13gjjJIk556pQaiqi12",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 6
-    },
-    "_enabled": true,
-    "cost": null,
-    "multiType": false,
-    "otherPlayer": null,
-    "isChooseFromPreviewManager": false,
-    "chooseType": {
-      "__id__": 8
-    },
-    "chooseTypes": [],
-    "filterFromPassiveMeta": false,
-    "targetCollectorFromPassiveMeta": null,
-    "flavorText": "Choose A Player To Lose 7 Cent",
-    "otherPlayersFlavorText": "",
-    "isMultiCardChoice": false,
-    "numOfCardsToChoose": 1,
-    "_id": ""
-  },
-  {
-    "__type__": "ChooseCardTypeAndFilter",
-    "chooseType": 1,
-    "applyFilter": true,
-    "componentName": "Character",
-    "isMultiFilter": false,
-    "filterStatement": {
-      "__id__": 9
-    },
-    "filterStatements": []
-  },
-  {
-    "__type__": "FilterConcrete",
-    "filterType": 1,
-    "filterMaker": null,
-    "componentType": 0,
-    "playerFilter": {
-      "__id__": 10
-    },
-    "monsterFilter": null,
-    "cardFilter": null,
-    "itemFilter": null
-  },
-  {
-    "__type__": "PlayerFilter",
-    "filter": 2,
-    "quantity": 0
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "342e7065-fd58-409d-8a45-9a176c0ed465"
-    },
-    "fileId": "f5JcL7Ib5DqZcR/nobnbfp",
-    "sync": false
-  },
-  {
-    "__type__": "da7a1yhh65BupAGQR/L5ZZc",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
-    },
-    "_enabled": true,
-    "isSilent": false,
-    "cost": null,
-    "preCondition": null,
-    "conditions": [
-      {
-        "__id__": 4
-      }
-    ],
-    "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "dataCollector": [
-      {
-        "__id__": 7
-      }
-    ],
-    "_effectCard": null,
-    "optionalAfterDataCollection": false,
-    "optionalBeforeDataCollection": false,
-    "hasPlayerChoiceToActivateInChainEffects": false,
-    "hasLockingResolve": false,
-    "hasDataConcurency": false,
-    "dataConcurencyComponent": null,
-    "optionalFlavorText": "",
-    "numOfCoins": -7,
-    "isAllMoneyTargetHas": false,
-    "multiTarget": false,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "342e7065-fd58-409d-8a45-9a176c0ed465"
-    },
-    "fileId": "14ea2MFBxOPL+Naw3/AZOr",
-    "sync": false
   },
   {
     "__type__": "cc.Sprite",
@@ -522,7 +189,7 @@
     "_thisTurnKiller": null,
     "reward": null,
     "monsterRewardDescription": {
-      "__id__": 17
+      "__id__": 5
     },
     "killer": null,
     "isCurse": false,
@@ -549,22 +216,168 @@
     "hasDestroySelfEffect": false,
     "conditions": [],
     "activeEffects": [],
-    "passiveEffects": [
+    "activeEffectsIds": [],
+    "passiveEffects": [],
+    "passiveEffectsIds": [
       {
-        "__id__": 2
+        "__id__": 7
       }
     ],
     "toAddPassiveEffects": [],
+    "toAddPassiveEffectsIds": [],
     "paidEffects": [],
-    "test123": [],
+    "paidEffectsIds": [],
     "hasMultipleEffects": false,
     "multiEffectCollector": null,
+    "multiEffectCollectorId": null,
     "effectData": null,
     "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "addMoney",
+    "id": 0
+  },
+  {
+    "__type__": "da7a1yhh65BupAGQR/L5ZZc",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "effectPosition": {
+      "__id__": 9
+    },
+    "EffectId": 0,
+    "isSilent": false,
+    "cost": null,
+    "costId": null,
+    "preCondition": null,
+    "preConditionId": null,
+    "conditions": [],
+    "conditionsIds": [
+      {
+        "__id__": 10
+      }
+    ],
+    "passiveType": 1,
+    "passiveEffectToAdd": null,
+    "passiveEffectToAddId": null,
+    "dataCollector": [],
+    "dataCollectorsIds": [
+      {
+        "__id__": 11
+      }
+    ],
+    "_effectCard": null,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
+    "dataConcurencyComponentId": null,
+    "optionalFlavorText": "",
+    "numOfCoins": -7,
+    "isAllMoneyTargetHas": false,
+    "multiTarget": false,
+    "_id": ""
+  },
+  {
+    "__type__": "EffectPosition",
+    "x": 0,
+    "y": -35.39,
+    "width": 72,
+    "height": 23
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "Greedling<MonsterIsKilled>",
+    "id": 0
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "ChooseCard",
+    "id": 0
+  },
+  {
+    "__type__": "c1f5bXYnEdHcpfhcPszpH5M",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "conditionId": 0,
+    "dataCollectorId": null,
+    "isSpecificMonster": true,
+    "specificMonsterCard": {
+      "__id__": 1
+    },
+    "isSpecificNotMonster": false,
+    "specificNotMonsterCard": null,
+    "isSpecificRoll": false,
+    "specificRolls": [],
+    "_id": ""
+  },
+  {
+    "__type__": "b4dd13gjjJIk556pQaiqi12",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "DataCollectorId": 0,
+    "cost": null,
+    "costId": null,
+    "multiType": false,
+    "otherPlayer": null,
+    "isChooseFromPreviewManager": false,
+    "chooseType": {
+      "__id__": 14
+    },
+    "chooseTypes": [],
+    "filterFromPassiveMeta": false,
+    "targetCollectorFromPassiveMeta": null,
+    "flavorText": "Choose A Player To Lose 7 Cent",
+    "otherPlayersFlavorText": "",
+    "isMultiCardChoice": false,
+    "numOfCardsToChoose": 1,
+    "_id": ""
+  },
+  {
+    "__type__": "ChooseCardTypeAndFilter",
+    "chooseType": 1,
+    "applyFilter": true,
+    "componentName": "Character",
+    "isMultiFilter": false,
+    "filterStatement": {
+      "__id__": 15
+    },
+    "filterStatements": []
+  },
+  {
+    "__type__": "FilterConcrete",
+    "filterType": 1,
+    "filterMaker": null,
+    "componentType": 0,
+    "playerFilter": {
+      "__id__": 16
+    },
+    "monsterFilter": null,
+    "cardFilter": null,
+    "itemFilter": null
+  },
+  {
+    "__type__": "PlayerFilter",
+    "filter": 2,
+    "quantity": 0
   },
   {
     "__type__": "cc.PrefabInfo",

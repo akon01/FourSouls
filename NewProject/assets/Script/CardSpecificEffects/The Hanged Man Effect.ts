@@ -12,7 +12,7 @@ import StackEffectInterface from "../StackEffects/StackEffectInterface";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('TheHangedManEffect')
 export default class TheHangedManEffect extends Effect {
   effectName = "TheHangedManEffect";
 
@@ -35,13 +35,13 @@ export default class TheHangedManEffect extends Effect {
 
         switch (card.type) {
           case CARD_TYPE.LOOT:
-            CardManager.lootDeck.getComponent(Deck).addToDeckOnBottom(card.node, 0,true)
+            CardManager.lootDeck.getComponent(Deck).addToDeckOnBottom(card.node, 0, true)
             break;
           case CARD_TYPE.MONSTER:
-            CardManager.monsterDeck.getComponent(Deck).addToDeckOnBottom(card.node, 0,true)
+            CardManager.monsterDeck.getComponent(Deck).addToDeckOnBottom(card.node, 0, true)
             break
           case CARD_TYPE.TREASURE:
-            CardManager.treasureDeck.getComponent(Deck).addToDeckOnBottom(card.node, 0,true)
+            CardManager.treasureDeck.getComponent(Deck).addToDeckOnBottom(card.node, 0, true)
           default:
             break;
         }

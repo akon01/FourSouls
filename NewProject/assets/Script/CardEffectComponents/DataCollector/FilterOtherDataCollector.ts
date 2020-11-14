@@ -22,6 +22,7 @@ export default class FilterOtherDataCollector extends DataCollector {
         const newCollectorId = createNewDataCollector(this.node, data.dataCollector)
         this.dataCollectorId = IdAndName.getNew(newCollectorId, data.dataCollector.collectorName)
         data.dataCollector = null
+        this.dataCollector = null
     }
 
 

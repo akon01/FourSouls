@@ -13,7 +13,7 @@ import StackEffectInterface from "../StackEffects/StackEffectInterface";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass("EhwazEffect")
 export default class EhwazEffect extends Effect {
   effectName = "EhwazEffect";
 

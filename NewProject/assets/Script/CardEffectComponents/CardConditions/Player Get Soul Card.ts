@@ -9,7 +9,7 @@ import Card from "../../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass("PlayerGetSoulCard")
 export default class PlayerGetSoulCard extends Condition {
 
   event = PASSIVE_EVENTS.PLAYER_GET_SOUL_CARD

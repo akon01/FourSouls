@@ -18,7 +18,6 @@
     "_parent": null,
     "_children": [],
     "_active": true,
-    "_level": 1,
     "_components": [
       {
         "__id__": 2
@@ -31,10 +30,19 @@
       },
       {
         "__id__": 5
+      },
+      {
+        "__id__": 7
+      },
+      {
+        "__id__": 11
+      },
+      {
+        "__id__": 12
       }
     ],
     "_prefab": {
-      "__id__": 6
+      "__id__": 13
     },
     "_opacity": 255,
     "_color": {
@@ -54,17 +62,6 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "groupIndex": 0,
-    "_id": "",
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
@@ -80,7 +77,19 @@
         1,
         1
       ]
-    }
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
   },
   {
     "__type__": "cc.Sprite",
@@ -124,6 +133,8 @@
     "_enabled": true,
     "cardName": "Decoy",
     "doNotMake": true,
+    "cardMask": null,
+    "cardSprite": null,
     "makeMultiCards": false,
     "numOfCopies": 2,
     "copiesSprites": [],
@@ -135,6 +146,7 @@
     "topDeckof": null,
     "souls": 0,
     "type": 5,
+    "isGoingToBePlayed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -150,7 +162,6 @@
     "_effectCounterLable": null,
     "_counters": 0,
     "_hasEventsBeenModified": false,
-    "availableParticles": [],
     "_id": ""
   },
   {
@@ -162,9 +173,10 @@
     },
     "_enabled": true,
     "type": 1,
-    "activated": false,
+    "needsRecharge": false,
     "eternal": false,
     "lastOwnedBy": null,
+    "isGuppyItem": false,
     "_id": ""
   },
   {
@@ -178,16 +190,117 @@
     "hasDestroySelfEffect": false,
     "conditions": [],
     "activeEffects": [],
+    "activeEffectsIds": [
+      {
+        "__id__": 6
+      }
+    ],
     "passiveEffects": [],
+    "passiveEffectsIds": [],
     "toAddPassiveEffects": [],
+    "toAddPassiveEffectsIds": [],
     "paidEffects": [],
-    "test123": [],
+    "paidEffectsIds": [],
     "hasMultipleEffects": false,
     "multiEffectCollector": null,
+    "multiEffectCollectorId": null,
     "effectData": null,
+    "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
+    "_id": ""
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "SwitchItemWithPlayer",
+    "id": 0
+  },
+  {
+    "__type__": "51b7cs+Y25DJZe3v7bEnT34",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "effectPosition": {
+      "__id__": 8
+    },
+    "EffectId": 0,
+    "isSilent": false,
+    "cost": null,
+    "costId": null,
+    "preCondition": null,
+    "preConditionId": null,
+    "conditions": [],
+    "conditionsIds": [],
+    "passiveType": 1,
+    "passiveEffectToAdd": null,
+    "passiveEffectToAddId": null,
+    "dataCollector": [],
+    "dataCollectorsIds": [
+      {
+        "__id__": 9
+      },
+      {
+        "__id__": 10
+      }
+    ],
+    "_effectCard": null,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
+    "dataConcurencyComponentId": null,
+    "optionalFlavorText": "",
+    "isCardToGiveFromDataCollector": true,
+    "isSpecificPlayerToSwitchWith": false,
+    "_id": ""
+  },
+  {
+    "__type__": "EffectPosition",
+    "x": 0,
+    "y": -36.563,
+    "width": 80,
+    "height": 28
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "CardOwner",
+    "id": 0
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "CardActivated",
+    "id": 1
+  },
+  {
+    "__type__": "7dab8c90ZJG8Zh8owOKS3GI",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "DataCollectorId": 0,
+    "cost": null,
+    "costId": null,
+    "_id": ""
+  },
+  {
+    "__type__": "0175bFUYExPf5FCIvNA1zX2",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "DataCollectorId": 1,
+    "cost": null,
+    "costId": null,
     "_id": ""
   },
   {

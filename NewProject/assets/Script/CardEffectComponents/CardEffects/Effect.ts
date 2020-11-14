@@ -22,6 +22,11 @@ export default class Effect extends cc.Component implements EffectInterface {
   resetInEditor() {
     this.setEffectId();
   }
+  setWithOld(oldEffect: Effect) {
+
+  }
+
+  hasBeenHandled: boolean = false
 
   @property({ type: EffectPosition })
   effectPosition: EffectPosition = new EffectPosition()

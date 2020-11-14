@@ -94,6 +94,8 @@ export default class CardEffect extends cc.Component {
   })
   multiEffectCollector: DataCollector = null;
 
+  isHandlingMultiEffectCollector: boolean = false
+
   getMultiEffectCollector() {
     return this.getDataCollector(this.multiEffectCollectorId.id)
   }

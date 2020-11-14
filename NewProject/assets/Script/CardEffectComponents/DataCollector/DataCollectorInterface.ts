@@ -10,6 +10,7 @@ export default interface DataCollectorInterface {
   isCardChosen: boolean;
   cost: Cost
   setWithOld(oldDataCollector: DataCollector)
+  hasBeenHandled: boolean
 
 
   collectData(data?): Promise<{}>;

@@ -16,28 +16,30 @@
     "_name": "The Curse",
     "_objFlags": 0,
     "_parent": null,
-    "_children": [
-      {
-        "__id__": 2
-      }
-    ],
+    "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 9
+        "__id__": 2
+      },
+      {
+        "__id__": 3
+      },
+      {
+        "__id__": 4
+      },
+      {
+        "__id__": 5
+      },
+      {
+        "__id__": 7
       },
       {
         "__id__": 10
-      },
-      {
-        "__id__": 11
-      },
-      {
-        "__id__": 12
       }
     ],
     "_prefab": {
-      "__id__": 13
+      "__id__": 12
     },
     "_opacity": 255,
     "_color": {
@@ -85,218 +87,6 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "PutACardToDeck",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [
-      {
-        "__id__": 3
-      }
-    ],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 7
-      }
-    ],
-    "_prefab": {
-      "__id__": 8
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 83.5,
-      "height": 24.5
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        -30.059,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "ChooseCard",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 4
-      }
-    ],
-    "_prefab": {
-      "__id__": 6
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "b4dd13gjjJIk556pQaiqi12",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 3
-    },
-    "_enabled": true,
-    "multiType": false,
-    "otherPlayer": null,
-    "chooseType": {
-      "__id__": 5
-    },
-    "chooseTypes": [],
-    "filterFromPassiveMeta": false,
-    "targetCollectorFromPassiveMeta": null,
-    "flavorText": "Choose A Card To Put On Top",
-    "otherPlayersFlavorText": "",
-    "isMultiCardChoice": false,
-    "numOfCardsToChoose": 1,
-    "_id": ""
-  },
-  {
-    "__type__": "ChooseCardTypeAndFilter",
-    "chooseType": 23,
-    "applyFilter": false,
-    "componentName": "",
-    "isMultiFilter": false,
-    "filterStatement": null,
-    "filterStatements": []
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "965f3abe-7f45-44e3-bdfa-ba136d1af8e7"
-    },
-    "fileId": "d7Ynf7MTVMbKMYEEFvFGHz",
-    "sync": false
-  },
-  {
-    "__type__": "2bf66ZU7rBBoafetv3ce0Na",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
-    },
-    "_enabled": true,
-    "isSilent": false,
-    "cost": null,
-    "preCondition": null,
-    "conditions": [],
-    "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "dataCollector": [
-      {
-        "__id__": 4
-      }
-    ],
-    "_effectCard": null,
-    "optionalAfterDataCollection": false,
-    "optionalBeforeDataCollection": false,
-    "hasPlayerChoiceToActivateInChainEffects": false,
-    "optionalFlavorText": "",
-    "putOnBottomOfDeck": false,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "965f3abe-7f45-44e3-bdfa-ba136d1af8e7"
-    },
-    "fileId": "89/w6d4JpGW6QZmol4iT56",
-    "sync": false
   },
   {
     "__type__": "cc.Sprite",
@@ -396,22 +186,120 @@
     "_enabled": true,
     "hasDestroySelfEffect": false,
     "conditions": [],
-    "activeEffects": [
+    "activeEffects": [],
+    "activeEffectsIds": [
       {
-        "__id__": 2
+        "__id__": 6
       }
     ],
     "passiveEffects": [],
+    "passiveEffectsIds": [],
     "toAddPassiveEffects": [],
+    "toAddPassiveEffectsIds": [],
     "paidEffects": [],
-    "test123": [],
+    "paidEffectsIds": [],
     "hasMultipleEffects": false,
     "multiEffectCollector": null,
+    "multiEffectCollectorId": null,
     "effectData": null,
+    "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "PutACardToDeck",
+    "id": 0
+  },
+  {
+    "__type__": "2bf66ZU7rBBoafetv3ce0Na",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "effectPosition": {
+      "__id__": 8
+    },
+    "EffectId": 0,
+    "isSilent": false,
+    "cost": null,
+    "costId": null,
+    "preCondition": null,
+    "preConditionId": null,
+    "conditions": [],
+    "conditionsIds": [],
+    "passiveType": 1,
+    "passiveEffectToAdd": null,
+    "passiveEffectToAddId": null,
+    "dataCollector": [],
+    "dataCollectorsIds": [
+      {
+        "__id__": 9
+      }
+    ],
+    "_effectCard": null,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
+    "dataConcurencyComponentId": null,
+    "optionalFlavorText": "",
+    "numOfCardsOffset": 0,
+    "putOnBottomOfDeck": false,
+    "_id": ""
+  },
+  {
+    "__type__": "EffectPosition",
+    "x": 0,
+    "y": -30.059,
+    "width": 83.5,
+    "height": 24.5
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "ChooseCard",
+    "id": 0
+  },
+  {
+    "__type__": "b4dd13gjjJIk556pQaiqi12",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "DataCollectorId": 0,
+    "cost": null,
+    "costId": null,
+    "multiType": false,
+    "otherPlayer": null,
+    "isChooseFromPreviewManager": false,
+    "chooseType": {
+      "__id__": 11
+    },
+    "chooseTypes": [],
+    "filterFromPassiveMeta": false,
+    "targetCollectorFromPassiveMeta": null,
+    "flavorText": "Choose A Card To Put On Top",
+    "otherPlayersFlavorText": "",
+    "isMultiCardChoice": false,
+    "numOfCardsToChoose": 1,
+    "_id": ""
+  },
+  {
+    "__type__": "ChooseCardTypeAndFilter",
+    "chooseType": 23,
+    "applyFilter": false,
+    "componentName": "",
+    "isMultiFilter": false,
+    "filterStatement": null,
+    "filterStatements": []
   },
   {
     "__type__": "cc.PrefabInfo",

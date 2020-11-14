@@ -14,7 +14,7 @@ import StackEffectInterface from "../StackEffects/StackEffectInterface";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass("BossRushEffect")
 export default class BossRushEffect extends Effect {
 
   effectName = "BossRushEffect";

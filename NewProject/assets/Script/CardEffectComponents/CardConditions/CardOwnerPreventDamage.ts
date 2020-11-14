@@ -8,7 +8,7 @@ import Card from "../../Entites/GameEntities/Card";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class PreventDamage extends Condition {
+export default class CardOwnerPreventDamage extends Condition {
 
   event = PASSIVE_EVENTS.PLAYER_PREVENT_DAMAGE
 

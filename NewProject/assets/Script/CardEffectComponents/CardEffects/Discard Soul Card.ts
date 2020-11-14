@@ -9,7 +9,7 @@ import Effect from "./Effect";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('DiscardSoulCard')
 export default class DiscardSoulCard extends Effect {
   effectName = "DiscardSoulCard";
 

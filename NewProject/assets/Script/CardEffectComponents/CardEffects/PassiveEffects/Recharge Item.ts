@@ -7,9 +7,9 @@ import Stack from "../../../Entites/Stack";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
-export default class RechargeItem extends Effect {
-  effectName = "RechargeItem";
+@ccclass('RechargeItemPassive')
+export default class RechargeItemPassive extends Effect {
+  effectName = "RechargeItemPassive";
 
   chooseType: CHOOSE_CARD_TYPE = CHOOSE_CARD_TYPE.ALL_PLAYERS_ITEMS;
 

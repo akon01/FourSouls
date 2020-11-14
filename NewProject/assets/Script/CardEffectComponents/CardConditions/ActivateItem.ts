@@ -9,7 +9,7 @@ import TurnsManager from "../../Managers/TurnsManager";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('ActivateItemCondition')
 export default class ActivateItemCondition extends Condition {
 
   event = PASSIVE_EVENTS.PLAYER_ACTIVATE_ITEM

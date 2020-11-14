@@ -9,7 +9,7 @@ import Effect from "./Effect";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('ChangeSoulsNeededToWin')
 export default class ChangeSoulsNeededToWin extends Effect {
   effectName = "ChangeSoulsNeededToWin";
 

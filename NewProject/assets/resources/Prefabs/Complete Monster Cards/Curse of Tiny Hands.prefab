@@ -16,34 +16,45 @@
     "_name": "Curse of Tiny Hands",
     "_objFlags": 0,
     "_parent": null,
-    "_children": [
+    "_children": [],
+    "_active": true,
+    "_components": [
       {
         "__id__": 2
       },
       {
-        "__id__": 10
-      }
-    ],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 23
+        "__id__": 3
       },
       {
-        "__id__": 24
+        "__id__": 4
       },
       {
-        "__id__": 25
+        "__id__": 5
       },
       {
-        "__id__": 26
+        "__id__": 7
       },
       {
-        "__id__": 27
+        "__id__": 8
+      },
+      {
+        "__id__": 11
+      },
+      {
+        "__id__": 16
+      },
+      {
+        "__id__": 17
+      },
+      {
+        "__id__": 18
+      },
+      {
+        "__id__": 19
       }
     ],
     "_prefab": {
-      "__id__": 28
+      "__id__": 23
     },
     "_opacity": 255,
     "_color": {
@@ -91,628 +102,6 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "AddTrinket",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [
-      {
-        "__id__": 3
-      }
-    ],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 9
-      }
-    ],
-    "_prefab": {
-      "__id__": 22
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 75,
-      "height": 14
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        -23.261,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "ChooseCard",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 4
-      }
-    ],
-    "_prefab": {
-      "__id__": 8
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "b4dd13gjjJIk556pQaiqi12",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 3
-    },
-    "_enabled": true,
-    "multiType": false,
-    "otherPlayer": null,
-    "chooseType": {
-      "__id__": 5
-    },
-    "chooseTypes": [],
-    "filterFromPassiveMeta": false,
-    "targetCollectorFromPassiveMeta": null,
-    "flavorText": "Choose A Player To Recive This Curse",
-    "otherPlayersFlavorText": "",
-    "isMultiCardChoice": false,
-    "numOfCardsToChoose": 1,
-    "_id": ""
-  },
-  {
-    "__type__": "ChooseCardTypeAndFilter",
-    "chooseType": 1,
-    "applyFilter": false,
-    "componentName": "Character",
-    "isMultiFilter": false,
-    "filterStatement": {
-      "__id__": 6
-    },
-    "filterStatements": []
-  },
-  {
-    "__type__": "FilterConcrete",
-    "filterType": 1,
-    "filterMaker": null,
-    "componentType": 0,
-    "playerFilter": {
-      "__id__": 7
-    },
-    "monsterFilter": null,
-    "cardFilter": null,
-    "itemFilter": null
-  },
-  {
-    "__type__": "PlayerFilter",
-    "filter": 0,
-    "quantity": 0
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "e9ccc771-94f4-44b2-a845-508bd3536baa"
-    },
-    "fileId": "dd5rqbQzhK3bQ1u7Epe7Gh",
-    "sync": false
-  },
-  {
-    "__type__": "14c08BFzyhOxqINw7BkOwhA",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
-    },
-    "_enabled": true,
-    "cost": null,
-    "preCondition": null,
-    "conditions": [],
-    "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "dataCollector": [
-      {
-        "__id__": 4
-      }
-    ],
-    "_effectCard": null,
-    "optionalAfterDataCollection": false,
-    "optionalBeforeDataCollection": false,
-    "hasPlayerChoiceToActivateInChainEffects": false,
-    "optionalFlavorText": "",
-    "itemEffectToAdd": {
-      "__id__": 10
-    },
-    "itemEffectsToAdd": [],
-    "addMuiliEffect": false,
-    "multiEffectCollector": null,
-    "isCurse": true,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "DiscardLoot",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [
-      {
-        "__id__": 11
-      },
-      {
-        "__id__": 14
-      },
-      {
-        "__id__": 17
-      }
-    ],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 20
-      }
-    ],
-    "_prefab": {
-      "__id__": 21
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 75,
-      "height": 17
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        -42.222,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "CardOwnerEndTurn",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 10
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 12
-      }
-    ],
-    "_prefab": {
-      "__id__": 13
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "a74b5do9WpCubAaQ1nxxmhJ",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 11
-    },
-    "_enabled": true,
-    "isCardOwnerOnly": true,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "e9ccc771-94f4-44b2-a845-508bd3536baa"
-    },
-    "fileId": "e1+N84nidLWJNO+0Z+Qpps",
-    "sync": false
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "TinyHandCollector",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 10
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 15
-      }
-    ],
-    "_prefab": {
-      "__id__": 16
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "04cfbW4uwxOZqQea07Jpqzw",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 14
-    },
-    "_enabled": true,
-    "chooseCard": null,
-    "discardLoot": null,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "e9ccc771-94f4-44b2-a845-508bd3536baa"
-    },
-    "fileId": "ebZ4HiQKVLWpikjLZ/mgZm",
-    "sync": false
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "ChooseCard",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 10
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 18
-      }
-    ],
-    "_prefab": {
-      "__id__": 19
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "b4dd13gjjJIk556pQaiqi12",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 17
-    },
-    "_enabled": true,
-    "multiType": false,
-    "otherPlayer": null,
-    "chooseType": null,
-    "chooseTypes": [],
-    "filterFromPassiveMeta": false,
-    "targetCollectorFromPassiveMeta": null,
-    "flavorText": "",
-    "otherPlayersFlavorText": "",
-    "isMultiCardChoice": false,
-    "numOfCardsToChoose": 1,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "e9ccc771-94f4-44b2-a845-508bd3536baa"
-    },
-    "fileId": "75O5yL9mJKY6jyeYl/aVwp",
-    "sync": false
-  },
-  {
-    "__type__": "d6f46KdVWpKban15DT2Bjq9",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 10
-    },
-    "_enabled": true,
-    "cost": null,
-    "preCondition": null,
-    "conditions": [
-      {
-        "__id__": 12
-      }
-    ],
-    "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "dataCollector": [
-      {
-        "__id__": 15
-      },
-      {
-        "__id__": 18
-      }
-    ],
-    "_effectCard": null,
-    "optionalAfterDataCollection": false,
-    "optionalBeforeDataCollection": false,
-    "hasPlayerChoiceToActivateInChainEffects": false,
-    "optionalFlavorText": "",
-    "numOfLoot": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "e9ccc771-94f4-44b2-a845-508bd3536baa"
-    },
-    "fileId": "c0moHYDjFLN4kZQ4QH0I7/",
-    "sync": false
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "e9ccc771-94f4-44b2-a845-508bd3536baa"
-    },
-    "fileId": "51BkFx7lhDloHzrzQrUxQH",
-    "sync": false
   },
   {
     "__type__": "cc.Sprite",
@@ -805,9 +194,13 @@
     "_isAttacked": false,
     "hasEffect": true,
     "isNonMonster": true,
+    "isBoss": false,
+    "isMegaBoss": false,
+    "isMonsterWhoCantBeAttacked": false,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
     "reward": null,
+    "monsterRewardDescription": null,
     "killer": null,
     "isCurse": true,
     "_isDead": false,
@@ -824,22 +217,32 @@
     "_enabled": true,
     "hasDestroySelfEffect": false,
     "conditions": [],
-    "activeEffects": [
+    "activeEffects": [],
+    "activeEffectsIds": [
       {
-        "__id__": 2
+        "__id__": 6
       }
     ],
     "passiveEffects": [],
+    "passiveEffectsIds": [],
     "toAddPassiveEffects": [],
+    "toAddPassiveEffectsIds": [],
     "paidEffects": [],
-    "test123": [],
+    "paidEffectsIds": [],
     "hasMultipleEffects": false,
     "multiEffectCollector": null,
+    "multiEffectCollectorId": null,
     "effectData": null,
+    "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "AddTrinketOrCurse",
+    "id": 0
   },
   {
     "__type__": "b5e97fLQIJGGq1XOyBEfLay",
@@ -855,6 +258,240 @@
     "lastOwnedBy": null,
     "isGuppyItem": false,
     "_id": ""
+  },
+  {
+    "__type__": "14c08BFzyhOxqINw7BkOwhA",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "effectPosition": {
+      "__id__": 9
+    },
+    "EffectId": 0,
+    "isSilent": false,
+    "cost": null,
+    "costId": null,
+    "preCondition": null,
+    "preConditionId": null,
+    "conditions": [],
+    "conditionsIds": [],
+    "passiveType": 1,
+    "passiveEffectToAdd": null,
+    "passiveEffectToAddId": null,
+    "dataCollector": [],
+    "dataCollectorsIds": [
+      {
+        "__id__": 10
+      }
+    ],
+    "_effectCard": null,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
+    "dataConcurencyComponentId": null,
+    "optionalFlavorText": "",
+    "itemEffectToAdd": null,
+    "itemEffectToAddId": null,
+    "itemEffectsToAdd": [],
+    "itemEffectsToAddIds": [],
+    "addMuiliEffect": false,
+    "multiEffectCollector": null,
+    "multiEffectCollectorId": null,
+    "isCurse": true,
+    "_id": ""
+  },
+  {
+    "__type__": "EffectPosition",
+    "x": 0,
+    "y": -23.261,
+    "width": 75,
+    "height": 14
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "ChooseCard",
+    "id": 2
+  },
+  {
+    "__type__": "d6f46KdVWpKban15DT2Bjq9",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "effectPosition": {
+      "__id__": 12
+    },
+    "EffectId": 1,
+    "isSilent": false,
+    "cost": null,
+    "costId": null,
+    "preCondition": null,
+    "preConditionId": null,
+    "conditions": [],
+    "conditionsIds": [
+      {
+        "__id__": 13
+      }
+    ],
+    "passiveType": 1,
+    "passiveEffectToAdd": null,
+    "passiveEffectToAddId": null,
+    "dataCollector": [],
+    "dataCollectorsIds": [
+      {
+        "__id__": 14
+      },
+      {
+        "__id__": 15
+      }
+    ],
+    "_effectCard": null,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
+    "dataConcurencyComponentId": null,
+    "optionalFlavorText": "",
+    "numOfLoot": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "EffectPosition",
+    "x": 0,
+    "y": -42.222,
+    "width": 75,
+    "height": 17
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "Curse of Tiny Hands<CardOwnerEndTurn>",
+    "id": 0
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "TinyHandCollector",
+    "id": 0
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "ChooseCard",
+    "id": 1
+  },
+  {
+    "__type__": "a74b5do9WpCubAaQ1nxxmhJ",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "conditionId": 0,
+    "dataCollectorId": null,
+    "isCardOwnerOnly": true,
+    "_id": ""
+  },
+  {
+    "__type__": "04cfbW4uwxOZqQea07Jpqzw",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "DataCollectorId": 0,
+    "cost": null,
+    "costId": null,
+    "chooseCard": null,
+    "discardLoot": null,
+    "_id": ""
+  },
+  {
+    "__type__": "b4dd13gjjJIk556pQaiqi12",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "DataCollectorId": 1,
+    "cost": null,
+    "costId": null,
+    "multiType": false,
+    "otherPlayer": null,
+    "isChooseFromPreviewManager": false,
+    "chooseType": null,
+    "chooseTypes": [],
+    "filterFromPassiveMeta": false,
+    "targetCollectorFromPassiveMeta": null,
+    "flavorText": "",
+    "otherPlayersFlavorText": "",
+    "isMultiCardChoice": false,
+    "numOfCardsToChoose": 1,
+    "_id": ""
+  },
+  {
+    "__type__": "b4dd13gjjJIk556pQaiqi12",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "DataCollectorId": 2,
+    "cost": null,
+    "costId": null,
+    "multiType": false,
+    "otherPlayer": null,
+    "isChooseFromPreviewManager": false,
+    "chooseType": {
+      "__id__": 20
+    },
+    "chooseTypes": [],
+    "filterFromPassiveMeta": false,
+    "targetCollectorFromPassiveMeta": null,
+    "flavorText": "Choose A Player To Recive This Curse",
+    "otherPlayersFlavorText": "",
+    "isMultiCardChoice": false,
+    "numOfCardsToChoose": 1,
+    "_id": ""
+  },
+  {
+    "__type__": "ChooseCardTypeAndFilter",
+    "chooseType": 1,
+    "applyFilter": false,
+    "componentName": "Character",
+    "isMultiFilter": false,
+    "filterStatement": {
+      "__id__": 21
+    },
+    "filterStatements": []
+  },
+  {
+    "__type__": "FilterConcrete",
+    "filterType": 1,
+    "filterMaker": null,
+    "componentType": 0,
+    "playerFilter": {
+      "__id__": 22
+    },
+    "monsterFilter": null,
+    "cardFilter": null,
+    "itemFilter": null
+  },
+  {
+    "__type__": "PlayerFilter",
+    "filter": 0,
+    "quantity": 0
   },
   {
     "__type__": "cc.PrefabInfo",

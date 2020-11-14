@@ -8,7 +8,7 @@ import BattleManager from "../../Managers/BattleManager";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('MonsterIsMadeAttackable')
 export default class MonsterIsMadeAttackable extends Condition {
 
   event = PASSIVE_EVENTS.MONSTER_MADE_ATTACKABLE

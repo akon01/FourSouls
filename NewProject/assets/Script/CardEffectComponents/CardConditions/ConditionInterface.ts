@@ -1,6 +1,7 @@
 import DataCollector from "../DataCollector/DataCollector";
 import { CHOOSE_CARD_TYPE, PASSIVE_EVENTS } from "../../Constants";
 import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
+import Condition from "./Condition";
 
 export default interface ConditionInterface {
   testCondition(data?): Promise<Object>;
@@ -11,5 +12,5 @@ export default interface ConditionInterface {
   isAddPassiveEffect: boolean
   needsDataCollector: boolean
   conditionId: number
-
+  setWithOld(data: Condition)
 }

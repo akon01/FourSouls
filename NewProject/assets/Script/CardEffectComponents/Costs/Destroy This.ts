@@ -5,7 +5,7 @@ import Cost from "./Cost";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('DestroyThisCost')
 export default class DestroyThisCost extends Cost {
 
 

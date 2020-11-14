@@ -16,6 +16,8 @@ export default class DataCollector extends cc.Component implements DataCollector
 
   }
 
+  hasBeenHandled = false
+
   @property
   DataCollectorId: number = -1
 

@@ -3,7 +3,7 @@ import Condition from "./Condition";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('BlankCondition')
 export default class BlankCondition extends Condition
   implements ConditionInterface {
   isAddPassiveEffect: boolean = false;;

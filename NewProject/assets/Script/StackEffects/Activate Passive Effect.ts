@@ -23,7 +23,8 @@ import ChainEffects from "../CardEffectComponents/CardEffects/ChainEffects";
 import { whevent } from "../../ServerClient/whevent";
 import ServerClient from "../../ServerClient/ServerClient";
 import Signal from "../../Misc/Signal";
-import MultiPassiveEffectsChooseAsEffect from "../CardEffectComponents/CardEffects/MultiEffectChooseAsEffect";
+import MultiPassiveEffectsChooseAsEffect from "../CardEffectComponents/CardEffects/MultiPassiveEffectsChooseAsEffect";
+
 
 export default class ActivatePassiveEffect extends StackEffectConcrete {
 

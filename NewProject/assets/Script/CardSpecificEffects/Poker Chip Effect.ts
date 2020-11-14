@@ -9,7 +9,7 @@ import PlayerManager from "../Managers/PlayerManager";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('PokerChipEffect')
 export default class PokerChipEffect extends Effect {
   effectName = "PokerChipEffect";
 

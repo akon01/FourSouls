@@ -1,6 +1,7 @@
 import { ITEM_TYPE } from "../../Constants";
 import EffectsAndNumbers from "../../EffectsAndNumbers";
 import CardEffect from "../../Entites/CardEffect";
+import { createNewEffect } from "../../reset";
 import Effect from "../CardEffects/Effect";
 
 
@@ -20,7 +21,20 @@ export default class MultiEffectRollEffect extends Effect {
   @property({ type: [EffectsAndNumbers], multiline: true })
   effectsAndNumbers: EffectsAndNumbers[] = [];
 
-
+  setWithOld(data: MultiEffectRollEffect) {
+    const oldEffectsAndNumbers = data.effectsAndNumbers;
+    oldEffectsAndNumbers.forEach(effect => {
+      if (effect.effect.hasBeenHandled) {
+        effect.effectId.id = effect.effect.EffectId
+        effect.effectId.name = effect.effect.effectName
+      } else {
+        const newId = createNewEffect(effect.effect, this.node, true)
+        effect.effectId.id = newId
+        effect.effectId.name = effect.effect.effectName
+      }
+      effect.effect = null
+    });
+  }
 
 
   getEffectByNumberRolled(numberRolled: number, cardPlayed: cc.Node) {

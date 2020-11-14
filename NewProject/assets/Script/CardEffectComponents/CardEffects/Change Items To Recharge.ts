@@ -9,7 +9,7 @@ import Effect from "./Effect";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('ChangeItemsToRechage')
 export default class ChangeItemsToRechage extends Effect {
   effectName = "ChangeItemsToRechage";
 

@@ -7,10 +7,10 @@ import Stack from "../../Entites/Stack";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class StackEffectExsists extends PreCondition {
+export default class StackEffectExsist extends PreCondition {
 
   @property({
-    type: cc.Enum(STACK_EFFECT_TYPE), visible: function (this: StackEffectExsists) {
+    type: cc.Enum(STACK_EFFECT_TYPE), visible: function (this: StackEffectExsist) {
       if (!this.multiType) {
         return true
       }
@@ -22,7 +22,7 @@ export default class StackEffectExsists extends PreCondition {
   multiType: boolean = false;
 
   @property({
-    type: [cc.Enum(STACK_EFFECT_TYPE)], visible: function (this: StackEffectExsists) {
+    type: [cc.Enum(STACK_EFFECT_TYPE)], visible: function (this: StackEffectExsist) {
       if (this.multiType) {
         return true
       }

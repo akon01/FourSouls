@@ -13,7 +13,7 @@ import StackEffectInterface from "../StackEffects/StackEffectInterface";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('PeepEffect')
 export default class PeepEffect extends Effect {
   effectName = "PeepEffect";
 

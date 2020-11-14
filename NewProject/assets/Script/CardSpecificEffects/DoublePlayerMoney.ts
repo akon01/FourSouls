@@ -9,7 +9,7 @@ import PlayerManager from "../Managers/PlayerManager";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass("DoublePlayerMoney")
 export default class DoublePlayerMoney extends Effect {
   effectName = "DoublePlayerMoney";
 

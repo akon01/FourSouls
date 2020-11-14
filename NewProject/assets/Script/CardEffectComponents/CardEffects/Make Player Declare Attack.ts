@@ -10,7 +10,7 @@ import Effect from "./Effect";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('MakePlayerDeclareAttack')
 export default class MakePlayerDeclareAttack extends Effect {
   effectName = "AddAttackOpportunity";
 
@@ -22,7 +22,8 @@ export default class MakePlayerDeclareAttack extends Effect {
     visible: function (this: MakePlayerDeclareAttack) {
       return (this.makeSpecificMonsterMust) ? true : false
     }
-  ,type:Monster})
+    , type: Monster
+  })
   specificMonsterToDeclareAttackOn: Monster = null
 
   /**
@@ -36,11 +37,11 @@ export default class MakePlayerDeclareAttack extends Effect {
       throw new Error(`target player is null`)
     } else {
       const player: Player = PlayerManager.getPlayerByCard(targetPlayerCard as cc.Node)
-          if (this.makeSpecificMonsterMust) {
-            await player.declareAttack(this.specificMonsterToDeclareAttackOn.node,true)
-          }  else {
-            await player.declareAttack(data.getTarget(TARGETTYPE.MONSTER) as cc.Node,true)
-          }
+      if (this.makeSpecificMonsterMust) {
+        await player.declareAttack(this.specificMonsterToDeclareAttackOn.node, true)
+      } else {
+        await player.declareAttack(data.getTarget(TARGETTYPE.MONSTER) as cc.Node, true)
+      }
     }
 
     if (data instanceof PassiveEffectData) { return data }

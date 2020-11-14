@@ -1,5 +1,8 @@
 import { COLLECTORTYPE } from "../../Constants";
+import CardEffect from "../../Entites/CardEffect";
+import { createNewEffect, handleEffect } from "../../reset";
 import Effect from "../CardEffects/Effect";
+import IdAndName from "../IdAndNameComponent";
 import DataCollector from "./DataCollector";
 
 const { ccclass, property } = cc._decorator;
@@ -12,6 +15,24 @@ export default class GetTargetFromEffect extends DataCollector {
   @property(Effect)
   effectToGetTargetsFrom: Effect = null;
 
+  setWithOld(data: GetTargetFromEffect) {
+    debugger
+    if (data.effectToGetTargetsFrom.hasBeenHandled) {
+      this.effectToGetTargetsFromId.id = data.effectToGetTargetsFrom.EffectId
+      this.effectToGetTargetsFromId.name = data.effectToGetTargetsFrom.effectName
+    } else {
+      const newEffectId = createNewEffect(data.effectToGetTargetsFrom, this.node, true)
+      this.effectToGetTargetsFromId.id = newEffectId;
+      this.effectToGetTargetsFromId.name = data.effectToGetTargetsFrom.effectName
+    }
+    data.effectToGetTargetsFrom = null
+    this.effectToGetTargetsFrom = null
+  }
+
+  @property(IdAndName)
+  effectToGetTargetsFromId: IdAndName = new IdAndName();
+
+
   /**
    *
    * @param data cardId:card id
@@ -19,11 +40,7 @@ export default class GetTargetFromEffect extends DataCollector {
    */
   collectData(data) {
 
-    const effectData = this.effectToGetTargetsFrom.effectData
-
-    // let player = PlayerManager.getPlayerByCard(this.node.parent.parent).character
-    // let target = new EffectTarget(player)
-    //let data2 = { cardOwner: player.playerId };
+    const effectData = this.node.getComponent(CardEffect).getEffect(this.effectToGetTargetsFromId.id).effectData
     return effectData.effectTargets;
   }
 }

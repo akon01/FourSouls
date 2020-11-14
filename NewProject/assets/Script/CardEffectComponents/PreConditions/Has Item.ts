@@ -6,7 +6,7 @@ import Item from "../../Entites/CardTypes/Item";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('HasItems')
 export default class HasItems extends PreCondition {
 
   @property

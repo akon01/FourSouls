@@ -1,5 +1,5 @@
 import CardManager from "../../Managers/CardManager";
-import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpreter";
+import { ActiveEffectData, EffectTarget, PassiveEffectData } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
 import StackEffectInterface from "../../StackEffects/StackEffectInterface";
 import ChooseCard from "../DataCollector/ChooseCard";
@@ -11,9 +11,9 @@ import ChooseCardTypeAndFilter from "../ChooseCardTypeAndFilter";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class SwtichLootWithPlayer extends Effect {
+export default class SwitchLootWithPlayer extends Effect {
 
-  effectName = "SwtichLootWithPlayer";
+  effectName = "SwitchLootWithPlayer";
 
   /**
    *
@@ -49,7 +49,7 @@ export default class SwtichLootWithPlayer extends Effect {
       // const playerToGiveToHand = chooseCard.getCardsToChoose(CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND, null, playerToGiveTo)
       // let chosenData = await chooseCard.requireChoosingACard(playerToGiveToHand)
 
-      const cardToGive = targetCard.effectTargetCard
+      const cardToGive = (targetCard as EffectTarget).effectTargetCard
       cc.log(`card to give is ${cardToGive.name}`)
 
       //p1 choose which loot to get.
@@ -58,7 +58,7 @@ export default class SwtichLootWithPlayer extends Effect {
       chooseCard.flavorText = "Choose Loot To Take"
       targetCard = await chooseCard.collectData({ cardPlayerId: playerToGiveTo.playerId })
       // chosenData = await chooseCard.requireChoosingACard(playerToTakeFromHand)
-      const cardToTake = targetCard.effectTargetCard
+      const cardToTake = (targetCard as EffectTarget).effectTargetCard
       cc.log(`card to take is ${cardToTake.name}`)
 
       await playerToGiveTo.loseLoot(cardToGive, true)

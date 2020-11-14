@@ -12,7 +12,7 @@ import DataCollector from "../DataCollector/DataCollector";
 import Effect from "./Effect";
 import PileManager from "../../Managers/PileManager";
 import IdAndName from "../IdAndNameComponent";
-import { createNewDataCollector } from "../../reset";
+import { createNewDataCollector, createNewEffect } from "../../reset";
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,23 +20,38 @@ const { ccclass, property } = cc._decorator;
 export default class AddTrinketOrCurse extends Effect {
   effectName = "AddTrinketOrCurse";
 
-  resetInEditor() {
+  setWithOld(oldEffect: AddTrinketOrCurse) {
     const cardEffectComp = this.node.getComponent(CardEffect)
     try {
-      if (this.addMuiliEffect) {
-        for (let i = 0; i < this.itemEffectsToAdd.length; i++) {
-          const effectToAdd = this.itemEffectsToAdd[i];
-          cardEffectComp.addEffect(effectToAdd.getComponent(Effect), ITEM_TYPE.PASSIVE, false)
+      if (oldEffect.addMuiliEffect) {
+        for (let i = 0; i < oldEffect.itemEffectsToAdd.length; i++) {
+          const effectToAdd = oldEffect.itemEffectsToAdd[i].getComponent(Effect);
+          if (effectToAdd.hasBeenHandled) {
+            this.itemEffectsToAddIds.push(IdAndName.getNew(effectToAdd.EffectId, effectToAdd.effectName))
+          } else {
+            const newId = createNewEffect(effectToAdd.getComponent(Effect), this.node, false)
+            this.itemEffectsToAddIds.push(IdAndName.getNew(newId, effectToAdd.effectName))
+          }
         }
+
+      } else {
+        const newId = createNewEffect(oldEffect.itemEffectToAdd.getComponent(Effect), this.node, false)
+        this.itemEffectToAddId = IdAndName.getNew(newId, oldEffect.itemEffectToAdd.getComponent(Effect).effectName)
+        oldEffect.itemEffectToAddId = this.itemEffectToAddId
+      }
+      if (oldEffect.multiEffectCollector) {
         const newMultiId = createNewDataCollector(this.node, this.multiEffectCollector)
         this.multiEffectCollectorId = IdAndName.getNew(newMultiId, this.multiEffectCollector.collectorName)
         this.multiEffectCollector = null
-      } else {
-        cardEffectComp.addEffect(this.itemEffectToAdd.getComponent(Effect), ITEM_TYPE.PASSIVE, false)
+        oldEffect.multiEffectCollector = null
+        oldEffect.multiEffectCollectorId = this.multiEffectCollectorId
       }
       this.itemEffectToAdd = null;
       this.itemEffectsToAdd = []
+      oldEffect.itemEffectToAdd = null
+      oldEffect.itemEffectsToAdd = []
     } catch (error) {
+      throw error
     }
   }
 

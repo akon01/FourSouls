@@ -8,7 +8,7 @@ import StackEffectInterface from "../StackEffects/StackEffectInterface";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('MegaBatteryEffect')
 export default class MegaBatteryEffect extends Effect {
   effectName = "MegaBatteryEffect";
 

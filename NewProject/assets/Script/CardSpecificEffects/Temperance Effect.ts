@@ -8,7 +8,7 @@ import StackEffectInterface from "../StackEffects/StackEffectInterface";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('TemperanceEffect')
 export default class TemperanceEffect extends Effect {
   effectName = "TemperanceEffect";
 

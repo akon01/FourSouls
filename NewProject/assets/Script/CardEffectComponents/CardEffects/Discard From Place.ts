@@ -10,7 +10,7 @@ import Store from "../../Entites/GameEntities/Store";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass("DiscardFromPlace")
 export default class DiscardFromPlace extends Effect {
   chooseType = CHOOSE_CARD_TYPE.DECKS;
 

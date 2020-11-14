@@ -13,7 +13,7 @@ import Effect from "./Effect";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('PutNewMonster')
 export default class PutNewMonster extends Effect {
   chooseType = CHOOSE_CARD_TYPE.DECKS;
 

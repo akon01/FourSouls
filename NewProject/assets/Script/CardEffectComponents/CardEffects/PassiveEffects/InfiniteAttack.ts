@@ -1,10 +1,6 @@
-import Stack from "../../../Entites/Stack";
 import { PassiveEffectData } from "../../../Managers/DataInterpreter";
-import PlayerManager from "../../../Managers/PlayerManager";
 import TurnsManager from "../../../Managers/TurnsManager";
-import PlayerDeathPenalties from "../../../StackEffects/Player Death Penalties";
 import StackEffectInterface from "../../../StackEffects/StackEffectInterface";
-import DataCollector from "../../DataCollector/DataCollector";
 import Effect from "../Effect";
 
 

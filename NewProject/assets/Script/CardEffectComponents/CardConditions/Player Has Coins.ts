@@ -7,8 +7,8 @@ import Card from "../../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
-export default class CardOwnerGainCoin extends Condition {
+@ccclass("PlayerHasCoins")
+export default class PlayerHasCoins extends Condition {
 
   event = PASSIVE_EVENTS.PLAYER_CHANGE_MONEY
 

@@ -10,7 +10,7 @@ import Stack from "../../Entites/Stack";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass("RerollDice")
 export default class RerollDice extends Effect {
   chooseType = CHOOSE_CARD_TYPE.MY_HAND;
 

@@ -13,7 +13,7 @@ import Card from "../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass("RemoveAllAbilities")
 export default class RemoveAllAbilities extends Effect {
   effectName = "RemoveAllAbilities";
 

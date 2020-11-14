@@ -10,7 +10,7 @@ import Card from "../../Entites/GameEntities/Card";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class AtSpecificHp extends Condition {
+export default class AtSpecificHP extends Condition {
 
   events = [PASSIVE_EVENTS.PLAYER_GET_HIT, PASSIVE_EVENTS.MONSTER_GET_HIT]
 

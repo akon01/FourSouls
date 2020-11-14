@@ -24,6 +24,9 @@ import PileManager from "../../Managers/PileManager";
 import ChooseCard from "./ChooseCard";
 import ServerClient from "../../../ServerClient/ServerClient";
 import Signal from "../../../Misc/Signal";
+import IdAndName from "../IdAndNameComponent";
+import { createNewDataCollector } from "../../reset";
+import CardEffect from "../../Entites/CardEffect";
 
 const { ccclass, property } = cc._decorator;
 
@@ -91,6 +94,21 @@ export default class ChooseAPlayerToChooseCards extends DataCollector {
   @property(ChooseCard)
   playerChooseCard: ChooseCard = null
 
+  @property(IdAndName)
+  playerChooseCardId: IdAndName = new IdAndName()
+
+  setWithOld(data: ChooseAPlayerToChooseCards) {
+    if (data.playerChooseCard) {
+      const newId = createNewDataCollector(this.node, data.playerChooseCard)
+      this.playerChooseCardId.id = newId
+      this.playerChooseCardId.name = data.playerChooseCard.collectorName
+      this.playerChooseCard = null
+      data.playerChooseCard = null
+    }
+  }
+
+  getPlayerChooseCard = () => this.node.getComponent(CardEffect).getDataCollector(this.playerChooseCardId.id)
+
   /**
    *  @throws when there are no cards to choose from in the choose type
    * @param data cardPlayerId:Player who played the card
@@ -101,7 +119,8 @@ export default class ChooseAPlayerToChooseCards extends DataCollector {
     const player = PlayerManager.getPlayerById(data.cardPlayerId)
     this.playerId = data.cardPlayerId;
 
-    const playerToChooseCardsTargets: EffectTarget[] = await this.playerChooseCard.collectData(data)
+    const playerChooseCard = this.getPlayerChooseCard();
+    const playerToChooseCardsTargets: EffectTarget[] = await playerChooseCard.collectData(data)
     const playerToChooseCards = PlayerManager.getPlayerByCard(playerToChooseCardsTargets[0].effectTargetCard)
 
     let cardsToChooseFrom: cc.Node[] = []

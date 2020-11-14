@@ -15,7 +15,7 @@ import Player from "../Entites/GameEntities/Player";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('MomsHeartEffect')
 export default class MomsHeartEffect extends Effect {
   effectName = "MomsHeartEffect";
 

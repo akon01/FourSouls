@@ -11,7 +11,7 @@ import PlayerManager from "../Managers/PlayerManager";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('JeraEffect')
 export default class JeraEffect extends Effect {
   effectName = "JeraEffect";
 

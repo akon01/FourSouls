@@ -6,7 +6,7 @@ import PassiveEffect from "../PassiveEffect";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass("PreventContinuing")
 export default class PreventContinuing extends PassiveEffect {
   effectName = "PreventContinuing";
 

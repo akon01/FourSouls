@@ -98,9 +98,9 @@ export default class LookAtPlayerHand extends Effect {
 
     // const cards = await chooseCard.getCardsToChoose(CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND, originalPlayer, player)
     // const chosenData = await chooseCard.requireChoosingACard(cards)
-    const chosenCard = cardTarget.effectTargetCard
+    //const chosenCard = cardTarget.effectTargetCard
     const data = new ActiveEffectData()
-    data.addTarget(chosenCard)
+    data.addTarget(cardTarget)
     data.addTarget(new EffectTarget(originalPlayer.character))
     await steal.doEffect(null, data)
 

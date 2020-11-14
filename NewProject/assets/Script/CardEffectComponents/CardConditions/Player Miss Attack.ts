@@ -9,8 +9,8 @@ import Card from "../../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
-export default class PlayerLandAttack extends Condition {
+@ccclass("PlayerMissAttack")
+export default class PlayerMissAttack extends Condition {
 
   event = PASSIVE_EVENTS.PLAYER_MISS_ATTACK
 
@@ -18,7 +18,7 @@ export default class PlayerLandAttack extends Condition {
   isOnSpecificRoll: boolean = false
 
   @property({
-    type: [cc.Integer], visible: function (this: PlayerLandAttack) {
+    type: [cc.Integer], visible: function (this: PlayerMissAttack) {
       if (this.isOnSpecificRoll) { return true }
     }
   })
@@ -28,7 +28,7 @@ export default class PlayerLandAttack extends Condition {
   isOnSpecificMonster: boolean = false;
 
   @property({
-    type: cc.Node, visible: function (this: PlayerLandAttack) {
+    type: cc.Node, visible: function (this: PlayerMissAttack) {
       if (this.isOnSpecificMonster) { return true }
     }
   })

@@ -9,7 +9,7 @@ import Stack from "../../Entites/Stack";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('DoNothing')
 export default class DoNothing extends Effect {
   effectName = "DoNothing";
 

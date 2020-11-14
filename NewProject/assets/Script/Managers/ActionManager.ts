@@ -2,7 +2,7 @@ import { ANIM_COLORS } from "./Animation Manager";
 
 import Signal from "../../Misc/Signal";
 import ServerClient from "../../ServerClient/ServerClient";
-import AddTrinketOrCurse from "../CardEffectComponents/CardEffects/AddTrinket";
+import AddTrinketOrCurse from "../CardEffectComponents/CardEffects/AddTrinketOrCurse";
 import Effect from "../CardEffectComponents/CardEffects/Effect";
 import { BUTTON_STATE, GAME_EVENTS, ROLL_TYPE } from "../Constants";
 import ActionMessage from "../Entites/Action Message";

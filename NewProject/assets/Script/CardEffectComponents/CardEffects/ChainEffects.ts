@@ -18,14 +18,30 @@ export default class ChainEffects extends Effect {
   effectName = "ChainEffects";
 
   resetInEditor() {
+    // const cardEffect = this.node.getComponent(CardEffect)
+    // const newIds = []
+    // const oldChainEffects = this.node.children[this.node.getComponents(Effect).indexOf(this)].getComponent(ChainEffects)
+    // oldChainEffects.effectsToChain.forEach(effect => {
+    //   newIds.push(cardEffect.addEffect(effect, ITEM_TYPE.ACTIVE, false))
+    // })
+    // this.effectsToChainIds = newIds.map(id => IdAndName.getNew(id, cardEffect.getEffect(id).effectName))
+    // oldChainEffects.effectsToChain = [] 
+  }
+
+  setWithOld(oldEffect: ChainEffects) {
     const cardEffect = this.node.getComponent(CardEffect)
     const newIds = []
-    const oldChainEffects = this.node.children[this.node.getComponents(Effect).indexOf(this)].getComponent(ChainEffects)
-    oldChainEffects.effectsToChain.forEach(effect => {
-      newIds.push(cardEffect.addEffect(effect, ITEM_TYPE.ACTIVE, false))
+    oldEffect.effectsToChain.forEach(effect => {
+      if (effect.hasBeenHandled) {
+        newIds.push(effect.EffectId)
+      } else {
+        newIds.push(cardEffect.addEffect(effect, ITEM_TYPE.ACTIVE, false))
+      }
     })
     this.effectsToChainIds = newIds.map(id => IdAndName.getNew(id, cardEffect.getEffect(id).effectName))
-    oldChainEffects.effectsToChain = []
+    oldEffect.effectsToChain = []
+    this.createChainCollector(oldEffect)
+
   }
 
   @property([Effect])
@@ -34,16 +50,25 @@ export default class ChainEffects extends Effect {
   @property(IdAndName)
   effectsToChainIds: IdAndName[] = []
 
-  createChainCollector() {
+  createChainCollector(oldEffect: ChainEffects) {
     if (this.node) {
-      const collector = this.node.addComponent(ChainCollector)
+      const collector = this.node.addComponent(ChainCollector);
+      collector.resetInEditor();
       collector.chainEffectsId = IdAndName.getNew(this.EffectId, this.effectName)
+      this.dataCollectorsIds.push(IdAndName.getNew(collector.DataCollectorId, collector.collectorName))
+      oldEffect.dataCollectorsIds = this.dataCollectorsIds
+      const chainCollectorsComponents = this.node.getComponentsInChildren(ChainCollector);
+      if (chainCollectorsComponents.length > 0) {
+        chainCollectorsComponents.forEach(cc => {
+          this.node.removeChild(cc.node)
+        })
+      }
       return IdAndName.getNew(collector.DataCollectorId, collector.collectorName)
     } else return null
   }
 
   @property({ override: true, })
-  dataCollectorsIds: IdAndName[] = [this.createChainCollector()]
+  dataCollectorsIds: IdAndName[] = []
 
   getEffectsToChain() {
     const cardEffect = this.node.getComponent(CardEffect)

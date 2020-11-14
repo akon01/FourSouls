@@ -9,7 +9,7 @@ import Effect from "./Effect";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass("ExpandField")
 export default class ExpandField extends Effect {
   effectName = "ExpandField";
 

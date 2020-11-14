@@ -12,6 +12,10 @@ export default class PreCondition extends cc.Component
     this.setPreConditionId();
   }
 
+  setWithOld(old: PreCondition) {
+
+  }
+
   @property({ type: cc.Integer, step: 1 })
   preConditionId: number = -1
   dataCollector: import("../DataCollector/DataCollector").default;

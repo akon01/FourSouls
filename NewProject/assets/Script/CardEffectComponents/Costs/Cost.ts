@@ -6,7 +6,7 @@ import CardEffect from "../../Entites/CardEffect";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass("Cost")
 export default class Cost extends cc.Component implements CostInterface {
 
     resetInEditor() {

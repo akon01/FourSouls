@@ -7,8 +7,8 @@ import PlayerManager from "../../Managers/PlayerManager";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
-export default class CardOwnerTakeDamage extends Cost {
+@ccclass('CardOwnerTakeDamageCost')
+export default class CardOwnerTakeDamageCost extends Cost {
 
     @property
     dmgToTake: number = 1;

@@ -15,7 +15,7 @@ import StackEffectInterface from "../StackEffects/StackEffectInterface";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass("CursedChestEffect")
 export default class CursedChestEffect extends Effect {
 
   effectName = "CursedChestEffect";

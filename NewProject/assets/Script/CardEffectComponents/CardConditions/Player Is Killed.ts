@@ -9,8 +9,8 @@ import CardManager from "../../Managers/CardManager";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
-export default class PlayerIsKilled extends Condition {
+@ccclass("PlayerIsKilledCondition")
+export default class PlayerIsKilledCondition extends Condition {
 
   event = PASSIVE_EVENTS.PLAYER_IS_KILLED
 
@@ -19,7 +19,7 @@ export default class PlayerIsKilled extends Condition {
 
   @property({
     type: cc.Node,
-    visible: function (this: PlayerIsKilled) {
+    visible: function (this: PlayerIsKilledCondition) {
       if (this.isSpecificPlayer) { return true }
     }
   })

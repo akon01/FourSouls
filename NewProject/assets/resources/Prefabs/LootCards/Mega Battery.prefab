@@ -1,48 +1,64 @@
 [
   {
-    "_native": "",
     "__type__": "cc.Prefab",
     "_name": "",
-    "readonly": false,
-    "asyncLoadAssets": false,
     "_objFlags": 0,
+    "_native": "",
     "data": {
       "__id__": 1
     },
-    "optimizationPolicy": 0
+    "optimizationPolicy": 0,
+    "asyncLoadAssets": false,
+    "readonly": false
   },
   {
+    "__type__": "cc.Node",
+    "_name": "Mega Battery",
+    "_objFlags": 0,
+    "_parent": null,
+    "_children": [],
+    "_active": true,
     "_components": [
       {
-        "__id__": 9
-      },
-      {
-        "__id__": 10
-      },
-      {
-        "__id__": 11
-      }
-    ],
-    "_id": "",
-    "_color": {
-      "a": 255,
-      "b": 255,
-      "r": 255,
-      "__type__": "cc.Color",
-      "g": 255
-    },
-    "_eulerAngles": {
-      "y": 0,
-      "x": 0,
-      "z": 0,
-      "__type__": "cc.Vec3"
-    },
-    "_children": [
-      {
         "__id__": 2
+      },
+      {
+        "__id__": 3
+      },
+      {
+        "__id__": 4
+      },
+      {
+        "__id__": 6
+      },
+      {
+        "__id__": 9
       }
     ],
+    "_prefab": {
+      "__id__": 11
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 100,
+      "height": 140
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
     "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
       "array": [
         -178,
         0,
@@ -54,248 +70,29 @@
         1,
         1,
         1
-      ],
-      "__type__": "TypedArray",
-      "ctor": "Float64Array"
-    },
-    "_active": true,
-    "_groupIndex": 0,
-    "__type__": "cc.Node",
-    "_prefab": {
-      "__id__": 12
-    },
-    "_name": "Mega Battery",
-    "_parent": null,
-    "_skewX": 0,
-    "_opacity": 255,
-    "_skewY": 0,
-    "_objFlags": 0,
-    "groupIndex": 0,
-    "_anchorPoint": {
-      "y": 0.5,
-      "x": 0.5,
-      "__type__": "cc.Vec2"
-    },
-    "_is3DNode": false,
-    "_contentSize": {
-      "width": 100,
-      "__type__": "cc.Size",
-      "height": 140
-    }
-  },
-  {
-    "_components": [
-      {
-        "__id__": 7
-      }
-    ],
-    "_id": "",
-    "_color": {
-      "a": 255,
-      "b": 255,
-      "r": 255,
-      "__type__": "cc.Color",
-      "g": 255
+      ]
     },
     "_eulerAngles": {
-      "y": 0,
+      "__type__": "cc.Vec3",
       "x": 0,
-      "z": 0,
-      "__type__": "cc.Vec3"
-    },
-    "_children": [
-      {
-        "__id__": 3
-      }
-    ],
-    "_trs": {
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ],
-      "__type__": "TypedArray",
-      "ctor": "Float64Array"
-    },
-    "_active": true,
-    "_groupIndex": 0,
-    "__type__": "cc.Node",
-    "_prefab": {
-      "__id__": 8
-    },
-    "_name": "Mega Battery Effect",
-    "_parent": {
-      "__id__": 1
+      "y": 0,
+      "z": 0
     },
     "_skewX": 0,
-    "_opacity": 255,
     "_skewY": 0,
-    "_objFlags": 0,
-    "groupIndex": 0,
-    "_anchorPoint": {
-      "y": 0.5,
-      "x": 0.5,
-      "__type__": "cc.Vec2"
-    },
     "_is3DNode": false,
-    "_contentSize": {
-      "width": 0,
-      "__type__": "cc.Size",
-      "height": 0
-    }
-  },
-  {
-    "_components": [
-      {
-        "__id__": 4
-      }
-    ],
-    "_id": "",
-    "_color": {
-      "a": 255,
-      "b": 255,
-      "r": 255,
-      "__type__": "cc.Color",
-      "g": 255
-    },
-    "_eulerAngles": {
-      "y": 0,
-      "x": 0,
-      "z": 0,
-      "__type__": "cc.Vec3"
-    },
-    "_children": [],
-    "_trs": {
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ],
-      "__type__": "TypedArray",
-      "ctor": "Float64Array"
-    },
-    "_active": true,
     "_groupIndex": 0,
-    "__type__": "cc.Node",
-    "_prefab": {
-      "__id__": 6
-    },
-    "_name": "ChooseCard",
-    "_parent": {
-      "__id__": 2
-    },
-    "_skewX": 0,
-    "_opacity": 255,
-    "_skewY": 0,
-    "_objFlags": 0,
     "groupIndex": 0,
-    "_anchorPoint": {
-      "y": 0.5,
-      "x": 0.5,
-      "__type__": "cc.Vec2"
-    },
-    "_is3DNode": false,
-    "_contentSize": {
-      "width": 0,
-      "__type__": "cc.Size",
-      "height": 0
-    }
+    "_id": ""
   },
   {
-    "node": {
-      "__id__": 3
-    },
-    "flavorText": "Choose A Player To Recharge His Item",
-    "_objFlags": 0,
-    "chooseTypes": [],
-    "_id": "",
-    "__type__": "b4dd13gjjJIk556pQaiqi12",
-    "targetCollectorFromPassiveMeta": null,
+    "__type__": "cc.Sprite",
     "_name": "",
-    "chooseType": {
-      "__id__": 5
-    },
-    "otherPlayer": null,
-    "isMultiCardChoice": false,
-    "multiType": false,
-    "_enabled": true,
-    "filterFromPassiveMeta": false,
-    "numOfCardsToChoose": 1,
-    "otherPlayersFlavorText": ""
-  },
-  {
-    "filterStatements": [],
-    "isMultiFilter": false,
-    "componentName": "",
-    "__type__": "ChooseCardTypeAndFilter",
-    "chooseType": 1,
-    "filterStatement": null,
-    "applyFilter": false
-  },
-  {
-    "sync": false,
-    "root": {
-      "__id__": 1
-    },
-    "__type__": "cc.PrefabInfo",
-    "asset": {
-      "__uuid__": "f3cfe7b6-20bb-4517-9dc5-4b8a097329ad"
-    },
-    "fileId": "eaK0sh701Df43OrxOv2jGF"
-  },
-  {
-    "node": {
-      "__id__": 2
-    },
-    "optionalAfterDataCollection": false,
-    "preCondition": null,
-    "cost": null,
-    "passiveEffectToAdd": null,
-    "hasPlayerChoiceToActivateInChainEffects": false,
-    "__type__": "f5c75CfA8ZI+YLz8E5WNCBi",
-    "_name": "",
-    "dataCollector": {
-      "__id__": 4
-    },
-    "isSilent": false,
     "_objFlags": 0,
-    "optionalBeforeDataCollection": false,
-    "passiveType": 1,
-    "_enabled": true,
-    "_id": "",
-    "conditions": [],
-    "_effectCard": null,
-    "optionalFlavorText": ""
-  },
-  {
-    "sync": false,
-    "root": {
-      "__id__": 1
-    },
-    "__type__": "cc.PrefabInfo",
-    "asset": {
-      "__uuid__": "f3cfe7b6-20bb-4517-9dc5-4b8a097329ad"
-    },
-    "fileId": "72jOvaiH5LQbxp4YIxtnOd"
-  },
-  {
     "node": {
       "__id__": 1
     },
+    "_enabled": true,
     "_materials": [
       {
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
@@ -303,104 +100,196 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_fillCenter": {
-      "y": 0,
-      "x": 0,
-      "__type__": "cc.Vec2"
-    },
     "_spriteFrame": {
       "__uuid__": "f56ee95a-779e-4df9-9a05-dfa09ae96f05"
     },
-    "__type__": "cc.Sprite",
     "_type": 0,
-    "_atlas": null,
-    "_name": "",
-    "_fillType": 0,
     "_sizeMode": 0,
-    "_objFlags": 0,
-    "_isTrimmedMode": true,
-    "_enabled": true,
-    "_id": "",
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
     "_fillRange": 0,
-    "_fillStart": 0
+    "_isTrimmedMode": true,
+    "_atlas": null,
+    "_id": ""
   },
   {
-    "_counters": 0,
-    "copiesSprites": [],
-    "cardName": "Mega Battery",
-    "_originalWidth": null,
-    "souls": 0,
-    "doNotMake": false,
-    "cardSprite": null,
-    "backSprite": null,
-    "_isActivateable": false,
-    "_isOnDesk": false,
-    "_isRequired": false,
-    "_cardId": 0,
-    "_isAttackable": false,
     "__type__": "469baVqArxNIJpM2pHjkHeJ",
-    "makeMultiCards": false,
-    "_isFlipped": false,
+    "_name": "",
     "_objFlags": 0,
-    "_effectCounterLable": null,
-    "_enabled": true,
-    "type": 1,
-    "numOfCopies": 2,
     "node": {
       "__id__": 1
     },
+    "_enabled": true,
+    "cardName": "Mega Battery",
+    "doNotMake": false,
     "cardMask": null,
-    "_isPlayable": false,
-    "_hasEventsBeenModified": false,
-    "_requiredFor": null,
-    "isGoingToBePlayed": false,
-    "topDeckof": null,
-    "_ownedBy": null,
+    "cardSprite": null,
+    "makeMultiCards": false,
+    "numOfCopies": 2,
+    "copiesSprites": [],
+    "_cardId": 0,
     "_isInHand": false,
-    "frontSprite": null,
-    "_id": "",
-    "_name": "",
+    "_isOnDesk": false,
     "_originalParent": null,
-    "_isReactable": false,
+    "_originalWidth": null,
+    "topDeckof": null,
+    "souls": 0,
+    "type": 1,
+    "isGoingToBePlayed": false,
+    "_isAttackable": false,
     "_isBuyable": false,
-    "hasCounter": false
+    "_isPlayable": false,
+    "_isActivateable": false,
+    "_isReactable": false,
+    "_isRequired": false,
+    "_requiredFor": null,
+    "frontSprite": null,
+    "backSprite": null,
+    "_isFlipped": false,
+    "_ownedBy": null,
+    "hasCounter": false,
+    "_effectCounterLable": null,
+    "_counters": 0,
+    "_hasEventsBeenModified": false,
+    "_id": ""
   },
   {
+    "__type__": "bd535UKRTNDu7iLPx8/+FlC",
+    "_name": "",
+    "_objFlags": 0,
     "node": {
       "__id__": 1
     },
-    "cardPlayerId": 0,
-    "paidEffects": [],
-    "toAddPassiveEffects": [],
-    "hasMultipleEffects": false,
-    "activeEffects": [
-      {
-        "__id__": 2
-      }
-    ],
-    "_id": "",
-    "serverEffectStack": [],
-    "__type__": "bd535UKRTNDu7iLPx8/+FlC",
-    "multiEffectCollector": null,
-    "_name": "",
-    "effectData": null,
-    "test123": [],
-    "data": {},
-    "_objFlags": 0,
-    "passiveEffects": [],
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": []
+    "conditions": [],
+    "activeEffects": [],
+    "activeEffectsIds": [
+      {
+        "__id__": 5
+      }
+    ],
+    "passiveEffects": [],
+    "passiveEffectsIds": [],
+    "toAddPassiveEffects": [],
+    "toAddPassiveEffectsIds": [],
+    "paidEffects": [],
+    "paidEffectsIds": [],
+    "hasMultipleEffects": false,
+    "multiEffectCollector": null,
+    "multiEffectCollectorId": null,
+    "effectData": null,
+    "concurentEffectData": null,
+    "data": {},
+    "cardPlayerId": 0,
+    "serverEffectStack": [],
+    "_id": ""
   },
   {
-    "sync": false,
+    "__type__": "IdAndName",
+    "name": "MegaBatteryEffect",
+    "id": 0
+  },
+  {
+    "__type__": "f5c75CfA8ZI+YLz8E5WNCBi",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "effectPosition": {
+      "__id__": 7
+    },
+    "EffectId": 0,
+    "isSilent": false,
+    "cost": null,
+    "costId": null,
+    "preCondition": null,
+    "preConditionId": null,
+    "conditions": [],
+    "conditionsIds": [],
+    "passiveType": 1,
+    "passiveEffectToAdd": null,
+    "passiveEffectToAddId": null,
+    "dataCollector": [],
+    "dataCollectorsIds": [
+      {
+        "__id__": 8
+      }
+    ],
+    "_effectCard": null,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
+    "dataConcurencyComponentId": null,
+    "optionalFlavorText": "",
+    "_id": ""
+  },
+  {
+    "__type__": "EffectPosition",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "ChooseCard",
+    "id": 0
+  },
+  {
+    "__type__": "b4dd13gjjJIk556pQaiqi12",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "DataCollectorId": 0,
+    "cost": null,
+    "costId": null,
+    "multiType": false,
+    "otherPlayer": null,
+    "isChooseFromPreviewManager": false,
+    "chooseType": {
+      "__id__": 10
+    },
+    "chooseTypes": [],
+    "filterFromPassiveMeta": false,
+    "targetCollectorFromPassiveMeta": null,
+    "flavorText": "Choose A Player To Recharge His Item",
+    "otherPlayersFlavorText": "",
+    "isMultiCardChoice": false,
+    "numOfCardsToChoose": 1,
+    "_id": ""
+  },
+  {
+    "__type__": "ChooseCardTypeAndFilter",
+    "chooseType": 1,
+    "applyFilter": false,
+    "componentName": "",
+    "isMultiFilter": false,
+    "filterStatement": null,
+    "filterStatements": []
+  },
+  {
+    "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
     },
-    "__type__": "cc.PrefabInfo",
     "asset": {
-      "__uuid__": "f3cfe7b6-20bb-4517-9dc5-4b8a097329ad"
+      "__uuid__": "65fc1508-4b85-43c0-ab08-9a82b9efa659"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D"
+    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "sync": false
   }
 ]

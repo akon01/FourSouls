@@ -8,7 +8,7 @@ import Card from "../../Entites/GameEntities/Card";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class EndTurn extends Condition {
+export default class CardOwnerEndTurn extends Condition {
 
   event = PASSIVE_EVENTS.PLAYER_END_TURN
 

@@ -1,4 +1,5 @@
 import DataCollector from "../DataCollector/DataCollector";
+import PreCondition from "./PreCondition";
 
 
 export default interface PreConditionInterface {
@@ -6,4 +7,5 @@ export default interface PreConditionInterface {
   testCondition(data?);
   dataCollector: DataCollector;
   conditionData: any;
+  setWithOld(old: PreCondition)
 }

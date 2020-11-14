@@ -10,7 +10,7 @@ import Monster from "../../Entites/CardTypes/Monster";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('DoubleMonsterReward')
 export default class DoubleMonsterReward extends Effect {
   effectName = "DoubleMonsterReward";
 

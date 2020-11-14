@@ -9,7 +9,7 @@ import Effect from "./Effect";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('DiscardTopCardOfDeck')
 export default class DiscardTopCardOfDeck extends Effect {
   chooseType = CHOOSE_CARD_TYPE.DECKS;
 

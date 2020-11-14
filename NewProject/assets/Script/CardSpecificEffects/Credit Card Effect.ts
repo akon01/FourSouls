@@ -7,7 +7,7 @@ import CreditCardEffect2 from "./Credit Card Effect 2";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass("CreditCardEffect")
 export default class CreditCardEffect extends Effect {
   effectName = "CreditCardEffect";
 

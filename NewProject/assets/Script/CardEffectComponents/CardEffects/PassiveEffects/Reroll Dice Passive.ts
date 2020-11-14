@@ -6,7 +6,7 @@ import PassiveEffect from "../PassiveEffect";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('RerollDicePassive')
 export default class RerollDicePassive extends PassiveEffect {
   effectName = "RerollDicePassive";
 

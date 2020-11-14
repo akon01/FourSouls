@@ -10,6 +10,9 @@ import { EffectTarget } from "../../Managers/DataInterpreter";
 import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "./DataCollector";
 import { whevent } from "../../../ServerClient/whevent";
+import IdAndName from "../IdAndNameComponent";
+import { createNewDataCollector } from "../../reset";
+import CardEffect from "../../Entites/CardEffect";
 
 const { ccclass, property } = cc._decorator;
 
@@ -58,6 +61,23 @@ export default class ChooseFromTargetCard extends DataCollector {
   @property(DataCollector)
   dataCollectorToRun: DataCollector = null
 
+  @property(IdAndName)
+  dataCollectorToRunId: IdAndName = new IdAndName()
+
+  setWithOld(data: ChooseFromTargetCard) {
+    if (data.dataCollectorToRun) {
+      const newId = createNewDataCollector(this.node, data.dataCollectorToRun)
+      this.dataCollectorToRunId.id = newId
+      this.dataCollectorToRunId.name = data.dataCollectorToRun.collectorName
+      data.dataCollectorToRun = null
+      this.dataCollectorToRun = null
+    }
+  }
+
+  getDataCollectorToRun() {
+    return this.node.getComponent(CardEffect).getDataCollector(this.dataCollectorToRunId.id)
+  }
+
   /**
    *  @throws when there are no cards to choose from in the choose type
    * @param data cardPlayerId:Player who played the card
@@ -69,15 +89,16 @@ export default class ChooseFromTargetCard extends DataCollector {
   }): Promise<EffectTarget | EffectTarget[]> {
     let cardsToChooseFrom: cc.Node[] = []
     let target: EffectTarget
-    if (this.dataCollectorToRun.cardChosen) {
-      target = new EffectTarget(this.dataCollectorToRun.cardChosen)
+    const dataCollectorToRun = this.getDataCollectorToRun();
+    if (dataCollectorToRun.cardChosen) {
+      target = new EffectTarget(dataCollectorToRun.cardChosen)
     } else {
-      cc.log(`in Choose From Target Card collect data of ${this.dataCollectorToRun.collectorName}`)
+      cc.log(`in Choose From Target Card collect data of ${dataCollectorToRun.collectorName}`)
 
-      target = await this.dataCollectorToRun.collectData(data)
+      target = await dataCollectorToRun.collectData(data)
     }
     if (!target) {
-      throw new Error(`No target from dataCollectorToRun ${this.dataCollectorToRun.collectorName}`)
+      throw new Error(`No target from dataCollectorToRun ${dataCollectorToRun.collectorName}`)
     }
     if (Array.isArray(target)) {
       target = target[0]

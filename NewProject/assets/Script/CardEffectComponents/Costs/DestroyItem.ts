@@ -6,6 +6,7 @@ import PlayerManager from "../../Managers/PlayerManager";
 import ChooseCard from "../DataCollector/ChooseCard";
 import { CHOOSE_CARD_TYPE } from "../../Constants";
 import ChooseCardTypeAndFilter from "../ChooseCardTypeAndFilter";
+import { EffectTarget } from "../../Managers/DataInterpreter";
 
 
 const { ccclass, property } = cc._decorator;
@@ -24,7 +25,7 @@ export default class DestroyItemCost extends Cost {
         chooseCard.flavorText = "Choose Item To Destroy"
         chooseCard.chooseType = new ChooseCardTypeAndFilter();
         chooseCard.chooseType.chooseType = CHOOSE_CARD_TYPE.MY_ITEMS
-        let chosenItem = await chooseCard.collectData({ cardPlayerId: player.playerId })
+        let chosenItem = await chooseCard.collectData({ cardPlayerId: player.playerId }) as EffectTarget
         await player.destroyItem(chosenItem.effectTargetCard, true)
     }
 

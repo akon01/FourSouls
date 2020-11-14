@@ -8,7 +8,7 @@ import StackEffectInterface from "../StackEffects/StackEffectInterface";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('AngelRoomEffect')
 export default class AngelRoomEffect extends Effect {
   effectName = "AngelRoomEffect";
 

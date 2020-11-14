@@ -1,4 +1,5 @@
 import Effect from "./CardEffectComponents/CardEffects/Effect";
+import IdAndName from "./CardEffectComponents/IdAndNameComponent";
 
 
 const { ccclass, property } = cc._decorator;
@@ -11,5 +12,8 @@ export default class EffectsAndNumbers {
 
     @property(Effect)
     effect: Effect = null;
+
+    @property(IdAndName)
+    effectId: IdAndName = new IdAndName()
 
 }

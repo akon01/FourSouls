@@ -4,6 +4,7 @@ import ChooseCardTypeAndFilter from "../CardEffectComponents/ChooseCardTypeAndFi
 import ChooseCard from "../CardEffectComponents/DataCollector/ChooseCard";
 import CardManager from "../Managers/CardManager";
 import CardPreviewManager from "../Managers/CardPreviewManager";
+import { EffectTarget } from "../Managers/DataInterpreter";
 import PassiveManager from "../Managers/PassiveManager";
 import PlayerManager from "../Managers/PlayerManager";
 import TurnsManager from "../Managers/TurnsManager";
@@ -89,7 +90,7 @@ export default class MonsterField extends cc.Component {
     CardPreviewManager.showToOtherPlayers(monsterToCoverWith.node);
     chooseCard.chooseType = new ChooseCardTypeAndFilter()
     chooseCard.chooseType.chooseType = CHOOSE_CARD_TYPE.MONSTER_PLACES
-    const monsterInSpotChosen = await chooseCard.collectData({ cardPlayerId: player.playerId })
+    const monsterInSpotChosen = await chooseCard.collectData({ cardPlayerId: player.playerId }) as EffectTarget
     const activeMonsterSelected = monsterInSpotChosen.effectTargetCard.getComponent(Monster)
     const monsterCardHolder: MonsterCardHolder = MonsterField.getMonsterPlaceById(
       activeMonsterSelected.monsterPlace.id

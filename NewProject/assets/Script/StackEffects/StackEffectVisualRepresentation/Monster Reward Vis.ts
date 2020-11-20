@@ -14,7 +14,7 @@ export class MonsterRewardVis implements StackEffectVisualRepresentation {
 
 
     constructor(monsterWithReward: Monster) {
-        this.flavorText = `${monsterWithReward.name} Reward, ${monsterWithReward.reward.name}`
+        this.flavorText = `${monsterWithReward.name} Reward, ${monsterWithReward.getReward().name}`
         switch (monsterWithReward.node.getComponent(Card).souls) {
             case 0:
                 this.visType = STACK_EFFECT_VIS_TYPE.MONSTER_ACTION

@@ -50,7 +50,7 @@ export default class ChainCollector extends DataCollector {
       //  effect.effectData = endData ;
     }
 
-    // let player = PlayerManager.getPlayerByCard(this.node.parent.parent)
+
     // let data2 = { cardOwner: player.playerId };
     this.effectsData = effectsData
     return effectsData;

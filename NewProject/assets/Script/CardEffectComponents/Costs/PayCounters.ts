@@ -1,7 +1,5 @@
-import CostInterface from "./CostInterface";
-import Cost from "./Cost";
 import Card from "../../Entites/GameEntities/Card";
-import Effect from "../CardEffects/Effect";
+import Cost from "./Cost";
 
 
 const { ccclass, property } = cc._decorator;
@@ -13,8 +11,8 @@ export default class PayCounters extends Cost {
     numOfCounters: number = 1;
 
     takeCost() {
-        let thisEffect = this.node.parent;
-        let thisCard = thisEffect.getComponent(Effect)._effectCard
+        let thisEffect = this.getThisEffect()
+        let thisCard = thisEffect._effectCard
         let cardComp = thisCard.getComponent(Card)
         cardComp._counters -= this.numOfCounters;
     }

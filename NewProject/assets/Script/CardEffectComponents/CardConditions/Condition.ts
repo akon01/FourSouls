@@ -32,7 +32,10 @@ export default class Condition extends cc.Component
   dataCollectorId: IdAndName = null
 
   getDataCollector() {
-    return this.node.getComponent(CardEffect).getDataCollector(this.dataCollectorId.id)
+    if (this.dataCollectorId) {
+      return this.node.getComponent(CardEffect).getDataCollector(this.dataCollectorId.id)
+    }
+    return null
   }
   needsDataCollector: boolean = true
   setConditionId() {

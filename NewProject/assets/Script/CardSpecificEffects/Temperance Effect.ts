@@ -33,7 +33,7 @@ export default class TemperanceEffect extends Effect {
       cc.log(`no target player`)
     } else {
       let player: Player = PlayerManager.getPlayerByCard(targetPlayerCard as cc.Node)
-      let owner = CardManager.getCardOwner(this.node.parent)
+      let owner = CardManager.getCardOwner(this.node)
       await player.takeDamage(this.dmgToTake, true, owner)
       await player.changeMoney(this.moneyToGet, true)
     }

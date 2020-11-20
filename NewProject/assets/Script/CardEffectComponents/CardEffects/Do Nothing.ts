@@ -13,7 +13,7 @@ const { ccclass, property } = cc._decorator;
 export default class DoNothing extends Effect {
   effectName = "DoNothing";
 
-
+  noDataCollector = true
   /**
    *
    * @param data {target:PlayerId}

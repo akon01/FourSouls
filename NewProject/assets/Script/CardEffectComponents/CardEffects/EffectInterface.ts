@@ -16,6 +16,8 @@ export default interface EffectInterface {
 
   dataCollector: DataCollector[];
 
+  noDataCollector: boolean
+
   cost: Cost;
 
   conditions: Condition[];

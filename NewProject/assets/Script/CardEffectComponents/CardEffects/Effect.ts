@@ -12,8 +12,6 @@ import IdAndName from "../IdAndNameComponent";
 import PreCondition from "../PreConditions/PreCondition";
 import EffectInterface from "./EffectInterface";
 
-
-
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -25,6 +23,8 @@ export default class Effect extends cc.Component implements EffectInterface {
   setWithOld(oldEffect: Effect) {
 
   }
+
+  noDataCollector = false;
 
   hasBeenHandled: boolean = false
 
@@ -46,7 +46,10 @@ export default class Effect extends cc.Component implements EffectInterface {
   costId: IdAndName = null
 
   getCost() {
-    return this.node.getComponent(CardEffect).getCost(this.costId.id)
+    if (this.costId) {
+      return this.node.getComponent(CardEffect).getCost(this.costId.id)
+    }
+    return null
   }
 
   @property(PreCondition)
@@ -56,7 +59,10 @@ export default class Effect extends cc.Component implements EffectInterface {
   preConditionId: IdAndName = null;
 
   getPreCondition() {
-    return this.node.getComponent(CardEffect).getPreCondtion(this.preConditionId.id)
+    if (this.preConditionId) {
+      return this.node.getComponent(CardEffect).getPreCondtion(this.preConditionId.id)
+    }
+    return null
   }
 
   hasSubAction: boolean = false;
@@ -82,7 +88,10 @@ export default class Effect extends cc.Component implements EffectInterface {
   passiveEffectToAddId: IdAndName = null
 
   getPassiveEffectToAdd() {
-    return this.node.getComponent(CardEffect).getEffect(this.passiveEffectToAddId.id)
+    if (this.passiveEffectToAddId) {
+      return this.node.getComponent(CardEffect).getEffect(this.passiveEffectToAddId.id)
+    }
+    return null
   }
 
   effectName: string = null;
@@ -136,6 +145,13 @@ export default class Effect extends cc.Component implements EffectInterface {
   })
   dataConcurencyComponentId: IdAndName = null
 
+  getDataConcurencyComponent() {
+    if (this.dataConcurencyComponentId) {
+      return this.node.getComponent(CardEffect).getDataConcurency(this.dataConcurencyComponentId.id)
+    }
+    return null
+  }
+
 
   @property
   optionalFlavorText: string = ''
@@ -159,11 +175,11 @@ export default class Effect extends cc.Component implements EffectInterface {
   }
 
   runDataConcurency(effectData: ActiveEffectData | PassiveEffectData, numOfEffect: number, type: ITEM_TYPE, sendToServer: boolean) {
-    this.dataConcurencyComponent.runDataConcurency(effectData, numOfEffect, type, sendToServer)
+    this.getDataConcurencyComponent().runDataConcurency(effectData, numOfEffect, type, sendToServer)
   }
 
   onLoad() {
-    this._effectCard = this.node.parent;
+    this._effectCard = this.node;
   }
 
   // toString() {

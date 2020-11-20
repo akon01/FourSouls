@@ -25,7 +25,7 @@ export default class DoubleMonsterReward extends Effect {
       throw new Error(`No Monster With Reward Found`)
     }
 
-    monsterWithReward.getComponent(Monster).reward.doubleReward = true
+    monsterWithReward.getComponent(Monster).getReward().doubleReward = true
 
 
     if (data instanceof PassiveEffectData) { return data }

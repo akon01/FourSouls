@@ -223,18 +223,20 @@ export function copyEffect(oldEffect: cc.Component, newEffect: cc.Component) {
 
 export function getEffectType(node: cc.Node, effect: Effect) {
     const cardEffectComp = node.getComponent(CardEffect);
-    if (cardEffectComp.activeEffects.map(ae => ae.getComponent(Effect)).includes(effect)) {
-        return ITEM_TYPE.ACTIVE
-    }
-    if (cardEffectComp.passiveEffects.map(ae => ae.getComponent(Effect)).includes(effect)) {
-        return ITEM_TYPE.PASSIVE
-    }
-    if (cardEffectComp.paidEffects.map(ae => ae.getComponent(Effect)).includes(effect)) {
-        return ITEM_TYPE.PAID
-    }
-    if (cardEffectComp.toAddPassiveEffects.map(ae => ae.getComponent(Effect)).includes(effect)) {
-        return ITEM_TYPE.TO_ADD_PASSIVE
-    }
+    // if (cardEffectComp.activeEffects.map(ae => ae.getComponent(Effect)).includes(effect)) {
+    //     return ITEM_TYPE.ACTIVE
+    // }
+    // if (cardEffectComp.passiveEffects.map(ae => ae.getComponent(Effect)).includes(effect)) {
+    //     return ITEM_TYPE.PASSIVE
+    // }
+    // if (cardEffectComp.paidEffects.map(ae => ae.getComponent(Effect)).includes(effect)) {
+    //     return ITEM_TYPE.PAID
+    // }
+    // if (cardEffectComp.toAddPassiveEffects.map(ae => ae.getComponent(Effect)).includes(effect)) {
+    //     return ITEM_TYPE.TO_ADD_PASSIVE
+    // }
+    throw new Error("should not get here") 
+    return ITEM_TYPE.ACTIVE
 }
 
 export function createNewEffect(oldComp: Effect, node: cc.Node, addToEffectList: boolean) {
@@ -254,56 +256,44 @@ export default class Reset extends cc.Component {
 
     resetInEditor() {
         return
-        if (this.node && this.isFirstTime) {
-            const effects = this.node.children.filter(child => child.getComponent(Effect) != null)
-            const cardEffectComp = this.node.getComponent(CardEffect)
-            try {
-                if (cardEffectComp.multiEffectCollector && !cardEffectComp.isHandlingMultiEffectCollector) {
-                    cardEffectComp.isHandlingMultiEffectCollector = true
-                    const newDataCollector: DataCollector = this.node.addComponent(cardEffectComp.multiEffectCollector.constructor.name);
-                    newDataCollector.setDataCollectorId()
-                    cardEffectComp.multiEffectCollectorId = IdAndName.getNew(newDataCollector.DataCollectorId, newDataCollector.collectorName)
-                    copyEffect(cardEffectComp.multiEffectCollector, newDataCollector);
-                    newDataCollector.hasBeenHandled = true
-                    cardEffectComp.multiEffectCollector.hasBeenHandled = true
-                    newDataCollector.setWithOld(cardEffectComp.multiEffectCollector)
-                    if (cardEffectComp.multiEffectCollector.cost) {
-                        handleDataCollectorCost(newDataCollector, this.node)
-                    }
-                    cardEffectComp.multiEffectCollector = null
-                }
+        // if (this.node && this.isFirstTime) {
+        //     const effects = this.node.children.filter(child => child.getComponent(Effect) != null)
+        //     const cardEffectComp = this.node.getComponent(CardEffect)
+        //     try {
+        //         if (cardEffectComp.multiEffectCollector && !cardEffectComp.isHandlingMultiEffectCollector) {
+        //             cardEffectComp.isHandlingMultiEffectCollector = true
+        //             const newDataCollector: DataCollector = this.node.addComponent(cardEffectComp.multiEffectCollector.constructor.name);
+        //             newDataCollector.setDataCollectorId()
+        //             cardEffectComp.multiEffectCollectorId = IdAndName.getNew(newDataCollector.DataCollectorId, newDataCollector.collectorName)
+        //             copyEffect(cardEffectComp.multiEffectCollector, newDataCollector);
+        //             newDataCollector.hasBeenHandled = true
+        //             cardEffectComp.multiEffectCollector.hasBeenHandled = true
+        //             newDataCollector.setWithOld(cardEffectComp.multiEffectCollector)
+        //             if (cardEffectComp.multiEffectCollector.cost) {
+        //                 handleDataCollectorCost(newDataCollector, this.node)
+        //             }
+        //             cardEffectComp.multiEffectCollector = null
+        //         }
 
-                for (let i = 0; i < effects.length; i++) {
-                    const effectNode = effects[i];
-                    const oldComp = effectNode.getComponent(Effect)
-                    if (!oldComp.hasBeenHandled) {
-                        createNewEffect(oldComp, this.node, true);
-                    }
-                }
-                const cardEffect = this.node.getComponent(CardEffect);
-                cardEffect.activeEffects = []
-                cardEffect.passiveEffects = []
-                cardEffect.paidEffects = []
-                cardEffect.toAddPassiveEffects = []
-                this.node.removeAllChildren()
-                this.isFirstTime = false
-            } catch (error) {
-                throw error
-            }
-        }
-
-
+        //         for (let i = 0; i < effects.length; i++) {
+        //             const effectNode = effects[i];
+        //             const oldComp = effectNode.getComponent(Effect)
+        //             if (!oldComp.hasBeenHandled) {
+        //                 createNewEffect(oldComp, this.node, true);
+        //             }
+        //         }
+        //         const cardEffect = this.node.getComponent(CardEffect);
+        //         cardEffect.activeEffects = []
+        //         cardEffect.passiveEffects = []
+        //         cardEffect.paidEffects = []
+        //         cardEffect.toAddPassiveEffects = []
+        //         this.node.removeAllChildren()
+        //         this.isFirstTime = false
+        //     } catch (error) {
+        //         throw error
+        //     }
+        // }
     }
-
-
-    @property
-    text: string = 'hello';
-
-
-
-
-
-
 
 
     // LIFE-CYCLE CALLBACKS:

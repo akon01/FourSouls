@@ -84,7 +84,7 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
             }
             const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
             if (prev && this.effectToDo.node) {
-                prev.addSelectedEffectHighlight(this.effectToDo.node)
+                prev.addSelectedEffectHighlight(this.effectToDo)
             }
             firstLable = `Activate ${this.cardWithEffect.name} Effect ${this.effectToDo.name}`
         } else { firstLable = `Activate ${this.cardWithEffect.name} ` }
@@ -122,7 +122,7 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
                     this.effectToDo = effectChosen;
                     const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
                     if (prev && this.effectToDo.node) {
-                        prev.addSelectedEffectHighlight(this.effectToDo.node)
+                        prev.addSelectedEffectHighlight(this.effectToDo)
                     }
                 }
             }
@@ -163,7 +163,7 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
         if (this.effectToDo) {
             const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
             if (prev && this.effectToDo.node) {
-                prev.addSelectedEffectHighlight(this.effectToDo.node)
+                prev.addSelectedEffectHighlight(this.effectToDo)
             }
             this.setLable(`Activate ${this.cardWithEffect.name} effect ${this.effectToDo.name}`, true)
         } else { this.setLable(`Activate ${this.cardWithEffect.name} `, true) }
@@ -206,7 +206,7 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
         this.effectToDo = selectedEffect
         const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
         if (prev && this.effectToDo.node) {
-            prev.addSelectedEffectHighlight(this.effectToDo.node)
+            prev.addSelectedEffectHighlight(this.effectToDo)
         }
         await this.doCardEffect(this.effectToDo, this.hasDataBeenCollectedYet);
         this.setLable(`Activated ${this.cardWithEffect.name} Effect`, true)
@@ -247,6 +247,7 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
 
         const newPassiveMethodData = await cardEffect.doServerEffect2(serverEffect, Stack._currentStack)
 
+        debugger
         // PassiveManager.updatePassiveMethodData((newPassiveMethodData as PassiveEffectData),this.isAfterActivation,true)
         this.effectPassiveMeta.args = (newPassiveMethodData as PassiveEffectData).methodArgs
         this.effectPassiveMeta.preventMethod = (newPassiveMethodData as PassiveEffectData).terminateOriginal

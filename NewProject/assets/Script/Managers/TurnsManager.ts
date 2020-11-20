@@ -11,6 +11,7 @@ import PlayerManager from "./PlayerManager";
 import Store from "../Entites/GameEntities/Store";
 import CardEffect from "../Entites/CardEffect";
 import HeadlessHorsmanCondition from "../CardEffectComponents/CardConditions/Card Specific Conditions/Headless Horseman Condition";
+import Card from "../Entites/GameEntities/Card";
 
 const { ccclass, property } = cc._decorator;
 
@@ -129,9 +130,9 @@ export default class TurnsManager extends cc.Component {
         await monster.heal(monster.HP, false, true)
       }
       ////Special Conditions To Do: TODO: Should not be here at all.
-      const headlessHorsmanCard = activeMonstersComps.filter(c => c.node.name == "Headless Horseman")[0]
+      const headlessHorsmanCard = activeMonstersComps.find(c => c.node.getComponent(Card).cardName == "Headless Horseman")
       if (headlessHorsmanCard) {
-        const condition = headlessHorsmanCard.node.getComponentInChildren(HeadlessHorsmanCondition)
+        const condition = headlessHorsmanCard.node.getComponent(HeadlessHorsmanCondition)
         condition._isFirstTime = true
       }
       if (sendToServer) {

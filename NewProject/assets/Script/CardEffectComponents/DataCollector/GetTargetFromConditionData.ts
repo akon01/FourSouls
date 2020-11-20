@@ -46,7 +46,7 @@ export default class GetTargetFromConditionData extends DataCollector {
 
 
 
-    // let player = PlayerManager.getPlayerByCard(this.node.parent.parent).character
+
     // let target = new EffectTarget(player)
     //let data2 = { cardOwner: player.playerId };
     return effectData.effectTargets;

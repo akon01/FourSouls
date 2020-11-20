@@ -12,5 +12,7 @@ export default interface CostInterface {
     testPreCondition(): boolean
 
     takeCost();
+    getThisEffect()
+
 
 }

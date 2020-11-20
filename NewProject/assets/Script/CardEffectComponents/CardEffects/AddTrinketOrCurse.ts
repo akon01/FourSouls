@@ -117,7 +117,7 @@ export default class AddTrinketOrCurse extends Effect {
       if (targetPlayerCard instanceof cc.Node) {
         const player: Player = PlayerManager.getPlayerByCard(targetPlayerCard);
         this.removeAddTrinketEffect()
-        const thisCard = Card.getCardNodeByChild(this.node.parent)
+        const thisCard = Card.getCardNodeByChild(this.node)
         thisCard.getComponent(Card).type = CARD_TYPE.TREASURE;
         ServerClient.$.send(Signal.CARD_ADD_TRINKET, { cardId: thisCard.getComponent(Card)._cardId, playerId: player.playerId, addMuiliEffect: this.addMuiliEffect })
         if (!this.isCurse) {
@@ -135,7 +135,7 @@ export default class AddTrinketOrCurse extends Effect {
   }
 
   removeAddTrinketEffect() {
-    const thisCard = Card.getCardNodeByChild(this.node.parent)
+    const thisCard = Card.getCardNodeByChild(this.node)
     const thisCardEffect = thisCard.getComponent(CardEffect)
     //Remove this Effect!
     thisCardEffect.activeEffectsIds = thisCardEffect.activeEffectsIds.filter(aid => aid.id != this.EffectId);

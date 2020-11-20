@@ -17,6 +17,8 @@ export default class CancelAttack extends Effect {
 
   @property({ visible: function (this: CancelAttack) { if (this.addAttackOppurtunity) { return true } } })
   howMuchToAdd: number = 1;
+
+  noDataCollector = true
   /**
    *
    * @param data {target:PlayerId}

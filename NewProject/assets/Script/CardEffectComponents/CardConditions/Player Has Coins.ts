@@ -15,15 +15,22 @@ export default class PlayerHasCoins extends Condition {
   @property
   numOfMoneyNeeded: number = 1
 
+  @property
+  isOneTimeOnly: boolean = false
+
+  isFirstTime = true
+
   needsDataCollector = false;
 
   async testCondition(meta: PassiveMeta) {
+    if (this.isOneTimeOnly && !this.isFirstTime) return false;
     const player: Player = meta.methodScope.getComponent(Player);
     if (
       player instanceof Player &&
       player.coins >= this.numOfMoneyNeeded &&
       this.event == meta.passiveEvent
     ) {
+
       return true;
     } else {
       return false;

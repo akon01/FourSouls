@@ -20,7 +20,7 @@ export default class GetTargetFromConcurentData extends DataCollector {
 
     const effectData = Card.getCardNodeByChild(this.node).getComponent(CardEffect).concurentEffectData
 
-    // let player = PlayerManager.getPlayerByCard(this.node.parent.parent).character
+
     // let target = new EffectTarget(player)
     //let data2 = { cardOwner: player.playerId };
     return effectData.effectTargets;

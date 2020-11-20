@@ -23,6 +23,7 @@ import { whevent } from "../../ServerClient/whevent";
 import Store from "../Entites/GameEntities/Store";
 import AnnouncementLable from "./Announcement Lable";
 import CardAutoComplete from "./Card AutoComplete";
+import MonsterField from "../Entites/MonsterField";
 
 const { ccclass, property } = cc._decorator;
 
@@ -56,6 +57,8 @@ export default class AdminConsole extends cc.Component {
 
     static noPrintSignal: string[] = []
 
+    isTestModeSet: boolean = false
+
     async doCommand(command: ADMIN_COMMANDS, extra?: any) {
         const mePlayer = PlayerManager.mePlayer.getComponent(Player)
         let flag
@@ -63,6 +66,32 @@ export default class AdminConsole extends cc.Component {
         const monsterDeck = CardManager.monsterDeck.getComponent(Deck);
         if (extra) { flag = extra.split(" ")[1] }
         switch (command) {
+            case ADMIN_COMMANDS.NEXT_ITEM:
+                const newItem = CardManager.treasureDeck.getComponent(Deck).drawCard(true)
+                mePlayer.addItem(newItem, true, true)
+                break
+            case ADMIN_COMMANDS.NEXT_LOOT:
+                const newLoot = CardManager.lootDeck.getComponent(Deck).drawCard(true)
+                mePlayer.drawCard(CardManager.lootDeck, true, newLoot)
+                break
+            case ADMIN_COMMANDS.NEXT_MONSTER:
+                const newMonster = CardManager.monsterDeck.getComponent(Deck).drawCard(true)
+                await MonsterField.addMonsterToExsistingPlace(MonsterField.getMonsterCardHoldersIds()[mePlayer.getMonsterCardHolderId()], newMonster, true)
+                mePlayer.drawCard(CardManager.lootDeck, true, newLoot)
+                break
+            case ADMIN_COMMANDS.SET_TEST_MODE:
+                if (!this.isTestModeSet) {
+                    mePlayer.attackPlays += 999;
+                    mePlayer.buyPlays += 999;
+                    mePlayer.lootCardPlays += 999;
+                    cc.log(`test mode set`)
+                } else {
+                    mePlayer.attackPlays = 1;
+                    mePlayer.buyPlays = 1;
+                    mePlayer.lootCardPlays = 1;
+                    cc.log(`test mode unset`)
+                }
+                break
             case ADMIN_COMMANDS.CARD:
                 let card = null
                 //    card = this._autoCompleteCard;
@@ -303,143 +332,143 @@ export default class AdminConsole extends cc.Component {
         }
     }
 
-    async sendCommand() {
-        const mePlayer = PlayerManager.mePlayer.getComponent(Player)
-        let commandText = this.consoleEditBox.string;
-        const cmdWord = commandText.split(" ")[0]
-        const myActiveItems = mePlayer.getActiveItems();
-        const monsterDeck = CardManager.monsterDeck.getComponent(Deck);
-        const flag = commandText.split(" ")[1]
-        if (flag == "g") {
-            commandText = commandText.replace(cmdWord + " g" + " ", "")
-        } else { commandText = commandText.replace(cmdWord + " ", "") }
+    // async sendCommand() {
+    //     const mePlayer = PlayerManager.mePlayer.getComponent(Player)
+    //     let commandText = this.consoleEditBox.string;
+    //     const cmdWord = commandText.split(" ")[0]
+    //     const myActiveItems = mePlayer.getActiveItems();
+    //     const monsterDeck = CardManager.monsterDeck.getComponent(Deck);
+    //     const flag = commandText.split(" ")[1]
+    //     if (flag == "g") {
+    //         commandText = commandText.replace(cmdWord + " g" + " ", "")
+    //     } else { commandText = commandText.replace(cmdWord + " ", "") }
 
-        const logGroups = new SIGNAL_GROUPS();
+    //     const logGroups = new SIGNAL_GROUPS();
 
-        switch (cmdWord) {
-            case "card":
-                let card = CardManager.getCardByName(commandText)
-                if (card == null) {
-                    card = this._autoCompleteCard;
-                }
-                await mePlayer.giveCard(card)
-                await ActionManager.updateActions()
-                break;
-            case "roll":
-                await mePlayer.gainRollBonus(Number(commandText), true, true)
-                await mePlayer.gainAttackRollBonus(Number(commandText), true, false, true)
-                break;
-            case "dice":
-                const num = Number.parseInt(commandText)
-                if (num > 0 && num < 7) {
+    //     switch (cmdWord) {
+    //         case "card":
+    //             let card = CardManager.getCardByName(commandText)
+    //             if (card == null) {
+    //                 card = this._autoCompleteCard;
+    //             }
+    //             await mePlayer.giveCard(card)
+    //             await ActionManager.updateActions()
+    //             break;
+    //         case "roll":
+    //             await mePlayer.gainRollBonus(Number(commandText), true, true)
+    //             await mePlayer.gainAttackRollBonus(Number(commandText), true, false, true)
+    //             break;
+    //         case "dice":
+    //             const num = Number.parseInt(commandText)
+    //             if (num > 0 && num < 7) {
 
-                    mePlayer.setDiceAdmin = num
-                } else {
-                    mePlayer.setDiceAdmin = 0
-                }
-                cc.log(`set all rolls to ${commandText}`)
-                break;
-            case "hp":
-                await mePlayer.gainHeartContainer(Number.parseInt(commandText), true, true)
-                break;
-            case `soul`:
-                const soulCard = monsterDeck.drawSpecificCard(monsterDeck.getCards().filter(card => card.getComponent(Card).souls > 0)[0], true)
-                await mePlayer.getSoulCard(soulCard, true)
-                break
-            case `dmg`:
-                await mePlayer.gainDMG(Number.parseInt(commandText), true, true)
-                break
-            case "heal":
-                await mePlayer.heal(Number.parseInt(commandText), true)
-                break;
-            case "coins":
-                // tslint:disable-next-line: radix
-                await mePlayer.changeMoney(Number.parseInt(commandText), true)
-                break;
-            case "log":
-                if (AdminConsole.noPrintSignal.includes(commandText)) {
-                    if (flag == "g") {
-                        cc.log(`command text is ${commandText}`)
-                        const chosenGroup = logGroups.getGroup(commandText)
-                        if (chosenGroup) {
-                            chosenGroup.forEach(word => {
-                                AdminConsole.noPrintSignal.splice(AdminConsole.noPrintSignal.indexOf(word))
-                            })
-                            cc.log(`resume showing logs for ${commandText} group`)
-                        } else { cc.log(`no group found`) }
-                    } else {
-                        AdminConsole.noPrintSignal.splice(AdminConsole.noPrintSignal.indexOf(commandText))
-                        cc.log(`resume showing logs for ${commandText}`)
-                    }
-                } else {
-                    if (flag == "g") {
-                        cc.log(`command text is ${commandText}`)
-                        const chosenGroup = logGroups.getGroup(commandText)
-                        if (chosenGroup) {
-                            chosenGroup.forEach(word => {
-                                AdminConsole.noPrintSignal.push(word)
-                            })
-                            cc.log(`stop showing logs for ${commandText} group`)
-                        } else { cc.log("no group found") }
-                    } else {
-                        AdminConsole.noPrintSignal.push(commandText)
-                        cc.log(`stop showing logs for ${commandText}`)
-                    }
-                }
-                break
-            case "help":
-                cc.log('available commands:  log,coins X,heal X,hp X,dmg X,dice X,soul,charge,roll +/-X,card "Name",run,stackTrace,stack')
-                break;
-            case "charge":
-                for (let i = 0; i < myActiveItems.length; i++) {
-                    const item = myActiveItems[i];
-                    await item.getComponent(Item).rechargeItem(true)
-                }
-                // tslint:disable-next-line: no-floating-promises
-                ActionManager.updateActions()
-                break;
-            case "stackTrace":
-                cc.error(`stack trace`)
-                break
-            case "stack":
-                cc.log(StackLable.$.label.string)
-                break
-            case "char":
-                //let mePlayer = PlayerManager.mePlayer.getComponent(Player)
-                mePlayer.removeFromActiveItems([mePlayer.character])
-                if (mePlayer.characterItem.getComponent(Item).type == ITEM_TYPE.PASSIVE) {
-                    mePlayer.removeFromPassiveItems([mePlayer.characterItem])
-                } else {
-                    mePlayer.removeFromActiveItems([mePlayer.characterItem])
-                }
-                const fullCharCard: {
-                    char: cc.Node;
-                    item: cc.Node;
-                } = CardManager.characterDeck.find(char => char.char.name == commandText)
-                mePlayer.character.setParent(null)
-                mePlayer.characterItem.setParent(null)
-                await PlayerManager.assignCharacterToPlayer(fullCharCard, mePlayer, true)
-                break
-            case "run":
-                cc.log(commandText)
-                switch (commandText) {
-                    case "test":
-                        this.testForEmptyEffects()
-                        break;
+    //                 mePlayer.setDiceAdmin = num
+    //             } else {
+    //                 mePlayer.setDiceAdmin = 0
+    //             }
+    //             cc.log(`set all rolls to ${commandText}`)
+    //             break;
+    //         case "hp":
+    //             await mePlayer.gainHeartContainer(Number.parseInt(commandText), true, true)
+    //             break;
+    //         case `soul`:
+    //             const soulCard = monsterDeck.drawSpecificCard(monsterDeck.getCards().filter(card => card.getComponent(Card).souls > 0)[0], true)
+    //             await mePlayer.getSoulCard(soulCard, true)
+    //             break
+    //         case `dmg`:
+    //             await mePlayer.gainDMG(Number.parseInt(commandText), true, true)
+    //             break
+    //         case "heal":
+    //             await mePlayer.heal(Number.parseInt(commandText), true)
+    //             break;
+    //         case "coins":
+    //             // tslint:disable-next-line: radix
+    //             await mePlayer.changeMoney(Number.parseInt(commandText), true)
+    //             break;
+    //         case "log":
+    //             if (AdminConsole.noPrintSignal.includes(commandText)) {
+    //                 if (flag == "g") {
+    //                     cc.log(`command text is ${commandText}`)
+    //                     const chosenGroup = logGroups.getGroup(commandText)
+    //                     if (chosenGroup) {
+    //                         chosenGroup.forEach(word => {
+    //                             AdminConsole.noPrintSignal.splice(AdminConsole.noPrintSignal.indexOf(word))
+    //                         })
+    //                         cc.log(`resume showing logs for ${commandText} group`)
+    //                     } else { cc.log(`no group found`) }
+    //                 } else {
+    //                     AdminConsole.noPrintSignal.splice(AdminConsole.noPrintSignal.indexOf(commandText))
+    //                     cc.log(`resume showing logs for ${commandText}`)
+    //                 }
+    //             } else {
+    //                 if (flag == "g") {
+    //                     cc.log(`command text is ${commandText}`)
+    //                     const chosenGroup = logGroups.getGroup(commandText)
+    //                     if (chosenGroup) {
+    //                         chosenGroup.forEach(word => {
+    //                             AdminConsole.noPrintSignal.push(word)
+    //                         })
+    //                         cc.log(`stop showing logs for ${commandText} group`)
+    //                     } else { cc.log("no group found") }
+    //                 } else {
+    //                     AdminConsole.noPrintSignal.push(commandText)
+    //                     cc.log(`stop showing logs for ${commandText}`)
+    //                 }
+    //             }
+    //             break
+    //         case "help":
+    //             cc.log('available commands:  log,coins X,heal X,hp X,dmg X,dice X,soul,charge,roll +/-X,card "Name",run,stackTrace,stack')
+    //             break;
+    //         case "charge":
+    //             for (let i = 0; i < myActiveItems.length; i++) {
+    //                 const item = myActiveItems[i];
+    //                 await item.getComponent(Item).rechargeItem(true)
+    //             }
+    //             // tslint:disable-next-line: no-floating-promises
+    //             ActionManager.updateActions()
+    //             break;
+    //         case "stackTrace":
+    //             cc.error(`stack trace`)
+    //             break
+    //         case "stack":
+    //             cc.log(StackLable.$.label.string)
+    //             break
+    //         case "char":
+    //             //let mePlayer = PlayerManager.mePlayer.getComponent(Player)
+    //             mePlayer.removeFromActiveItems([mePlayer.character])
+    //             if (mePlayer.characterItem.getComponent(Item).type == ITEM_TYPE.PASSIVE) {
+    //                 mePlayer.removeFromPassiveItems([mePlayer.characterItem])
+    //             } else {
+    //                 mePlayer.removeFromActiveItems([mePlayer.characterItem])
+    //             }
+    //             const fullCharCard: {
+    //                 char: cc.Node;
+    //                 item: cc.Node;
+    //             } = CardManager.characterDeck.find(char => char.char.name == commandText)
+    //             mePlayer.character.setParent(null)
+    //             mePlayer.characterItem.setParent(null)
+    //             await PlayerManager.assignCharacterToPlayer(fullCharCard, mePlayer, true)
+    //             break
+    //         case "run":
+    //             cc.log(commandText)
+    //             switch (commandText) {
+    //                 case "test":
+    //                     this.testForEmptyEffects()
+    //                     break;
 
-                    default:
-                        break;
-                }
-                break;
-            case "diceNum":
-                mePlayer.dice.changeSprite(Number.parseInt(commandText))
-                break;
-            default:
-                // this.consoleEditBox.placeholder = "Unknown command, try help"
-                break;
-        }
+    //                 default:
+    //                     break;
+    //             }
+    //             break;
+    //         case "diceNum":
+    //             mePlayer.dice.changeSprite(Number.parseInt(commandText))
+    //             break;
+    //         default:
+    //             // this.consoleEditBox.placeholder = "Unknown command, try help"
+    //             break;
+    //     }
 
-    }
+    // }
 
     testForEmptyEffects() {
         let cardsWithEffects = CardManager.GetAllCards().filter(card => card.getComponent(CardEffect))

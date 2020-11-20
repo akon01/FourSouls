@@ -58,7 +58,7 @@ export default class MonsterRewardStackEffect extends StackEffectConcrete {
         if (this.monsterWithReward.monsterRewardDescription != null) {
             this.monsterReward = this.monsterWithReward.getReward()
         } else {
-            this.monsterReward = this.monsterWithReward.reward;
+            this.monsterReward = this.monsterWithReward.getReward();
         }
         if (!this.monsterReward) { throw new Error(`No Monster Reward on ${this.monsterWithReward.name}`) }
         this.playerToReward = PlayerManager.getPlayerByCard(playerToRewardCard)

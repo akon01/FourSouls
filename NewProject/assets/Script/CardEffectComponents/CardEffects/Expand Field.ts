@@ -18,6 +18,8 @@ export default class ExpandField extends Effect {
 
   @property(cc.Integer)
   howMuchToAdd: number = 1;
+
+  noDataCollector = true
   /**
    *
    * @param data {target:PlayerId}

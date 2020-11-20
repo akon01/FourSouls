@@ -22,7 +22,7 @@ export default class PassiveEffect extends Effect {
   }
 
   onLoad() {
-    this._effectCard = this.node.parent;
+    this._effectCard = this.node;
   }
 
   // toString() {

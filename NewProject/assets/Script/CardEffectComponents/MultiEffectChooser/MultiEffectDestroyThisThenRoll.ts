@@ -73,4 +73,9 @@ export default class MultiEffectDestroyThisThenRoll extends IMultiEffectRollAndC
     return chosenEffect;
 
   }
+
+  onLoad() {
+    const cardEffectComp = this.node.getComponent(CardEffect)
+    this.effectsAndNumbers.forEach(ean => ean.effect = cardEffectComp.getEffect(ean.effectId.id))
+  }
 }

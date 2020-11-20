@@ -6,7 +6,7 @@ import CardAutoComplete from "../LableScripts/Card AutoComplete";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
+@ccclass('CardPreview')
 export default class CardPreview extends cc.Component {
 
     @property({ type: cc.Node, visible: false })
@@ -145,7 +145,7 @@ export default class CardPreview extends cc.Component {
         const name = effect.name + " " + preview.childrenCount
         preview.addChild(cc.instantiate(this.effectChooseNode), 1, name);
         const newEffect = preview.getChildByName(name);
-        newEffect.getComponent(Effect)._effectCard = originalParent;
+        // newEffect.getComponent(Effect)._effectCard = originalParent;
         this.effectChildren.push(newEffect);
         cc.log(`width:${newEffect.width}; height:${newEffect.height}; cardHeight:${preview.height}; scale:${heightScale}`)
 

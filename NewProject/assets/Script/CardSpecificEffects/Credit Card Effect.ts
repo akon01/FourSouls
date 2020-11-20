@@ -11,6 +11,7 @@ const { ccclass, property } = cc._decorator;
 export default class CreditCardEffect extends Effect {
   effectName = "CreditCardEffect";
 
+  noDataCollector = true
 
   /**
    *
@@ -22,7 +23,7 @@ export default class CreditCardEffect extends Effect {
   ) {
     let originalCost = Store.storeCardsCost;
     Store.storeCardsCost = 0;
-    this.node.parent.getChildByName('Credit Card Effect 2').getComponent(CreditCardEffect2).originalCost = originalCost;
+    this.node.getComponent(CreditCardEffect2).originalCost = originalCost;
     return data
   }
 

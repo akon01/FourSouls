@@ -74,9 +74,10 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
       deck = (data.getTarget(TARGETTYPE.DECK) as cc.Node).getComponent(Deck)
     }
     const cardsToSee = [];
+    const deckCards = deck.getCards();
     for (let i = 0; i < this.numOfCardsToSee; i++) {
       if (deck.getCardsLength() > i) {
-        cardsToSee.push(deck.getCards()[deck.getCardsLength() - i])
+        cardsToSee.push(deckCards[deck.getCardsLength() - 1 - i])
       }
     }
 

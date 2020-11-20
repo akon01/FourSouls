@@ -38,23 +38,23 @@
         "__id__": 14
       },
       {
-        "__id__": 20
+        "__id__": 21
       },
       {
-        "__id__": 24
+        "__id__": 25
       },
       {
-        "__id__": 26
-      },
-      {
-        "__id__": 28
+        "__id__": 27
       },
       {
         "__id__": 29
+      },
+      {
+        "__id__": 30
       }
     ],
     "_prefab": {
-      "__id__": 31
+      "__id__": 32
     },
     "_opacity": 255,
     "_color": {
@@ -144,7 +144,7 @@
     },
     "_enabled": true,
     "cardName": "Joker",
-    "doNotMake": false,
+    "doNotMake": true,
     "cardMask": null,
     "cardSprite": null,
     "makeMultiCards": false,
@@ -185,21 +185,15 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
     "activeEffectsIds": [
       {
         "__id__": 5
       }
     ],
-    "passiveEffects": [],
     "passiveEffectsIds": [],
-    "toAddPassiveEffects": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
     "paidEffectsIds": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
     "multiEffectCollectorId": null,
     "effectData": null,
     "concurentEffectData": null,
@@ -356,6 +350,9 @@
     "chooseTypes": [],
     "filterFromPassiveMeta": false,
     "targetCollectorFromPassiveMeta": null,
+    "targetCollectorFromPassiveMetaId": {
+      "__id__": 20
+    },
     "flavorText": "Choose A Player To Look At Hand",
     "otherPlayersFlavorText": "",
     "isMultiCardChoice": false,
@@ -413,6 +410,11 @@
     "quantity": 0
   },
   {
+    "__type__": "IdAndName",
+    "name": "",
+    "id": -1
+  },
+  {
     "__type__": "eb2a0na5X5Km6YOAqNtGKMi",
     "_name": "",
     "_objFlags": 0,
@@ -421,7 +423,7 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 21
+      "__id__": 22
     },
     "EffectId": 2,
     "isSilent": false,
@@ -437,10 +439,10 @@
     "dataCollector": [],
     "dataCollectorsIds": [
       {
-        "__id__": 22
+        "__id__": 23
       },
       {
-        "__id__": 23
+        "__id__": 24
       }
     ],
     "_effectCard": null,
@@ -490,7 +492,7 @@
     "numberOfCardsToChoose": -1,
     "dataCollectorToRun": null,
     "dataCollectorToRunId": {
-      "__id__": 25
+      "__id__": 26
     },
     "_id": ""
   },
@@ -512,7 +514,7 @@
     "costId": null,
     "effectToGetTargetsFrom": null,
     "effectToGetTargetsFromId": {
-      "__id__": 27
+      "__id__": 28
     },
     "_id": ""
   },
@@ -546,7 +548,7 @@
     "cost": null,
     "costId": null,
     "chainEffectsId": {
-      "__id__": 30
+      "__id__": 31
     },
     "_id": ""
   },

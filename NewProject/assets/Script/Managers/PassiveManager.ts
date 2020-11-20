@@ -183,8 +183,7 @@ export default class PassiveManager extends cc.Component {
     }
 
     if (sendToServer) {
-      const card = effect.node.parent.getComponent(Card)
-      if (!card) { effect.node.parent.parent.getComponent(Card) }
+      const card = Card.getCardNodeByChild(effect.node).getComponent(Card)
       const effectIndex = card.node.getComponent(CardEffect).getEffectIndexAndType(effect)
       const conditionsData: ServerEffectData[] = [];
       const conditions = effect.getConditions();
@@ -230,7 +229,7 @@ export default class PassiveManager extends cc.Component {
     const allPassivesToActivate: Effect[] = []
     for (let i = 0; i < allPassiveEffects.length; i++) {
       const passiveEffect = allPassiveEffects[i];
-      const effectCard = passiveEffect.node.parent;
+      const effectCard = Card.getCardNodeByChild(passiveEffect.node)
 
       let isTrue = true;
       if (passiveEffect.conditionsIds.length == 0) {

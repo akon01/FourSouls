@@ -17,6 +17,10 @@ export default class Cost extends cc.Component implements CostInterface {
     @property
     costId: number = -1
 
+    getThisEffect() {
+        return this.node.getComponent(CardEffect).getAllEffects().find(effect => effect.costId !== null && effect.costId.id == this.costId);
+    }
+
     @property(PreCondition)
     preCondition: PreCondition = null
 

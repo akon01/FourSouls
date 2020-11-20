@@ -61,4 +61,8 @@ export default class MultiEffectRollEffect extends Effect {
     return chosenEffect;
 
   }
+  onLoad() {
+    const cardEffectComp = this.node.getComponent(CardEffect)
+    this.effectsAndNumbers.forEach(ean => ean.effect = cardEffectComp.getEffect(ean.effectId.id))
+  }
 }

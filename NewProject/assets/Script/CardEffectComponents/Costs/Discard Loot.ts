@@ -17,7 +17,7 @@ export default class DiscardLootCost extends Cost {
     numOfLoot: number = 1;
 
     async takeCost() {
-        let cardOwner = CardManager.getCardOwner(this.node.parent.parent)
+        let cardOwner = CardManager.getCardOwner(this.node)
         if (cardOwner) {
             let player = PlayerManager.getPlayerByCard(cardOwner)
             let chosenLoot: cc.Node

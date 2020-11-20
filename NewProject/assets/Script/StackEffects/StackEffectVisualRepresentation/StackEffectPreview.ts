@@ -78,13 +78,13 @@ export default class StackEffectPreview extends cc.Component {
             this.node.getComponent(cc.Sprite).spriteFrame = stackEffect.itemToActivate.getComponent(Card).frontSprite
             this.hideExtraInfo()
             if (stackEffect.effectToDo != null) {
-                this.addSelectedEffectHighlight(stackEffect.effectToDo.node)
+                this.addSelectedEffectHighlight(stackEffect.effectToDo)
             }
         } else if (stackEffect instanceof ActivatePassiveEffect) {
             this.node.getComponent(cc.Sprite).spriteFrame = stackEffect.cardWithEffect.getComponent(Card).frontSprite
             this.hideExtraInfo()
             if (stackEffect.effectToDo != null) {
-                this.addSelectedEffectHighlight(stackEffect.effectToDo.node)
+                this.addSelectedEffectHighlight(stackEffect.effectToDo)
             }
         } else {
             this.showExtraInfo()
@@ -100,9 +100,9 @@ export default class StackEffectPreview extends cc.Component {
 
     }
 
-    addSelectedEffectHighlight(effect: cc.Node) {
-        const originalParent = effect.parent;
-        const originalY = effect.y;
+    addSelectedEffectHighlight(effect: Effect) {
+        const originalParent = effect.node;
+        const originalY = effect.effectPosition.y;
 
         const parentHeight = originalParent.height;
 
@@ -119,9 +119,9 @@ export default class StackEffectPreview extends cc.Component {
         //   newEffect.getComponent(Effect)._effectCard = originalParent;
         //this.effectChildren.push(newEffect);
 
-        this.cardEffectMask.width = effect.width * widthScale;
+        this.cardEffectMask.width = effect.effectPosition.width * widthScale;
 
-        this.cardEffectMask.height = effect.height * heightScale;
+        this.cardEffectMask.height = effect.effectPosition.height * heightScale;
 
         this.cardEffectMask.getComponentInChildren(cc.Widget).updateAlignment();
 

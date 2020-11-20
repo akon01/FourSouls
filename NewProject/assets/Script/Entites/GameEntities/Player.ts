@@ -1284,13 +1284,6 @@ export default class Player extends cc.Component {
     item.useItem(sendToServer)
   }
 
-  async getMonsterRewards(monsterKilled: cc.Node, sendToServer: boolean) {
-    const monster = monsterKilled.getComponent(Monster);
-    const monsterReward = monster.reward;
-
-    return new Promise((resolve) => resolve(true))
-  }
-
   async activateCard(card: cc.Node) {
     const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_ACTIVATE_ITEM, [card], null, this.node)
     const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)

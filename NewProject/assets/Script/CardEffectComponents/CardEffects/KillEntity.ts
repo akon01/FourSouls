@@ -33,17 +33,17 @@ export default class KillEntity extends Effect {
     } else {
       let targetEntity = data.getTarget(TARGETTYPE.PLAYER)
       if (targetEntity == null) {
-         targetEntity = data.getTarget(TARGETTYPE.MONSTER)
-         }
+        targetEntity = data.getTarget(TARGETTYPE.MONSTER)
+      }
       if (targetEntity == null) {
         throw new Error("no target entity to kill")
       } else {
         let entityComp;
         entityComp = (targetEntity as cc.Node).getComponent(Character);
-        const owner = CardManager.getCardOwner(Card.getCardNodeByChild( this.node.parent))
+        const owner = CardManager.getCardOwner(Card.getCardNodeByChild(this.node))
         if (entityComp == null) {
           entityComp = (targetEntity as cc.Node).getComponent(Monster);
-          if(entityComp!=null){
+          if (entityComp != null) {
             await entityComp.kill(owner)
           } else {
             throw new Error(`Entity Is Not Char Nor Monster,Cant Kill`)
@@ -70,7 +70,7 @@ export default class KillEntity extends Effect {
     for (let i = 0; i < targets.length; i++) {
       const targetEntity = targets[i] as cc.Node;
       let entityComp;
-      const owner = CardManager.getCardOwner(this.node.parent)
+      const owner = CardManager.getCardOwner(this.node)
       if (isPlayers) {
         entityComp = (targetEntity as cc.Node).getComponent(Character);
         if (entityComp instanceof Character) {

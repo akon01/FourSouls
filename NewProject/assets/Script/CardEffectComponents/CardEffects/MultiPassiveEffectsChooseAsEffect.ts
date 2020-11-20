@@ -10,6 +10,8 @@ const { ccclass, property } = cc._decorator;
 export default class MultiPassiveEffectsChooseAsEffect extends Effect {
   effectName = "MultiPassiveEffectsChooseAsEffect";
 
+  noDataCollector=true
+
   async chooseAnEffect(cardWithEffects: cc.Node) {
     const preview = CardPreviewManager.addPreview(cardWithEffects)
     const allActivatedEffects = [...cardWithEffects.getComponent(CardEffect).getPassiveEffects()]

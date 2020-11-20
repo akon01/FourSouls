@@ -36,7 +36,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 17
+      "__id__": 18
     },
     "_opacity": 255,
     "_color": {
@@ -126,7 +126,7 @@
     },
     "_enabled": true,
     "cardName": "Gold Bomb",
-    "doNotMake": false,
+    "doNotMake": true,
     "cardMask": null,
     "cardSprite": null,
     "makeMultiCards": false,
@@ -167,21 +167,15 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
     "activeEffectsIds": [
       {
         "__id__": 5
       }
     ],
-    "passiveEffects": [],
     "passiveEffectsIds": [],
-    "toAddPassiveEffects": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
     "paidEffectsIds": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
     "multiEffectCollectorId": null,
     "effectData": null,
     "concurentEffectData": null,
@@ -276,6 +270,9 @@
     ],
     "filterFromPassiveMeta": false,
     "targetCollectorFromPassiveMeta": null,
+    "targetCollectorFromPassiveMetaId": {
+      "__id__": 17
+    },
     "flavorText": "Choose A Monster Or Player To Deal 1 DMG To",
     "otherPlayersFlavorText": "",
     "isMultiCardChoice": false,
@@ -347,6 +344,11 @@
   {
     "__type__": "MonsterFilter",
     "filter": 0
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "",
+    "id": -1
   },
   {
     "__type__": "cc.PrefabInfo",

@@ -88,20 +88,12 @@ export default class Monster extends cc.Component {
   @property
   _thisTurnKiller: cc.Node = null;
 
-
-  @property({
-    type: MonsterReward,
-    visible: function (this: Monster) {
-      if (!this.isNonMonster) { return true }
-    }
-  })
-  reward: MonsterReward = null;
-
   @property({ type: MonsterRewardDescription })
   monsterRewardDescription: MonsterRewardDescription = null
 
   getReward() {
     const reward = BattleManager.getRewardByType(this.monsterRewardDescription.rewardType)
+    if (reward == null) return reward
     reward.doubleReward = this.monsterRewardDescription.doubleReward
     reward.rollNumber = this.monsterRewardDescription.rollNumber
     reward.hasRoll = this.monsterRewardDescription.hasRoll

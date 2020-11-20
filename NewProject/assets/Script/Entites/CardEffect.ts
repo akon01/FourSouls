@@ -6,6 +6,7 @@ import Effect from "../CardEffectComponents/CardEffects/Effect";
 import Cost from "../CardEffectComponents/Costs/Cost";
 import ChainCollector from "../CardEffectComponents/DataCollector/ChainCollector";
 import DataCollector from "../CardEffectComponents/DataCollector/DataCollector";
+import EffectDataConcurencyBase from "../CardEffectComponents/EffectDataConcurency/EffectDataConcurencyBase";
 import IdAndName from "../CardEffectComponents/IdAndNameComponent";
 import PreCondition from "../CardEffectComponents/PreConditions/PreCondition";
 import { EFFECT_ANIMATION_TIME, GAME_EVENTS, ITEM_TYPE, PARTICLE_TYPES } from "../Constants";
@@ -32,16 +33,17 @@ export default class CardEffect extends cc.Component {
   hasDestroySelfEffect: boolean = false;
 
 
-  @property(cc.Node)
-  conditions: cc.Node[] = [];
-
-  getCondition(id: number) {
-    return this.node.getComponents(Condition)[id]
+  getCondition<T extends Condition>(id: number) {
+    return this.node.getComponents(Condition).find(cond => cond.conditionId == id) as T
   }
 
-  @property(cc.Node)
-  activeEffects: cc.Node[] = [];
+  getAllEffects() {
+    return [...this.getActiveEffects(), ...this.getPaidEffects(), ...this.getPassiveEffects(), ...this.getToAddPassiveEffects()]
+  }
 
+  getDataConcurency<T extends EffectDataConcurencyBase>(id: number): EffectDataConcurencyBase {
+    return this.node.getComponents(EffectDataConcurencyBase).find(edc => edc.concurencyId == id) as T
+  }
 
   getActiveEffects() {
     return this.activeEffectsIds.map(eid => eid.id).map(id => this.getEffect(id))
@@ -50,18 +52,12 @@ export default class CardEffect extends cc.Component {
   @property({ type: IdAndName, multiline: true })
   activeEffectsIds: IdAndName[] = []
 
-  @property(cc.Node)
-  passiveEffects: cc.Node[] = [];
-
   getPassiveEffects() {
     return this.passiveEffectsIds.map(eid => eid.id).map(id => this.getEffect(id))
   }
 
   @property({ type: IdAndName, multiline: true })
   passiveEffectsIds: IdAndName[] = []
-
-  @property(cc.Node)
-  toAddPassiveEffects: cc.Node[] = [];
 
   getToAddPassiveEffects() {
     return this.toAddPassiveEffectsIds.map(eid => eid.id).map(id => this.getEffect(id))
@@ -70,8 +66,6 @@ export default class CardEffect extends cc.Component {
   @property({ type: IdAndName, multiline: true })
   toAddPassiveEffectsIds: IdAndName[] = []
 
-  @property(cc.Node)
-  paidEffects: cc.Node[] = [];
 
   getPaidEffects() {
     return this.paidEffectsIds.map(eid => eid.id).map(id => this.getEffect(id))
@@ -81,39 +75,35 @@ export default class CardEffect extends cc.Component {
   paidEffectsIds: IdAndName[] = []
 
   getEffect<T extends Effect>(id: number) {
-    return this.node.getComponents(Effect)[id] as T
+    return this.node.getComponents(Effect).find(effect => effect.EffectId == id) as T
   }
 
   @property
   hasMultipleEffects: boolean = false;
 
-  @property({
-    type: DataCollector, visible: function (this: CardEffect) {
-      if (this.hasMultipleEffects) { return true }
-    }
-  })
-  multiEffectCollector: DataCollector = null;
-
   isHandlingMultiEffectCollector: boolean = false
 
   getMultiEffectCollector() {
-    return this.getDataCollector(this.multiEffectCollectorId.id)
+    if (this.multiEffectCollectorId) {
+      return this.getDataCollector(this.multiEffectCollectorId.id)
+    }
+    return null
   }
 
   getDataCollector<T extends DataCollector>(id: number) {
     return this.node.getComponents(DataCollector)[id] as T
   }
 
-  getCost(id: number) {
-    return this.node.getComponents(Cost)[id]
+  getCost<T extends Cost>(id: number) {
+    return this.node.getComponents(Cost).find(cost => cost.costId == id) as T
   }
 
-  getCondtion(id: number) {
-    return this.node.getComponents(Condition)[id]
+  getCondtion<T extends Condition>(id: number) {
+    return this.node.getComponents(Condition).find(cond => cond.conditionId == id) as T
   }
 
-  getPreCondtion(id: number) {
-    return this.node.getComponents(PreCondition)[id]
+  getPreCondtion<T extends PreCondition>(id: number) {
+    return this.node.getComponents(PreCondition).find(pre => pre.preConditionId == id) as T
   }
 
   @property({
@@ -121,7 +111,7 @@ export default class CardEffect extends cc.Component {
       if (this.hasMultipleEffects) { return true }
     }
   })
-  multiEffectCollectorId: IdAndName = null
+  private multiEffectCollectorId: IdAndName = null
 
   @property({ visible: false })
   effectData: ServerEffectData = null;
@@ -163,9 +153,10 @@ export default class CardEffect extends cc.Component {
     }
     let innerBoolPool = []
 
+    const multiEffectCollector = this.getMultiEffectCollector();
     // if (!itemIsActivated) {
-    if (this.multiEffectCollector?.cost != undefined) {
-      if (this.multiEffectCollector?.cost?.testPreCondition()) {
+    if (multiEffectCollector?.cost != undefined) {
+      if (multiEffectCollector?.cost?.testPreCondition()) {
         return true
       } else { return false }
     }
@@ -380,8 +371,9 @@ export default class CardEffect extends cc.Component {
           cc.log(endData)
         }
       }
-    } else {
-      throw new Error(`tring to collect data for ${effect.effectName} but it has no data collector`)
+    } else if (!effect.noDataCollector) {
+      // throw new Error(`tring to collect data for ${effect.effectName} but it has no data collector`)
+      cc.error(`tring to collect data for ${effect.effectName} but it has no data collector`)
     }
 
     // if (endData instanceof ActiveEffectData) data = DataInterpreter.convertToServerData(endData)
@@ -453,9 +445,7 @@ export default class CardEffect extends cc.Component {
   }
 
   async collectEffectFromNum(cardPlayed: cc.Node, cardPlayerId: number) {
-    const multiEffectCollector: DataCollector = this.multiEffectCollector.getComponent(
-      DataCollector
-    );
+    const multiEffectCollector: DataCollector = this.getMultiEffectCollector()
     const chosenEffect = await multiEffectCollector.collectData({
       cardPlayed: cardPlayed,
       cardPlayerId: cardPlayerId

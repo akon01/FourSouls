@@ -105,7 +105,7 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
         if (this.effectToDo != null) {
             const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
             if (prev) {
-                prev.addSelectedEffectHighlight(this.effectToDo.node)
+                prev.addSelectedEffectHighlight(this.effectToDo)
             }
             this.setLable(`Player ${this.lootPlayer.playerId} Is Going To Play ${this.lootToPlay.name}: ${this.effectToDo.effectName}`, true)
             const collectedData = await cardEffect.collectEffectData(this.effectToDo, { cardId: this.lootToPlay.getComponent(Card)._cardId, cardPlayerId: this.lootPlayer.playerId })
@@ -162,7 +162,7 @@ export default class PlayLootCardStackEffect extends StackEffectConcrete {
         } else {
             const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
             if (prev) {
-                prev.addSelectedEffectHighlight(selectedEffect.node)
+                prev.addSelectedEffectHighlight(selectedEffect)
             }
             this.setLable(`Player ${this.lootPlayer.playerId} Plays ${this.lootToPlay.name}: ${selectedEffect.effectName}`, true)
             try {

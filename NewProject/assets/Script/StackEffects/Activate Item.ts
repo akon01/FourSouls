@@ -109,7 +109,7 @@ export default class ActivateItem extends StackEffectConcrete {
             }
             const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
             if (prev && this.effectToDo.node) {
-                prev.addSelectedEffectHighlight(this.effectToDo.node)
+                prev.addSelectedEffectHighlight(this.effectToDo)
             }
             const collectedData = await cardEffect.collectEffectData(this.effectToDo, { cardId: this.itemToActivate.getComponent(Card)._cardId, cardPlayerId: this.itemPlayer.playerId })
             cardEffect.effectData = collectedData;
@@ -177,7 +177,7 @@ export default class ActivateItem extends StackEffectConcrete {
         const prev = StackEffectVisManager.$.getPreviewByStackId(this.entityId)
         if (prev && selectedEffect.node) {
             cc.log(`add selected effect hightlight`)
-            prev.addSelectedEffectHighlight(selectedEffect.node)
+            prev.addSelectedEffectHighlight(selectedEffect)
         } else {
             cc.error(`no prev found`)
             cc.log(StackEffectVisManager.$.currentPreviews)

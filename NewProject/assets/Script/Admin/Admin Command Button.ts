@@ -37,10 +37,8 @@ export default class AdminCommandButton extends cc.Component {
                 return "Gain Max HP"
             case 4:
                 return "Gain Damage"
-
             case 5:
                 return "Set All Rolls To"
-
             case 6:
                 return "Get A Soul Card"
             case 7:

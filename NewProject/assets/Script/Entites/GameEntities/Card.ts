@@ -71,6 +71,9 @@ export default class Card extends cc.Component {
   @property({ visible: false })
   isGoingToBePlayed: boolean = false;
 
+  @property({ visible: false })
+  isGoingToBeDestroyed: boolean = false;
+
   @property
   _isAttackable: boolean = false;
 

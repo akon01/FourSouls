@@ -97,6 +97,9 @@ export default class ChooseAPlayerToChooseCards extends DataCollector {
   @property(IdAndName)
   playerChooseCardId: IdAndName = new IdAndName()
 
+  @property(cc.Integer)
+  playerChooseCardIdFinal: number = -1
+
   setWithOld(data: ChooseAPlayerToChooseCards) {
     if (data.playerChooseCard) {
       const newId = createNewDataCollector(this.node, data.playerChooseCard)
@@ -120,7 +123,9 @@ export default class ChooseAPlayerToChooseCards extends DataCollector {
     this.playerId = data.cardPlayerId;
 
     const playerChooseCard = this.getPlayerChooseCard();
+    debugger
     const playerToChooseCardsTargets: EffectTarget[] = await playerChooseCard.collectData(data)
+    debugger
     const playerToChooseCards = PlayerManager.getPlayerByCard(playerToChooseCardsTargets[0].effectTargetCard)
 
     let cardsToChooseFrom: cc.Node[] = []

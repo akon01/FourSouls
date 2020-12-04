@@ -16,13 +16,15 @@ export default class DealDamage extends Effect {
 
   effectName = "DealDamage";
 
-  @property({visible:function(this:DealDamage){
-    return !this.isGetDamageToDealFromDataCollector
-  }})
+  @property({
+    visible: function (this: DealDamage) {
+      return !this.isGetDamageToDealFromDataCollector
+    }
+  })
   damageToDeal: number = 0;
 
   @property
-  isGetDamageToDealFromDataCollector:boolean = false
+  isGetDamageToDealFromDataCollector: boolean = false
 
   @property
   multipleTargets: boolean = false;
@@ -36,8 +38,7 @@ export default class DealDamage extends Effect {
     stack: StackEffectInterface[],
     data?: ActiveEffectData | PassiveEffectData
   ) {
-    debugger
-    const damageToDeal = (this.isGetDamageToDealFromDataCollector)? (data as PassiveEffectData).methodArgs[0] : this.damageToDeal
+    const damageToDeal = (this.isGetDamageToDealFromDataCollector) ? (data as PassiveEffectData).methodArgs[0] : this.damageToDeal
     if (this.multipleTargets) {
       let targets = data.getTargets(TARGETTYPE.PLAYER)
       if (targets.length == 0) { targets = data.getTargets(TARGETTYPE.MONSTER) }
@@ -48,7 +49,7 @@ export default class DealDamage extends Effect {
       for (let i = 0; i < targets.length; i++) {
         const target = targets[i];
 
-        await this.hitAnEntity(target as cc.Node,damageToDeal)
+        await this.hitAnEntity(target as cc.Node, damageToDeal)
 
       }
 
@@ -60,14 +61,14 @@ export default class DealDamage extends Effect {
         return
       }
 
-      await this.hitAnEntity(targetEntity as cc.Node,damageToDeal)
+      await this.hitAnEntity(targetEntity as cc.Node, damageToDeal)
     }
 
     if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack
   }
 
-  async hitAnEntity(targetEntity: cc.Node,damageToDeal:number) {
+  async hitAnEntity(targetEntity: cc.Node, damageToDeal: number) {
     let entityComp;
 
     const thisCard = Card.getCardNodeByChild(this.node)
@@ -77,7 +78,7 @@ export default class DealDamage extends Effect {
     if (entityComp == null) {
       entityComp = targetEntity.getComponent(Monster)
       if (entityComp instanceof Monster) {
-        await entityComp.takeDamaged(this.damageToDeal, true, damageDealer) 
+        await entityComp.takeDamaged(this.damageToDeal, true, damageDealer)
       }
     } else {
       //Entity is Player

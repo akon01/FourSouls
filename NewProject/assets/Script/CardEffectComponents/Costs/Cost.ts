@@ -15,10 +15,10 @@ export default class Cost extends cc.Component implements CostInterface {
     }
 
     @property
-    costId: number = -1
+    CostId: number = -1
 
     getThisEffect() {
-        return this.node.getComponent(CardEffect).getAllEffects().find(effect => effect.costId !== null && effect.costId.id == this.costId);
+        return this.node.getComponent(CardEffect).getAllEffects().find(effect => effect.costId !== null && effect.costId.id == this.CostId);
     }
 
     @property(PreCondition)
@@ -27,14 +27,18 @@ export default class Cost extends cc.Component implements CostInterface {
     @property({ type: IdAndName, multiline: true })
     preConditionId: IdAndName = null
 
+    @property({ type: cc.Integer, multiline: true })
+    preConditionIdFinal: number = -1
+
+
     getPreCondition() {
         return this.node.getComponent(CardEffect).getPreCondtion(this.preConditionId.id)
     }
 
     setCostId() {
-        if (this.node && this.costId == -1) {
+        if (this.node && this.CostId == -1) {
             const comps = this.node.getComponents(Cost);
-            this.costId = comps.findIndex(ed => ed == this);
+            this.CostId = comps.findIndex(ed => ed == this);
         }
     }
 

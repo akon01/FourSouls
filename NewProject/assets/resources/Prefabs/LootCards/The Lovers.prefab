@@ -36,7 +36,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 15
+      "__id__": 16
     },
     "_opacity": 255,
     "_color": {
@@ -126,7 +126,7 @@
     },
     "_enabled": true,
     "cardName": "The Lovers",
-    "doNotMake": false,
+    "doNotMake": true,
     "cardMask": null,
     "cardSprite": null,
     "makeMultiCards": false,
@@ -167,21 +167,15 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
     "activeEffectsIds": [
       {
         "__id__": 5
       }
     ],
-    "passiveEffects": [],
     "passiveEffectsIds": [],
-    "toAddPassiveEffects": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
     "paidEffectsIds": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
     "multiEffectCollectorId": null,
     "effectData": null,
     "concurentEffectData": null,
@@ -283,6 +277,9 @@
     "chooseTypes": [],
     "filterFromPassiveMeta": false,
     "targetCollectorFromPassiveMeta": null,
+    "targetCollectorFromPassiveMetaId": {
+      "__id__": 15
+    },
     "flavorText": "Choose A Player To Gain 2 HP",
     "otherPlayersFlavorText": "",
     "isMultiCardChoice": false,
@@ -339,6 +336,11 @@
     "logicGate": 2
   },
   {
+    "__type__": "IdAndName",
+    "name": "",
+    "id": -1
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -346,7 +348,7 @@
     "asset": {
       "__uuid__": "7e0d810f-4768-44ca-8df6-fbe75ab7fa11"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

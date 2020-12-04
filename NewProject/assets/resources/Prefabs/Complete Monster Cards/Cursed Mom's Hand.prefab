@@ -134,7 +134,7 @@
     },
     "_enabled": true,
     "cardName": "Cursed Mom's Hand",
-    "doNotMake": false,
+    "doNotMake": true,
     "cardMask": null,
     "cardSprite": null,
     "makeMultiCards": false,
@@ -149,6 +149,7 @@
     "souls": 0,
     "type": 2,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -189,7 +190,6 @@
     "isMonsterWhoCantBeAttacked": false,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
-    "reward": null,
     "monsterRewardDescription": {
       "__id__": 5
     },
@@ -216,21 +216,15 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
     "activeEffectsIds": [],
-    "passiveEffects": [],
     "passiveEffectsIds": [
       {
         "__id__": 7
       }
     ],
-    "toAddPassiveEffects": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
     "paidEffectsIds": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
     "multiEffectCollectorId": null,
     "effectData": null,
     "concurentEffectData": null,
@@ -348,7 +342,7 @@
     "asset": {
       "__uuid__": "9c0168f7-d88b-4d0e-b4a5-e8fd47cfd617"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

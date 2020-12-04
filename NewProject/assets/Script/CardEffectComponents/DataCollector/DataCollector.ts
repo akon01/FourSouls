@@ -49,6 +49,9 @@ export default class DataCollector extends cc.Component implements DataCollector
   @property({ type: IdAndName })
   costId: IdAndName = null
 
+  @property({ type: cc.Integer })
+  costIdFinal: number = -1
+
   /**
    *
    * @param data {playerId:Player who played the card}

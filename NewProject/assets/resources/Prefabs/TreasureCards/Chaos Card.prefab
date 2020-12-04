@@ -38,11 +38,11 @@
         "__id__": 11
       },
       {
-        "__id__": 26
+        "__id__": 29
       }
     ],
     "_prefab": {
-      "__id__": 27
+      "__id__": 30
     },
     "_opacity": 255,
     "_color": {
@@ -147,6 +147,7 @@
     "souls": 0,
     "type": 5,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -188,21 +189,15 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": true,
-    "conditions": [],
-    "activeEffects": [],
     "activeEffectsIds": [
       {
         "__id__": 6
       }
     ],
-    "passiveEffects": [],
     "passiveEffectsIds": [],
-    "toAddPassiveEffects": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
     "paidEffectsIds": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
     "multiEffectCollectorId": null,
     "effectData": null,
     "concurentEffectData": null,
@@ -300,14 +295,17 @@
         "__id__": 23
       },
       {
-        "__id__": 24
+        "__id__": 26
       },
       {
-        "__id__": 25
+        "__id__": 27
       }
     ],
     "filterFromPassiveMeta": false,
     "targetCollectorFromPassiveMeta": null,
+    "targetCollectorFromPassiveMetaId": {
+      "__id__": 28
+    },
     "flavorText": "Choose Card To Destroy",
     "otherPlayersFlavorText": "",
     "isMultiCardChoice": false,
@@ -420,11 +418,30 @@
   {
     "__type__": "ChooseCardTypeAndFilter",
     "chooseType": 7,
-    "applyFilter": false,
-    "componentName": "",
+    "applyFilter": true,
+    "componentName": "Item",
     "isMultiFilter": false,
-    "filterStatement": null,
+    "filterStatement": {
+      "__id__": 24
+    },
     "filterStatements": []
+  },
+  {
+    "__type__": "FilterConcrete",
+    "filterType": 1,
+    "filterMaker": null,
+    "componentType": 3,
+    "playerFilter": null,
+    "monsterFilter": null,
+    "cardFilter": null,
+    "itemFilter": {
+      "__id__": 25
+    }
+  },
+  {
+    "__type__": "ItemFilter",
+    "filter": 2,
+    "stringInput": ""
   },
   {
     "__type__": "ChooseCardTypeAndFilter",
@@ -443,6 +460,11 @@
     "isMultiFilter": false,
     "filterStatement": null,
     "filterStatements": []
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "",
+    "id": -1
   },
   {
     "__type__": "7da2bbTS69EwokpDDuihZQC",
@@ -465,7 +487,7 @@
     "asset": {
       "__uuid__": "1e695731-a52d-4ffc-96b8-8d01e3288df1"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

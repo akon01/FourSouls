@@ -17,6 +17,9 @@ export default class ChainPreConditions extends PreCondition {
   @property(IdAndName)
   preconditionToChainIds: IdAndName[] = []
 
+  @property([cc.Integer])
+  preconditionToChainIdsFinal: number[] = []
+
   setWithOld(old: ChainPreConditions) {
     if (old.preconditionToChain.length > 0) {
       old.preconditionToChain.forEach(preCondition => {

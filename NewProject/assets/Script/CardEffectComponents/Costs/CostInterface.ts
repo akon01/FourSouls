@@ -5,7 +5,7 @@ const { ccclass, property } = cc._decorator;
 
 export default interface CostInterface {
 
-    costId: number
+    CostId: number
 
     preCondition: PreConditionInterface
 

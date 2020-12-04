@@ -1,0 +1,20 @@
+{
+  "name": "hello-world",
+  "version": "0.0.1",
+  "description": "A simple extension",
+  "author": "Sagi Ofir",
+  "main": "main.js",
+  "panel": {
+    "main": "panel/index.js",
+    "type": "dockable",
+    "title": "Simple Panel",
+    "width": 200,
+    "height": 200
+  },
+  "main-menu": {
+    "Examples/Hello World": {
+      "message": "hello-world:open"
+    }
+  },
+  "scene-script": "scence.js"
+}

@@ -60,7 +60,7 @@ export function handleEffectCosts(newComp: Effect, node: cc.Node) {
         const newCost: Cost = node.addComponent(newComp.cost.constructor.name);
         // copyEffect(newComp.passiveEffectToAdd, newEffect);
         newCost.setCostId()
-        newComp.costId = IdAndName.getNew(newCost.costId, newCost.name)
+        newComp.costId = IdAndName.getNew(newCost.CostId, newCost.name)
         copyEffect(newComp.cost, newCost);
         newComp.cost = null
     }
@@ -72,7 +72,7 @@ export function handleEffectDataConcurrencyComp(newComp: Effect, node: cc.Node) 
         const newConcurrency: EffectDataConcurencyBase = node.addComponent(newComp.dataConcurencyComponent.constructor.name);
         // copyEffect(newComp.passiveEffectToAdd, newEffect);
         newConcurrency.setDataConcurencyId()
-        newComp.dataConcurencyComponentId = IdAndName.getNew(newConcurrency.concurencyId, newConcurrency.name)
+        newComp.dataConcurencyComponentId = IdAndName.getNew(newConcurrency.ConcurencyId, newConcurrency.name)
         copyEffect(newComp.dataConcurencyComponent, newConcurrency);
         newComp.dataConcurencyComponent = null
     }
@@ -84,7 +84,7 @@ export function handleEffectConditions(newComp: Effect, node: cc.Node) {
     const condIds = [];
     newComp.conditions.forEach(condition => {
         const newCond: Condition = createNewCondition(node, condition);
-        condIds.push(IdAndName.getNew(newCond.conditionId, newCond.name));
+        condIds.push(IdAndName.getNew(newCond.ConditionId, newCond.name));
     });
     newComp.conditionsIds = condIds;
     newComp.conditions = []
@@ -116,7 +116,7 @@ export function handleDataCollectorCost(dataCollector: DataCollector, node: cc.N
     if (dataCollector.cost) {
         const newCost: Cost = node.addComponent(dataCollector.cost.constructor.name);
         newCost.setCostId()
-        dataCollector.costId = IdAndName.getNew(newCost.costId, newCost.name)
+        dataCollector.costId = IdAndName.getNew(newCost.CostId, newCost.name)
         copyEffect(dataCollector.cost, newCost);
         if (newCost.preCondition) {
             handleCostPreCondition(newCost, node)
@@ -187,7 +187,7 @@ export function createNewPreCondition(node: cc.Node, preCondition: PreCondition)
     if (preCondition.dataCollector) {
         handlePreConditionDataCollectors(preCondition, node)
     }
-    return newCond.preConditionId
+    return newCond.PreConditionId
 }
 
 export function handleEffectPreConditions(newComp: Effect, node: cc.Node) {

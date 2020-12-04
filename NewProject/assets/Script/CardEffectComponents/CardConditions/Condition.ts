@@ -21,7 +21,7 @@ export default class Condition extends cc.Component
   newCompCondition: Condition = null
 
   @property({ type: cc.Integer, step: 1 })
-  conditionId: number = -1;
+  ConditionId: number = -1;
   isAddPassiveEffect: boolean = false;;
   events: Array<import("../../Constants").PASSIVE_EVENTS> = [];
   event: import("../../Constants").PASSIVE_EVENTS;
@@ -30,6 +30,8 @@ export default class Condition extends cc.Component
   dataCollector: import("../DataCollector/DataCollector").default;
   @property({ type: IdAndName, multiline: true })
   dataCollectorId: IdAndName = null
+  @property(cc.Integer)
+  dataCollectorIdFinal: number = -1
 
   getDataCollector() {
     if (this.dataCollectorId) {
@@ -39,9 +41,9 @@ export default class Condition extends cc.Component
   }
   needsDataCollector: boolean = true
   setConditionId() {
-    if (this.node && this.conditionId == -1) {
+    if (this.node && this.ConditionId == -1) {
       const comps = this.node.getComponents(Condition);
-      this.conditionId = comps.findIndex(ed => ed == this);
+      this.ConditionId = comps.findIndex(ed => ed == this);
     }
   }
 

@@ -70,6 +70,13 @@ export default class AddTrinketOrCurse extends Effect {
   itemEffectToAddId: IdAndName = null;
 
   @property({
+    type: cc.Integer, override: true, visible: function (this: AddTrinketOrCurse) {
+      if (!this.addMuiliEffect) { return true; }
+    }
+  })
+  itemEffectToAddIdFinal: number = -1;
+
+  @property({
     type: [cc.Node], visible: function (this: AddTrinketOrCurse) {
       if (this.addMuiliEffect) { return true; }
     }
@@ -82,6 +89,14 @@ export default class AddTrinketOrCurse extends Effect {
     }
   })
   itemEffectsToAddIds: IdAndName[] = [];
+
+  @property({
+    type: [cc.Integer], visible: function (this: AddTrinketOrCurse) {
+      if (this.addMuiliEffect) { return true; }
+    }
+  })
+  itemEffectsToAddIdsFinal: number[] = [];
+
 
 
   @property
@@ -100,6 +115,13 @@ export default class AddTrinketOrCurse extends Effect {
     }
   })
   multiEffectCollectorId: IdAndName = null
+
+  @property({
+    type: cc.Integer, visible: function (this: AddTrinketOrCurse) {
+      if (this.addMuiliEffect) { return true }
+    }
+  })
+  multiEffectCollectorIdFinal: number = -1
 
   @property
   isCurse: boolean = false

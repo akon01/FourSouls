@@ -83,6 +83,15 @@ export default class ChooseCard extends DataCollector {
   targetCollectorFromPassiveMetaId: IdAndName = new IdAndName()
 
 
+  @property({
+    visible: function (this: ChooseCard) {
+      if (this.filterFromPassiveMeta) { return true }
+    }
+    , type: cc.Integer
+  })
+  targetCollectorFromPassiveMetaIdFinal: number = -1
+
+
   @property
   flavorText: string = ""
 
@@ -109,7 +118,7 @@ export default class ChooseCard extends DataCollector {
   async collectData(data: { cardPlayerId }): Promise<EffectTarget | EffectTarget[]> {
     const player = PlayerManager.getPlayerById(data.cardPlayerId)
     this.playerId = data.cardPlayerId;
-
+    debugger
     let cardsToChooseFrom: cc.Node[] = []
     if (this.multiType) {
       for (const filterComp of this.chooseTypes) {
@@ -178,6 +187,7 @@ export default class ChooseCard extends DataCollector {
       cardChosenId: number;
       playerId: number;
     } = await this.requireChoosingACard(cardsToChooseFrom);
+    debugger
     const target = new EffectTarget(CardManager.getCardById(cardChosenData.cardChosenId, true));
     return target;
   }

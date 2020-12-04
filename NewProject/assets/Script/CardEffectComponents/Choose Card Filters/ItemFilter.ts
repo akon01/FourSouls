@@ -40,7 +40,7 @@ export default class ItemFilter implements IFilter {
             case ITEM_FILTERS.IS_NOT_ETERNAL:
                 return 'comp.eternal == false'
             case ITEM_FILTERS.IS_NOT_NAMED:
-                return `comp.node.getComponent('Card').cardName != ${this.stringInput}`
+                return `comp.node.getComponent('Card').cardName != "${this.stringInput}"`
             case ITEM_FILTERS.IS_ACTIVATED_ITEM:
                 return `(comp.type == 1 || comp.type == 5 || comp.type == 2 || comp.type == 7)`
             case ITEM_FILTERS.IS__NOT_ACTIVATED_ITEM:

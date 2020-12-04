@@ -1,0 +1,3618 @@
+{
+    "cc.Node": {
+        "name": "Node",
+        "extends": ["cc._BaseNode", "cc.Object"],
+        "properties": {
+            "name": {},
+            "opacity": {
+                "min": 0,
+                "max": 255
+            },
+            "active": {},
+            "angle": {
+                "readonly": false
+            },
+            "group": {},
+            "is3DNode": {},
+            "position": {
+                "readonly": false
+            },
+            "color": {},
+            "anchor": {
+                "readonly": false
+            },
+            "size": {
+                "readonly": false
+            },
+            "scale": {
+                "readonly": false
+            },
+            "skew": {}
+        }
+    },
+    "cc.Vec2": {
+        "name": "Vec2",
+        "extends": ["cc.ValueType"],
+        "properties": {
+            "x": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "y": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            }
+        }
+    },
+    "cc.Vec3": {
+        "name": "Vec3",
+        "extends": ["cc.ValueType"],
+        "properties": {
+            "x": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "y": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "z": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            }
+        }
+    },
+    "cc.Size": {
+        "name": "Size",
+        "extends": ["cc.ValueType"],
+        "properties": {
+            "width": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "height": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            }
+        }
+    },
+    "cc.Color": {
+        "name": "Color",
+        "extends": ["cc.ValueType"],
+        "properties": {
+            "r": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "g": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "b": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "a": {
+                "default": 255,
+                "type": "Float",
+                "visible": false
+            }
+        }
+    },
+    "cc.Sprite": {
+        "name": "Sprite",
+        "extends": ["RenderComponent", "cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": false,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "_materials": {
+                "type": "cc.Material",
+                "default": [],
+                "visible": false
+            },
+            "materials": {
+                "type": "cc.Material",
+                "displayName": "Materials",
+                "animatable": false
+            },
+            "_srcBlendFactor": {
+                "default": 770,
+                "type": "Float",
+                "visible": false
+            },
+            "_dstBlendFactor": {
+                "default": 771,
+                "type": "Float",
+                "visible": false
+            },
+            "srcBlendFactor": {
+                "type": "Enum",
+                "enumList": [{
+                    "name": "ZERO",
+                    "value": 0
+                }, {
+                    "name": "ONE",
+                    "value": 1
+                }, {
+                    "name": "SRC_COLOR",
+                    "value": 768
+                }, {
+                    "name": "ONE_MINUS_SRC_COLOR",
+                    "value": 769
+                }, {
+                    "name": "SRC_ALPHA",
+                    "value": 770
+                }, {
+                    "name": "ONE_MINUS_SRC_ALPHA",
+                    "value": 771
+                }, {
+                    "name": "DST_ALPHA",
+                    "value": 772
+                }, {
+                    "name": "ONE_MINUS_DST_ALPHA",
+                    "value": 773
+                }, {
+                    "name": "DST_COLOR",
+                    "value": 774
+                }, {
+                    "name": "ONE_MINUS_DST_COLOR",
+                    "value": 775
+                }],
+                "tooltip": "The source image blend mode",
+                "animatable": false
+            },
+            "dstBlendFactor": {
+                "type": "Enum",
+                "enumList": [{
+                    "name": "ZERO",
+                    "value": 0
+                }, {
+                    "name": "ONE",
+                    "value": 1
+                }, {
+                    "name": "SRC_COLOR",
+                    "value": 768
+                }, {
+                    "name": "ONE_MINUS_SRC_COLOR",
+                    "value": 769
+                }, {
+                    "name": "SRC_ALPHA",
+                    "value": 770
+                }, {
+                    "name": "ONE_MINUS_SRC_ALPHA",
+                    "value": 771
+                }, {
+                    "name": "DST_ALPHA",
+                    "value": 772
+                }, {
+                    "name": "ONE_MINUS_DST_ALPHA",
+                    "value": 773
+                }, {
+                    "name": "DST_COLOR",
+                    "value": 774
+                }, {
+                    "name": "ONE_MINUS_DST_COLOR",
+                    "value": 775
+                }],
+                "tooltip": "The destination image blend mode",
+                "animatable": false
+            },
+            "_spriteFrame": {
+                "type": "cc.SpriteFrame",
+                "default": null,
+                "visible": false
+            },
+            "_type": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "_sizeMode": {
+                "default": 1,
+                "type": "Float",
+                "visible": false
+            },
+            "_fillType": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "_fillCenter": {
+                "default": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "type": "cc.Vec2",
+                "visible": false
+            },
+            "_fillStart": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "_fillRange": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "_isTrimmedMode": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "_atlas": {
+                "type": "cc.SpriteAtlas",
+                "default": null,
+                "tooltip": "Atlas that the image belongs to",
+                "animatable": false
+            },
+            "spriteFrame": {
+                "type": "cc.SpriteFrame"
+            },
+            "type": {
+                "type": "Enum",
+                "enumList": [{
+                    "name": "SIMPLE",
+                    "value": 0
+                }, {
+                    "name": "SLICED",
+                    "value": 1
+                }, {
+                    "name": "TILED",
+                    "value": 2
+                }, {
+                    "name": "FILLED",
+                    "value": 3
+                }, {
+                    "name": "MESH",
+                    "value": 4
+                }],
+                "tooltip": "Rendering Mode: Simple, Sliced, Tiled or Filled",
+                "animatable": false
+            },
+            "fillType": {
+                "type": "Enum",
+                "enumList": [{
+                    "name": "HORIZONTAL",
+                    "value": 0
+                }, {
+                    "name": "VERTICAL",
+                    "value": 1
+                }, {
+                    "name": "RADIAL",
+                    "value": 2
+                }],
+                "tooltip": "The direction of filling, choose from Horizontal, Vertical and Radial"
+            },
+            "fillCenter": {
+                "tooltip": "For radial filling, set the center of the circle, value range is 0 to 1"
+            },
+            "fillStart": {
+                "tooltip": "The normalized value indicates where to start filling"
+            },
+            "fillRange": {
+                "tooltip": "The normalizad value indicates how much of the sprite we want to show"
+            },
+            "trim": {
+                "tooltip": "Whether to render transparent pixels around image in node's bounding box. If you check this option the bounding box will not include transparent pixels around the image.",
+                "animatable": false
+            },
+            "sizeMode": {
+                "type": "Enum",
+                "enumList": [{
+                    "name": "CUSTOM",
+                    "value": 0
+                }, {
+                    "name": "TRIMMED",
+                    "value": 1
+                }, {
+                    "name": "RAW",
+                    "value": 2
+                }],
+                "tooltip": "Set the size of the node on which the Sprite component is on. CUSTOM for setting width and height manually;TRIMMED to use image size with transparent pixels trimmed; RAW to use image size without trimming.",
+                "animatable": false
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        },
+        "editor": {
+            "inspector": "packages://inspector/inspectors/comps/sprite.js",
+            "icon": false,
+            "help": "i18n:COMPONENT.help_url.sprite",
+            "_showTick": true
+        }
+    },
+    "cc.Script": {
+        "extends": ["cc.Asset", "cc.Object"]
+    },
+    "cc.Material": {
+        "extends": ["cc.Asset", "cc.Object"]
+    },
+    "cc.SpriteFrame": {
+        "extends": ["cc.Asset", "cc.Object"]
+    },
+    "cc.SpriteAtlas": {
+        "extends": ["cc.Asset", "cc.Object"]
+    },
+    "cc.MaterialVariant": {
+        "name": "MaterialVariant",
+        "extends": ["cc.Material", "cc.Asset", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "nativeUrl": {
+                "readonly": true,
+                "visible": false
+            },
+            "refCount": {
+                "readonly": true
+            },
+            "_native": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_nativeAsset": {
+                "visible": false
+            },
+            "_nativeDep": {
+                "readonly": true,
+                "visible": false
+            },
+            "_defines": {
+                "type": "",
+                "visible": false
+            },
+            "_props": {
+                "type": "",
+                "visible": false
+            },
+            "_effectAsset": {
+                "type": "cc.EffectAsset",
+                "default": null,
+                "visible": false
+            },
+            "_techniqueIndex": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "_techniqueData": {
+                "type": "",
+                "default": null,
+                "visible": false
+            },
+            "effectName": {},
+            "effectAsset": {},
+            "effect": {
+                "readonly": true
+            },
+            "techniqueIndex": {}
+        }
+    },
+    "": {
+        "name": ""
+    },
+    "cc.EffectAsset": {
+        "extends": ["cc.Asset", "cc.Object"]
+    },
+    "469baVqArxNIJpM2pHjkHeJ": {
+        "name": "Card",
+        "extends": ["cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": true,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "cardName": {
+                "default": "",
+                "type": "String"
+            },
+            "doNotMake": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "cardMask": {
+                "default": null,
+                "visible": false
+            },
+            "cardSprite": {
+                "default": null,
+                "visible": false
+            },
+            "makeMultiCards": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "numOfCopies": {
+                "type": "Integer",
+                "default": 2,
+                "min": 2
+            },
+            "copiesSprites": {
+                "type": "cc.SpriteFrame",
+                "default": []
+            },
+            "_cardId": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "_isInHand": {
+                "default": false,
+                "type": "Boolean",
+                "visible": false
+            },
+            "_isOnDesk": {
+                "default": false,
+                "type": "Boolean",
+                "visible": false
+            },
+            "_originalParent": {
+                "default": null,
+                "visible": false
+            },
+            "_originalWidth": {
+                "default": null,
+                "visible": false
+            },
+            "topDeckof": {
+                "type": "cc.Node",
+                "default": null
+            },
+            "souls": {
+                "default": 0,
+                "type": "Float"
+            },
+            "type": {
+                "type": "Enum",
+                "default": 3,
+                "enumList": [{
+                    "name": "LOOT",
+                    "value": 1
+                }, {
+                    "name": "MONSTER",
+                    "value": 2
+                }, {
+                    "name": "CHAR",
+                    "value": 3
+                }, {
+                    "name": "CHARITEM",
+                    "value": 4
+                }, {
+                    "name": "TREASURE",
+                    "value": 5
+                }, {
+                    "name": "EXTRASOUL",
+                    "value": 6
+                }, {
+                    "name": "LOOT_PLAY",
+                    "value": 7
+                }, {
+                    "name": "BONUS_SOULS",
+                    "value": 8
+                }, {
+                    "name": "CURSE",
+                    "value": 9
+                }]
+            },
+            "isGoingToBePlayed": {
+                "default": false,
+                "type": "Boolean",
+                "visible": false
+            },
+            "isGoingToBeDestroyed": {
+                "default": false,
+                "type": "Boolean",
+                "visible": false
+            },
+            "_isAttackable": {
+                "default": false,
+                "type": "Boolean",
+                "visible": false
+            },
+            "_isBuyable": {
+                "default": false,
+                "type": "Boolean",
+                "visible": false
+            },
+            "_isPlayable": {
+                "default": false,
+                "type": "Boolean",
+                "visible": false
+            },
+            "_isActivateable": {
+                "default": false,
+                "type": "Boolean",
+                "visible": false
+            },
+            "_isReactable": {
+                "default": false,
+                "type": "Boolean",
+                "visible": false
+            },
+            "_isRequired": {
+                "default": false,
+                "type": "Boolean",
+                "visible": false
+            },
+            "_requiredFor": {
+                "default": null,
+                "visible": false
+            },
+            "frontSprite": {
+                "default": null,
+                "visible": false
+            },
+            "backSprite": {
+                "default": null,
+                "visible": false
+            },
+            "_isFlipped": {
+                "default": false,
+                "type": "Boolean",
+                "visible": false
+            },
+            "_ownedBy": {
+                "default": null,
+                "visible": false
+            },
+            "hasCounter": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "_effectCounterLable": {
+                "default": null,
+                "visible": false
+            },
+            "_counters": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "_hasEventsBeenModified": {
+                "default": false,
+                "type": "Boolean",
+                "visible": false
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        },
+        "editor": {
+            "inspector": false,
+            "icon": false,
+            "help": "",
+            "_showTick": true
+        }
+    },
+    "b5e97fLQIJGGq1XOyBEfLay": {
+        "name": "Item",
+        "extends": ["cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": true,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "type": {
+                "type": "Enum",
+                "default": 1,
+                "enumList": [{
+                    "name": "PASSIVE",
+                    "value": 0
+                }, {
+                    "name": "ACTIVE",
+                    "value": 1
+                }, {
+                    "name": "ACTIVE_AND_PASSIVE",
+                    "value": 2
+                }, {
+                    "name": "TO_ADD_PASSIVE",
+                    "value": 3
+                }, {
+                    "name": "PAID",
+                    "value": 4
+                }, {
+                    "name": "ACTIVE_AND_PAID",
+                    "value": 5
+                }, {
+                    "name": "PASSIVE_AND_PAID",
+                    "value": 6
+                }, {
+                    "name": "ALL",
+                    "value": 7
+                }]
+            },
+            "needsRecharge": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "eternal": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "lastOwnedBy": {
+                "default": null,
+                "visible": false
+            },
+            "isGuppyItem": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        },
+        "editor": {
+            "inspector": false,
+            "icon": false,
+            "help": "",
+            "_showTick": true
+        }
+    },
+    "bd535UKRTNDu7iLPx8/+FlC": {
+        "name": "CardEffect",
+        "extends": ["cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": true,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "hasDestroySelfEffect": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "activeEffectsIds": {
+                "type": "IdAndName",
+                "default": [],
+                "multiline": true
+            },
+            "passiveEffectsIds": {
+                "type": "IdAndName",
+                "default": [],
+                "multiline": true
+            },
+            "toAddPassiveEffectsIds": {
+                "type": "IdAndName",
+                "default": [],
+                "multiline": true
+            },
+            "paidEffectsIds": {
+                "type": "IdAndName",
+                "default": [],
+                "multiline": true
+            },
+            "hasMultipleEffects": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "multiEffectCollectorId": {
+                "type": "IdAndName",
+                "default": null
+            },
+            "effectData": {
+                "default": null,
+                "visible": false
+            },
+            "concurentEffectData": {
+                "default": null,
+                "visible": false
+            },
+            "data": {
+                "default": {},
+                "type": "Object",
+                "visible": false
+            },
+            "cardPlayerId": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "serverEffectStack": {
+                "default": []
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        },
+        "editor": {
+            "inspector": false,
+            "icon": false,
+            "help": "",
+            "_showTick": true
+        }
+    },
+    "IdAndName": {
+        "name": "IdAndName",
+        "properties": {
+            "name": {
+                "default": "",
+                "type": "String"
+            },
+            "id": {
+                "type": "Integer",
+                "default": -1,
+                "step": 1
+            }
+        }
+    },
+    "c514ePp8rZH7aX2/yV3vrHc": {
+        "name": "PutCounter",
+        "extends": ["f74430GvhFFk5tNnPx3tw5b", "cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": true,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "effectPosition": {
+                "type": "EffectPosition",
+                "default": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 0,
+                    "height": 0
+                }
+            },
+            "EffectId": {
+                "default": -1,
+                "type": "Float"
+            },
+            "isSilent": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "cost": {
+                "type": "28d7fAwgutAbJv3JqFDotZ2",
+                "default": null
+            },
+            "costId": {
+                "type": "IdAndName",
+                "default": null,
+                "multiline": true
+            },
+            "preCondition": {
+                "type": "5f885/+i49NwKzsdXqJ+hnq",
+                "default": null
+            },
+            "preConditionId": {
+                "type": "IdAndName",
+                "default": null,
+                "multiline": true
+            },
+            "conditions": {
+                "type": "3c7bd9tmzlFNbJ3nD3RwVOA",
+                "default": []
+            },
+            "conditionsIds": {
+                "type": "IdAndName",
+                "default": [],
+                "multiline": true
+            },
+            "passiveType": {
+                "type": "Enum",
+                "default": 1,
+                "enumList": [{
+                    "name": "BEFORE",
+                    "value": 1
+                }, {
+                    "name": "AFTER",
+                    "value": 2
+                }]
+            },
+            "passiveEffectToAdd": {
+                "type": "f74430GvhFFk5tNnPx3tw5b",
+                "default": null
+            },
+            "passiveEffectToAddId": {
+                "type": "IdAndName",
+                "default": {
+                    "name": "",
+                    "id": -1
+                },
+                "multiline": true
+            },
+            "dataCollector": {
+                "type": "934deiBNWNK0IL0stJPLtlB",
+                "default": []
+            },
+            "dataCollectorsIds": {
+                "type": "IdAndName",
+                "default": [],
+                "multiline": true
+            },
+            "_effectCard": {
+                "default": null,
+                "visible": false
+            },
+            "optionalAfterDataCollection": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "optionalBeforeDataCollection": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasPlayerChoiceToActivateInChainEffects": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasLockingResolve": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasDataConcurency": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "dataConcurencyComponent": {
+                "type": "7496eJlecdMfpCUk/s/ol2S",
+                "default": null
+            },
+            "dataConcurencyComponentId": {
+                "type": "IdAndName",
+                "default": null
+            },
+            "optionalFlavorText": {
+                "default": "",
+                "type": "String"
+            },
+            "howManyCountersToAdd": {
+                "default": 1,
+                "type": "Float"
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        },
+        "editor": {
+            "inspector": false,
+            "icon": false,
+            "help": "",
+            "_showTick": false
+        }
+    },
+    "EffectPosition": {
+        "name": "EffectPosition",
+        "properties": {
+            "x": {
+                "default": 0,
+                "type": "Float"
+            },
+            "y": {
+                "default": 0,
+                "type": "Float"
+            },
+            "width": {
+                "default": 0,
+                "type": "Float"
+            },
+            "height": {
+                "default": 0,
+                "type": "Float"
+            }
+        }
+    },
+    "28d7fAwgutAbJv3JqFDotZ2": {
+        "name": "Cost",
+        "extends": ["cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": false,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "CostId": {
+                "default": -1,
+                "type": "Float"
+            },
+            "preCondition": {
+                "type": "5f885/+i49NwKzsdXqJ+hnq",
+                "default": null
+            },
+            "preConditionId": {
+                "type": "IdAndName",
+                "default": null,
+                "multiline": true
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        }
+    },
+    "5f885/+i49NwKzsdXqJ+hnq": {
+        "name": "PreCondition",
+        "extends": ["cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": false,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "PreConditionId": {
+                "type": "Integer",
+                "default": -1,
+                "step": 1
+            },
+            "dataCollectorId": {
+                "type": "IdAndName",
+                "default": null,
+                "multiline": true
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        }
+    },
+    "3c7bd9tmzlFNbJ3nD3RwVOA": {
+        "name": "Condition",
+        "extends": ["cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": false,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "ConditionId": {
+                "type": "Integer",
+                "default": -1,
+                "step": 1
+            },
+            "dataCollector": {
+                "type": "934deiBNWNK0IL0stJPLtlB"
+            },
+            "dataCollectorId": {
+                "type": "IdAndName",
+                "default": null,
+                "multiline": true
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        }
+    },
+    "934deiBNWNK0IL0stJPLtlB": {
+        "name": "DataCollector",
+        "extends": ["cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": false,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "DataCollectorId": {
+                "default": -1,
+                "type": "Float"
+            },
+            "cost": {
+                "type": "28d7fAwgutAbJv3JqFDotZ2",
+                "default": null
+            },
+            "costId": {
+                "type": "IdAndName",
+                "default": null
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        }
+    },
+    "f74430GvhFFk5tNnPx3tw5b": {
+        "name": "Effect",
+        "extends": ["cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": false,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "effectPosition": {
+                "type": "EffectPosition",
+                "default": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 0,
+                    "height": 0
+                }
+            },
+            "EffectId": {
+                "default": -1,
+                "type": "Float"
+            },
+            "isSilent": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "cost": {
+                "type": "28d7fAwgutAbJv3JqFDotZ2",
+                "default": null
+            },
+            "costId": {
+                "type": "IdAndName",
+                "default": null,
+                "multiline": true
+            },
+            "preCondition": {
+                "type": "5f885/+i49NwKzsdXqJ+hnq",
+                "default": null
+            },
+            "preConditionId": {
+                "type": "IdAndName",
+                "default": null,
+                "multiline": true
+            },
+            "conditions": {
+                "type": "3c7bd9tmzlFNbJ3nD3RwVOA",
+                "default": []
+            },
+            "conditionsIds": {
+                "type": "IdAndName",
+                "default": [],
+                "multiline": true
+            },
+            "passiveType": {
+                "type": "Enum",
+                "default": 1,
+                "enumList": [{
+                    "name": "BEFORE",
+                    "value": 1
+                }, {
+                    "name": "AFTER",
+                    "value": 2
+                }]
+            },
+            "passiveEffectToAdd": {
+                "type": "f74430GvhFFk5tNnPx3tw5b",
+                "default": null
+            },
+            "passiveEffectToAddId": {
+                "type": "IdAndName",
+                "default": {
+                    "name": "",
+                    "id": -1
+                },
+                "multiline": true
+            },
+            "dataCollector": {
+                "type": "934deiBNWNK0IL0stJPLtlB",
+                "default": []
+            },
+            "dataCollectorsIds": {
+                "type": "IdAndName",
+                "default": [],
+                "multiline": true
+            },
+            "_effectCard": {
+                "default": null,
+                "visible": false
+            },
+            "optionalAfterDataCollection": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "optionalBeforeDataCollection": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasPlayerChoiceToActivateInChainEffects": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasLockingResolve": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasDataConcurency": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "dataConcurencyComponent": {
+                "type": "7496eJlecdMfpCUk/s/ol2S",
+                "default": null
+            },
+            "dataConcurencyComponentId": {
+                "type": "IdAndName",
+                "default": null
+            },
+            "optionalFlavorText": {
+                "default": "",
+                "type": "String"
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        }
+    },
+    "7496eJlecdMfpCUk/s/ol2S": {
+        "name": "EffectDataConcurencyBase",
+        "extends": ["cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": false,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "ConcurencyId": {
+                "type": "Integer",
+                "default": -1,
+                "step": 1
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        }
+    },
+    "0175bFUYExPf5FCIvNA1zX2": {
+        "name": "CardActivated",
+        "extends": ["934deiBNWNK0IL0stJPLtlB", "cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": true,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "DataCollectorId": {
+                "default": -1,
+                "type": "Float"
+            },
+            "cost": {
+                "type": "28d7fAwgutAbJv3JqFDotZ2",
+                "default": null
+            },
+            "costId": {
+                "type": "IdAndName",
+                "default": null
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        },
+        "editor": {
+            "inspector": false,
+            "icon": false,
+            "help": "",
+            "_showTick": false
+        }
+    },
+    "ce95faJnNBDHKS8n+Mrz8OK": {
+        "name": "MultiEffectChoose",
+        "extends": ["934deiBNWNK0IL0stJPLtlB", "cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": true,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "DataCollectorId": {
+                "default": -1,
+                "type": "Float"
+            },
+            "cost": {
+                "type": "28d7fAwgutAbJv3JqFDotZ2",
+                "default": null
+            },
+            "costId": {
+                "type": "IdAndName",
+                "default": null
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        },
+        "editor": {
+            "inspector": false,
+            "icon": false,
+            "help": "",
+            "_showTick": false
+        }
+    },
+    "82eb5PbDApG57TVWsQ4lyWc": {
+        "name": "ModifyDiceRoll",
+        "extends": ["f74430GvhFFk5tNnPx3tw5b", "cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": true,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "effectPosition": {
+                "type": "EffectPosition",
+                "default": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 0,
+                    "height": 0
+                }
+            },
+            "EffectId": {
+                "default": -1,
+                "type": "Float"
+            },
+            "isSilent": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "cost": {
+                "type": "28d7fAwgutAbJv3JqFDotZ2",
+                "default": null
+            },
+            "costId": {
+                "type": "IdAndName",
+                "default": null,
+                "multiline": true
+            },
+            "preCondition": {
+                "type": "5f885/+i49NwKzsdXqJ+hnq",
+                "default": null
+            },
+            "preConditionId": {
+                "type": "IdAndName",
+                "default": null,
+                "multiline": true
+            },
+            "conditions": {
+                "type": "3c7bd9tmzlFNbJ3nD3RwVOA",
+                "default": []
+            },
+            "conditionsIds": {
+                "type": "IdAndName",
+                "default": [],
+                "multiline": true
+            },
+            "passiveType": {
+                "type": "Enum",
+                "default": 1,
+                "enumList": [{
+                    "name": "BEFORE",
+                    "value": 1
+                }, {
+                    "name": "AFTER",
+                    "value": 2
+                }]
+            },
+            "passiveEffectToAdd": {
+                "type": "f74430GvhFFk5tNnPx3tw5b",
+                "default": null
+            },
+            "passiveEffectToAddId": {
+                "type": "IdAndName",
+                "default": {
+                    "name": "",
+                    "id": -1
+                },
+                "multiline": true
+            },
+            "dataCollector": {
+                "type": "934deiBNWNK0IL0stJPLtlB",
+                "default": []
+            },
+            "dataCollectorsIds": {
+                "type": "IdAndName",
+                "default": [],
+                "multiline": true
+            },
+            "_effectCard": {
+                "default": null,
+                "visible": false
+            },
+            "optionalAfterDataCollection": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "optionalBeforeDataCollection": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasPlayerChoiceToActivateInChainEffects": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasLockingResolve": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasDataConcurency": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "dataConcurencyComponent": {
+                "type": "7496eJlecdMfpCUk/s/ol2S",
+                "default": null
+            },
+            "dataConcurencyComponentId": {
+                "type": "IdAndName",
+                "default": null
+            },
+            "optionalFlavorText": {
+                "default": "",
+                "type": "String"
+            },
+            "rollBonus": {
+                "default": 1,
+                "type": "Float"
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        },
+        "editor": {
+            "inspector": false,
+            "icon": false,
+            "help": "",
+            "_showTick": false
+        }
+    },
+    "0d6fcg+6odGgovk4rW6Jfo3": {
+        "name": "HasCounters",
+        "extends": ["5f885/+i49NwKzsdXqJ+hnq", "cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": true,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "PreConditionId": {
+                "type": "Integer",
+                "default": -1,
+                "step": 1
+            },
+            "dataCollectorId": {
+                "type": "IdAndName",
+                "default": null,
+                "multiline": true
+            },
+            "countersNeeded": {
+                "default": 1,
+                "type": "Float"
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        },
+        "editor": {
+            "inspector": false,
+            "icon": false,
+            "help": "",
+            "_showTick": false
+        }
+    },
+    "31902r3m41IKqUGWEKWbFJQ": {
+        "name": "ChooseStackEffect",
+        "extends": ["934deiBNWNK0IL0stJPLtlB", "cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": true,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "DataCollectorId": {
+                "default": -1,
+                "type": "Float"
+            },
+            "cost": {
+                "type": "28d7fAwgutAbJv3JqFDotZ2",
+                "default": null
+            },
+            "costId": {
+                "type": "IdAndName",
+                "default": null
+            },
+            "chooseTypes": {
+                "type": "Enum",
+                "default": [],
+                "enumList": [{
+                    "name": "ACTIVATE_ITEM",
+                    "value": 1
+                }, {
+                    "name": "ATTACK_ROLL",
+                    "value": 2
+                }, {
+                    "name": "COMBAT_DAMAGE",
+                    "value": 3
+                }, {
+                    "name": "DECLARE_ATTACK",
+                    "value": 4
+                }, {
+                    "name": "MONSTER_DEATH",
+                    "value": 5
+                }, {
+                    "name": "MONSTER_END_DEATH",
+                    "value": 6
+                }, {
+                    "name": "MONSTER_REWARD",
+                    "value": 7
+                }, {
+                    "name": "PLAY_LOOT_CARD",
+                    "value": 8
+                }, {
+                    "name": "PURCHASE_ITEM",
+                    "value": 9
+                }, {
+                    "name": "REFILL_EMPTY_SLOT",
+                    "value": 10
+                }, {
+                    "name": "ROLL_DICE",
+                    "value": 11
+                }, {
+                    "name": "TAKE_DAMAGE",
+                    "value": 12
+                }, {
+                    "name": "START_TURN_LOOT",
+                    "value": 13
+                }, {
+                    "name": "ACTIVATE_PASSIVE_EFFECT",
+                    "value": 14
+                }, {
+                    "name": "PLAYER_DEATH",
+                    "value": 15
+                }, {
+                    "name": "PLAYER_DEATH_PENALTY",
+                    "value": 16
+                }]
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        },
+        "editor": {
+            "inspector": false,
+            "icon": false,
+            "help": "",
+            "_showTick": false
+        }
+    },
+    "6aecbMJpS9J2bA9xTL0P4uJ": {
+        "name": "PayCounters",
+        "extends": ["28d7fAwgutAbJv3JqFDotZ2", "cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": true,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "CostId": {
+                "default": -1,
+                "type": "Float"
+            },
+            "preCondition": {
+                "type": "5f885/+i49NwKzsdXqJ+hnq",
+                "default": null
+            },
+            "preConditionId": {
+                "type": "IdAndName",
+                "default": null,
+                "multiline": true
+            },
+            "numOfCounters": {
+                "default": 1,
+                "type": "Float"
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        },
+        "editor": {
+            "inspector": false,
+            "icon": false,
+            "help": "",
+            "_showTick": false
+        }
+    },
+    "9c502B4KzBNHr2xumZErU/n": {
+        "name": "DealDamage",
+        "extends": ["f74430GvhFFk5tNnPx3tw5b", "cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": true,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "effectPosition": {
+                "type": "EffectPosition",
+                "default": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 0,
+                    "height": 0
+                }
+            },
+            "EffectId": {
+                "default": -1,
+                "type": "Float"
+            },
+            "isSilent": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "cost": {
+                "type": "28d7fAwgutAbJv3JqFDotZ2",
+                "default": null
+            },
+            "costId": {
+                "type": "IdAndName",
+                "default": null,
+                "multiline": true
+            },
+            "preCondition": {
+                "type": "5f885/+i49NwKzsdXqJ+hnq",
+                "default": null
+            },
+            "preConditionId": {
+                "type": "IdAndName",
+                "default": null,
+                "multiline": true
+            },
+            "conditions": {
+                "type": "3c7bd9tmzlFNbJ3nD3RwVOA",
+                "default": []
+            },
+            "conditionsIds": {
+                "type": "IdAndName",
+                "default": [],
+                "multiline": true
+            },
+            "passiveType": {
+                "type": "Enum",
+                "default": 1,
+                "enumList": [{
+                    "name": "BEFORE",
+                    "value": 1
+                }, {
+                    "name": "AFTER",
+                    "value": 2
+                }]
+            },
+            "passiveEffectToAdd": {
+                "type": "f74430GvhFFk5tNnPx3tw5b",
+                "default": null
+            },
+            "passiveEffectToAddId": {
+                "type": "IdAndName",
+                "default": {
+                    "name": "",
+                    "id": -1
+                },
+                "multiline": true
+            },
+            "dataCollector": {
+                "type": "934deiBNWNK0IL0stJPLtlB",
+                "default": []
+            },
+            "dataCollectorsIds": {
+                "type": "IdAndName",
+                "default": [],
+                "multiline": true
+            },
+            "_effectCard": {
+                "default": null,
+                "visible": false
+            },
+            "optionalAfterDataCollection": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "optionalBeforeDataCollection": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasPlayerChoiceToActivateInChainEffects": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasLockingResolve": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasDataConcurency": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "dataConcurencyComponent": {
+                "type": "7496eJlecdMfpCUk/s/ol2S",
+                "default": null
+            },
+            "dataConcurencyComponentId": {
+                "type": "IdAndName",
+                "default": null
+            },
+            "optionalFlavorText": {
+                "default": "",
+                "type": "String"
+            },
+            "damageToDeal": {
+                "default": 0,
+                "type": "Float"
+            },
+            "isGetDamageToDealFromDataCollector": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "multipleTargets": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        },
+        "editor": {
+            "inspector": false,
+            "icon": false,
+            "help": "",
+            "_showTick": false
+        }
+    },
+    "b4dd13gjjJIk556pQaiqi12": {
+        "name": "ChooseCard",
+        "extends": ["934deiBNWNK0IL0stJPLtlB", "cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": true,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "DataCollectorId": {
+                "default": -1,
+                "type": "Float"
+            },
+            "cost": {
+                "type": "28d7fAwgutAbJv3JqFDotZ2",
+                "default": null
+            },
+            "costId": {
+                "type": "IdAndName",
+                "default": null
+            },
+            "multiType": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "otherPlayer": {
+                "default": null,
+                "visible": false
+            },
+            "isChooseFromPreviewManager": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "chooseType": {
+                "type": "ChooseCardTypeAndFilter",
+                "default": null
+            },
+            "chooseTypes": {
+                "type": "ChooseCardTypeAndFilter",
+                "default": []
+            },
+            "filterFromPassiveMeta": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "targetCollectorFromPassiveMeta": {
+                "type": "2915eYGDHFEG4jeisqEZ6q6",
+                "default": null
+            },
+            "targetCollectorFromPassiveMetaId": {
+                "type": "IdAndName",
+                "default": {
+                    "name": "",
+                    "id": -1
+                }
+            },
+            "flavorText": {
+                "default": "",
+                "type": "String"
+            },
+            "otherPlayersFlavorText": {
+                "default": "",
+                "type": "String"
+            },
+            "isMultiCardChoice": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "numOfCardsToChoose": {
+                "default": 1,
+                "type": "Float"
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        },
+        "editor": {
+            "inspector": false,
+            "icon": false,
+            "help": "",
+            "_showTick": false
+        }
+    },
+    "ChooseCardTypeAndFilter": {
+        "name": "ChooseCardTypeAndFilter",
+        "properties": {
+            "chooseType": {
+                "type": "Enum",
+                "default": 0,
+                "enumList": [{
+                    "name": "ALL_PLAYERS",
+                    "value": 1
+                }, {
+                    "name": "MY_HAND",
+                    "value": 2
+                }, {
+                    "name": "DECKS",
+                    "value": 3
+                }, {
+                    "name": "MONSTER_PLACES",
+                    "value": 4
+                }, {
+                    "name": "STORE_PLACES",
+                    "value": 5
+                }, {
+                    "name": "MY_NON_ETERNALS",
+                    "value": 6
+                }, {
+                    "name": "ALL_PLAYERS_ITEMS",
+                    "value": 7
+                }, {
+                    "name": "MY_ITEMS",
+                    "value": 8
+                }, {
+                    "name": "MY_ACTIVATED_ITEMS",
+                    "value": 9
+                }, {
+                    "name": "MY_NON_ACTIVATED_ITEMS",
+                    "value": 10
+                }, {
+                    "name": "ALL_PLAYERS_ACTIVATED_ITEMS",
+                    "value": 11
+                }, {
+                    "name": "ALL_PLAYERS_NON_ACTIVATED_ITEMS",
+                    "value": 12
+                }, {
+                    "name": "PLAYERS_AND_ACTIVE_MONSTERS",
+                    "value": 13
+                }, {
+                    "name": "SPECIPIC_PLAYER_HAND",
+                    "value": 14
+                }, {
+                    "name": "MY_CURSES",
+                    "value": 15
+                }, {
+                    "name": "ALL_CURSES",
+                    "value": 16
+                }, {
+                    "name": "ALL_PLAYERS_NON_ETERNAL_ITEMS",
+                    "value": 17
+                }, {
+                    "name": "STORE_CARDS",
+                    "value": 18
+                }, {
+                    "name": "SPECIPIC_PLAYER_ITEMS",
+                    "value": 19
+                }, {
+                    "name": "SPECIPIC_PLAYER_ITEMS_WITHOUT_ETERNALS",
+                    "value": 20
+                }, {
+                    "name": "NON_ATTACKED_ACTIVE_MONSTERS",
+                    "value": 21
+                }, {
+                    "name": "ALL_PLAYERS_SOUL_CARDS",
+                    "value": 22
+                }, {
+                    "name": "PILES",
+                    "value": 23
+                }, {
+                    "name": "IN_TREASURE_DECK_GUPPY_ITEMS",
+                    "value": 24
+                }, {
+                    "name": "OTHER_PLAYERS_NON_ETERNAL_ITEMS",
+                    "value": 25
+                }, {
+                    "name": "MOST_SOULS_PLAYERS",
+                    "value": 26
+                }, {
+                    "name": "MY_SOUL_CARDS",
+                    "value": 27
+                }]
+            },
+            "applyFilter": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "componentName": {
+                "default": "",
+                "type": "String"
+            },
+            "isMultiFilter": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "filterStatement": {
+                "type": "FilterConcrete",
+                "default": null
+            },
+            "filterStatements": {
+                "type": "FilterConcrete",
+                "default": []
+            }
+        }
+    },
+    "FilterConcrete": {
+        "name": "FilterConcrete",
+        "properties": {
+            "filterType": {
+                "type": "Enum",
+                "default": 1,
+                "enumList": [{
+                    "name": "MANUAL",
+                    "value": 0
+                }, {
+                    "name": "PREMADE",
+                    "value": 1
+                }]
+            },
+            "filterMaker": {
+                "type": "FilterStatementMaker",
+                "default": null
+            },
+            "componentType": {
+                "type": "Enum",
+                "default": 2,
+                "enumList": [{
+                    "name": "PLAYER",
+                    "value": 0
+                }, {
+                    "name": "MONSTER",
+                    "value": 1
+                }, {
+                    "name": "CARD",
+                    "value": 2
+                }, {
+                    "name": "ITEM",
+                    "value": 3
+                }]
+            },
+            "playerFilter": {
+                "type": "PlayerFilter",
+                "default": null
+            },
+            "monsterFilter": {
+                "type": "MonsterFilter",
+                "default": null
+            },
+            "cardFilter": {
+                "type": "CardFilter",
+                "default": null
+            },
+            "itemFilter": {
+                "type": "ItemFilter",
+                "default": null
+            }
+        }
+    },
+    "FilterStatementMaker": {
+        "name": "FilterStatementMaker",
+        "properties": {
+            "testedValue": {
+                "default": "",
+                "type": "String"
+            },
+            "sign": {
+                "type": "Enum",
+                "default": 0,
+                "enumList": [{
+                    "name": "EQUAL",
+                    "value": 0
+                }, {
+                    "name": "NOT_EQUAL",
+                    "value": 1
+                }, {
+                    "name": "GREATER_THAN",
+                    "value": 2
+                }, {
+                    "name": "GREATER_EQUAL_THAN",
+                    "value": 3
+                }, {
+                    "name": "SMALLER_THAN",
+                    "value": 4
+                }, {
+                    "name": "SMALLER_EQUAL_THAN",
+                    "value": 5
+                }]
+            },
+            "expectedValue": {
+                "default": "",
+                "type": "String"
+            },
+            "logicGate": {
+                "type": "Enum",
+                "default": 2,
+                "enumList": [{
+                    "name": "AND",
+                    "value": 0
+                }, {
+                    "name": "OR",
+                    "value": 1
+                }, {
+                    "name": "NONE",
+                    "value": 2
+                }]
+            }
+        }
+    },
+    "PlayerFilter": {
+        "name": "PlayerFilter",
+        "properties": {
+            "filter": {
+                "type": "Enum",
+                "default": 0,
+                "enumList": [{
+                    "name": "HAS_LOOT",
+                    "value": 0
+                }, {
+                    "name": "IS_NOT_DEAD",
+                    "value": 1
+                }, {
+                    "name": "HAS_MONEY",
+                    "value": 2
+                }, {
+                    "name": "IS_NOT_ME",
+                    "value": 3
+                }, {
+                    "name": "HAS_NON_ETERNAL_ITEMS",
+                    "value": 4
+                }]
+            },
+            "quantity": {
+                "type": "Integer",
+                "default": 0
+            }
+        }
+    },
+    "MonsterFilter": {
+        "name": "MonsterFilter",
+        "properties": {
+            "filter": {
+                "type": "Enum",
+                "default": 0,
+                "enumList": [{
+                    "name": "IS_NOT_DEAD",
+                    "value": 0
+                }, {
+                    "name": "IS_NOT_BEING_ATTACKED",
+                    "value": 1
+                }]
+            }
+        }
+    },
+    "CardFilter": {
+        "name": "CardFilter",
+        "properties": {
+            "filter": {
+                "type": "Enum",
+                "default": 0,
+                "enumList": [{
+                    "name": "IS_NOT_GOING_TO_BE_PLAYED",
+                    "value": 0
+                }, {
+                    "name": "IS_NOT_GOING_TO_BE_DESTROYED",
+                    "value": 1
+                }]
+            }
+        }
+    },
+    "ItemFilter": {
+        "name": "ItemFilter",
+        "properties": {
+            "filter": {
+                "type": "Enum",
+                "default": 0,
+                "enumList": [{
+                    "name": "IS_NOT_CHARGED",
+                    "value": 0
+                }, {
+                    "name": "IS_CHARGED",
+                    "value": 1
+                }, {
+                    "name": "IS_NOT_ETERNAL",
+                    "value": 2
+                }, {
+                    "name": "IS_NOT_NAMED",
+                    "value": 3
+                }, {
+                    "name": "IS_ACTIVATED_ITEM",
+                    "value": 4
+                }, {
+                    "name": "IS__NOT_ACTIVATED_ITEM",
+                    "value": 5
+                }]
+            },
+            "stringInput": {
+                "default": "",
+                "type": "String"
+            }
+        }
+    },
+    "2915eYGDHFEG4jeisqEZ6q6": {
+        "name": "GetTargetFromPassiveMeta",
+        "extends": ["934deiBNWNK0IL0stJPLtlB", "cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": false,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "DataCollectorId": {
+                "default": -1,
+                "type": "Float"
+            },
+            "cost": {
+                "type": "28d7fAwgutAbJv3JqFDotZ2",
+                "default": null
+            },
+            "costId": {
+                "type": "IdAndName",
+                "default": null
+            },
+            "passiveComponent": {
+                "type": "Enum",
+                "default": 1,
+                "enumList": [{
+                    "name": "SCOPE",
+                    "value": 1
+                }, {
+                    "name": "ARGS",
+                    "value": 2
+                }, {
+                    "name": "RESULT",
+                    "value": 3
+                }]
+            },
+            "argsIndex": {
+                "type": "Integer",
+                "default": 0
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        }
+    },
+    "92ff1l7kshKYJ3BgPS1fB2K": {
+        "name": "ChainEffects",
+        "extends": ["f74430GvhFFk5tNnPx3tw5b", "cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": true,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "effectPosition": {
+                "type": "EffectPosition",
+                "default": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 0,
+                    "height": 0
+                }
+            },
+            "EffectId": {
+                "default": -1,
+                "type": "Float"
+            },
+            "isSilent": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "cost": {
+                "type": "28d7fAwgutAbJv3JqFDotZ2",
+                "default": null
+            },
+            "costId": {
+                "type": "IdAndName",
+                "default": null,
+                "multiline": true
+            },
+            "preCondition": {
+                "type": "5f885/+i49NwKzsdXqJ+hnq",
+                "default": null
+            },
+            "preConditionId": {
+                "type": "IdAndName",
+                "default": null,
+                "multiline": true
+            },
+            "conditions": {
+                "type": "3c7bd9tmzlFNbJ3nD3RwVOA",
+                "default": []
+            },
+            "conditionsIds": {
+                "type": "IdAndName",
+                "default": [],
+                "multiline": true
+            },
+            "passiveType": {
+                "type": "Enum",
+                "default": 1,
+                "enumList": [{
+                    "name": "BEFORE",
+                    "value": 1
+                }, {
+                    "name": "AFTER",
+                    "value": 2
+                }]
+            },
+            "passiveEffectToAdd": {
+                "type": "f74430GvhFFk5tNnPx3tw5b",
+                "default": null
+            },
+            "passiveEffectToAddId": {
+                "type": "IdAndName",
+                "default": {
+                    "name": "",
+                    "id": -1
+                },
+                "multiline": true
+            },
+            "dataCollector": {
+                "type": "934deiBNWNK0IL0stJPLtlB",
+                "default": []
+            },
+            "dataCollectorsIds": {
+                "type": "IdAndName",
+                "default": [],
+                "multiline": true
+            },
+            "_effectCard": {
+                "default": null,
+                "visible": false
+            },
+            "optionalAfterDataCollection": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "optionalBeforeDataCollection": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasPlayerChoiceToActivateInChainEffects": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasLockingResolve": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasDataConcurency": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "dataConcurencyComponent": {
+                "type": "7496eJlecdMfpCUk/s/ol2S",
+                "default": null
+            },
+            "dataConcurencyComponentId": {
+                "type": "IdAndName",
+                "default": null
+            },
+            "optionalFlavorText": {
+                "default": "",
+                "type": "String"
+            },
+            "effectsToChain": {
+                "type": "f74430GvhFFk5tNnPx3tw5b",
+                "default": []
+            },
+            "effectsToChainIds": {
+                "type": "IdAndName",
+                "default": []
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        },
+        "editor": {
+            "inspector": false,
+            "icon": false,
+            "help": "",
+            "_showTick": false
+        }
+    },
+    "0cf8f2erMJIabQxTm9iHC6D": {
+        "name": "GainBonusSoul",
+        "extends": ["f74430GvhFFk5tNnPx3tw5b", "cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": true,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "effectPosition": {
+                "type": "EffectPosition",
+                "default": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 0,
+                    "height": 0
+                }
+            },
+            "EffectId": {
+                "default": -1,
+                "type": "Float"
+            },
+            "isSilent": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "cost": {
+                "type": "28d7fAwgutAbJv3JqFDotZ2",
+                "default": null
+            },
+            "costId": {
+                "type": "IdAndName",
+                "default": null,
+                "multiline": true
+            },
+            "preCondition": {
+                "type": "5f885/+i49NwKzsdXqJ+hnq",
+                "default": null
+            },
+            "preConditionId": {
+                "type": "IdAndName",
+                "default": null,
+                "multiline": true
+            },
+            "conditions": {
+                "type": "3c7bd9tmzlFNbJ3nD3RwVOA",
+                "default": []
+            },
+            "conditionsIds": {
+                "type": "IdAndName",
+                "default": [],
+                "multiline": true
+            },
+            "passiveType": {
+                "type": "Enum",
+                "default": 1,
+                "enumList": [{
+                    "name": "BEFORE",
+                    "value": 1
+                }, {
+                    "name": "AFTER",
+                    "value": 2
+                }]
+            },
+            "passiveEffectToAdd": {
+                "type": "f74430GvhFFk5tNnPx3tw5b",
+                "default": null
+            },
+            "passiveEffectToAddId": {
+                "type": "IdAndName",
+                "default": {
+                    "name": "",
+                    "id": -1
+                },
+                "multiline": true
+            },
+            "dataCollector": {
+                "type": "934deiBNWNK0IL0stJPLtlB",
+                "default": []
+            },
+            "dataCollectorsIds": {
+                "type": "IdAndName",
+                "default": [],
+                "multiline": true
+            },
+            "_effectCard": {
+                "default": null,
+                "visible": false
+            },
+            "optionalAfterDataCollection": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "optionalBeforeDataCollection": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasPlayerChoiceToActivateInChainEffects": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasLockingResolve": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasDataConcurency": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "dataConcurencyComponent": {
+                "type": "7496eJlecdMfpCUk/s/ol2S",
+                "default": null
+            },
+            "dataConcurencyComponentId": {
+                "type": "IdAndName",
+                "default": null
+            },
+            "optionalFlavorText": {
+                "default": "",
+                "type": "String"
+            },
+            "soulCardToGain": {
+                "type": "cc.Node",
+                "default": null
+            },
+            "addSoulToCard": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "numOfSoulsToAdd": {
+                "default": 1,
+                "type": "Float"
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        },
+        "editor": {
+            "inspector": false,
+            "icon": false,
+            "help": "",
+            "_showTick": false
+        }
+    },
+    "7dab8c90ZJG8Zh8owOKS3GI": {
+        "name": "CardOwner",
+        "extends": ["934deiBNWNK0IL0stJPLtlB", "cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": true,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "DataCollectorId": {
+                "default": -1,
+                "type": "Float"
+            },
+            "cost": {
+                "type": "28d7fAwgutAbJv3JqFDotZ2",
+                "default": null
+            },
+            "costId": {
+                "type": "IdAndName",
+                "default": null
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        },
+        "editor": {
+            "inspector": false,
+            "icon": false,
+            "help": "",
+            "_showTick": false
+        }
+    },
+    "99b9frRggtG4LRRKgMS9Gtt": {
+        "name": "RemoveAllAbilities",
+        "extends": ["f74430GvhFFk5tNnPx3tw5b", "cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": true,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "effectPosition": {
+                "type": "EffectPosition",
+                "default": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 0,
+                    "height": 0
+                }
+            },
+            "EffectId": {
+                "default": -1,
+                "type": "Float"
+            },
+            "isSilent": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "cost": {
+                "type": "28d7fAwgutAbJv3JqFDotZ2",
+                "default": null
+            },
+            "costId": {
+                "type": "IdAndName",
+                "default": null,
+                "multiline": true
+            },
+            "preCondition": {
+                "type": "5f885/+i49NwKzsdXqJ+hnq",
+                "default": null
+            },
+            "preConditionId": {
+                "type": "IdAndName",
+                "default": null,
+                "multiline": true
+            },
+            "conditions": {
+                "type": "3c7bd9tmzlFNbJ3nD3RwVOA",
+                "default": []
+            },
+            "conditionsIds": {
+                "type": "IdAndName",
+                "default": [],
+                "multiline": true
+            },
+            "passiveType": {
+                "type": "Enum",
+                "default": 1,
+                "enumList": [{
+                    "name": "BEFORE",
+                    "value": 1
+                }, {
+                    "name": "AFTER",
+                    "value": 2
+                }]
+            },
+            "passiveEffectToAdd": {
+                "type": "f74430GvhFFk5tNnPx3tw5b",
+                "default": null
+            },
+            "passiveEffectToAddId": {
+                "type": "IdAndName",
+                "default": {
+                    "name": "",
+                    "id": -1
+                },
+                "multiline": true
+            },
+            "dataCollector": {
+                "type": "934deiBNWNK0IL0stJPLtlB",
+                "default": []
+            },
+            "dataCollectorsIds": {
+                "type": "IdAndName",
+                "default": [],
+                "multiline": true
+            },
+            "_effectCard": {
+                "default": null,
+                "visible": false
+            },
+            "optionalAfterDataCollection": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "optionalBeforeDataCollection": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasPlayerChoiceToActivateInChainEffects": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasLockingResolve": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "hasDataConcurency": {
+                "default": false,
+                "type": "Boolean"
+            },
+            "dataConcurencyComponent": {
+                "type": "7496eJlecdMfpCUk/s/ol2S",
+                "default": null
+            },
+            "dataConcurencyComponentId": {
+                "type": "IdAndName",
+                "default": null
+            },
+            "optionalFlavorText": {
+                "default": "",
+                "type": "String"
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        },
+        "editor": {
+            "inspector": false,
+            "icon": false,
+            "help": "",
+            "_showTick": false
+        }
+    },
+    "6eb9a9UCn9MWbWCdqMTH8BF": {
+        "name": "ChainCollector",
+        "extends": ["934deiBNWNK0IL0stJPLtlB", "cc.Component", "cc.Object"],
+        "properties": {
+            "_name": {
+                "default": "",
+                "type": "String",
+                "visible": false
+            },
+            "_objFlags": {
+                "default": 0,
+                "type": "Float",
+                "visible": false
+            },
+            "node": {
+                "default": null,
+                "visible": false
+            },
+            "name": {
+                "visible": false
+            },
+            "uuid": {
+                "readonly": true,
+                "visible": false
+            },
+            "__scriptAsset": {
+                "type": "cc.Script",
+                "readonly": true,
+                "visible": true,
+                "displayName": "Script",
+                "tooltip": "The script asset of the component. Tap to highlight the script in Assets panel"
+            },
+            "_enabled": {
+                "default": true,
+                "type": "Boolean",
+                "visible": false
+            },
+            "enabled": {
+                "visible": false,
+                "animatable": true
+            },
+            "enabledInHierarchy": {
+                "readonly": true,
+                "visible": false
+            },
+            "_isOnLoadCalled": {
+                "readonly": true,
+                "visible": false
+            },
+            "DataCollectorId": {
+                "default": -1,
+                "type": "Float"
+            },
+            "cost": {
+                "type": "28d7fAwgutAbJv3JqFDotZ2",
+                "default": null
+            },
+            "costId": {
+                "type": "IdAndName",
+                "default": null
+            },
+            "chainEffectsId": {
+                "type": "IdAndName",
+                "default": {
+                    "name": "",
+                    "id": -1
+                },
+                "multiline": true
+            },
+            "_id": {
+                "type": "String",
+                "visible": false
+            }
+        },
+        "editor": {
+            "inspector": false,
+            "icon": false,
+            "help": "",
+            "_showTick": false
+        }
+    }
+}

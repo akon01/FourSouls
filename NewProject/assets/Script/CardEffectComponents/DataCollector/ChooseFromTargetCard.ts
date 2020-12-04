@@ -64,6 +64,9 @@ export default class ChooseFromTargetCard extends DataCollector {
   @property(IdAndName)
   dataCollectorToRunId: IdAndName = new IdAndName()
 
+  @property(cc.Integer)
+  dataCollectorToRunIdFinal: number = -1
+
   setWithOld(data: ChooseFromTargetCard) {
     if (data.dataCollectorToRun) {
       const newId = createNewDataCollector(this.node, data.dataCollectorToRun)

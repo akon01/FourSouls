@@ -137,6 +137,7 @@ export default class PileManager extends cc.Component {
     }
     CardManager.disableCardActions(card);
     CardManager.makeCardPreviewable(card);
+    cardComp.isGoingToBeDestroyed = false
     //await this.waitForCardMovement()
     if (sendToServer) {
       const srvData = { type: type, cardId: card.getComponent(Card)._cardId };

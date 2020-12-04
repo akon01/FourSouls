@@ -10,7 +10,7 @@ const { ccclass, property } = cc._decorator;
 export default class DestroyThisCost extends Cost {
 
     async takeCost() {
-        let thisEffect = this.node.getComponent(CardEffect).getAllEffects().find(effect => effect.costId !== null && effect.costId.id == this.costId);
+        let thisEffect = this.node.getComponent(CardEffect).getAllEffects().find(effect => effect.costId !== null && effect.costId.id == this.CostId);
         let thisCard = thisEffect._effectCard
         let player = PlayerManager.getPlayerByCard(thisCard)
         await player.destroyItem(thisCard, true)

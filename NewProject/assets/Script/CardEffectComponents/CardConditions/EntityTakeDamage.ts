@@ -61,6 +61,7 @@ export default class EntityTakeDamage extends Condition {
       if (this.entityWhoTookDamage != null) {
         target = this.entityWhoTookDamage
       } else if (isAPlayer) {
+        debugger
         target = subject.getComponent(Character).player.node
       } else {
         target = subject.getComponent(Monster).node

@@ -34,7 +34,7 @@ export default class CardEffect extends cc.Component {
 
 
   getCondition<T extends Condition>(id: number) {
-    return this.node.getComponents(Condition).find(cond => cond.conditionId == id) as T
+    return this.node.getComponents(Condition).find(cond => cond.ConditionId == id) as T
   }
 
   getAllEffects() {
@@ -42,7 +42,7 @@ export default class CardEffect extends cc.Component {
   }
 
   getDataConcurency<T extends EffectDataConcurencyBase>(id: number): EffectDataConcurencyBase {
-    return this.node.getComponents(EffectDataConcurencyBase).find(edc => edc.concurencyId == id) as T
+    return this.node.getComponents(EffectDataConcurencyBase).find(edc => edc.ConcurencyId == id) as T
   }
 
   getActiveEffects() {
@@ -52,12 +52,20 @@ export default class CardEffect extends cc.Component {
   @property({ type: IdAndName, multiline: true })
   activeEffectsIds: IdAndName[] = []
 
+
+  @property({ type: [cc.Integer], multiline: true })
+  activeEffectsIdsFinal: number[] = []
+
   getPassiveEffects() {
     return this.passiveEffectsIds.map(eid => eid.id).map(id => this.getEffect(id))
   }
 
   @property({ type: IdAndName, multiline: true })
   passiveEffectsIds: IdAndName[] = []
+
+  @property({ type: [cc.Integer], multiline: true })
+  passiveEffectsIdsFinal: number[] = []
+
 
   getToAddPassiveEffects() {
     return this.toAddPassiveEffectsIds.map(eid => eid.id).map(id => this.getEffect(id))
@@ -67,12 +75,20 @@ export default class CardEffect extends cc.Component {
   toAddPassiveEffectsIds: IdAndName[] = []
 
 
+  @property({ type: [cc.Integer], multiline: true })
+  toAddPassiveEffectsIdsFinal: number[] = []
+
+
   getPaidEffects() {
     return this.paidEffectsIds.map(eid => eid.id).map(id => this.getEffect(id))
   }
 
   @property({ type: IdAndName, multiline: true })
   paidEffectsIds: IdAndName[] = []
+
+
+  @property({ type: [cc.Integer], multiline: true })
+  paidEffectsIdsFinal: number[] = []
 
   getEffect<T extends Effect>(id: number) {
     return this.node.getComponents(Effect).find(effect => effect.EffectId == id) as T
@@ -95,15 +111,15 @@ export default class CardEffect extends cc.Component {
   }
 
   getCost<T extends Cost>(id: number) {
-    return this.node.getComponents(Cost).find(cost => cost.costId == id) as T
+    return this.node.getComponents(Cost).find(cost => cost.CostId == id) as T
   }
 
   getCondtion<T extends Condition>(id: number) {
-    return this.node.getComponents(Condition).find(cond => cond.conditionId == id) as T
+    return this.node.getComponents(Condition).find(cond => cond.ConditionId == id) as T
   }
 
   getPreCondtion<T extends PreCondition>(id: number) {
-    return this.node.getComponents(PreCondition).find(pre => pre.preConditionId == id) as T
+    return this.node.getComponents(PreCondition).find(pre => pre.PreConditionId == id) as T
   }
 
   @property({
@@ -112,6 +128,13 @@ export default class CardEffect extends cc.Component {
     }
   })
   private multiEffectCollectorId: IdAndName = null
+
+  @property({
+    type: cc.Integer, visible: function (this: CardEffect) {
+      if (this.hasMultipleEffects) { return true }
+    }
+  })
+  private multiEffectCollectorIdFinal: number = -1
 
   @property({ visible: false })
   effectData: ServerEffectData = null;

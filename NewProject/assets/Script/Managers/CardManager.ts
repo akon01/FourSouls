@@ -498,6 +498,7 @@ export default class CardManager extends cc.Component {
 
     for (let j = 0; j < CardManager.charCardsPrefabs.length; j++) {
       characterNode = cc.instantiate(CardManager.charCardsPrefabs[j]);
+      if (characterNode.getComponent(Card).doNotMake) continue
       const characterComp = characterNode.getComponent(Character);
       //   AnimationManager.addAnimationNode(characterNode)
       if (characterComp.charItemPrefab) {

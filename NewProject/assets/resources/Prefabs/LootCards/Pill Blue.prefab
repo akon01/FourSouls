@@ -51,7 +51,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 32
+      "__id__": 33
     },
     "_opacity": 255,
     "_color": {
@@ -141,7 +141,7 @@
     },
     "_enabled": true,
     "cardName": "Pill Blue",
-    "doNotMake": false,
+    "doNotMake": true,
     "cardMask": null,
     "cardSprite": null,
     "makeMultiCards": false,
@@ -182,8 +182,6 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
     "activeEffectsIds": [
       {
         "__id__": 5
@@ -195,14 +193,10 @@
         "__id__": 7
       }
     ],
-    "passiveEffects": [],
     "passiveEffectsIds": [],
-    "toAddPassiveEffects": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
     "paidEffectsIds": [],
     "hasMultipleEffects": true,
-    "multiEffectCollector": null,
     "multiEffectCollectorId": {
       "__id__": 8
     },
@@ -510,6 +504,9 @@
     "chooseTypes": [],
     "filterFromPassiveMeta": false,
     "targetCollectorFromPassiveMeta": null,
+    "targetCollectorFromPassiveMetaId": {
+      "__id__": 32
+    },
     "flavorText": "Choose A Loot Card To Discard",
     "otherPlayersFlavorText": "",
     "isMultiCardChoice": false,
@@ -551,6 +548,11 @@
     "stringInput": ""
   },
   {
+    "__type__": "IdAndName",
+    "name": "",
+    "id": -1
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -558,7 +560,7 @@
     "asset": {
       "__uuid__": "0f0ce3a3-8f08-45ba-8d90-4dad6a8cd029"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

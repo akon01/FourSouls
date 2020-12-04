@@ -42,7 +42,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 15
+      "__id__": 16
     },
     "_opacity": 255,
     "_color": {
@@ -187,7 +187,6 @@
     "isMonsterWhoCantBeAttacked": false,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
-    "reward": null,
     "monsterRewardDescription": {
       "__id__": 5
     },
@@ -214,21 +213,15 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
     "activeEffectsIds": [],
-    "passiveEffects": [],
     "passiveEffectsIds": [
       {
         "__id__": 7
       }
     ],
-    "toAddPassiveEffects": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
     "paidEffectsIds": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
     "multiEffectCollectorId": null,
     "effectData": null,
     "concurentEffectData": null,
@@ -285,7 +278,7 @@
     "optionalFlavorText": "",
     "numOfCardsToSee": 3,
     "numOfCardsToPut": 3,
-    "isReorder": false,
+    "isReorder": true,
     "isReorderOptional": false,
     "putOnBottomOfDeck": false,
     "deckType": 3,
@@ -347,6 +340,9 @@
     "chooseTypes": [],
     "filterFromPassiveMeta": false,
     "targetCollectorFromPassiveMeta": null,
+    "targetCollectorFromPassiveMetaId": {
+      "__id__": 15
+    },
     "flavorText": "Choose A Deck To Look At Top 3 Cards Of",
     "otherPlayersFlavorText": "",
     "isMultiCardChoice": false,
@@ -363,6 +359,11 @@
     "filterStatements": []
   },
   {
+    "__type__": "IdAndName",
+    "name": "",
+    "id": -1
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -370,7 +371,7 @@
     "asset": {
       "__uuid__": "b4c598e9-10e4-4118-91e0-84177779b473"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

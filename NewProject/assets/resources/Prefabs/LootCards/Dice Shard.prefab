@@ -126,7 +126,7 @@
     },
     "_enabled": true,
     "cardName": "Dice Shard",
-    "doNotMake": false,
+    "doNotMake": true,
     "cardMask": null,
     "cardSprite": null,
     "makeMultiCards": false,
@@ -141,6 +141,7 @@
     "souls": 0,
     "type": 1,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -167,21 +168,15 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
     "activeEffectsIds": [
       {
         "__id__": 5
       }
     ],
-    "passiveEffects": [],
     "passiveEffectsIds": [],
-    "toAddPassiveEffects": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
     "paidEffectsIds": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
     "multiEffectCollectorId": null,
     "effectData": null,
     "concurentEffectData": null,
@@ -271,7 +266,7 @@
     "asset": {
       "__uuid__": "4896525c-6515-4102-b972-8b36eb04fade"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

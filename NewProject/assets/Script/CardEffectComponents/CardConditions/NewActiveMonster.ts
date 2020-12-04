@@ -19,7 +19,7 @@ export default class NewActiveMonster extends Condition {
   isOwnerTurnOnly: boolean = true;
 
   @property
-  isOnlyForAttackableMonsters:boolean =false;
+  isOnlyForAttackableMonsters: boolean = false;
 
   @property
   isSpecificNewMonster: boolean = true;
@@ -61,14 +61,15 @@ export default class NewActiveMonster extends Condition {
         result = false
       }
     }
-    if(this.isOnlyForAttackableMonsters){
-      if(monsterComp.isNonMonster || monsterComp.isMonsterWhoCantBeAttacked){
-        result= false;
+    if (this.isOnlyForAttackableMonsters) {
+      if (monsterComp.isNonMonster || monsterComp.isMonsterWhoCantBeAttacked) {
+        result = false;
       }
     }
     if (this.notInConcurentData) {
       const concurentData = thisCard.getComponent(CardEffect).concurentEffectData;
       if (concurentData != null) {
+        debugger
         const allTargets = concurentData.getAllTargets().nodes
         if (allTargets.includes(monsterComp.node)) {
           result = false

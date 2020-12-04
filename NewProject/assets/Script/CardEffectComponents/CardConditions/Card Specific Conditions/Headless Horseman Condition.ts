@@ -25,10 +25,13 @@ export default class HeadlessHorsmanCondition extends Condition {
   @property(IdAndName)
   monsterDeathConditionId: IdAndName = new IdAndName()
 
+  @property(cc.Integer)
+  monsterDeathConditionIdFinal: number = -1
+
   setWithOld(data: HeadlessHorsmanCondition) {
     if (this.monsterDeathCondition) {
       const newCondition = createNewCondition(this.node, this.monsterDeathCondition)
-      this.monsterDeathConditionId.id = newCondition.conditionId;
+      this.monsterDeathConditionId.id = newCondition.ConditionId;
       this.monsterDeathConditionId.name = newCondition.name;
       this.monsterDeathCondition = null
       data.monsterDeathCondition = null

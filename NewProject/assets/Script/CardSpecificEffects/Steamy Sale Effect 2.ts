@@ -22,6 +22,9 @@ export default class SteamySaleEffect2 extends Effect {
   @property(IdAndName)
   steamySaleEffect1Id: IdAndName = new IdAndName()
 
+  @property(cc.Integer)
+  steamySaleEffect1IdFinal: number = -1
+
 
   getSteamySaleEffect1() {
     return this.node.getComponent(CardEffect).getEffect(this.steamySaleEffect1Id.id) as SteamySaleEffect

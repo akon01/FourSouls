@@ -48,6 +48,7 @@ export default class BattleManager extends cc.Component {
   }
 
   static endBattle(sendToServer: boolean) {
+    if (!this.inBattle) return;
     const monsterCard = BattleManager.currentlyAttackedMonsterNode
     monsterCard.getComponent(Monster)._isAttacked = false
     BattleManager.currentlyAttackedMonster = null;

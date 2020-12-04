@@ -11,6 +11,6 @@ export default interface ConditionInterface {
   conditionData: ActiveEffectData | PassiveEffectData;
   isAddPassiveEffect: boolean
   needsDataCollector: boolean
-  conditionId: number
+  ConditionId: number
   setWithOld(data: Condition)
 }

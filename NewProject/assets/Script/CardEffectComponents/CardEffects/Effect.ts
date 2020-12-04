@@ -45,6 +45,9 @@ export default class Effect extends cc.Component implements EffectInterface {
   @property({ type: IdAndName, multiline: true })
   costId: IdAndName = null
 
+  @property({ type: cc.Integer, multiline: true })
+  costIdFinal: number = -1
+
   getCost() {
     if (this.costId) {
       return this.node.getComponent(CardEffect).getCost(this.costId.id)
@@ -57,6 +60,9 @@ export default class Effect extends cc.Component implements EffectInterface {
 
   @property({ type: IdAndName, multiline: true })
   preConditionId: IdAndName = null;
+
+  @property({ type: cc.Integer, multiline: true })
+  preConditionIdFinal: number = -1;
 
   getPreCondition() {
     if (this.preConditionId) {
@@ -73,6 +79,9 @@ export default class Effect extends cc.Component implements EffectInterface {
   @property({ type: IdAndName, multiline: true })
   conditionsIds: IdAndName[] = []
 
+  @property({ type: [cc.Integer], multiline: true })
+  conditionsIdsFinal: number[] = []
+
   getConditions() {
     const cardEffectComp = this.node.getComponent(CardEffect);
     return this.conditionsIds.map(conditionId => cardEffectComp.getCondtion(conditionId.id))
@@ -85,7 +94,11 @@ export default class Effect extends cc.Component implements EffectInterface {
   passiveEffectToAdd: Effect = null;
 
   @property({ type: IdAndName, multiline: true })
-  passiveEffectToAddId: IdAndName = null
+  passiveEffectToAddId: IdAndName = new IdAndName()
+
+  @property({ type: cc.Integer, multiline: true })
+  passiveEffectToAddIdFinal: number = -1
+
 
   getPassiveEffectToAdd() {
     if (this.passiveEffectToAddId) {
@@ -101,8 +114,11 @@ export default class Effect extends cc.Component implements EffectInterface {
   @property([DataCollector])
   dataCollector: DataCollector[] = [];
 
-  @property({ type: IdAndName, multiline: true })
+  @property([IdAndName])
   dataCollectorsIds: IdAndName[] = []
+
+  @property({ type: [cc.Integer], multiline: true })
+  dataCollectorsIdsFinal: number[] = []
 
   getDataCollectors() {
     const cardEffectComp = this.node.getComponent(CardEffect);
@@ -144,6 +160,11 @@ export default class Effect extends cc.Component implements EffectInterface {
     }, type: IdAndName
   })
   dataConcurencyComponentId: IdAndName = null
+
+
+  @property({ type: cc.Integer, multiline: true })
+  dataConcurencyComponentIdFinal: number = -1
+
 
   getDataConcurencyComponent() {
     if (this.dataConcurencyComponentId) {

@@ -18,6 +18,11 @@ export default class ChainCollector extends DataCollector {
   @property({ type: IdAndName, multiline: true })
   chainEffectsId: IdAndName = new IdAndName()
 
+
+  @property({ type: cc.Integer, multiline: true })
+  chainEffectsIdFinal: number = -1
+
+
   getChainEffects() {
     return this.node.getComponent(CardEffect).getEffect<ChainEffects>(this.chainEffectsId.id)
   }

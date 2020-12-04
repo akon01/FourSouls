@@ -132,7 +132,7 @@
     },
     "_enabled": true,
     "cardName": "Lust",
-    "doNotMake": false,
+    "doNotMake": true,
     "cardMask": null,
     "cardSprite": null,
     "makeMultiCards": false,
@@ -147,6 +147,7 @@
     "souls": 1,
     "type": 2,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -187,7 +188,6 @@
     "isMonsterWhoCantBeAttacked": false,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
-    "reward": null,
     "monsterRewardDescription": {
       "__id__": 5
     },
@@ -214,21 +214,15 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
     "activeEffectsIds": [],
-    "passiveEffects": [],
     "passiveEffectsIds": [
       {
         "__id__": 7
       }
     ],
-    "toAddPassiveEffects": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
     "paidEffectsIds": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
     "multiEffectCollectorId": null,
     "effectData": null,
     "concurentEffectData": null,
@@ -347,7 +341,7 @@
     "asset": {
       "__uuid__": "2a1c244a-90aa-4f78-8af8-b6388451edf9"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

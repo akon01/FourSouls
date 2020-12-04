@@ -125,7 +125,7 @@ export default class AttackRoll extends StackEffectConcrete {
         } else {
             this.setLable(`Player ${this.rollingPlayer.playerId} Roll Miss`, true)
             //Passive Check: Player Miss an Attack
-            const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_MISS_ATTACK, [playerRollValue], null, this.rollingPlayer.node, this.entityId)
+            const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_MISS_ATTACK, [playerRollValue, this.attackedMonster], null, this.rollingPlayer.node, this.entityId)
             const afterPassiveMeta = await PassiveManager.checkB4Passives(passiveMeta)
             passiveMeta.args = afterPassiveMeta.args;
 

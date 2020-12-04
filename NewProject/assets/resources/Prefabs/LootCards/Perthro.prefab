@@ -36,7 +36,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 15
+      "__id__": 16
     },
     "_opacity": 255,
     "_color": {
@@ -126,7 +126,7 @@
     },
     "_enabled": true,
     "cardName": "Perthro",
-    "doNotMake": false,
+    "doNotMake": true,
     "cardMask": null,
     "cardSprite": null,
     "makeMultiCards": false,
@@ -141,6 +141,7 @@
     "souls": 0,
     "type": 1,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -167,21 +168,15 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
     "activeEffectsIds": [
       {
         "__id__": 5
       }
     ],
-    "passiveEffects": [],
     "passiveEffectsIds": [],
-    "toAddPassiveEffects": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
     "paidEffectsIds": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
     "multiEffectCollectorId": null,
     "effectData": null,
     "concurentEffectData": null,
@@ -273,6 +268,9 @@
     ],
     "filterFromPassiveMeta": false,
     "targetCollectorFromPassiveMeta": null,
+    "targetCollectorFromPassiveMetaId": {
+      "__id__": 15
+    },
     "flavorText": "Choose An Item To Reroll",
     "otherPlayersFlavorText": "",
     "isMultiCardChoice": false,
@@ -326,6 +324,11 @@
     "filterStatements": []
   },
   {
+    "__type__": "IdAndName",
+    "name": "",
+    "id": -1
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -333,7 +336,7 @@
     "asset": {
       "__uuid__": "7d02db9f-13d1-4e51-bd59-7b89c563f69e"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

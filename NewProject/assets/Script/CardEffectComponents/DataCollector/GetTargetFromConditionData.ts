@@ -16,11 +16,11 @@ export default class GetTargetFromConditionData extends DataCollector {
   setWithOld(data: GetTargetFromConditionData) {
     const oldCondition = data.conditionToGetTargetsFrom;
     if (oldCondition.newCompCondition) {
-      this.conditionToGetTargetsFromId.id = oldCondition.newCompCondition.conditionId
+      this.conditionToGetTargetsFromId.id = oldCondition.newCompCondition.ConditionId
       this.conditionToGetTargetsFromId.name = oldCondition.newCompCondition.name
     } else {
       const newCondition = createNewCondition(this.node, oldCondition)
-      this.conditionToGetTargetsFromId.id = newCondition.conditionId
+      this.conditionToGetTargetsFromId.id = newCondition.ConditionId
       this.conditionToGetTargetsFromId.name = newCondition.name
     }
     data.conditionToGetTargetsFrom = null
@@ -32,6 +32,9 @@ export default class GetTargetFromConditionData extends DataCollector {
 
   @property(IdAndName)
   conditionToGetTargetsFromId: IdAndName = new IdAndName()
+
+  @property(cc.Integer)
+  conditionToGetTargetsFromIdFinal: number = -1
 
   /**
    *

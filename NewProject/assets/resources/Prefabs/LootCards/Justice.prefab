@@ -39,7 +39,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 16
+      "__id__": 17
     },
     "_opacity": 255,
     "_color": {
@@ -129,7 +129,7 @@
     },
     "_enabled": true,
     "cardName": "Justice",
-    "doNotMake": false,
+    "doNotMake": true,
     "cardMask": null,
     "cardSprite": null,
     "makeMultiCards": false,
@@ -170,21 +170,15 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
     "activeEffectsIds": [
       {
         "__id__": 5
       }
     ],
-    "passiveEffects": [],
     "passiveEffectsIds": [],
-    "toAddPassiveEffects": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
     "paidEffectsIds": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
     "multiEffectCollectorId": null,
     "effectData": null,
     "concurentEffectData": null,
@@ -290,6 +284,9 @@
     "chooseTypes": [],
     "filterFromPassiveMeta": false,
     "targetCollectorFromPassiveMeta": null,
+    "targetCollectorFromPassiveMetaId": {
+      "__id__": 16
+    },
     "flavorText": "Choose A Player",
     "otherPlayersFlavorText": "",
     "isMultiCardChoice": false,
@@ -331,6 +328,11 @@
     "filter": 0
   },
   {
+    "__type__": "IdAndName",
+    "name": "",
+    "id": -1
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -338,7 +340,7 @@
     "asset": {
       "__uuid__": "73de712d-b86b-480c-92a5-6a88c1a4ee9f"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

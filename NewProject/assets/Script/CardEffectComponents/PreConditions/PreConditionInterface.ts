@@ -3,7 +3,7 @@ import PreCondition from "./PreCondition";
 
 
 export default interface PreConditionInterface {
-  preConditionId: number
+  PreConditionId: number
   testCondition(data?);
   dataCollector: DataCollector;
   conditionData: any;

@@ -17,10 +17,13 @@ export default class PreCondition extends cc.Component
   }
 
   @property({ type: cc.Integer, step: 1 })
-  preConditionId: number = -1
+  PreConditionId: number = -1
   dataCollector: import("../DataCollector/DataCollector").default;
   @property({ type: IdAndName, multiline: true })
   dataCollectorId: IdAndName = null;
+
+  @property({ type: cc.Integer, multiline: true })
+  dataCollectorIdFinal: number = -1;
 
   getDataCollector() {
     return this.node.getComponent(CardEffect).getDataCollector(this.dataCollectorId.id)
@@ -28,9 +31,9 @@ export default class PreCondition extends cc.Component
 
   conditionData: any;
   setPreConditionId() {
-    if (this.node && this.preConditionId == -1) {
+    if (this.node && this.PreConditionId == -1) {
       const comps = this.node.getComponents(PreCondition);
-      this.preConditionId = comps.findIndex(ed => ed == this);
+      this.PreConditionId = comps.findIndex(ed => ed == this);
     }
   }
 

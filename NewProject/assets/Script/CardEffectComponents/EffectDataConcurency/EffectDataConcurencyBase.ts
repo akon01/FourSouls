@@ -14,14 +14,14 @@ export default abstract class EffectDataConcurencyBase extends cc.Component impl
         this.setDataConcurencyId();
     }
     setDataConcurencyId() {
-        if (this.node && this.concurencyId == -1) {
+        if (this.node && this.ConcurencyId == -1) {
             const comps = this.node.getComponents(EffectDataConcurencyBase);
-            this.concurencyId = comps.findIndex(ed => ed == this);
+            this.ConcurencyId = comps.findIndex(ed => ed == this);
         }
     }
 
     @property({ type: cc.Integer, step: 1 })
-    concurencyId: number = -1;
+    ConcurencyId: number = -1;
     abstract runDataConcurency(newEffectData: ActiveEffectData | PassiveEffectData, numOfEffect: number, type: ITEM_TYPE, sendToServer: boolean)
 
 }

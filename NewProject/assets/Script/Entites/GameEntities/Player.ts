@@ -914,9 +914,11 @@ export default class Player extends cc.Component {
   async destroyItem(itemToDestroy: cc.Node, sendToServer: boolean) {
 
     await this.loseItem(itemToDestroy, sendToServer)
-    if (itemToDestroy.getComponent(Card).type == CARD_TYPE.LOOT) {
+    const cardComp = itemToDestroy.getComponent(Card);
+    cardComp.isGoingToBeDestroyed = true;
+    if (cardComp.type == CARD_TYPE.LOOT) {
       await PileManager.addCardToPile(CARD_TYPE.LOOT, itemToDestroy, sendToServer);
-    } else if (itemToDestroy.getComponent(Card).type == CARD_TYPE.CURSE || itemToDestroy.getComponent(Card).type == CARD_TYPE.MONSTER) {
+    } else if (cardComp.type == CARD_TYPE.CURSE || cardComp.type == CARD_TYPE.MONSTER) {
       await PileManager.addCardToPile(CARD_TYPE.MONSTER, itemToDestroy, sendToServer);
     } else {
       await PileManager.addCardToPile(CARD_TYPE.TREASURE, itemToDestroy, sendToServer);

@@ -35,6 +35,11 @@ export default class FilterOtherDataCollector extends DataCollector {
     @property({ type: IdAndName })
     dataCollectorId: IdAndName = null
 
+    @property({ type: cc.Integer })
+    dataCollectorIdFinal: number = -1
+
+    getThisDataCollector = () => this.node.getComponent(CardEffect).getDataCollector(this.dataCollectorId.id)
+
     @property()
     componentName: string = '';
 
@@ -63,7 +68,7 @@ export default class FilterOtherDataCollector extends DataCollector {
      * @returns {target:cc.node of the player who played the card}
      */
     collectData(data) {
-        const collectedData = this.dataCollector.collectData(data) as EffectTarget[]
+        const collectedData = this.getThisDataCollector().collectData(data) as EffectTarget[]
         const cards = collectedData.map(et => et.effectTargetCard)
         return this.applyFilterToCards(cards).map(c => new EffectTarget(c))
     }

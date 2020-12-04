@@ -32,6 +32,10 @@ export default class GetTargetFromEffect extends DataCollector {
   @property(IdAndName)
   effectToGetTargetsFromId: IdAndName = new IdAndName();
 
+  @property(cc.Integer)
+  effectToGetTargetsFromIdFinal: number = -1
+
+
 
   /**
    *

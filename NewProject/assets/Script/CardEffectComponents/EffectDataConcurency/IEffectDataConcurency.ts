@@ -3,7 +3,7 @@ import { ActiveEffectData, PassiveEffectData } from "../../Managers/DataInterpre
 import IdAndName from "../IdAndNameComponent";
 
 export default interface IEffectDataConcurency {
-    concurencyId: number
+    ConcurencyId: number
     setDataConcurencyId()
     runDataConcurency(newEffectData: ActiveEffectData | PassiveEffectData, numOfEffect: number, type: ITEM_TYPE, sendToServer: boolean)
 }

@@ -50,6 +50,9 @@ export default class ChainEffects extends Effect {
   @property(IdAndName)
   effectsToChainIds: IdAndName[] = []
 
+  @property([cc.Integer])
+  effectsToChainIdsFinal: number[] = []
+
   createChainCollector(oldEffect: ChainEffects) {
     if (this.node) {
       const collector = this.node.addComponent(ChainCollector);
@@ -69,6 +72,9 @@ export default class ChainEffects extends Effect {
 
   @property({ override: true, })
   dataCollectorsIds: IdAndName[] = []
+
+  @property([cc.Integer])
+  dataCollectorsIdsFinal: number[] = []
 
   getEffectsToChain() {
     const cardEffect = this.node.getComponent(CardEffect)

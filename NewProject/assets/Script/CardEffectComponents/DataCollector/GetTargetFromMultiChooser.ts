@@ -18,6 +18,9 @@ export default class GetTargetFromMultiChooser extends DataCollector {
   @property(IdAndName)
   multiChooserToGetTargetsFromId: IdAndName = new IdAndName()
 
+  @property(cc.Integer)
+  multiChooserToGetTargetsFromIdFinal: number = -1
+
   setWithOld(old: GetTargetFromMultiChooser) {
     if (old.multiChooserToGetTargetsFrom) {
       if (old.multiChooserToGetTargetsFrom.hasBeenHandled) {

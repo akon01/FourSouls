@@ -16,4 +16,7 @@ export default class EffectsAndNumbers {
     @property(IdAndName)
     effectId: IdAndName = new IdAndName()
 
+    @property(cc.Integer)
+    effectIdFinal: number = -1
+
 }

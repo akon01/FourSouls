@@ -34,6 +34,13 @@ export default class PlayerPayPenalties extends Condition {
   })
   dataCollectorId: IdAndName = null
 
+  @property({
+    type: cc.Integer, visible: function (this: PlayerPayPenalties) {
+      return this.isSpecificPlayer
+    }
+  })
+  dataCollectorIdFinal: number = null
+
   async testCondition(meta: PassiveMeta) {
 
     const player: Player = meta.methodScope.getComponent(Player);

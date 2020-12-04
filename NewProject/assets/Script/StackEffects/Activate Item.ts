@@ -97,6 +97,7 @@ export default class ActivateItem extends StackEffectConcrete {
                 await multiEffectCollector.cost.takeCost()
             }
             if (multiEffectCollector instanceof MultiEffectChoose) {
+                debugger
                 const effectChosen = await multiEffectCollector.collectData({ cardPlayed: this.itemToActivate, cardPlayerId: this.itemPlayer.playerId })
                 this.effectToDo = effectChosen;
             }
@@ -189,8 +190,7 @@ export default class ActivateItem extends StackEffectConcrete {
             Logger.error(error)
         }
         this.setLable(`Player ${this.itemPlayer.playerId} has activated ${this.itemToActivate.name}`, true)
-        const cardEffectComp = this.itemToActivate.getComponent(CardEffect)
-        const effects = [...cardEffectComp.getActiveEffects(), ...cardEffectComp.getPaidEffects()]
+        const effects = [...cardEffect.getActiveEffects(), ...cardEffect.getPaidEffects()]
         if (!effects.includes(this.effectToDo)) {
             this.effectToDo = null;
         }

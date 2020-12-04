@@ -339,7 +339,8 @@ export enum PASSIVE_EVENTS {
   PLAYER_GAIN_LOOT = "PLAYER_GAIN_LOOT",
 
   /**
-   * scope -
+   * scope - rolling player
+   * args - roll value,moster comp
    */
   PLAYER_MISS_ATTACK = "PLAYER_MISS_ATTACK",
   /**

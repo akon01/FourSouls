@@ -29,26 +29,26 @@
         "__id__": 4
       },
       {
+        "__id__": 5
+      },
+      {
         "__id__": 6
       },
       {
-        "__id__": 7
+        "__id__": 9
       },
       {
         "__id__": 11
       },
       {
-        "__id__": 15
+        "__id__": 12
       },
       {
-        "__id__": 16
-      },
-      {
-        "__id__": 17
+        "__id__": 13
       }
     ],
     "_prefab": {
-      "__id__": 18
+      "__id__": 14
     },
     "_opacity": 255,
     "_color": {
@@ -153,6 +153,7 @@
     "souls": 0,
     "type": 1,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -179,27 +180,25 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "activeEffectsIds": [
-      {
-        "__id__": 5
-      }
+    "activeEffectsIds": [],
+    "activeEffectsIdsFinal": [
+      0
     ],
     "passiveEffectsIds": [],
+    "passiveEffectsIdsFinal": [],
     "toAddPassiveEffectsIds": [],
+    "toAddPassiveEffectsIdsFinal": [],
     "paidEffectsIds": [],
+    "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollectorId": null,
+    "multiEffectCollectorId": {},
+    "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "AddTrinketOrCurse",
-    "id": 0
   },
   {
     "__type__": "b5e97fLQIJGGq1XOyBEfLay",
@@ -225,24 +224,27 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 8
+      "__id__": 7
     },
     "EffectId": 0,
     "isSilent": false,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "preCondition": null,
-    "preConditionId": null,
+    "preConditionId": {},
+    "preConditionIdFinal": -1,
     "conditions": [],
     "conditionsIds": [],
+    "conditionsIdsFinal": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
-    "passiveEffectToAddId": null,
+    "passiveEffectToAddId": {},
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
-    "dataCollectorsIds": [
-      {
-        "__id__": 9
-      }
+    "dataCollectorsIds": [],
+    "dataCollectorsIdsFinal": [
+      1
     ],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
@@ -251,17 +253,21 @@
     "hasLockingResolve": false,
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": null,
+    "dataConcurencyComponentId": {},
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "itemEffectToAdd": null,
     "itemEffectToAddId": {
-      "__id__": 10
+      "__id__": 8
     },
+    "itemEffectToAddIdFinal": 1,
     "itemEffectsToAdd": [],
     "itemEffectsToAddIds": [],
+    "itemEffectsToAddIdsFinal": [],
     "addMuiliEffect": false,
     "multiEffectCollector": null,
-    "multiEffectCollectorId": null,
+    "multiEffectCollectorId": {},
+    "multiEffectCollectorIdFinal": -1,
     "isCurse": false,
     "_id": ""
   },
@@ -271,11 +277,6 @@
     "y": 0,
     "width": 75,
     "height": 35
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "CardPlayer",
-    "id": 1
   },
   {
     "__type__": "IdAndName",
@@ -291,28 +292,29 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 12
+      "__id__": 10
     },
     "EffectId": 1,
     "isSilent": false,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "preCondition": null,
-    "preConditionId": null,
+    "preConditionId": {},
+    "preConditionIdFinal": -1,
     "conditions": [],
-    "conditionsIds": [
-      {
-        "__id__": 13
-      }
+    "conditionsIds": [],
+    "conditionsIdsFinal": [
+      0
     ],
     "passiveType": 2,
     "passiveEffectToAdd": null,
-    "passiveEffectToAddId": null,
+    "passiveEffectToAddId": {},
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
-    "dataCollectorsIds": [
-      {
-        "__id__": 14
-      }
+    "dataCollectorsIds": [],
+    "dataCollectorsIdsFinal": [
+      0
     ],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
@@ -321,7 +323,8 @@
     "hasLockingResolve": false,
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": null,
+    "dataConcurencyComponentId": {},
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "damageToDeal": 1,
     "isGetDamageToDealFromDataCollector": false,
@@ -336,16 +339,6 @@
     "height": 35
   },
   {
-    "__type__": "IdAndName",
-    "name": "Pink Eye<CardOwnerTakeDamageOnRoll>",
-    "id": 0
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "AttackedMonster",
-    "id": 0
-  },
-  {
     "__type__": "4743360Pg1JcaR7LajHcTmA",
     "_name": "",
     "_objFlags": 0,
@@ -353,8 +346,9 @@
       "__id__": 1
     },
     "_enabled": true,
-    "conditionId": 0,
-    "dataCollectorId": null,
+    "ConditionId": 0,
+    "dataCollectorId": {},
+    "dataCollectorIdFinal": -1,
     "rollOf": 1,
     "_id": ""
   },
@@ -368,7 +362,8 @@
     "_enabled": true,
     "DataCollectorId": 0,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "_id": ""
   },
   {
@@ -381,7 +376,8 @@
     "_enabled": true,
     "DataCollectorId": 1,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "_id": ""
   },
   {

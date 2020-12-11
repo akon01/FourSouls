@@ -32,14 +32,14 @@
         "__id__": 5
       },
       {
-        "__id__": 7
+        "__id__": 6
       },
       {
-        "__id__": 10
+        "__id__": 8
       }
     ],
     "_prefab": {
-      "__id__": 11
+      "__id__": 9
     },
     "_opacity": 255,
     "_color": {
@@ -144,6 +144,7 @@
     "souls": 0,
     "type": 2,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -184,7 +185,6 @@
     "isMonsterWhoCantBeAttacked": false,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
-    "reward": null,
     "monsterRewardDescription": null,
     "killer": null,
     "isCurse": false,
@@ -201,33 +201,25 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
-    "activeEffectsIds": [
-      {
-        "__id__": 6
-      }
+    "activeEffectsIds": [],
+    "activeEffectsIdsFinal": [
+      0
     ],
-    "passiveEffects": [],
     "passiveEffectsIds": [],
-    "toAddPassiveEffects": [],
+    "passiveEffectsIdsFinal": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
+    "toAddPassiveEffectsIdsFinal": [],
     "paidEffectsIds": [],
+    "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
-    "multiEffectCollectorId": null,
+    "multiEffectCollectorId": {},
+    "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "BossRushEffect",
-    "id": 0
   },
   {
     "__type__": "a53f2DQELtNmJKML6OiOCci",
@@ -238,24 +230,27 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 8
+      "__id__": 7
     },
     "EffectId": 0,
     "isSilent": false,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "preCondition": null,
-    "preConditionId": null,
+    "preConditionId": {},
+    "preConditionIdFinal": -1,
     "conditions": [],
     "conditionsIds": [],
+    "conditionsIdsFinal": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
-    "passiveEffectToAddId": null,
+    "passiveEffectToAddId": {},
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
-    "dataCollectorsIds": [
-      {
-        "__id__": 9
-      }
+    "dataCollectorsIds": [],
+    "dataCollectorsIdsFinal": [
+      0
     ],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
@@ -264,7 +259,8 @@
     "hasLockingResolve": false,
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": null,
+    "dataConcurencyComponentId": {},
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "_id": ""
   },
@@ -276,11 +272,6 @@
     "height": 37
   },
   {
-    "__type__": "IdAndName",
-    "name": "TurnPlayer",
-    "id": 0
-  },
-  {
     "__type__": "534c9fgrh9PoLNR7le7KAFe",
     "_name": "",
     "_objFlags": 0,
@@ -290,7 +281,8 @@
     "_enabled": true,
     "DataCollectorId": 0,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "_id": ""
   },
   {
@@ -301,7 +293,7 @@
     "asset": {
       "__uuid__": "d5df8d19-1e75-4bc9-84cf-a6269f546b73"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

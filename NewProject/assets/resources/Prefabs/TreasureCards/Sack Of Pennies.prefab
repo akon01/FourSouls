@@ -32,23 +32,23 @@
         "__id__": 5
       },
       {
+        "__id__": 6
+      },
+      {
         "__id__": 8
+      },
+      {
+        "__id__": 9
       },
       {
         "__id__": 11
       },
       {
         "__id__": 12
-      },
-      {
-        "__id__": 16
-      },
-      {
-        "__id__": 17
       }
     ],
     "_prefab": {
-      "__id__": 18
+      "__id__": 13
     },
     "_opacity": 255,
     "_color": {
@@ -153,6 +153,7 @@
     "souls": 0,
     "type": 5,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -194,42 +195,27 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
-    "activeEffectsIds": [
-      {
-        "__id__": 6
-      }
+    "activeEffectsIds": [],
+    "activeEffectsIdsFinal": [
+      0
     ],
-    "passiveEffects": [],
-    "passiveEffectsIds": [
-      {
-        "__id__": 7
-      }
+    "passiveEffectsIds": [],
+    "passiveEffectsIdsFinal": [
+      1
     ],
-    "toAddPassiveEffects": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
+    "toAddPassiveEffectsIdsFinal": [],
     "paidEffectsIds": [],
+    "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
-    "multiEffectCollectorId": null,
+    "multiEffectCollectorId": {},
+    "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "addMoney",
-    "id": 0
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "RechargeItemPassive",
-    "id": 1
   },
   {
     "__type__": "da7a1yhh65BupAGQR/L5ZZc",
@@ -240,24 +226,27 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 9
+      "__id__": 7
     },
     "EffectId": 0,
     "isSilent": false,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "preCondition": null,
-    "preConditionId": null,
+    "preConditionId": {},
+    "preConditionIdFinal": -1,
     "conditions": [],
     "conditionsIds": [],
+    "conditionsIdsFinal": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
-    "passiveEffectToAddId": null,
+    "passiveEffectToAddId": {},
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
-    "dataCollectorsIds": [
-      {
-        "__id__": 10
-      }
+    "dataCollectorsIds": [],
+    "dataCollectorsIdsFinal": [
+      0
     ],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
@@ -266,7 +255,8 @@
     "hasLockingResolve": false,
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": null,
+    "dataConcurencyComponentId": {},
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "numOfCoins": 1,
     "isAllMoneyTargetHas": false,
@@ -281,11 +271,6 @@
     "height": 10
   },
   {
-    "__type__": "IdAndName",
-    "name": "CardOwner",
-    "id": 0
-  },
-  {
     "__type__": "7dab8c90ZJG8Zh8owOKS3GI",
     "_name": "",
     "_objFlags": 0,
@@ -295,7 +280,8 @@
     "_enabled": true,
     "DataCollectorId": 0,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "_id": ""
   },
   {
@@ -307,28 +293,29 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 13
+      "__id__": 10
     },
     "EffectId": 1,
     "isSilent": false,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "preCondition": null,
-    "preConditionId": null,
+    "preConditionId": {},
+    "preConditionIdFinal": -1,
     "conditions": [],
-    "conditionsIds": [
-      {
-        "__id__": 14
-      }
+    "conditionsIds": [],
+    "conditionsIdsFinal": [
+      0
     ],
     "passiveType": 2,
     "passiveEffectToAdd": null,
-    "passiveEffectToAddId": null,
+    "passiveEffectToAddId": {},
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
-    "dataCollectorsIds": [
-      {
-        "__id__": 15
-      }
+    "dataCollectorsIds": [],
+    "dataCollectorsIdsFinal": [
+      1
     ],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
@@ -337,7 +324,8 @@
     "hasLockingResolve": false,
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": null,
+    "dataConcurencyComponentId": {},
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "Do You Want To Recharge \"Sack Of Peenies\"?",
     "_id": ""
   },
@@ -349,16 +337,6 @@
     "height": 20
   },
   {
-    "__type__": "IdAndName",
-    "name": "Sack Of Pennies<PlayerRollNumber>",
-    "id": 0
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "CardActivated",
-    "id": 1
-  },
-  {
     "__type__": "2b6f7RR055Ca6GWp/EHKd0X",
     "_name": "",
     "_objFlags": 0,
@@ -366,8 +344,9 @@
       "__id__": 1
     },
     "_enabled": true,
-    "conditionId": 0,
-    "dataCollectorId": null,
+    "ConditionId": 0,
+    "dataCollectorId": {},
+    "dataCollectorIdFinal": -1,
     "isMultiNumber": false,
     "numbers": [],
     "numberRoll": 1,
@@ -387,7 +366,8 @@
     "_enabled": true,
     "DataCollectorId": 1,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "_id": ""
   },
   {
@@ -398,7 +378,7 @@
     "asset": {
       "__uuid__": "b401ef0a-6853-4bc7-a223-e6f600a7fde0"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

@@ -32,17 +32,17 @@
         "__id__": 5
       },
       {
-        "__id__": 7
+        "__id__": 6
       },
       {
-        "__id__": 11
+        "__id__": 9
       },
       {
-        "__id__": 12
+        "__id__": 10
       }
     ],
     "_prefab": {
-      "__id__": 13
+      "__id__": 11
     },
     "_opacity": 255,
     "_color": {
@@ -147,6 +147,7 @@
     "souls": 0,
     "type": 5,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -188,33 +189,25 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
-    "activeEffectsIds": [
-      {
-        "__id__": 6
-      }
+    "activeEffectsIds": [],
+    "activeEffectsIdsFinal": [
+      0
     ],
-    "passiveEffects": [],
     "passiveEffectsIds": [],
-    "toAddPassiveEffects": [],
+    "passiveEffectsIdsFinal": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
+    "toAddPassiveEffectsIdsFinal": [],
     "paidEffectsIds": [],
+    "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
-    "multiEffectCollectorId": null,
+    "multiEffectCollectorId": {},
+    "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "playLootCard",
-    "id": 0
   },
   {
     "__type__": "3e26ck2/KpCGLEq1eJEbRu3",
@@ -225,26 +218,29 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 8
+      "__id__": 7
     },
     "EffectId": 0,
     "isSilent": false,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "preCondition": null,
     "preConditionId": {
-      "__id__": 9
+      "__id__": 8
     },
+    "preConditionIdFinal": 0,
     "conditions": [],
     "conditionsIds": [],
+    "conditionsIdsFinal": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
-    "passiveEffectToAddId": null,
+    "passiveEffectToAddId": {},
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
-    "dataCollectorsIds": [
-      {
-        "__id__": 10
-      }
+    "dataCollectorsIds": [],
+    "dataCollectorsIdsFinal": [
+      0
     ],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
@@ -253,7 +249,8 @@
     "hasLockingResolve": false,
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": null,
+    "dataConcurencyComponentId": {},
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "_id": ""
   },
@@ -270,11 +267,6 @@
     "id": 0
   },
   {
-    "__type__": "IdAndName",
-    "name": "SelectLootToPlay",
-    "id": 0
-  },
-  {
     "__type__": "5df4cS7sDlCwp3LfzJijhH4",
     "_name": "",
     "_objFlags": 0,
@@ -282,8 +274,9 @@
       "__id__": 1
     },
     "_enabled": true,
-    "preConditionId": 0,
-    "dataCollectorId": null,
+    "PreConditionId": 0,
+    "dataCollectorId": {},
+    "dataCollectorIdFinal": -1,
     "cardsNeeded": 1,
     "_id": ""
   },
@@ -297,7 +290,8 @@
     "_enabled": true,
     "DataCollectorId": 0,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "_id": ""
   },
   {
@@ -308,7 +302,7 @@
     "asset": {
       "__uuid__": "c034aa4b-69f7-4135-a7af-7b65512e026e"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

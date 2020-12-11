@@ -32,17 +32,17 @@
         "__id__": 6
       },
       {
-        "__id__": 8
+        "__id__": 7
       },
       {
-        "__id__": 12
+        "__id__": 9
       },
       {
-        "__id__": 13
+        "__id__": 10
       }
     ],
     "_prefab": {
-      "__id__": 18
+      "__id__": 15
     },
     "_opacity": 255,
     "_color": {
@@ -147,6 +147,7 @@
     "souls": 1,
     "type": 2,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -187,7 +188,6 @@
     "isMonsterWhoCantBeAttacked": false,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
-    "reward": null,
     "monsterRewardDescription": {
       "__id__": 5
     },
@@ -214,33 +214,25 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
     "activeEffectsIds": [],
-    "passiveEffects": [],
-    "passiveEffectsIds": [
-      {
-        "__id__": 7
-      }
+    "activeEffectsIdsFinal": [],
+    "passiveEffectsIds": [],
+    "passiveEffectsIdsFinal": [
+      0
     ],
-    "toAddPassiveEffects": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
+    "toAddPassiveEffectsIdsFinal": [],
     "paidEffectsIds": [],
+    "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
-    "multiEffectCollectorId": null,
+    "multiEffectCollectorId": {},
+    "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "DiscardLoot",
-    "id": 0
   },
   {
     "__type__": "d6f46KdVWpKban15DT2Bjq9",
@@ -251,28 +243,29 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 9
+      "__id__": 8
     },
     "EffectId": 0,
     "isSilent": false,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "preCondition": null,
-    "preConditionId": null,
+    "preConditionId": {},
+    "preConditionIdFinal": -1,
     "conditions": [],
-    "conditionsIds": [
-      {
-        "__id__": 10
-      }
+    "conditionsIds": [],
+    "conditionsIdsFinal": [
+      0
     ],
     "passiveType": 2,
     "passiveEffectToAdd": null,
-    "passiveEffectToAddId": null,
+    "passiveEffectToAddId": {},
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
-    "dataCollectorsIds": [
-      {
-        "__id__": 11
-      }
+    "dataCollectorsIds": [],
+    "dataCollectorsIdsFinal": [
+      0
     ],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
@@ -281,7 +274,8 @@
     "hasLockingResolve": false,
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": null,
+    "dataConcurencyComponentId": {},
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "numOfLoot": 2,
     "_id": ""
@@ -294,16 +288,6 @@
     "height": 23
   },
   {
-    "__type__": "IdAndName",
-    "name": "Pride<PlayerDeclareAttack>",
-    "id": 0
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "ChooseAPlayerToChooseCards",
-    "id": 0
-  },
-  {
     "__type__": "0083dNIjj5LM6ubm6iEcLbA",
     "_name": "",
     "_objFlags": 0,
@@ -311,9 +295,10 @@
       "__id__": 1
     },
     "_enabled": true,
-    "conditionId": 0,
+    "ConditionId": 0,
     "dataCollector": null,
-    "dataCollectorId": null,
+    "dataCollectorId": {},
+    "dataCollectorIdFinal": -1,
     "isPlayerFromData": false,
     "isOnSpecificMonster": true,
     "specificMonster": {
@@ -331,11 +316,12 @@
     "_enabled": true,
     "DataCollectorId": 0,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "multiType": false,
     "otherPlayer": null,
     "chooseType": {
-      "__id__": 14
+      "__id__": 11
     },
     "chooseTypes": [],
     "filterFromPassiveMeta": false,
@@ -346,8 +332,9 @@
     "numOfCardsToChoose": 1,
     "playerChooseCard": null,
     "playerChooseCardId": {
-      "__id__": 17
+      "__id__": 14
     },
+    "playerChooseCardIdFinal": -1,
     "_id": ""
   },
   {
@@ -357,7 +344,7 @@
     "componentName": "Character",
     "isMultiFilter": false,
     "filterStatement": {
-      "__id__": 15
+      "__id__": 12
     },
     "filterStatements": []
   },
@@ -367,7 +354,7 @@
     "filterMaker": null,
     "componentType": 0,
     "playerFilter": {
-      "__id__": 16
+      "__id__": 13
     },
     "monsterFilter": null,
     "cardFilter": null,
@@ -391,7 +378,7 @@
     "asset": {
       "__uuid__": "f7a7fcf4-1905-4a4b-826e-14d43da260f8"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

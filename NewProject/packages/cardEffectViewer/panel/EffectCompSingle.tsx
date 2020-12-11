@@ -71,7 +71,8 @@ type allPropsType = {
     dataConcurencies: IdNameAndCompType[],
     availavleEffects: IdNameAndCompType[],
     requires: { EffectView: any, EffectCompSingle: any, EffectCompArray: any },
-    isUsingFinal: boolean
+    isUsingFinal: boolean,
+    ReloadData: (isUsingFinal: boolean) => void
 }
 
 type propType = {
@@ -79,7 +80,7 @@ type propType = {
     keyWordProp: string
     setSingle: (signalToSet: IdNameAndCompType, key: string) => void,
     single: IdNameAndCompType | undefined,
-    saveChange: (IdAndNameCompToUpdate: IdNameAndCompType, key: string) => void,
+    saveChange: (IdAndNameCompToUpdate: IdNameAndCompType, key: string, doNotReload?: boolean) => void,
     IdNameCompTuple: IdNameAndCompType
 }
 
@@ -96,12 +97,6 @@ export function EffectCompSingle({
 }: propType) {
     const { EffectView } = allProps.requires
 
-    const [allProp, setAllProp]: [allPropsType, (a: allPropsType) => void] = React.useState(allProps)
-
-    React.useEffect(() => {
-        setAllProp(allProps)
-    }, [allProps])
-
 
 
     const [currentEffectComp, setCurrentEffectComp]: [IdNameAndCompType, (a: IdNameAndCompType) => void] = React.useState(single)
@@ -112,6 +107,7 @@ export function EffectCompSingle({
         if (single == undefined || single.comp == null) {
             setIsEffectComponentSet(false)
         } else {
+            setCurrentEffectComp(single)
             setIsEffectComponentSet(true)
         }
     }, [single])
@@ -129,59 +125,59 @@ export function EffectCompSingle({
         var availableOptions: { name: string, value: IdNameAndCompType }[] = []
         let word = ""
         if (keyWordProp.match(/[cC]ost/g)) {
-            availableOptions = allProp.costs.map(cost => {
+            availableOptions = allProps.costs.map(cost => {
                 return {
                     name: cost.name + " " + cost.id,
                     value: cost
                 }
             })
             word = "Costs"
-        }
-        if (keyWordProp.match(/[pP]re[Cc]ondition/g)) {
-            availableOptions = allProp.preConditions.map(collector => {
-                return {
-                    name: collector.name + " " + collector.id,
-                    value: collector
-                }
-            })
-            word = "PreConditions"
         } else
-            if (keyWordProp.match(/[Cc]ondition/g)) {
-                availableOptions = allProp.conditions.map(cond => {
+            if (keyWordProp.match(/[pP]re[Cc]ondition/g)) {
+                availableOptions = allProps.preConditions.map(collector => {
                     return {
-                        name: cond.name + " " + cond.id,
-                        value: cond
+                        name: collector.name + " " + collector.id,
+                        value: collector
                     }
                 })
-                word = "Conditions"
-            }
-        if (keyWordProp.match(/[cC]ollector/g)) {
-            availableOptions = allProp.dataCollectors.map(collector => {
-                return {
-                    name: collector.name + " " + collector.id,
-                    value: collector
-                }
-            })
-            word = "Data Collectors"
-        }
-        if (keyWordProp.match(/[dD]ata[cC]oncurency[Cc]omponent/g)) {
-            availableOptions = allProp.dataConcurencies.map(collector => {
-                return {
-                    name: collector.name + " " + collector.id,
-                    value: collector
-                }
-            })
-            word = "Data Concurencies"
-        }
-        if (keyWordProp.match(/[Ee]ffect/g)) {
-            availableOptions = allProp.availavleEffects.map(effect => {
-                return {
-                    name: effect.name + " " + effect.id,
-                    value: effect
-                }
-            })
-            word = "Effects"
-        }
+                word = "PreConditions"
+            } else
+                if (keyWordProp.match(/[Cc]ondition/g)) {
+                    availableOptions = allProps.conditions.map(cond => {
+                        return {
+                            name: cond.name + " " + cond.id,
+                            value: cond
+                        }
+                    })
+                    word = "Conditions"
+                } else
+                    if (keyWordProp.match(/[cC]ollector/g) || keyWordProp.match(/[cC]hooseCard/g)) {
+                        availableOptions = allProps.dataCollectors.map(collector => {
+                            return {
+                                name: collector.name + " " + collector.id,
+                                value: collector
+                            }
+                        })
+                        word = "Data Collectors"
+                    } else
+                        if (keyWordProp.match(/[dD]ata[cC]oncurency[Cc]omponent/g)) {
+                            availableOptions = allProps.dataConcurencies.map(collector => {
+                                return {
+                                    name: collector.name + " " + collector.id,
+                                    value: collector
+                                }
+                            })
+                            word = "Data Concurencies"
+                        } else
+                            if (keyWordProp.match(/[Ee]ffect/g)) {
+                                availableOptions = allProps.availavleEffects.map(effect => {
+                                    return {
+                                        name: effect.name + " " + effect.id,
+                                        value: effect
+                                    }
+                                })
+                                word = "Effects"
+                            }
         if (word == "") {
             word = "No Found For WordProp :" + keyWordProp
         }
@@ -189,7 +185,7 @@ export function EffectCompSingle({
     }
 
     const getCompByIdAndName = (id: number, name: string): IdNameAndCompType | null => {
-        const toCheckArr = [...allProp.availavleEffects, ...allProp.conditions, ...allProp.costs, ...allProp.dataCollectors, ...allProp.dataConcurencies, ...allProp.preConditions]
+        const toCheckArr = [...allProps.availavleEffects, ...allProps.conditions, ...allProps.costs, ...allProps.dataCollectors, ...allProps.dataConcurencies, ...allProps.preConditions]
         var toreturn = toCheckArr.find(toCheck => toCheck.id == id && toCheck.name == name)
         if (toreturn == null) {
             return null
@@ -225,7 +221,7 @@ export function EffectCompSingle({
 
         const values: { key: string, type: string, inValue: idAndNameTypeValuePair | null | typeValuePair<string> }[] = []
         const hasIdInName = (valueName) => {
-            if (allProp.isUsingFinal) {
+            if (allProps.isUsingFinal) {
                 return /IdFinal$/g.test(valueName) || /IdsFinal$/g.test(valueName)
             } else {
                 return /Id$/g.test(valueName) || /Ids$/g.test(valueName)
@@ -241,7 +237,7 @@ export function EffectCompSingle({
         for (const key in compToRunOn) {
             if (compToRunOn.hasOwnProperty(key) && !notIntrestingCompValues.includes(key)) {
                 const value = compToRunOn[key];
-                if (value.type == 'IdAndName' || key == "name" || hasIdInName(key) && value.type == 'Object' && value.value == null) {
+                if (value.type == 'IdAndName' || key == "name" || hasIdInName(key) && value.type == 'Object') {
                     values.push({
                         key,
                         type: value.type,
@@ -254,31 +250,12 @@ export function EffectCompSingle({
     }
 
 
-    const [effectCompProperties, setEffectCompProperties]: [{
-        key: string;
-        type: string;
-        inValue: idAndNameTypeValuePair | null | typeValuePair<string>;
-    }[], (a: {
-        key: string;
-        type: string;
-        inValue: idAndNameTypeValuePair | null | typeValuePair<string>;
-    }[]
-        ) => void] = React.useState(getEffectProperties(IdNameCompTuple))
 
 
     const removeMe = () => {
-        setSingle(
-            {
-                id: -1,
-                name: "",
-                comp: null
-            }
-            // {
-            //  type: "IdAndName",
-            //  value: { id: { type: "Integer", value: -1 },
-            //  name: { type: "String", value: "" } }
-            // }
-            , keyWordProp)
+        const compToRunOn = getLowestComp(IdNameCompTuple.comp)
+        compToRunOn[keyWordProp] = { type: "Integer", value: -1 }
+        saveChange(IdNameCompTuple, keyWordProp)
     }
 
 
@@ -312,28 +289,38 @@ export function EffectCompSingle({
         }
     }, [selectedOption])
 
+    if (isEffectComponentSet && currentEffectComp == null) {
+        debugger
+    }
+
 
     const selectedEffectCompView = (
         <div>
             {/* @ts-ignore */}
             <ui-button onClick={removeMe}>Remove Me</ui-button>
-            <EffectView saveChange={saveChange} allProps={allProp} effect={currentEffectComp}></EffectView>
+            <EffectView saveChange={saveChange} allProps={allProps} effect={currentEffectComp}></EffectView>
         </div>
     )
 
     const selectOption = () => {
-        //@ts-ignore
-        if (selectOption = -1) {
-
+        debugger
+        const selected = getSelectedEffect()
+        const compToRunOn = getLowestComp(IdNameCompTuple.comp)
+        if (!allProps.isUsingFinal) {
+            compToRunOn[keyWordProp] = {
+                type: "IdAndName",
+                value: {
+                    id: { type: "Integer", value: selected.id },
+                    name: { value: selected.name, type: "String" }
+                }
+            };
         } else {
-            debugger
-            const selected = getSelectedEffect()
-            const compToRunOn = getLowestComp(IdNameCompTuple.comp)
-            compToRunOn[keyWordProp] = selected
-            saveChange(IdNameCompTuple, keyWordProp)
-            //  setSetEffect(selected)
+            compToRunOn[keyWordProp] = { type: "Integer", value: selected.id }
         }
-        //   setCurrentEffectComp()
+
+        saveChange(IdNameCompTuple, keyWordProp)
+        //  setSetEffect(selected)
+
     }
 
 
@@ -358,7 +345,7 @@ export function EffectCompSingle({
     if (options.length > 0) {
     }
 
-    const noOptionsAvailable = <p>No Available {keyWord} on Card</p>
+    const noOptionsAvailable = <h4>No Avaialble {keyWord} on Card </h4>
 
     const nonSelectedView = (
         <div>

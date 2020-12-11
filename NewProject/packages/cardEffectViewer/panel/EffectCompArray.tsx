@@ -69,16 +69,17 @@ type allPropType = {
     dataConcurencies: IdNameAndCompType[],
     availavleEffects: IdNameAndCompType[],
     requires: { EffectView: any, EffectCompSingle: any, EffectCompArray: any },
-    isUsingFinal: boolean
+    isUsingFinal: boolean,
+    ReloadData: (isUsingFinal: boolean) => void
 }
 
 type propType = {
     allProps: allPropType,
     keyWordProp: string,
     updateAllProps: (keyword: string, arrayToSet: IdNameAndCompType[]) => void
-    array: idAndNameTypeValuePair[],
+    array: IdNameAndCompType[],
     ///inside IdAndNameCompToUpdate - .comp needs to be updated with new values
-    saveChange: (IdAndNameCompToUpdate: IdNameAndCompType, key: string) => void,
+    saveChange: (IdAndNameCompToUpdate: IdNameAndCompType, key: string, doNotReload?: boolean) => void,
     IdNameCompTuple: IdNameAndCompType
 }
 
@@ -86,17 +87,24 @@ const notIntrestingCompValues = ['_name', 'uuid', 'cost', 'conditions', 'dataCon
 
 export function EffectCompArray({ allProps, keyWordProp, updateAllProps, array, saveChange, IdNameCompTuple }: propType) {
 
-    const [allProp, setAllProp]: [allPropType, (a: allPropType) => void] = React.useState(allProps)
-
-    React.useEffect(() => {
-        setAllProp(allProps)
-    }, [allProps])
-
-    const getCompByIdAndName = (id: number, name: string): IdNameAndCompType | null => {
-        const toCheckArr = [...allProp.availavleEffects, ...allProp.conditions, ...allProp.costs, ...allProp.dataCollectors, ...allProp.dataConcurencies, ...allProp.preConditions]
-        return toCheckArr.find(toCheck => toCheck.id == id && toCheck.name == name)
+    const removeCardName = (name: string) => {
+        const cardName = allProps.cardEffectComp.value.node.value.name
+        const regex = new RegExp(`${cardName}\<([\\s\\S]+?)\>`)
+        return name.replace(regex, "$1")
     }
 
+    const getCompByIdAndName = (id: number, key: string): IdNameAndCompType | null => {
+
+        const toCheckArr = [...allProps.availavleEffects, ...allProps.conditions, ...allProps.costs, ...allProps.dataCollectors, ...allProps.dataConcurencies, ...allProps.preConditions]
+        var toreturn = toCheckArr.find(toCheck => toCheck.id == id && key.toLowerCase().includes(toCheck.name.toLowerCase()))
+        if (toreturn == null) {
+            if (id != -1) {
+                debugger
+            }
+            return null
+        }
+        return getLowestComp(toreturn)
+    }
     const { EffectView } = allProps.requires
 
     const [options, setOptions]: [{
@@ -114,59 +122,59 @@ export function EffectCompArray({ allProps, keyWordProp, updateAllProps, array, 
         var availableOptions: { name: string, value: IdNameAndCompType }[] = []
         let word = ""
         if (keyWordProp.match(/[cC]ost/g)) {
-            availableOptions = allProp.costs.map(cost => {
+            availableOptions = allProps.costs.map(cost => {
                 return {
                     name: cost.name + " " + cost.id,
                     value: cost
                 }
             })
             word = "Costs"
-        }
-        if (keyWordProp.match(/[pP]re[Cc]ondition/g)) {
-            availableOptions = allProp.preConditions.map(collector => {
-                return {
-                    name: collector.name + " " + collector.id,
-                    value: collector
-                }
-            })
-            word = "PreConditions"
         } else
-            if (keyWordProp.match(/[Cc]ondition/g)) {
-                availableOptions = allProp.conditions.map(cond => {
+            if (keyWordProp.match(/[pP]re[Cc]ondition/g)) {
+                availableOptions = allProps.preConditions.map(collector => {
                     return {
-                        name: cond.name + " " + cond.id,
-                        value: cond
+                        name: collector.name + " " + collector.id,
+                        value: collector
                     }
                 })
-                word = "Conditions"
-            }
-        if (keyWordProp.match(/[cC]ollector/g)) {
-            availableOptions = allProp.dataCollectors.map(collector => {
-                return {
-                    name: collector.name + " " + collector.id,
-                    value: collector
-                }
-            })
-            word = "Data Collectors"
-        }
-        if (keyWordProp.match(/[dD]ata[cC]oncurency[Cc]omponent/g)) {
-            availableOptions = allProp.dataConcurencies.map(collector => {
-                return {
-                    name: collector.name + " " + collector.id,
-                    value: collector
-                }
-            })
-            word = "Data Concurencies"
-        }
-        if (keyWordProp.match(/[Ee]ffect/g)) {
-            availableOptions = allProp.availavleEffects.map(effect => {
-                return {
-                    name: effect.name + " " + effect.id,
-                    value: effect
-                }
-            })
-            word = "Effects"
-        }
+                word = "PreConditions"
+            } else
+                if (keyWordProp.match(/[Cc]ondition/g)) {
+                    availableOptions = allProps.conditions.map(cond => {
+                        return {
+                            name: cond.name + " " + cond.id,
+                            value: cond
+                        }
+                    })
+                    word = "Conditions"
+                } else
+                    if (keyWordProp.match(/[cC]ollector/g) || keyWordProp.match(/[cC]hooseCard/g)) {
+                        availableOptions = allProps.dataCollectors.map(collector => {
+                            return {
+                                name: collector.name + " " + collector.id,
+                                value: collector
+                            }
+                        })
+                        word = "Data Collectors"
+                    } else
+                        if (keyWordProp.match(/[dD]ata[cC]oncurency[Cc]omponent/g)) {
+                            availableOptions = allProps.dataConcurencies.map(collector => {
+                                return {
+                                    name: collector.name + " " + collector.id,
+                                    value: collector
+                                }
+                            })
+                            word = "Data Concurencies"
+                        } else
+                            if (keyWordProp.match(/[Ee]ffect/g)) {
+                                availableOptions = allProps.availavleEffects.map(effect => {
+                                    return {
+                                        name: effect.name + " " + effect.id,
+                                        value: effect
+                                    }
+                                })
+                                word = "Effects"
+                            }
         if (word == "") {
             word = "No Found For WordProp :" + keyWordProp
         }
@@ -185,7 +193,7 @@ export function EffectCompArray({ allProps, keyWordProp, updateAllProps, array, 
 
         const values: { key: string, type: string, inValue: idAndNameTypeValuePair | null | typeValuePair<string> }[] = []
         const hasIdInName = (valueName) => {
-            if (allProp.isUsingFinal) {
+            if (allProps.isUsingFinal) {
                 return /IdFinal$/g.test(valueName) || /IdsFinal$/g.test(valueName)
             } else {
                 return /Id$/g.test(valueName) || /Ids$/g.test(valueName)
@@ -200,7 +208,7 @@ export function EffectCompArray({ allProps, keyWordProp, updateAllProps, array, 
         for (const key in compToRunOn) {
             if (compToRunOn.hasOwnProperty(key) && !notIntrestingCompValues.includes(key)) {
                 const value = compToRunOn[key];
-                if (value.type == 'IdAndName' || key == "name" || hasIdInName(key) && value.type == 'Object' && value.value == null) {
+                if (value.type == 'IdAndName' || key == "name" || hasIdInName(key) && value.type == 'Object') {
                     values.push({
                         key,
                         type: value.type,
@@ -250,13 +258,9 @@ export function EffectCompArray({ allProps, keyWordProp, updateAllProps, array, 
 
 
     const clickToAddToArray = () => {
-        // let newArr:IdNameAndCompType[] = []
-        // Object.assign(newArr,array)
-        // newArr.push(selectedOption.value)
-        // updateAllProps(keyWordProp, newArr)
         debugger
         const compToRunOn = getLowestComp(IdNameCompTuple.comp)
-        if (!allProp.isUsingFinal) {
+        if (!allProps.isUsingFinal) {
             const newArr = compToRunOn[keyWordProp] as idAndNameTypeValuePair
             const newValue = {
                 type: "IdAndName",
@@ -266,16 +270,37 @@ export function EffectCompArray({ allProps, keyWordProp, updateAllProps, array, 
                 }
             };
             (newArr.value as typeValuePair<IdNameValuePair>[]).push(newValue)
-            array.push(newArr)
             compToRunOn[keyWordProp] = newArr
         } else {
             const newArr = compToRunOn[keyWordProp] as typeValuePair<typeValuePair<number>[]>
             newArr.value.push({ type: "Integer", value: selectedOption.value.id })
             compToRunOn[keyWordProp] = newArr
         }
-
         saveChange(IdNameCompTuple, keyWordProp)
     }
+
+    const removeMe = (effectToRemove: IdNameAndCompType) => {
+        debugger
+        const compToRunOn = getLowestComp(IdNameCompTuple.comp)
+        if (!allProps.isUsingFinal) {
+            const newArr = compToRunOn[keyWordProp] as idAndNameTypeValuePair
+            const newValue = {
+                type: "IdAndName",
+                value: {
+                    id: { type: "Integer", value: selectedOption.value.id },
+                    name: { value: selectedOption.name, type: "String" }
+                }
+            };
+            newArr.value = (newArr.value as typeValuePair<IdNameValuePair>[]).filter(val => val.value.id.value != effectToRemove.id)
+            compToRunOn[keyWordProp] = newArr
+        } else {
+            const newArr = compToRunOn[keyWordProp] as typeValuePair<typeValuePair<number>[]>
+            newArr.value = newArr.value.filter(val => val.value != effectToRemove.id)
+            compToRunOn[keyWordProp] = newArr
+        }
+        saveChange(IdNameCompTuple, keyWordProp)
+    }
+
 
     const handleSetArray = (keyword: string, arrayToSet: IdNameAndCompType[]) => {
         updateAllProps(keyword, arrayToSet)
@@ -306,30 +331,8 @@ export function EffectCompArray({ allProps, keyWordProp, updateAllProps, array, 
     </div>
 
     const withoutOptions = <div>
-        <p>No Avaialble {keyWord} on Card </p>
+        <h3>No Avaialble {keyWord} on Card</h3>
     </div>
-
-    const removeMe = (effectToRemove: idAndNameTypeValuePair) => {
-        const compToRunOn = getLowestComp(IdNameCompTuple.comp)
-        if (!allProp.isUsingFinal) {
-            const newArr = compToRunOn[keyWordProp] as idAndNameTypeValuePair
-            const newValue = {
-                type: "IdAndName",
-                value: {
-                    id: { type: "Integer", value: selectedOption.value.id },
-                    name: { value: selectedOption.name, type: "String" }
-                }
-            };
-            newArr.value = (newArr.value as typeValuePair<IdNameValuePair>[]).filter(val => val.value.id.value != (effectToRemove.value as IdNameValuePair).id.value)
-            compToRunOn[keyWordProp] = newArr
-        } else {
-            const newArr = compToRunOn[keyWordProp] as typeValuePair<typeValuePair<number>[]>
-            newArr.value = newArr.value.filter(val => val.value == selectedOption.value.id)
-            compToRunOn[keyWordProp] = newArr
-        }
-
-        saveChange(IdNameCompTuple, keyWordProp)
-    }
 
 
     return <p>
@@ -337,7 +340,7 @@ export function EffectCompArray({ allProps, keyWordProp, updateAllProps, array, 
         {array.map((effect, idx) => <div>
             {/* @ts-ignore */}
             <ui-button onClick={() => removeMe(effect)}>Remove Me</ui-button>
-            <EffectView saveChange={saveChange} setArray={handleSetArray} allProps={allProp} key={idx} effect={effect} />
+            <EffectView saveChange={saveChange} setArray={handleSetArray} allProps={allProps} key={idx} effect={effect} />
         </div>)}
         {(array.length == 0) && <div style={{ color: "red" }}>0 {keyWord} Set</div>}
     </p>

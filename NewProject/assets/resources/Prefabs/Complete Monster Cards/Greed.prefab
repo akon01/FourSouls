@@ -32,17 +32,17 @@
         "__id__": 6
       },
       {
-        "__id__": 8
+        "__id__": 7
       },
       {
-        "__id__": 12
+        "__id__": 9
       },
       {
-        "__id__": 13
+        "__id__": 10
       }
     ],
     "_prefab": {
-      "__id__": 14
+      "__id__": 11
     },
     "_opacity": 255,
     "_color": {
@@ -147,6 +147,7 @@
     "souls": 1,
     "type": 2,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -187,7 +188,6 @@
     "isMonsterWhoCantBeAttacked": false,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
-    "reward": null,
     "monsterRewardDescription": {
       "__id__": 5
     },
@@ -214,33 +214,25 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
     "activeEffectsIds": [],
-    "passiveEffects": [],
-    "passiveEffectsIds": [
-      {
-        "__id__": 7
-      }
+    "activeEffectsIdsFinal": [],
+    "passiveEffectsIds": [],
+    "passiveEffectsIdsFinal": [
+      0
     ],
-    "toAddPassiveEffects": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
+    "toAddPassiveEffectsIdsFinal": [],
     "paidEffectsIds": [],
+    "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
-    "multiEffectCollectorId": null,
+    "multiEffectCollectorId": {},
+    "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "addMoney",
-    "id": 0
   },
   {
     "__type__": "da7a1yhh65BupAGQR/L5ZZc",
@@ -251,28 +243,29 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 9
+      "__id__": 8
     },
     "EffectId": 0,
     "isSilent": false,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "preCondition": null,
-    "preConditionId": null,
+    "preConditionId": {},
+    "preConditionIdFinal": -1,
     "conditions": [],
-    "conditionsIds": [
-      {
-        "__id__": 10
-      }
+    "conditionsIds": [],
+    "conditionsIdsFinal": [
+      0
     ],
     "passiveType": 1,
     "passiveEffectToAdd": null,
-    "passiveEffectToAddId": null,
+    "passiveEffectToAddId": {},
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
-    "dataCollectorsIds": [
-      {
-        "__id__": 11
-      }
+    "dataCollectorsIds": [],
+    "dataCollectorsIdsFinal": [
+      0
     ],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
@@ -281,7 +274,8 @@
     "hasLockingResolve": false,
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": null,
+    "dataConcurencyComponentId": {},
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "numOfCoins": -4,
     "isAllMoneyTargetHas": false,
@@ -296,16 +290,6 @@
     "height": 22
   },
   {
-    "__type__": "IdAndName",
-    "name": "Greed<MonsterCombatDamageGiven>",
-    "id": 0
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "CardTargetPools",
-    "id": 0
-  },
-  {
     "__type__": "762a75GebBL5r2m+R1WW1rW",
     "_name": "",
     "_objFlags": 0,
@@ -313,8 +297,9 @@
       "__id__": 1
     },
     "_enabled": true,
-    "conditionId": 0,
-    "dataCollectorId": null,
+    "ConditionId": 0,
+    "dataCollectorId": {},
+    "dataCollectorIdFinal": -1,
     "isSpecificToEntityDealsDamage": true,
     "entityWhoDealtDamage": {
       "__id__": 1
@@ -331,7 +316,8 @@
     "_enabled": true,
     "DataCollectorId": 0,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "targetPool": 3,
     "exceptCard": null,
     "_id": ""
@@ -344,7 +330,7 @@
     "asset": {
       "__uuid__": "daf5a72f-3d7e-4f7f-8548-35ec86a29dc8"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

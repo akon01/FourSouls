@@ -29,17 +29,17 @@
         "__id__": 4
       },
       {
-        "__id__": 6
+        "__id__": 5
       },
       {
-        "__id__": 10
+        "__id__": 7
       },
       {
-        "__id__": 11
+        "__id__": 8
       }
     ],
     "_prefab": {
-      "__id__": 17
+      "__id__": 14
     },
     "_opacity": 255,
     "_color": {
@@ -144,6 +144,7 @@
     "souls": 0,
     "type": 1,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -170,27 +171,25 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "activeEffectsIds": [
-      {
-        "__id__": 5
-      }
+    "activeEffectsIds": [],
+    "activeEffectsIdsFinal": [
+      0
     ],
     "passiveEffectsIds": [],
+    "passiveEffectsIdsFinal": [],
     "toAddPassiveEffectsIds": [],
+    "toAddPassiveEffectsIdsFinal": [],
     "paidEffectsIds": [],
+    "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollectorId": null,
+    "multiEffectCollectorId": {},
+    "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "EqualLootAndMoneyOfPlayer",
-    "id": 0
   },
   {
     "__type__": "816cb9il6VEQ6aWYlKdZBD0",
@@ -201,27 +200,28 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 7
+      "__id__": 6
     },
     "EffectId": 0,
     "isSilent": false,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "preCondition": null,
-    "preConditionId": null,
+    "preConditionId": {},
+    "preConditionIdFinal": -1,
     "conditions": [],
     "conditionsIds": [],
+    "conditionsIdsFinal": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
-    "passiveEffectToAddId": null,
+    "passiveEffectToAddId": {},
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
-    "dataCollectorsIds": [
-      {
-        "__id__": 8
-      },
-      {
-        "__id__": 9
-      }
+    "dataCollectorsIds": [],
+    "dataCollectorsIdsFinal": [
+      0,
+      1
     ],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
@@ -230,7 +230,8 @@
     "hasLockingResolve": false,
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": null,
+    "dataConcurencyComponentId": {},
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "_id": ""
   },
@@ -242,16 +243,6 @@
     "height": 30
   },
   {
-    "__type__": "IdAndName",
-    "name": "CardPlayer",
-    "id": 0
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "ChooseCard",
-    "id": 1
-  },
-  {
     "__type__": "1d1ecf8dolI9JOwSEDLfemj",
     "_name": "",
     "_objFlags": 0,
@@ -261,7 +252,8 @@
     "_enabled": true,
     "DataCollectorId": 0,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "_id": ""
   },
   {
@@ -274,19 +266,21 @@
     "_enabled": true,
     "DataCollectorId": 1,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "multiType": false,
     "otherPlayer": null,
     "isChooseFromPreviewManager": false,
     "chooseType": {
-      "__id__": 12
+      "__id__": 9
     },
     "chooseTypes": [],
     "filterFromPassiveMeta": false,
     "targetCollectorFromPassiveMeta": null,
     "targetCollectorFromPassiveMetaId": {
-      "__id__": 16
+      "__id__": 13
     },
+    "targetCollectorFromPassiveMetaIdFinal": -1,
     "flavorText": "Choose A Player",
     "otherPlayersFlavorText": "",
     "isMultiCardChoice": false,
@@ -300,7 +294,7 @@
     "componentName": "Character",
     "isMultiFilter": false,
     "filterStatement": {
-      "__id__": 13
+      "__id__": 10
     },
     "filterStatements": []
   },
@@ -310,11 +304,11 @@
     "filterMaker": null,
     "componentType": 0,
     "playerFilter": {
-      "__id__": 14
+      "__id__": 11
     },
     "monsterFilter": null,
     "cardFilter": {
-      "__id__": 15
+      "__id__": 12
     },
     "itemFilter": null
   },

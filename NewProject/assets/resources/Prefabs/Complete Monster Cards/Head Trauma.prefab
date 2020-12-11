@@ -32,17 +32,17 @@
         "__id__": 5
       },
       {
-        "__id__": 7
+        "__id__": 6
+      },
+      {
+        "__id__": 8
       },
       {
         "__id__": 10
-      },
-      {
-        "__id__": 12
       }
     ],
     "_prefab": {
-      "__id__": 13
+      "__id__": 11
     },
     "_opacity": 255,
     "_color": {
@@ -147,6 +147,7 @@
     "souls": 0,
     "type": 2,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -187,7 +188,6 @@
     "isMonsterWhoCantBeAttacked": false,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
-    "reward": null,
     "monsterRewardDescription": null,
     "killer": null,
     "isCurse": false,
@@ -204,33 +204,25 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
-    "activeEffectsIds": [
-      {
-        "__id__": 6
-      }
+    "activeEffectsIds": [],
+    "activeEffectsIdsFinal": [
+      0
     ],
-    "passiveEffects": [],
     "passiveEffectsIds": [],
-    "toAddPassiveEffects": [],
+    "passiveEffectsIdsFinal": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
+    "toAddPassiveEffectsIdsFinal": [],
     "paidEffectsIds": [],
+    "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
-    "multiEffectCollectorId": null,
+    "multiEffectCollectorId": {},
+    "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "DiscardLoot",
-    "id": 0
   },
   {
     "__type__": "d6f46KdVWpKban15DT2Bjq9",
@@ -241,24 +233,27 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 8
+      "__id__": 7
     },
     "EffectId": 0,
     "isSilent": false,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "preCondition": null,
-    "preConditionId": null,
+    "preConditionId": {},
+    "preConditionIdFinal": -1,
     "conditions": [],
     "conditionsIds": [],
+    "conditionsIdsFinal": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
-    "passiveEffectToAddId": null,
+    "passiveEffectToAddId": {},
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
-    "dataCollectorsIds": [
-      {
-        "__id__": 9
-      }
+    "dataCollectorsIds": [],
+    "dataCollectorsIdsFinal": [
+      0
     ],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
@@ -267,7 +262,8 @@
     "hasLockingResolve": false,
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": null,
+    "dataConcurencyComponentId": {},
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "numOfLoot": 2,
     "_id": ""
@@ -280,11 +276,6 @@
     "height": 15
   },
   {
-    "__type__": "IdAndName",
-    "name": "ChooseFromTargetCard",
-    "id": 0
-  },
-  {
     "__type__": "20bc9bfF8tH6ZIb1S6uQ6nK",
     "_name": "",
     "_objFlags": 0,
@@ -294,7 +285,8 @@
     "_enabled": true,
     "DataCollectorId": 0,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "isItems": false,
     "isLootCards": true,
     "isRandom": false,
@@ -303,8 +295,9 @@
     "numberOfCardsToChoose": 2,
     "dataCollectorToRun": null,
     "dataCollectorToRunId": {
-      "__id__": 11
+      "__id__": 9
     },
+    "dataCollectorToRunIdFinal": 1,
     "_id": ""
   },
   {
@@ -322,7 +315,8 @@
     "_enabled": true,
     "DataCollectorId": 1,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "_id": ""
   },
   {
@@ -333,7 +327,7 @@
     "asset": {
       "__uuid__": "e0cd7744-e7d9-41d1-ac3c-036519873a87"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

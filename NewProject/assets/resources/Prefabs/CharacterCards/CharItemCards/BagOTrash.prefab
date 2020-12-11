@@ -53,14 +53,14 @@
         "__id__": 22
       },
       {
-        "__id__": 30
+        "__id__": 31
       },
       {
-        "__id__": 33
+        "__id__": 34
       }
     ],
     "_prefab": {
-      "__id__": 34
+      "__id__": 35
     },
     "_opacity": 255,
     "_color": {
@@ -165,6 +165,7 @@
     "souls": 0,
     "type": 4,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -206,14 +207,12 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
     "activeEffectsIds": [],
-    "passiveEffects": [],
+    "activeEffectsIdsFinal": [],
     "passiveEffectsIds": [],
-    "toAddPassiveEffects": [],
+    "passiveEffectsIdsFinal": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
+    "toAddPassiveEffectsIdsFinal": [],
     "paidEffectsIds": [
       {
         "__id__": 6
@@ -225,11 +224,12 @@
         "__id__": 8
       }
     ],
+    "paidEffectsIdsFinal": [],
     "hasMultipleEffects": true,
-    "multiEffectCollector": null,
     "multiEffectCollectorId": {
       "__id__": 9
     },
+    "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
     "data": {},
@@ -272,19 +272,24 @@
     "isSilent": false,
     "cost": null,
     "costId": null,
+    "costIdFinal": -1,
     "preCondition": null,
     "preConditionId": null,
+    "preConditionIdFinal": -1,
     "conditions": [],
     "conditionsIds": [],
+    "conditionsIdsFinal": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "passiveEffectToAddId": null,
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
     "dataCollectorsIds": [
       {
         "__id__": 12
       }
     ],
+    "dataCollectorsIdsFinal": [],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
     "optionalBeforeDataCollection": false,
@@ -293,6 +298,7 @@
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
     "dataConcurencyComponentId": null,
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "numOfLoot": 1,
     "multiTarget": false,
@@ -321,6 +327,7 @@
     "DataCollectorId": 0,
     "cost": null,
     "costId": null,
+    "costIdFinal": -1,
     "_id": ""
   },
   {
@@ -336,6 +343,7 @@
     "costId": {
       "__id__": 15
     },
+    "costIdFinal": -1,
     "_id": ""
   },
   {
@@ -351,11 +359,12 @@
       "__id__": 1
     },
     "_enabled": true,
-    "costId": 0,
+    "CostId": 0,
     "preCondition": null,
     "preConditionId": {
       "__id__": 17
     },
+    "preConditionIdFinal": -1,
     "moneyToPay": 4,
     "_id": ""
   },
@@ -372,8 +381,9 @@
       "__id__": 1
     },
     "_enabled": true,
-    "preConditionId": 0,
+    "PreConditionId": 0,
     "dataCollectorId": null,
+    "dataCollectorIdFinal": -1,
     "moneyNeeded": 4,
     "_id": ""
   },
@@ -392,19 +402,24 @@
     "isSilent": false,
     "cost": null,
     "costId": null,
+    "costIdFinal": -1,
     "preCondition": null,
     "preConditionId": null,
+    "preConditionIdFinal": -1,
     "conditions": [],
     "conditionsIds": [],
+    "conditionsIdsFinal": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "passiveEffectToAddId": null,
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
     "dataCollectorsIds": [
       {
         "__id__": 21
       }
     ],
+    "dataCollectorsIdsFinal": [],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
     "optionalBeforeDataCollection": false,
@@ -413,6 +428,7 @@
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
     "dataConcurencyComponentId": null,
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "damageToDeal": 1,
     "isGetDamageToDealFromDataCollector": false,
@@ -442,6 +458,7 @@
     "DataCollectorId": 2,
     "cost": null,
     "costId": null,
+    "costIdFinal": -1,
     "multiType": true,
     "otherPlayer": null,
     "isChooseFromPreviewManager": false,
@@ -458,6 +475,10 @@
     ],
     "filterFromPassiveMeta": false,
     "targetCollectorFromPassiveMeta": null,
+    "targetCollectorFromPassiveMetaId": {
+      "__id__": 30
+    },
+    "targetCollectorFromPassiveMetaIdFinal": -1,
     "flavorText": "Choose A Play Or Monster To Get HIt",
     "otherPlayersFlavorText": "Who Sees This??",
     "isMultiCardChoice": false,
@@ -529,6 +550,11 @@
     "filter": 0
   },
   {
+    "__type__": "IdAndName",
+    "name": "",
+    "id": -1
+  },
+  {
     "__type__": "3e26ck2/KpCGLEq1eJEbRu3",
     "_name": "",
     "_objFlags": 0,
@@ -537,25 +563,30 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 31
+      "__id__": 32
     },
     "EffectId": 2,
     "isSilent": false,
     "cost": null,
     "costId": null,
+    "costIdFinal": -1,
     "preCondition": null,
     "preConditionId": null,
+    "preConditionIdFinal": -1,
     "conditions": [],
     "conditionsIds": [],
+    "conditionsIdsFinal": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "passiveEffectToAddId": null,
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
     "dataCollectorsIds": [
       {
-        "__id__": 32
+        "__id__": 33
       }
     ],
+    "dataCollectorsIdsFinal": [],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
     "optionalBeforeDataCollection": false,
@@ -564,6 +595,7 @@
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
     "dataConcurencyComponentId": null,
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "_id": ""
   },
@@ -590,6 +622,7 @@
     "DataCollectorId": 3,
     "cost": null,
     "costId": null,
+    "costIdFinal": -1,
     "_id": ""
   },
   {
@@ -600,7 +633,7 @@
     "asset": {
       "__uuid__": "4c800984-bfbf-49e2-949a-21f84a0c4468"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

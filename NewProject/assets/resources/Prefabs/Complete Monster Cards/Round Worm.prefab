@@ -32,17 +32,17 @@
         "__id__": 6
       },
       {
-        "__id__": 8
+        "__id__": 7
       },
       {
-        "__id__": 12
+        "__id__": 9
       },
       {
-        "__id__": 13
+        "__id__": 10
       }
     ],
     "_prefab": {
-      "__id__": 14
+      "__id__": 11
     },
     "_opacity": 255,
     "_color": {
@@ -147,6 +147,7 @@
     "souls": 0,
     "type": 2,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -187,7 +188,6 @@
     "isMonsterWhoCantBeAttacked": false,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
-    "reward": null,
     "monsterRewardDescription": {
       "__id__": 5
     },
@@ -214,33 +214,25 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
     "activeEffectsIds": [],
-    "passiveEffects": [],
-    "passiveEffectsIds": [
-      {
-        "__id__": 7
-      }
+    "activeEffectsIdsFinal": [],
+    "passiveEffectsIds": [],
+    "passiveEffectsIdsFinal": [
+      0
     ],
-    "toAddPassiveEffects": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
+    "toAddPassiveEffectsIdsFinal": [],
     "paidEffectsIds": [],
+    "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
-    "multiEffectCollectorId": null,
+    "multiEffectCollectorId": {},
+    "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "GainStats",
-    "id": 0
   },
   {
     "__type__": "1251ehOdU9IcaUBBusBC3Mv",
@@ -251,28 +243,29 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 9
+      "__id__": 8
     },
     "EffectId": 0,
     "isSilent": false,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "preCondition": null,
-    "preConditionId": null,
+    "preConditionId": {},
+    "preConditionIdFinal": -1,
     "conditions": [],
-    "conditionsIds": [
-      {
-        "__id__": 10
-      }
+    "conditionsIds": [],
+    "conditionsIdsFinal": [
+      0
     ],
     "passiveType": 2,
     "passiveEffectToAdd": null,
-    "passiveEffectToAddId": null,
+    "passiveEffectToAddId": {},
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
-    "dataCollectorsIds": [
-      {
-        "__id__": 11
-      }
+    "dataCollectorsIds": [],
+    "dataCollectorsIdsFinal": [
+      0
     ],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
@@ -281,7 +274,8 @@
     "hasLockingResolve": false,
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": null,
+    "dataConcurencyComponentId": {},
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "multiTarget": false,
     "gainHp": false,
@@ -310,16 +304,6 @@
     "height": 28
   },
   {
-    "__type__": "IdAndName",
-    "name": "Round Worm<MonsterCombatDamageTaken>",
-    "id": 0
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "TurnPlayer",
-    "id": 0
-  },
-  {
     "__type__": "e1155/QpSdDHo/SKDVelJMQ",
     "_name": "",
     "_objFlags": 0,
@@ -327,8 +311,9 @@
       "__id__": 1
     },
     "_enabled": true,
-    "conditionId": 0,
-    "dataCollectorId": null,
+    "ConditionId": 0,
+    "dataCollectorId": {},
+    "dataCollectorIdFinal": -1,
     "isSpecificToEntityTakesDamage": false,
     "entityWhoTookDamage": null,
     "isOnSpecificRoll": false,
@@ -346,7 +331,8 @@
     "_enabled": true,
     "DataCollectorId": 0,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "_id": ""
   },
   {
@@ -357,7 +343,7 @@
     "asset": {
       "__uuid__": "8f492938-ba39-45d9-8056-5bb8c5b1806c"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

@@ -19,4 +19,14 @@ export default class EffectsAndNumbers {
     @property(cc.Integer)
     effectIdFinal: number = -1
 
+    /**
+     *
+     */
+    constructor() {
+        if (this.effectId.id != -1) {
+            debugger
+            this.effectIdFinal = 1
+        }
+    }
+
 }

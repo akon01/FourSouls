@@ -32,29 +32,29 @@
         "__id__": 5
       },
       {
+        "__id__": 6
+      },
+      {
         "__id__": 7
       },
       {
-        "__id__": 8
+        "__id__": 9
       },
       {
         "__id__": 11
       },
       {
-        "__id__": 15
+        "__id__": 12
       },
       {
-        "__id__": 17
+        "__id__": 13
       },
       {
-        "__id__": 18
-      },
-      {
-        "__id__": 19
+        "__id__": 14
       }
     ],
     "_prefab": {
-      "__id__": 23
+      "__id__": 18
     },
     "_opacity": 255,
     "_color": {
@@ -159,6 +159,7 @@
     "souls": 0,
     "type": 2,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -199,7 +200,6 @@
     "isMonsterWhoCantBeAttacked": false,
     "_dmgPrevention": [],
     "_thisTurnKiller": null,
-    "reward": null,
     "monsterRewardDescription": null,
     "killer": null,
     "isCurse": true,
@@ -216,33 +216,25 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
-    "activeEffectsIds": [
-      {
-        "__id__": 6
-      }
+    "activeEffectsIds": [],
+    "activeEffectsIdsFinal": [
+      0
     ],
-    "passiveEffects": [],
     "passiveEffectsIds": [],
-    "toAddPassiveEffects": [],
+    "passiveEffectsIdsFinal": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
+    "toAddPassiveEffectsIdsFinal": [],
     "paidEffectsIds": [],
+    "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
-    "multiEffectCollectorId": null,
+    "multiEffectCollectorId": {},
+    "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "AddTrinketOrCurse",
-    "id": 0
   },
   {
     "__type__": "b5e97fLQIJGGq1XOyBEfLay",
@@ -268,25 +260,26 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 9
+      "__id__": 8
     },
     "EffectId": 0,
     "isSilent": false,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "preCondition": null,
-    "preConditionId": null,
+    "preConditionId": {},
+    "preConditionIdFinal": -1,
     "conditions": [],
     "conditionsIds": [],
+    "conditionsIdsFinal": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
-    "passiveEffectToAddId": null,
+    "passiveEffectToAddId": {},
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
-    "dataCollectorsIds": [
-      {
-        "__id__": 10
-      }
-    ],
+    "dataCollectorsIds": [],
+    "dataCollectorsIdsFinal": [],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
     "optionalBeforeDataCollection": false,
@@ -294,15 +287,19 @@
     "hasLockingResolve": false,
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": null,
+    "dataConcurencyComponentId": {},
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "itemEffectToAdd": null,
-    "itemEffectToAddId": null,
+    "itemEffectToAddId": {},
+    "itemEffectToAddIdFinal": 1,
     "itemEffectsToAdd": [],
     "itemEffectsToAddIds": [],
+    "itemEffectsToAddIdsFinal": [],
     "addMuiliEffect": false,
     "multiEffectCollector": null,
-    "multiEffectCollectorId": null,
+    "multiEffectCollectorId": {},
+    "multiEffectCollectorIdFinal": -1,
     "isCurse": true,
     "_id": ""
   },
@@ -314,11 +311,6 @@
     "height": 14
   },
   {
-    "__type__": "IdAndName",
-    "name": "ChooseCard",
-    "id": 2
-  },
-  {
     "__type__": "1251ehOdU9IcaUBBusBC3Mv",
     "_name": "",
     "_objFlags": 0,
@@ -327,29 +319,26 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 12
+      "__id__": 10
     },
     "EffectId": 1,
     "isSilent": false,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "preCondition": null,
-    "preConditionId": null,
+    "preConditionId": {},
+    "preConditionIdFinal": -1,
     "conditions": [],
-    "conditionsIds": [
-      {
-        "__id__": 13
-      }
-    ],
+    "conditionsIds": [],
+    "conditionsIdsFinal": [],
     "passiveType": 2,
     "passiveEffectToAdd": null,
-    "passiveEffectToAddId": null,
+    "passiveEffectToAddId": {},
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
-    "dataCollectorsIds": [
-      {
-        "__id__": 14
-      }
-    ],
+    "dataCollectorsIds": [],
+    "dataCollectorsIdsFinal": [],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
     "optionalBeforeDataCollection": false,
@@ -357,7 +346,8 @@
     "hasLockingResolve": false,
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": null,
+    "dataConcurencyComponentId": {},
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "multiTarget": false,
     "gainHp": false,
@@ -386,16 +376,6 @@
     "height": 17
   },
   {
-    "__type__": "IdAndName",
-    "name": "Curse of the Blind<PlayerDeclareAttack>",
-    "id": 0
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "AttackedMonster",
-    "id": 1
-  },
-  {
     "__type__": "0083dNIjj5LM6ubm6iEcLbA",
     "_name": "",
     "_objFlags": 0,
@@ -403,20 +383,14 @@
       "__id__": 1
     },
     "_enabled": true,
-    "conditionId": 0,
+    "ConditionId": 0,
     "dataCollector": null,
-    "dataCollectorId": {
-      "__id__": 16
-    },
+    "dataCollectorId": {},
+    "dataCollectorIdFinal": -1,
     "isPlayerFromData": true,
     "isOnSpecificMonster": false,
     "specificMonster": null,
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "CardOwner",
-    "id": 0
   },
   {
     "__type__": "7dab8c90ZJG8Zh8owOKS3GI",
@@ -428,7 +402,8 @@
     "_enabled": true,
     "DataCollectorId": 0,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "_id": ""
   },
   {
@@ -441,7 +416,8 @@
     "_enabled": true,
     "DataCollectorId": 1,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "_id": ""
   },
   {
@@ -454,16 +430,19 @@
     "_enabled": true,
     "DataCollectorId": 2,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "multiType": false,
     "otherPlayer": null,
     "isChooseFromPreviewManager": false,
     "chooseType": {
-      "__id__": 20
+      "__id__": 15
     },
     "chooseTypes": [],
     "filterFromPassiveMeta": false,
     "targetCollectorFromPassiveMeta": null,
+    "targetCollectorFromPassiveMetaId": -1,
+    "targetCollectorFromPassiveMetaIdFinal": -1,
     "flavorText": "Choose A Player To Recive This Curse",
     "otherPlayersFlavorText": "",
     "isMultiCardChoice": false,
@@ -477,7 +456,7 @@
     "componentName": "Character",
     "isMultiFilter": false,
     "filterStatement": {
-      "__id__": 21
+      "__id__": 16
     },
     "filterStatements": []
   },
@@ -487,7 +466,7 @@
     "filterMaker": null,
     "componentType": 0,
     "playerFilter": {
-      "__id__": 22
+      "__id__": 17
     },
     "monsterFilter": null,
     "cardFilter": null,
@@ -506,7 +485,7 @@
     "asset": {
       "__uuid__": "39dd7ed8-faf7-4553-a221-626d0196ff7b"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

@@ -32,17 +32,17 @@
         "__id__": 5
       },
       {
-        "__id__": 7
+        "__id__": 6
       },
       {
-        "__id__": 11
+        "__id__": 8
       },
       {
-        "__id__": 12
+        "__id__": 9
       }
     ],
     "_prefab": {
-      "__id__": 16
+      "__id__": 14
     },
     "_opacity": 255,
     "_color": {
@@ -147,6 +147,7 @@
     "souls": 0,
     "type": 5,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -188,33 +189,25 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
     "activeEffectsIds": [],
-    "passiveEffects": [],
-    "passiveEffectsIds": [
-      {
-        "__id__": 6
-      }
+    "activeEffectsIdsFinal": [],
+    "passiveEffectsIds": [],
+    "passiveEffectsIdsFinal": [
+      0
     ],
-    "toAddPassiveEffects": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
+    "toAddPassiveEffectsIdsFinal": [],
     "paidEffectsIds": [],
+    "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
-    "multiEffectCollectorId": null,
+    "multiEffectCollectorId": {},
+    "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "RechargeItem",
-    "id": 0
   },
   {
     "__type__": "14ed6MlA1pOLYkroRqoh1T+",
@@ -225,28 +218,29 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 8
+      "__id__": 7
     },
     "EffectId": 0,
     "isSilent": false,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "preCondition": null,
-    "preConditionId": null,
+    "preConditionId": {},
+    "preConditionIdFinal": -1,
     "conditions": [],
-    "conditionsIds": [
-      {
-        "__id__": 9
-      }
+    "conditionsIds": [],
+    "conditionsIdsFinal": [
+      0
     ],
     "passiveType": 2,
     "passiveEffectToAdd": null,
-    "passiveEffectToAddId": null,
+    "passiveEffectToAddId": {},
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
-    "dataCollectorsIds": [
-      {
-        "__id__": 10
-      }
+    "dataCollectorsIds": [],
+    "dataCollectorsIdsFinal": [
+      0
     ],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
@@ -255,7 +249,8 @@
     "hasLockingResolve": false,
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": null,
+    "dataConcurencyComponentId": {},
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "Do You Want To Recharge An Item?",
     "_id": ""
   },
@@ -267,16 +262,6 @@
     "height": 22.5
   },
   {
-    "__type__": "IdAndName",
-    "name": "Charged Baby<PlayerRollNumber>",
-    "id": 0
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "ChooseCard",
-    "id": 0
-  },
-  {
     "__type__": "2b6f7RR055Ca6GWp/EHKd0X",
     "_name": "",
     "_objFlags": 0,
@@ -284,8 +269,9 @@
       "__id__": 1
     },
     "_enabled": true,
-    "conditionId": 0,
-    "dataCollectorId": null,
+    "ConditionId": 0,
+    "dataCollectorId": {},
+    "dataCollectorIdFinal": -1,
     "isMultiNumber": false,
     "numbers": [],
     "numberRoll": 2,
@@ -305,16 +291,21 @@
     "_enabled": true,
     "DataCollectorId": 0,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "multiType": false,
     "otherPlayer": null,
     "isChooseFromPreviewManager": false,
     "chooseType": {
-      "__id__": 13
+      "__id__": 10
     },
     "chooseTypes": [],
     "filterFromPassiveMeta": false,
     "targetCollectorFromPassiveMeta": null,
+    "targetCollectorFromPassiveMetaId": {
+      "__id__": 13
+    },
+    "targetCollectorFromPassiveMetaIdFinal": -1,
     "flavorText": "Choose An Item To Recharge",
     "otherPlayersFlavorText": "",
     "isMultiCardChoice": false,
@@ -328,7 +319,7 @@
     "componentName": "Item",
     "isMultiFilter": false,
     "filterStatement": {
-      "__id__": 14
+      "__id__": 11
     },
     "filterStatements": []
   },
@@ -341,13 +332,18 @@
     "monsterFilter": null,
     "cardFilter": null,
     "itemFilter": {
-      "__id__": 15
+      "__id__": 12
     }
   },
   {
     "__type__": "ItemFilter",
     "filter": 0,
     "stringInput": ""
+  },
+  {
+    "__type__": "IdAndName",
+    "name": "",
+    "id": -1
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -357,7 +353,7 @@
     "asset": {
       "__uuid__": "2cb610c0-dd27-428e-8173-4a68d61f9d1e"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

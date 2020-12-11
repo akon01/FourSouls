@@ -9,11 +9,6 @@ export default class IdAndName {
     @property({ type: cc.Integer, step: 1 })
     id: number = -1
 
-    /**
-     *
-     */
-    constructor() {
-    }
 
 
     static getNew(id: number, name: string) {

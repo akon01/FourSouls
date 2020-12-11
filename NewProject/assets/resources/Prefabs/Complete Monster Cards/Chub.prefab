@@ -32,17 +32,17 @@
         "__id__": 6
       },
       {
-        "__id__": 8
+        "__id__": 7
       },
       {
-        "__id__": 12
+        "__id__": 9
       },
       {
-        "__id__": 13
+        "__id__": 10
       }
     ],
     "_prefab": {
-      "__id__": 14
+      "__id__": 11
     },
     "_opacity": 255,
     "_color": {
@@ -215,26 +215,24 @@
     "_enabled": true,
     "hasDestroySelfEffect": false,
     "activeEffectsIds": [],
-    "passiveEffectsIds": [
-      {
-        "__id__": 7
-      }
+    "activeEffectsIdsFinal": [],
+    "passiveEffectsIds": [],
+    "passiveEffectsIdsFinal": [
+      0
     ],
     "toAddPassiveEffectsIds": [],
+    "toAddPassiveEffectsIdsFinal": [],
     "paidEffectsIds": [],
+    "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollectorId": null,
+    "multiEffectCollectorId": {},
+    "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "HealEntity",
-    "id": 0
   },
   {
     "__type__": "15507+H+mpBCKentj6l1ejS",
@@ -245,28 +243,29 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 9
+      "__id__": 8
     },
     "EffectId": 0,
     "isSilent": false,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "preCondition": null,
-    "preConditionId": null,
+    "preConditionId": {},
+    "preConditionIdFinal": -1,
     "conditions": [],
-    "conditionsIds": [
-      {
-        "__id__": 10
-      }
+    "conditionsIds": [],
+    "conditionsIdsFinal": [
+      0
     ],
     "passiveType": 2,
     "passiveEffectToAdd": null,
-    "passiveEffectToAddId": null,
+    "passiveEffectToAddId": {},
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
-    "dataCollectorsIds": [
-      {
-        "__id__": 11
-      }
+    "dataCollectorsIds": [],
+    "dataCollectorsIdsFinal": [
+      0
     ],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
@@ -275,7 +274,8 @@
     "hasLockingResolve": false,
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": null,
+    "dataConcurencyComponentId": {},
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "hpToHeal": 2,
     "isMultiTarget": false,
@@ -289,16 +289,6 @@
     "height": 20
   },
   {
-    "__type__": "IdAndName",
-    "name": "Chub<PlayerRollNumber>",
-    "id": 0
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "CardActivated",
-    "id": 0
-  },
-  {
     "__type__": "2b6f7RR055Ca6GWp/EHKd0X",
     "_name": "",
     "_objFlags": 0,
@@ -306,8 +296,9 @@
       "__id__": 1
     },
     "_enabled": true,
-    "conditionId": 0,
-    "dataCollectorId": null,
+    "ConditionId": 0,
+    "dataCollectorId": {},
+    "dataCollectorIdFinal": -1,
     "isMultiNumber": false,
     "numbers": [],
     "numberRoll": 1,
@@ -327,7 +318,8 @@
     "_enabled": true,
     "DataCollectorId": 0,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "_id": ""
   },
   {

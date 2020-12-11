@@ -150,6 +150,7 @@
     "souls": 0,
     "type": 3,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -209,22 +210,21 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
     "activeEffectsIds": [
       {
         "__id__": 7
       }
     ],
-    "passiveEffects": [],
+    "activeEffectsIdsFinal": [],
     "passiveEffectsIds": [],
-    "toAddPassiveEffects": [],
+    "passiveEffectsIdsFinal": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
+    "toAddPassiveEffectsIdsFinal": [],
     "paidEffectsIds": [],
+    "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
     "multiEffectCollectorId": null,
+    "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
     "data": {},
@@ -252,21 +252,26 @@
     "isSilent": false,
     "cost": null,
     "costId": null,
+    "costIdFinal": -1,
     "preCondition": null,
     "preConditionId": {
       "__id__": 10
     },
+    "preConditionIdFinal": -1,
     "conditions": [],
     "conditionsIds": [],
+    "conditionsIdsFinal": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
     "passiveEffectToAddId": null,
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
     "dataCollectorsIds": [
       {
         "__id__": 11
       }
     ],
+    "dataCollectorsIdsFinal": [],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
     "optionalBeforeDataCollection": false,
@@ -275,6 +280,7 @@
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
     "dataConcurencyComponentId": null,
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "_id": ""
   },
@@ -303,8 +309,9 @@
       "__id__": 1
     },
     "_enabled": true,
-    "preConditionId": 0,
+    "PreConditionId": 0,
     "dataCollectorId": null,
+    "dataCollectorIdFinal": -1,
     "cardsNeeded": 1,
     "_id": ""
   },
@@ -319,6 +326,7 @@
     "DataCollectorId": 0,
     "cost": null,
     "costId": null,
+    "costIdFinal": -1,
     "_id": ""
   },
   {
@@ -329,7 +337,7 @@
     "asset": {
       "__uuid__": "ee9c9cd7-0c76-44f0-a975-b30a46750d7d"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

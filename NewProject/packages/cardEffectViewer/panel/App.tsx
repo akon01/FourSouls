@@ -71,8 +71,11 @@ type allPropType = {
    dataConcurencies: IdNameAndCompType[],
    availavleEffects: IdNameAndCompType[],
    requires: { EffectView: any, EffectCompSingle: any, EffectCompArray: any },
-   isUsingFinal: boolean
+   isUsingFinal: boolean,
+   ReloadData: (isUsingFinal: boolean) => void
 }
+
+
 
 export function App(props: allPropType) {
 
@@ -90,124 +93,126 @@ export function App(props: allPropType) {
    const dataConcucrencyType = '7496eJlecdMfpCUk/s/ol2S'
    const dataIdsNames = ['DataCollectorId', 'PreConditionId', 'ConditionId', 'EffectId', 'CostId', 'ConcurencyId']
 
-   var cardEffectComp = null
-   var nodeId = ""
-   var selectedCardNode = null
-   var activeEffects = []
-   var passiveEffects = []
-   var toAddPassiveEffects = []
-   var paidEffects = []
-   var preConditions = []
-   var conditions = []
-   var dataCollectors = []
-   var costs = []
-   var dataConcurencies = []
-   var availavleEffects: IdNameAndCompType[] = []
 
-   const getEffectsList = (effectIdsName, effectsArray, cardName) => {
-      const regex = new RegExp(`${cardName}\<([\\s\\S]+?)\>`)
-      const comps = selectedCardNode.value["__comps__"]
-      const activeEffectsIdAndNames = cardEffectComp['value'][effectIdsName]['value']
-      for (const idAndName of activeEffectsIdAndNames) {
-         const name = idAndName['value']['name']['value']
-         const id = idAndName['value']['id']['value']
-         for (const comp of comps) {
-            if (comp['value']['name']['value'].includes(name) && comp['value']['EffectId']['value'].toString() == id.toString()) {
-               effectsArray.push({
-                  name: name.replace(regex, `$1`),
-                  id,
-                  comp: comp.value
-               })
+   const ReloadData = (isUsingFinal) => {
+      var cardEffectComp = null
+      var nodeId = ""
+      var selectedCardNode = null
+      var activeEffects: IdNameAndCompType[] = []
+      var passiveEffects: IdNameAndCompType[] = []
+      var toAddPassiveEffects: IdNameAndCompType[] = []
+      var paidEffects: IdNameAndCompType[] = []
+      var preConditions: IdNameAndCompType[] = []
+      var conditions: IdNameAndCompType[] = []
+      var dataCollectors: IdNameAndCompType[] = []
+      var costs: IdNameAndCompType[] = []
+      var dataConcurencies: IdNameAndCompType[] = []
+      var availavleEffects: IdNameAndCompType[] = []
+
+      const getEffectsList = (effectIdsName, effectsArray, cardName) => {
+         const regex = new RegExp(`${cardName}\<([\\s\\S]+?)\>`)
+         const comps = selectedCardNode.value["__comps__"]
+         const activeEffectsIdAndNames = cardEffectComp['value'][effectIdsName]['value']
+         for (const idAndName of activeEffectsIdAndNames) {
+            const name = idAndName['value']['name']['value']
+            const id = idAndName['value']['id']['value']
+            for (const comp of comps) {
+               if (comp['value']['name']['value'].toUpperCase().includes(name.toUpperCase()) && comp['value']['EffectId']['value'].toString() == id.toString()) {
+                  effectsArray.push({
+                     name: name.replace(regex, `$1`),
+                     id,
+                     comp: comp.value
+                  })
+               }
             }
+
          }
-
       }
-   }
 
-   const getListByExtendsString = (string, list, cardName) => {
-      const regex = new RegExp(`${cardName}\<([\\s\\S]+?)\>`)
-      const types = selectedCardNode.types
-      const comps = selectedCardNode.value["__comps__"]
-      for (const type in types) {
-         if (types.hasOwnProperty(type)) {
-            const typeData = types[type];
-            if (typeData.extends != undefined && typeData.extends.includes(string)) {
+      const getListByExtendsString = (string, list, cardName) => {
+         const regex = new RegExp(`${cardName}\<([\\s\\S]+?)\>`)
+         const types = selectedCardNode.types
+         const comps = selectedCardNode.value["__comps__"]
+         for (const type in types) {
+            if (types.hasOwnProperty(type)) {
+               const typeData = types[type];
+               if (typeData.extends != undefined && typeData.extends.includes(string)) {
 
-               const aComps = comps.filter(comp => comp.type == type)
-               for (const aComp of aComps) {
-                  if (aComp) {
-                     const cardName = aComp.value.node.value.name;
-                     let compName = aComp.value.name.value.replace(cardName + "<", "")
-                     compName = compName.slice(0, -1)
-                     let id = ""
-                     for (const idName of dataIdsNames) {
-                        if (aComp.value[idName] != undefined) {
-                           id = aComp.value[idName].value
+                  const aComps = comps.filter(comp => comp.type == type)
+                  for (const aComp of aComps) {
+                     if (aComp) {
+                        const cardName = aComp.value.node.value.name;
+                        let compName = aComp.value.name.value.replace(cardName + "<", "")
+                        compName = compName.slice(0, -1)
+                        let id = ""
+                        for (const idName of dataIdsNames) {
+                           if (aComp.value[idName] != undefined) {
+                              id = aComp.value[idName].value
+                           }
                         }
+                        list.push({
+                           name: compName.replace(regex, `$1`),
+                           comp: aComp.value,
+                           id: id
+                        })
+                     } else {
+                        //@ts-ignore
+                        Editor.log(`tring to get type:${type} named ${typeData.name}, but not found a component with that type`)
                      }
-                     list.push({
-                        name: compName.replace(regex, `$1`),
-                        comp: aComp.value,
-                        id: id
-                     })
-                  } else {
-                     //@ts-ignore
-                     Editor.log(`tring to get type:${type} named ${typeData.name}, but not found a component with that type`)
                   }
                }
             }
          }
       }
-   }
 
-   const getAvailableEffects = (cardName) => {
-      const regex = new RegExp(`${cardName}\<([\\s\\S]+?)\>`)
-      const types = selectedCardNode.types
-      let effectType = ""
-      for (const key in types) {
-         if (types.hasOwnProperty(key)) {
-            const type = types[key];
-            if (type.name == "Effect") {
-               effectType = key;
+      const getAvailableEffects = (cardName) => {
+         const regex = new RegExp(`${cardName}\<([\\s\\S]+?)\>`)
+         const types = selectedCardNode.types
+         let effectType = ""
+         for (const key in types) {
+            if (types.hasOwnProperty(key)) {
+               const type = types[key];
+               if (type.name == "Effect") {
+                  effectType = key;
+               }
             }
          }
-      }
-      const foundTypes = []
-      const avalEffects = []
-      for (const key in types) {
-         if (types.hasOwnProperty(key)) {
-            const type = types[key];
-            if (type.extends != undefined && type.extends.includes(effectType)) {
-               foundTypes.push(key)
+         const foundTypes = []
+         const avalEffects = []
+         for (const key in types) {
+            if (types.hasOwnProperty(key)) {
+               const type = types[key];
+               if (type.extends != undefined && type.extends.includes(effectType)) {
+                  foundTypes.push(key)
+               }
             }
          }
+         const comps = selectedCardNode.value["__comps__"]
+         for (const comp of comps) {
+            if (foundTypes.includes(comp.type)) {
+               avalEffects.push(comp.value)
+            }
+         }
+         availavleEffects = avalEffects.map(ef => {
+            const newName = ef.name.value.replace(regex, `$1`)
+            return {
+               name: newName,
+               id: ef.EffectId.value,
+               comp: ef
+            }
+         });
       }
-      const comps = selectedCardNode.value["__comps__"]
-      for (const comp of comps) {
-         if (foundTypes.includes(comp.type)) {
-            avalEffects.push(comp.value)
+
+      const getFinalEffectsList = (effectsIdsName, effectsArray) => {
+         const comps = selectedCardNode.value["__comps__"]
+         cardEffectComp = comps.find(comp => comp["type"] == "bd535UKRTNDu7iLPx8/+FlC");
+         const activeEffectsIdAndNames = cardEffectComp['value'][effectsIdsName + 'Final']['value'] as { type: string, value: number }[]
+         for (const activeEffectId of activeEffectsIdAndNames) {
+            effectsArray.push(availavleEffects.find(as => as.id == activeEffectId.value))
          }
       }
-      availavleEffects = avalEffects.map(ef => {
-         const newName = ef.name.value.replace(regex, `$1`)
-         return {
-            name: newName,
-            id: ef.EffectId.value,
-            comp: ef
-         }
-      });
-   }
 
-   const getFinalEffectsList = (effectsIdsName, effectsArray) => {
-      const comps = selectedCardNode.value["__comps__"]
-      cardEffectComp = comps.find(comp => comp["type"] == "bd535UKRTNDu7iLPx8/+FlC");
-      const activeEffectsIdAndNames = cardEffectComp['value'][effectsIdsName + 'Final']['value'] as { type: string, value: number }[]
-      for (const activeEffectId of activeEffectsIdAndNames) {
-         effectsArray.push(availavleEffects.find(as => as.id == activeEffectId.value))
-      }
-   }
 
-   const ReloadData = (isUsingFinal) => {
       //@ts-ignore
       Editor.Ipc.sendToPanel('scene', 'scene:query-nodes-by-comp-name', 'CardEffect', (error, nodes) => {
          if (error)
@@ -256,10 +261,49 @@ export function App(props: allPropType) {
             }
 
             const newAllProps = {
-               activeEffects, availavleEffects, cardEffectComp, conditions, costs, dataCollectors, dataConcurencies, nodeId, paidEffects, passiveEffects, preConditions, requires: props.requires, selectedCardNode, toAddPassiveEffects, isUsingFinal: isUsingFinal
+               activeEffects, availavleEffects, cardEffectComp, conditions, costs, dataCollectors, dataConcurencies, nodeId, paidEffects, passiveEffects, preConditions, requires: props.requires, selectedCardNode, toAddPassiveEffects, isUsingFinal: isUsingFinal, ReloadData
             }
-            setAllProp(newAllProps)
+            let isChanged = false
+            //@ts-ignore
+            Editor.log('Finished Reload For Card ' + cardName)
+            for (let i = 0; i < newAllProps.conditions.length; i++) {
+               const condition = newAllProps.conditions[i];
+               if (condition.id == -1) {
+                  debugger
+                  isChanged = true
+                  saveToPrefab(condition.comp.uuid.value, "ConditionId", "Integer", i)
+               }
+            }
+            for (let i = 0; i < newAllProps.dataConcurencies.length; i++) {
+               const condition = newAllProps.dataConcurencies[i];
+               if (condition.id == -1) {
+                  isChanged = true
+                  saveToPrefab(condition.comp.uuid.value, "DataConcurencyId", "Integer", i)
+               }
+            }
+            for (let i = 0; i < newAllProps.preConditions.length; i++) {
+               const condition = newAllProps.preConditions[i];
+               if (condition.id == -1) {
+                  isChanged = true
+                  saveToPrefab(condition.comp.uuid.value, "PreConditionId", "Integer", i)
+               }
+            }
+            for (let i = 0; i < newAllProps.costs.length; i++) {
+               const condition = newAllProps.costs[i];
+               if (condition.id == -1) {
+                  isChanged = true
+                  saveToPrefab(condition.comp.uuid.value, "CostId", "Integer", i)
+               }
+            }
 
+            if (isChanged) {
+               newAllProps.ReloadData(newAllProps.isUsingFinal)
+               return
+            }
+
+
+            setAllProp(newAllProps)
+            warnAboutComponentsWithStartId(newAllProps)
             setLoaded(true)
 
             //  renderReact()
@@ -295,9 +339,9 @@ export function App(props: allPropType) {
          comp: allProp.cardEffectComp?.value ?? null
       }
    }, [allProp])
-   const saveToPrefab = (uuid, key, type, value) => {
-      debugger
-      if (!allProp.isUsingFinal) {
+   const saveToPrefab = (uuid, key, type, value, useFinal?) => {
+      const finalRegex = /Final$/g
+      if ((allProp.isUsingFinal || useFinal) && !finalRegex.test(key)) {
          key = key + "Final";
       }
       //@ts-ignore
@@ -309,27 +353,31 @@ export function App(props: allPropType) {
          value: value,
          isSubProp: false,
       });
+
    }
 
    ///inside IdAndNameCompToUpdate - .comp needs to be updated with new values
-   const saveChange = (IdAndNameCompToUpdate: IdNameAndCompType, key: string) => {
+   const saveChange = (IdAndNameCompToUpdate: IdNameAndCompType, key: string, doNotReload?: boolean, useFinal?: boolean) => {
       const prop = IdAndNameCompToUpdate.comp[key]
       if (prop.type == "IdAndName") {
          if (Array.isArray(prop.value)) {
             saveToPrefab(IdAndNameCompToUpdate.comp.uuid.value, key, prop.type, prop.value.map(val => {
                return val.value.id.value
-            }))
+            }), useFinal)
          } else {
-            saveToPrefab(IdAndNameCompToUpdate.comp.uuid.value, key, prop.type, prop.value.id.value)
+            saveToPrefab(IdAndNameCompToUpdate.comp.uuid.value, key, prop.type, prop.value.id.value, useFinal)
          }
       } else if (prop.type == "Integer") {
          if (Array.isArray(prop.value)) {
             saveToPrefab(IdAndNameCompToUpdate.comp.uuid.value, key, prop.type, prop.value.map(val => {
                return val.value
-            }))
+            }), useFinal)
          } else {
-            saveToPrefab(IdAndNameCompToUpdate.comp.uuid.value, key, prop.type, prop.value.value)
+            saveToPrefab(IdAndNameCompToUpdate.comp.uuid.value, key, prop.type, prop.value, useFinal)
          }
+      }
+      if (doNotReload) {
+         return
       }
       ReloadData(allProp.isUsingFinal)
    }
@@ -354,6 +402,9 @@ export function App(props: allPropType) {
    }
 
    const convertFromidAndNameTypeValuePairToIdNameAndCompType = (orig: idAndNameTypeValuePair): IdNameAndCompType => {
+      if (orig.value == null) {
+         return null
+      }
       const converted = {
          id: (orig.value as IdNameValuePair).id.value,
          name: (orig.value as IdNameValuePair).name.value,
@@ -367,8 +418,7 @@ export function App(props: allPropType) {
       return /Id$/g.test(valueName) || /Ids$/g.test(valueName)
    }
 
-   const saveToPrefab2 = (uuid, key, type, value) => {
-      debugger
+   const saveToPrefab2 = (uuid, key) => {
       //@ts-ignore
       Editor.Ipc.sendToPanel('scene', 'scene:set-property', {
          id: uuid,
@@ -383,20 +433,18 @@ export function App(props: allPropType) {
    ///inside IdAndNameCompToUpdate - .comp needs to be updated with new values
    const saveChange2 = (IdAndNameCompToUpdate: IdNameAndCompType, key: string) => {
       const prop = IdAndNameCompToUpdate.comp[key]
-      if (prop.type == "IdAndName") {
-         if (Array.isArray(prop.value)) {
-            saveToPrefab2(IdAndNameCompToUpdate.comp.uuid.value, key, prop.type, prop.value.map(val => {
-               return val.value.id.value
-            }))
-         } else {
-            saveToPrefab2(IdAndNameCompToUpdate.comp.uuid.value, key, prop.type, prop.value.id.value)
-         }
-      }
+      // if (prop.type == "IdAndName") {
+      //    if (Array.isArray(prop.value)) {
+      //       saveToPrefab2(IdAndNameCompToUpdate.comp.uuid.value, key)
+      //    } else {
+      saveToPrefab2(IdAndNameCompToUpdate.comp.uuid.value, key)
+      // }
+      // }
    }
 
    const handleMakeFirstChange = () => {
 
-      const { isUsingFinal, nodeId, requires, selectedCardNode, cardEffectComp, ...allCardEffectComponents } = allProp
+      const { ReloadData, isUsingFinal, nodeId, requires, selectedCardNode, cardEffectComp, ...allCardEffectComponents } = allProp
       for (const key in allCardEffectComponents) {
          if (Object.prototype.hasOwnProperty.call(allCardEffectComponents, key)) {
             const cardEffectComponentArray = allCardEffectComponents[key] as IdNameAndCompType[];
@@ -407,11 +455,11 @@ export function App(props: allPropType) {
                      const value: idAndNameTypeValuePair = compToRunOn[key];
                      if (value.type == "IdAndName") {
                         if (Array.isArray(value.value)) {
-                           saveChange(cardEffectComponent, key)
+                           saveChange(cardEffectComponent, key, true, true)
                            saveChange2(cardEffectComponent, key)
                            // values.push({ key: key, compDesc: value.value.map(tvp => convertFromidAndNameTypeValuePairToIdNameAndCompType(tvp)) })
                         } else {
-                           saveChange(cardEffectComponent, key)
+                           saveChange(cardEffectComponent, key, true, true)
                            saveChange2(cardEffectComponent, key)
                            // values.push({ key: key, compDesc: convertFromidAndNameTypeValuePairToIdNameAndCompType(value) })
                         }
@@ -421,11 +469,14 @@ export function App(props: allPropType) {
                         // })
                      } else if (hasIdInName(key) && value.type == 'Object') {
                         //TODO: id and name from value if not null
-                        saveChange(cardEffectComponent, key)
+                        saveChange(cardEffectComponent, key, true, true)
                         saveChange2(cardEffectComponent, key)
                         // values.push({
                         //    key: key, compDesc: { id: -1, name: "", comp: (value.value != null) ? convertFromidAndNameTypeValuePairToIdNameAndCompType(value) : null }
                         // })
+                     } else if (value.type == "EffectsAndNumbers") {
+                        //@ts-ignore
+                        Editor.error(`${cardEffectComponent.name} has EffectsAndNumbers, Change Manualy`)
                      }
                   }
                }
@@ -433,17 +484,18 @@ export function App(props: allPropType) {
             }
          }
       }
-      saveToPrefab(cardEffectComp.value.uuid.value, "activeEffectsIds", "", (cardEffectComp.value.activeEffectsIds.value as typeValuePair<IdNameValuePair>[]).map(p => p.value.id.value))
-      saveToPrefab(cardEffectComp.value.uuid.value, "paidEffectsIds", "", (cardEffectComp.value.paidEffectsIds.value as typeValuePair<IdNameValuePair>[]).map(p => p.value.id.value))
-      saveToPrefab(cardEffectComp.value.uuid.value, "multiEffectCollectorId", "", (cardEffectComp.value.multiEffectCollectorId.value as IdNameValuePair).id.value)
-      saveToPrefab(cardEffectComp.value.uuid.value, "passiveEffectsIds", "", (cardEffectComp.value.passiveEffectsIds.value as typeValuePair<IdNameValuePair>[]).map(p => p.value.id.value))
-      saveToPrefab(cardEffectComp.value.uuid.value, "toAddPassiveEffectsIds", "", (cardEffectComp.value.toAddPassiveEffectsIds.value as typeValuePair<IdNameValuePair>[]).map(p => p.value.id.value))
-      saveToPrefab2(cardEffectComp.value.uuid.value, "activeEffectsIds", "", (cardEffectComp.value.activeEffectsIds.value as typeValuePair<IdNameValuePair>[]).map(p => p.value.id.value))
-      saveToPrefab2(cardEffectComp.value.uuid.value, "paidEffectsIds", "", (cardEffectComp.value.paidEffectsIds.value as typeValuePair<IdNameValuePair>[]).map(p => p.value.id.value))
-      saveToPrefab2(cardEffectComp.value.uuid.value, "multiEffectCollectorId", "", (cardEffectComp.value.multiEffectCollectorId.value as IdNameValuePair).id.value)
-      saveToPrefab2(cardEffectComp.value.uuid.value, "passiveEffectsIds", "", (cardEffectComp.value.passiveEffectsIds.value as typeValuePair<IdNameValuePair>[]).map(p => p.value.id.value))
-      saveToPrefab2(cardEffectComp.value.uuid.value, "toAddPassiveEffectsIds", "", (cardEffectComp.value.toAddPassiveEffectsIds.value as typeValuePair<IdNameValuePair>[]).map(p => p.value.id.value))
+      saveToPrefab(cardEffectComp.value.uuid.value, "activeEffectsIdsFinal", "", (cardEffectComp.value.activeEffectsIds.value as typeValuePair<IdNameValuePair>[]).map(p => p.value.id.value))
+      saveToPrefab(cardEffectComp.value.uuid.value, "paidEffectsIdsFinal", "", (cardEffectComp.value.paidEffectsIds.value as typeValuePair<IdNameValuePair>[]).map(p => p.value.id.value))
+      saveToPrefab(cardEffectComp.value.uuid.value, "multiEffectCollectorIdFinal", "", (cardEffectComp.value.multiEffectCollectorId.value as IdNameValuePair)?.id.value ?? -1)
+      saveToPrefab(cardEffectComp.value.uuid.value, "passiveEffectsIdsFinal", "", (cardEffectComp.value.passiveEffectsIds.value as typeValuePair<IdNameValuePair>[]).map(p => p.value.id.value))
+      saveToPrefab(cardEffectComp.value.uuid.value, "toAddPassiveEffectsIdsFinal", "", (cardEffectComp.value.toAddPassiveEffectsIds.value as typeValuePair<IdNameValuePair>[]).map(p => p.value.id.value))
+      saveToPrefab2(cardEffectComp.value.uuid.value, "activeEffectsIds",)
+      saveToPrefab2(cardEffectComp.value.uuid.value, "paidEffectsIds")
+      saveToPrefab2(cardEffectComp.value.uuid.value, "multiEffectCollectorId")
+      saveToPrefab2(cardEffectComp.value.uuid.value, "passiveEffectsIds")
+      saveToPrefab2(cardEffectComp.value.uuid.value, "toAddPassiveEffectsIds")
 
+      ReloadData(allProp.isUsingFinal)
    }
 
 
@@ -452,8 +504,8 @@ export function App(props: allPropType) {
 
    }
 
-   const warnAboutComponentsWithStartId = () => {
-      const { isUsingFinal, nodeId, requires, selectedCardNode, cardEffectComp, ...allCardEffectComponents } = allProp
+   const warnAboutComponentsWithStartId = (allProps: allPropType) => {
+      const { ReloadData, isUsingFinal, nodeId, requires, selectedCardNode, cardEffectComp, ...allCardEffectComponents } = allProps
       var toWarnAbout: IdNameAndCompType[] = []
       for (const key in allCardEffectComponents) {
          if (Object.prototype.hasOwnProperty.call(allCardEffectComponents, key)) {
@@ -464,19 +516,21 @@ export function App(props: allPropType) {
             }
          }
       }
-      //@ts-ignore
-      Editor.error("Components With Start Id (-1)")
-      var names = ""
-      for (const warnMe of toWarnAbout) {
-         names += warnMe.name + ", "
+      if (toWarnAbout.length > 0) {
+         //@ts-ignore
+         Editor.error("Components With Start Id (-1)")
+         var names = ""
+         for (const warnMe of toWarnAbout) {
+            names += warnMe.name + ", "
+         }
+         //@ts-ignore
+         Editor.error(names)
       }
-      //@ts-ignore
-      Editor.error(names)
    }
 
    React.useEffect(() => {
       if (isLoaded) {
-         warnAboutComponentsWithStartId()
+         warnAboutComponentsWithStartId(allProp)
       }
    }, [allProp])
 
@@ -531,8 +585,10 @@ export function App(props: allPropType) {
                      <EffectCompArray saveChange={saveChange} IdNameCompTuple={cardEffectCompIdAndName} allProps={allProp} keyWordProp={toAddPassiveEffectsIdsName} array={allProp.toAddPassiveEffects} updateAllProps={updateAllProps} />
                      {/*allProp.activeEffects.map((effect, idx) => <EffectView allProps={allProp} key={idx} effect={effect}/>)*/}
                   </ul>
-                  <h2>MultiEffect Chooser</h2>
-                  <EffectCompSingle saveChange={saveChange} IdNameCompTuple={cardEffectCompIdAndName} allProps={allProp} keyWordProp="MultiEffectChooser" single={multiEffectChoser} />
+                  {allProp.cardEffectComp.value.hasMultipleEffects && <div>
+                     <h2>MultiEffect Chooser</h2>
+                     <EffectCompSingle saveChange={saveChange} IdNameCompTuple={cardEffectCompIdAndName} allProps={allProp} keyWordProp="MultiEffectDataCollector" single={multiEffectChoser} />
+                  </div>}
                </div>
             </div>
          </div>}

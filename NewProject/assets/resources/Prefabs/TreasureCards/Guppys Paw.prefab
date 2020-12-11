@@ -32,17 +32,17 @@
         "__id__": 5
       },
       {
-        "__id__": 7
+        "__id__": 6
       },
       {
-        "__id__": 11
+        "__id__": 9
       },
       {
-        "__id__": 17
+        "__id__": 16
       }
     ],
     "_prefab": {
-      "__id__": 18
+      "__id__": 17
     },
     "_opacity": 255,
     "_color": {
@@ -147,6 +147,7 @@
     "souls": 0,
     "type": 5,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -188,33 +189,25 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": true,
-    "conditions": [],
-    "activeEffects": [],
-    "activeEffectsIds": [
-      {
-        "__id__": 6
-      }
+    "activeEffectsIds": [],
+    "activeEffectsIdsFinal": [
+      0
     ],
-    "passiveEffects": [],
     "passiveEffectsIds": [],
-    "toAddPassiveEffects": [],
+    "passiveEffectsIdsFinal": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
+    "toAddPassiveEffectsIdsFinal": [],
     "paidEffectsIds": [],
+    "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
-    "multiEffectCollectorId": null,
+    "multiEffectCollectorId": {},
+    "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "PreventDamage",
-    "id": 0
   },
   {
     "__type__": "75914fO/PZECq/a6xEKqfxK",
@@ -225,26 +218,29 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 8
+      "__id__": 7
     },
     "EffectId": 0,
     "isSilent": false,
     "cost": null,
     "costId": {
-      "__id__": 9
+      "__id__": 8
     },
+    "costIdFinal": 0,
     "preCondition": null,
-    "preConditionId": null,
+    "preConditionId": {},
+    "preConditionIdFinal": -1,
     "conditions": [],
     "conditionsIds": [],
+    "conditionsIdsFinal": [],
     "passiveType": 1,
     "passiveEffectToAdd": null,
-    "passiveEffectToAddId": null,
+    "passiveEffectToAddId": {},
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
-    "dataCollectorsIds": [
-      {
-        "__id__": 10
-      }
+    "dataCollectorsIds": [],
+    "dataCollectorsIdsFinal": [
+      0
     ],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
@@ -253,7 +249,8 @@
     "hasLockingResolve": false,
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": null,
+    "dataConcurencyComponentId": {},
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "damageToPrevent": 2,
     "multipleTargets": false,
@@ -272,11 +269,6 @@
     "id": 0
   },
   {
-    "__type__": "IdAndName",
-    "name": "ChooseCard",
-    "id": 0
-  },
-  {
     "__type__": "b4dd13gjjJIk556pQaiqi12",
     "_name": "",
     "_objFlags": 0,
@@ -286,18 +278,23 @@
     "_enabled": true,
     "DataCollectorId": 0,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "multiType": false,
     "otherPlayer": null,
     "isChooseFromPreviewManager": false,
     "chooseType": {
-      "__id__": 12
+      "__id__": 10
     },
     "chooseTypes": [
       1
     ],
     "filterFromPassiveMeta": false,
     "targetCollectorFromPassiveMeta": null,
+    "targetCollectorFromPassiveMetaId": {
+      "__id__": 15
+    },
+    "targetCollectorFromPassiveMetaIdFinal": -1,
     "flavorText": "Choose Player To Get Damage Prevention",
     "otherPlayersFlavorText": "",
     "isMultiCardChoice": false,
@@ -311,14 +308,14 @@
     "componentName": "Character",
     "isMultiFilter": false,
     "filterStatement": {
-      "__id__": 13
+      "__id__": 11
     },
     "filterStatements": [
       {
-        "__id__": 15
+        "__id__": 13
       },
       {
-        "__id__": 16
+        "__id__": 14
       }
     ]
   },
@@ -328,7 +325,7 @@
     "filterMaker": null,
     "componentType": 0,
     "playerFilter": {
-      "__id__": 14
+      "__id__": 12
     },
     "monsterFilter": null,
     "cardFilter": null,
@@ -354,6 +351,11 @@
     "logicGate": 2
   },
   {
+    "__type__": "IdAndName",
+    "name": "",
+    "id": -1
+  },
+  {
     "__type__": "51c3cAn9pZMf5vE7ez+y0cT",
     "_name": "",
     "_objFlags": 0,
@@ -361,9 +363,10 @@
       "__id__": 1
     },
     "_enabled": true,
-    "costId": 0,
+    "CostId": 0,
     "preCondition": null,
-    "preConditionId": null,
+    "preConditionId": {},
+    "preConditionIdFinal": -1,
     "dmgToTake": 1,
     "_id": ""
   },
@@ -375,7 +378,7 @@
     "asset": {
       "__uuid__": "6e38540b-64fa-4450-9de4-cac558b597b6"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

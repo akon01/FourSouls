@@ -32,20 +32,20 @@
         "__id__": 5
       },
       {
+        "__id__": 6
+      },
+      {
         "__id__": 8
       },
       {
+        "__id__": 9
+      },
+      {
         "__id__": 11
-      },
-      {
-        "__id__": 12
-      },
-      {
-        "__id__": 15
       }
     ],
     "_prefab": {
-      "__id__": 16
+      "__id__": 12
     },
     "_opacity": 255,
     "_color": {
@@ -150,6 +150,7 @@
     "souls": 0,
     "type": 5,
     "isGoingToBePlayed": false,
+    "isGoingToBeDestroyed": false,
     "_isAttackable": false,
     "_isBuyable": false,
     "_isPlayable": false,
@@ -191,41 +192,26 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "conditions": [],
-    "activeEffects": [],
     "activeEffectsIds": [],
-    "passiveEffects": [],
-    "passiveEffectsIds": [
-      {
-        "__id__": 6
-      },
-      {
-        "__id__": 7
-      }
+    "activeEffectsIdsFinal": [],
+    "passiveEffectsIds": [],
+    "passiveEffectsIdsFinal": [
+      0,
+      1
     ],
-    "toAddPassiveEffects": [],
     "toAddPassiveEffectsIds": [],
-    "paidEffects": [],
+    "toAddPassiveEffectsIdsFinal": [],
     "paidEffectsIds": [],
+    "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollector": null,
-    "multiEffectCollectorId": null,
+    "multiEffectCollectorId": {},
+    "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "GainStats",
-    "id": 0
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "GainStats",
-    "id": 1
   },
   {
     "__type__": "1251ehOdU9IcaUBBusBC3Mv",
@@ -236,25 +222,28 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 9
+      "__id__": 7
     },
     "EffectId": 0,
     "isSilent": false,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "preCondition": null,
-    "preConditionId": null,
+    "preConditionId": {},
+    "preConditionIdFinal": -1,
     "conditions": [],
-    "conditionsIds": [
-      {
-        "__id__": 10
-      }
+    "conditionsIds": [],
+    "conditionsIdsFinal": [
+      0
     ],
     "passiveType": 2,
     "passiveEffectToAdd": null,
-    "passiveEffectToAddId": null,
+    "passiveEffectToAddId": {},
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
     "dataCollectorsIds": [],
+    "dataCollectorsIdsFinal": [],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
     "optionalBeforeDataCollection": false,
@@ -262,7 +251,8 @@
     "hasLockingResolve": false,
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": null,
+    "dataConcurencyComponentId": {},
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "multiTarget": false,
     "gainHp": false,
@@ -291,11 +281,6 @@
     "height": 12.5
   },
   {
-    "__type__": "IdAndName",
-    "name": "Synthoil<PlayerAddThisItem>",
-    "id": 0
-  },
-  {
     "__type__": "0e7c6gxW/ZIgail5cFkXhII",
     "_name": "",
     "_objFlags": 0,
@@ -303,9 +288,10 @@
       "__id__": 1
     },
     "_enabled": true,
-    "conditionId": 0,
+    "ConditionId": 0,
     "dataCollector": null,
-    "dataCollectorId": null,
+    "dataCollectorId": {},
+    "dataCollectorIdFinal": -1,
     "_id": ""
   },
   {
@@ -317,25 +303,28 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 13
+      "__id__": 10
     },
     "EffectId": 1,
     "isSilent": true,
     "cost": null,
-    "costId": null,
+    "costId": {},
+    "costIdFinal": -1,
     "preCondition": null,
-    "preConditionId": null,
+    "preConditionId": {},
+    "preConditionIdFinal": -1,
     "conditions": [],
-    "conditionsIds": [
-      {
-        "__id__": 14
-      }
+    "conditionsIds": [],
+    "conditionsIdsFinal": [
+      1
     ],
     "passiveType": 1,
     "passiveEffectToAdd": null,
-    "passiveEffectToAddId": null,
+    "passiveEffectToAddId": {},
+    "passiveEffectToAddIdFinal": -1,
     "dataCollector": [],
     "dataCollectorsIds": [],
+    "dataCollectorsIdsFinal": [],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
     "optionalBeforeDataCollection": false,
@@ -343,7 +332,8 @@
     "hasLockingResolve": false,
     "hasDataConcurency": false,
     "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": null,
+    "dataConcurencyComponentId": {},
+    "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "multiTarget": false,
     "gainHp": false,
@@ -372,11 +362,6 @@
     "height": 12.5
   },
   {
-    "__type__": "IdAndName",
-    "name": "Synthoil<PlayerLoseThisItem>",
-    "id": 1
-  },
-  {
     "__type__": "ef91eRCnkxC4INnxPpiSJgk",
     "_name": "",
     "_objFlags": 0,
@@ -384,9 +369,10 @@
       "__id__": 1
     },
     "_enabled": true,
-    "conditionId": 1,
+    "ConditionId": 1,
     "dataCollector": null,
-    "dataCollectorId": null,
+    "dataCollectorId": {},
+    "dataCollectorIdFinal": -1,
     "_id": ""
   },
   {
@@ -397,7 +383,7 @@
     "asset": {
       "__uuid__": "e597e935-3f35-43ee-b276-2242d3f38545"
     },
-    "fileId": "74xrl7Ss9GNLi7htp7h56D",
+    "fileId": "",
     "sync": false
   }
 ]

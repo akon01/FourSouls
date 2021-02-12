@@ -14,6 +14,9 @@ export default class CardOwnerCombatDamageGiven extends Condition {
 
   needsDataCollector = false;
 
+  @property
+  isOnlyFirst: boolean = false
+
   async testCondition(meta: PassiveMeta) {
     const player: Player = meta.methodScope.getComponent(Player);
     const thisCard = Card.getCardNodeByChild(this.node)
@@ -23,6 +26,12 @@ export default class CardOwnerCombatDamageGiven extends Condition {
       player.name == cardOwner.name
       //   &&     meta.passiveEvent == PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_GIVEN
     ) {
+      if (this.isOnlyFirst) {
+        if (cardOwner.isFirstHitInTurn) {
+          return true
+        }
+        return false
+      }
       return true;
     } else {
       return false;

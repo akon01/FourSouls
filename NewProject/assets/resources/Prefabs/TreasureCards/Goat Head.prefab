@@ -41,11 +41,11 @@
         "__id__": 9
       },
       {
-        "__id__": 11
+        "__id__": 10
       }
     ],
     "_prefab": {
-      "__id__": 12
+      "__id__": 11
     },
     "_opacity": 255,
     "_color": {
@@ -135,7 +135,7 @@
     },
     "_enabled": true,
     "cardName": "Goat Head",
-    "doNotMake": false,
+    "doNotMake": true,
     "cardMask": null,
     "cardSprite": null,
     "makeMultiCards": false,
@@ -192,18 +192,13 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "activeEffectsIds": [],
     "activeEffectsIdsFinal": [],
-    "passiveEffectsIds": [],
     "passiveEffectsIdsFinal": [
       0
     ],
-    "toAddPassiveEffectsIds": [],
     "toAddPassiveEffectsIdsFinal": [],
-    "paidEffectsIds": [],
     "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollectorId": {},
     "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
@@ -225,23 +220,13 @@
     },
     "EffectId": 0,
     "isSilent": false,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
-    "preCondition": null,
-    "preConditionId": {},
     "preConditionIdFinal": -1,
-    "conditions": [],
-    "conditionsIds": [],
     "conditionsIdsFinal": [
       0
     ],
     "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "passiveEffectToAddId": {},
     "passiveEffectToAddIdFinal": -1,
-    "dataCollector": [],
-    "dataCollectorsIds": [],
     "dataCollectorsIdsFinal": [
       0
     ],
@@ -251,8 +236,6 @@
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
     "hasDataConcurency": false,
-    "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": {},
     "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "_id": ""
@@ -273,7 +256,6 @@
     },
     "_enabled": true,
     "ConditionId": 0,
-    "dataCollectorId": {},
     "dataCollectorIdFinal": -1,
     "isCardOwnerOnly": true,
     "_id": ""
@@ -287,8 +269,6 @@
     },
     "_enabled": true,
     "DataCollectorId": 0,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
     "isItems": false,
     "isLootCards": true,
@@ -296,17 +276,8 @@
     "flavorText": "Choose Cards To Redraw",
     "isMultiCardChoice": true,
     "numberOfCardsToChoose": 0,
-    "dataCollectorToRun": null,
-    "dataCollectorToRunId": {
-      "__id__": 10
-    },
     "dataCollectorToRunIdFinal": 1,
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "CardOwner",
-    "id": 1
   },
   {
     "__type__": "7dab8c90ZJG8Zh8owOKS3GI",
@@ -317,8 +288,6 @@
     },
     "_enabled": true,
     "DataCollectorId": 1,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
     "_id": ""
   },

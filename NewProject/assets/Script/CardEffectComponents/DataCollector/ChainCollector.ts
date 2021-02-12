@@ -15,16 +15,12 @@ export default class ChainCollector extends DataCollector {
   type = COLLECTORTYPE.AUTO;
   collectorName = "ChainCollector";
 
-  @property({ type: IdAndName, multiline: true })
-  chainEffectsId: IdAndName = new IdAndName()
-
-
   @property({ type: cc.Integer, multiline: true })
   chainEffectsIdFinal: number = -1
 
 
   getChainEffects() {
-    return this.node.getComponent(CardEffect).getEffect<ChainEffects>(this.chainEffectsId.id)
+    return this.node.getComponent(CardEffect).getEffect<ChainEffects>(this.chainEffectsIdFinal)
   }
 
   // @property(DataCollector)
@@ -46,7 +42,7 @@ export default class ChainCollector extends DataCollector {
       cc.log(`in chain collector, collecting for ${effect.name}`)
       //   let endData: ActiveEffectData | PassiveEffectData = null;
       let endData: ServerEffectData
-      if (effect.dataCollectorsIds.length > 0 && !effect.hasPlayerChoiceToActivateInChainEffects) {
+      if (effect.dataCollectorsIdsFinal.length > 0 && !effect.hasPlayerChoiceToActivateInChainEffects) {
         endData = await Card.getCardNodeByChild(effect.node).getComponent(CardEffect).collectEffectData(effect, data)
 
       }

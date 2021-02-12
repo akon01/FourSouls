@@ -46,7 +46,7 @@ export default class GainBonusSoul extends Effect {
         // cc.log(`after put soul card on table`)
         // cc.log(this.soulCardToGain)
         const player: Player = PlayerManager.getPlayerByCard(targetPlayerCard)
-        await player.getSoulCard(this.soulCardToGain, true)
+        await player.receiveSoulCard(this.soulCardToGain, true)
       }
 
 

@@ -32,26 +32,26 @@
         "__id__": 5
       },
       {
-        "__id__": 7
+        "__id__": 6
       },
       {
-        "__id__": 14
+        "__id__": 10
+      },
+      {
+        "__id__": 12
+      },
+      {
+        "__id__": 13
+      },
+      {
+        "__id__": 15
       },
       {
         "__id__": 16
-      },
-      {
-        "__id__": 17
-      },
-      {
-        "__id__": 19
-      },
-      {
-        "__id__": 20
       }
     ],
     "_prefab": {
-      "__id__": 22
+      "__id__": 18
     },
     "_opacity": 255,
     "_color": {
@@ -141,7 +141,7 @@
     },
     "_enabled": true,
     "cardName": "Mystery Sack",
-    "doNotMake": false,
+    "doNotMake": true,
     "cardMask": null,
     "cardSprite": null,
     "makeMultiCards": false,
@@ -198,22 +198,15 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "activeEffectsIds": [],
     "activeEffectsIdsFinal": [
       0,
       1,
       2
     ],
-    "passiveEffectsIds": [],
     "passiveEffectsIdsFinal": [],
-    "toAddPassiveEffectsIds": [],
     "toAddPassiveEffectsIdsFinal": [],
-    "paidEffectsIds": [],
     "paidEffectsIdsFinal": [],
     "hasMultipleEffects": true,
-    "multiEffectCollectorId": {
-      "__id__": 6
-    },
     "multiEffectCollectorIdFinal": 0,
     "effectData": null,
     "concurentEffectData": null,
@@ -221,11 +214,6 @@
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "MultiEffectRoll",
-    "id": 0
   },
   {
     "__type__": "cb233LkY2lNwJEMeDl7T3uF",
@@ -236,19 +224,18 @@
     },
     "_enabled": true,
     "DataCollectorId": 0,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
+    "cost": null,
     "effectsType": 1,
     "effectsAndNumbers": [
+      {
+        "__id__": 7
+      },
       {
         "__id__": 8
       },
       {
-        "__id__": 10
-      },
-      {
-        "__id__": 12
+        "__id__": 9
       }
     ],
     "_id": ""
@@ -260,15 +247,7 @@
       2
     ],
     "effect": null,
-    "effectId": {
-      "__id__": 9
-    },
     "effectIdFinal": 0
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "GainLoot",
-    "id": 0
   },
   {
     "__type__": "EffectsAndNumbers",
@@ -277,15 +256,7 @@
       4
     ],
     "effect": null,
-    "effectId": {
-      "__id__": 11
-    },
     "effectIdFinal": 1
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "addMoney",
-    "id": 1
   },
   {
     "__type__": "EffectsAndNumbers",
@@ -294,15 +265,7 @@
       6
     ],
     "effect": null,
-    "effectId": {
-      "__id__": 13
-    },
     "effectIdFinal": 2
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "DoNothing",
-    "id": 2
   },
   {
     "__type__": "a96d7Yye0ZFo6njiCE50Wn8",
@@ -313,25 +276,15 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 15
+      "__id__": 11
     },
     "EffectId": 0,
     "isSilent": false,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
-    "preCondition": null,
-    "preConditionId": {},
     "preConditionIdFinal": -1,
-    "conditions": [],
-    "conditionsIds": [],
     "conditionsIdsFinal": [],
     "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "passiveEffectToAddId": {},
     "passiveEffectToAddIdFinal": -1,
-    "dataCollector": [],
-    "dataCollectorsIds": [],
     "dataCollectorsIdsFinal": [
       1
     ],
@@ -341,8 +294,6 @@
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
     "hasDataConcurency": false,
-    "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": {},
     "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "numOfLoot": 1,
@@ -365,8 +316,6 @@
     },
     "_enabled": true,
     "DataCollectorId": 1,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
     "_id": ""
   },
@@ -379,25 +328,15 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 18
+      "__id__": 14
     },
     "EffectId": 1,
     "isSilent": false,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
-    "preCondition": null,
-    "preConditionId": {},
     "preConditionIdFinal": -1,
-    "conditions": [],
-    "conditionsIds": [],
     "conditionsIdsFinal": [],
     "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "passiveEffectToAddId": {},
     "passiveEffectToAddIdFinal": -1,
-    "dataCollector": [],
-    "dataCollectorsIds": [],
     "dataCollectorsIdsFinal": [
       2
     ],
@@ -407,8 +346,6 @@
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
     "hasDataConcurency": false,
-    "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": {},
     "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "numOfCoins": 4,
@@ -432,8 +369,6 @@
     },
     "_enabled": true,
     "DataCollectorId": 2,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
     "_id": ""
   },
@@ -446,25 +381,15 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 21
+      "__id__": 17
     },
     "EffectId": 2,
     "isSilent": true,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
-    "preCondition": null,
-    "preConditionId": {},
     "preConditionIdFinal": -1,
-    "conditions": [],
-    "conditionsIds": [],
     "conditionsIdsFinal": [],
     "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "passiveEffectToAddId": {},
     "passiveEffectToAddIdFinal": -1,
-    "dataCollector": [],
-    "dataCollectorsIds": [],
     "dataCollectorsIdsFinal": [],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
@@ -472,8 +397,6 @@
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
     "hasDataConcurency": false,
-    "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": {},
     "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "_id": ""

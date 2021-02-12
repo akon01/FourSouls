@@ -8,7 +8,7 @@ import FilterConcrete from "../Choose Card Filters/FilterConcrete";
 import IdAndName from "../IdAndNameComponent";
 import { Card } from "../../../../Server/src/entities/Card";
 import CardEffect from "../../Entites/CardEffect";
-import { createNewDataCollector } from "../../reset";
+
 
 
 
@@ -18,27 +18,20 @@ const { ccclass, property } = cc._decorator;
 export default class FilterOtherDataCollector extends DataCollector {
 
 
-    setWithOld(data: FilterOtherDataCollector) {
-        const newCollectorId = createNewDataCollector(this.node, data.dataCollector)
-        this.dataCollectorId = IdAndName.getNew(newCollectorId, data.dataCollector.collectorName)
-        data.dataCollector = null
-        this.dataCollector = null
-    }
-
+    // setWithOld(data: FilterOtherDataCollector) {
+    //     const newCollectorId = createNewDataCollector(this.node, data.dataCollector)
+    //     this.dataCollectorId = newCollectorId
+    //     data.dataCollector = null
+    //     this.dataCollector = null
+    // }
 
     type = COLLECTORTYPE.AUTO;
     collectorName = 'FilterOtherDataCollector';
 
-    @property({ type: DataCollector })
-    dataCollector: DataCollector = null
-
-    @property({ type: IdAndName })
-    dataCollectorId: IdAndName = null
-
     @property({ type: cc.Integer })
     dataCollectorIdFinal: number = -1
 
-    getThisDataCollector = () => this.node.getComponent(CardEffect).getDataCollector(this.dataCollectorId.id)
+    getThisDataCollector = () => this.node.getComponent(CardEffect).getDataCollector(this.dataCollectorIdFinal)
 
     @property()
     componentName: string = '';

@@ -3,7 +3,8 @@ import Effect from "../CardEffects/Effect";
 import DataCollector from "./DataCollector";
 import Condition from "../CardConditions/Condition";
 import IdAndName from "../IdAndNameComponent";
-import { createNewCondition } from "../../reset";
+
+import CardEffect from "../../Entites/CardEffect";
 
 
 const { ccclass, property } = cc._decorator;
@@ -13,25 +14,20 @@ export default class GetTargetFromConditionData extends DataCollector {
   type = COLLECTORTYPE.AUTO;
   collectorName = "GetTargetFromConditionData";
 
-  setWithOld(data: GetTargetFromConditionData) {
-    const oldCondition = data.conditionToGetTargetsFrom;
-    if (oldCondition.newCompCondition) {
-      this.conditionToGetTargetsFromId.id = oldCondition.newCompCondition.ConditionId
-      this.conditionToGetTargetsFromId.name = oldCondition.newCompCondition.name
-    } else {
-      const newCondition = createNewCondition(this.node, oldCondition)
-      this.conditionToGetTargetsFromId.id = newCondition.ConditionId
-      this.conditionToGetTargetsFromId.name = newCondition.name
-    }
-    data.conditionToGetTargetsFrom = null
-    this.conditionToGetTargetsFrom = null
-  }
+  // setWithOld(data: GetTargetFromConditionData) {
+  //   const oldCondition = data.conditionToGetTargetsFrom;
+  //   if (oldCondition.newCompCondition) {
+  //     this.conditionToGetTargetsFromId.id = oldCondition.newCompCondition.ConditionId
+  //     this.conditionToGetTargetsFromId.name = oldCondition.newCompCondition.name
+  //   } else {
+  //     const newCondition = createNewCondition(this.node, oldCondition)
+  //     this.conditionToGetTargetsFromId.id = newCondition.ConditionId
+  //     this.conditionToGetTargetsFromId.name = newCondition.name
+  //   }
+  //   data.conditionToGetTargetsFrom = null
+  //   this.conditionToGetTargetsFrom = null
+  // }
 
-  @property(Condition)
-  conditionToGetTargetsFrom: Condition = null;
-
-  @property(IdAndName)
-  conditionToGetTargetsFromId: IdAndName = new IdAndName()
 
   @property(cc.Integer)
   conditionToGetTargetsFromIdFinal: number = -1
@@ -43,7 +39,7 @@ export default class GetTargetFromConditionData extends DataCollector {
    */
   collectData(data) {
 
-    let effectData = this.conditionToGetTargetsFrom.conditionData;
+    let effectData = this.node.getComponent(CardEffect).getCondition(this.conditionToGetTargetsFromIdFinal).conditionData;
 
 
 

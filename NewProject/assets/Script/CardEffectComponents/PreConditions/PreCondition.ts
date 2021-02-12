@@ -18,15 +18,12 @@ export default class PreCondition extends cc.Component
 
   @property({ type: cc.Integer, step: 1 })
   PreConditionId: number = -1
-  dataCollector: import("../DataCollector/DataCollector").default;
-  @property({ type: IdAndName, multiline: true })
-  dataCollectorId: IdAndName = null;
 
   @property({ type: cc.Integer, multiline: true })
   dataCollectorIdFinal: number = -1;
 
   getDataCollector() {
-    return this.node.getComponent(CardEffect).getDataCollector(this.dataCollectorId.id)
+    return this.node.getComponent(CardEffect).getDataCollector(this.dataCollectorIdFinal)
   }
 
   conditionData: any;

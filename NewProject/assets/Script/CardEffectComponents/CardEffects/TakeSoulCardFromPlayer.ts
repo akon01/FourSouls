@@ -31,7 +31,7 @@ export default class TakeSoulCardFromPlayer extends Effect {
     } else {
       const playerToTakeFrom = PlayerManager.getPlayerByCard(cardToTake as cc.Node)
       await playerToTakeFrom.loseSoul(cardToTake as cc.Node, true)
-      await playerToGiveTo.getSoulCard(cardToTake as cc.Node, true)
+      await playerToGiveTo.receiveSoulCard(cardToTake as cc.Node, true)
     }
 
     if (data instanceof PassiveEffectData) { return data }

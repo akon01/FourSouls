@@ -32,20 +32,20 @@
         "__id__": 5
       },
       {
-        "__id__": 8
+        "__id__": 7
+      },
+      {
+        "__id__": 9
       },
       {
         "__id__": 11
       },
       {
-        "__id__": 13
-      },
-      {
-        "__id__": 14
+        "__id__": 12
       }
     ],
     "_prefab": {
-      "__id__": 16
+      "__id__": 13
     },
     "_opacity": 255,
     "_color": {
@@ -135,7 +135,7 @@
     },
     "_enabled": true,
     "cardName": "Holy Card",
-    "doNotMake": false,
+    "doNotMake": true,
     "cardMask": null,
     "cardSprite": null,
     "makeMultiCards": false,
@@ -177,20 +177,15 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "activeEffectsIds": [],
     "activeEffectsIdsFinal": [
       0
     ],
-    "passiveEffectsIds": [],
     "passiveEffectsIdsFinal": [],
-    "toAddPassiveEffectsIds": [],
     "toAddPassiveEffectsIdsFinal": [
       1
     ],
-    "paidEffectsIds": [],
     "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollectorId": {},
     "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
@@ -212,23 +207,11 @@
     },
     "EffectId": 0,
     "isSilent": false,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
-    "preCondition": null,
-    "preConditionId": {},
     "preConditionIdFinal": -1,
-    "conditions": [],
-    "conditionsIds": [],
     "conditionsIdsFinal": [],
     "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "passiveEffectToAddId": {
-      "__id__": 7
-    },
     "passiveEffectToAddIdFinal": 1,
-    "dataCollector": [],
-    "dataCollectorsIds": [],
     "dataCollectorsIdsFinal": [
       0
     ],
@@ -238,8 +221,6 @@
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
     "hasDataConcurency": false,
-    "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": {},
     "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "_id": ""
@@ -252,11 +233,6 @@
     "height": 35
   },
   {
-    "__type__": "IdAndName",
-    "name": "PreventDeathPanelties",
-    "id": 1
-  },
-  {
     "__type__": "b4dd13gjjJIk556pQaiqi12",
     "_name": "",
     "_objFlags": 0,
@@ -265,21 +241,15 @@
     },
     "_enabled": true,
     "DataCollectorId": 0,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
     "multiType": false,
     "otherPlayer": null,
     "isChooseFromPreviewManager": false,
     "chooseType": {
-      "__id__": 9
+      "__id__": 8
     },
     "chooseTypes": [],
     "filterFromPassiveMeta": false,
-    "targetCollectorFromPassiveMeta": null,
-    "targetCollectorFromPassiveMetaId": {
-      "__id__": 10
-    },
     "targetCollectorFromPassiveMetaIdFinal": -1,
     "flavorText": "Choose A Player To Prevent Death For",
     "otherPlayersFlavorText": "",
@@ -297,11 +267,6 @@
     "filterStatements": []
   },
   {
-    "__type__": "IdAndName",
-    "name": "",
-    "id": -1
-  },
-  {
     "__type__": "9c21ecmq35DmL3w1bzeuT9c",
     "_name": "",
     "_objFlags": 0,
@@ -310,27 +275,17 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 12
+      "__id__": 10
     },
     "EffectId": 1,
     "isSilent": false,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
-    "preCondition": null,
-    "preConditionId": {},
     "preConditionIdFinal": -1,
-    "conditions": [],
-    "conditionsIds": [],
     "conditionsIdsFinal": [
       0
     ],
     "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "passiveEffectToAddId": {},
     "passiveEffectToAddIdFinal": -1,
-    "dataCollector": [],
-    "dataCollectorsIds": [],
     "dataCollectorsIdsFinal": [
       1
     ],
@@ -340,8 +295,6 @@
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
     "hasDataConcurency": false,
-    "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": {},
     "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "_id": ""
@@ -362,9 +315,7 @@
     },
     "_enabled": true,
     "ConditionId": 0,
-    "dataCollector": null,
-    "dataCollectorId": {},
-    "dataCollectorIdFinal": null,
+    "dataCollectorIdFinal": -1,
     "isSpecificPlayer": true,
     "_id": ""
   },
@@ -377,20 +328,9 @@
     },
     "_enabled": true,
     "DataCollectorId": 1,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
-    "conditionToGetTargetsFrom": null,
-    "conditionToGetTargetsFromId": {
-      "__id__": 15
-    },
     "conditionToGetTargetsFromIdFinal": 0,
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "Holy Card<PlayerPayPenalties>",
-    "id": 0
   },
   {
     "__type__": "cc.PrefabInfo",

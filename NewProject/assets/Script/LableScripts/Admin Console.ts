@@ -122,7 +122,7 @@ export default class AdminConsole extends cc.Component {
             case ADMIN_COMMANDS.SOUL:
 
                 const soulCard = monsterDeck.drawSpecificCard(monsterDeck.getCards().filter(card => card.getComponent(Card).souls > 0)[0], true)
-                await mePlayer.getSoulCard(soulCard, true)
+                await mePlayer.receiveSoulCard(soulCard, true)
                 break
             case ADMIN_COMMANDS.DMG:
                 await mePlayer.gainDMG(Number.parseInt(extra), true, true)
@@ -494,7 +494,7 @@ export default class AdminConsole extends cc.Component {
             const passiveEffects = effectComp.getPassiveEffects();
             for (const effect of passiveEffects) {
                 if (!effect) { count++ }
-                if (effect.conditionsIds.length == 0) { passiveString = passiveString + `${effect.name} \n` }
+                if (effect.conditionsIdsFinal.length == 0) { passiveString = passiveString + `${effect.name} \n` }
             }
             if (count != 0) {
                 cardString = cardString.concat(`Empty Passive Effects:${count}\n`)

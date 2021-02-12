@@ -28,7 +28,7 @@ export default class GetSoulCard extends Effect {
     if (playerToGiveTo == null) {
       throw new Error(`player to give to is null`)
     } else {
-      await playerToGiveTo.getSoulCard(cardToTake as cc.Node, true)
+      await playerToGiveTo.receiveSoulCard(cardToTake as cc.Node, true)
     }
 
     if (data instanceof PassiveEffectData) { return data }

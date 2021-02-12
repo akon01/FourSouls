@@ -35,7 +35,7 @@
         "__id__": 6
       },
       {
-        "__id__": 7
+        "__id__": 8
       },
       {
         "__id__": 9
@@ -132,7 +132,7 @@
     },
     "_enabled": true,
     "cardName": "Libra",
-    "doNotMake": false,
+    "doNotMake": true,
     "cardMask": null,
     "cardSprite": null,
     "makeMultiCards": false,
@@ -189,35 +189,19 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "activeEffectsIds": [],
     "activeEffectsIdsFinal": [
       0
     ],
-    "passiveEffectsIds": [],
     "passiveEffectsIdsFinal": [],
-    "toAddPassiveEffectsIds": [],
     "toAddPassiveEffectsIdsFinal": [],
-    "paidEffectsIds": [],
     "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollectorId": {},
     "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
     "data": {},
     "cardPlayerId": 0,
     "serverEffectStack": [],
-    "_id": ""
-  },
-  {
-    "__type__": "3532ajOoxlNC6omMEMTkYXL",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "isFirstTime": false,
     "_id": ""
   },
   {
@@ -229,25 +213,15 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 8
+      "__id__": 7
     },
     "EffectId": 0,
     "isSilent": false,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
-    "preCondition": null,
-    "preConditionId": {},
-    "preConditionIdFinal": -1,
-    "conditions": [],
-    "conditionsIds": [],
+    "preConditionIdFinal": 0,
     "conditionsIdsFinal": [],
     "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "passiveEffectToAddId": {},
     "passiveEffectToAddIdFinal": -1,
-    "dataCollector": [],
-    "dataCollectorsIds": [],
     "dataCollectorsIdsFinal": [
       0
     ],
@@ -257,8 +231,6 @@
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
     "hasDataConcurency": false,
-    "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": {},
     "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "rollValueToPut": 3,
@@ -280,10 +252,26 @@
     },
     "_enabled": true,
     "DataCollectorId": 0,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
     "chooseTypes": [
+      2,
+      11
+    ],
+    "_id": ""
+  },
+  {
+    "__type__": "de1fehN6kxNzomAL7d0HESE",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "PreConditionId": 0,
+    "dataCollectorIdFinal": -1,
+    "typeToExsist": 1,
+    "multiType": true,
+    "typesToExsist": [
       2,
       11
     ],

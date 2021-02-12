@@ -91,7 +91,7 @@ export default class DiscardTopCardOfDeck extends Effect {
 
     }
 
-    if (this.conditionsIds.length > 0) {
+    if (this.conditionsIdsFinal.length > 0) {
       return data;
     } else { return stack }
   }

@@ -76,28 +76,27 @@ export default class ActivateItem extends StackEffectConcrete {
         const cardEffect = this.itemToActivate.getComponent(CardEffect);
         if (!cardEffect.hasMultipleEffects) {
             const activeEffects = cardEffect.getActiveEffects();
-            const paidEffects = cardEffect.getPaidEffects()[0];
+            const paidEffects = cardEffect.getPaidEffects();
             if (activeEffects[0]) {
                 this.effectToDo = activeEffects[0]
-            } else if (paidEffects) {
+            } else if (paidEffects[0]) {
                 this.effectToDo = paidEffects[0]
             }
         }
     }
 
     async putOnStack() {
-
         const card = this.itemToActivate.getComponent(Card);
         const cardEffect = this.itemToActivate.getComponent(CardEffect)
         //let player choose effect b4 going in the stack
         if (cardEffect.hasMultipleEffects) {
             const multiEffectCollector = cardEffect.getMultiEffectCollector();
+            const cost = multiEffectCollector.getCost();
             //if the card has multiple effects and the player needs to choose
-            if (multiEffectCollector.cost != null && multiEffectCollector.cost.testPreCondition()) {
-                await multiEffectCollector.cost.takeCost()
+            if (cost != null && cost.testPreCondition()) {
+                await cost.takeCost()
             }
             if (multiEffectCollector instanceof MultiEffectChoose) {
-                debugger
                 const effectChosen = await multiEffectCollector.collectData({ cardPlayed: this.itemToActivate, cardPlayerId: this.itemPlayer.playerId })
                 this.effectToDo = effectChosen;
             }

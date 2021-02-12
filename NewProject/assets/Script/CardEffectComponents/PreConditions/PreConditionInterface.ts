@@ -5,7 +5,7 @@ import PreCondition from "./PreCondition";
 export default interface PreConditionInterface {
   PreConditionId: number
   testCondition(data?);
-  dataCollector: DataCollector;
+  dataCollectorIdFinal: number;
   conditionData: any;
   setWithOld(old: PreCondition)
 }

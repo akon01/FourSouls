@@ -32,23 +32,23 @@
         "__id__": 5
       },
       {
-        "__id__": 7
+        "__id__": 6
+      },
+      {
+        "__id__": 9
+      },
+      {
+        "__id__": 11
       },
       {
         "__id__": 12
       },
       {
         "__id__": 14
-      },
-      {
-        "__id__": 15
-      },
-      {
-        "__id__": 17
       }
     ],
     "_prefab": {
-      "__id__": 18
+      "__id__": 15
     },
     "_opacity": 255,
     "_color": {
@@ -138,7 +138,7 @@
     },
     "_enabled": true,
     "cardName": "Head Of Krampus",
-    "doNotMake": false,
+    "doNotMake": true,
     "cardMask": null,
     "cardSprite": null,
     "makeMultiCards": false,
@@ -195,21 +195,14 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "activeEffectsIds": [],
     "activeEffectsIdsFinal": [
       0,
       1
     ],
-    "passiveEffectsIds": [],
     "passiveEffectsIdsFinal": [],
-    "toAddPassiveEffectsIds": [],
     "toAddPassiveEffectsIdsFinal": [],
-    "paidEffectsIds": [],
     "paidEffectsIdsFinal": [],
     "hasMultipleEffects": true,
-    "multiEffectCollectorId": {
-      "__id__": 6
-    },
     "multiEffectCollectorIdFinal": 0,
     "effectData": null,
     "concurentEffectData": null,
@@ -217,11 +210,6 @@
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "MultiEffectRoll",
-    "id": 0
   },
   {
     "__type__": "cb233LkY2lNwJEMeDl7T3uF",
@@ -232,16 +220,15 @@
     },
     "_enabled": true,
     "DataCollectorId": 0,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
+    "cost": null,
     "effectsType": 1,
     "effectsAndNumbers": [
       {
-        "__id__": 8
+        "__id__": 7
       },
       {
-        "__id__": 10
+        "__id__": 8
       }
     ],
     "_id": ""
@@ -254,15 +241,7 @@
       3
     ],
     "effect": null,
-    "effectId": {
-      "__id__": 9
-    },
     "effectIdFinal": 0
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "DealDamage",
-    "id": 0
   },
   {
     "__type__": "EffectsAndNumbers",
@@ -272,15 +251,7 @@
       6
     ],
     "effect": null,
-    "effectId": {
-      "__id__": 11
-    },
     "effectIdFinal": 1
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "DealDamage",
-    "id": 1
   },
   {
     "__type__": "9c502B4KzBNHr2xumZErU/n",
@@ -291,25 +262,15 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 13
+      "__id__": 10
     },
     "EffectId": 0,
     "isSilent": false,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
-    "preCondition": null,
-    "preConditionId": {},
     "preConditionIdFinal": -1,
-    "conditions": [],
-    "conditionsIds": [],
     "conditionsIdsFinal": [],
     "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "passiveEffectToAddId": {},
     "passiveEffectToAddIdFinal": -1,
-    "dataCollector": [],
-    "dataCollectorsIds": [],
     "dataCollectorsIdsFinal": [
       1
     ],
@@ -319,8 +280,6 @@
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
     "hasDataConcurency": false,
-    "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": {},
     "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "damageToDeal": 1,
@@ -344,8 +303,6 @@
     },
     "_enabled": true,
     "DataCollectorId": 1,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
     "targetPool": 3,
     "exceptCard": null,
@@ -360,25 +317,15 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 16
+      "__id__": 13
     },
     "EffectId": 1,
     "isSilent": false,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
-    "preCondition": null,
-    "preConditionId": {},
     "preConditionIdFinal": -1,
-    "conditions": [],
-    "conditionsIds": [],
     "conditionsIdsFinal": [],
     "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "passiveEffectToAddId": {},
     "passiveEffectToAddIdFinal": -1,
-    "dataCollector": [],
-    "dataCollectorsIds": [],
     "dataCollectorsIdsFinal": [
       2
     ],
@@ -388,8 +335,6 @@
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
     "hasDataConcurency": false,
-    "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": {},
     "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "damageToDeal": 1,
@@ -413,8 +358,6 @@
     },
     "_enabled": true,
     "DataCollectorId": 2,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
     "targetPool": 1,
     "exceptCard": null,

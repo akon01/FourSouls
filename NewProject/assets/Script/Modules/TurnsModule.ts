@@ -33,12 +33,19 @@ export class Turn {
     const player: Player = PlayerManager.getPlayerById(
       this.PlayerId
     )
-    //add turn attack play
+    //TODO: Restore To 1 After checking
     player.attackPlays += 1
     //add turn loot card play
     player.lootCardPlays += 1
     //add turn buy play
     player.buyPlays += 1;
+
+
+    // player.attackPlays += 10000
+    // //add turn loot card play
+    // player.lootCardPlays += 10000
+    // //add turn buy play
+    // player.buyPlays += 10000;
     cc.log(`refreshed turn for player ${player.playerId}`)
     this.battlePhase = false;
     this.turnId = ++TurnsManager.turnId

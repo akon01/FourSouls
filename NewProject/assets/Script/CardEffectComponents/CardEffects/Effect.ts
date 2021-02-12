@@ -39,70 +39,49 @@ export default class Effect extends cc.Component implements EffectInterface {
 
   effectData: ActiveEffectData | PassiveEffectData = null;
 
-  @property(Cost)
-  cost: Cost = null;
-
-  @property({ type: IdAndName, multiline: true })
-  costId: IdAndName = null
 
   @property({ type: cc.Integer, multiline: true })
   costIdFinal: number = -1
 
   getCost() {
-    if (this.costId) {
-      return this.node.getComponent(CardEffect).getCost(this.costId.id)
+    if (this.costIdFinal != -1) {
+      return this.node.getComponent(CardEffect).getCost(this.costIdFinal)
     }
     return null
   }
 
-  @property(PreCondition)
-  preCondition: PreCondition = null;
-
-  @property({ type: IdAndName, multiline: true })
-  preConditionId: IdAndName = null;
 
   @property({ type: cc.Integer, multiline: true })
   preConditionIdFinal: number = -1;
 
   getPreCondition() {
-    if (this.preConditionId) {
-      return this.node.getComponent(CardEffect).getPreCondtion(this.preConditionId.id)
+    if (this.preConditionIdFinal != -1) {
+      return this.node.getComponent(CardEffect).getPreCondtion(this.preConditionIdFinal)
     }
     return null
   }
 
   hasSubAction: boolean = false;
 
-  @property({ type: [Condition] })
-  conditions: Condition[] = [];
-
-  @property({ type: IdAndName, multiline: true })
-  conditionsIds: IdAndName[] = []
-
   @property({ type: [cc.Integer], multiline: true })
   conditionsIdsFinal: number[] = []
 
   getConditions() {
     const cardEffectComp = this.node.getComponent(CardEffect);
-    return this.conditionsIds.map(conditionId => cardEffectComp.getCondtion(conditionId.id))
+    return this.conditionsIdsFinal.map(conditionId => cardEffectComp.getCondtion(conditionId))
   }
 
   @property({ type: cc.Enum(PASSIVE_TYPE) })
   passiveType: PASSIVE_TYPE = 1;
 
-  @property(Effect)
-  passiveEffectToAdd: Effect = null;
-
-  @property({ type: IdAndName, multiline: true })
-  passiveEffectToAddId: IdAndName = new IdAndName()
 
   @property({ type: cc.Integer, multiline: true })
   passiveEffectToAddIdFinal: number = -1
 
 
   getPassiveEffectToAdd() {
-    if (this.passiveEffectToAddId) {
-      return this.node.getComponent(CardEffect).getEffect(this.passiveEffectToAddId.id)
+    if (this.passiveEffectToAddIdFinal != -1) {
+      return this.node.getComponent(CardEffect).getEffect(this.passiveEffectToAddIdFinal)
     }
     return null
   }
@@ -111,18 +90,12 @@ export default class Effect extends cc.Component implements EffectInterface {
 
   chooseType: CHOOSE_CARD_TYPE = null;
 
-  @property([DataCollector])
-  dataCollector: DataCollector[] = [];
-
-  @property([IdAndName])
-  dataCollectorsIds: IdAndName[] = []
-
   @property({ type: [cc.Integer], multiline: true })
   dataCollectorsIdsFinal: number[] = []
 
   getDataCollectors() {
     const cardEffectComp = this.node.getComponent(CardEffect);
-    return this.dataCollectorsIds.map(dataCollectorId => cardEffectComp.getDataCollector(dataCollectorId.id))
+    return this.dataCollectorsIdsFinal.map(dataCollectorId => cardEffectComp.getDataCollector(dataCollectorId))
   }
 
 
@@ -146,29 +119,13 @@ export default class Effect extends cc.Component implements EffectInterface {
   @property
   hasDataConcurency: boolean = false;
 
-  @property({
-    visible: function (this: Effect) {
-      return this.hasDataConcurency
-    }, type: EffectDataConcurencyBase
-  })
-  dataConcurencyComponent: EffectDataConcurencyBase = null
-
-
-  @property({
-    visible: function (this: Effect) {
-      return this.hasDataConcurency
-    }, type: IdAndName
-  })
-  dataConcurencyComponentId: IdAndName = null
-
-
   @property({ type: cc.Integer, multiline: true })
   dataConcurencyComponentIdFinal: number = -1
 
 
   getDataConcurencyComponent() {
-    if (this.dataConcurencyComponentId) {
-      return this.node.getComponent(CardEffect).getDataConcurency(this.dataConcurencyComponentId.id)
+    if (this.dataConcurencyComponentIdFinal != -1) {
+      return this.node.getComponent(CardEffect).getDataConcurency(this.dataConcurencyComponentIdFinal)
     }
     return null
   }

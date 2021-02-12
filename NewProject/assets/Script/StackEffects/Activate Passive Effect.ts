@@ -152,7 +152,7 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
             }
             cc.log(`if effect has dataCollector use it`)
             cc.log(this.effectToDo)
-            if (this.effectToDo.dataCollectorsIds.length > 0) {
+            if (this.effectToDo.conditionsIdsFinal.length > 0) {
                 cc.log(`collect data for ${this.effectToDo.effectName}`)
                 const collectedData = await cardEffect.collectEffectData(this.effectToDo, { cardId: this.cardWithEffect.getComponent(Card)._cardId, cardPlayerId: id })
                 cardEffect.effectData = collectedData;
@@ -274,7 +274,7 @@ export default class ActivatePassiveEffect extends StackEffectConcrete {
 
     async checkForSpeciealCollector(effect: Effect, id: number) {
         const cardEffect = this.cardWithEffect.getComponent(CardEffect)
-        if (effect.dataCollectorsIds.length > 0) {
+        if (effect.conditionsIdsFinal.length > 0) {
             const specialDataCollector = effect.getDataCollectors().find(dataCollector => {
                 // Special Cases:
                 if (dataCollector instanceof GetTargetFromPassiveMeta) {

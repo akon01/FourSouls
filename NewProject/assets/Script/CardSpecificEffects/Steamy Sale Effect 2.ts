@@ -15,19 +15,13 @@ const { ccclass, property } = cc._decorator;
 export default class SteamySaleEffect2 extends Effect {
   effectName = "SteamySaleEffect2";
 
-  @property(SteamySaleEffect)
-  steamySaleEffect1: SteamySaleEffect = null
-
-
-  @property(IdAndName)
-  steamySaleEffect1Id: IdAndName = new IdAndName()
 
   @property(cc.Integer)
-  steamySaleEffect1IdFinal: number = -1
+  steamySaleEffectIdFinal: number = -1
 
 
   getSteamySaleEffect1() {
-    return this.node.getComponent(CardEffect).getEffect(this.steamySaleEffect1Id.id) as SteamySaleEffect
+    return this.node.getComponent(CardEffect).getEffect(this.steamySaleEffectIdFinal) as SteamySaleEffect
   }
 
   /**

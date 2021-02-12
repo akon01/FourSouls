@@ -36,7 +36,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 16
+      "__id__": 15
     },
     "_opacity": 255,
     "_color": {
@@ -168,18 +168,13 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "activeEffectsIds": [],
     "activeEffectsIdsFinal": [
       0
     ],
-    "passiveEffectsIds": [],
     "passiveEffectsIdsFinal": [],
-    "toAddPassiveEffectsIds": [],
     "toAddPassiveEffectsIdsFinal": [],
-    "paidEffectsIds": [],
     "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollectorId": {},
     "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
@@ -201,21 +196,11 @@
     },
     "EffectId": 0,
     "isSilent": false,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
-    "preCondition": null,
-    "preConditionId": {},
     "preConditionIdFinal": -1,
-    "conditions": [],
-    "conditionsIds": [],
     "conditionsIdsFinal": [],
     "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "passiveEffectToAddId": {},
     "passiveEffectToAddIdFinal": -1,
-    "dataCollector": [],
-    "dataCollectorsIds": [],
     "dataCollectorsIdsFinal": [
       0
     ],
@@ -225,8 +210,6 @@
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
     "hasDataConcurency": false,
-    "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": {},
     "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "damageToDeal": 3,
@@ -250,8 +233,6 @@
     },
     "_enabled": true,
     "DataCollectorId": 0,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
     "multiType": true,
     "otherPlayer": null,
@@ -268,10 +249,6 @@
       }
     ],
     "filterFromPassiveMeta": false,
-    "targetCollectorFromPassiveMeta": null,
-    "targetCollectorFromPassiveMetaId": {
-      "__id__": 15
-    },
     "targetCollectorFromPassiveMetaIdFinal": -1,
     "flavorText": "Choose A Monster Or Player To Deal 1 DMG To",
     "otherPlayersFlavorText": "",
@@ -344,11 +321,6 @@
   {
     "__type__": "MonsterFilter",
     "filter": 0
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "",
-    "id": -1
   },
   {
     "__type__": "cc.PrefabInfo",

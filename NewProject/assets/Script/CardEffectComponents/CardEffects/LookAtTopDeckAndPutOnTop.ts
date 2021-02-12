@@ -101,7 +101,9 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
     } else {
       selectedQueue = cardsToSee
     }
-
+    for (const selectedCard of selectedQueue) {
+      deck.removeCard(selectedCard)
+    }
     if (!this.putOnBottomOfDeck) {
       for (let i = 0; i < selectedQueue.length; i++) {
         const selectedCard = selectedQueue[selectedQueue.length - i - 1];
@@ -128,7 +130,7 @@ export default class LookAtTopDeckAndPutOnTop extends Effect {
       }
     }
 
-    if (this.conditionsIds.length > 0) {
+    if (this.conditionsIdsFinal.length > 0) {
       return data;
     } else { return stack }
   }

@@ -46,6 +46,6 @@ export default class MultiEffectChoose extends DataCollector {
     const effectChosen = await preview.getComponent(CardPreview).chooseEffectFromCard(data.cardPlayed, false);
     CardPreviewManager.setFalvorText("")
     //  DecisionMarker.$.showEffectChosen(Card.getCardNodeByChild(this.node), effectChosen, player.node, true)
-    return effectChosen.getComponent(Effect)
+    return effectChosen
   }
 }

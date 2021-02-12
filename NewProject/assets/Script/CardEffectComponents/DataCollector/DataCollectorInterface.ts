@@ -8,10 +8,11 @@ export default interface DataCollectorInterface {
   isEffectChosen: boolean;
   cardChosen: cc.Node;
   isCardChosen: boolean;
-  cost: Cost
+  costIdFinal: number
   setWithOld(oldDataCollector: DataCollector)
   hasBeenHandled: boolean
 
+  getCost(): Cost
 
   collectData(data?): Promise<{}>;
 }

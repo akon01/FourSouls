@@ -11,7 +11,7 @@ import PlayerManager from "../../Managers/PlayerManager";
 import DataCollector from "./DataCollector";
 import { whevent } from "../../../ServerClient/whevent";
 import IdAndName from "../IdAndNameComponent";
-import { createNewDataCollector } from "../../reset";
+
 import CardEffect from "../../Entites/CardEffect";
 
 const { ccclass, property } = cc._decorator;
@@ -58,27 +58,23 @@ export default class ChooseFromTargetCard extends DataCollector {
   })
   numberOfCardsToChoose: number = -1;
 
-  @property(DataCollector)
-  dataCollectorToRun: DataCollector = null
 
-  @property(IdAndName)
-  dataCollectorToRunId: IdAndName = new IdAndName()
 
   @property(cc.Integer)
   dataCollectorToRunIdFinal: number = -1
 
-  setWithOld(data: ChooseFromTargetCard) {
-    if (data.dataCollectorToRun) {
-      const newId = createNewDataCollector(this.node, data.dataCollectorToRun)
-      this.dataCollectorToRunId.id = newId
-      this.dataCollectorToRunId.name = data.dataCollectorToRun.collectorName
-      data.dataCollectorToRun = null
-      this.dataCollectorToRun = null
-    }
-  }
+  // setWithOld(data: ChooseFromTargetCard) {
+  //   if (data.dataCollectorToRun) {
+  //     const newId = createNewDataCollector(this.node, data.dataCollectorToRun)
+  //     this.dataCollectorToRunId.id = newId
+  //     this.dataCollectorToRunId.name = data.dataCollectorToRun.collectorName
+  //     data.dataCollectorToRun = null
+  //     this.dataCollectorToRun = null
+  //   }
+  // }
 
   getDataCollectorToRun() {
-    return this.node.getComponent(CardEffect).getDataCollector(this.dataCollectorToRunId.id)
+    return this.node.getComponent(CardEffect).getDataCollector(this.dataCollectorToRunIdFinal)
   }
 
   /**

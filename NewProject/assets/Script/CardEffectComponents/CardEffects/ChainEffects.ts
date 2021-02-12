@@ -24,31 +24,26 @@ export default class ChainEffects extends Effect {
     // oldChainEffects.effectsToChain.forEach(effect => {
     //   newIds.push(cardEffect.addEffect(effect, ITEM_TYPE.ACTIVE, false))
     // })
-    // this.effectsToChainIds = newIds.map(id => IdAndName.getNew(id, cardEffect.getEffect(id).effectName))
+    // this.effectsToChainIds = newIds.map(id => id.effectName))
     // oldChainEffects.effectsToChain = [] 
   }
 
-  setWithOld(oldEffect: ChainEffects) {
-    const cardEffect = this.node.getComponent(CardEffect)
-    const newIds = []
-    oldEffect.effectsToChain.forEach(effect => {
-      if (effect.hasBeenHandled) {
-        newIds.push(effect.EffectId)
-      } else {
-        newIds.push(cardEffect.addEffect(effect, ITEM_TYPE.ACTIVE, false))
-      }
-    })
-    this.effectsToChainIds = newIds.map(id => IdAndName.getNew(id, cardEffect.getEffect(id).effectName))
-    oldEffect.effectsToChain = []
-    this.createChainCollector(oldEffect)
+  // setWithOld(oldEffect: ChainEffects) {
+  //   const cardEffect = this.node.getComponent(CardEffect)
+  //   const newIds = []
+  //   oldEffect.effectsToChain.forEach(effect => {
+  //     if (effect.hasBeenHandled) {
+  //       newIds.push(effect.EffectId)
+  //     } else {
+  //       newIds.push(cardEffect.addEffect(effect, ITEM_TYPE.ACTIVE, false))
+  //     }
+  //   })
+  //   this.effectsToChainIds = newIds.map(id => id.effectName))
+  //   oldEffect.effectsToChain = []
+  //   this.createChainCollector(oldEffect)
 
-  }
+  // }
 
-  @property([Effect])
-  effectsToChain: Effect[] = [];
-
-  @property(IdAndName)
-  effectsToChainIds: IdAndName[] = []
 
   @property([cc.Integer])
   effectsToChainIdsFinal: number[] = []
@@ -57,28 +52,25 @@ export default class ChainEffects extends Effect {
     if (this.node) {
       const collector = this.node.addComponent(ChainCollector);
       collector.resetInEditor();
-      collector.chainEffectsId = IdAndName.getNew(this.EffectId, this.effectName)
-      this.dataCollectorsIds.push(IdAndName.getNew(collector.DataCollectorId, collector.collectorName))
-      oldEffect.dataCollectorsIds = this.dataCollectorsIds
+      collector.chainEffectsIdFinal = this.EffectId
+      this.dataCollectorsIdsFinal.push(collector.DataCollectorId)
+      oldEffect.dataCollectorsIdsFinal = this.dataCollectorsIdsFinal
       const chainCollectorsComponents = this.node.getComponentsInChildren(ChainCollector);
       if (chainCollectorsComponents.length > 0) {
         chainCollectorsComponents.forEach(cc => {
           this.node.removeChild(cc.node)
         })
       }
-      return IdAndName.getNew(collector.DataCollectorId, collector.collectorName)
+      return collector.DataCollectorId
     } else return null
   }
-
-  @property({ override: true, })
-  dataCollectorsIds: IdAndName[] = []
 
   @property([cc.Integer])
   dataCollectorsIdsFinal: number[] = []
 
   getEffectsToChain() {
     const cardEffect = this.node.getComponent(CardEffect)
-    return this.effectsToChainIds.map(eid => cardEffect.getEffect(eid.id))
+    return this.effectsToChainIdsFinal.map(eid => cardEffect.getEffect(eid))
   }
 
   /**
@@ -94,7 +86,7 @@ export default class ChainEffects extends Effect {
     const effectsData = [];
     const currentStack = stack
     const cardEffectComp = this.node.getComponent(CardEffect)
-    const effectData = cardEffectComp.getDataCollector<ChainCollector>(this.dataCollectorsIds[0].id).effectsData
+    const effectData = cardEffectComp.getDataCollector<ChainCollector>(this.dataCollectorsIdsFinal[0]).effectsData
     const effectsToChain = this.getEffectsToChain()
     for (let i = 0; i < effectsToChain.length; i++) {
       let afterEffectData = null
@@ -117,7 +109,7 @@ export default class ChainEffects extends Effect {
         (data as PassiveEffectData).terminateOriginal = (afterEffectData.terminateOriginal) ? true : (data as PassiveEffectData).terminateOriginal
       }
     }
-    if (this.conditionsIds.length > 0) {
+    if (this.conditionsIdsFinal.length > 0) {
       return data;
     } else { return stack }
   }

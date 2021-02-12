@@ -10,23 +10,11 @@ export default class EffectsAndNumbers {
     @property({ type: [cc.Integer], min: 0, max: 7 })
     numbers: number[] = [];
 
-    @property(Effect)
-    effect: Effect = null;
-
-    @property(IdAndName)
-    effectId: IdAndName = new IdAndName()
+    @property({ visible: false })
+    effect: Effect = null
 
     @property(cc.Integer)
     effectIdFinal: number = -1
 
-    /**
-     *
-     */
-    constructor() {
-        if (this.effectId.id != -1) {
-            debugger
-            this.effectIdFinal = 1
-        }
-    }
 
 }

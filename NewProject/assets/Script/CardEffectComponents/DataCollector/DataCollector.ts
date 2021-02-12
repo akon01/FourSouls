@@ -2,11 +2,15 @@ import { COLLECTORTYPE, COLORS } from "../../Constants";
 import DataCollectorInterface from "./DataCollectorInterface";
 import Cost from "../Costs/Cost";
 import IdAndName from "../IdAndNameComponent";
+import CardEffect from "../../Entites/CardEffect";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class DataCollector extends cc.Component implements DataCollectorInterface {
+  getCost(): Cost {
+    return this.node.getComponent(CardEffect).getCost(this.costIdFinal)
+  }
 
   resetInEditor() {
     this.setDataCollectorId();
@@ -43,11 +47,6 @@ export default class DataCollector extends cc.Component implements DataCollector
   collectorName = "CardPlayer";
   hasSubAction: boolean = false;
 
-  @property(Cost)
-  cost: Cost = null;
-
-  @property({ type: IdAndName })
-  costId: IdAndName = null
 
   @property({ type: cc.Integer })
   costIdFinal: number = -1

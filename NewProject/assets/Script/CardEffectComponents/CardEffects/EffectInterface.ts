@@ -14,17 +14,17 @@ export default interface EffectInterface {
 
   chooseType: CHOOSE_CARD_TYPE;
 
-  dataCollector: DataCollector[];
+  dataCollectorsIdsFinal: number[];
 
   noDataCollector: boolean
 
-  cost: Cost;
+  costIdFinal: number;
 
-  conditions: Condition[];
+  conditionsIdsFinal: number[];
 
   _effectCard: cc.Node;
 
-  preCondition: PreCondition;
+  preConditionIdFinal: number;
 
   hasSubAction: boolean;
 

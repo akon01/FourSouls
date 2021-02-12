@@ -4,7 +4,6 @@ import CardEffect from "../../Entites/CardEffect";
 import DecisionMarker from "../../Entites/Decision Marker";
 import Card from "../../Entites/GameEntities/Card";
 import { EffectTarget } from "../../Managers/DataInterpreter";
-import { createNewEffect } from "../../reset";
 import Effect from "../CardEffects/Effect";
 import ChooseCardTypeAndFilter from "../ChooseCardTypeAndFilter";
 import ChooseCard from "../DataCollector/ChooseCard";
@@ -24,20 +23,20 @@ export default class MultiEffectChooseThenRoll extends IMultiEffectRollAndCollec
   @property({ type: [EffectsAndNumbers], multiline: true })
   effectsAndNumbers: EffectsAndNumbers[] = [];
 
-  setWithOld(data: MultiEffectChooseThenRoll) {
-    const oldEffectsAndNumbers = data.effectsAndNumbers;
-    oldEffectsAndNumbers.forEach(effect => {
-      if (effect.effect.hasBeenHandled) {
-        effect.effectId.id = effect.effect.EffectId
-        effect.effectId.name = effect.effect.effectName
-      } else {
-        const newId = createNewEffect(effect.effect, this.node, true)
-        effect.effectId.id = newId
-        effect.effectId.name = effect.effect.effectName
-      }
-      effect.effect = null
-    });
-  }
+  // setWithOld(data: MultiEffectChooseThenRoll) {
+  //   const oldEffectsAndNumbers = data.effectsAndNumbers;
+  //   oldEffectsAndNumbers.forEach(effect => {
+  //     if (effect.effect.hasBeenHandled) {
+  //       effect.effectId.id = effect.effect.EffectId
+  //       effect.effectId.name = effect.effect.effectName
+  //     } else {
+  //       const newId = createNewEffect(effect.effect, this.node, true)
+  //       effect.effectId.id = newId
+  //       effect.effectId.name = effect.effect.effectName
+  //     }
+  //     effect.effect = null
+  //   });
+  // }
 
   @property
   multiType: boolean = false;
@@ -127,6 +126,6 @@ export default class MultiEffectChooseThenRoll extends IMultiEffectRollAndCollec
 
   onLoad() {
     const cardEffectComp = this.node.getComponent(CardEffect)
-    this.effectsAndNumbers.forEach(ean => ean.effect = cardEffectComp.getEffect(ean.effectId.id))
+    this.effectsAndNumbers.forEach(ean => ean.effect = cardEffectComp.getEffect(ean.effectIdFinal))
   }
 }

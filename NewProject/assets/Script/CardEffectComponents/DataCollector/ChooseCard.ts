@@ -22,6 +22,7 @@ import AnnouncementLable from "../../LableScripts/Announcement Lable";
 import GetTargetFromPassiveMeta from "./GetTargetFromPassiveMeta";
 import PileManager from "../../Managers/PileManager";
 import IdAndName from "../IdAndNameComponent";
+import CardEffect from "../../Entites/CardEffect";
 
 const { ccclass, property } = cc._decorator;
 
@@ -64,24 +65,6 @@ export default class ChooseCard extends DataCollector {
 
   @property
   filterFromPassiveMeta: boolean = false;
-
-  @property({
-    visible: function (this: ChooseCard) {
-      if (this.filterFromPassiveMeta) { return true }
-    }
-    , type: GetTargetFromPassiveMeta
-  })
-  targetCollectorFromPassiveMeta: GetTargetFromPassiveMeta = null
-
-
-  @property({
-    visible: function (this: ChooseCard) {
-      if (this.filterFromPassiveMeta) { return true }
-    }
-    , type: IdAndName
-  })
-  targetCollectorFromPassiveMetaId: IdAndName = new IdAndName()
-
 
   @property({
     visible: function (this: ChooseCard) {
@@ -144,7 +127,7 @@ export default class ChooseCard extends DataCollector {
       }
     }
     if (this.filterFromPassiveMeta) {
-      const target = this.targetCollectorFromPassiveMeta.collectData(null)
+      const target = this.node.getComponent(CardEffect).getDataCollector(this.targetCollectorFromPassiveMetaIdFinal).collectData(null)
       if (target) {
         cardsToChooseFrom = cardsToChooseFrom.filter(card => card != target.effectTargetCard)
       }

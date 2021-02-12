@@ -6,6 +6,8 @@ export const MAX_PLAYERS = 2;
 
 export const MAX_TURNID = MAX_PLAYERS;
 
+export const SOULS_NEEDED_TO_WIN = 4
+
 export const CARD_WIDTH = 100;
 export const CARD_HEIGHT = 140;
 export const SCREEN_WIDTH = 1980;

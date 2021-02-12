@@ -107,7 +107,7 @@ export default class MonsterRewardStackEffect extends StackEffectConcrete {
                 await this.monsterWithReward.monsterPlace.discardTopMonster(true)
                 //await PileManager.addCardToPile(CARD_TYPE.MONSTER, this.monsterWithReward.node, true);
             } else {
-                await turnPlayer.getSoulCard(this.monsterWithReward.node, true)
+                await turnPlayer.receiveSoulCard(this.monsterWithReward.node, true)
             }
         }
         // await Stack.fizzleStackEffect(this, true)

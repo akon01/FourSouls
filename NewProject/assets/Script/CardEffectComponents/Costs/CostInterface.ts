@@ -7,7 +7,7 @@ export default interface CostInterface {
 
     CostId: number
 
-    preCondition: PreConditionInterface
+    preConditionIdFinal: number
 
     testPreCondition(): boolean
 

@@ -21,25 +21,11 @@ export default class PlayerPayPenalties extends Condition {
   isSpecificPlayer: boolean = true
 
   @property({
-    type: DataCollector, visible: function (this: PlayerPayPenalties) {
-      return this.isSpecificPlayer
-    }
-  })
-  dataCollector: DataCollector = null
-
-  @property({
-    type: IdAndName, visible: function (this: PlayerPayPenalties) {
-      return this.isSpecificPlayer
-    }
-  })
-  dataCollectorId: IdAndName = null
-
-  @property({
     type: cc.Integer, visible: function (this: PlayerPayPenalties) {
       return this.isSpecificPlayer
     }
   })
-  dataCollectorIdFinal: number = null
+  dataCollectorIdFinal: number = -1
 
   async testCondition(meta: PassiveMeta) {
 

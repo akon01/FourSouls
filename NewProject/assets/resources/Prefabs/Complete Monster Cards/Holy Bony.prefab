@@ -42,7 +42,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 13
+      "__id__": 12
     },
     "_opacity": 255,
     "_color": {
@@ -132,7 +132,7 @@
     },
     "_enabled": true,
     "cardName": "Holy Bony",
-    "doNotMake": false,
+    "doNotMake": true,
     "cardMask": null,
     "cardSprite": null,
     "makeMultiCards": false,
@@ -214,18 +214,13 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "activeEffectsIds": [],
     "activeEffectsIdsFinal": [],
-    "passiveEffectsIds": [],
     "passiveEffectsIdsFinal": [
       0
     ],
-    "toAddPassiveEffectsIds": [],
     "toAddPassiveEffectsIdsFinal": [],
-    "paidEffectsIds": [],
     "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollectorId": {},
     "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
@@ -247,23 +242,13 @@
     },
     "EffectId": 0,
     "isSilent": false,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
-    "preCondition": null,
-    "preConditionId": {},
     "preConditionIdFinal": -1,
-    "conditions": [],
-    "conditionsIds": [],
     "conditionsIdsFinal": [
       0
     ],
     "passiveType": 2,
-    "passiveEffectToAdd": null,
-    "passiveEffectToAddId": {},
     "passiveEffectToAddIdFinal": -1,
-    "dataCollector": [],
-    "dataCollectorsIds": [],
     "dataCollectorsIdsFinal": [
       0
     ],
@@ -273,8 +258,6 @@
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
     "hasDataConcurency": false,
-    "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": {},
     "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "numOfCardsToSee": 3,
@@ -301,7 +284,6 @@
     },
     "_enabled": true,
     "ConditionId": 0,
-    "dataCollectorId": {},
     "dataCollectorIdFinal": -1,
     "isMultiNumber": false,
     "numbers": [],
@@ -321,8 +303,6 @@
     },
     "_enabled": true,
     "DataCollectorId": 0,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
     "multiType": false,
     "otherPlayer": null,
@@ -332,10 +312,6 @@
     },
     "chooseTypes": [],
     "filterFromPassiveMeta": false,
-    "targetCollectorFromPassiveMeta": null,
-    "targetCollectorFromPassiveMetaId": {
-      "__id__": 12
-    },
     "targetCollectorFromPassiveMetaIdFinal": -1,
     "flavorText": "Choose A Deck To Look At Top 3 Cards Of",
     "otherPlayersFlavorText": "",
@@ -351,11 +327,6 @@
     "isMultiFilter": false,
     "filterStatement": null,
     "filterStatements": []
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "",
-    "id": -1
   },
   {
     "__type__": "cc.PrefabInfo",

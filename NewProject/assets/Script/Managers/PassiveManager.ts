@@ -105,7 +105,7 @@ export default class PassiveManager extends cc.Component {
     const cardEffect = itemToRegister.getComponent(CardEffect)
     if (itemToRegister.getComponent(CardEffect) != null) {
 
-      if (cardEffect.passiveEffectsIds.length > 0) {
+      if (cardEffect.passiveEffectsIdsFinal.length > 0) {
         if (!this.isCardRegistered(itemToRegister)) {
           this.passiveItems.push(itemToRegister);
           const cardPassives = cardEffect.getPassiveEffects()
@@ -158,8 +158,6 @@ export default class PassiveManager extends cc.Component {
           this.allBeforeEffects.splice(this.allBeforeEffects.indexOf(passive), 1)
         }
       }
-      cc.log(`removed ${item.name} from passive effects`)
-      cc.log(this.passiveItems)
       if (sendToServer) {
         ServerClient.$.send(Signal.REMOVE_FROM_PASSIVE_MANAGER, { cardId: item.getComponent(Card)._cardId })
       }
@@ -232,7 +230,7 @@ export default class PassiveManager extends cc.Component {
       const effectCard = Card.getCardNodeByChild(passiveEffect.node)
 
       let isTrue = true;
-      if (passiveEffect.conditionsIds.length == 0) {
+      if (passiveEffect.conditionsIdsFinal.length == 0) {
         cc.error(`passive effect ${passiveEffect.effectName} on ${Card.getCardNodeByChild(passiveEffect.node).name} has no conditions`)
         isTrue = false;
       }
@@ -254,7 +252,6 @@ export default class PassiveManager extends cc.Component {
 
         const conditionDataCollector = condition.getDataCollector();
         if (isTrue && conditionDataCollector != null) {
-          cc.log(`${condition.name} is true and has data collector`)
           let cardOwner
           cardOwner = PlayerManager.getPlayerByCard(effectCard)
           if (cardOwner == null) {
@@ -268,10 +265,8 @@ export default class PassiveManager extends cc.Component {
           throw new Error(`Effect ${passiveEffect.effectName} is an "Add Passive Effect", its condition ${condition.name} doesn't have condition data`)
         }
 
-        if (isTrue) { cc.log(`test condition ${condition.name} for ${passiveEffect.name} on ${effectCard.name} card`) }
         try {
           if (isTrue && (await condition.testCondition(passiveMeta) == false)) {
-            cc.log(`failed`)
             isTrue = false;
           }
         } catch (error) {
@@ -285,7 +280,6 @@ export default class PassiveManager extends cc.Component {
       if (isTrue) {
         allPassivesToActivate.push(passiveEffect)
       } else {
-        cc.log(`test passive Conditions for Event: ${passiveMeta.passiveEvent} false`)
         //condition wasnt true, do nothning
       }
     }
@@ -314,23 +308,19 @@ export default class PassiveManager extends cc.Component {
       newPassiveMeta = await this.activateB4Passives(passiveMeta, allPassivesToActivate)
       if (originalStackEffect) {
         if (originalStackEffect.checkForFizzle()) {
-          cc.log(`1`)
           methodData.continue = false
           methodData.args = newPassiveMeta.args;
         } else {
-          cc.log(`2`)
           methodData.continue = !newPassiveMeta.preventMethod
           methodData.args = newPassiveMeta.args;
           cc.log(methodData)
         }
       } else {
-        cc.log(`3`)
         methodData.continue = !newPassiveMeta.preventMethod
         methodData.args = newPassiveMeta.args;
         cc.log(methodData)
       }
     } else {
-      cc.log(`4`)
       methodData.continue = true
       methodData.args = passiveMeta.args;
     }

@@ -11,11 +11,11 @@ export default class IdAndName {
 
 
 
-    static getNew(id: number, name: string) {
-        const newIdAndName = new IdAndName()
-        newIdAndName.id = id
-        newIdAndName.name = name
-        return newIdAndName
-    }
+    // static getNew(id: number, name: string) {
+    //     const newIdAndName = new IdAndName()
+    //     newIdAndName.id = id
+    //     newIdAndName.name = name
+    //     return newIdAndName
+    // }
 
 }

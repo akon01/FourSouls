@@ -18,21 +18,16 @@ export default class Cost extends cc.Component implements CostInterface {
     CostId: number = -1
 
     getThisEffect() {
-        return this.node.getComponent(CardEffect).getAllEffects().find(effect => effect.costId !== null && effect.costId.id == this.CostId);
+        return this.node.getComponent(CardEffect).getAllEffects().find(effect => effect.costIdFinal !== null && effect.costIdFinal == this.CostId);
     }
 
-    @property(PreCondition)
-    preCondition: PreCondition = null
-
-    @property({ type: IdAndName, multiline: true })
-    preConditionId: IdAndName = null
 
     @property({ type: cc.Integer, multiline: true })
     preConditionIdFinal: number = -1
 
 
     getPreCondition() {
-        return this.node.getComponent(CardEffect).getPreCondtion(this.preConditionId.id)
+        return this.node.getComponent(CardEffect).getPreCondtion(this.preConditionIdFinal)
     }
 
     setCostId() {
@@ -43,7 +38,7 @@ export default class Cost extends cc.Component implements CostInterface {
     }
 
     testPreCondition(): boolean {
-        if (!this.preConditionId) {
+        if (!this.preConditionIdFinal != -1) {
             cc.error('No PreCondition On Cost')
             return true
         }

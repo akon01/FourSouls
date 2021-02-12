@@ -25,7 +25,7 @@ import ChooseCard from "./ChooseCard";
 import ServerClient from "../../../ServerClient/ServerClient";
 import Signal from "../../../Misc/Signal";
 import IdAndName from "../IdAndNameComponent";
-import { createNewDataCollector } from "../../reset";
+
 import CardEffect from "../../Entites/CardEffect";
 
 const { ccclass, property } = cc._decorator;
@@ -91,26 +91,21 @@ export default class ChooseAPlayerToChooseCards extends DataCollector {
   })
   numOfCardsToChoose: number = 1
 
-  @property(ChooseCard)
-  playerChooseCard: ChooseCard = null
-
-  @property(IdAndName)
-  playerChooseCardId: IdAndName = new IdAndName()
 
   @property(cc.Integer)
   playerChooseCardIdFinal: number = -1
 
-  setWithOld(data: ChooseAPlayerToChooseCards) {
-    if (data.playerChooseCard) {
-      const newId = createNewDataCollector(this.node, data.playerChooseCard)
-      this.playerChooseCardId.id = newId
-      this.playerChooseCardId.name = data.playerChooseCard.collectorName
-      this.playerChooseCard = null
-      data.playerChooseCard = null
-    }
-  }
+  // setWithOld(data: ChooseAPlayerToChooseCards) {
+  //   if (data.playerChooseCard) {
+  //     const newId = createNewDataCollector(this.node, data.playerChooseCard)
+  //     this.playerChooseCardId.id = newId
+  //     this.playerChooseCardId.name = data.playerChooseCard.collectorName
+  //     this.playerChooseCard = null
+  //     data.playerChooseCard = null
+  //   }
+  // }
 
-  getPlayerChooseCard = () => this.node.getComponent(CardEffect).getDataCollector(this.playerChooseCardId.id)
+  getPlayerChooseCard = () => this.node.getComponent(CardEffect).getDataCollector(this.playerChooseCardIdFinal)
 
   /**
    *  @throws when there are no cards to choose from in the choose type

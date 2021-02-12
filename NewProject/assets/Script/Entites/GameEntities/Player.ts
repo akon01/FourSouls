@@ -5,7 +5,7 @@ import { IMultiEffectRollAndCollect } from "../../CardEffectComponents/MultiEffe
 import MultiEffectChoose from "../../CardEffectComponents/MultiEffectChooser/MultiEffectChoose";
 import MultiEffectRoll from "../../CardEffectComponents/MultiEffectChooser/MultiEffectRoll";
 import RollDice from "../../CardEffectComponents/RollDice";
-import { BUTTON_STATE, CARD_TYPE, CHOOSE_CARD_TYPE, GAME_EVENTS, ITEM_TYPE, PARTICLE_TYPES, PASSIVE_EVENTS, ROLL_TYPE, TIME_TO_REACT_ON_ACTION, ANNOUNCEMENT_TIME } from "../../Constants";
+import { BUTTON_STATE, CARD_TYPE, CHOOSE_CARD_TYPE, GAME_EVENTS, ITEM_TYPE, PARTICLE_TYPES, PASSIVE_EVENTS, ROLL_TYPE, TIME_TO_REACT_ON_ACTION, ANNOUNCEMENT_TIME, SOULS_NEEDED_TO_WIN } from "../../Constants";
 import BattleManager from "../../Managers/BattleManager";
 import ButtonManager from "../../Managers/ButtonManager";
 import CardManager from "../../Managers/CardManager";
@@ -279,7 +279,7 @@ export default class Player extends cc.Component {
   attackPlays: number = 0;
 
   @property
-  _attackDeckPlays: number = 1;
+  _attackDeckPlays: number = 0;
 
   @property
   _mustAttackPlays: number = 0;
@@ -1302,7 +1302,7 @@ export default class Player extends cc.Component {
 
   }
 
-  async getSoulCard(cardWithSoul: cc.Node, sendToServer: boolean) {
+  async receiveSoulCard(cardWithSoul: cc.Node, sendToServer: boolean) {
 
     const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_GET_SOUL_CARD, [cardWithSoul], null, this.node)
     if (sendToServer) {
@@ -1326,7 +1326,7 @@ export default class Player extends cc.Component {
       cardWithSoul.setPosition(0, 0)
       ServerClient.$.send(serverData.signal, serverData.srvData)
       const monster = cardWithSoul.getComponent(Monster);
-      if (this.souls >= 4 + this._extraSoulsNeededToWin) {
+      if (this.souls >= SOULS_NEEDED_TO_WIN + this._extraSoulsNeededToWin) {
         whevent.emit(GAME_EVENTS.GAME_OVER, this.playerId)
       } else if (monster && monster.monsterPlace != null) {
         await monster.monsterPlace.removeMonster(cardWithSoul, sendToServer);

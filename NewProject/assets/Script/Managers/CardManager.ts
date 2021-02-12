@@ -604,9 +604,7 @@ export default class CardManager extends cc.Component {
     }
     if (!(item.getComponent(Item).type == ITEM_TYPE.ACTIVE || item.getComponent(Item).type == ITEM_TYPE.ACTIVE_AND_PASSIVE || item.getComponent(Item).type == ITEM_TYPE.PAID || item.getComponent(Item).type == ITEM_TYPE.ACTIVE_AND_PAID || item.getComponent(Item).type == ITEM_TYPE.PASSIVE_AND_PAID || item.getComponent(Item).type == ITEM_TYPE.ALL)) { return }
     //&& !item.getComponent(Item).activated) { return }
-    cc.log(`make ${item.name} activateable and check precontidi`)
     if (!item.getComponent(CardEffect).testEffectsPreConditions(false)) {
-      cc.log(`${item.name} hasent passed precondition test to make actiavtable`);
       return
     }
     const cardComp = item.getComponent(Card);
@@ -818,9 +816,7 @@ export default class CardManager extends cc.Component {
     }
 
     const originalPos = canvas.convertToNodeSpaceAR(card.parent.convertToWorldSpaceAR(card.getPosition()));
-    cc.log(originalPos)
     const movePos = canvas.convertToNodeSpaceAR(placeToMove.parent.convertToWorldSpaceAR(placeToMove.getPosition()))
-    cc.log(movePos)
     const moveAction = cc.moveTo(TIME_TO_DRAW, movePos);
     let animationIndex: number
     if (moveIndex == null || moveIndex == -1) {
@@ -854,12 +850,9 @@ export default class CardManager extends cc.Component {
         signal: Signal.MOVE_CARD,
         srvData: { moveIndex: animationIndex, cardId: card.getComponent(Card)._cardId, placeID: placeId, flipIfFlipped: flipIfFlipped, firstPos: firstPos, playerId: PlayerManager.mePlayer.getComponent(Player).playerId, placeType: placeType },
       };
-      cc.log(`b4 run action`)
       card.runAction(cc.spawn(moveAction, cc.callFunc(() => {
-        cc.log(`in send to server`)
         ServerClient.$.send(serverData.signal, serverData.srvData)
       }, this)))
-      cc.log(`after run action`)
       await this.waitForMoveAnimationEnd(animationIndex)
       if (flipIfFlipped && card.getComponent(Card)._isFlipped) {
         await card.getComponent(Card).flipCard(false)
@@ -892,7 +885,6 @@ export default class CardManager extends cc.Component {
       }
     })
     if (!moveAnim) {
-      cc.log(this.activeMoveAnimations)
       throw new Error(`No Active move animation for index ${moveIndex}`)
     }
     moveAnim.endBools.push(true)
@@ -987,7 +979,6 @@ export default class CardManager extends cc.Component {
 
     cardToMove.setPosition(0, 0)
     cardToMove.setParent(soulsLayout);
-    cc.log(soulsLayout.parent)
   }
 
   static getAllDecks() {

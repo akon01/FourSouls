@@ -95,7 +95,7 @@ export default class MonsterCardHolder extends cc.Component {
     CardManager.makeCardPreviewable(monsterCard)
 
     const monsterEffect = this.activeMonster.getComponent(CardEffect)
-    if (monsterEffect != null && monsterEffect.passiveEffectsIds.length > 0 && !PassiveManager.isCardRegistered(this.activeMonster)) {
+    if (monsterEffect != null && monsterEffect.passiveEffectsIdsFinal.length > 0 && !PassiveManager.isCardRegistered(this.activeMonster)) {
 
       if (TurnsManager.isCurrentPlayer(PlayerManager.mePlayer)) {
         await PassiveManager.registerPassiveItem(this.activeMonster, true)

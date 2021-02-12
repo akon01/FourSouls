@@ -12,7 +12,6 @@ import DataCollector from "../DataCollector/DataCollector";
 import Effect from "./Effect";
 import PileManager from "../../Managers/PileManager";
 import IdAndName from "../IdAndNameComponent";
-import { createNewDataCollector, createNewEffect } from "../../reset";
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,54 +19,40 @@ const { ccclass, property } = cc._decorator;
 export default class AddTrinketOrCurse extends Effect {
   effectName = "AddTrinketOrCurse";
 
-  setWithOld(oldEffect: AddTrinketOrCurse) {
-    const cardEffectComp = this.node.getComponent(CardEffect)
-    try {
-      if (oldEffect.addMuiliEffect) {
-        for (let i = 0; i < oldEffect.itemEffectsToAdd.length; i++) {
-          const effectToAdd = oldEffect.itemEffectsToAdd[i].getComponent(Effect);
-          if (effectToAdd.hasBeenHandled) {
-            this.itemEffectsToAddIds.push(IdAndName.getNew(effectToAdd.EffectId, effectToAdd.effectName))
-          } else {
-            const newId = createNewEffect(effectToAdd.getComponent(Effect), this.node, false)
-            this.itemEffectsToAddIds.push(IdAndName.getNew(newId, effectToAdd.effectName))
-          }
-        }
+  // setWithOld(oldEffect: AddTrinketOrCurse) {
+  //   const cardEffectComp = this.node.getComponent(CardEffect)
+  //   try {
+  //     if (oldEffect.addMuiliEffect) {
+  //       for (let i = 0; i < oldEffect.itemEffectsToAdd2.length; i++) {
+  //         const effectToAdd = oldEffect.itemEffectsToAdd2[i].getComponent(Effect);
+  //         if (effectToAdd.hasBeenHandled) {
+  //           this.itemEffectsToAddIds2.push(effectToAdd.EffectId)
+  //         } else {
+  //           const newId = createNewEffect(effectToAdd.getComponent(Effect), this.node, false)
+  //           this.itemEffectsToAddIds2.push(newId)
+  //         }
+  //       }
 
-      } else {
-        const newId = createNewEffect(oldEffect.itemEffectToAdd.getComponent(Effect), this.node, false)
-        this.itemEffectToAddId = IdAndName.getNew(newId, oldEffect.itemEffectToAdd.getComponent(Effect).effectName)
-        oldEffect.itemEffectToAddId = this.itemEffectToAddId
-      }
-      if (oldEffect.multiEffectCollector) {
-        const newMultiId = createNewDataCollector(this.node, this.multiEffectCollector)
-        this.multiEffectCollectorId = IdAndName.getNew(newMultiId, this.multiEffectCollector.collectorName)
-        this.multiEffectCollector = null
-        oldEffect.multiEffectCollector = null
-        oldEffect.multiEffectCollectorId = this.multiEffectCollectorId
-      }
-      this.itemEffectToAdd = null;
-      this.itemEffectsToAdd = []
-      oldEffect.itemEffectToAdd = null
-      oldEffect.itemEffectsToAdd = []
-    } catch (error) {
-      throw error
-    }
-  }
-
-  @property({
-    type: cc.Node, override: true, visible: function (this: AddTrinketOrCurse) {
-      if (!this.addMuiliEffect) { return true; }
-    }
-  })
-  itemEffectToAdd: cc.Node = null;
-
-  @property({
-    type: IdAndName, multiline: true, override: true, visible: function (this: AddTrinketOrCurse) {
-      if (!this.addMuiliEffect) { return true; }
-    }
-  })
-  itemEffectToAddId: IdAndName = null;
+  //     } else {
+  //       const newId = createNewEffect(oldEffect.itemEffectToAdd2.getComponent(Effect), this.node, false)
+  //       this.itemEffectToAddId2 = newId.effectName)
+  //       oldEffect.itemEffectToAddId2 = this.itemEffectToAddId2
+  //     }
+  //     if (oldEffect.multiEffectCollector) {
+  //       const newMultiId = createNewDataCollector(this.node, this.multiEffectCollector)
+  //       this.multiEffectCollectorId = newMultiId
+  //       this.multiEffectCollector = null
+  //       oldEffect.multiEffectCollector = null
+  //       oldEffect.multiEffectCollectorId = this.multiEffectCollectorId
+  //     }
+  //     this.itemEffectToAdd2 = null;
+  //     this.itemEffectsToAdd2 = []
+  //     oldEffect.itemEffectToAdd2 = null
+  //     oldEffect.itemEffectsToAdd2 = []
+  //   } catch (error) {
+  //     throw error
+  //   }
+  // }
 
   @property({
     type: cc.Integer, override: true, visible: function (this: AddTrinketOrCurse) {
@@ -77,44 +62,14 @@ export default class AddTrinketOrCurse extends Effect {
   itemEffectToAddIdFinal: number = -1;
 
   @property({
-    type: [cc.Node], visible: function (this: AddTrinketOrCurse) {
-      if (this.addMuiliEffect) { return true; }
-    }
-  })
-  itemEffectsToAdd: cc.Node[] = [];
-
-  @property({
-    type: IdAndName, visible: function (this: AddTrinketOrCurse) {
-      if (this.addMuiliEffect) { return true; }
-    }
-  })
-  itemEffectsToAddIds: IdAndName[] = [];
-
-  @property({
     type: [cc.Integer], visible: function (this: AddTrinketOrCurse) {
       if (this.addMuiliEffect) { return true; }
     }
   })
   itemEffectsToAddIdsFinal: number[] = [];
 
-
-
   @property
   addMuiliEffect: boolean = false;
-
-  @property({
-    type: DataCollector, visible: function (this: AddTrinketOrCurse) {
-      if (this.addMuiliEffect) { return true }
-    }
-  })
-  multiEffectCollector: DataCollector = null
-
-  @property({
-    type: IdAndName, visible: function (this: AddTrinketOrCurse) {
-      if (this.addMuiliEffect) { return true }
-    }
-  })
-  multiEffectCollectorId: IdAndName = null
 
   @property({
     type: cc.Integer, visible: function (this: AddTrinketOrCurse) {
@@ -151,7 +106,6 @@ export default class AddTrinketOrCurse extends Effect {
         }
       }
     }
-
     if (data instanceof PassiveEffectData) { return data }
     return Stack._currentStack
   }
@@ -160,18 +114,18 @@ export default class AddTrinketOrCurse extends Effect {
     const thisCard = Card.getCardNodeByChild(this.node)
     const thisCardEffect = thisCard.getComponent(CardEffect)
     //Remove this Effect!
-    thisCardEffect.activeEffectsIds = thisCardEffect.activeEffectsIds.filter(aid => aid.id != this.EffectId);
+    thisCardEffect.activeEffectsIdsFinal = thisCardEffect.activeEffectsIdsFinal.filter(aid => aid != this.EffectId);
     if (this.addMuiliEffect) {
-      for (let i = 0; i < this.itemEffectsToAddIds.length; i++) {
-        const effect = this.itemEffectsToAddIds[i];
-        thisCardEffect.passiveEffectsIds.push(effect)
+      for (let i = 0; i < this.itemEffectsToAddIdsFinal.length; i++) {
+        const effect = this.itemEffectsToAddIdsFinal[i];
+        thisCardEffect.passiveEffectsIdsFinal.push(effect)
       }
-      if (this.multiEffectCollectorId) {
-        thisCardEffect.multiEffectCollectorId = this.multiEffectCollectorId;
+      if (this.multiEffectCollectorIdFinal != -1) {
+        thisCardEffect.multiEffectCollectorIdFinal = this.multiEffectCollectorIdFinal;
         thisCardEffect.hasMultipleEffects = true;
       }
     } else {
-      thisCardEffect.passiveEffectsIds.push(this.itemEffectToAddId)
+      thisCardEffect.passiveEffectsIdsFinal.push(this.itemEffectToAddIdFinal)
     }
     this.node.removeComponent(this)
 

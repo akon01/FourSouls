@@ -544,7 +544,7 @@ export default class ActionManager extends cc.Component {
       case Signal.GET_SOUL:
         card = CardManager.getCardById(data.cardId, true);
         player = PlayerManager.getPlayerById(data.playerId)
-        await player.getSoulCard(card, false)
+        await player.receiveSoulCard(card, false)
         card.setParent(player.soulsLayout)
         card.setPosition(0, 0)
         break;

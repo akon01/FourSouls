@@ -5,7 +5,6 @@ import DecisionMarker from "../../Entites/Decision Marker";
 import Card from "../../Entites/GameEntities/Card";
 import Stack from "../../Entites/Stack";
 import PlayerManager from "../../Managers/PlayerManager";
-import { createNewEffect } from "../../reset";
 import RollDiceStackEffect from "../../StackEffects/Roll DIce";
 import Effect from "../CardEffects/Effect";
 import Cost from "../Costs/Cost";
@@ -26,20 +25,20 @@ export default class MultiEffectRoll extends DataCollector {
   @property({ type: [EffectsAndNumbers], multiline: true })
   effectsAndNumbers: EffectsAndNumbers[] = [];
 
-  setWithOld(data: MultiEffectRoll) {
-    const oldEffectsAndNumbers = data.effectsAndNumbers;
-    oldEffectsAndNumbers.forEach(effect => {
-      if (effect.effect.hasBeenHandled) {
-        effect.effectId.id = effect.effect.EffectId
-        effect.effectId.name = effect.effect.effectName
-      } else {
-        const newId = createNewEffect(effect.effect, this.node, true)
-        effect.effectId.id = newId
-        effect.effectId.name = effect.effect.effectName
-      }
-      effect.effect = null
-    });
-  }
+  // setWithOld(data: MultiEffectRoll) {
+  //   const oldEffectsAndNumbers = data.effectsAndNumbers;
+  //   oldEffectsAndNumbers.forEach(effect => {
+  //     if (effect.effect.hasBeenHandled) {
+  //       effect.effectId.id = effect.effect.EffectId
+  //       effect.effectId.name = effect.effect.effectName
+  //     } else {
+  //       const newId = createNewEffect(effect.effect, this.node, true)
+  //       effect.effectId.id = newId
+  //       effect.effectId.name = effect.effect.effectName
+  //     }
+  //     effect.effect = null
+  //   });
+  // }
 
   /**
    *
@@ -99,6 +98,6 @@ export default class MultiEffectRoll extends DataCollector {
 
   onLoad() {
     const cardEffectComp = this.node.getComponent(CardEffect)
-    this.effectsAndNumbers.forEach(ean => ean.effect = cardEffectComp.getEffect(ean.effectId.id))
+    this.effectsAndNumbers.forEach(ean => ean.effect = cardEffectComp.getEffect(ean.effectIdFinal))
   }
 }

@@ -32,9 +32,12 @@ export default class Deck extends cc.Component {
 
   removeCard(card: cc.Node | number) {
     if (card instanceof cc.Node) {
-      return this._cards.splice(this._cards.indexOf(card.getComponent(Card)._cardId), 1)
+      const cardId = card.getComponent(Card)._cardId;
+      if (this._cards.includes(cardId))
+        return this._cards.splice(this._cards.indexOf(cardId), 1)
     } else {
-      return this._cards.splice(this._cards.indexOf(card, 1))
+      if (this._cards.includes(card))
+        return this._cards.splice(this._cards.indexOf(card, 1))
     }
   }
 

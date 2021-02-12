@@ -26,16 +26,12 @@ export default class Condition extends cc.Component
   events: Array<import("../../Constants").PASSIVE_EVENTS> = [];
   event: import("../../Constants").PASSIVE_EVENTS;
   conditionData: ActiveEffectData | PassiveEffectData;
-  @property(DataCollector)
-  dataCollector: import("../DataCollector/DataCollector").default;
-  @property({ type: IdAndName, multiline: true })
-  dataCollectorId: IdAndName = null
   @property(cc.Integer)
   dataCollectorIdFinal: number = -1
 
   getDataCollector() {
-    if (this.dataCollectorId) {
-      return this.node.getComponent(CardEffect).getDataCollector(this.dataCollectorId.id)
+    if (this.dataCollectorIdFinal != -1) {
+      return this.node.getComponent(CardEffect).getDataCollector(this.dataCollectorIdFinal)
     }
     return null
   }

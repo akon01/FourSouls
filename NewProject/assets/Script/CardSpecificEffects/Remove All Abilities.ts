@@ -38,10 +38,10 @@ export default class RemoveAllAbilities extends Effect {
       const cardEffect = targetCard.getComponent(CardEffect)
       targetCard.getComponent(Item).enabled = false;
       cardEffect.enabled = false
-      cardEffect.activeEffectsIds = []
-      cardEffect.paidEffectsIds = []
-      cardEffect.passiveEffectsIds = []
-      cardEffect.toAddPassiveEffectsIds = []
+      cardEffect.activeEffectsIdsFinal = []
+      cardEffect.paidEffectsIdsFinal = []
+      cardEffect.passiveEffectsIdsFinal = []
+      cardEffect.toAddPassiveEffectsIdsFinal = []
     }
     if (data instanceof PassiveEffectData) { return data }
     return stack

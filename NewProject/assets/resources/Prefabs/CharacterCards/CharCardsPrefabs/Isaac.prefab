@@ -35,17 +35,17 @@
         "__id__": 6
       },
       {
-        "__id__": 8
+        "__id__": 7
       },
       {
-        "__id__": 12
+        "__id__": 9
       },
       {
-        "__id__": 13
+        "__id__": 10
       }
     ],
     "_prefab": {
-      "__id__": 14
+      "__id__": 11
     },
     "_opacity": 255,
     "_color": {
@@ -210,20 +210,13 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "activeEffectsIds": [
-      {
-        "__id__": 7
-      }
+    "activeEffectsIdsFinal": [
+      0
     ],
-    "activeEffectsIdsFinal": [],
-    "passiveEffectsIds": [],
     "passiveEffectsIdsFinal": [],
-    "toAddPassiveEffectsIds": [],
     "toAddPassiveEffectsIdsFinal": [],
-    "paidEffectsIds": [],
     "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollectorId": null,
     "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
@@ -231,11 +224,6 @@
     "cardPlayerId": 0,
     "serverEffectStack": [],
     "_id": ""
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "playLootCard",
-    "id": 0
   },
   {
     "__type__": "3e26ck2/KpCGLEq1eJEbRu3",
@@ -246,40 +234,24 @@
     },
     "_enabled": true,
     "effectPosition": {
-      "__id__": 9
+      "__id__": 8
     },
     "EffectId": 0,
     "isSilent": false,
-    "cost": null,
-    "costId": null,
     "costIdFinal": -1,
-    "preCondition": null,
-    "preConditionId": {
-      "__id__": 10
-    },
-    "preConditionIdFinal": -1,
-    "conditions": [],
-    "conditionsIds": [],
+    "preConditionIdFinal": 0,
     "conditionsIdsFinal": [],
     "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "passiveEffectToAddId": null,
     "passiveEffectToAddIdFinal": -1,
-    "dataCollector": [],
-    "dataCollectorsIds": [
-      {
-        "__id__": 11
-      }
+    "dataCollectorsIdsFinal": [
+      0
     ],
-    "dataCollectorsIdsFinal": [],
     "_effectCard": null,
     "optionalAfterDataCollection": false,
     "optionalBeforeDataCollection": false,
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
     "hasDataConcurency": false,
-    "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": null,
     "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "_id": ""
@@ -292,16 +264,6 @@
     "height": 26
   },
   {
-    "__type__": "IdAndName",
-    "name": "Isaac<HasLootCards>",
-    "id": 0
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "SelectLootToPlay",
-    "id": 0
-  },
-  {
     "__type__": "5df4cS7sDlCwp3LfzJijhH4",
     "_name": "",
     "_objFlags": 0,
@@ -310,7 +272,6 @@
     },
     "_enabled": true,
     "PreConditionId": 0,
-    "dataCollectorId": null,
     "dataCollectorIdFinal": -1,
     "cardsNeeded": 1,
     "_id": ""
@@ -324,8 +285,6 @@
     },
     "_enabled": true,
     "DataCollectorId": 0,
-    "cost": null,
-    "costId": null,
     "costIdFinal": -1,
     "_id": ""
   },

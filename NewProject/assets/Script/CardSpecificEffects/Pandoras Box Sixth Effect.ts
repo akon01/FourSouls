@@ -24,7 +24,7 @@ export default class PandorasBoxSixthEffect extends Effect {
 
     let thisCard = Card.getCardNodeByChild(this.node)
     let thisOwner = PlayerManager.getPlayerByCard(CardManager.getCardOwner(thisCard))
-    await thisOwner.getSoulCard(thisCard, true)
+    await thisOwner.receiveSoulCard(thisCard, true)
 
     if (data instanceof PassiveEffectData) {
       return data

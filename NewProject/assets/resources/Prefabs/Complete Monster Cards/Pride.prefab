@@ -42,7 +42,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 15
+      "__id__": 14
     },
     "_opacity": 255,
     "_color": {
@@ -132,7 +132,7 @@
     },
     "_enabled": true,
     "cardName": "Pride",
-    "doNotMake": false,
+    "doNotMake": true,
     "cardMask": null,
     "cardSprite": null,
     "makeMultiCards": false,
@@ -214,18 +214,13 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "activeEffectsIds": [],
     "activeEffectsIdsFinal": [],
-    "passiveEffectsIds": [],
     "passiveEffectsIdsFinal": [
       0
     ],
-    "toAddPassiveEffectsIds": [],
     "toAddPassiveEffectsIdsFinal": [],
-    "paidEffectsIds": [],
     "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollectorId": {},
     "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
@@ -247,23 +242,13 @@
     },
     "EffectId": 0,
     "isSilent": false,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
-    "preCondition": null,
-    "preConditionId": {},
     "preConditionIdFinal": -1,
-    "conditions": [],
-    "conditionsIds": [],
     "conditionsIdsFinal": [
       0
     ],
     "passiveType": 2,
-    "passiveEffectToAdd": null,
-    "passiveEffectToAddId": {},
     "passiveEffectToAddIdFinal": -1,
-    "dataCollector": [],
-    "dataCollectorsIds": [],
     "dataCollectorsIdsFinal": [
       0
     ],
@@ -273,8 +258,6 @@
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
     "hasDataConcurency": false,
-    "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": {},
     "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "numOfLoot": 2,
@@ -296,8 +279,6 @@
     },
     "_enabled": true,
     "ConditionId": 0,
-    "dataCollector": null,
-    "dataCollectorId": {},
     "dataCollectorIdFinal": -1,
     "isPlayerFromData": false,
     "isOnSpecificMonster": true,
@@ -315,8 +296,6 @@
     },
     "_enabled": true,
     "DataCollectorId": 0,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
     "multiType": false,
     "otherPlayer": null,
@@ -330,10 +309,6 @@
     "otherPlayersFlavorText": "",
     "isMultiCardChoice": false,
     "numOfCardsToChoose": 1,
-    "playerChooseCard": null,
-    "playerChooseCardId": {
-      "__id__": 14
-    },
     "playerChooseCardIdFinal": -1,
     "_id": ""
   },
@@ -364,11 +339,6 @@
     "__type__": "PlayerFilter",
     "filter": 0,
     "quantity": 1
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "",
-    "id": -1
   },
   {
     "__type__": "cc.PrefabInfo",

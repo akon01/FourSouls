@@ -16,7 +16,6 @@ import DataInterpreter, { ActiveEffectData, EffectData, PassiveEffectData, Serve
 import ParticleManager from "../Managers/ParticleManager";
 import PlayerManager from "../Managers/PlayerManager";
 import SoundManager from "../Managers/SoundManager";
-import { handleEffect } from "../reset";
 import StackEffectInterface from "../StackEffects/StackEffectInterface";
 import Item from "./CardTypes/Item";
 import Card from "./GameEntities/Card";
@@ -46,46 +45,31 @@ export default class CardEffect extends cc.Component {
   }
 
   getActiveEffects() {
-    return this.activeEffectsIds.map(eid => eid.id).map(id => this.getEffect(id))
+    return this.activeEffectsIdsFinal.map(id => this.getEffect(id))
   }
-
-  @property({ type: IdAndName, multiline: true })
-  activeEffectsIds: IdAndName[] = []
-
 
   @property({ type: [cc.Integer], multiline: true })
   activeEffectsIdsFinal: number[] = []
 
   getPassiveEffects() {
-    return this.passiveEffectsIds.map(eid => eid.id).map(id => this.getEffect(id))
+    return this.passiveEffectsIdsFinal.map(id => this.getEffect(id))
   }
-
-  @property({ type: IdAndName, multiline: true })
-  passiveEffectsIds: IdAndName[] = []
 
   @property({ type: [cc.Integer], multiline: true })
   passiveEffectsIdsFinal: number[] = []
 
 
   getToAddPassiveEffects() {
-    return this.toAddPassiveEffectsIds.map(eid => eid.id).map(id => this.getEffect(id))
+    return this.toAddPassiveEffectsIdsFinal.map(id => this.getEffect(id))
   }
-
-  @property({ type: IdAndName, multiline: true })
-  toAddPassiveEffectsIds: IdAndName[] = []
 
 
   @property({ type: [cc.Integer], multiline: true })
   toAddPassiveEffectsIdsFinal: number[] = []
 
-
   getPaidEffects() {
-    return this.paidEffectsIds.map(eid => eid.id).map(id => this.getEffect(id))
+    return this.paidEffectsIdsFinal.map(id => this.getEffect(id))
   }
-
-  @property({ type: IdAndName, multiline: true })
-  paidEffectsIds: IdAndName[] = []
-
 
   @property({ type: [cc.Integer], multiline: true })
   paidEffectsIdsFinal: number[] = []
@@ -100,8 +84,8 @@ export default class CardEffect extends cc.Component {
   isHandlingMultiEffectCollector: boolean = false
 
   getMultiEffectCollector() {
-    if (this.multiEffectCollectorId) {
-      return this.getDataCollector(this.multiEffectCollectorId.id)
+    if (this.multiEffectCollectorIdFinal != -1) {
+      return this.getDataCollector(this.multiEffectCollectorIdFinal)
     }
     return null
   }
@@ -123,18 +107,11 @@ export default class CardEffect extends cc.Component {
   }
 
   @property({
-    type: IdAndName, visible: function (this: CardEffect) {
-      if (this.hasMultipleEffects) { return true }
-    }
-  })
-  private multiEffectCollectorId: IdAndName = null
-
-  @property({
     type: cc.Integer, visible: function (this: CardEffect) {
       if (this.hasMultipleEffects) { return true }
     }
   })
-  private multiEffectCollectorIdFinal: number = -1
+  multiEffectCollectorIdFinal: number = -1
 
   @property({ visible: false })
   effectData: ServerEffectData = null;
@@ -151,11 +128,11 @@ export default class CardEffect extends cc.Component {
   @property
   serverEffectStack: ServerEffect[] = [];
 
-  addEffect(effect: Effect, effectType: ITEM_TYPE, addToEffectList: boolean) {
-    const newEffect: Effect = this.node.addComponent(effect.constructor.name)
-    newEffect.resetInEditor()
-    return handleEffect(newEffect, effect, this.node, effectType, addToEffectList)
-  }
+  // addEffect(effect: Effect, effectType: ITEM_TYPE, addToEffectList: boolean) {
+  //   const newEffect: Effect = this.node.addComponent(effect.constructor.name)
+  //   newEffect.resetInEditor()
+  //   return handleEffect(newEffect, effect, this.node, effectType, addToEffectList)
+  // }
 
   /**
    * @throws an error if there is an empty active effect slot in the cardEffect
@@ -177,9 +154,10 @@ export default class CardEffect extends cc.Component {
     let innerBoolPool = []
 
     const multiEffectCollector = this.getMultiEffectCollector();
+    const cost = multiEffectCollector?.getCost();
     // if (!itemIsActivated) {
-    if (multiEffectCollector?.cost != undefined) {
-      if (multiEffectCollector?.cost?.testPreCondition()) {
+    if (cost != undefined) {
+      if (cost.testPreCondition()) {
         return true
       } else { return false }
     }
@@ -365,8 +343,8 @@ export default class CardEffect extends cc.Component {
     let data: any;
     let endData: ActiveEffectData | PassiveEffectData = null;
     // const isActive = (this.getEffectIndexAndType(effect).type == ITEM_TYPE.ACTIVE) ? true : false
-    const isActive = effect.conditionsIds.length == 0 ? true : false
-    if (effect.dataCollectorsIds.length > 0) {
+    const isActive = effect.conditionsIdsFinal.length == 0 ? true : false
+    if (effect.dataCollectorsIdsFinal.length > 0) {
       const dataCollectors = effect.getDataCollectors();
       for (let o = 0; o < dataCollectors.length; o++) {
         const dataCollector = dataCollectors[o];
@@ -381,7 +359,7 @@ export default class CardEffect extends cc.Component {
         cc.log(`data collected from ${dataCollector.collectorName}: `, data)
 
         if (endData == null) {
-          cc.log(`first data collected in ${effect.effectName} which have ${effect.dataCollectorsIds.length} collectors`)
+          cc.log(`first data collected in ${effect.effectName} which have ${effect.dataCollectorsIdsFinal.length} collectors`)
           if (dataCollector instanceof ChainCollector) {
             endData = DataInterpreter.makeEffectData(data, this.node, oldData.cardPlayerId, isActive, true)
           } else {
@@ -497,12 +475,12 @@ export default class CardEffect extends cc.Component {
     const cardPlayedData = { cardPlayerId: cardPlayerId, cardId: cardPlayed.getComponent(Card)._cardId }
 
     if (collectEffectData) {
-      if (cardEffect.dataCollectorsIds.length > 0) {
+      if (cardEffect.dataCollectorsIdsFinal.length > 0) {
         const data = await this.collectEffectData(cardEffect, cardPlayedData);
         //    cc.log(data)
         this.effectData = data
       } else {
-        if (cardEffect.dataCollectorsIds.length > 0) {
+        if (cardEffect.dataCollectorsIdsFinal.length > 0) {
           Logger.error(`need to collect data for ${cardEffect.name}  but cant!`)
         }
       }

@@ -5,7 +5,7 @@ import Condition from "./Condition";
 
 export default interface ConditionInterface {
   testCondition(data?): Promise<Object>;
-  dataCollector: DataCollector;
+  dataCollectorIdFinal: number;
   event: PASSIVE_EVENTS
   events: PASSIVE_EVENTS[];
   conditionData: ActiveEffectData | PassiveEffectData;

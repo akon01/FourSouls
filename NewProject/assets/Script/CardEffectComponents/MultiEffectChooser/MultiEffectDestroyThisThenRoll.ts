@@ -4,7 +4,6 @@ import CardEffect from "../../Entites/CardEffect";
 import Card from "../../Entites/GameEntities/Card";
 import PileManager from "../../Managers/PileManager";
 import PlayerManager from "../../Managers/PlayerManager";
-import { createNewEffect } from "../../reset";
 import Effect from "../CardEffects/Effect";
 import { IMultiEffectRollAndCollect } from "./IMultiEffectRollAndCollect";
 
@@ -20,20 +19,20 @@ export default class MultiEffectDestroyThisThenRoll extends IMultiEffectRollAndC
   @property({ type: [EffectsAndNumbers], multiline: true })
   effectsAndNumbers: EffectsAndNumbers[] = [];
 
-  setWithOld(data: MultiEffectDestroyThisThenRoll) {
-    const oldEffectsAndNumbers = data.effectsAndNumbers;
-    oldEffectsAndNumbers.forEach(effect => {
-      if (effect.effect.hasBeenHandled) {
-        effect.effectId.id = effect.effect.EffectId
-        effect.effectId.name = effect.effect.effectName
-      } else {
-        const newId = createNewEffect(effect.effect, this.node, true)
-        effect.effectId.id = newId
-        effect.effectId.name = effect.effect.effectName
-      }
-      effect.effect = null
-    });
-  }
+  // setWithOld(data: MultiEffectDestroyThisThenRoll) {
+  //   const oldEffectsAndNumbers = data.effectsAndNumbers;
+  //   oldEffectsAndNumbers.forEach(effect => {
+  //     if (effect.effect.hasBeenHandled) {
+  //       effect.effectId.id = effect.effect.EffectId
+  //       effect.effectId.name = effect.effect.effectName
+  //     } else {
+  //       const newId = createNewEffect(effect.effect, this.node, true)
+  //       effect.effectId.id = newId
+  //       effect.effectId.name = effect.effect.effectName
+  //     }
+  //     effect.effect = null
+  //   });
+  // }
 
   /**
    *
@@ -76,6 +75,6 @@ export default class MultiEffectDestroyThisThenRoll extends IMultiEffectRollAndC
 
   onLoad() {
     const cardEffectComp = this.node.getComponent(CardEffect)
-    this.effectsAndNumbers.forEach(ean => ean.effect = cardEffectComp.getEffect(ean.effectId.id))
+    this.effectsAndNumbers.forEach(ean => ean.effect = cardEffectComp.getEffect(ean.effectIdFinal))
   }
 }

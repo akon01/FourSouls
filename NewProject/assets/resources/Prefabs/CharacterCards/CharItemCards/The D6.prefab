@@ -35,14 +35,14 @@
         "__id__": 6
       },
       {
-        "__id__": 10
+        "__id__": 8
       },
       {
-        "__id__": 11
+        "__id__": 9
       }
     ],
     "_prefab": {
-      "__id__": 12
+      "__id__": 10
     },
     "_opacity": 255,
     "_color": {
@@ -189,18 +189,13 @@
     },
     "_enabled": true,
     "hasDestroySelfEffect": false,
-    "activeEffectsIds": [],
     "activeEffectsIdsFinal": [
       0
     ],
-    "passiveEffectsIds": [],
     "passiveEffectsIdsFinal": [],
-    "toAddPassiveEffectsIds": [],
     "toAddPassiveEffectsIdsFinal": [],
-    "paidEffectsIds": [],
     "paidEffectsIdsFinal": [],
     "hasMultipleEffects": false,
-    "multiEffectCollectorId": {},
     "multiEffectCollectorIdFinal": -1,
     "effectData": null,
     "concurentEffectData": null,
@@ -222,27 +217,11 @@
     },
     "EffectId": 0,
     "isSilent": false,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
-    "preCondition": null,
-    "preConditionId": {
-      "__id__": 8
-    },
-    "preConditionIdFinal": 1,
-    "conditions": [],
-    "conditionsIds": [],
+    "preConditionIdFinal": 0,
     "conditionsIdsFinal": [],
     "passiveType": 1,
-    "passiveEffectToAdd": null,
-    "passiveEffectToAddId": {
-      "__id__": 9
-    },
     "passiveEffectToAddIdFinal": -1,
-    "dataCollector": [
-      null
-    ],
-    "dataCollectorsIds": [],
     "dataCollectorsIdsFinal": [
       0
     ],
@@ -252,8 +231,6 @@
     "hasPlayerChoiceToActivateInChainEffects": false,
     "hasLockingResolve": false,
     "hasDataConcurency": false,
-    "dataConcurencyComponent": null,
-    "dataConcurencyComponentId": {},
     "dataConcurencyComponentIdFinal": -1,
     "optionalFlavorText": "",
     "_id": ""
@@ -266,16 +243,6 @@
     "height": 20.85
   },
   {
-    "__type__": "IdAndName",
-    "name": "StackEffectExists",
-    "id": 1
-  },
-  {
-    "__type__": "IdAndName",
-    "name": "",
-    "id": -1
-  },
-  {
     "__type__": "31902r3m41IKqUGWEKWbFJQ",
     "_name": "",
     "_objFlags": 0,
@@ -284,8 +251,6 @@
     },
     "_enabled": true,
     "DataCollectorId": 0,
-    "cost": null,
-    "costId": {},
     "costIdFinal": -1,
     "chooseTypes": [
       2,
@@ -302,7 +267,6 @@
     },
     "_enabled": true,
     "PreConditionId": 0,
-    "dataCollectorId": {},
     "dataCollectorIdFinal": -1,
     "typeToExsist": 1,
     "multiType": true,

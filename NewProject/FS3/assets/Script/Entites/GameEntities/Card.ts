@@ -105,6 +105,13 @@ export class Card extends Component {
 
       _ownedBy: Player | null = null;
 
+      setOwner(player: Player | null, sendToServer: boolean) {
+            this._ownedBy = player
+            if (sendToServer) {
+                  WrapperProvider.serverClientWrapper.out.send(Signal.CARD_SET_OWNER, { cardId: this._cardId, playerId: player?.playerId ?? null })
+            }
+      }
+
       @property
       hasCounter: boolean = false;
 
@@ -127,6 +134,14 @@ export class Card extends Component {
             if (sendToServer) {
                   WrapperProvider.serverClientWrapper.out.send(Signal.FLIP_CARD, { cardId: this._cardId })
             }
+      }
+
+      changeNumOfSouls(diff: number, sendToServer: boolean) {
+            this.souls += diff
+            if (sendToServer) {
+                  WrapperProvider.serverClientWrapper.out.send(Signal.CARD_CHANGE_NUM_OF_SOULS, { cardId: this._cardId, diff: diff })
+            }
+
       }
 
       async putCounter(numOfCounters: number) {

@@ -67,7 +67,7 @@ export class TurnsManager extends Component {
                   log(WrapperProvider.stackWrapper.out._currentStack)
                   await WrapperProvider.stackWrapper.out.waitForStackEmptied()
             }
-            await WrapperProvider.stackWrapper.out.replaceStack([], true)
+            WrapperProvider.stackWrapper.out.replaceStack([], true)
 
             await this.endTurn(true);
 

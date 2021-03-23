@@ -1,17 +1,12 @@
-import { _decorator, CCInteger, log } from 'cc';
+import { CCInteger, log, _decorator } from 'cc';
+import { PASSIVE_EVENTS } from "../../Constants";
+import { Monster } from "../../Entites/CardTypes/Monster";
+import { Player } from "../../Entites/GameEntities/Player";
+import { PassiveMeta } from "../../Managers/PassiveMeta";
+import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { Condition } from "./Condition";
 const { ccclass, property } = _decorator;
 
-import { PASSIVE_EVENTS } from "../../Constants";
-import { Player } from "../../Entites/GameEntities/Player";
-import { BattleManager } from "../../Managers/BattleManager";
-import { PassiveMeta } from "../../Managers/PassiveMeta";
-import { TurnsManager } from "../../Managers/TurnsManager";
-import { DataCollector } from "../DataCollector/DataCollector";
-import { Condition } from "./Condition";
-import { Card } from "../../Entites/GameEntities/Card";
-import { PlayerManager } from "../../Managers/PlayerManager";
-import { Monster } from "../../Entites/CardTypes/Monster";
-import { WrapperProvider } from '../../Managers/WrapperProvider';
 
 @ccclass('PlayerRollNumber')
 export class PlayerRollNumber extends Condition {

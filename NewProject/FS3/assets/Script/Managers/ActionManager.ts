@@ -4,7 +4,7 @@ import { whevent } from "../../ServerClient/whevent";
 import { AddTrinketOrCurse } from "../CardEffectComponents/CardEffects/AddTrinketOrCurse";
 import { Effect } from '../CardEffectComponents/CardEffects/Effect';
 import { ChooseCard } from "../CardEffectComponents/DataCollector/ChooseCard";
-import { BUTTON_STATE, GAME_EVENTS, ROLL_TYPE } from "../Constants";
+import { BUTTON_STATE, GAME_EVENTS, ROLL_TYPE, SIGNAL_GROUPS } from "../Constants";
 import { ActionMessage } from "../Entites/ActionMessage";
 import { CardEffect } from "../Entites/CardEffect";
 import { CardLayout } from "../Entites/CardLayout";
@@ -510,6 +510,14 @@ export class ActionManager extends Component {
       case Signal.SOUL_CARD_MOVE_END:
         whevent.emit(GAME_EVENTS.SOUL_CARD_MOVE_END)
         break;
+      case Signal.CARD_CHANGE_NUM_OF_SOULS:
+        card = WrapperProvider.cardManagerWrapper.out.getCardById(data.cardId)
+        card.getComponent(Card)?.changeNumOfSouls(data.diff, false)
+        return
+      case Signal.CARD_SET_OWNER:
+        card = WrapperProvider.cardManagerWrapper.out.getCardById(data.cardId);
+        player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.playerId)
+        card.getComponent(Card)?.setOwner(player, false)
       case Signal.USE_ITEM:
         card = WrapperProvider.cardManagerWrapper.out.getCardById(data.cardId)
         card.getComponent(Item)!.useItem(false)
@@ -518,6 +526,11 @@ export class ActionManager extends Component {
         card = WrapperProvider.cardManagerWrapper.out.getCardById(data.cardId)
         card.getComponent(Item)!.rechargeItem(false)
         break;
+      case Signal.ITEM_SET_LAST_OWNER:
+        card = WrapperProvider.cardManagerWrapper.out.getCardById(data.cardId)
+        player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.playerId)
+        if (!player) throw new Error(`No Player Found With Id:${data.playerId}`);
+        card.getComponent(Item)?.setLastOwner(player, false)
       case Signal.MOVE_CARD_END:
         WrapperProvider.cardManagerWrapper.out.receiveMoveCardEnd(data.moveIndex)
         break;

@@ -68,8 +68,8 @@ export class ChooseAPlayerToChooseCards extends DataCollector {
   // @property(CCInteger)
   // playerChooseCardIdFinal: number = -1
 
-  @property(ChooseCard)
-  playerChooseCard: ChooseCard | null = null
+  @property(DataCollector)
+  playerChooseCard: DataCollector | null = null
 
   @property
   returnSelectedPlayerAlso: boolean = false
@@ -139,7 +139,7 @@ export class ChooseAPlayerToChooseCards extends DataCollector {
     return retVal
 
   }
-  private async getCardTargetFromPlayer(cardsToChooseFrom: Node[], targetPlayer: Player, numOfCardsToChoose: number) {
+  async getCardTargetFromPlayer(cardsToChooseFrom: Node[], targetPlayer: Player, numOfCardsToChoose: number) {
     WrapperProvider.serverClientWrapper.out.send(Signal.MAKE_CHOOSE_FROM, {
       cards: cardsToChooseFrom.map(c => c.getComponent(Card)!._cardId), playerId: targetPlayer.playerId,
       numOfCardsToChoose, originPlayerId: this.playerId, flavorText: this.flavorText

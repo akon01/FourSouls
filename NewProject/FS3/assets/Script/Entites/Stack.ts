@@ -31,16 +31,6 @@ export class Stack extends Component {
 
     delaydShowStackEffect: number = -1;
 
-
-
-
-
-
-
-
-
-
-
     getNextStackEffectId() {
         WrapperProvider.serverClientWrapper.out.send(Signal.NEXT_STACK_ID)
         this.stackEffectsIds++

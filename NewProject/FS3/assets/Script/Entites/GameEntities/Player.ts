@@ -703,7 +703,10 @@ export class Player extends Component {
                   loot = afterPassiveMeta.args[0]
             }
             this.hand!.addCardToLayout(loot)
-            loot.getComponent(Card)!._ownedBy = this;
+            if (sendToServer) {
+                  loot.getComponent(Card)!.setOwner(this, sendToServer)
+            }
+            // loot.getComponent(Card)!._ownedBy = this;
             this.addHandCards([loot])
             const mePlayerId = WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!.playerId;
             if (loot.getComponent(Card)!._isFlipped) {
@@ -731,8 +734,9 @@ export class Player extends Component {
                   const afterPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(passiveMeta)
                   if (!afterPassiveMeta.args) { debugger; throw new Error("No After Args"); }
                   lootCard = afterPassiveMeta.args[0]
+
+                  lootCard.getComponent(Card)!.setOwner(null, sendToServer);
             }
-            lootCard.getComponent(Card)!._ownedBy = null;
             if (sendToServer) {
                   await this.loseLoot(lootCard, sendToServer)
             }
@@ -792,13 +796,13 @@ export class Player extends Component {
 
             await this.addItemByType(cardItemComp.node, sendToServer)
             this.cards.push(itemToAdd);
-            itemToAdd.getComponent(Item)!._lastOwnedBy = this
+            itemToAdd.getComponent(Item)!.setLastOwner(this, false)
             const serverData = {
                   signal: Signal.ADD_AN_ITEM,
                   srvData: { playerId, cardId, isReward },
             };
             if (sendToServer) {
-
+                  itemCardComp.setOwner(this, sendToServer)
                   await WrapperProvider.cardManagerWrapper.out.moveCardTo(itemCardComp.node, this.desk!.node, sendToServer, true)
                   WrapperProvider.serverClientWrapper.out.send(serverData.signal, serverData.srvData)
                   WrapperProvider.cardManagerWrapper.out.makeItemActivateable(itemToAdd)
@@ -924,6 +928,7 @@ export class Player extends Component {
       }
 
       async destroyItem(itemToDestroy: Node, sendToServer: boolean) {
+            let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_LOSE_ITEM, [itemToDestroy], null, this.node)
 
             await this.loseItem(itemToDestroy, sendToServer)
             const cardComp = itemToDestroy.getComponent(Card)!;
@@ -964,6 +969,7 @@ export class Player extends Component {
 
             if (sendToServer) {
                   await WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(passiveMeta!)
+                  itemToLose.getComponent(Card)!.setOwner(null, sendToServer)
             }
       }
 
@@ -1475,7 +1481,9 @@ export class Player extends Component {
                         WrapperProvider.loggerWrapper.out.error(error)
                   }
             }
-            if (WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer() == this && this.lootCardPlays > 0) {
+            if (
+                  //WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer() == this &&
+                  this.lootCardPlays > 0) {
                   const handCards = this.getHandCards();
                   for (const handCard of handCards) {
                         this.reactCardNode.push(handCard)

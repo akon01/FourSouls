@@ -19,6 +19,7 @@ import { BattleManager } from './BattleManager';
 import { ButtonManager } from './ButtonManager';
 import { CardManager } from './CardManager';
 import { CardPreviewManager } from './CardPreviewManager';
+import { DataCollectorButtonsManager } from './DataCollectorButtonsManager';
 import { DataInterpreter } from './DataInterpreter';
 import { ParticleManager } from './ParticleManager';
 import { PassiveManager } from './PassiveManager';
@@ -60,6 +61,7 @@ export class WrapperProvider extends Component {
     static storeWrapper: GenericWrapper<Store>
     static turnsManagerWrapper: GenericWrapper<TurnsManager>
     static cardPreviewManagerWrapper: GenericWrapper<CardPreviewManager>
+    static dataCollectorButtonsManager: GenericWrapper<DataCollectorButtonsManager>
 
     static CanvasNode: Node
     static MainScriptNode: Node
@@ -99,6 +101,7 @@ export class WrapperProvider extends Component {
         try { WrapperProvider.storeWrapper = new GenericWrapper("RenderRoot2D/Canvas/Store", { inCtor: Store }) } catch { }
         try { WrapperProvider.turnsManagerWrapper = new GenericWrapper("MainScript/TurnsManager", { inCtor: TurnsManager }) } catch { }
         try { WrapperProvider.cardPreviewManagerWrapper = new GenericWrapper("MainScript/CardPreviewManager", { inCtor: CardPreviewManager }) } catch { }
+        try { WrapperProvider.dataCollectorButtonsManager = new GenericWrapper("MainScript/DataCollectorButtonsManager", { inCtor: DataCollectorButtonsManager }) } catch { }
     }
 
     // update (deltaTimeWrapper: number) {

@@ -17,8 +17,6 @@ export class Dice extends Component {
       _currentRolledNumber: number = -1;
 
 
-
-
       set currentRolledNumber(number: number) {
             this._currentRolledNumber = number
             if (this.diceSprite) {

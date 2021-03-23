@@ -1,17 +1,12 @@
-import { _decorator, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
-import { Card } from "../../Entites/GameEntities/Card";
-import { Stack } from "../../Entites/Stack";
-import { CardManager } from "../../Managers/CardManager";
+import { Node, _decorator } from 'cc';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
-import { CARD_TYPE, CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
-import { Effect } from "./Effect";
-import { Player } from "../../Entites/GameEntities/Player";
-import { PlayerManager } from "../../Managers/PlayerManager";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
+import { TARGETTYPE } from "./../../Constants";
+import { Effect } from "./Effect";
+const { ccclass, property } = _decorator;
+
 
 @ccclass('TakeLootFromPlayer')
 export class TakeLootFromPlayer extends Effect {

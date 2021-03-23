@@ -65,7 +65,6 @@ export class DeclareAttack extends StackEffectConcrete {
     }
 
     async resolve() {
-
         const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_DECLARE_ATTACK, [this.cardBeingAttacked], null, this.attackingPlayer.node, this.entityId)
         const afterPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(passiveMeta)
         if (!afterPassiveMeta.continue) { return }
@@ -113,7 +112,7 @@ export class DeclareAttack extends StackEffectConcrete {
             await WrapperProvider.battleManagerWrapper.out.declareAttackOnMonster(this.cardBeingAttacked, true);
             this.setLable(`Player ${this.attackingPlayer.playerId} Has Entered Battle with ${this.cardBeingAttacked.name}`, true)
         }
-
+        await WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(passiveMeta)
         passiveMeta.result = null
         //do passive effects after!
     }

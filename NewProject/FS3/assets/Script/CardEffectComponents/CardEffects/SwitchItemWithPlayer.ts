@@ -61,7 +61,7 @@ export class SwitchItemWithPlayer extends Effect {
       let targetCard = await chooseCard.collectData({ cardPlayerId: playerToGiveTo.playerId }) as EffectTarget
       // const playerToTakeFromItems = chooseCard.getCardsToChoose(CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_ITEMS, null, playerToTakeFrom)
       const cardToTake = targetCard.effectTargetCard
-      log(`card to steal is ${cardToTake.name}`)
+      console.log(`card to steal is ${cardToTake.name}`)
 
       // p1 choose which loot to get.
 
@@ -74,7 +74,7 @@ export class SwitchItemWithPlayer extends Effect {
         targetCard = await chooseCard.collectData({ cardPlayerId: playerToGiveTo.playerId }) as EffectTarget
         cardToGive = targetCard.effectTargetCard
       }
-      log(`card to give is ${cardToGive.name}`)
+      console.log(`card to give is ${cardToGive.name}`)
       if (playerToTakeFrom == null || playerToTakeFrom == undefined) {
         playerToTakeFrom = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(cardToTake)
       }

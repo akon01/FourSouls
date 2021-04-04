@@ -1,12 +1,9 @@
 import { CCInteger, Component, Enum, Node, _decorator } from 'cc';
-import { Signal } from '../../../Misc/Signal';
 import { CHOOSE_CARD_TYPE, ITEM_TYPE, PASSIVE_TYPE } from "../../Constants";
 import { EffectPosition } from "../../EffectPosition";
-import { CardEffect } from '../../Entites/CardEffect';
-import { Card } from '../../Entites/GameEntities/Card';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
+import { EffectData } from '../../Managers/EffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { Condition } from '../CardConditions/Condition';
 import { Cost } from '../Costs/Cost';
@@ -101,6 +98,8 @@ export class Effect extends Component implements EffectInterface {
       @property(Component)
       passiveEffectToAdd: Effect | null = null
 
+      @property({ tooltip: "Only If This Effect Is A 'Passive Effect To Add'" })
+      isOneTimeUse: boolean = false
 
       getPassiveEffectToAdd() {
             return this.passiveEffectToAdd
@@ -128,7 +127,15 @@ export class Effect extends Component implements EffectInterface {
 
 
       @property
-      _effectCard: Node | null = null;
+      private _effectCard: Node | null = null;
+
+      getEffectCard() {
+            if (this._effectCard) {
+                  return this._effectCard
+            } else {
+                  return this.node
+            }
+      }
 
       @property
       optionalAfterDataCollection: boolean = false;
@@ -197,9 +204,7 @@ export class Effect extends Component implements EffectInterface {
        *
        * @param data {target:Player}
        */
-      async doEffect(Stack: StackEffectInterface[], data?: any): Promise<any> {
-            return {};
-      }
+      async doEffect(Stack: StackEffectInterface[], data?: any): Promise<StackEffectInterface[] | EffectData> { return new PassiveEffectData() }
 
       reverseEffect() {
 
@@ -210,6 +215,8 @@ export class Effect extends Component implements EffectInterface {
       }
 
       onLoad() {
+            console.log(`on load effect`);
+
             this._effectCard = this.node;
       }
 

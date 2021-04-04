@@ -10,6 +10,7 @@ import { DataCollector } from "./DataCollector";
 import { Item } from "../../Entites/CardTypes/Item";
 import { CardSet } from "../../Entites/CardSet";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 enum CARD_PLAYER_ITEM_TYPE {
     MY_ITEMS,
     MY_CHARACTER,
@@ -62,8 +63,8 @@ export class CardPlayerItems extends DataCollector {
         if (this.isFilterEternal) {
             cards.set(cards.filter(card => !card.getComponent(Item)!.eternal))
         }
-        log(`card player items:`, cards.map(c => c.name))
-        return cards.map(card => new EffectTarget(card))
+        console.log(`card player items:`, cards.map(c => c.name))
+        return cards.map(card => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(card))
 
     }
     getCards(player: Player, itemType: CARD_PLAYER_ITEM_TYPE) {

@@ -44,7 +44,7 @@ export class Turn {
     // player.lootCardPlays += 10000
     // //add turn buy play
     // player.buyPlays += 10000;
-    log(`refreshed turn for player ${player.playerId}`)
+    console.log(`refreshed turn for player ${player.playerId}`)
     this.battlePhase = false;
     this.turnId = ++WrapperProvider.turnsManagerWrapper.out.turnId
 
@@ -71,10 +71,10 @@ export class Turn {
   }
 
   async startTurn() {
-    log(`start turn`)
+    console.log(`start turn`)
     const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerById(this.PlayerId)!
-    log(`turn player ${player.name}`)
-    log(`me player ${WrapperProvider.playerManagerWrapper.out.mePlayer!.name}`)
+    console.log(`turn player ${player.name}`)
+    console.log(`me player ${WrapperProvider.playerManagerWrapper.out.mePlayer!.name}`)
     if (player.node.name == WrapperProvider.playerManagerWrapper.out.mePlayer!.name) {
       await player.startTurn(player.turnDrawPlays, player.calcNumOfItemsToCharge(), true)
     } else {

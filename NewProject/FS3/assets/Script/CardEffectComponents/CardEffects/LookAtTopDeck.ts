@@ -37,7 +37,7 @@ export class LookAtTopDeck extends Effect {
       deck = deckNode.getComponent(Deck)!;
     }
     if (deck == null) {
-      log(`no deck`)
+      console.log(`no deck`)
     } else {
       let cardsToSee: Node[] = [];
       for (let i = 1; i <= this.numOfCards; i++) {

@@ -52,4 +52,14 @@ export class DataCollector extends Component implements DataCollectorInterface {
       collectData(data: any) {
             return data.playerId;
       }
+
+      private _effectCard: Node | null = null
+
+      getEffectCard() {
+            return this._effectCard ?? this.node
+      }
+
+      onLoad() {
+            this._effectCard = this.node
+      }
 }

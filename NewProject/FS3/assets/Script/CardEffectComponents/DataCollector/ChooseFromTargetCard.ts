@@ -8,6 +8,7 @@ import { Character } from "../../Entites/CardTypes/Character";
 import { Card } from "../../Entites/GameEntities/Card";
 import { Deck } from "../../Entites/GameEntities/Deck";
 import { EffectTarget } from '../../Managers/EffectTarget';
+import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { DataCollector } from './DataCollector';
 @ccclass('ChooseFromTargetCard')
@@ -78,9 +79,9 @@ export class ChooseFromTargetCard extends DataCollector {
     if (!dataCollectorToRun) { debugger; throw new Error("No Data Collector To Run Set!"); }
 
     if (dataCollectorToRun.cardChosen) {
-      target = new EffectTarget(dataCollectorToRun.cardChosen)
+      target = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(dataCollectorToRun.cardChosen)
     } else {
-      log(`in Choose From Target Card collect data of ${dataCollectorToRun.collectorName}`)
+      console.log(`in Choose From Target Card collect data of ${dataCollectorToRun.collectorName}`)
 
       target = await dataCollectorToRun.collectData(data)
     }
@@ -99,26 +100,26 @@ export class ChooseFromTargetCard extends DataCollector {
     }
     if (this.isLootCards) { cardsToChooseFrom = cardsToChooseFrom.concat(targetPlayer.getHandCards()) }
     if (cardsToChooseFrom.length == 0) {
-      log(targetPlayer)
+      console.log(targetPlayer)
       throw new Error("No Cards To Choose From!")
     }
     if (!this.isRandom) {
       WrapperProvider.cardPreviewManagerWrapper.out.setFalvorText(this.flavorText)
       if (this.isMultiCardChoice) {
         const cardsChosenNodes = await WrapperProvider.cardPreviewManagerWrapper.out.selectFromCards(cardsToChooseFrom, this.numberOfCardsToChoose)
-        const cardsChosenTargets = cardsChosenNodes.map(card => new EffectTarget(card))
+        const cardsChosenTargets = cardsChosenNodes.map(card => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(card))
         return cardsChosenTargets
       } else {
         const cardChosenId = await this.requireChoosingACard(cardsToChooseFrom);
-        target = new EffectTarget(WrapperProvider.cardManagerWrapper.out.getCardById(cardChosenId, true))
-        log(`chosen ${target.effectTargetCard.name}`)
+        target = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(WrapperProvider.cardManagerWrapper.out.getCardById(cardChosenId, true))
+        console.log(`chosen ${target.effectTargetCard.name}`)
       }
     } else {
       const randIndex = Math.floor(Math.random() * cardsToChooseFrom.length)
       if (randIndex != 0) {
-        target = new EffectTarget(cardsToChooseFrom[randIndex - 1])
+        target = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(cardsToChooseFrom[randIndex - 1])
       } else {
-        target = new EffectTarget(cardsToChooseFrom[0])
+        target = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(cardsToChooseFrom[0])
       }
 
     }

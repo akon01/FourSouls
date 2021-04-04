@@ -11,7 +11,7 @@ import { Cost } from "./Cost";
 export class DestroyThis extends Cost {
     async takeCost() {
         let thisEffect = this.node.getComponent(CardEffect)!.getAllEffects().find(effect => effect.cost !== null && effect.cost.CostId == this.CostId)!;
-        let thisCard = thisEffect._effectCard!
+        let thisCard = thisEffect.getEffectCard()!
         let player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(thisCard)!
         await player.destroyItem(thisCard, true)
     }

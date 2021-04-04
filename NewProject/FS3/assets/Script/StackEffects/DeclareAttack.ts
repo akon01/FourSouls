@@ -93,7 +93,7 @@ export class DeclareAttack extends StackEffectConcrete {
             if (this.attackingPlayer._attackDeckPlays > 0 && !usedPlayerTurnAttack) {
                 this.attackingPlayer._attackDeckPlays -= 1
             }
-            log(`chosen card is top deck ${this.cardBeingAttacked.name}`)
+            console.log(`chosen card is top deck ${this.cardBeingAttacked.name}`)
             newMonster = monsterDeck.drawCard(true);
             await WrapperProvider.monsterFieldWrapper.out.givePlayerChoiceToCoverPlace(newMonster.getComponent(Monster)!, this.attackingPlayer)
             this.cardBeingAttacked = newMonster;

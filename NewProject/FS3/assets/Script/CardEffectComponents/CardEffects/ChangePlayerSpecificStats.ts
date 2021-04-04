@@ -77,7 +77,7 @@ export class ChangePlayerSpecificStats extends Effect {
       if (target == null) {
         throw `no target to gain stats`
       } else {
-        log(target)
+        console.log(target)
         await this.addStat(target)
       }
     }

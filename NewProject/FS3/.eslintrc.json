@@ -1,0 +1,43 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "no-floating-promises": true,
+        "member-access": false,
+        "triple-equals": false,
+        "variable-name": false,
+        "max-line-length": false,
+        "no-empty": 0,
+        "prefer-for-of": false,
+        "member-ordering": false,
+        "no-shadowed-variable": false,
+        "one-variable-per-declaration": false,
+        "semicolon": false,
+        "arrow-parens": 0,
+        "object-literal-shorthand": false,
+        "no-unused-expression": false,
+        "object-literal-sort-keys": false,
+        "comment-format": false,
+        "only-arrow-functions": false,
+        "trailing-comma": false,
+        "max-classes-per-file": false,
+        "space-before-function-paren": 0,
+        "ordered-imports": false,
+        "no-debugger":0
+
+    }
+}

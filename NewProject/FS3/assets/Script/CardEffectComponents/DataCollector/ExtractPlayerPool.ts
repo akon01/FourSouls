@@ -2,6 +2,7 @@
 import { _decorator, Component, Node, Enum } from 'cc';
 import { Item } from '../../Entites/CardTypes/Item';
 import { EffectTarget } from '../../Managers/EffectTarget';
+import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { ChooseCard } from './ChooseCard';
 import { DataCollector } from './DataCollector';
@@ -33,13 +34,13 @@ export class ExtractPlayerPool extends DataCollector {
         const playerChosenTarget = WrapperProvider.playerManagerWrapper.out.getPlayerByCard((await this.playerToExtractFromChooseCard?.collectData(data) as EffectTarget).effectTargetCard)!
         switch (this.playerStuffToGet) {
             case playerStuff.Coins:
-                return new EffectTarget(playerChosenTarget.coins)
+                return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(playerChosenTarget.coins)
             case playerStuff.EternalItem:
-                return new EffectTarget(playerChosenTarget.characterItem!)
+                return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(playerChosenTarget.characterItem!)
             case playerStuff.Loot:
-                return playerChosenTarget.getHandCards().map(c => new EffectTarget(c))
+                return playerChosenTarget.getHandCards().map(c => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(c))
             case playerStuff.NonEternalItems:
-                return [...playerChosenTarget.getPaidItems(), ...playerChosenTarget.getActiveItems(), ...playerChosenTarget.getPassiveItems()].filter(i => !i.getComponent(Item)?.eternal).map(c => new EffectTarget(c))
+                return [...playerChosenTarget.getPaidItems(), ...playerChosenTarget.getActiveItems(), ...playerChosenTarget.getPassiveItems()].filter(i => !i.getComponent(Item)?.eternal).map(c => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(c))
             default:
                 throw new Error("Should Not Get Here ! Check Enum!");
         }

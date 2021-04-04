@@ -66,12 +66,12 @@ export class PlayerDeathPenalties extends StackEffectConcrete {
 
     async resolve() {
         const amId = WrapperProvider.actionLableWrapper.out.publishMassage(`Player ${this.playerToPay.playerId} pays Penalties`, 0, true)
-        await this.playerToPay.payPenalties()
+        const { chosenLoot, moneyLost } = await this.playerToPay.payPenalties()
         WrapperProvider.actionLableWrapper.out.removeMessage(amId, true)
         this.playerToPay._isDead = true
         WrapperProvider.serverClientWrapper.out.send(Signal.PLAYER_DIED, { playerId: this.playerToPay.playerId })
         this.setLable(`Player ${this.playerToPay.playerId} Paid Death Penalties`, true)
-        const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_PAY_DEATH_PANELTIES, [], null, this.playerToPay.node, this.entityId)
+        const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_PAY_DEATH_PANELTIES, [chosenLoot, moneyLost], null, this.playerToPay.node, this.entityId)
         await WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(passiveMeta)
         // if (turnsManagerWrapper._tm.currentTurn.getTurnPlayer().playerId == this.playerToPay.playerId) {
         //     //   WrapperProvider.stackWrapper.out.removeFromCurrentStackEffectResolving()

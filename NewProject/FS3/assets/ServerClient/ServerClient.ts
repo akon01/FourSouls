@@ -111,6 +111,7 @@ export class ServerClient extends Component {
             whevent.on(Signal.PLAYER_HEAL, this.onPlayerActionFromServer, this);
             whevent.on(Signal.PLAYER_ADD_DMG_PREVENTION, this.onPlayerActionFromServer, this);
             whevent.on(Signal.PLAYER_DIED, this.onPlayerActionFromServer, this);
+            whevent.on(Signal.CHANGE_TURN_DRAW_PLAYS, this.onPlayerActionFromServer, this);
 
             //monster events
             whevent.on(Signal.MONSTER_GAIN_DMG, this.onPlayerActionFromServer, this);
@@ -124,6 +125,7 @@ export class ServerClient extends Component {
             whevent.on(Signal.MOVE_CARD, this.onPlayerActionFromServer, this);
             whevent.on(Signal.MOVE_CARD_END, this.onPlayerActionFromServer, this);
             whevent.on(Signal.SOUL_CARD_MOVE_END, this.onPlayerActionFromServer, this);
+            whevent.on(Signal.CARD_GET_COUNTER, this.onPlayerActionFromServer, this);
             whevent.on(Signal.NEW_MONSTER_ON_PLACE, this.onPlayerActionFromServer, this);
             whevent.on(Signal.GET_NEXT_MONSTER, this.onPlayerActionFromServer, this);
             whevent.on(Signal.RECHARGE_ITEM, this.onPlayerActionFromServer, this);
@@ -152,6 +154,8 @@ export class ServerClient extends Component {
             whevent.on(Signal.DECK_ADD_TO_BOTTOM, this.onPlayerActionFromServer, this);
             whevent.on(Signal.CARD_DRAWN, this.onPlayerActionFromServer, this);
             whevent.on(Signal.DECK_ARRAGMENT, this.onPlayerActionFromServer, this);
+            whevent.on(Signal.MARK_DECK_AS_DRAW_FROM_PILE_INSTED, this.onPlayerActionFromServer, this);
+
 
             //stack events
             whevent.on(Signal.REPLACE_STACK, this.onPlayerActionFromServer, this);
@@ -181,6 +185,15 @@ export class ServerClient extends Component {
 
             //Signle Card Evenets
             whevent.on(Signal.SET_CONCURENT_EFFECT_DATA, this.onPlayerActionFromServer, this);
+            whevent.on(Signal.CARD_CHANGE_NUM_OF_SOULS, this.onPlayerActionFromServer, this);
+            whevent.on(Signal.CARD_SET_OWNER, this.onPlayerActionFromServer, this);
+            whevent.on(Signal.ITEM_SET_LAST_OWNER, this.onPlayerActionFromServer, this);
+
+
+            //Card Effect
+            whevent.on(Signal.MARK_EFFECT_AS_RUNNING, this.onPlayerActionFromServer, this);
+
+
 
             //AnnouncementLable
             whevent.on(Signal.SHOW_ANNOUNCEMENT, this.onPlayerActionFromServer, this);
@@ -188,6 +201,13 @@ export class ServerClient extends Component {
 
             whevent.on(Signal.SHOW_TIMER, this.onPlayerActionFromServer, this);
             whevent.on(Signal.HIDE_TIMER, this.onPlayerActionFromServer, this);
+
+            //button data collector
+
+            whevent.on(Signal.CHOOSE_BUTTON_DATA_COLLECTOR, this.onPlayerActionFromServer, this);
+            whevent.on(Signal.CHOOSE_BUTTON_DATA_COLLECTOR_RESPONSE, this.onPlayerActionFromServer, this);
+
+            whevent.on(Signal.MOUSE_CURSOR_MOVE, this.onPlayerActionFromServer, this);
       }
 
 
@@ -200,13 +220,14 @@ export class ServerClient extends Component {
       onPlayerActionFromServer(data: { signal: typeof Signal, data: any }) {
             //tslint:disable-next-line: no-floating-promises
             //@ts-ignore
-            WrapperProvider.actionManagerWrapper.out.getActionFromServer(data.signal, data.data);
+            if (WrapperProvider.actionManagerWrapper)
+                  WrapperProvider.actionManagerWrapper.out.getActionFromServer(data.signal as unknown as string, data.data);
       }
 
       onMoveToTable(data: { playerID: number, numOfPlayers: number }) {
             this.pid = data.playerID;
             this.numOfPlayers = data.numOfPlayers;
-            log("Server num of players is " + this.numOfPlayers);
+            console.log("Server num of players is " + this.numOfPlayers);
             director.loadScene("MainGame");
       }
       async ttt() {
@@ -214,14 +235,14 @@ export class ServerClient extends Component {
       }
 
       onFinishLoad(data: { id: number }) {
-            log("on finish load")
+            console.log("on finish load")
             // tslint:disable-next-line: no-floating-promises
             const mainScript = WrapperProvider.mainScriptWrapper.out;
             mainScript.makeFirstUpdateActions(data.id)
       }
 
       async onUpdateActions() {
-            log("update actions from server")
+            console.log("update actions from server")
             await WrapperProvider.actionManagerWrapper.out.updateActions()
       }
 
@@ -257,13 +278,13 @@ export class ServerClient extends Component {
       }
 
       onOpen() {
-            log("Connected to the server!");
+            console.log("Connected to the server!");
 
             find(`Server Connection`, WrapperProvider.CanvasNode)!.getComponent(Label)!.string = "Connected to the Server"
       }
 
       onClose() {
-            log("Disconnected from the server!");
+            console.log("Disconnected from the server!");
             WrapperProvider.announcementLableWrapper.out.showAnnouncement(`Disconnected From Server`, 3, false)
             if (this.ws == null) {
                   return
@@ -291,9 +312,9 @@ export class ServerClient extends Component {
                   pack.signal == Signal.REACTION ||
                   pack.signal == Signal.FIRST_GET_REACTION
             ) {
-                  log(++this.reactionCounter);
+                  console.log(++this.reactionCounter);
             }
-            //log('%cRECEIVE:', 'color:#4A3;', pack.signal, pack.data);
+            //console.log('%cRECEIVE:', 'color:#4A3;', pack.signal, pack.data);
       }
 
 
@@ -313,12 +334,12 @@ export class ServerClient extends Component {
 
       send(signal: string, data?: any) {
             if (signal == Signal.REACTION || signal == Signal.FIRST_GET_REACTION) {
-                  //log(this.reactionCounter);
+                  //console.log(this.reactionCounter);
             }
             const time = new Date().toTimeString().substring(0, 8)
             WrapperProvider.loggerWrapper.out.printMethodSignal([signal, data], true)
-            // log("%cSENDING:", "color:#36F;", signal, time);
-            // log(data)
+            // console.log("%cSENDING:", "color:#36F;", signal, time);
+            // console.log(data)
             if (this.ws)
                   this.ws.send(btoa(JSON.stringify({ signal, data }, this.replacer)));
       }
@@ -329,7 +350,7 @@ export class ServerClient extends Component {
       }
 
       onJoin(uuid: any) {
-            log(uuid);
+            console.log(uuid);
             const lable = find(`Match Players`, WrapperProvider.CanvasNode)!.getComponent(Label)!
             const string = lable.string + `\nPlayer ${uuid.uuid}`;
 

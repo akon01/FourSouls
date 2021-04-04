@@ -8,6 +8,7 @@ import { Player } from "../../Entites/GameEntities/Player";
 import { EffectTarget } from "../../Managers/EffectTarget";
 import { CardManager } from "../../Managers/CardManager";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 
 @ccclass('ADeck')
 export class ADeck extends DataCollector {
@@ -23,11 +24,11 @@ export class ADeck extends DataCollector {
     collectData(data: any) {
         switch (this.deckType) {
             case CARD_TYPE.LOOT:
-                return new EffectTarget(WrapperProvider.cardManagerWrapper.out.lootDeck)
+                return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(WrapperProvider.cardManagerWrapper.out.lootDeck)
             case CARD_TYPE.MONSTER:
-                return new EffectTarget(WrapperProvider.cardManagerWrapper.out.monsterDeck)
+                return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(WrapperProvider.cardManagerWrapper.out.monsterDeck)
             case CARD_TYPE.TREASURE:
-                return new EffectTarget(WrapperProvider.cardManagerWrapper.out.treasureDeck)
+                return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(WrapperProvider.cardManagerWrapper.out.treasureDeck)
             default:
                 throw new Error("No Deck Type!");
         }

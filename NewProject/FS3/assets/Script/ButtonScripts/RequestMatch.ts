@@ -12,9 +12,9 @@ export class RequestMatch extends Component {
 
         if (WrapperProvider.serverClientWrapper.out)
             if (WrapperProvider.serverClientWrapper.out.ws != null) {
-                log('request match')
+                console.log('request match')
                 WrapperProvider.serverClientWrapper.out.send(Signal.MATCH)
-            } else log('no connection')
+            } else console.log('no connection')
     }
 
 

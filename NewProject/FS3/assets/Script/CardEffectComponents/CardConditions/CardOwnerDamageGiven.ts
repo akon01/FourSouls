@@ -42,7 +42,7 @@ export class CardOwnerDamageGiven extends Condition {
     if (!this.isOnlyMonsters && !this._isOnLoadCalled) {
       eventsToCheck = this.events
     }
-    error(`events to check ,`, eventsToCheck)
+    console.error(`events to check ,`, eventsToCheck)
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
     const cardOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(thisCard)!;
     if (!meta.args) { debugger; throw new Error("No Args"); }

@@ -14,7 +14,7 @@ export class CardOwnerEndTurn extends Condition {
   needsDataCollector = false;
 
   async testCondition(meta: PassiveMeta) {
-    error(`test card owner end turn`)
+    console.error(`test card owner end turn`)
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)

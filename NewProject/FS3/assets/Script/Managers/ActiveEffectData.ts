@@ -3,7 +3,7 @@ import { _decorator, Component, Node, error } from 'cc';
 import { TARGETTYPE } from '../Constants';
 import { ServerEffect } from '../Entites/ServerCardEffect';
 import { EffectData } from './EffectData';
-import { IEffectTarget } from './EffectTarget';
+import { IEffectTarget } from "./IEffectTarget";
 const { ccclass, property } = _decorator;
 
 @ccclass('ActiveEffectData')
@@ -55,7 +55,7 @@ export class ActiveEffectData extends EffectData {
                 }
             }
         }
-        error("no target was found")
+        console.error("no target was found")
         return null
     }
 

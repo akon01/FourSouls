@@ -42,7 +42,7 @@ export class StackEffectExsist extends PreCondition {
   checkIfExsist(typeToCheck: STACK_EFFECT_TYPE) {
     for (const stackEffect of WrapperProvider.stackWrapper.out._currentStack) {
       if (stackEffect.stackEffectType == typeToCheck) {
-        log(`stack effect exsists`)
+        console.log(`stack effect exsists`)
         return true
       }
     }

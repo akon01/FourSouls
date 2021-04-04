@@ -35,7 +35,7 @@ export class RollDiceAndSaveForLater extends Effect implements IHasSavedRoll {
     stack: StackEffectInterface[],
     data?: ActiveEffectData | PassiveEffectData
   ) {
-    log(data)
+    console.log(data)
     if (!data) { debugger; throw new Error("No Data"); }
     const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard((data.getTarget(TARGETTYPE.PLAYER) as Node))
     if (!player) {

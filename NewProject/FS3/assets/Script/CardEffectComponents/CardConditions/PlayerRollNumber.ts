@@ -56,7 +56,7 @@ export class PlayerRollNumber extends Condition {
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
     const numberRolled = meta.args[0]
     let answer = false;
-    log(`player ${player.name} rolled ${numberRolled}, this numberRoll is ${this.numberRoll}`)
+    console.log(`player ${player.name} rolled ${numberRolled}, this numberRoll is ${this.numberRoll}`)
     // let playerName = WrapperProvider.playerManagerWrapper.out.getPlayerByCardId(this.conditionData.cardChosenId).name;
     if (
       player instanceof Player
@@ -89,7 +89,7 @@ export class PlayerRollNumber extends Condition {
         answer = false;
       }
     }
-    log(`answer is ${answer}`)
+    console.log(`answer is ${answer}`)
     return answer
   }
 }

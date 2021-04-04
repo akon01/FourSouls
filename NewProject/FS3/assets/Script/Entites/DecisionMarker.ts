@@ -19,7 +19,7 @@ import { PurchaseItem } from "../StackEffects/PurchaseItem";
 import { RefillEmptySlot } from "../StackEffects/RefillEmptySlot";
 import { RollDiceStackEffect } from "../StackEffects/RollDIce";
 import { StackEffectInterface } from '../StackEffects/StackEffectInterface';
-import { StackEffectPreview } from "../StackEffects/StackEffectVisualRepresentation/StackEffectPreview";
+import { StackEffectAvaialbleTypes, StackEffectPreview } from "../StackEffects/StackEffectVisualRepresentation/StackEffectPreview";
 import { StartTurnLoot } from "../StackEffects/StartTurnLoot";
 import { CardPreview } from "./CardPreview";
 import { Card } from "./GameEntities/Card";
@@ -94,7 +94,7 @@ export class DecisionMarker extends Component {
         previewWidget.left = 0.15;
         previewWidget.updateAlignment()
         this.cardPreview.node.active = true
-        log(effectChosen)
+        console.log(effectChosen)
         const effect = this.cardPreview.addEffectToPreview(effectChosen, true)
 
 
@@ -168,10 +168,10 @@ export class DecisionMarker extends Component {
         } else if (diceRollStack instanceof AttackRoll) {
             card = diceRollStack.attackedMonster.node
         }
-        log(this.stackEffectPreview)
-        log(diceRollStack)
+        console.log(this.stackEffectPreview)
+        console.log(diceRollStack)
         if (!this.stackEffectPreview) { debugger; throw new Error("No Stack Effect Preview"); }
-        this.stackEffectPreview.setStackEffect(diceRollStack)
+        this.stackEffectPreview.setStackEffect(diceRollStack, StackEffectAvaialbleTypes.Else)
         this.stackEffectPreview.flavorTextLable!.string = ""
         const previewNode = this.stackEffectPreview.node
         this.stackEffectPreview.node.active = true
@@ -252,7 +252,7 @@ export class DecisionMarker extends Component {
             } else if (cardTopRightPoint.y < previewTopPoint.y) {
                 endPoint = cardTopMiddlePoint
             } else {
-                log(`no endpoint found: end card top ${cardTopLeftPoint.y} start card top ${previewTopPoint.y} start card bottom ${previewLowPoint.y}`)
+                console.log(`no endpoint found: end card top ${cardTopLeftPoint.y} start card top ${previewTopPoint.y} start card bottom ${previewLowPoint.y}`)
             }
         } else {
             const startCardWL = previewParentTrans.convertToWorldSpaceAR(v3(previewNode.position.x - previewNodeTrans.width / 2, 0));
@@ -264,7 +264,7 @@ export class DecisionMarker extends Component {
             } else if (cardTopLeftPoint.y < previewLowPoint.y) {
                 endPoint = cardTopMiddlePoint
             } else {
-                log(`no endpoint found: end card top ${cardTopLeftPoint.y} start card top ${previewTopPoint.y} start card bottom ${previewLowPoint.y}`)
+                console.log(`no endpoint found: end card top ${cardTopLeftPoint.y} start card top ${previewTopPoint.y} start card bottom ${previewLowPoint.y}`)
             }
         }
 
@@ -357,7 +357,15 @@ export class DecisionMarker extends Component {
             this.stackEffectPreview.showStackIcon()
         }
         const preview = this.stackEffectPreview;
-        preview.setStackEffect(stackEffect)
+        let stackEffectType = StackEffectAvaialbleTypes.Else
+        if (stackEffect instanceof PlayLootCardStackEffect) {
+            stackEffectType = StackEffectAvaialbleTypes.PlayLootCardStackEffect
+        } else if (stackEffect instanceof ActivateItem) {
+            stackEffectType = StackEffectAvaialbleTypes.ActivateItem
+        } else if (stackEffect instanceof ActivatePassiveEffect) {
+            stackEffectType = StackEffectAvaialbleTypes.ActivatePassiveEffect
+        }
+        preview.setStackEffect(stackEffect, stackEffectType)
         const endCard = this.getStackEffectEndCard(stackEffect)
         this.movePreviewByEndCard(preview.node, endCard)
         const points = this.getOriginAndEndPointByPreviewAndEndCard(preview.node, endCard)

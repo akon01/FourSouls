@@ -1,5 +1,5 @@
 import { _decorator, Node } from 'cc';
-const { ccclass } = _decorator;
+const { ccclass, property } = _decorator;
 
 import { Effect } from "../CardEffects/Effect";
 import { DataCollector } from "../DataCollector/DataCollector";
@@ -10,6 +10,15 @@ import { WrapperProvider } from '../../Managers/WrapperProvider';
 @ccclass('MultiEffectChoose')
 export class MultiEffectChoose extends DataCollector {
   collectorName = "MultiEffectChoose";
+
+  @property({ visible: function (this: MultiEffectChoose) { return !this.isOnlyPaid } })
+  isOnlyActives: boolean = false
+
+
+  @property({ visible: function (this: MultiEffectChoose) { return !this.isOnlyActives } })
+  isOnlyPaid: boolean = false
+
+
   /**
    *
    * @param data {cardPlayed} 
@@ -23,7 +32,14 @@ export class MultiEffectChoose extends DataCollector {
     await WrapperProvider.actionManagerWrapper.out.updateActionsForNotTurnPlayer(player.node)
     WrapperProvider.cardPreviewManagerWrapper.out.setFalvorText("Select An Effect To Activate")
     const cardPlayerCardEffect = data.cardPlayed.getComponent(CardEffect)!;
-    const allActivatedEffects = [...cardPlayerCardEffect.getActiveEffects(), ...cardPlayerCardEffect.getPaidEffects()]
+    let allActivatedEffects = []
+    if (this.isOnlyActives) {
+      allActivatedEffects = [...cardPlayerCardEffect.getActiveEffects()]
+    } else if (this.isOnlyPaid) {
+      allActivatedEffects = [...cardPlayerCardEffect.getPaidEffects()]
+    } else {
+      allActivatedEffects = [...cardPlayerCardEffect.getActiveEffects(), ...cardPlayerCardEffect.getPaidEffects()]
+    }
     const availableToActivateEffects = allActivatedEffects.filter(effect => {
       const preCondition = effect.getPreCondition();
       if (preCondition) {

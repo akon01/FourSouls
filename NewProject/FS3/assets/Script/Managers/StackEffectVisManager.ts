@@ -5,8 +5,11 @@ import { whevent } from "../../ServerClient/whevent";
 import { DataCollector } from "../CardEffectComponents/DataCollector/DataCollector";
 import { BLINKING_SPEED, GAME_EVENTS } from "../Constants";
 import { StackEffectPreviewPool } from "../Entites/StackEffectPreviewPool";
+import { ActivateItem } from '../StackEffects/ActivateItem';
+import { ActivatePassiveEffect } from '../StackEffects/ActivatePassiveEffect';
+import { PlayLootCardStackEffect } from '../StackEffects/PlayLootCard';
 import { StackEffectInterface } from "../StackEffects/StackEffectInterface";
-import { StackEffectPreview } from "../StackEffects/StackEffectVisualRepresentation/StackEffectPreview";
+import { StackEffectAvaialbleTypes, StackEffectPreview } from "../StackEffects/StackEffectVisualRepresentation/StackEffectPreview";
 import { WrapperProvider } from './WrapperProvider';
 const { ccclass, property } = _decorator;
 
@@ -185,9 +188,17 @@ export class StackEffectVisManager extends Component {
 
     addPreview(stackEffect: StackEffectInterface, sendToServer: boolean) {
         let preview = this.getPreviewByStackId(stackEffect.entityId)
+        let stackEffectType = StackEffectAvaialbleTypes.Else
+        if (stackEffect instanceof PlayLootCardStackEffect) {
+            stackEffectType = StackEffectAvaialbleTypes.PlayLootCardStackEffect
+        } else if (stackEffect instanceof ActivateItem) {
+            stackEffectType = StackEffectAvaialbleTypes.ActivateItem
+        } else if (stackEffect instanceof ActivatePassiveEffect) {
+            stackEffectType = StackEffectAvaialbleTypes.ActivatePassiveEffect
+        }
         if (preview == null) {
             const newPreview = this.previewPool!.getByStackEffect(stackEffect)!
-            newPreview.getComponent(StackEffectPreview)!.setStackEffect(stackEffect)
+            newPreview.getComponent(StackEffectPreview)!.setStackEffect(stackEffect, stackEffectType)
             this.currentPreviews.push(newPreview.getComponent(StackEffectPreview)!)
             preview = newPreview.getComponent(StackEffectPreview)!
             preview.hideStackIcon()
@@ -213,8 +224,8 @@ export class StackEffectVisManager extends Component {
             this.previewPool!.putByStackEffectPreview(preview)
             this.updateAvailablePreviews()
         } else {
-            error(`remove preview failed, no preview with stack effect id ${stackEffectId} found`)
-            log(this.currentPreviews)
+            console.error(`remove preview failed, no preview with stack effect id ${stackEffectId} found`)
+            console.log(this.currentPreviews)
         }
         if (this.currentPreviews.length == 0) { this.hidePreviews() }
         if (sendToServer) {
@@ -237,7 +248,7 @@ export class StackEffectVisManager extends Component {
 
             //}
             //  for (const preview of this.currentPreviews) {
-            log(`removing preview of ${preview.stackEffect!._lable}`)
+            console.log(`removing preview of ${preview.stackEffect!._lable}`)
             this.removePreview(preview.stackEffect!.entityId, false)
         }
         this.currentPreviews = []

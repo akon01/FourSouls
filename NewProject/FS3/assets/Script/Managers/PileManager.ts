@@ -42,7 +42,7 @@ export class PileManager extends Component {
             const piles = [this.lootPlayPile.node, this.lootCardPileNode, this.treasureCardPileNode, this.monsterCardPileNode]
             piles.forEach(pile => WrapperProvider.cardManagerWrapper.out.allCards.push(pile))
             piles.forEach(pile => {
-                  log(`add animation node to ${pile.name}`)
+                  console.log(`add animation node to ${pile.name}`)
                   // AnimationManager.addAnimationNode(pile)
             });
 

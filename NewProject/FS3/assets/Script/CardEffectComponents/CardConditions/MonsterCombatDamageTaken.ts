@@ -38,11 +38,11 @@ export class MonsterCombatDamageTaken extends Condition {
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node);
     const owner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(thisCard)!;
     let answer = false;
-    log(monster)
+    console.log(monster)
     if (monster instanceof Monster) { answer = true; }
     if (this.isSpecificToEntityTakesDamage) {
-      log(`who took dmg ${meta.args[3].name}`)
-      log(`this enttiy ${this.entityWhoTookDamage!.name}`)
+      console.log(`who took dmg ${meta.args[3].name}`)
+      console.log(`this enttiy ${this.entityWhoTookDamage!.name}`)
       if (this.entityWhoTookDamage != meta.args[3]) { answer = false; }
     }
     if (this.isOnSpecificRoll) {

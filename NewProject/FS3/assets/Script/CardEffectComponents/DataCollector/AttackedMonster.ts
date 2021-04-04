@@ -4,6 +4,7 @@ const { ccclass, property } = _decorator;
 import { COLLECTORTYPE } from "../../Constants";
 import { BattleManager } from "../../Managers/BattleManager";
 import { EffectTarget } from "../../Managers/EffectTarget";
+import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { DataCollector } from "./DataCollector";
 
@@ -20,7 +21,7 @@ export class AttackedMonster extends DataCollector {
         let monster = WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonsterNode
         if (!monster) { debugger; throw new Error("No Monster Being Attacked!"); }
 
-        let effectTarget = new EffectTarget(monster)
+        let effectTarget = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(monster)
         return effectTarget
     }
 }

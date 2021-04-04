@@ -18,7 +18,7 @@ export class HasUnchargedItem extends PreCondition {
     if (owner) {
       const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(owner)!
       const playerItems = [...player.getActiveItems().filter(item => item.getComponent(Item)!.needsRecharge)]
-      log(playerItems)
+      console.log(playerItems)
       if (playerItems.length >= this.itemsNeeded) {
         return true
       } else {

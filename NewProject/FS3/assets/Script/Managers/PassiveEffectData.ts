@@ -2,7 +2,7 @@
 import { _decorator } from 'cc';
 import { TARGETTYPE } from '../Constants';
 import { EffectData } from './EffectData';
-import { IEffectTarget } from './EffectTarget';
+import { IEffectTarget } from "./IEffectTarget";
 
 
 const { ccclass, property } = _decorator;

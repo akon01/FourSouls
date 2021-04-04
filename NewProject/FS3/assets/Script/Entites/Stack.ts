@@ -41,6 +41,7 @@ export class Stack extends Component {
 
     async startResponseCheck(actionMessageId?: number) {
         if (!WrapperProvider.mainScriptWrapper.out.gameHasStarted) { return false }
+        if (WrapperProvider.playerManagerWrapper.out.mePlayer?.getComponent(Player)!.otherPlayersCantRespondOnTurn) return false
         if (this.hasAnyoneResponded) { return true }
 
         this.checkColor += 10;
@@ -110,8 +111,8 @@ export class Stack extends Component {
     async doStackEffectFromTop(sendToServer: boolean) {
         const mePlayer = WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!
         const stackEffect = this._currentStack[this._currentStack.length - 1]
-        log(`Stack State: Do Stack Effect From Top`, stackEffect)
-        //error(`do ${stackEffect.constructor.name} ${stackEffect.entityId} from top`)
+        console.log(`Stack State: Do Stack Effect From Top`, stackEffect)
+        //console.error(`do ${stackEffect.constructor.name} ${stackEffect.entityId} from top`)
         let amId: number = -1
         if (sendToServer) {
             amId = WrapperProvider.actionLableWrapper.out.publishMassage(`Resolve ${stackEffect.name} ${stackEffect.entityId} `, 0)
@@ -123,23 +124,23 @@ export class Stack extends Component {
 
                 this.addToCurrentStackEffectResolving(stackEffect, true)
                 try {
-                    log(`Stack State: Resolve Stack Effect`, stackEffect)
+                    console.log(`Stack State: Resolve Stack Effect`, stackEffect)
                     await stackEffect.resolve()
                     if (!stackEffect.checkForFizzle()) {
                         WrapperProvider.serverClientWrapper.out.send(Signal.UPDATE_STACK_EFFECT, { stackEffect: stackEffect.convertToServerStackEffect() })
                     } else {
-                        log(`${stackEffect.name} ${stackEffect.entityId} has been fizzled`)
+                        console.log(`${stackEffect.name} ${stackEffect.entityId} has been fizzled`)
                     }
                 } catch (error) {
                     WrapperProvider.loggerWrapper.out.error(`error while resolving stack effect ${stackEffect.name} ${stackEffect.entityId}`)
                     WrapperProvider.loggerWrapper.out.error(error)
                 }
-                // error(`b4 removing ${stackEffect.constructor.name} ${stackEffect.entityId} from currentStackEffectResolving`)
+                // console.error(`b4 removing ${stackEffect.constructor.name} ${stackEffect.entityId} from currentStackEffectResolving`)
                 this.removeFromCurrentStackEffectResolving(stackEffect.entityId, true)
 
                 if (sendToServer) {
                     WrapperProvider.actionLableWrapper.out.removeMessage(amId, true)
-                    log(`Stack State: B4 Remove After Resolve`, stackEffect)
+                    console.log(`Stack State: B4 Remove After Resolve`, stackEffect)
                     await this.removeAfterResolve(stackEffect, sendToServer)
                 } else {
 
@@ -170,7 +171,7 @@ export class Stack extends Component {
                  * Test Use next Stack Effect to Be Resolved To Send A New Signal To The next stackEffectPlayer To Remove and continue the loop,
                  * should keep the needed data at the correct player
                  */
-                log(`Stack State: B4 Remove After Resolve`, stackEffectToRemove)
+                console.log(`Stack State: B4 Remove After Resolve`, stackEffectToRemove)
                 await this.removeAfterResolve(stackEffectToRemove, sendToServer)
             } else {
                 return newStack;
@@ -179,8 +180,8 @@ export class Stack extends Component {
     }
 
     async addToStackBelow(stackEffectToAdd: StackEffectInterface, stackEffectToAddBelowTo: StackEffectInterface, deleteOriginal: boolean) {
-        log(`Stack State: Add To Stack Below`, stackEffectToAdd)
-        //error(`add ${stackEffectToAdd.constructor.name} ${stackEffectToAdd.entityId} to stack below`)
+        console.log(`Stack State: Add To Stack Below`, stackEffectToAdd)
+        //console.error(`add ${stackEffectToAdd.constructor.name} ${stackEffectToAdd.entityId} to stack below`)
         const stackEffectIndex = this._currentStack.indexOf(stackEffectToAddBelowTo)
 
         let newStack: StackEffectInterface[] = []
@@ -192,7 +193,7 @@ export class Stack extends Component {
             newStack = this._currentStack;
             // newStack = this._currentStack.fill(stackEffectToAdd, stackEffectIndex, stackEffectIndex + 1)
         }
-        log(`Stack State: Put On Stack `, stackEffectToAdd)
+        console.log(`Stack State: Put On Stack `, stackEffectToAdd)
         await stackEffectToAdd.putOnStack()
         //  WrapperProvider.stackEffectVisManagerWrapper.out.addPreview(stackEffectToAdd, true)
         this.replaceStack(newStack, true)
@@ -204,8 +205,8 @@ export class Stack extends Component {
     }
 
     async addToStackAbove(stackEffectToAdd: StackEffectInterface) {
-        log(`Stack State: Add To Stack Above `, stackEffectToAdd)
-        //error(`add ${stackEffectToAdd.constructor.name} ${stackEffectToAdd.entityId} to stack above`)
+        console.log(`Stack State: Add To Stack Above `, stackEffectToAdd)
+        //console.error(`add ${stackEffectToAdd.constructor.name} ${stackEffectToAdd.entityId} to stack above`)
         if (this._currentStack.length == 0) {
             await this.addToStack(stackEffectToAdd, true)
         } else {
@@ -215,7 +216,7 @@ export class Stack extends Component {
             WrapperProvider.decisionMarkerWrapper.out.setStackIcon(WrapperProvider.stackEffectVisManagerWrapper.out.stackIcons[0], true)
             this.delaydShowStackEffect = stackEffectToAdd.entityId
             //await WrapperProvider.decisionMarkerWrapper.out.showStackEffect(stackEffectToAdd.entityId, true)
-            log(`Stack State: Put On Stack`, stackEffectToAdd)
+            console.log(`Stack State: Put On Stack`, stackEffectToAdd)
             await stackEffectToAdd.putOnStack()
         }
         // await WrapperProvider.actionManagerWrapper.out.updateActions()
@@ -252,13 +253,13 @@ export class Stack extends Component {
      * @param stackEffect
      */
     async addToStack(stackEffect: StackEffectInterface, sendToServer: boolean) {
-        //error(`add ${stackEffect.constructor.name} ${stackEffect.entityId} to stack`)
+        //console.error(`add ${stackEffect.constructor.name} ${stackEffect.entityId} to stack`)
         //Special Case: Silent Stack Effect (does not show up in the game,but will execute immidiatly)
-        log(`Stack State: Add To Stack`, stackEffect)
+        console.log(`Stack State: Add To Stack`, stackEffect)
         if (sendToServer && stackEffect.isSilent) {
             await this.doStackEffectSilent(stackEffect)
             if (this._currentStack.length > 0) {
-                log(`Stack State:B4 Do Stack Effect From Top`)
+                console.log(`Stack State:B4 Do Stack Effect From Top`)
                 await this.doStackEffectFromTop(sendToServer)
                 // } else {
                 //     WrapperProvider.serverClientWrapper.out.send(Signal.TURN_PLAYER_DO_STACK_EFFECT, { playerId: WrapperProvider.turnsManagerWrapper.out.currentTurn.getTurnPlayer().playerId })
@@ -282,10 +283,10 @@ export class Stack extends Component {
             const stackEffectCreator = WrapperProvider.playerManagerWrapper.out.getPlayerByCardId(stackEffect.creatorCardId)
             if (stackEffect.creatorCardId != WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!.character!.getComponent(Card)!._cardId && stackEffectCreator != null) {
                 WrapperProvider.serverClientWrapper.out.send(Signal.PUT_ON_STACK, { stackEffect: stackEffect.convertToServerStackEffect(), playerId: stackEffectCreator.playerId, originPlayerId: WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!.playerId })
-                log(`Stack State:Wait For Put On Stack Other Player`, stackEffect)
+                console.log(`Stack State:Wait For Put On Stack Other Player`, stackEffect)
                 await this.waitForPutOnStack()
             } else {
-                log(`Stack State: Put On Stack`, stackEffect)
+                console.log(`Stack State: Put On Stack`, stackEffect)
                 await stackEffect.putOnStack()
                 WrapperProvider.serverClientWrapper.out.send(Signal.UPDATE_STACK_EFFECT, { stackEffect: stackEffect.convertToServerStackEffect() })
             }
@@ -295,7 +296,7 @@ export class Stack extends Component {
             // do check for responses.
             const amId2 = WrapperProvider.actionLableWrapper.out.publishMassage(`Response Adding ${stackEffect.name} ${stackEffect.entityId}`, 0, true, amId)
             this.hasAnyoneResponded = await this.startResponseCheck(amId)
-            //   error(`after Response Check For Adding ${stackEffect.constructor.name} ${stackEffect.entityId}`)
+            //   console.error(`after Response Check For Adding ${stackEffect.constructor.name} ${stackEffect.entityId}`)
             WrapperProvider.actionLableWrapper.out.removeMessage(amId2, true)
             if (this.hasAnyoneResponded) {
                 if (this._currentStack.length == 1) {
@@ -307,7 +308,7 @@ export class Stack extends Component {
             } else {
                 // if there are more stackEffects to do.
                 if (this._currentStack.length > 0) {
-                    log(`Stack State:B4 Do Stack Effect From Top`)
+                    console.log(`Stack State:B4 Do Stack Effect From Top`)
                     await this.doStackEffectFromTop(sendToServer)
                     // } else {
                     //     WrapperProvider.serverClientWrapper.out.send(Signal.TURN_PLAYER_DO_STACK_EFFECT, { playerId: WrapperProvider.turnsManagerWrapper.out.currentTurn.getTurnPlayer().playerId })
@@ -353,11 +354,11 @@ export class Stack extends Component {
     hasAnyoneResponded: boolean = false;
 
     async removeAfterResolve(stackEffectToRemove: StackEffectInterface, sendToServer: boolean) {
-        log(`Stack State: Remove After Resolve`, stackEffectToRemove)
+        console.log(`Stack State: Remove After Resolve`, stackEffectToRemove)
         if (stackEffectToRemove != null && this._currentStack.map(effect => effect.entityId).indexOf(stackEffectToRemove.entityId) >= 0) {
             const lastOfStack = this._currentStack.find((effect) => effect.entityId == stackEffectToRemove.entityId);
             const index = this._currentStack.indexOf(stackEffectToRemove)
-            //    log(`index of the stack effect in current stack is ${index}`)
+            //    console.log(`index of the stack effect in current stack is ${index}`)
             if (sendToServer) {
                 WrapperProvider.decisionMarkerWrapper.out.setStackIcon(WrapperProvider.stackEffectVisManagerWrapper.out.stackIcons[1], true)
                 await WrapperProvider.decisionMarkerWrapper.out.showStackEffect(stackEffectToRemove.entityId, true)
@@ -367,7 +368,7 @@ export class Stack extends Component {
                     this.delaydShowStackEffect = -1;
                 }
             }
-            //  log(`current stack after removal:\n${this._currentStack.map(effect => effect.toString())}`)
+            //  console.log(`current stack after removal:\n${this._currentStack.map(effect => effect.toString())}`)
             this._currentStack.splice(index, 1)
             if (sendToServer) {
                 const amId = WrapperProvider.actionLableWrapper.out.publishMassage(`Remove After Resolve ${stackEffectToRemove.name} ${stackEffectToRemove.entityId}  `, 3)
@@ -380,7 +381,7 @@ export class Stack extends Component {
                     return;
                 } else {
                     if (this._currentStack.length > 0) {
-                        log(`Stack State: B4 Do Stack Effect From Top`)
+                        console.log(`Stack State: B4 Do Stack Effect From Top`)
                         await this.doStackEffectFromTop(sendToServer)
                     } else {
                         WrapperProvider.actionLableWrapper.out.publishMassage(`Stack Was Emptied `, 1.5)
@@ -399,7 +400,7 @@ export class Stack extends Component {
             }
         } else if (sendToServer) {
             if (this._currentStack.length > 0) {
-                log(`Stack State: B4 Do Stack Effect From Top`)
+                console.log(`Stack State: B4 Do Stack Effect From Top`)
                 await this.doStackEffectFromTop(sendToServer)
             } else {
                 WrapperProvider.actionLableWrapper.out.publishMassage(`Stack Was Emptied `, 1.5)
@@ -414,11 +415,11 @@ export class Stack extends Component {
             }
         }
 
-        //  log(`update actions after removal of stack effect`)
+        //  console.log(`update actions after removal of stack effect`)
     }
 
     replaceStack(newStack: StackEffectInterface[], sendToServer: boolean) {
-        log(`Stack State: Replace Stack`, newStack)
+        console.log(`Stack State: Replace Stack`, newStack)
         let toContinue = true;
         newStack.forEach(effect => {
             if (!(effect instanceof StackEffectConcrete)) {
@@ -504,7 +505,7 @@ export class Stack extends Component {
     }
 
     async onStackEmptied() {
-        log(`Stack emptied`)
+        console.log(`Stack emptied`)
         const turnPlayer = WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer()!;
         if (turnPlayer.me) {
             await WrapperProvider.actionManagerWrapper.out.updateActions();

@@ -82,7 +82,7 @@ export class CardPreviewManager extends Component {
         this.currentPreviews = this.currentPreviews.filter(preview => !(previews.indexOf(preview) >= 0));
         for (let i = 0; i < previews.length; i++) {
             const preview = previews[i].getComponent(CardPreview)!
-            //    log(`remove preview of ${preview.card.name}`)
+            //    console.log(`remove preview of ${preview.card.name}`)
             preview.hasTouchProperty = false;
             preview.node.off(Node.EventType.TOUCH_START)
             if (preview.node.active) {
@@ -143,7 +143,7 @@ export class CardPreviewManager extends Component {
             }
             //if the card is required for a data collector
             if (cardComp._isRequired) {
-                log(`${cardComp.name} is required`)
+                console.log(`${cardComp.name} is required`)
                 await preview.getComponent(CardPreview)!.hideCardPreview()!
                 if (cardComp._requiredFor) {
                     cardComp._requiredFor.cardChosen = card;
@@ -156,7 +156,7 @@ export class CardPreviewManager extends Component {
             } else {
                 // if (cardComp instanceof Card) {
                 cardComp = card.getComponent(Card)!
-                log(cardComp)
+                console.log(cardComp)
                 if (cardComp._isReactable) {
                     const cardPlayer = WrapperProvider.playerManagerWrapper.out.getPlayerById((cardComp as Card)._cardHolderId)!
                     this.disableAllCardsActions()
@@ -380,7 +380,6 @@ export class CardPreviewManager extends Component {
         } else {
             preview = this.cardPreviewPool!.get()!.getComponent(CardPreview)!
         }
-
         preview.setCard(cardToAdd, false)
         this.setGroup(preview, groupUuid)
         this.currentPreviews.push(preview.node)

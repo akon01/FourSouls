@@ -8,6 +8,7 @@ import { EffectTarget } from "../../Managers/EffectTarget";
 import { CardManager } from "../../Managers/CardManager";
 import { Card } from "../../Entites/GameEntities/Card";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 
 @ccclass('CardOwner')
 export class CardOwner extends DataCollector {
@@ -27,7 +28,7 @@ export class CardOwner extends DataCollector {
     } else {
       player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(WrapperProvider.cardManagerWrapper.out.getCardOwner(card)!)!.character!
     }
-    const target = new EffectTarget(player)
+    const target = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(player)
     // let data2 = { cardOwner: player.playerId };
     return target;
   }

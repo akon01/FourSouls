@@ -27,7 +27,7 @@ export class GainLoot extends Effect {
     if (this.multiTarget) {
       let targets = data.getTargets(TARGETTYPE.PLAYER)
       if (targets.length == 0) {
-        log(`no targets`)
+        console.log(`no targets`)
         if (data instanceof PassiveEffectData) return data
         return stack
       }
@@ -41,7 +41,7 @@ export class GainLoot extends Effect {
     } else {
       let targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER);
       if (targetPlayerCard == null) {
-        log(`no target player`)
+        console.log(`no target player`)
         if (data instanceof PassiveEffectData) return data
         return stack
       } else {

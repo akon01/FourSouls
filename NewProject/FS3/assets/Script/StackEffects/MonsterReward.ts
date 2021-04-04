@@ -97,7 +97,7 @@ export class MonsterRewardStackEffect extends StackEffectConcrete {
         await WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(passiveMeta)
         await WrapperProvider.stackWrapper.out.fizzleStackEffect(this, true, true)
 
-        error(`after passive check, discard top monster or give souls card`)
+        console.error(`after passive check, discard top monster or give souls card`)
         if (this.monsterWithReward.monsterPlace) {
             if (cardComp.souls == 0) {
                 await this.monsterWithReward.monsterPlace.discardTopMonster(true)

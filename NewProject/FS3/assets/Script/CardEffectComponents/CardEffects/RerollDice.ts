@@ -22,11 +22,11 @@ export class RerollDice extends Effect {
     stack: StackEffectInterface[],
     data?: ActiveEffectData | PassiveEffectData
   ) {
-    log(data)
+    console.log(data)
     if (!data) { debugger; throw new Error("No Data"); }
     let diceRollStackEffect = data.getTarget(TARGETTYPE.STACK_EFFECT)
     if (diceRollStackEffect == null) {
-      log(`no dice stack effect to reroll`)
+      console.log(`no dice stack effect to reroll`)
     } else {
       if (!(diceRollStackEffect instanceof Node)) {
         if (diceRollStackEffect instanceof RollDiceStackEffect) {

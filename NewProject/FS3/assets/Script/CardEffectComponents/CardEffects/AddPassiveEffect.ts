@@ -31,7 +31,7 @@ export class AddPassiveEffect extends Effect {
 
     //  this.passiveEffectToAdd.conditions.conditionData = data;
     await WrapperProvider.passiveManagerWrapper.out.registerOneTurnPassiveEffect(passiveToAdd, true)
-    log(`registered one turn passive ${passiveToAdd.name}`)
+    console.log(`registered one turn passive ${passiveToAdd.name}`)
 
     if (data instanceof PassiveEffectData) return data
     return WrapperProvider.stackWrapper.out._currentStack

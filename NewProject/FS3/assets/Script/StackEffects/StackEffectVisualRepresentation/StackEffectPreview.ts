@@ -1,14 +1,20 @@
 import { Component, IPoolHandlerComponent, Label, Node, Sprite, SpriteFrame, Tween, UITransform, Widget, _decorator } from 'cc';
 import { Signal } from "../../../Misc/Signal";
-import { Effect } from "../../CardEffectComponents/CardEffects/Effect";
+import { EffectInterface } from '../../CardEffectComponents/CardEffects/EffectInterface';
 import { Card } from "../../Entites/GameEntities/Card";
+import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { ActivateItem } from "../ActivateItem";
 import { ActivatePassiveEffect } from "../ActivatePassiveEffect";
 import { PlayLootCardStackEffect } from "../PlayLootCard";
 import { StackEffectInterface } from "../StackEffectInterface";
-import { WrapperProvider } from '../../Managers/WrapperProvider';
 const { ccclass, property } = _decorator;
 
+export enum StackEffectAvaialbleTypes {
+    PlayLootCardStackEffect,
+    ActivateItem,
+    ActivatePassiveEffect,
+    Else
+}
 
 @ccclass('StackEffectPreview')
 export class StackEffectPreview extends Component implements IPoolHandlerComponent {
@@ -80,24 +86,26 @@ export class StackEffectPreview extends Component implements IPoolHandlerCompone
 
     _blinkingTween: Tween<Node> | null = null
 
-    setStackEffect(stackEffect: StackEffectInterface) {
+
+
+    setStackEffect(stackEffect: StackEffectInterface, stackEffectType: StackEffectAvaialbleTypes) {
         this.stackEffect = stackEffect;
         const stackEffectVis = stackEffect.visualRepesentation
         const nodeSprite = this.node.getComponent(Sprite)!;
-        if (stackEffect instanceof PlayLootCardStackEffect) {
-            nodeSprite.spriteFrame = stackEffect.lootToPlay!.getComponent(Card)!.frontSprite
+        if (stackEffectType == StackEffectAvaialbleTypes.PlayLootCardStackEffect) {
+            nodeSprite.spriteFrame = (stackEffect as PlayLootCardStackEffect).lootToPlay!.getComponent(Card)!.frontSprite
             this.hideExtraInfo()
-        } else if (stackEffect instanceof ActivateItem) {
-            nodeSprite.spriteFrame = stackEffect.itemToActivate!.getComponent(Card)!.frontSprite
+        } else if (stackEffectType == StackEffectAvaialbleTypes.ActivateItem) {
+            nodeSprite.spriteFrame = (stackEffect as ActivateItem).itemToActivate!.getComponent(Card)!.frontSprite
             this.hideExtraInfo()
-            if (stackEffect.effectToDo != null) {
-                this.addSelectedEffectHighlight(stackEffect.effectToDo)
+            if ((stackEffect as ActivateItem).effectToDo != null) {
+                this.addSelectedEffectHighlight((stackEffect as ActivateItem).effectToDo!)
             }
-        } else if (stackEffect instanceof ActivatePassiveEffect) {
-            nodeSprite.spriteFrame = stackEffect.cardWithEffect.getComponent(Card)!.frontSprite
+        } else if (stackEffectType == StackEffectAvaialbleTypes.ActivatePassiveEffect) {
+            nodeSprite.spriteFrame = (stackEffect as ActivatePassiveEffect).cardWithEffect.getComponent(Card)!.frontSprite
             this.hideExtraInfo()
-            if (stackEffect.effectToDo != null) {
-                this.addSelectedEffectHighlight(stackEffect.effectToDo)
+            if ((stackEffect as ActivatePassiveEffect).effectToDo != null) {
+                this.addSelectedEffectHighlight((stackEffect as ActivatePassiveEffect).effectToDo)
             }
         } else {
             this.showExtraInfo()
@@ -113,7 +121,7 @@ export class StackEffectPreview extends Component implements IPoolHandlerCompone
 
     }
 
-    addSelectedEffectHighlight(effect: Effect) {
+    addSelectedEffectHighlight(effect: EffectInterface) {
         const originalParent = effect.node;
         const originalY = effect.effectPosition.y;
 

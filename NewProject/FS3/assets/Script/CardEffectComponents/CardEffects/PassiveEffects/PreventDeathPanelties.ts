@@ -30,9 +30,9 @@ export class PreventDeathPanelties extends Effect {
     if (playerPenaltiesStackEffect instanceof PlayerDeathPenalties) {
       const playerToPay = playerPenaltiesStackEffect.playerToPay
       playerToPay.heal(playerToPay._lastHp, true, true)
-      log(`if player is turn player end their turn`)
+      console.log(`if player is turn player end their turn`)
       if (WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer()!.playerId == playerToPay.playerId) {
-        log(`end turn`)
+        console.log(`end turn`)
         //   WrapperProvider.stackWrapper.out.removeFromCurrentStackEffectResolving()
         //  playerToPay.endTurn(true);
         playerToPay._endTurnFlag = true

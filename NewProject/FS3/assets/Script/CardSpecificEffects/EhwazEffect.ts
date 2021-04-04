@@ -32,7 +32,7 @@ export class EhwazEffect extends Effect {
     for (let i = 0; i < monsterPlaces.length; i++) {
       const monsterHolder = monsterPlaces[i];
       if (WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonsterNode != monsterHolder.activeMonster) {
-        log(`move ${monsterHolder.activeMonster!.name} to discard pile`)
+        console.log(`move ${monsterHolder.activeMonster!.name} to discard pile`)
 
         const monster = monsterHolder.getComponent(MonsterCardHolder)!.activeMonster;
         await monsterHolder.discardTopMonster(true)

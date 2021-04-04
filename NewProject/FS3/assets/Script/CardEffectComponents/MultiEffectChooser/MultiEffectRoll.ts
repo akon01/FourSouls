@@ -54,10 +54,10 @@ export class MultiEffectRoll extends DataCollector {
       }
 
     }
-    log(chosenEffect)
+    console.log(chosenEffect)
     if (!chosenEffect) { debugger; throw new Error("no chosen Effect") }
     await WrapperProvider.decisionMarkerWrapper.out.showEffectChosen(WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node), chosenEffect)
-    log(chosenEffect.name)
+    console.log(chosenEffect.name)
     return chosenEffect;
   }
 
@@ -74,10 +74,10 @@ export class MultiEffectRoll extends DataCollector {
 
     }
     if (!chosenEffect) {
-      log(this.effectsAndNumbers.map(ean => ean.effect!.name + "" + ean.numbers))
+      console.log(this.effectsAndNumbers.map(ean => ean.effect!.name + "" + ean.numbers))
       throw new Error(`No effect was chosen with the number rolled ${numberRolled}`)
     }
-    log(chosenEffect.name)
+    console.log(chosenEffect.name)
     return chosenEffect;
   }
 

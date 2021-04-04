@@ -1,6 +1,7 @@
 import { _decorator } from 'cc';
 import { COLLECTORTYPE } from "../../Constants";
 import { EffectTarget } from "../../Managers/EffectTarget";
+import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 import { TurnsManager } from "../../Managers/TurnsManager";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { DataCollector } from "./DataCollector";
@@ -18,7 +19,7 @@ export class TurnPlayer extends DataCollector {
      */
     collectData(data: any) {
         const player = WrapperProvider.turnsManagerWrapper.out.getCurrentTurn()!.getTurnPlayer()!
-        const effectTarget = new EffectTarget(player.character!)
+        const effectTarget = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(player.character!)
         return effectTarget
     }
 }

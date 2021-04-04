@@ -1,9 +1,10 @@
-import { Animation, CCInteger, Component, Enum, instantiate, Label, Mask, Node, Sprite, SpriteFrame, UITransform, Widget, _decorator } from 'cc';
+import { Animation, CCInteger, Component, Enum, instantiate, Label, Mask, Node, Sprite, SpriteFrame, SystemEventType, UITransform, Widget, _decorator } from 'cc';
 import { Signal } from "../../../Misc/Signal";
 import { DataCollector } from "../../CardEffectComponents/DataCollector/DataCollector";
 import { CARD_HEIGHT, CARD_TYPE, CARD_WIDTH, PASSIVE_EVENTS } from "../../Constants";
 import { PassiveMeta } from "../../Managers/PassiveMeta";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { HoverSpriteType as HoverSpriteType, Mouse } from './Mouse';
 import { Player } from "./Player";
 const { ccclass, property } = _decorator;
 
@@ -124,6 +125,16 @@ export class Card extends Component {
       @property
       _hasEventsBeenModified: boolean = false;
 
+      private hoverSpriteType: HoverSpriteType = HoverSpriteType.default
+
+      getHoverSpriteType() {
+            return this.hoverSpriteType
+      }
+
+      setHoverSpriteType(type: HoverSpriteType) {
+            this.hoverSpriteType = type
+      }
+
       flipCard(sendToServer: boolean) {
             this._isFlipped = !this._isFlipped;
             if (this._isFlipped) {
@@ -144,22 +155,27 @@ export class Card extends Component {
 
       }
 
-      async putCounter(numOfCounters: number) {
+      async putCounter(numOfCounters: number, sendToServer: boolean) {
 
             if (this._effectCounterLable == null) {
                   this.addCountLable()
             }
 
-            const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.CARD_GAINS_COUNTER, [numOfCounters], null, this.node)
-            const afterPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(passiveMeta)
-            if (!afterPassiveMeta.args) { debugger; throw new Error("No Args !"); }
+            if (sendToServer) {
+                  const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.CARD_GAINS_COUNTER, [numOfCounters], null, this.node)
+                  const afterPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(passiveMeta)
+                  if (!afterPassiveMeta.args) { debugger; throw new Error("No Args !"); }
 
-            numOfCounters = afterPassiveMeta.args[0]
+                  numOfCounters = afterPassiveMeta.args[0]
 
-            this._counters += numOfCounters;
+                  this._counters += numOfCounters;
 
-            WrapperProvider.serverClientWrapper.out.send(Signal.CARD_GET_COUNTER, { cardId: this._cardId, numOfCounters: numOfCounters })
-            await WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(passiveMeta)
+                  WrapperProvider.serverClientWrapper.out.send(Signal.CARD_GET_COUNTER, { cardId: this._cardId, numOfCounters: numOfCounters })
+                  await WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(passiveMeta)
+                  WrapperProvider.serverClientWrapper.out.send(Signal.CARD_CHANGE_COUNTER, { cardId: this._cardId, numOfCounters })
+            } else {
+                  this._counters += numOfCounters
+            }
 
       }
 
@@ -210,6 +226,29 @@ export class Card extends Component {
             if (this.topDeckof != null) {
                   this.frontSprite = this.node.getComponent(Sprite)!.spriteFrame;
             }
+
+            // //Todo - only for test 
+            // const mouseNode = WrapperProvider.CanvasNode.getChildByName("Mouse")
+
+            // const mosueEventFn = (e: any) => {
+            //       mouseNode?.getComponent(Mouse)!.setCardHover(this)
+            // }
+
+            // const mosueEventLeaveFn = (e: any) => {
+            //       console.log(`card on leave ${this.cardName}`);
+
+            //       mouseNode?.getComponent(Mouse)!.setCardHoverLeave(this)
+            // }
+
+            // const mouses = WrapperProvider.playerManagerWrapper.out.players.map(p => p.getComponent(Player)!.mouse!)
+            // for (const mouse of mouses) {
+            const meMouse = WrapperProvider.playerManagerWrapper.out.mePlayer?.getComponent(Player)?.mouse
+            if (meMouse)
+                  meMouse.setCardEnterAndLeaveEvents(this)
+            // }
+
+            // this.node.on(SystemEventType.MOUSE_ENTER, mosueEventFn, this)
+            // this.node.on(SystemEventType.MOUSE_LEAVE, mosueEventLeaveFn, this)
             // if (!this.hasCounter) {
             //   //   this._effectCounterLable.node.destroy()
             // } else {
@@ -217,7 +256,7 @@ export class Card extends Component {
 
             //     this._effectCounterLable = this.node.getChildByName("EffectCounter").getComponent(Label)
             //   } catch (error) {
-            //     error(`card ${this.cardName} should have a counter, no counter found!`)
+            //     console.error(`card ${this.cardName} should have a counter, no counter found!`)
             //   }
 
             // }

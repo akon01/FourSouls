@@ -75,7 +75,7 @@ export class AnnouncementLable extends Component {
     }
 
     start() {
-        error(`on load announcement`)
+        console.error(`on load announcement`)
         WrapperProvider.announcementLableWrapper.out = this
     }
 

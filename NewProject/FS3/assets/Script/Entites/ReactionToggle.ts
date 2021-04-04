@@ -22,7 +22,7 @@ export class ReactionToggle extends Component {
             sendToServer = true
         }
 
-        log(this.toggle!.isChecked)
+        console.log(this.toggle!.isChecked)
         if (sendToServer) {
             WrapperProvider.serverClientWrapper.out.send(Signal.REACTION_TOGGLED, { playerId: WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!.playerId })
         }
@@ -36,26 +36,26 @@ export class ReactionToggle extends Component {
     }
 
     check(sendToServer: boolean) {
-        log(`check`)
+        console.log(`check`)
         if (sendToServer) {
             WrapperProvider.serverClientWrapper.out.send(Signal.REACTION_TOGGLED, { playerId: WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!.playerId })
         }
         if (!this.toggle!.isChecked) {
             this.toggle!.isChecked = true;
         }
-        log(this.toggle!.isChecked)
+        console.log(this.toggle!.isChecked)
         this.isChecked = true
     }
 
     uncheck(sendToServer: boolean) {
-        log(`uncheck`)
+        console.log(`uncheck`)
         if (sendToServer) {
             WrapperProvider.serverClientWrapper.out.send(Signal.REACTION_TOGGLED, { playerId: WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!.playerId })
         }
         if (this.toggle!.isChecked) {
             this.toggle!.isChecked = false;
         }
-        log(this.toggle!.isChecked)
+        console.log(this.toggle!.isChecked)
         this.isChecked = false
     }
 
@@ -85,23 +85,23 @@ export class ReactionToggle extends Component {
 
     determineSkipButton() {
         let event;
-        error(`determine skip button`)
+        console.error(`determine skip button`)
         !WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!._reactionToggle!.isChecked == true ? event = BUTTON_STATE.ENABLED : event = BUTTON_STATE.DISABLED;
         if (event == BUTTON_STATE.ENABLED) {
             if (!WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!._inGetResponse) {
                 event = BUTTON_STATE.DISABLED
             }
         }
-        error(`skip is ${event}`)
+        console.error(`skip is ${event}`)
         WrapperProvider.buttonManagerWrapper.out.enableButton(WrapperProvider.buttonManagerWrapper.out.skipButton!, event);
     }
 
     // onLoad () {}
 
     start() {
-        error(`uncheck`)
+        console.error(`uncheck`)
         this.toggle!.isChecked = false;
-        log(this.toggle!.isChecked)
+        console.log(this.toggle!.isChecked)
     }
 
     // update (dt) {}

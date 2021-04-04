@@ -2,6 +2,7 @@ import { CCInteger, Node, _decorator } from 'cc';
 import { COLLECTORTYPE } from "../../Constants";
 import { CardEffect } from "../../Entites/CardEffect";
 import { EffectTarget } from "../../Managers/EffectTarget";
+import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 import { FilterConcrete } from "../ChooseCardFilters/FilterConcrete";
 import { DataCollector } from "./DataCollector";
 const { ccclass, property } = _decorator;
@@ -44,7 +45,7 @@ export class FilterOtherDataCollector extends DataCollector {
         if (!dataCollector) { debugger; throw new Error("No Data Collector Set!"); }
         const collectedData = dataCollector.collectData(data) as EffectTarget[]
         const cards = collectedData.map(et => et.effectTargetCard)
-        return this.applyFilterToCards(cards).map(c => new EffectTarget(c))
+        return this.applyFilterToCards(cards).map(c => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(c))
     }
     getFilterString() {
         let statements = '';

@@ -1,3 +1,4 @@
+import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 import { _decorator } from 'cc';
 import { Signal } from "../../../Misc/Signal";
 import { ITEM_TYPE } from "../../Constants";
@@ -22,7 +23,7 @@ export class SaveCurrentActiveMonsters extends EffectDataConcurencyBase {
         if (this.isAddative) {
             const targets = WrapperProvider.monsterFieldWrapper.out.getActiveMonsters()
             targets.forEach(nodeTarget => {
-                cardEffect.concurentEffectData!.addTarget(new EffectTarget(nodeTarget))
+                cardEffect.concurentEffectData!.addTarget(WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(nodeTarget))
             });
         } else {
             cardEffect.concurentEffectData = newEffectData

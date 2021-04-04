@@ -12,6 +12,7 @@ import { GAME_EVENTS, STACK_EFFECT_TYPE } from "./../../Constants";
 import { DataCollector } from "./DataCollector";
 import { whevent } from "../../../ServerClient/whevent";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 
 @ccclass('ChooseStackEffect')
 export class ChooseStackEffect extends DataCollector {
@@ -36,7 +37,7 @@ export class ChooseStackEffect extends DataCollector {
   async collectData(data: {
     cardPlayerId: number;
   }): Promise<EffectTarget> {
-    log(`stack choose stack effect`)
+    console.log(`stack choose stack effect`)
     const player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.cardPlayerId)!
     this.playerId = data.cardPlayerId;
     const stackEffectsToChooseFrom = []
@@ -48,13 +49,13 @@ export class ChooseStackEffect extends DataCollector {
       throw new Error("No Stack Effects To Choose From!")
     }
 
-    log(`b4 require choosing an effect`)
+    console.log(`b4 require choosing an effect`)
     const chosenStackEffect = await this.requireChoosingAnEffect(stackEffectsToChooseFrom);
-    log(`after require choosing an effect`)
+    console.log(`after require choosing an effect`)
 
-    const target = new EffectTarget(chosenStackEffect.getComponent(StackEffectPreview)!)
-    log(target)
-    // log(`chosen ${target.effectTargetCard.name}`)
+    const target = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(chosenStackEffect.getComponent(StackEffectPreview)!)
+    console.log(target)
+    // console.log(`chosen ${target.effectTargetCard.name}`)
 
     return target;
 
@@ -87,9 +88,9 @@ export class ChooseStackEffect extends DataCollector {
       WrapperProvider.stackEffectVisManagerWrapper.out.makeRequiredForDataCollector(stackEffectPreview, this)
     }
     WrapperProvider.stackEffectVisManagerWrapper.out.showPreviews()
-    log(`wait for effect to be chosen `)
+    console.log(`wait for effect to be chosen `)
     const stackEffectChosen = await this.waitForEffectToBeChosen()
-    log(`effect chosen is ${stackEffectChosen}`)
+    console.log(`effect chosen is ${stackEffectChosen}`)
     for (const stackEffectPreview of stackEffectsPreviews) {
       WrapperProvider.stackEffectVisManagerWrapper.out.makeNotRequiredForDataCollector(stackEffectPreview)
     }

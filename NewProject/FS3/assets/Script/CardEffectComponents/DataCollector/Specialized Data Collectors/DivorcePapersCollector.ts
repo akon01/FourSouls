@@ -7,6 +7,7 @@ import { Item } from '../../../Entites/CardTypes/Item';
 import { Card } from '../../../Entites/GameEntities/Card';
 import { Player } from '../../../Entites/GameEntities/Player';
 import { EffectTarget } from '../../../Managers/EffectTarget';
+import { EffectTargetFactory } from '../../../Managers/EffectTargetFactory';
 import { WrapperProvider } from '../../../Managers/WrapperProvider';
 import { PlayerFilter } from '../../ChooseCardFilters/PlayerFIlter';
 import { ChooseCard } from '../ChooseCard';
@@ -38,7 +39,7 @@ export class DivorcePapersCollector extends DataCollector {
         const allItems = [...playerToGive.getPaidItems(), ...playerToGive.getActiveItems(), ...playerToGive.getPassiveItems()].filter(itemNode => !itemNode.getComponent(Item)?.eternal)
         const itemToGive = await this.getCardTargetFromPlayer(allItems, playerToGive, 1, "Choose An Item To Give")
 
-        return [...lootToGive, itemToGive, new EffectTarget(playerToGive.character!)]
+        return [...lootToGive, itemToGive, WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(playerToGive.character!)]
     }
 
 
@@ -51,7 +52,7 @@ export class DivorcePapersCollector extends DataCollector {
         const targets: EffectTarget[] = []
         for (let index = 0; index < chosenCardsIds.length; index++) {
             const id = chosenCardsIds[index];
-            const target = new EffectTarget(WrapperProvider.cardManagerWrapper.out.getCardById(id, true));
+            const target = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(WrapperProvider.cardManagerWrapper.out.getCardById(id, true));
             targets.push(target)
         }
         return targets;

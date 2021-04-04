@@ -35,7 +35,7 @@ export class HealEntity extends Effect {
       if (targetEntities == null) { targetEntities = data.getTargets(TARGETTYPE.MONSTER) }
 
       if (targetEntities == null) {
-        log('no target entities to kill')
+        console.log('no target entities to kill')
       } else {
         for (const entity of targetEntities) {
           this.healEntity(entity as Node)
@@ -46,7 +46,7 @@ export class HealEntity extends Effect {
       if (targetEntity == null) { targetEntity = data.getTarget(TARGETTYPE.MONSTER) }
 
       if (targetEntity == null) {
-        log('no target entity to kill')
+        console.log('no target entity to kill')
       } else {
         this.healEntity(targetEntity as Node)
       }

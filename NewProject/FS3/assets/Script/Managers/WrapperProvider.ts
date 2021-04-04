@@ -21,6 +21,7 @@ import { CardManager } from './CardManager';
 import { CardPreviewManager } from './CardPreviewManager';
 import { DataCollectorButtonsManager } from './DataCollectorButtonsManager';
 import { DataInterpreter } from './DataInterpreter';
+import { EffectTargetFactory } from './EffectTargetFactory';
 import { ParticleManager } from './ParticleManager';
 import { PassiveManager } from './PassiveManager';
 import { PileManager } from './PileManager';
@@ -62,6 +63,7 @@ export class WrapperProvider extends Component {
     static turnsManagerWrapper: GenericWrapper<TurnsManager>
     static cardPreviewManagerWrapper: GenericWrapper<CardPreviewManager>
     static dataCollectorButtonsManager: GenericWrapper<DataCollectorButtonsManager>
+    static effectTargetFactoryWrapper: GenericWrapper<EffectTargetFactory>
 
     static CanvasNode: Node
     static MainScriptNode: Node
@@ -102,6 +104,8 @@ export class WrapperProvider extends Component {
         try { WrapperProvider.turnsManagerWrapper = new GenericWrapper("MainScript/TurnsManager", { inCtor: TurnsManager }) } catch { }
         try { WrapperProvider.cardPreviewManagerWrapper = new GenericWrapper("MainScript/CardPreviewManager", { inCtor: CardPreviewManager }) } catch { }
         try { WrapperProvider.dataCollectorButtonsManager = new GenericWrapper("MainScript/DataCollectorButtonsManager", { inCtor: DataCollectorButtonsManager }) } catch { }
+        try { WrapperProvider.effectTargetFactoryWrapper = new GenericWrapper("MainScript/EffectTargetFactory", { inCtor: EffectTargetFactory }) } catch { }
+
     }
 
     // update (deltaTimeWrapper: number) {

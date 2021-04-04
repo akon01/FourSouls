@@ -77,7 +77,7 @@ export class MainScript extends Component {
             debugger
             WrapperProvider.mainScriptWrapper.out.serverId = 1;
         }
-        log(`server id is ${WrapperProvider.mainScriptWrapper.out.serverId}`)
+        console.log(`server id is ${WrapperProvider.mainScriptWrapper.out.serverId}`)
 
         this._stackShow = find("RenderRoot2D/Canvas/StackShow")!.getComponent(Label)!
 
@@ -86,16 +86,16 @@ export class MainScript extends Component {
         storeComp.onLoad();
 
         //set up Players
-        log(`init player manager with ${WrapperProvider.mainScriptWrapper.out.serverId}`)
+        console.log(`init player manager with ${WrapperProvider.mainScriptWrapper.out.serverId}`)
         await WrapperProvider.playerManagerWrapper.out.init(WrapperProvider.mainScriptWrapper.out.serverId);
 
         //Set up Turns
-        log(`turns manager init`)
+        console.log(`turns manager init`)
         WrapperProvider.turnsManagerWrapper.out.init();
         //set up button pool
-        log(`buttn init`)
+        console.log(`buttn init`)
         WrapperProvider.buttonManagerWrapper.out.init();
-        log(`card init`)
+        console.log(`card init`)
         //set up card manager
         await WrapperProvider.cardManagerWrapper.out.init();
 
@@ -154,7 +154,7 @@ export class MainScript extends Component {
 
     endGame(playerWhoWonId: number, sendToServer: boolean) {
 
-        error(`end game`)
+        console.error(`end game`)
         if (sendToServer) {
             WrapperProvider.serverClientWrapper.out.send(Signal.END_GAME, { playerId: playerWhoWonId })
         }
@@ -165,7 +165,7 @@ export class MainScript extends Component {
     }
 
     async startGame() {
-        error(`start game`)
+        console.error(`start game`)
         await WrapperProvider.playerManagerWrapper.out.assingCharacters(true);
         let startingPlayer: Player | null = null;
         let firstTurn: Turn
@@ -203,7 +203,7 @@ export class MainScript extends Component {
         }
         await WrapperProvider.storeWrapper.out.addStoreCard(true)
         await WrapperProvider.storeWrapper.out.addStoreCard(true)
-        // error(`after add store card`)
+        // console.error(`after add store card`)
         const ids = WrapperProvider.monsterFieldWrapper.out.getMonsterCardHoldersIds()
         for (let i = 0; i < ids.length; i++) {
             const mosnterHolderId = ids[i];
@@ -241,9 +241,9 @@ export class MainScript extends Component {
     async makeFirstUpdateActions(playerId: number) {
         //turnsManagerWrapper._tm.endTurn()
         //  await turnsManagerWrapper._tm.currentTurn.getTurnPlayer().endTurn(true)
-        log(`make first update`)
-        log(WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!.playerId)
-        log(playerId)
+        console.log(`make first update`)
+        console.log(WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!.playerId)
+        console.log(playerId)
         if (WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!.playerId == playerId) {
             await WrapperProvider.mainScriptWrapper.out.startGame()
             await WrapperProvider.actionManagerWrapper.out.updateActions()
@@ -257,7 +257,7 @@ export class MainScript extends Component {
                 number = WrapperProvider.mainScriptWrapper.out.countNodes(card, number, new Set<Node>())
             });
 
-            error(`the number of nodes is :${number}`)
+            console.error(`the number of nodes is :${number}`)
         }
     }
 

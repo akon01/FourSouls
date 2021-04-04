@@ -4,7 +4,7 @@ import { whevent } from "../../ServerClient/whevent";
 import { AddTrinketOrCurse } from "../CardEffectComponents/CardEffects/AddTrinketOrCurse";
 import { Effect } from '../CardEffectComponents/CardEffects/Effect';
 import { ChooseCard } from "../CardEffectComponents/DataCollector/ChooseCard";
-import { BUTTON_STATE, GAME_EVENTS, ROLL_TYPE, SIGNAL_GROUPS } from "../Constants";
+import { BUTTON_STATE, GAME_EVENTS, ROLL_TYPE } from "../Constants";
 import { ActionMessage } from "../Entites/ActionMessage";
 import { CardEffect } from "../Entites/CardEffect";
 import { CardLayout } from "../Entites/CardLayout";
@@ -130,10 +130,10 @@ export class ActionManager extends Component {
     if (!WrapperProvider.turnsManagerWrapper.out.currentTurn) { debugger; throw new Error("No Current Turn") }
     if (!WrapperProvider.buttonManagerWrapper.out.nextTurnButton) { debugger; throw new Error("No Next Turn Button"); }
 
-    log(`attack plays: ${player.attackPlays}`)
-    log(`buy plays: ${player.buyPlays}`)
-    log(`loot plays ${player.lootCardPlays}`)
-    log("in Battle Phase:" + WrapperProvider.turnsManagerWrapper.out.currentTurn.battlePhase)
+    console.log(`attack plays: ${player.attackPlays}`)
+    console.log(`buy plays: ${player.buyPlays}`)
+    console.log(`loot plays ${player.lootCardPlays}`)
+    console.log("in Battle Phase:" + WrapperProvider.turnsManagerWrapper.out.currentTurn.battlePhase)
 
 
     //if the stack is empty and the player hp is above 0
@@ -157,6 +157,9 @@ export class ActionManager extends Component {
         }
       }
 
+      //make loot deck previewable
+      WrapperProvider.cardManagerWrapper.out.makeCardPreviewable(WrapperProvider.cardManagerWrapper.out.lootDeck)
+
       // if not in battle phase allow other actions (buying,playing turnLoot,activating items,attacking a monster)
       const playerComponent = playerNode.getComponent(Player)!;
       if (!WrapperProvider.turnsManagerWrapper.out.currentTurn.battlePhase || WrapperProvider.stackWrapper.out._currentStack.length > 0) {
@@ -173,7 +176,7 @@ export class ActionManager extends Component {
 
         // if in battle phase do battle
       } else if (WrapperProvider.turnsManagerWrapper.out.currentTurn.battlePhase) {
-        log(`in battle phase do battle`)
+        console.log(`in battle phase do battle`)
 
         const monsters = [...WrapperProvider.monsterFieldWrapper.out.getActiveMonsters(), monsterDeck.node]
         monsters.forEach(monster => {
@@ -471,7 +474,7 @@ export class ActionManager extends Component {
       case Signal.ACTIVATE_ITEM:
         player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.playerId)
         card = WrapperProvider.cardManagerWrapper.out.getCardById(data.cardId);
-        log(`should not happen`)
+        console.log(`should not happen`)
         //  let itemActivated = await player.activateItem(card, false);
         break;
       case Signal.ROLL_DICE:
@@ -510,14 +513,19 @@ export class ActionManager extends Component {
       case Signal.SOUL_CARD_MOVE_END:
         whevent.emit(GAME_EVENTS.SOUL_CARD_MOVE_END)
         break;
+      case Signal.CARD_CHANGE_COUNTER:
+        card = WrapperProvider.cardManagerWrapper.out.getCardById(data.cardId)
+        await card.getComponent(Card)?.putCounter(data.numOfCounters, false)
+        break
       case Signal.CARD_CHANGE_NUM_OF_SOULS:
         card = WrapperProvider.cardManagerWrapper.out.getCardById(data.cardId)
         card.getComponent(Card)?.changeNumOfSouls(data.diff, false)
-        return
+        break
       case Signal.CARD_SET_OWNER:
         card = WrapperProvider.cardManagerWrapper.out.getCardById(data.cardId);
         player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.playerId)
         card.getComponent(Card)?.setOwner(player, false)
+        break
       case Signal.USE_ITEM:
         card = WrapperProvider.cardManagerWrapper.out.getCardById(data.cardId)
         card.getComponent(Item)!.useItem(false)
@@ -612,7 +620,7 @@ export class ActionManager extends Component {
       // Deck actions
       case Signal.CARD_DRAWN:
         player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.playerId)
-        card = WrapperProvider.cardManagerWrapper.out.getCardById(data.drawnCardId, true)
+        card = WrapperProvider.cardManagerWrapper.out.getCardById(data.cardId, true)
         deck = WrapperProvider.cardManagerWrapper.out.getDeckByType(data.deckType).getComponent(Deck)!;
         if (!player) { debugger; throw new Error(`No Player Found With Id ${data.playerId}`); }
         await player.drawCards(deck.node, false, [card]);
@@ -791,6 +799,12 @@ export class ActionManager extends Component {
         }
         await WrapperProvider.passiveManagerWrapper.out.registerOneTurnPassiveEffect(cardEffect, false)
         break;
+
+      case Signal.REMOVE_ONE_TURN_PASSIVE_EFFECT:
+        card = WrapperProvider.cardManagerWrapper.out.getCardById(data.cardId);
+        cardEffect = card.getComponent(CardEffect)!.getToAddPassiveEffects()[data.effectIndex.index]
+        WrapperProvider.passiveManagerWrapper.out.removeOneTurnPassiveEffect(cardEffect, false)
+        break;
       case Signal.END_ROLL_ACTION:
         WrapperProvider.actionManagerWrapper.out.inReactionPhase = false;
         break;
@@ -811,10 +825,22 @@ export class ActionManager extends Component {
         WrapperProvider.stackWrapper.out.hasOtherPlayerRespond = data.stackEffectResponse;
         whevent.emit(GAME_EVENTS.PLAYER_RESPOND)
         break;
+      case Signal.CHOOSE_BUTTON_DATA_COLLECTOR:
+        const btns: { btnName: string, btnText: string }[] = data.currentBtns
+        for (const btn of btns) {
+          WrapperProvider.dataCollectorButtonsManager.out.addButton(btn.btnName, btn.btnText)
+        }
+        const answer = await WrapperProvider.dataCollectorButtonsManager.out.givePlayerChoice(WrapperProvider.playerManagerWrapper.out.mePlayer?.getComponent(Player)!, false)
+        WrapperProvider.serverClientWrapper.out.send(Signal.CHOOSE_BUTTON_DATA_COLLECTOR_RESPONSE, { answer, playerId: data.originPlayerId })
+        break;
+      case Signal.CHOOSE_BUTTON_DATA_COLLECTOR_RESPONSE:
+        whevent.emit(GAME_EVENTS.DATA_COLLECTOR_BUTTON_PRESSED_OTHER_PLAYER, data.answer)
+        break;
       case Signal.MAKE_CHOOSE_FROM:
         cardsToChooseFrom = data.cards.map((cid: number) => WrapperProvider.cardManagerWrapper.out.getCardById(cid, true))
         const chooseCard = new ChooseCard();
         chooseCard.flavorText = data.flavorText
+        chooseCard.isChooseFromPreviewManager = data.isChooseFromPreviewManager ?? false
         chosenCards = []
         for (let index = 0; index < data.numOfCardsToChoose; index++) {
           const cardChosenData = await chooseCard.requireChoosingACard(cardsToChooseFrom)
@@ -858,13 +884,13 @@ export class ActionManager extends Component {
         WrapperProvider.stackLableWrapper.out.updateText(data.stackText)
         break;
       case Signal.STACK_EFFECT_LABLE_CHANGE:
-        error(`stack effect lable update`)
+        console.error(`stack effect lable update`)
         stackEffect = WrapperProvider.stackWrapper.out._currentStack.find(se => se.entityId == data.stackId)!
         if (stackEffect) {
           stackEffect._lable = data.text
-          error(`changed ${stackEffect.name} lable to ${data.text}`)
-          log(stackEffect._lable)
-          log(WrapperProvider.stackWrapper.out._currentStack.find(se => se.entityId == data.stackId)!._lable)
+          console.error(`changed ${stackEffect.name} lable to ${data.text}`)
+          console.log(stackEffect._lable)
+          console.log(WrapperProvider.stackWrapper.out._currentStack.find(se => se.entityId == data.stackId)!._lable)
         }
         break;
       case Signal.STACK_EMPTIED:
@@ -885,14 +911,17 @@ export class ActionManager extends Component {
       case Signal.ACTIVATE_PASSIVE:
         const cardActivator = WrapperProvider.cardManagerWrapper.out.getCardById(data.cardActivator);
         if (cardActivator == null) {
-          log(`shuold not happen!`)
+          console.log(`shuold not happen!`)
           //   playerActivator.activatePassive(cardActivated, false, passiveIndex);
         } else {
 
         }
-
         break;
-
+      case Signal.MOUSE_CURSOR_MOVE:
+        player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.playerId)
+        const mouseToMove = player?.mouse!
+        mouseToMove.tweenThisPos(data.pos.x, data.pos.y)
+        break
       // Stack Signals:
       case Signal.NEXT_STACK_ID:
         WrapperProvider.stackWrapper.out.stackEffectsIds += 1;
@@ -942,7 +971,7 @@ export class ActionManager extends Component {
         await WrapperProvider.turnsManagerWrapper.out.setCurrentTurn(turn, false)
         break;
       case Signal.ASSIGN_CHAR_TO_PLAYER:
-        log(data)
+        console.log(data)
         player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.playerId)
         let charCard = WrapperProvider.cardManagerWrapper.out.getCardById(data.charCardId, true)
         let itemCard = WrapperProvider.cardManagerWrapper.out.getCardById(data.itemCardId, true)
@@ -1010,9 +1039,11 @@ export class ActionManager extends Component {
             }
           }
           i++;
-          if (i > treasureDeck.getCardsLength() - 1) { error(`i is bigger than cards length, not possible!`) }
+          if (i > treasureDeck.getCardsLength() - 1) { console.error(`i is bigger than cards length, not possible!`) }
         } while (cardsNotFiltered);
+        cardsToChooseFrom.forEach(c => c.getComponent(Card)!.flipCard(false))
         chosenCards = await WrapperProvider.cardPreviewManagerWrapper.out.selectFromCards(cardsToChooseFrom, 1)
+        cardsToChooseFrom.forEach(c => c.getComponent(Card)!.flipCard(false))
         const chosen = chosenCards.pop()
         if (chosen) {
           WrapperProvider.serverClientWrapper.out.send(Signal.EDEN_CHOSEN, { cardId: chosen.getComponent(Card)!._cardId, playerId: data.originPlayerId })
@@ -1064,7 +1095,7 @@ export class ActionManager extends Component {
         break;
       case Signal.SHOW_REACTIONS:
         // let c: number[] = data.cardsIds;
-        // cards.set(c.map(id => { log(id); return WrapperProvider.cardManagerWrapper.out.getCardById(id) }))
+        // cards.set(c.map(id => { console.log(id); return WrapperProvider.cardManagerWrapper.out.getCardById(id) }))
         // for (const card of cards.getCards()) {
         //   animationManagerWrapper._am.showAnimation(card, ANIM_COLORS.BLUE)
         // }
@@ -1175,3 +1206,4 @@ export class ActionManager extends Component {
 
   // update (dt) {}
 }
+

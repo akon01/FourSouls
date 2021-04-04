@@ -11,6 +11,7 @@ import { MonsterField } from "../../Entites/MonsterField";
 import { BattleManager } from "../../Managers/BattleManager";
 import { CardManager } from "../../Managers/CardManager";
 import { EffectTarget } from "../../Managers/EffectTarget";
+import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 import { PileManager } from "../../Managers/PileManager";
 import { PlayerManager } from "../../Managers/PlayerManager";
 import { TurnsManager } from "../../Managers/TurnsManager";
@@ -63,35 +64,35 @@ export class CardTargetPools extends DataCollector {
         const mePlayer = WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!;
         switch (this.targetPool) {
             case CARD_POOLS.ACTIVE_MONSTERS:
-                return WrapperProvider.monsterFieldWrapper.out.getActiveMonsters().map(monster => new EffectTarget(monster))
+                return WrapperProvider.monsterFieldWrapper.out.getActiveMonsters().map(monster => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(monster))
             case CARD_POOLS.ACTIVE_MONSTERS_NOT_ATTACKED:
-                return WrapperProvider.monsterFieldWrapper.out.getActiveMonsters().map(monster => new EffectTarget(monster)).filter(monster => monster.effectTargetCard != WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonsterNode)
+                return WrapperProvider.monsterFieldWrapper.out.getActiveMonsters().map(monster => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(monster)).filter(monster => monster.effectTargetCard != WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonsterNode)
             case CARD_POOLS.YOUR_HAND:
-                return mePlayer.getHandCards().map(card => new EffectTarget(card))
+                return mePlayer.getHandCards().map(card => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(card))
             case CARD_POOLS.YOUR_ACTIVES:
-                return mePlayer.getActiveItems().map(card => new EffectTarget(card))
+                return mePlayer.getActiveItems().map(card => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(card))
             case CARD_POOLS.YOUR_ACTIVES_AND_PAID:
-                return mePlayer.getActiveItems().concat(mePlayer.getPaidItems()).map(card => new EffectTarget(card))
+                return mePlayer.getActiveItems().concat(mePlayer.getPaidItems()).map(card => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(card))
             case CARD_POOLS.YOUR_PASSIVES:
-                return mePlayer.getPassiveItems().map(card => new EffectTarget(card))
+                return mePlayer.getPassiveItems().map(card => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(card))
             case CARD_POOLS.YOUR_CHARACTER:
-                return new EffectTarget(mePlayer.character!)
+                return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(mePlayer.character!)
             case CARD_POOLS.ALL_PLAYERS:
                 const turnPlayerId = WrapperProvider.turnsManagerWrapper.out.getCurrentTurn()!.PlayerId
-                return WrapperProvider.playerManagerWrapper.out.getPlayersSortedByTurnPlayer().map(player => new EffectTarget(player.character!))
+                return WrapperProvider.playerManagerWrapper.out.getPlayersSortedByTurnPlayer().map(player => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(player.character!))
             case CARD_POOLS.OTHER_PLAYERS:
                 players = WrapperProvider.playerManagerWrapper.out.players.filter(player => {
                     if (player.uuid != WrapperProvider.playerManagerWrapper.out.mePlayer!.uuid) {
                         return true
                     }
                 })
-                return players.map(player => new EffectTarget(player.getComponent(Player)!.character!))
+                return players.map(player => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(player.getComponent(Player)!.character!))
             case CARD_POOLS.PLAYERS_EXCEPT_ATTAKING:
                 players = WrapperProvider.playerManagerWrapper.out.players
                 if (WrapperProvider.turnsManagerWrapper.out.currentTurn!.battlePhase) {
                     players = players.filter(player => player != WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer()!.node)
                 }
-                return players.map(player => new EffectTarget(player.getComponent(Player)!.character!))
+                return players.map(player => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(player.getComponent(Player)!.character!))
             case CARD_POOLS.STORE_CARDS:
                 return WrapperProvider.storeWrapper.out.getStoreCards()
             case CARD_POOLS.TOP_OF_DECKS:
@@ -100,27 +101,27 @@ export class CardTargetPools extends DataCollector {
                 monsterDeck.getCards()[monsterDeck.getCardsLength() - 1],
                 lootDeck.getCards()[lootDeck.getCardsLength() - 1]
                 ]
-                return cards.map(card => new EffectTarget(card))
+                return cards.map(card => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(card))
             case CARD_POOLS.PLAYERS_SOULS:
                 const playerSouls: Node[] = []
                 const playersSouls = WrapperProvider.playerManagerWrapper.out.players.forEach(player => playerSouls.push(...player.getComponent(Player)!.getSoulCards()));
-                return playerSouls.map(c => new EffectTarget(c))
+                return playerSouls.map(c => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(c))
             case CARD_POOLS.DISCARD_PILES:
-                return WrapperProvider.pileManagerWrapper.out.getTopCardOfPiles().map(c => new EffectTarget(c))
+                return WrapperProvider.pileManagerWrapper.out.getTopCardOfPiles().map(c => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(c))
             case CARD_POOLS.IN_DECK_GUPPY_ITEMS:
-                return treasureDeck.getCards().filter(e => e.getComponent(Item)!.isGuppyItem).map(c => new EffectTarget(c))
+                return treasureDeck.getCards().filter(e => e.getComponent(Item)!.isGuppyItem).map(c => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(c))
             case CARD_POOLS.PLAYER_TO_YOUR_LEFT:
                 myId = mePlayer.playerId
                 if (myId == WrapperProvider.playerManagerWrapper.out.players.length) {
-                    return new EffectTarget(WrapperProvider.playerManagerWrapper.out.players[0].getComponent(Player)!.character!)
+                    return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(WrapperProvider.playerManagerWrapper.out.players[0].getComponent(Player)!.character!)
                 }
-                return new EffectTarget(WrapperProvider.playerManagerWrapper.out.players[myId].getComponent(Player)!.character!)
+                return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(WrapperProvider.playerManagerWrapper.out.players[myId].getComponent(Player)!.character!)
             case CARD_POOLS.PLAYER_TO_YOUR_RIGHT:
                 myId = mePlayer.playerId
                 if (myId == 1) {
-                    return new EffectTarget(WrapperProvider.playerManagerWrapper.out.players[WrapperProvider.playerManagerWrapper.out.players.length - 1].getComponent(Player)!.character!)
+                    return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(WrapperProvider.playerManagerWrapper.out.players[WrapperProvider.playerManagerWrapper.out.players.length - 1].getComponent(Player)!.character!)
                 }
-                return new EffectTarget(WrapperProvider.playerManagerWrapper.out.players[myId - 1 - 1].getComponent(Player)!.character!)
+                return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(WrapperProvider.playerManagerWrapper.out.players[myId - 1 - 1].getComponent(Player)!.character!)
             case CARD_POOLS.RANDOM_OTHER_PLAYER_LOOT_NOT_BEING_PLAYED:
                 playerComps = WrapperProvider.playerManagerWrapper.out.players.filter(player => {
                     if (player.uuid != WrapperProvider.playerManagerWrapper.out.mePlayer!.uuid) {
@@ -134,7 +135,7 @@ export class CardTargetPools extends DataCollector {
                     })
                 })
                 const rand = Math.floor(Math.random() * handCards.length)
-                return new EffectTarget(handCards[rand])
+                return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(handCards[rand])
             default:
                 throw new Error("No Card Pool Handle Set");
 

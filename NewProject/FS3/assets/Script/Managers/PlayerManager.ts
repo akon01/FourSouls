@@ -6,6 +6,7 @@ import { Item } from "../Entites/CardTypes/Item";
 import { Card } from "../Entites/GameEntities/Card";
 import { Deck } from "../Entites/GameEntities/Deck";
 import { Dice } from "../Entites/GameEntities/Dice";
+import { Mouse } from '../Entites/GameEntities/Mouse';
 import { Player } from "../Entites/GameEntities/Player";
 import { PlayerDesk } from "../Entites/PlayerDesk";
 import { PlayerStatsViewer } from "../Entites/PlayerStatsViewer";
@@ -77,7 +78,9 @@ export class PlayerManager extends Component {
     this.createPlayerDesks();
     this.createHands();
     this.createDice();
+
     this.assingHands();
+    this.createMouseCursors();
 
     const prefabs = [WrapperProvider.playerManagerWrapper.out.handPrefab, WrapperProvider.playerManagerWrapper.out.playerPrefab, WrapperProvider.playerManagerWrapper.out.dicePrefab, WrapperProvider.playerManagerWrapper.out.playerDeskPrefab]
     prefabs.forEach(prefab => {
@@ -85,6 +88,24 @@ export class PlayerManager extends Component {
         assetManager.releaseAsset(prefab)
     })
     resources.release("Prefabs/Entities/", Prefab)
+  }
+
+  createMouseCursors() {
+    const mousePrefab = WrapperProvider.playerManagerWrapper.out.players[0].getComponent(Player)!.mousePrefab!
+    for (let i = 1; i <= WrapperProvider.playerManagerWrapper.out.players.length; i++) {
+      const player = WrapperProvider.playerManagerWrapper.out.players[i - 1].getComponent(Player)!
+      if (!player.me) continue
+      const mouseNode = instantiate(mousePrefab)
+      mouseNode.name = `Player ${i} Mouse`
+      const mouseComp = mouseNode.getComponent(Mouse)!
+      mouseComp.player = player
+      player.mouse = mouseComp
+      mouseNode.setParent(WrapperProvider.CanvasNode)
+      if (player.me) {
+        mouseComp.setMouseListenr()
+      }
+      //TODO: add mouse cursors heads sprites from the game, and change by char!
+    }
   }
 
   async preLoadPrefabs() {
@@ -125,8 +146,8 @@ export class PlayerManager extends Component {
   }
 
   createPlayers(serverId: number) {
-    log(`create`)
-    log(WrapperProvider.playerManagerWrapper.out)
+    console.log(`create`)
+    console.log(WrapperProvider.playerManagerWrapper.out)
     // create max amount of players and assing them to this property
     for (let i = 1; i <= WrapperProvider.serverClientWrapper.out.numOfPlayers; i++) {
       const newNode: Node = instantiate(WrapperProvider.playerManagerWrapper.out.playerPrefab) as unknown as Node;
@@ -151,11 +172,11 @@ export class PlayerManager extends Component {
     //   WrapperProvider.playerManagerWrapper.out.hands.pop().destroy()
     // }
     for (let i = 1; i <= WrapperProvider.playerManagerWrapper.out.players.length; i++) {
-      log(WrapperProvider.playerManagerWrapper.out.desks)
+      console.log(WrapperProvider.playerManagerWrapper.out.desks)
       const hands = WrapperProvider.playerManagerWrapper.out.desks.map(desk => desk.hand!);
       // for (let i = 1; i <= 4; i++) {
       //  var newNode: Node = instantiate(WrapperProvider.playerManagerWrapper.out.handPrefab);
-      log(hands)
+      console.log(hands)
       const newNode = hands[i - 1].node
       const handComp: CardLayout = newNode.getComponent(CardLayout)!;
       handComp.handId = i;
@@ -182,10 +203,10 @@ export class PlayerManager extends Component {
     const numOfDesksToDestroy = WrapperProvider.playerManagerWrapper.out.desks.length - WrapperProvider.playerManagerWrapper.out.players.length;
     for (let i = 0; i < numOfDesksToDestroy; i++) {
       const deskToDestroy = WrapperProvider.playerManagerWrapper.out.desks.pop()!.node;
-      log(`destroy ${deskToDestroy.name}`)
+      console.log(`destroy ${deskToDestroy.name}`)
       deskToDestroy.destroyAllChildren()
       deskToDestroy.destroy()
-      log(deskToDestroy)
+      console.log(deskToDestroy)
     }
     for (let i = 1; i <= WrapperProvider.playerManagerWrapper.out.players.length; i++) {
       // for (let i = 1; i <= 4; i++) {
@@ -246,7 +267,7 @@ export class PlayerManager extends Component {
     if (player.node != this.mePlayer) {
       WrapperProvider.serverClientWrapper.out.send(Signal.SET_CHAR, { originPlayerId: this.mePlayer!.getComponent(Player)!.playerId, playerId: player.playerId, charCardId: charCard.getComponent(Card)!._cardId, itemCardId: itemCard.getComponent(Card)!._cardId })
       await this.waitForSetCharOver()
-      log(`after set char end`)
+      console.log(`after set char end`)
     } else {
       await player.setCharacter(charCard, itemCard, true);
     }
@@ -269,11 +290,11 @@ export class PlayerManager extends Component {
       let fullCharCard
       ////only for test of characters:
       //  if (i == 0) {
-      //   log(`i is zero`)
+      //   console.log(`i is zero`)
       //  fullCharCard = WrapperProvider.cardManagerWrapper.out.characterDeck.find(card => card.char.getComponent(Card)!.cardName == "Bumbo")
       // } else {
       fullCharCard = WrapperProvider.cardManagerWrapper.out.characterDeck.pop()!;
-      //   log(fullCharCard)
+      //   console.log(fullCharCard)
       //  }
       // special case: Eden
       if (fullCharCard.char.getComponent(Card)!.cardName == "Eden") {
@@ -282,7 +303,7 @@ export class PlayerManager extends Component {
         //Item Shuld Be null here
         edenItem = fullCharCard.item
       }
-      log(`assign ${fullCharCard.char.name} to player ${playerComp.playerId}`)
+      console.log(`assign ${fullCharCard.char.name} to player ${playerComp.playerId}`)
       await this.assignCharacterToPlayer(fullCharCard, playerComp, sendToServer);
     }
     // special case: Eden
@@ -338,7 +359,7 @@ export class PlayerManager extends Component {
           // playerComp._reactionToggle.node.on(Node.EventType.TOUCH_END, async () => {
           //   let event;
           //   serverClientWrapper._sc.send(Signal.REACTION_TOGGLED, { playerId: WrapperProvider.playerManagerWrapper.out.mePlayer.getComponent(Player)!.playerId })
-          //   log(`reaction btn touch end`)
+          //   console.log(`reaction btn touch end`)
           //   !WrapperProvider.playerManagerWrapper.out.mePlayer.getComponent(Player)!._reactionToggle.isChecked == true ? event = BUTTON_STATE.ENABLED : event = BUTTON_STATE.DISABLED;
           //   if (event == BUTTON_STATE.ENABLED) {
           //     if (!WrapperProvider.playerManagerWrapper.out.mePlayer.getComponent(Player)!._inGetResponse) {

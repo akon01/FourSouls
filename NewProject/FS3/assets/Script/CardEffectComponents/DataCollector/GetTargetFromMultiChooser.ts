@@ -4,6 +4,7 @@ const { ccclass, property } = _decorator;
 import { COLLECTORTYPE } from "../../Constants";
 import { CardEffect } from "../../Entites/CardEffect";
 import { EffectTarget } from "../../Managers/EffectTarget";
+import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 import { IdAndNameComponent as IdAndName } from "../IdAndNameComponent";
 import { DataCollector } from "./DataCollector";
 
@@ -25,7 +26,7 @@ export class GetTargetFromMultiChooser extends DataCollector {
   collectData(data: any) {
     const dataCollector = this.multiChooserToGetTargetsFrom;
     if (!dataCollector) { debugger; throw new Error("No Multi Effect Chooser Collector To Get Targets From"); }
-    let effectData = new EffectTarget(dataCollector!.cardChosen!)
+    let effectData = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(dataCollector!.cardChosen!)
     return effectData;
   }
 }

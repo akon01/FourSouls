@@ -68,7 +68,7 @@ export class RollDiceStackEffect extends StackEffectConcrete {
         const playerCard = WrapperProvider.cardManagerWrapper.out.getCardById(this.creatorCardId, true)!;
         const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(playerCard)!;
         const numberRolled = await player.rollDice(ROLL_TYPE.EFFECT)
-        log(`in roll dice stack effect rolled ${numberRolled}`)
+        console.log(`in roll dice stack effect rolled ${numberRolled}`)
         this.numberRolled = numberRolled
         WrapperProvider.stackEffectVisManagerWrapper.out.updatePreviewByStackId(this.entityId, `player ${player.playerId} rolled ${numberRolled}`)
         this.visualRepesentation.extraSprite = player.dice!.diceSprite!.spriteFrame!
@@ -106,9 +106,9 @@ export class RollDiceStackEffect extends StackEffectConcrete {
             stackEffectToLock.LockingResolve = playerRollValue
             stackEffectToLock.hasLockingStackEffectResolved = true;
         } else {
-            log(`locking stack effect tried to resolve when his to lock effect is not in the stack`)
-            log(this.stackEffectToLock)
-            log(WrapperProvider.stackWrapper.out._currentStack)
+            console.log(`locking stack effect tried to resolve when his to lock effect is not in the stack`)
+            console.log(this.stackEffectToLock)
+            console.log(WrapperProvider.stackWrapper.out._currentStack)
         }
         await WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(passiveMeta)
         player.lastRoll = playerRollValue

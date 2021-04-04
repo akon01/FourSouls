@@ -102,7 +102,7 @@ export class CombatDamage extends StackEffectConcrete {
     }
 
     async resolve() {
-        error(`combat dmg resolve`)
+        console.error(`combat dmg resolve`)
         let player: Player | null = null;
         let damage: number;
         // if (player._isFirstAttackRollOfTurn) { player._isFirstAttackRollOfTurn = false; }

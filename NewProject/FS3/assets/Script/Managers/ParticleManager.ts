@@ -40,8 +40,8 @@ export class ParticleManager extends Component {
 
         const particleSys: ParticleSystem2D = card.getComponentInChildren(ParticleSystem2D)!
         const particle = WrapperProvider.particleManagerWrapper.out.particleEffects.find(particle => particle.name == particleType)!
-        error(`activate particle with type ${particleType}`)
-        log(particle.effect!.name)
+        console.error(`activate particle with type ${particleType}`)
+        console.log(particle.effect!.name)
         if (!particle) { throw new Error("No particle found by type") }
 
         particleSys.stopSystem()
@@ -104,11 +104,11 @@ export class ParticleManager extends Component {
 
     // checkCardMask(card: Node) {
     //     const cardMask = card.getComponentInChildren(Mask);
-    //     log(`checking ${card.name} mask`)
+    //     console.log(`checking ${card.name} mask`)
     //     if (cardMask && !cardMask.node.active) {
     //         cardMask.node.active = true
     //         //   cardMask.enabled = true
-    //         log(`activated mask`)
+    //         console.log(`activated mask`)
     //     }
     // }
 

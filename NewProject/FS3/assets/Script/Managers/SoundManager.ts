@@ -68,12 +68,12 @@ export class SoundManager extends Component {
 
     playLoopedSound(soundClip: AudioClip) {
         // const clipId = audioEngine!.playEffect(soundClip, true)
-        // log(clipId)
-        // log(soundClip)
-        // log(`play looped sound ${soundClip.name}`)
-        // log(audioEngine!.getState(clipId))
-        // log(audioEngine!.isLoop(clipId))
-        // log(audioEngine!.getCurrentTime(clipId))
+        // console.log(clipId)
+        // console.log(soundClip)
+        // console.log(`play looped sound ${soundClip.name}`)
+        // console.log(audioEngine!.getState(clipId))
+        // console.log(audioEngine!.isLoop(clipId))
+        // console.log(audioEngine!.getCurrentTime(clipId))
         // return clipId
 
         return 1
@@ -85,7 +85,7 @@ export class SoundManager extends Component {
 
     playSound(soundClip: AudioClip) {
         // const clipId = audioEngine!.playEffect(soundClip, false)
-        // log(clipId)
+        // console.log(clipId)
         // audioEngine!.setFinishCallback(clipId, () => {
         //     whevent.emit(GAME_EVENTS.SOUND_OVER)
         // })

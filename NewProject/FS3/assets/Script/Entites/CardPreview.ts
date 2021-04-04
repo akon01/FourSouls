@@ -92,20 +92,25 @@ export class CardPreview extends Component {
 
         if (!this.cardSprite) { debugger; throw new Error("No Card Sprite"); }
 
-        //  if (useFrontSprite) {
-        if (cardToSet.getComponent(Deck) != null || cardComp.topDeckof != null) {
+        if (useFrontSprite) {
+            if (cardToSet.getComponent(Deck) != null || cardComp.topDeckof != null) {
 
-            this.cardSprite.spriteFrame = cardToSet.getComponent(Card)!.cardSprite!.spriteFrame;
-        } else if (cardToSet.getComponent(Pile) != null) {
+                this.cardSprite.spriteFrame = cardToSet.getComponent(Card)!.cardSprite!.spriteFrame;
+            } else if (cardToSet.getComponent(Pile) != null) {
 
-            this.cardSprite.spriteFrame = cardToSet.getComponent(Pile)!.pileSprite!.spriteFrame;
+                this.cardSprite.spriteFrame = cardToSet.getComponent(Pile)!.pileSprite!.spriteFrame;
+            } else {
+
+                this.cardSprite.spriteFrame = cardComp.getComponent(Card)!.frontSprite;
+            }
         } else {
-
-            this.cardSprite.spriteFrame = cardComp.getComponent(Card)!.frontSprite;
+            if (cardComp._isFlipped) {
+                this.cardSprite.spriteFrame = cardComp.backSprite!
+            } else {
+                this.cardSprite.spriteFrame = cardComp.frontSprite!
+            }
+            //  this.cardSprite.spriteFrame = cardComp.node.getComponent(Sprite)!.spriteFrame;
         }
-        // } else {
-        // this.cardSprite.spriteFrame = cardComp.node.getComponent(Sprite)!.spriteFrame;
-        //}
     }
 
     async hideCardPreview(event?: EventTouch) {
@@ -156,34 +161,34 @@ export class CardPreview extends Component {
                     availalbleAnswers.set(cardName, card)
                 }
             })
-            log(`available answers`)
-            log(availalbleAnswers)
+            console.log(`available answers`)
+            console.log(availalbleAnswers)
             if (availalbleAnswers.size == 0) return null;
             if (availalbleAnswers.has(text)) {
                 return availalbleAnswers.get(text)!
             }
-            log(Array.from(availalbleAnswers.values()))
+            console.log(Array.from(availalbleAnswers.values()))
             return Array.from(availalbleAnswers.values())[0]
         }
 
         const card = getCard(WrapperProvider.cardManagerWrapper, text)
         if (card != null && card != undefined) {
-            log(`change me to ${card.name}`)
+            console.log(`change me to ${card.name}`)
             this.setCard(card, true)
         }
     }
 
     addEffectToPreview(effect: Effect, isDoNotAddClickEvent?: boolean) {
-        error(`add effect to card preview`)
+        console.error(`add effect to card preview`)
         const originalParent = effect.node;
         const originalY = effect.effectPosition.y;
-        log(`effect original parent`, effect.node)
+        console.log(`effect original parent`, effect.node)
 
         const originalParentTrans = (originalParent.getComponent(UITransform)!);
         const parentHeight = originalParentTrans.height;
-        log(`parent hegight : ${parentHeight}`)
+        console.log(`parent hegight : ${parentHeight}`)
         const preview = this.node.getChildByName(`CardPreview`)!
-        log(`preview `, preview)
+        console.log(`preview `, preview)
         const previewTrans = (preview.getComponent(UITransform)!);
         const yPositionScale = previewTrans.height / parentHeight;
 
@@ -201,7 +206,7 @@ export class CardPreview extends Component {
         // newEffect.getComponent(Effect)!._effectCard = originalParent;
         this.effectChildren.push(newEffect);
         const newEffectTrans = (newEffect.getComponent(UITransform)!);
-        log(`width:${newEffectTrans.width}; height:${newEffectTrans.height}; cardHeight:${previewTrans.height}; scale:${heightScale}`)
+        console.log(`width:${newEffectTrans.width}; height:${newEffectTrans.height}; cardHeight:${previewTrans.height}; scale:${heightScale}`)
 
         //TODO:REMOVE /2 after changing all prefabs to right size.
         newEffectTrans.width = effect.effectPosition.width * widthScale
@@ -211,11 +216,11 @@ export class CardPreview extends Component {
         const newY = originalY * yPositionScale;
         //TODO:REMOVE /2 after changing all prefabs to right size.
         newEffect.setPosition(0, newY);
-        log(`added ${newEffect.name} to preview`)
+        console.log(`added ${newEffect.name} to preview`)
         if (isDoNotAddClickEvent == false || isDoNotAddClickEvent == undefined) {
             newEffect.once(Node.EventType.TOUCH_START, async () => {
                 await this.hideCardPreview();
-                log(`chosen ${effect.name}`)
+                console.log(`chosen ${effect.name}`)
                 this.effectChosen = effect;
                 whevent.emit(GAME_EVENTS.CARD_PREVIEW_CHOOSE_EFFECT, effect)
                 //  CardPreview.wasEffectChosen = true;
@@ -282,7 +287,7 @@ export class CardPreview extends Component {
         WrapperProvider.announcementLableWrapper.out.showAnnouncement(`Player ${WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!.playerId} Is Choosing Effect From ${card.name}`, 0, true)
         const chosenEffect = await this.testForEffectChosen();
         WrapperProvider.announcementLableWrapper.out.hideAnnouncement(true)
-        log(chosenEffect)
+        console.log(chosenEffect)
         // await decisionMarker._dm.showEffectChosen(card, chosenEffect)
         WrapperProvider.cardPreviewManagerWrapper.out.previewsToChooseFrom.splice(index, 1)
         //disable effects be chosen on click

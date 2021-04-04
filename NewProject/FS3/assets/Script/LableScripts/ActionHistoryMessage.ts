@@ -85,7 +85,8 @@ export class ActionHistoryMessage extends Component {
 
     updateLable() {
 
-        this._label!.string = this.getText(true)
+        if (this._label)
+            this._label!.string = this.getText(true)
     }
 
     unuse() {

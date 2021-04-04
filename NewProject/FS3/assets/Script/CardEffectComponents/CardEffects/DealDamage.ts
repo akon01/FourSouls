@@ -60,7 +60,7 @@ export class DealDamage extends Effect {
       let targetEntity = data.getTarget(TARGETTYPE.PLAYER)
       if (targetEntity == null) { targetEntity = data.getTarget(TARGETTYPE.MONSTER); }
       if (targetEntity == null) {
-        log(`target is null`)
+        console.log(`target is null`)
         throw new Error("Target Entity Is Null");
 
       }

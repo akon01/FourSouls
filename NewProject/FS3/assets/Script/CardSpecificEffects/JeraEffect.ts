@@ -29,7 +29,7 @@ export class JeraEffect extends Effect {
   ) {
     let targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER);
     if (targetPlayerCard == null) {
-      log(`no target player`)
+      console.log(`no target player`)
     } else {
       if (targetPlayerCard instanceof Node) {
         let player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard)!

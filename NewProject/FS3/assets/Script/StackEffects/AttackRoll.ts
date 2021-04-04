@@ -32,7 +32,7 @@ export class AttackRoll extends StackEffectConcrete {
     creationTurnId!: number;
 
     checkForFizzle() {
-        log(`check for fizzle`)
+        console.log(`check for fizzle`)
         if (super.checkForFizzle()) {
             this.isToBeFizzled = true
             return true
@@ -68,7 +68,7 @@ export class AttackRoll extends StackEffectConcrete {
         let attackType;
         this.rollingPlayer._isFirstAttackRollOfTurn == true ? attackType = ROLL_TYPE.FIRST_ATTACK : attackType = ROLL_TYPE.ATTACK;
         const numberRolled = await player.rollDice(attackType)
-        log(`in AttackRoll stack effect rolled ${numberRolled}`)
+        console.log(`in AttackRoll stack effect rolled ${numberRolled}`)
         this.numberRolled = numberRolled
         WrapperProvider.stackEffectVisManagerWrapper.out.updatePreviewByStackId(this.entityId, "player rolled " + numberRolled + " vs " + this.attackedMonster.name)
         this.visualRepesentation.extraSprite = player.dice!.diceSprite!.spriteFrame!
@@ -87,7 +87,7 @@ export class AttackRoll extends StackEffectConcrete {
         let monsterEvasion = this.attackedMonster.rollValue + this.attackedMonster._rollBonus;
         //let playerRollValue = this.numberRolled + this.rollingPlayer.attackRollBonus;
         let playerRollValue = this.rollingPlayer.calculateFinalRoll(this.numberRolled, attackType)
-        log(`Added ${this.rollingPlayer.attackRollBonus} to original roll`)
+        console.log(`Added ${this.rollingPlayer.attackRollBonus} to original roll`)
         WrapperProvider.actionLableWrapper.out.publishMassage(`Added ${this.rollingPlayer.attackRollBonus} to original roll`, 3)
         playerRollValue = await this.rollingPlayer!.dice!.setRoll(playerRollValue)
         this.visualRepesentation.extraSprite = this.rollingPlayer!.dice!.diceSprite!.spriteFrame!

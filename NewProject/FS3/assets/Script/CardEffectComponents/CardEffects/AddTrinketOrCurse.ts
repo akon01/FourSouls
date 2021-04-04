@@ -19,8 +19,6 @@ export class AddTrinketOrCurse extends Effect {
 
 
 
-
-
   /**
    *
    */
@@ -120,7 +118,7 @@ export class AddTrinketOrCurse extends Effect {
       }
       thisCardEffect.passiveEffects.push(this.itemEffectToAdd)
     }
-    this.destroy()
+    //   this.enabled=false
 
   }
 }

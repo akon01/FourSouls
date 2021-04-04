@@ -132,7 +132,7 @@ export class ActivateItem extends StackEffectConcrete {
     }
 
     async resolve() {
-        log(`resolve activate ${this.itemToActivate.name}`)
+        console.log(`resolve activate ${this.itemToActivate.name}`)
         let selectedEffect: Effect | null = this.effectToDo;
         const cardEffect = this.itemToActivate.getComponent(CardEffect)!
         // if (this.effectToDo == null) {
@@ -179,12 +179,12 @@ export class ActivateItem extends StackEffectConcrete {
         let newStack
         const prev = WrapperProvider.stackEffectVisManagerWrapper.out.getPreviewByStackId(this.entityId)
         if (prev && selectedEffect && selectedEffect.node) {
-            log(`add selected effect hightlight`)
+            console.log(`add selected effect hightlight`)
             prev.addSelectedEffectHighlight(selectedEffect)
         } else {
-            error(`no prev found`)
-            log(WrapperProvider.stackEffectVisManagerWrapper.out.currentPreviews)
-            log(this.entityId)
+            console.error(`no prev found`)
+            console.log(WrapperProvider.stackEffectVisManagerWrapper.out.currentPreviews)
+            console.log(this.entityId)
         }
         if (!selectedEffect) { debugger; throw new Error("No Selected Effect Where Should Be!"); }
 
@@ -223,7 +223,7 @@ export class ActivateItem extends StackEffectConcrete {
         if (effect == null) {
             throw new Error(`effect is null`)
         }
-        log(`do card effect has data been collected yet : ${hasDataBeenCollectedYet}`)
+        console.log(`do card effect has data been collected yet : ${hasDataBeenCollectedYet}`)
         const cardEffect = this.itemToActivate.getComponent(CardEffect)!
         const serverEffect = await cardEffect.getServerEffect(effect, this.itemPlayer.playerId, !hasDataBeenCollectedYet)
         //change in every effect that it recives the current stack (maybe not needed cuz stack is static) so that effects that affect the stack (butter bean) can cancel them

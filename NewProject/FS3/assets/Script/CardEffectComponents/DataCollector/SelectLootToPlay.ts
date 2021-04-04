@@ -14,6 +14,7 @@ import { whevent } from "../../../ServerClient/whevent";
 import { AnnouncementLable } from "../../LableScripts/AnnouncementLable";
 import { PileManager } from "../../Managers/PileManager";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 
 @ccclass('SelectLootToPlay')
 export class SelectLootToPlay extends DataCollector {
@@ -43,9 +44,9 @@ export class SelectLootToPlay extends DataCollector {
     const cardPlayedData = await this.requireChoosingACard(cardsToChooseFrom);
     const cardPlayed = WrapperProvider.cardManagerWrapper.out.getCardById(cardPlayedData.cardPlayedId, true);
     await WrapperProvider.decisionMarkerWrapper.out.showDecision(player.character!, cardPlayed, true, true)
-    const target = new EffectTarget(cardPlayed)
+    const target = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(cardPlayed)
     cardPlayed.getComponent(Card)!.isGoingToBePlayed = true
-    log(`chosen ${target.effectTargetCard.name}`)
+    console.log(`chosen ${target.effectTargetCard.name}`)
     return target;
   }
 

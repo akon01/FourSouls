@@ -4,8 +4,9 @@ import { Dice } from "../Entites/GameEntities/Dice";
 import { ServerEffect } from "../Entites/ServerCardEffect";
 import { StackEffectPreview } from "../StackEffects/StackEffectVisualRepresentation/StackEffectPreview";
 import { ActiveEffectData } from './ActiveEffectData';
-import { IEffectData } from './EffectData';
+import { IEffectData } from "./IEffectData.1";
 import { EffectTarget } from './EffectTarget';
+import { EffectTargetFactory } from './EffectTargetFactory';
 import { PassiveEffectData } from './PassiveEffectData';
 import { ServerEffectData } from './ServerEffectData';
 import { WrapperProvider } from './WrapperProvider';
@@ -38,7 +39,7 @@ export class DataInterpreter extends Component implements IDataInterpreter {
                         if (data[0] instanceof EffectTarget) {
                             effectData.effectTargets = data;
                         } else if (data[0] instanceof Node) {
-                            effectData.effectTargets = data.map(node => new EffectTarget(node))
+                            effectData.effectTargets = data.map(node => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(node))
                         } else {
                             WrapperProvider.loggerWrapper.out.error(`when making effect data, data was not of required type (effectTarget[]/cc.node[])`, data)
                             throw new Error(`when making effect data, data was not of required type (effectTarget[]/cc.node[])`)
@@ -121,9 +122,9 @@ export class DataInterpreter extends Component implements IDataInterpreter {
             }
             if (serverEffectData.effectTargets.length > 0) {
                 if (serverEffectData.isTargetStackEffect) {
-                    effectData.effectTargets = serverEffectData.effectTargets.map((target) => new EffectTarget(WrapperProvider.stackWrapper.out._currentStack.find(stackEffect => stackEffect.entityId == target) as any))
+                    effectData.effectTargets = serverEffectData.effectTargets.map((target) => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(WrapperProvider.stackWrapper.out._currentStack.find(stackEffect => stackEffect.entityId == target) as any))
                 } else {
-                    effectData.effectTargets = serverEffectData.effectTargets.map((target) => new EffectTarget(WrapperProvider.cardManagerWrapper.out.getCardById(target, true)))
+                    effectData.effectTargets = serverEffectData.effectTargets.map((target) => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(WrapperProvider.cardManagerWrapper.out.getCardById(target, true)))
                 }
             }
 
@@ -167,7 +168,7 @@ export class DataInterpreter extends Component implements IDataInterpreter {
             serverEffectData.isPassive = false;
             if (effectData.effectTargets.length > 0) {
                 serverEffectData.effectTargets = effectData.effectTargets.map((target) => {
-                    log(target)
+                    console.log(target)
                     if (target.effectTargetStackEffectId != null) {
                         serverEffectData.isTargetStackEffect = true;
                         return target.effectTargetStackEffectId.entityId

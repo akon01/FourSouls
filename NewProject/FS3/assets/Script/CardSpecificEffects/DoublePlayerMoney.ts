@@ -23,7 +23,7 @@ export class DoublePlayerMoney extends Effect {
 
     let targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER)
     if (targetPlayerCard == null) {
-      log(`target player is null`)
+      console.log(`target player is null`)
     } else {
       if (targetPlayerCard instanceof Node) {
         let player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard)!

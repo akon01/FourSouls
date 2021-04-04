@@ -12,7 +12,7 @@ const { ccclass, property } = _decorator;
 export class EffectRunner {
     static async runEffect(chosenEffect: Effect, stack: StackEffectInterface[], data?: any) {
         const serverEffectStack = await chosenEffect.doEffect(stack, data);
-        const effectCard = chosenEffect._effectCard!;
+        const effectCard = chosenEffect.getEffectCard()!;
         const cardEffectComp = effectCard.getComponent(CardEffect)!
         const effectDetails = cardEffectComp.getEffectIndexAndType(chosenEffect);
         if (chosenEffect.hasDataConcurency) {
@@ -25,6 +25,10 @@ export class EffectRunner {
                 chosenEffect.effectRunning = false;
             }
             WrapperProvider.serverClientWrapper.out.send(Signal.MARK_EFFECT_AS_RUNNING, { cardId: effectCard.getComponent(Card)?._cardId, effectIndex: effectDetails.index, effectType: effectDetails.type, markBool: chosenEffect.markAsRunningOrNotRunning })
+        }
+        const passiveManager = WrapperProvider.passiveManagerWrapper.out
+        if (chosenEffect.isOneTimeUse && [...passiveManager.oneTurnAfterEffects, passiveManager.oneTurnBeforeEffects].includes(chosenEffect)) {
+            passiveManager.removeOneTurnPassiveEffect(chosenEffect, true)
         }
         return serverEffectStack
     }

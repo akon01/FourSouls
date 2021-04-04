@@ -3,6 +3,7 @@ import { COLLECTORTYPE } from "../../../Constants";
 import { Player } from "../../../Entites/GameEntities/Player";
 import { CardManager } from "../../../Managers/CardManager";
 import { EffectTarget } from "../../../Managers/EffectTarget";
+import { EffectTargetFactory } from '../../../Managers/EffectTargetFactory';
 import { PlayerManager } from "../../../Managers/PlayerManager";
 import { WrapperProvider } from '../../../Managers/WrapperProvider';
 import { ChooseCard } from "../ChooseCard";
@@ -34,10 +35,10 @@ export class GreedCollector extends DataCollector {
             }
         })
         if (mostMoneyPlayer.length == 1) {
-            return new EffectTarget(mostMoneyPlayer[0].node)
+            return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(mostMoneyPlayer[0].node)
         } else {
             const chosen = await this._chooseCard.requireChoosingACard(mostMoneyPlayer.map(p => p.character!))
-            return new EffectTarget(WrapperProvider.cardManagerWrapper.out.getCardById(chosen.cardChosenId))
+            return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(WrapperProvider.cardManagerWrapper.out.getCardById(chosen.cardChosenId))
         }
     }
 }

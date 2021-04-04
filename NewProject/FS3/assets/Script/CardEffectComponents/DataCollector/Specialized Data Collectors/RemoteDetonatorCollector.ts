@@ -3,6 +3,7 @@ import { CHOOSE_CARD_TYPE } from '../../../Constants';
 import { Item } from '../../../Entites/CardTypes/Item';
 import { Player } from '../../../Entites/GameEntities/Player';
 import { EffectTarget } from '../../../Managers/EffectTarget';
+import { EffectTargetFactory } from '../../../Managers/EffectTargetFactory';
 import { WrapperProvider } from '../../../Managers/WrapperProvider';
 import { ChooseCardTypeAndFilter } from '../../ChooseCardTypeAndFilter';
 import { ChooseAPlayerToChooseCards } from '../ChooseAPlayerToChooseCards';
@@ -58,9 +59,9 @@ export class RemoteDetonatorCollector extends DataCollector {
         console.log(result);
         if (result.length > 1) {
             return null
-            new EffectTarget(WrapperProvider.cardManagerWrapper.out.lootDeck)
+            WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(WrapperProvider.cardManagerWrapper.out.lootDeck)
         } else {
-            return new EffectTarget(result[0])
+            return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(result[0])
         }
 
     }

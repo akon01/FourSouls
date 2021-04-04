@@ -49,9 +49,9 @@ export class TurnsManager extends Component {
       }
 
       getTurnByPlayerId(playerId: number) {
-            log(`searching for turn ${playerId}`)
+            console.log(`searching for turn ${playerId}`)
             for (const turn of this.turns) {
-                  log(turn)
+                  console.log(turn)
                   if (turn.PlayerId == playerId) { return turn; }
             }
       }
@@ -63,8 +63,8 @@ export class TurnsManager extends Component {
       async nextTurn() {
 
             if (WrapperProvider.stackWrapper.out._currentStack.length > 0) {
-                  log(`wait for stack to be emptied`)
-                  log(WrapperProvider.stackWrapper.out._currentStack)
+                  console.log(`wait for stack to be emptied`)
+                  console.log(WrapperProvider.stackWrapper.out._currentStack)
                   await WrapperProvider.stackWrapper.out.waitForStackEmptied()
             }
             WrapperProvider.stackWrapper.out.replaceStack([], true)

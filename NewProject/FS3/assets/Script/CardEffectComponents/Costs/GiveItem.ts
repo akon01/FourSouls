@@ -25,7 +25,7 @@ export class GiveItem extends Cost {
             throw new Error("No Player To Give To Choose Card Set!");
         }
         let thisEffect = this.getThisEffect()
-        let thisCard = thisEffect._effectCard!
+        let thisCard = thisEffect.getEffectCard()!
         let cardComp = thisCard.getComponent(Card)!
 
         let player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(thisCard)!

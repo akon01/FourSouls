@@ -29,7 +29,7 @@ export class TemperanceEffect extends Effect {
   ) {
     let targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER);
     if (targetPlayerCard == null) {
-      log(`no target player`)
+      console.log(`no target player`)
     } else {
       let player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard as Node)!
       let owner = WrapperProvider.cardManagerWrapper.out.getCardOwner(this.node)!

@@ -41,7 +41,7 @@ export class ActionLable extends Component {
         try {
             this.addToHistory(actionMessage, childOfId)
         } catch (e) {
-            error(`could not add to history`, [massage, childOfId])
+            console.error(`could not add to history`, [massage, childOfId])
         }
         WrapperProvider.serverClientWrapper.out.send(Signal.ACTION_MASSAGE_ADD, { massage: actionMessage, childOfId: childOfId })
         if (timeToDisappear != 0) {
@@ -147,7 +147,7 @@ export class ActionLable extends Component {
         try {
             this.addToHistory(massage, childOfId)
         } catch (error) {
-            error(`could not add to history`, [massage, childOfId])
+            console.error(`could not add to history`, [massage, childOfId])
         }
         whevent.emit(GAME_EVENTS.ACTION_LABLE_UPDATE)
     }
@@ -172,7 +172,9 @@ export class ActionLable extends Component {
             // }
         }
 
-        this.label!.string = text
+        if (this.label) {
+            this.label.string = text
+        }
 
     }
 

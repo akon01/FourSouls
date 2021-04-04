@@ -1,1 +1,386 @@
-[{"__type__": "cc.Prefab", "_name": "", "_objFlags": 0, "_native": "", "data": {"__id__": 1}, "optimizationPolicy": 0, "asyncLoadAssets": false, "readonly": false}, {"__type__": "cc.Node", "_name": "ExMonster", "_objFlags": 0, "_parent": null, "_children": [{"__id__": 2}], "_active": true, "_components": [{"__id__": 5}, {"__id__": 6}, {"__id__": 7}, {"__id__": 9}, {"__id__": 10}], "_prefab": {"__id__": 8}, "_lpos": {"__type__": "cc.Vec3", "x": -178, "y": 0, "z": 0}, "_lrot": {"__type__": "cc.Quat", "x": 0, "y": 0, "z": 0, "w": 1}, "_lscale": {"__type__": "cc.Vec3", "x": 1, "y": 1, "z": 1}, "_layer": 1, "_euler": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_level": 1, "_skewX": 0, "_skewY": 0, "_is3DNode": false, "_id": ""}, {"__type__": "cc.Node", "_name": "GainMoney", "_objFlags": 0, "_parent": {"__id__": 1}, "_children": [], "_active": true, "_components": [{"__id__": 3}, {"__id__": 11}, {"__id__": 12}], "_prefab": {"__id__": 4}, "_lpos": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_lrot": {"__type__": "cc.Quat", "x": 0, "y": 0, "z": 0, "w": 1}, "_lscale": {"__type__": "cc.Vec3", "x": 1, "y": 1, "z": 1}, "_layer": 1, "_euler": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_level": 2, "_skewX": 0, "_skewY": 0, "_is3DNode": false, "_id": ""}, {"__type__": "82c5bZEAZ1Oobq1Oh3I6fMe", "_name": "", "_objFlags": 0, "node": {"__id__": 2}, "_enabled": true, "hasRoll": false, "numOfMoneyToAdd": 0, "_id": "", "__prefab": {"__id__": 13}}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__id__": 0}, "fileId": "0dYfCfLbtEMq4YarwgMyFM"}, {"__type__": "cc.Sprite", "_name": "", "_objFlags": 0, "node": {"__id__": 1}, "_enabled": true, "__prefab": {"__id__": 14}, "_customMaterial": {"__uuid__": "fda095cb-831d-4601-ad94-846013963de8"}, "_visFlags": 0, "_srcBlendFactor": 2, "_dstBlendFactor": 4, "_color": {"__type__": "cc.Color", "r": 255, "g": 255, "b": 255, "a": 255}, "_spriteFrame": {"__uuid__": "5c94c532-21ff-41c7-aee8-f6c6b70f924f@105b1"}, "_type": 0, "_fillType": 0, "_sizeMode": 0, "_fillCenter": {"__type__": "cc.Vec2", "x": 0, "y": 0}, "_fillStart": 0, "_fillRange": 0, "_isTrimmedMode": true, "_useGrayscale": false, "_atlas": {"__uuid__": "5c94c532-21ff-41c7-aee8-f6c6b70f924f"}, "_id": ""}, {"__type__": "469baVqArxNIJpM2pHjkHeJ", "_name": "", "_objFlags": 0, "node": {"__id__": 1}, "_enabled": true, "cardName": "Monster Name", "_cardId": 0, "_isInHand": false, "_isOnDesk": false, "_originalParent": null, "topDeckof": null, "souls": 0, "type": 2, "_isAttackable": false, "_isBuyable": false, "_isPlayable": false, "_isActivateable": false, "_isReactable": false, "_isRequired": false, "_requiredFor": null, "frontSprite": null, "backSprite": null, "_isFlipped": false, "_ownedBy": null, "hasCounter": false, "_effectCounterLable": null, "_counters": 0, "_hasEventsBeenModified": false, "_id": "", "__prefab": {"__id__": 15}}, {"__type__": "4ac15aQszVPe5b55U9/MQys", "_name": "", "_objFlags": 0, "node": {"__id__": 1}, "_enabled": true, "monsterPlace": null, "HP": 0, "currentHp": 0, "rollValue": 0, "rollBonus": 0, "DMG": 0, "bonusDamage": 0, "isAttacked": false, "hasEffect": false, "isNonMonster": false, "souls": 0, "reward": {"__id__": 3}, "_id": "", "__prefab": {"__id__": 16}}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__id__": 0}, "fileId": "74xrl7Ss9GNLi7htp7h56D"}, {"__type__": "cc.UIOpacity", "_name": "", "_objFlags": 0, "node": {"__id__": 1}, "_enabled": true, "__prefab": {"__id__": 17}, "_opacity": 255}, {"__type__": "cc.UITransform", "_name": "", "_objFlags": 0, "node": {"__id__": 1}, "_enabled": true, "__prefab": {"__id__": 18}, "_priority": 0, "_contentSize": {"__type__": "cc.Size", "width": 70, "height": 100}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}}, {"__type__": "cc.UIOpacity", "_name": "", "_objFlags": 0, "node": {"__id__": 2}, "_enabled": true, "__prefab": {"__id__": 19}, "_opacity": 255}, {"__type__": "cc.UITransform", "_name": "", "_objFlags": 0, "node": {"__id__": 2}, "_enabled": true, "__prefab": {"__id__": 20}, "_priority": 0, "_contentSize": {"__type__": "cc.Size", "width": 0, "height": 0}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}}, {"__type__": "cc.CompPrefabInfo", "fileId": "5dM7nTxlVP0ZWGZH8gtctl"}, {"__type__": "cc.CompPrefabInfo", "fileId": "bfc/qkVK9HP79NH2ez+R7h"}, {"__type__": "cc.CompPrefabInfo", "fileId": "98tO31eFNJz45vjGIDKmAO"}, {"__type__": "cc.CompPrefabInfo", "fileId": "a0WLPswJNBzJWuFCi5540d"}, {"__type__": "cc.CompPrefabInfo", "fileId": "61cwHtj39AyLSUgknNunYm"}, {"__type__": "cc.CompPrefabInfo", "fileId": "f65+HPBZJItbKtAuF3zess"}, {"__type__": "cc.CompPrefabInfo", "fileId": "14adrMaOVC75WDIHmqTbNv"}, {"__type__": "cc.CompPrefabInfo", "fileId": "21E5TL6alJ8bUBw6kfEDE9"}]
+[
+  {
+    "__type__": "cc.Prefab",
+    "_name": "",
+    "_objFlags": 0,
+    "_native": "",
+    "data": {
+      "__id__": 1
+    },
+    "optimizationPolicy": 0,
+    "asyncLoadAssets": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "ExMonster",
+    "_objFlags": 0,
+    "_parent": null,
+    "_children": [
+      {
+        "__id__": 2
+      }
+    ],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 10
+      },
+      {
+        "__id__": 12
+      },
+      {
+        "__id__": 14
+      },
+      {
+        "__id__": 17
+      },
+      {
+        "__id__": 19
+      }
+    ],
+    "_prefab": {
+      "__id__": 21
+    },
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": -178,
+      "y": 0,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_layer": 1,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "GainMoney",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 3
+      },
+      {
+        "__id__": 5
+      },
+      {
+        "__id__": 7
+      }
+    ],
+    "_prefab": {
+      "__id__": 9
+    },
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_layer": 1,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "82c5bZEAZ1Oobq1Oh3I6fMe",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 4
+    },
+    "hasRoll": false,
+    "numOfMoneyToAdd": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "5dM7nTxlVP0ZWGZH8gtctl"
+  },
+  {
+    "__type__": "cc.UIOpacity",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 6
+    },
+    "_opacity": 255,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "14adrMaOVC75WDIHmqTbNv"
+  },
+  {
+    "__type__": "cc.UITransform",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 8
+    },
+    "_priority": 0,
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "21E5TL6alJ8bUBw6kfEDE9"
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__id__": 0
+    },
+    "fileId": "0dYfCfLbtEMq4YarwgMyFM"
+  },
+  {
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 11
+    },
+    "_visFlags": 0,
+    "_customMaterial": {
+      "__uuid__": "fda095cb-831d-4601-ad94-846013963de8"
+    },
+    "_srcBlendFactor": 2,
+    "_dstBlendFactor": 4,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_spriteFrame": {
+      "__uuid__": "b21a13d6-9060-4a5b-b37a-e2c88bb09a49@f9941"
+    },
+    "_type": 0,
+    "_fillType": 0,
+    "_sizeMode": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_useGrayscale": false,
+    "_atlas": null,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "bfc/qkVK9HP79NH2ez+R7h"
+  },
+  {
+    "__type__": "469baVqArxNIJpM2pHjkHeJ",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 13
+    },
+    "cardName": "Monster Name",
+    "doNotMake": false,
+    "makeMultiCards": false,
+    "numOfCopies": 2,
+    "copiesSprites": [],
+    "_cardId": 0,
+    "_isInHand": false,
+    "_isOnDesk": false,
+    "_originalParent": null,
+    "_originalWidth": null,
+    "topDeckof": null,
+    "souls": 0,
+    "type": 2,
+    "_isAttackable": false,
+    "_isBuyable": false,
+    "_isPlayable": false,
+    "_isActivateable": false,
+    "_isReactable": false,
+    "_isRequired": false,
+    "_isFlipped": false,
+    "hasCounter": false,
+    "_effectCounterLable": null,
+    "_counters": 0,
+    "_hasEventsBeenModified": false,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "98tO31eFNJz45vjGIDKmAO"
+  },
+  {
+    "__type__": "4ac15aQszVPe5b55U9/MQys",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 15
+    },
+    "HP": 0,
+    "currentHp": 0,
+    "rollValue": 0,
+    "_rollBonus": 0,
+    "DMG": 0,
+    "_bonusDamage": 0,
+    "_isAttacked": false,
+    "hasEffect": false,
+    "isNonMonster": false,
+    "isBoss": false,
+    "isMegaBoss": false,
+    "isMonsterWhoCantBeAttacked": false,
+    "_dmgPrevention": [],
+    "_thisTurnKiller": null,
+    "monsterRewardDescription": {
+      "__id__": 16
+    },
+    "isCurse": false,
+    "_isDead": false,
+    "_lastHitRoll": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "a0WLPswJNBzJWuFCi5540d"
+  },
+  {
+    "__type__": "MonsterRewardDescription",
+    "rewardType": 1,
+    "hasRoll": false,
+    "rollNumber": 0,
+    "quantity": 0,
+    "doubleReward": false
+  },
+  {
+    "__type__": "cc.UIOpacity",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 18
+    },
+    "_opacity": 255,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "61cwHtj39AyLSUgknNunYm"
+  },
+  {
+    "__type__": "cc.UITransform",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 20
+    },
+    "_priority": 0,
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 70,
+      "height": 100
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "f65+HPBZJItbKtAuF3zess"
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__id__": 0
+    },
+    "fileId": "74xrl7Ss9GNLi7htp7h56D"
+  }
+]

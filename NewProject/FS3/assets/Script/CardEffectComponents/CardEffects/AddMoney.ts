@@ -16,7 +16,7 @@ export class AddMoney extends Effect {
       effectName = "addMoney";
       @property({
             visible: function (this: AddMoney) {
-                  return !this.isAllMoneyTargetHas
+                  return !this.isAllMoneyTargetHas && !this.isGetNumOfCoinsFromDataCollector
             }
       })
       numOfCoins: number = 0;
@@ -27,6 +27,9 @@ export class AddMoney extends Effect {
       @property
       multiTarget: boolean = false;
 
+      @property
+      isGetNumOfCoinsFromDataCollector: boolean = false
+
       /**
        *
        * @param data {target:PlayerId}
@@ -34,6 +37,9 @@ export class AddMoney extends Effect {
       async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
 
             let numOfCoins = this.numOfCoins
+            if (this.isGetNumOfCoinsFromDataCollector) {
+                  numOfCoins = data?.getTarget(TARGETTYPE.NUMBER)! as number
+            }
             if (this.hasLockingResolve) {
                   numOfCoins = this.lockingResolve
             }
@@ -54,7 +60,7 @@ export class AddMoney extends Effect {
             } else {
                   let targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER)
                   if (targetPlayerCard == null) {
-                        log(`target player is null`)
+                        console.log(`target player is null`)
                   } else {
                         let player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard as Node)!
                         if (this.isAllMoneyTargetHas) {

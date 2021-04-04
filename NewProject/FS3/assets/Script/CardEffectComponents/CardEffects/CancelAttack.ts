@@ -25,9 +25,9 @@ export class CancelAttack extends Effect {
    */
   async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
 
-    log(`do effect cancel attack`)
+    console.log(`do effect cancel attack`)
     const player: Player = WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer()!;
-    log(`player who attacks ${player.name}`)
+    console.log(`player who attacks ${player.name}`)
     await WrapperProvider.battleManagerWrapper.out.cancelAttack(true);
     if (this.addAttackOppurtunity) {
       player.attackPlays += this.howMuchToAdd

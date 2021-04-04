@@ -27,7 +27,7 @@ export class PutNewMonster extends Effect {
     stack: StackEffectInterface[],
     data?: ActiveEffectData | PassiveEffectData
   ) {
-    log(data)
+    console.log(data)
     if (!data) { debugger; throw new Error("No Data"); }
     const cardTarget = data.getTarget(TARGETTYPE.MONSTER)
     if (cardTarget == null) {

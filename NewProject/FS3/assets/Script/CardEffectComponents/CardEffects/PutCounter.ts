@@ -28,9 +28,9 @@ export class PutCounter extends Effect {
     let countersToAdd = this.isGetCounterNumberFromDataCollctor ? data.getTarget(TARGETTYPE.NUMBER) as number : this.howManyCountersToAdd
 
     if (targetItem == null) {
-      log(`no item to put counter on`)
+      console.log(`no item to put counter on`)
     } else {
-      await (targetItem as Node).getComponent(Card)!.putCounter(countersToAdd)
+      await (targetItem as Node).getComponent(Card)!.putCounter(countersToAdd, true)
     }
 
     if (data instanceof PassiveEffectData) return data

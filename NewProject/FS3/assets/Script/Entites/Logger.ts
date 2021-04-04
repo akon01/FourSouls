@@ -22,15 +22,15 @@ export class Logger {
     error(logData: any, extraData?: any) {
         if (logData instanceof Error) {
             WrapperProvider.serverClientWrapper.out.send(Signal.LOG_ERROR, { message: JSON.stringify(logData.message), stack: JSON.stringify(logData.stack) })
-            CCerror(logData.message)
-            CCerror(logData.stack)
+            console.error(logData.message)
+            console.error(logData.stack)
             WrapperProvider.announcementLableWrapper.out.showAnnouncement(JSON.stringify(logData.message), 3, true)
         } else {
             WrapperProvider.serverClientWrapper.out.send(Signal.LOG_ERROR, logData)
-            CCerror(logData)
+            console.error(logData)
             WrapperProvider.announcementLableWrapper.out.showAnnouncement(logData, 3, true)
         }
-        if (extraData) { CCerror(extraData) }
+        if (extraData) { console.error(extraData) }
     }
 
     printMethodSignal(methodArgs: any[], isSending: boolean) {
@@ -42,7 +42,7 @@ export class Logger {
             const time = new Date().toTimeString().substring(0, 8)
 
             if (methodArgs[0] == Signal.LOG_ERROR) {
-                CCerror(`!!!Error!!! Time:${time}\nMessage:\n\n${JSON.stringify(methodArgs[1])}`)
+                console.error(`!!!Error!!! Time:${time}\nMessage:\n\n${JSON.stringify(methodArgs[1])}`)
             } else {
 
                 try {
@@ -94,7 +94,7 @@ export class Logger {
                                 break
                             case "placeID":
                                 name = "Place To Move To";
-                                //  log(t)
+                                //  console.log(t)
                                 const place = WrapperProvider.playerManagerWrapper.out.getPlayerById(t)
                                 if (place != null) {
                                     data.push(`Player ${place.name} Hand/Desk`)
@@ -190,7 +190,7 @@ export class Logger {
                                         data.push(JSON.stringify(t))
                                     } else { data.push(t) }
                                 } catch (e) {
-                                    CCerror(e)
+                                    console.error(e)
                                 }
                                 break;
                         }
@@ -205,12 +205,12 @@ export class Logger {
                     }
                     if (!(WrapperProvider.adminConsoleWrapper.out.noPrintSignal.indexOf(methodArgs[0]) >= 0)) {
                         if (isSending) {
-                            ccLog(
+                            console.log(
                                 "%c" + "Sending Signal :" + methodArgs[0] + " Time:" + time + "\n" + dataString,
                                 "color:#36F"
                             );
                         } else {
-                            ccLog(
+                            console.log(
                                 "%c" + "Receiving Signal :" + methodArgs[0] + " Time:" + time + '\n' + dataString,
                                 "color:rgb(60%, 0%, 10%)"
                             );
@@ -218,10 +218,10 @@ export class Logger {
                     }
                 } catch (error) {
                     const regex = new RegExp(`No (\\s*\\S*)* found (\\s*\\S*)*`, `g`)
-                    ccLog(error)
+                    console.log(error)
                     if (regex.test((error as Error).message)) {
-                        ccLog(`message is test`)
-                    } else { CCerror(error) }
+                        console.log(`message is test`)
+                    } else { console.error(error) }
                 }
 
             }

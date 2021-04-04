@@ -8,10 +8,11 @@ import { Cost } from "./Cost";
 export class PayCounters extends Cost {
     @property
     numOfCounters: number = 1;
-    takeCost() {
+    async takeCost() {
         let thisEffect = this.getThisEffect()
-        let thisCard = thisEffect._effectCard!
+        let thisCard = thisEffect.getEffectCard()!
         let cardComp = thisCard.getComponent(Card)!
-        cardComp._counters -= this.numOfCounters;
+        await cardComp.putCounter(-this.numOfCounters, true)
+        // cardComp._counters -= this.numOfCounters;
     }
 }

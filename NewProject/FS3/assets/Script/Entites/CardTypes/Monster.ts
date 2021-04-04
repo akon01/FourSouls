@@ -127,7 +127,7 @@ export class Monster extends Component {
    */
   // @testForPassiveAfter('getDamaged')
   async takeDamaged(damage: number, sendToServer: boolean, damageDealer: Node, numberRolled?: number) {
-    error(`take dmg on ${this.name}`)
+    console.error(`take dmg on ${this.name}`)
 
     if (!sendToServer) {
       if (this.currentHp - damage < 0) {
@@ -141,19 +141,19 @@ export class Monster extends Component {
       //Prevent Damage
       damage = await this.preventDamage(damage)
       if (damage == 0) {
-        log(`damage after reduction is 0`)
+        console.log(`damage after reduction is 0`)
         return false
       }
 
       let toContinue = true
       const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.MONSTER_GET_HIT, [damage, damageDealer, numberRolled], null, this.node)
       if (sendToServer) {
-        error(`check b4 passives on ${this.name}`)
+        console.error(`check b4 passives on ${this.name}`)
         const afterPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(passiveMeta)
-        error(`after check b4 passives on ${this.name}`)
+        console.error(`after check b4 passives on ${this.name}`)
         passiveMeta.args = afterPassiveMeta.args;
         toContinue = afterPassiveMeta.continue
-        log(afterPassiveMeta.args)
+        console.log(afterPassiveMeta.args)
         if (!afterPassiveMeta.args) { debugger; throw new Error("No After Passive Args!"); }
 
         damage = afterPassiveMeta.args[0];
@@ -179,7 +179,7 @@ export class Monster extends Component {
           WrapperProvider.soundManagerWrapper.out.playSound(WrapperProvider.soundManagerWrapper.out.monsterGetHit!)
           if (sendToServer) {
             //debugger
-            error(serverData.srvData.toString())
+            console.error(serverData.srvData.toString())
             WrapperProvider.serverClientWrapper.out.send(serverData.signal, serverData.srvData)
             if (this.currentHp == 0) {
               this.killer = damageDealer
@@ -201,15 +201,15 @@ export class Monster extends Component {
   async addDamagePrevention(dmgToPrevent: number, sendToServer: boolean) {
     this._dmgPrevention.push(dmgToPrevent)
     if (sendToServer) {
-      log(`send to server`)
+      console.log(`send to server`)
       WrapperProvider.serverClientWrapper.out.send(Signal.MONSTER_ADD_DMG_PREVENTION, { cardId: this.node.getComponent(Card)!._cardId, dmgToPrevent: dmgToPrevent })
-      log(`send to server 2`)
+      console.log(`send to server 2`)
     }
   }
 
   async preventDamage(incomingDamage: number) {
     if (this._dmgPrevention.length > 0) {
-      //  log(`doing dmg prevention`)
+      //  console.log(`doing dmg prevention`)
       const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.MONSTER_PREVENT_DAMAGE, null, null, this.node)
       const afterPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(passiveMeta)
       this._dmgPrevention.sort((a, b) => a - b)
@@ -221,13 +221,13 @@ export class Monster extends Component {
         } else {
           if (this._dmgPrevention.indexOf(newDamage) >= 0) {
             const dmgPreventionInstance = this._dmgPrevention.splice(this._dmgPrevention.indexOf(newDamage), 1)
-            //   error(`prevented exactly ${dmgPreventionInstance[0]} dmg`)
+            //   console.error(`prevented exactly ${dmgPreventionInstance[0]} dmg`)
             newDamage -= dmgPreventionInstance[0]
 
             continue;
           } else {
             const instance = this._dmgPrevention.shift()!;
-            //  error(`prevented ${instance} dmg`)
+            //  console.error(`prevented ${instance} dmg`)
             newDamage -= instance
             continue;
           }

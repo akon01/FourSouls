@@ -22,7 +22,7 @@ export class GetTargetFromConcurentData extends DataCollector {
     const effectData = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node).getComponent(CardEffect)!.concurentEffectData!
 
 
-    // let target = new EffectTarget(player)
+    // let target = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(player)
     //let data2 = { cardOwner: player.playerId };
     return effectData.effectTargets;
   }

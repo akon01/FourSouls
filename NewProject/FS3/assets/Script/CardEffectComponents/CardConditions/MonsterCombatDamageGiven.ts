@@ -22,7 +22,7 @@ export class MonsterCombatDamageGiven extends Condition {
   event = PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_TAKEN
   async testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
-    log(`test monster combat damage given`)
+    console.log(`test monster combat damage given`)
     const player: Player = meta.methodScope.getComponent(Player)!;
     let answer = false;
     if (player instanceof Player) { answer = true; }

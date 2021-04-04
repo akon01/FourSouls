@@ -1,18 +1,17 @@
-import { CCInteger, find, Graphics, log, Node, UITransform, v3, _decorator } from 'cc';
+import { find, Graphics, log, Node, UITransform, v3, _decorator } from 'cc';
 import { Signal } from "../../../Misc/Signal";
 import { whevent } from "../../../ServerClient/whevent";
-import { CardEffect } from "../../Entites/CardEffect";
 import { Item } from "../../Entites/CardTypes/Item";
 import { Monster } from "../../Entites/CardTypes/Monster";
 import { Card } from "../../Entites/GameEntities/Card";
 import { Deck } from "../../Entites/GameEntities/Deck";
 import { Player } from "../../Entites/GameEntities/Player";
 import { EffectTarget } from "../../Managers/EffectTarget";
+import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { ActivateItem } from "../../StackEffects/ActivateItem";
 import { ChooseCardTypeAndFilter } from "../ChooseCardTypeAndFilter";
 import { CARD_TYPE, CHOOSE_CARD_TYPE, GAME_EVENTS } from "./../../Constants";
-import { ChooseCard } from './ChooseCard';
 import { DataCollector } from "./DataCollector";
 import { GetTargetFromPassiveMeta } from "./GetTargetFromPassiveMeta";
 const { ccclass, property } = _decorator;
@@ -125,16 +124,16 @@ export class ChooseAPlayerToChooseCards extends DataCollector {
       if (this.node) {
         await WrapperProvider.decisionMarkerWrapper.out.showDecision(WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node), cardsToChooseFrom[0], true)
       }
-      retVal = new EffectTarget(cardsToChooseFrom[0])
+      retVal = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(cardsToChooseFrom[0])
       if (this.returnSelectedPlayerAlso) {
-        retVal = [retVal, new EffectTarget(playerToChooseCards.character!)]
+        retVal = [retVal, WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(playerToChooseCards.character!)]
       }
       return retVal
     }
 
     retVal = await this.getCardTargetFromPlayer(cardsToChooseFrom, playerToChooseCards, this.numOfCardsToChoose)
     if (this.returnSelectedPlayerAlso) {
-      retVal.push(new EffectTarget(playerToChooseCards.character!))
+      retVal.push(WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(playerToChooseCards.character!))
     }
     return retVal
 
@@ -148,7 +147,7 @@ export class ChooseAPlayerToChooseCards extends DataCollector {
     const targets: EffectTarget[] = []
     for (let index = 0; index < chosenCardsIds.length; index++) {
       const id = chosenCardsIds[index];
-      const target = new EffectTarget(WrapperProvider.cardManagerWrapper.out.getCardById(id, true));
+      const target = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(WrapperProvider.cardManagerWrapper.out.getCardById(id, true));
       targets.push(target)
     }
     return targets;
@@ -379,7 +378,7 @@ export class ChooseAPlayerToChooseCards extends DataCollector {
     })
   }
   applyFilterToCards(cards: Node[], filterComponetnt: ChooseCardTypeAndFilter) {
-    log(filterComponetnt.getFilterString())
+    console.log(filterComponetnt.getFilterString())
     const fn1 = new Function("card", filterComponetnt.getFilterString())
     return cards.filter(fn1 as (x: any) => boolean)
     //cardsToChooseFrom = cardsToChooseFrom.filter()
@@ -395,8 +394,8 @@ export class ChooseAPlayerToChooseCards extends DataCollector {
     const chosenTrans = (cardChosen.getComponent(UITransform)!);
     const arrowEndPoint = canvasTrans.convertToNodeSpaceAR(chosenTrans.convertToWorldSpaceAR(v3(cardChosen.position.x - chosenTrans.width / 2, cardChosen.position.x)))
     const graphics = arrowGfx.getComponent(Graphics)!
-    log(`origin x:${arrowOrigin.x} y:${arrowOrigin.y}`)
-    log(`end x:${arrowEndPoint.x} y:${arrowEndPoint.y}`)
+    console.log(`origin x:${arrowOrigin.x} y:${arrowOrigin.y}`)
+    console.log(`end x:${arrowEndPoint.x} y:${arrowEndPoint.y}`)
     graphics.lineWidth = 60
     graphics.moveTo(arrowOrigin.x, arrowOrigin.y)
     graphics.lineTo(arrowEndPoint.x, arrowEndPoint.y)

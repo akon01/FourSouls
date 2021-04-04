@@ -34,7 +34,7 @@ export class Cost extends Component implements CostInterface {
     testPreCondition(): boolean {
         const preCondition = this.getPreCondition()
         if (!(preCondition)) {
-            error('No PreCondition On Cost')
+            console.error('No PreCondition On Cost')
             return true
         }
         return preCondition.testCondition()

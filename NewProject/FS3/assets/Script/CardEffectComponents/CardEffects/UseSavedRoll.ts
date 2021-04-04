@@ -29,7 +29,7 @@ export class UseSavedRoll extends Effect {
     stack: StackEffectInterface[],
     data?: ActiveEffectData | PassiveEffectData
   ) {
-    log(data)
+    console.log(data)
     if (!data) { debugger; throw new Error("No Data"); }
     if (data instanceof PassiveEffectData) {
       data.methodArgs[0] = this.componentWithRolledNumber?.getRolledNumber()!

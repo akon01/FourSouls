@@ -22,7 +22,7 @@ export class DestroyItemEffect extends Effect {
     if (!data) { debugger; throw new Error("No Data!"); }
     let targetItems = data.getTargets(TARGETTYPE.ITEM)
     if (targetItems.length == 0) {
-      log(`no targets`)
+      console.log(`no targets`)
     } else {
       let player: Player
       for (let i = 0; i < targetItems.length; i++) {

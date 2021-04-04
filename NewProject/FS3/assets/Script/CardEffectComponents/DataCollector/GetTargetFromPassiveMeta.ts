@@ -2,6 +2,7 @@ import { CCInteger, Enum, log, _decorator } from 'cc';
 import { COLLECTORTYPE, PASSIVE_META_COMPONENTS } from "../../Constants";
 import { Player } from "../../Entites/GameEntities/Player";
 import { EffectTarget } from "../../Managers/EffectTarget";
+import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 import { PassiveMeta } from "../../Managers/PassiveMeta";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { ActivatePassiveEffect } from "../../StackEffects/ActivatePassiveEffect";
@@ -45,7 +46,7 @@ export class GetTargetFromPassiveMeta extends DataCollector {
     }
     if (!this.metaIndex) { throw new Error(`no MetaIndex`) }
     this.isAfterActivation == true ? passiveMeta = WrapperProvider.passiveManagerWrapper.out.afterActivationMap.get(this.metaIndex)! : passiveMeta = WrapperProvider.passiveManagerWrapper.out.beforeActivationMap.get(this.metaIndex)!
-    log(passiveMeta)
+    console.log(passiveMeta)
     if (!passiveMeta) { debugger; throw new Error("No Passive Meta"); }
 
     switch (this.passiveComponent) {
@@ -53,13 +54,13 @@ export class GetTargetFromPassiveMeta extends DataCollector {
         if (passiveMeta.methodScope!.getComponent(Player)) {
           passiveMeta.methodScope = passiveMeta.methodScope!.getComponent(Player)!.character
         }
-        target = new EffectTarget(passiveMeta.methodScope!)
+        target = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(passiveMeta.methodScope!)
         break;
       case PASSIVE_META_COMPONENTS.ARGS:
-        target = new EffectTarget(passiveMeta.args![this.argsIndex])
+        target = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(passiveMeta.args![this.argsIndex])
         break;
       case PASSIVE_META_COMPONENTS.RESULT:
-        target = new EffectTarget(passiveMeta.result)
+        target = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(passiveMeta.result)
         break;
       default:
         break;

@@ -33,7 +33,7 @@ export class PreventDamage extends Effect {
     if (targetEntity == null) {
       throw new Error(`target is null`)
     }
-    log(`give ${(targetEntity as Node).name} protecttion`)
+    console.log(`give ${(targetEntity as Node).name} protecttion`)
     await this.giveDmgProtection(targetEntity as Node)
     if (data instanceof PassiveEffectData) { return data }
     return WrapperProvider.stackWrapper.out._currentStack

@@ -27,7 +27,7 @@ export class DivorcePapersEffect extends Effect {
     const playerToGive = WrapperProvider.playerManagerWrapper.out.getPlayerByCard((data.getTarget(TARGETTYPE.PLAYER) as Node))!.getComponent(Player)!
     const itemToGet = (data.getTarget(TARGETTYPE.ITEM) as Node)
     const lootsToGet = (data.getTargets(TARGETTYPE.CARD) as Node[]).filter(et => et != itemToGet && et != playerToGive.character!)
-    const cardOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(this._effectCard!)
+    const cardOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(this.getEffectCard()!)
 
     const numOfCoins = Math.floor(playerToGive.coins / 2);
     playerToGive.changeMoney(-numOfCoins, true)

@@ -5,6 +5,7 @@ import { CARD_HEIGHT, CARD_TYPE, CARD_WIDTH } from "../../Constants";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { Pile } from "../Pile";
 import { Card } from "./Card";
+import { Player } from './Player';
 const { ccclass, property } = _decorator;
 
 
@@ -213,7 +214,13 @@ export class Deck extends Component {
             }
       }
 
-      createNewTopBlank() { }
+      setMouseHover() {
+            debugger
+            const meMouse = WrapperProvider.playerManagerWrapper.out.mePlayer?.getComponent(Player)?.mouse
+
+            if (meMouse)
+                  meMouse.setCardEnterAndLeaveEvents(this.node.getComponent(Card)!)
+      }
 
       // LIFE-CYCLE CALLBACKS:
 
@@ -223,6 +230,8 @@ export class Deck extends Component {
             trans.width = CARD_WIDTH;
             trans.height = CARD_HEIGHT;
             this._cards = []
+
+
             // const sprite = this.topBlankCard.getComponent(Sprite);
             // if (this.topBlankCard.getComponent(Card)._isFlipped) { this.topBlankCard.getComponent(Card).flipCard(false) }
             // sprite.enabled = false;

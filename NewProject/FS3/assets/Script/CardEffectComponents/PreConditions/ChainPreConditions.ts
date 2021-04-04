@@ -25,9 +25,9 @@ export class ChainPreConditions extends PreCondition {
             const preconditionToChain = this.getPreConditions()
             for (let i = 0; i < preconditionToChain.length; i++) {
                   const preCondition = preconditionToChain[i];
-                  log(`test precondition ${preCondition.name} in chain precondition in card ${WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node).name}`)
+                  console.log(`test precondition ${preCondition.name} in chain precondition in card ${WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node).name}`)
                   if (!preCondition.testCondition(meta)) {
-                        log(`${preCondition.name} has failed`)
+                        console.log(`${preCondition.name} has failed`)
                         return false
                   }
 

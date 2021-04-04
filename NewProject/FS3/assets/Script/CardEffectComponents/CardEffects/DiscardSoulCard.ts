@@ -15,8 +15,7 @@ import { Effect } from "./Effect";
 @ccclass('DiscardSoulCard')
 export class DiscardSoulCard extends Effect {
   effectName = "DiscardSoulCard";
-  @property(CCInteger)
-  numOfCards: number = 0;
+
   /**
    *
    * @param data {target:PlayerId}

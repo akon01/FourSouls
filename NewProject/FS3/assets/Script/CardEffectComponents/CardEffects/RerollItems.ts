@@ -30,7 +30,7 @@ export class RerollItems extends Effect {
     let player: Player;
     const treasureDeck = WrapperProvider.cardManagerWrapper.out.treasureDeck;
     if (cardsChosen.length == 0) {
-      log(`no items to reroll`)
+      console.log(`no items to reroll`)
     } else {
       for (let i = 0; i < cardsChosen.length; i++) {
         const cardChosen = cardsChosen[i];

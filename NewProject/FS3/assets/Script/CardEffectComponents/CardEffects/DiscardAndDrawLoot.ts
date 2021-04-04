@@ -26,9 +26,9 @@ export class DiscardAndDrawLoot extends Effect {
   ) {
     if (!data) { debugger; throw new Error("No Data!"); }
     const cardChosen = data.getTargets(TARGETTYPE.CARD)
-    log(cardChosen)
+    console.log(cardChosen)
     if (cardChosen == null) {
-      //log(`target card is null`)
+      //console.log(`target card is null`)
     } else {
       if (cardChosen instanceof Node) {
         const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(cardChosen)!

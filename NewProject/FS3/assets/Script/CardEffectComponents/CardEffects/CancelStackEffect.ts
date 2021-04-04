@@ -23,7 +23,7 @@ export class CancelStackEffect extends Effect {
       throw new Error(`no target stack effect`)
     } else {
       if (!(targetStackEffectToCancel instanceof Node)) {
-        await WrapperProvider.stackWrapper.out.fizzleStackEffect(targetStackEffectToCancel, true, true)
+        await WrapperProvider.stackWrapper.out.fizzleStackEffect(targetStackEffectToCancel as StackEffectInterface, true, true)
       }
     }
     if (data instanceof PassiveEffectData) { return data }

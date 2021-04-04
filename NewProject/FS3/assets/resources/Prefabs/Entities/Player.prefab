@@ -1,1 +1,196 @@
-[{"__type__": "cc.Prefab", "_name": "", "_objFlags": 0, "_native": "", "data": {"__id__": 1}, "optimizationPolicy": 0, "asyncLoadAssets": false, "readonly": false}, {"__type__": "cc.Node", "_name": "Player", "_objFlags": 0, "_parent": null, "_children": [], "_active": true, "_components": [{"__id__": 2}, {"__id__": 4}, {"__id__": 5}], "_prefab": {"__id__": 3}, "_lpos": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_lrot": {"__type__": "cc.Quat", "x": 0, "y": 0, "z": 0, "w": 1}, "_lscale": {"__type__": "cc.Vec3", "x": 1, "y": 1, "z": 1}, "_layer": 1, "_euler": {"__type__": "cc.Vec3", "x": 0, "y": 0, "z": 0}, "_level": 1, "_skewX": 0, "_skewY": 0, "_zIndex": 0, "_is3DNode": false, "_id": ""}, {"__type__": "8be22WLecBHvYn+b2Llk05t", "_name": "", "_objFlags": 0, "node": {"__id__": 1}, "_enabled": true, "_id": "", "__prefab": {"__id__": 6}}, {"__type__": "cc.PrefabInfo", "root": {"__id__": 1}, "asset": {"__id__": 0}, "fileId": "a6goPNDdVIGaHd8WHz8jOm"}, {"__type__": "cc.UIOpacity", "_name": "", "_objFlags": 0, "node": {"__id__": 1}, "_enabled": true, "__prefab": {"__id__": 7}, "_opacity": 255}, {"__type__": "cc.UITransform", "_name": "", "_objFlags": 0, "node": {"__id__": 1}, "_enabled": true, "__prefab": {"__id__": 8}, "_priority": 0, "_contentSize": {"__type__": "cc.Size", "width": 0, "height": 0}, "_anchorPoint": {"__type__": "cc.Vec2", "x": 0.5, "y": 0.5}}, {"__type__": "cc.CompPrefabInfo", "fileId": "c8GPAcNUJBTquz726BTGr+"}, {"__type__": "cc.CompPrefabInfo", "fileId": "f0Pcsv461A77mi3lYa2mMT"}, {"__type__": "cc.CompPrefabInfo", "fileId": "b23tmVGmxIcIkC1XLU4c3H"}]
+[
+  {
+    "__type__": "cc.Prefab",
+    "_name": "",
+    "_objFlags": 0,
+    "_native": "",
+    "data": {
+      "__id__": 1
+    },
+    "optimizationPolicy": 0,
+    "asyncLoadAssets": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "Player",
+    "_objFlags": 0,
+    "_parent": null,
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 2
+      },
+      {
+        "__id__": 4
+      },
+      {
+        "__id__": 6
+      }
+    ],
+    "_prefab": {
+      "__id__": 8
+    },
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_layer": 1,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "8be22WLecBHvYn+b2Llk05t",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 3
+    },
+    "playerId": 0,
+    "playerServerId": 0,
+    "handNode": null,
+    "hand": null,
+    "mousePrefab": {
+      "__uuid__": "0e4763f5-e0f8-4fd5-9d8b-336f26ac5087"
+    },
+    "selectedCard": null,
+    "_extraSoulsNeededToWin": 0,
+    "_putCharLeft": false,
+    "lootCardPlays": 0,
+    "turnDrawPlays": 1,
+    "buyPlays": 0,
+    "attackPlays": 0,
+    "_attackDeckPlays": 0,
+    "_mustAttackPlays": 0,
+    "_mustAttackMonsters": [],
+    "_mustDeckAttackPlays": 0,
+    "coins": 0,
+    "_Hp": 0,
+    "_lastHp": 0,
+    "_hpBonus": 0,
+    "_tempHpBonus": 0,
+    "damage": 0,
+    "baseDamage": 0,
+    "tempBaseDamage": 0,
+    "nonAttackRollBonus": 0,
+    "tempNonAttackRollBonus": 0,
+    "attackRollBonus": 0,
+    "tempAttackRollBonus": 0,
+    "firstAttackRollBonus": 0,
+    "nextAttackRollBonus": 0,
+    "tempNextAttackRollBonus": 0,
+    "tempFirstAttackRollBonus": 0,
+    "reactCardNode": [],
+    "reactionData": null,
+    "_reactionToggle": null,
+    "cards": [],
+    "_lootCardsPlayedThisTurn": [],
+    "cardActivated": false,
+    "activatedCard": null,
+    "timeToRespondTimeOut": null,
+    "_hasPriority": false,
+    "_askingPlayerId": 0,
+    "_curses": [],
+    "hpLable": null,
+    "_dmgPrevention": [],
+    "_isFirstAttackRollOfTurn": true,
+    "_isFirstTimeGettingMoney": true,
+    "_thisTurnKiller": null,
+    "setDiceAdmin": 0,
+    "_isDead": false,
+    "_endTurnFlag": false,
+    "lastRoll": 0,
+    "lastAttackRoll": 0,
+    "storeCardCostReduction": 0,
+    "_numOfItemsToRecharge": -1,
+    "_killer": null,
+    "_inGetResponse": false,
+    "_responseTimeout": null,
+    "me": false,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "c8GPAcNUJBTquz726BTGr+"
+  },
+  {
+    "__type__": "cc.UIOpacity",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 5
+    },
+    "_opacity": 255,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "f0Pcsv461A77mi3lYa2mMT"
+  },
+  {
+    "__type__": "cc.UITransform",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 7
+    },
+    "_priority": 0,
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "b23tmVGmxIcIkC1XLU4c3H"
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__id__": 0
+    },
+    "fileId": "a6goPNDdVIGaHd8WHz8jOm"
+  }
+]

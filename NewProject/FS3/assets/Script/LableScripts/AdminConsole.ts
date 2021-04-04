@@ -72,12 +72,12 @@ export class AdminConsole extends Component {
                     mePlayer.attackPlays += 999;
                     mePlayer.buyPlays += 999;
                     mePlayer.lootCardPlays += 999;
-                    log(`test mode set`)
+                    console.log(`test mode set`)
                 } else {
                     mePlayer.attackPlays = 1;
                     mePlayer.buyPlays = 1;
                     mePlayer.lootCardPlays = 1;
-                    log(`test mode unset`)
+                    console.log(`test mode unset`)
                 }
                 break
             case ADMIN_COMMANDS.CARD:
@@ -104,7 +104,7 @@ export class AdminConsole extends Component {
                 } else {
                     mePlayer.setDiceAdmin = 0
                 }
-                log(`set all rolls to ${extra}`)
+                console.log(`set all rolls to ${extra}`)
                 break;
             case ADMIN_COMMANDS.HP:
                 await mePlayer.gainHeartContainer(Number.parseInt(extra), true, true)
@@ -131,31 +131,31 @@ export class AdminConsole extends Component {
 
                 if (WrapperProvider.adminConsoleWrapper.out.noPrintSignal.indexOf(extra) >= 0) {
                     if (flag == "g") {
-                        log(`command text is ${extra}`)
+                        console.log(`command text is ${extra}`)
                         const chosenGroup = logGroups.getGroup(extra)
                         if (chosenGroup) {
                             chosenGroup.forEach((word: string) => {
                                 WrapperProvider.adminConsoleWrapper.out.noPrintSignal.splice(WrapperProvider.adminConsoleWrapper.out.noPrintSignal.indexOf(word))
                             })
-                            log(`resume showing logs for ${extra} group`)
-                        } else { log(`no group found`) }
+                            console.log(`resume showing logs for ${extra} group`)
+                        } else { console.log(`no group found`) }
                     } else {
                         WrapperProvider.adminConsoleWrapper.out.noPrintSignal.splice(WrapperProvider.adminConsoleWrapper.out.noPrintSignal.indexOf(extra))
-                        log(`resume showing logs for ${extra}`)
+                        console.log(`resume showing logs for ${extra}`)
                     }
                 } else {
                     if (flag == "g") {
-                        log(`command text is ${extra}`)
+                        console.log(`command text is ${extra}`)
                         const chosenGroup = logGroups.getGroup(extra)
                         if (chosenGroup) {
                             chosenGroup.forEach((word: string) => {
                                 WrapperProvider.adminConsoleWrapper.out.noPrintSignal.push(word)
                             })
-                            log(`stop showing logs for ${extra} group`)
-                        } else { log("no group found") }
+                            console.log(`stop showing logs for ${extra} group`)
+                        } else { console.log("no group found") }
                     } else {
                         WrapperProvider.adminConsoleWrapper.out.noPrintSignal.push(extra)
-                        log(`stop showing logs for ${extra}`)
+                        console.log(`stop showing logs for ${extra}`)
                     }
                 }
                 break
@@ -170,10 +170,10 @@ export class AdminConsole extends Component {
                 WrapperProvider.actionManagerWrapper.out.updateActions()
                 break;
             case ADMIN_COMMANDS.STACKTRACE:
-                error(`stack trace`)
+                console.error(`stack trace`)
                 break
             case ADMIN_COMMANDS.STACK:
-                log(WrapperProvider.stackLableWrapper.out.label!.string)
+                console.log(WrapperProvider.stackLableWrapper.out.label!.string)
                 break
             // case ADMIN_COMMANDS.CHAR:
             //     //let mePlayer = WrapperProvider.playerManagerWrapper.out.mePlayer.getComponent(Player)
@@ -305,7 +305,7 @@ export class AdminConsole extends Component {
                         whevent.emit(GAME_EVENTS.STACK_EMPTIED)
                         break;
                     case "respond":
-                        log(flag)
+                        console.log(flag)
                         mePlayer.respondWithNoAction()
                         WrapperProvider.stackWrapper.out.hasOtherPlayerRespond = false;
                         whevent.emit(GAME_EVENTS.PLAYER_RESPOND)
@@ -382,7 +382,7 @@ export class AdminConsole extends Component {
                 finalString = finalString.concat(cardString);
             }
         })
-        log(finalString)
+        console.log(finalString)
         WrapperProvider.loggerWrapper.out.log(finalString)
     }
 

@@ -2,31 +2,41 @@
 import { Node, _decorator } from 'cc';
 import { TARGETTYPE } from '../Constants';
 import { StackEffectInterface } from '../StackEffects/StackEffectInterface';
-import { EffectTarget, IEffectTarget } from './EffectTarget';
+import { IEffectTarget } from "./IEffectTarget";
+import { EffectTargetFactory } from './EffectTargetFactory';
+import { IEffectData } from './IEffectData.1';
+import { WrapperProvider } from './WrapperProvider';
 
+// interface IEffectTarget {
+//     targetType: any,
+//     effectTargetStackEffectId: any,
+//     effectTargetCard: any
+
+// }
+
+// class EffectTarget implements IEffectTarget {
+//     targetType: any = null
+//     effectTargetStackEffectId: any = null
+//     effectTargetCard: any = null
+
+
+//     /**
+//      *
+//      */
+//     constructor(s: any) {
+
+
+//     }
+// }
 
 const { ccclass, property } = _decorator;
 
-interface IEffectData {
-    effectCard: Node;
-    effectCardOwner: Node;
-    effectCardPlayer: Node | null;
-    chainEffectsData: Array<{ effectIndex: number, data: EffectData[] }>;
-    effectTargets: IEffectTarget[];
-    getAllTargets(): {
-        nodes: Node[];
-        stackEffects: StackEffectInterface[];
-    }
-}
-
-export type { IEffectData }
-
 @ccclass("EffectData")
-export class EffectData {
+export class EffectData implements IEffectData {
     effectCard!: Node;
     effectCardOwner!: Node;
     effectCardPlayer!: Node | null;
-    chainEffectsData: Array<{ effectIndex: number, data: EffectData[] }> = [];
+    chainEffectsData: Array<{ effectIndex: number, data: IEffectData[] }> = [];
     effectTargets: IEffectTarget[] = [];
 
 
@@ -42,16 +52,18 @@ export class EffectData {
         return targets
     }
 
-    addTarget(target: EffectTarget | EffectTarget[] | Node) {
-        if (Array.isArray(target)) {
-            target.forEach(inTarget => {
-                this.addTarget(inTarget)
-            });
-        } else if (target instanceof EffectTarget) {
-            this.effectTargets.push(target)
-        } else {
-            const newTarget = new EffectTarget(target);
+    addTarget(target: IEffectTarget | IEffectTarget[] | Node) {
+        if (target instanceof Node) {
+            const newTarget = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(target)
             this.effectTargets.push(newTarget)
-        }
+        } else
+            if (Array.isArray(target)) {
+                target.forEach(inTarget => {
+                    this.addTarget(inTarget)
+                });
+            } else {
+                this.effectTargets.push(target)
+            }
     }
 }
+

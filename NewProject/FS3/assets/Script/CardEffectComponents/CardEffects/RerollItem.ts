@@ -27,7 +27,7 @@ export class RerollItem extends Effect {
     if (!data) { debugger; throw new Error("No Data"); }
     const cardChosen = data.getTarget(TARGETTYPE.ITEM)
     if (cardChosen == null) {
-      log(`no item to reroll`)
+      console.log(`no item to reroll`)
     } else {
       if (cardChosen instanceof Node) {
         const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(cardChosen)!

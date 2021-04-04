@@ -1,4 +1,4 @@
-import { Component, error, Label, log, Node, Sprite, UITransform, Widget, _decorator } from 'cc';
+import { Component, error, Label, log, Node, Prefab, Sprite, UITransform, Widget, _decorator } from 'cc';
 import { Signal } from "../../../Misc/Signal";
 import { whevent } from "../../../ServerClient/whevent";
 import { ChooseCard } from "../../CardEffectComponents/DataCollector/ChooseCard";
@@ -25,6 +25,7 @@ import { ReactionToggle } from "../ReactionToggle";
 import { Card } from "./Card";
 import { Deck } from "./Deck";
 import { Dice } from "./Dice";
+import { Mouse } from './Mouse';
 const { ccclass, property } = _decorator;
 
 
@@ -42,6 +43,11 @@ export class Player extends Component {
 
       @property(Component)
       hand: CardLayout | null = null;
+
+      @property(Prefab)
+      mousePrefab: Prefab | null = null
+
+      mouse: Mouse | null = null
 
       private handCards: Set<number> = new Set()
 
@@ -405,6 +411,9 @@ export class Player extends Component {
       @property
       _numOfItemsToRecharge: number = -1;
 
+      otherPlayersCantRespondOnTurn: boolean = false
+
+
 
       /// Admin Methods Only!
 
@@ -415,10 +424,10 @@ export class Player extends Component {
 
       chooseYesNo(choice: string) {
             //this._playerYesNoDecision = isYes
-            log(choice)
+            console.log(choice)
             let bool: boolean
             choice == "False" ? bool = false : bool = true
-            log(bool)
+            console.log(bool)
             whevent.emit(GAME_EVENTS.PLAYER_SELECTED_YES_NO, bool)
 
       }
@@ -547,7 +556,7 @@ export class Player extends Component {
       }
 
       async giveYesNoChoice(flavorText: string) {
-            log(`give yes no choice`)
+            console.log(`give yes no choice`)
             if (!WrapperProvider.cardPreviewManagerWrapper.out.isOpen && !WrapperProvider.stackEffectVisManagerWrapper.out.isOpen) {
                   WrapperProvider.buttonManagerWrapper.out.moveButton(WrapperProvider.buttonManagerWrapper.out.NoButton!, WrapperProvider.buttonManagerWrapper.out.playerButtonLayout!)
                   WrapperProvider.buttonManagerWrapper.out.moveButton(WrapperProvider.buttonManagerWrapper.out.yesButton!, WrapperProvider.buttonManagerWrapper.out.playerButtonLayout!)
@@ -607,7 +616,7 @@ export class Player extends Component {
 
             return new Promise((resolve) => {
                   whevent.onOnce(GAME_EVENTS.PLAYER_SELECTED_YES_NO, (data: boolean) => {
-                        log(`wait for player yes no selection ${data}`)
+                        console.log(`wait for player yes no selection ${data}`)
                         resolve(Boolean(data));
                   });
 
@@ -691,7 +700,7 @@ export class Player extends Component {
             };
             if (sendToServer) {
                   WrapperProvider.serverClientWrapper.out.send(serverData.signal, serverData.srvData)
-                  WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(passiveMeta)
+                  await WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(passiveMeta)
             }
       }
 
@@ -813,7 +822,7 @@ export class Player extends Component {
 
             // do passive effects after!
             if (sendToServer) {
-                  log(`test for passive after adding`)
+                  console.log(`test for passive after adding`)
                   passiveMeta.result = await WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(passiveMeta)
             }
             return passiveMeta.result
@@ -853,7 +862,7 @@ export class Player extends Component {
                   return
             }
             if (sendToServer) {
-                  error(`add player death to stack`)
+                  console.error(`add player death to stack`)
                   const playerDeath = new PlayerDeath(this.character!.getComponent(Card)!._cardId, this.character!, killerCard)
                   await WrapperProvider.stackWrapper.out.addToStackAbove(playerDeath)
                   // if (addBelow) {
@@ -878,53 +887,65 @@ export class Player extends Component {
       async payPenalties() {
 
             // lose 1 coin
+            let moneyLost = 0
             if (this.coins > 0) {
                   await this.changeMoney(-1, true)
+                  moneyLost = -1
             }
             // lose 1 loot if you have any
+            let chosenLoot: Node | null = null
             if (this.handCards.size > 0) {
                   const chooseCard = new ChooseCard();
                   chooseCard.playerId = this.playerId
                   chooseCard.flavorText = "Choose A Loot To Discard"
-                  let chosenCard: Node
+
                   const cardToChooseFrom = chooseCard.getCardsToChoose(
                         CHOOSE_CARD_TYPE.MY_HAND,
                         this,
                   );
                   if (cardToChooseFrom.length == 1) {
-                        chosenCard = cardToChooseFrom[0]
+                        chosenLoot = cardToChooseFrom[0]
                   } else {
                         const chosenData = await chooseCard.requireChoosingACard(cardToChooseFrom)
-                        chosenCard = WrapperProvider.cardManagerWrapper.out.getCardById(chosenData.cardChosenId);
+                        chosenLoot = WrapperProvider.cardManagerWrapper.out.getCardById(chosenData.cardChosenId);
                   }
-                  await this.loseLoot(chosenCard, true)
-                  await WrapperProvider.pileManagerWrapper.out.addCardToPile(CARD_TYPE.LOOT, chosenCard, true)
+                  await this.loseLoot(chosenLoot, true)
+                  await WrapperProvider.pileManagerWrapper.out.addCardToPile(CARD_TYPE.LOOT, chosenLoot, true)
             }
 
             const nonEternalItems = this.getDeskCards().filter(
                   card => (!card.getComponent(Item)!.eternal)
             );
+
             // lose 1 non-eternal item if you have any
             if (nonEternalItems.length > 0) {
-                  const chooseCard = new ChooseCard();
-                  chooseCard.flavorText = "Choose An Item To Destroy"
-                  let chosenCard: Node
-                  const cardToChooseFrom = chooseCard.getCardsToChoose(
-                        CHOOSE_CARD_TYPE.MY_NON_ETERNALS,
-                        this,
-                  );
-                  if (cardToChooseFrom.length == 1) {
-                        chosenCard = cardToChooseFrom[0]
-                  } else {
-                        const chosenData = await chooseCard.requireChoosingACard(cardToChooseFrom);
-                        chosenCard = WrapperProvider.cardManagerWrapper.out.getCardById(chosenData.cardChosenId);
+                  const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_CHOOSE_ITEM_TO_DESTROY_FOR_PANELTIES, [this], null, this.node)
+                  const afterPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(passiveMeta)
+                  let chosenItem = afterPassiveMeta.args ? afterPassiveMeta.args[1] : null
+                  if (!chosenItem) {
+
+                        const chooseCard = new ChooseCard();
+                        chooseCard.flavorText = "Choose An Item To Destroy"
+
+                        const cardToChooseFrom = chooseCard.getCardsToChoose(
+                              CHOOSE_CARD_TYPE.MY_NON_ETERNALS,
+                              this,
+                        );
+                        if (cardToChooseFrom.length == 1) {
+                              chosenItem = cardToChooseFrom[0]
+                        } else {
+                              const chosenData = await chooseCard.requireChoosingACard(cardToChooseFrom);
+                              chosenItem = WrapperProvider.cardManagerWrapper.out.getCardById(chosenData.cardChosenId);
+                        }
                   }
-                  await this.loseItem(chosenCard, true)
-                  await WrapperProvider.pileManagerWrapper.out.addCardToPile(chosenCard.getComponent(Card)!.type, chosenCard, true)
+                  await this.loseItem(chosenItem, true)
+                  await WrapperProvider.pileManagerWrapper.out.addCardToPile(chosenItem.getComponent(Card)!.type, chosenItem, true)
+                  passiveMeta.args!.push(chosenItem)
+                  await WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(passiveMeta)
             }
 
             this.getActiveItems().forEach(item => item.getComponent(Item)!.useItem(true))
-            return true
+            return { chosenLoot, moneyLost }
       }
 
       async destroyItem(itemToDestroy: Node, sendToServer: boolean) {
@@ -980,8 +1001,8 @@ export class Player extends Component {
       async startTurn(numOfCardToDraw: number, numberOfItemsToCharge: number, sendToServer: boolean) {
 
             if (WrapperProvider.stackWrapper.out._currentStack.length > 0) {
-                  log(`wait for stack to be emptied`)
-                  log(WrapperProvider.stackWrapper.out._currentStack)
+                  console.log(`wait for stack to be emptied`)
+                  console.log(WrapperProvider.stackWrapper.out._currentStack)
                   await WrapperProvider.stackWrapper.out.waitForStackEmptied()
             }
 
@@ -1055,7 +1076,7 @@ export class Player extends Component {
 
             // end of turn passive effects should trigger
             if (sendToServer) {
-                  log(`end turn`)
+                  console.log(`end turn`)
 
                   const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_END_TURN, [], null, this.node)
                   const afterPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(passiveMeta)
@@ -1066,7 +1087,7 @@ export class Player extends Component {
                   WrapperProvider.passiveManagerWrapper.out.oneTurnBeforeEffects = [];
                   WrapperProvider.buttonManagerWrapper.out.enableButton(WrapperProvider.buttonManagerWrapper.out.nextTurnButton!, BUTTON_STATE.DISABLED)
             }
-            log(WrapperProvider.stackWrapper.out._currentStack)
+            console.log(WrapperProvider.stackWrapper.out._currentStack)
             await WrapperProvider.turnsManagerWrapper.out.nextTurn();
             this.isEndTurnRunning = false
             /// add a check if you have more than 10 cards discard to 10.
@@ -1082,7 +1103,7 @@ export class Player extends Component {
 
       async preventDamage(incomingDamage: number) {
             if (this._dmgPrevention.length > 0) {
-                  // log(`doing dmg prevention`)
+                  // console.log(`doing dmg prevention`)
                   const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_PREVENT_DAMAGE, null, null, this.node)
                   this._dmgPrevention.sort((a, b) => a - b)
                   let newDamage = incomingDamage
@@ -1093,7 +1114,7 @@ export class Player extends Component {
                         } else {
                               if (this._dmgPrevention.indexOf(newDamage) >= 0) {
                                     const dmgPreventionInstance = this._dmgPrevention.splice(this._dmgPrevention.indexOf(newDamage), 1)
-                                    //   error(`prevented exactly ${dmgPreventionInstance[0]} dmg`)
+                                    //   console.error(`prevented exactly ${dmgPreventionInstance[0]} dmg`)
                                     newDamage -= dmgPreventionInstance[0]
 
                                     continue;
@@ -1155,7 +1176,7 @@ export class Player extends Component {
                   // Prevent Damage
                   damage = await this.preventDamage(damage)
                   if (damage == 0) {
-                        log(`damage after reduction is 0`)
+                        console.log(`damage after reduction is 0`)
                         return false
                   }
                   /////
@@ -1341,9 +1362,9 @@ export class Player extends Component {
                   srvData: { playerId: id, cardId: cardWithSoul.getComponent(Card)!._cardId },
             };
             if (sendToServer) {
-                  error(`move card to`)
+                  console.error(`move card to`)
                   await WrapperProvider.cardManagerWrapper.out.moveCardTo(cardWithSoul, this.soulsLayout!, true, true)
-                  error(`after move card to`)
+                  console.error(`after move card to`)
                   cardWithSoul.setParent(this.soulsLayout)
                   cardWithSoul.setPosition(0, 0)
                   WrapperProvider.serverClientWrapper.out.send(serverData.signal, serverData.srvData)
@@ -1514,7 +1535,7 @@ export class Player extends Component {
       }
 
       respondWithNoAction() {
-            error(`respond with no action `)
+            console.error(`respond with no action `)
             const askingPlayerId = this._askingPlayerId
             this.hideAvailableReactions()
             if (this._inGetResponse) {

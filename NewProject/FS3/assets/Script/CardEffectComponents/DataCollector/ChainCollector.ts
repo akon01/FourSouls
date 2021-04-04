@@ -40,14 +40,14 @@ export class ChainCollector extends DataCollector {
     for (let i = 0; i < effects.length; i++) {
       const effect = effects[i]
       //  let effectData = this.effectsData[i]
-      log(`in chain collector, collecting for ${effect.name}`)
+      console.log(`in chain collector, collecting for ${effect.name}`)
       // let endData: ActiveEffectData | PassiveEffectData = null;
       let endData: ServerEffectData | null = null
       if (effect.dataCollectors.length > 0 && !effect.hasPlayerChoiceToActivateInChainEffects) {
         endData = await WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(effect.node).getComponent(CardEffect)!.collectEffectData(effect, data)
 
       }
-      log(endData)
+      console.log(endData)
       if (!endData) { debugger; throw new Error("No End Data"); }
 
       effect.effectData = WrapperProvider.dataInerpreterWrapper.out.convertToEffectData(endData);

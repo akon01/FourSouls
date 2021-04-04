@@ -18,8 +18,5 @@ export class PassiveEffect extends Effect {
       reverseEffect() {
 
       }
-      onLoad() {
-            this._effectCard = this.node;
-      }
 
 }

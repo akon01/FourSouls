@@ -10,6 +10,7 @@ import { CardEffect } from "../Entites/CardEffect";
 import { Card } from "../Entites/GameEntities/Card";
 import { Player } from "../Entites/GameEntities/Player";
 import { EffectTarget } from '../Managers/EffectTarget';
+import { EffectTargetFactory } from '../Managers/EffectTargetFactory';
 import { PassiveEffectData } from '../Managers/PassiveEffectData';
 import { PassiveMeta } from "../Managers/PassiveMeta";
 import { ServerEffectData } from '../Managers/ServerEffectData';
@@ -152,10 +153,10 @@ export class ActivatePassiveEffect extends StackEffectConcrete {
             } else {
                 await this.checkForSpeciealCollector(this.effectToDo)
             }
-            log(`if effect has dataCollector use it`)
-            log(this.effectToDo)
+            console.log(`if effect has dataCollector use it`)
+            console.log(this.effectToDo)
             if (this.effectToDo.conditions.length > 0) {
-                log(`collect data for ${this.effectToDo.effectName}`)
+                console.log(`collect data for ${this.effectToDo.effectName}`)
                 const collectedData = await cardEffect.collectEffectData(this.effectToDo, { cardId: this.cardWithEffect.getComponent(Card)!._cardId, cardPlayerId: id })
                 cardEffect.effectData = collectedData;
                 this.effectCollectedData = collectedData;
@@ -237,9 +238,9 @@ export class ActivatePassiveEffect extends StackEffectConcrete {
                 passiveData.effectTargets.push(...cardEffect.effectData)
             } else if (data.effectTargets.length > 0) {
                 if (data.isTargetStackEffect) {
-                    passiveData.effectTargets = data.effectTargets.map((target) => new EffectTarget(WrapperProvider.stackWrapper.out._currentStack.find(stackEffect => stackEffect.entityId == target)!))
+                    passiveData.effectTargets = data.effectTargets.map((target) => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(WrapperProvider.stackWrapper.out._currentStack.find(stackEffect => stackEffect.entityId == target)!))
                 } else {
-                    passiveData.effectTargets = data.effectTargets.map((target) => new EffectTarget(WrapperProvider.cardManagerWrapper.out.getCardById(target, true)))
+                    passiveData.effectTargets = data.effectTargets.map((target) => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(WrapperProvider.cardManagerWrapper.out.getCardById(target, true)))
                 }
             }
         }
@@ -285,7 +286,7 @@ export class ActivatePassiveEffect extends StackEffectConcrete {
                 }
             })
             if (specialDataCollector && specialDataCollector instanceof GetTargetFromPassiveMeta) {
-                log(`effect ${effect.name} has special collector, set meta index and is afteractivation`)
+                console.log(`effect ${effect.name} has special collector, set meta index and is afteractivation`)
                 if (!this.index) { debugger; throw new Error("No Index!!"); }
 
                 specialDataCollector.metaIndex = this.index

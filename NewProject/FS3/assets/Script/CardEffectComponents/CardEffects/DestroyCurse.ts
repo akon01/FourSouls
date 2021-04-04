@@ -22,7 +22,7 @@ export class DestroyCurse extends Effect {
     if (!data) { debugger; throw new Error("No Data!"); }
     let targetCurses = data.getTargets(TARGETTYPE.CARD)
     if (targetCurses.length == 0) {
-      log(`no targets`)
+      console.log(`no targets`)
     } else {
       let player: Player
       for (let i = 0; i < targetCurses.length; i++) {

@@ -7,6 +7,7 @@ import { DataCollector } from "./DataCollector";
 import { Player } from "../../Entites/GameEntities/Player";
 import { EffectTarget } from "../../Managers/EffectTarget";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 
 @ccclass('CardPlayer')
 export class CardPlayer extends DataCollector {
@@ -20,7 +21,7 @@ export class CardPlayer extends DataCollector {
     collectData(data: any) {
         let player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.cardPlayerId)!;
         let playerCard = player.character!;
-        let effectTarget = new EffectTarget(playerCard)
+        let effectTarget = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(playerCard)
         return effectTarget
     }
 }

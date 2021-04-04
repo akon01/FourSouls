@@ -47,10 +47,10 @@ export class MultiEffectDestroyThisThenRoll extends IMultiEffectRollAndCollect {
 
     }
     if (!chosenEffect) {
-      log(this.effectsAndNumbers.map(ean => ean.effect!.name + "" + ean.numbers))
+      console.log(this.effectsAndNumbers.map(ean => ean.effect!.name + "" + ean.numbers))
       throw new Error(`No effect was chosen with the number rolled ${numberRolled}`)
     }
-    log(chosenEffect.name)
+    console.log(chosenEffect.name)
     return chosenEffect;
 
   }

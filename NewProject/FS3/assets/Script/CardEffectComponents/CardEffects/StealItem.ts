@@ -24,13 +24,13 @@ export class StealItem extends Effect {
     stack: StackEffectInterface[],
     data?: ActiveEffectData | PassiveEffectData
   ) {
-    log(data)
+    console.log(data)
     if (!data) { debugger; throw new Error("No Data"); }
     const stealer = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(data.effectCardPlayer!)!
     const itemToSteal = data.getTarget(TARGETTYPE.ITEM)
     if (itemToSteal instanceof Node) {
       if (itemToSteal == null) {
-        log(`no target player available`)
+        console.log(`no target player available`)
       } else {
         const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(itemToSteal)!
         if (player != null) {

@@ -19,7 +19,7 @@ export class MultiEffectRollAsEffect extends Effect {
 
       getEffectByNumberRolled(numberRolled: number, cardPlayed: Node) {
 
-            log(`get by number rolled ${numberRolled}`)
+            console.log(`get by number rolled ${numberRolled}`)
             let cardEffectComp = cardPlayed.getComponent(CardEffect)!;
             let effects: Effect[] = [];
             effects = effects.concat(cardEffectComp.getActiveEffects(), cardEffectComp.getPaidEffects(), cardEffectComp.getPassiveEffects())
@@ -37,7 +37,7 @@ export class MultiEffectRollAsEffect extends Effect {
             if (!chosenEffect) {
                   throw new Error(`No effect was chosen!`)
             }
-            log(chosenEffect.name)
+            console.log(chosenEffect.name)
             return chosenEffect;
 
       }

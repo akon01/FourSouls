@@ -16,7 +16,7 @@ export class CardAutoComplete extends Component {
     text: string = 'hello';
 
     getClosestCardByText(text: string) {
-        log(`searching using ${text}`)
+        console.log(`searching using ${text}`)
         const allCards = new Map<string, Node>()
         WrapperProvider.cardManagerWrapper.out.GetAllCards().forEach(card => allCards.set(card.getComponent(Card)!.cardName, card))
         let availalbleAnswers = new Map<string, Node>();
@@ -25,13 +25,13 @@ export class CardAutoComplete extends Component {
                 availalbleAnswers.set(cardName, card)
             }
         })
-        log(`available answers`)
-        log(availalbleAnswers)
+        console.log(`available answers`)
+        console.log(availalbleAnswers)
         if (availalbleAnswers.size == 0) return null;
         if (availalbleAnswers.has(text)) {
             return availalbleAnswers.get(text)!
         }
-        log(Array.from(availalbleAnswers.values()))
+        console.log(Array.from(availalbleAnswers.values()))
         return Array.from(availalbleAnswers.values())[0]
     }
 

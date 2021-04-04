@@ -80,11 +80,11 @@ export class ChainEffects extends Effect {
     for (let i = 0; i < effectsToChain.length; i++) {
       let afterEffectData = null
       const effect = effectsToChain[i];
-      // log(effect.effectData)
+      // console.log(effect.effectData)
       if (effect.hasPlayerChoiceToActivateInChainEffects) {
-        log(effect)
+        console.log(effect)
         const yesOrNo = await WrapperProvider.playerManagerWrapper.out.getPlayerById(cardEffectComp.cardPlayerId)!.giveYesNoChoice(effect.optionalFlavorText)
-        log(yesOrNo)
+        console.log(yesOrNo)
         if (yesOrNo) {
           afterEffectData = await this.doInnerEffect(effect, cardEffectComp, stack, data!);
 
@@ -116,8 +116,8 @@ export class ChainEffects extends Effect {
       if (!effectData) {
         effectData = data
       }
-      log(effectData);
-      log(`do effect ${effect.effectName} of ${cardEffectComp.node.name} in chain effect`);
+      console.log(effectData);
+      console.log(`do effect ${effect.effectName} of ${cardEffectComp.node.name} in chain effect`);
       return await EffectRunner.runEffect(effect, stack, WrapperProvider.dataInerpreterWrapper.out.convertToEffectData(effectData))
       // await effect.doEffect(
       //   stack,

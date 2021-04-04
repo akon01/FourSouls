@@ -14,7 +14,7 @@ export class RerollDicePassive extends PassiveEffect {
   async doEffect(stack: StackEffectInterface[], data?: PassiveEffectData) {
     if (!data) { debugger; throw new Error("No Data!"); }
     const terminateOriginal = data.terminateOriginal;
-    log(data)
+    console.log(data)
     // let player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(data.effectCardPlayer)
     const player = data.getTarget(TARGETTYPE.PLAYER)
     if (!player) { throw new Error(`no Player Target to Reroll`) }

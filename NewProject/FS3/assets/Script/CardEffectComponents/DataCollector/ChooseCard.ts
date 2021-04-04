@@ -6,6 +6,7 @@ import { Card } from "../../Entites/GameEntities/Card";
 import { Deck } from "../../Entites/GameEntities/Deck";
 import { Player } from "../../Entites/GameEntities/Player";
 import { EffectTarget } from "../../Managers/EffectTarget";
+import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { ActivateItem } from "../../StackEffects/ActivateItem";
 import { ChooseCardTypeAndFilter } from "../ChooseCardTypeAndFilter";
@@ -40,7 +41,7 @@ export class ChooseCard extends DataCollector {
   //@ts-ignore
   @property({
     type: ChooseCardTypeAndFilter, visible: function (this: ChooseCard) {
-      return !this.multiType
+      return !this.multiType && !this.isGetCardsToChooseFromFromAnotherCollector
     }
   })
   chooseType: ChooseCardTypeAndFilter | null = new ChooseCardTypeAndFilter();
@@ -48,22 +49,13 @@ export class ChooseCard extends DataCollector {
   //@ts-ignore
   @property({
     type: [ChooseCardTypeAndFilter], visible: function (this: ChooseCard) {
-      if (this.multiType) { return true }
+      if (this.multiType && !this.isGetCardsToChooseFromFromAnotherCollector) { return true }
     }
   })
   chooseTypes: ChooseCardTypeAndFilter[] = []
 
   @property
   filterFromPassiveMeta: boolean = false;
-
-  //@ts-ignore
-  // @property({
-  //   visible: function (this: ChooseCard) {
-  //     if (this.filterFromPassiveMeta) { return true }
-  //   }
-  //   , type: CCInteger
-  // })
-  // targetCollectorFromPassiveMetaIdFinal: number = -1
 
   @property({
     visible: function (this: ChooseCard) {
@@ -94,6 +86,12 @@ export class ChooseCard extends DataCollector {
   @property({ visible: function (this: ChooseCard) { return this.isMultiCardChoice } })
   isChooseUpTo: boolean = false;
 
+  @property
+  isGetCardsToChooseFromFromAnotherCollector: boolean = false
+
+  @property({ type: DataCollector, visible: function (this: ChooseCard) { return this.isGetCardsToChooseFromFromAnotherCollector } })
+  dataCollectorToGetCardsFrom: DataCollector | null = null
+
   /**
    *  @throws when there are no cards to choose from in the choose type
    * @param data cardPlayerId:Player who played the card
@@ -104,37 +102,8 @@ export class ChooseCard extends DataCollector {
     const player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.cardPlayerId)!
     this.playerId = data.cardPlayerId;
     let cardsToChooseFrom: Node[] = []
-    if (this.multiType) {
-      for (const filterComp of this.chooseTypes) {
-        let tempCards = this.getCardsToChoose(filterComp.chooseType, player, this.otherPlayer!)
-        if (tempCards) {
-          if (filterComp.applyFilter) {
-            tempCards = this.applyFilterToCards(tempCards, filterComp);
-          }
-          tempCards.forEach(card => {
-            if (card) { cardsToChooseFrom.push(card) }
-          })
-        }
-        //cardToChooseFrom.add(tempCards)
-        //  cardsToChooseFrom = cardsToChooseFrom.concat(this.getCardsToChoose(type, player))
-
-      }
-    } else {
-      this.getCardsToChoose(this.chooseType!.chooseType, player, this.otherPlayer!).forEach(card => {
-        if (card) { cardsToChooseFrom.push(card) }
-      });
-      if (this.chooseType!.applyFilter) {
-        cardsToChooseFrom = this.applyFilterToCards(cardsToChooseFrom, this.chooseType!);
-      }
-    }
-    if (this.filterFromPassiveMeta) {
-      if (!this.targetCollectorFromPassiveMeta) { debugger; throw new Error("No Target Collector From Passive Meta"); }
-
-      const target = this.targetCollectorFromPassiveMeta.collectData(null)
-      if (target) {
-        cardsToChooseFrom = cardsToChooseFrom.filter(card => card != target.effectTargetCard)
-      }
-    }
+    cardsToChooseFrom = await this.getCardsToChooseFrom(player, cardsToChooseFrom, data);
+    cardsToChooseFrom = this.filterCardsToChooseFrom(cardsToChooseFrom);
     if (cardsToChooseFrom.length == 0) {
       throw new Error("No Cards To Choose From!")
     }
@@ -142,13 +111,13 @@ export class ChooseCard extends DataCollector {
       if (this.node) {
         await WrapperProvider.decisionMarkerWrapper.out.showDecision(WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node), cardsToChooseFrom[0], true)
       }
-      return new EffectTarget(cardsToChooseFrom[0])
+      return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(cardsToChooseFrom[0])
     }
 
     if (this.isMultiCardChoice) {
       let chosenCards: EffectTarget[] = []
       if (this.isChooseFromPreviewManager) {
-        chosenCards = (await WrapperProvider.cardPreviewManagerWrapper.out.selectFromCards(cardsToChooseFrom, this.numOfCardsToChoose, this.isChooseUpTo)).map(e => new EffectTarget(e))
+        chosenCards = (await WrapperProvider.cardPreviewManagerWrapper.out.selectFromCards(cardsToChooseFrom, this.numOfCardsToChoose, this.isChooseUpTo)).map(e => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(e))
       } else {
         for (let i = 0; i < this.numOfCardsToChoose; i++) {
           cardsToChooseFrom = cardsToChooseFrom.filter(card => !(chosenCards.map(target => target.effectTargetCard).indexOf(card) >= 0))
@@ -159,12 +128,57 @@ export class ChooseCard extends DataCollector {
       return chosenCards
     } else {
       if (this.isChooseFromPreviewManager) {
-        return (await WrapperProvider.cardPreviewManagerWrapper.out.selectFromCards(cardsToChooseFrom, 1)).map(e => new EffectTarget(e))
+        return (await WrapperProvider.cardPreviewManagerWrapper.out.selectFromCards(cardsToChooseFrom, 1)).map(e => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(e))
       } else {
         return await this.getCardTargetFromPlayer(cardsToChooseFrom);
       }
     }
 
+  }
+
+  private filterCardsToChooseFrom(cardsToChooseFrom: Node[]) {
+    if (this.filterFromPassiveMeta) {
+      if (!this.targetCollectorFromPassiveMeta) { debugger; throw new Error("No Target Collector From Passive Meta"); }
+
+      const target = this.targetCollectorFromPassiveMeta.collectData(null);
+      if (target) {
+        cardsToChooseFrom = cardsToChooseFrom.filter(card => card != target.effectTargetCard);
+      }
+    }
+    return cardsToChooseFrom;
+  }
+
+  private async getCardsToChooseFrom(player: Player, cardsToChooseFrom: Node[], data: { cardPlayerId: number }) {
+    if (this.isGetCardsToChooseFromFromAnotherCollector) {
+      const targets = await this.dataCollectorToGetCardsFrom?.collectData(data) as EffectTarget[] | EffectTarget
+      if (Array.isArray(targets)) {
+        cardsToChooseFrom = targets.map(t => t.effectTargetCard)
+      } else {
+        cardsToChooseFrom.push(targets.effectTargetCard)
+      }
+    } else if (this.multiType) {
+      for (const filterComp of this.chooseTypes) {
+        let tempCards = this.getCardsToChoose(filterComp.chooseType, player, this.otherPlayer!);
+        if (tempCards) {
+          if (filterComp.applyFilter) {
+            tempCards = this.applyFilterToCards(tempCards, filterComp);
+          }
+          tempCards.forEach(card => {
+            if (card) { cardsToChooseFrom.push(card); }
+          });
+        }
+        //cardToChooseFrom.add(tempCards)
+        //  cardsToChooseFrom = cardsToChooseFrom.concat(this.getCardsToChoose(type, player))
+      }
+    } else {
+      this.getCardsToChoose(this.chooseType!.chooseType, player, this.otherPlayer!).forEach(card => {
+        if (card) { cardsToChooseFrom.push(card); }
+      });
+      if (this.chooseType!.applyFilter) {
+        cardsToChooseFrom = this.applyFilterToCards(cardsToChooseFrom, this.chooseType!);
+      }
+    }
+    return cardsToChooseFrom;
   }
 
   private async getCardTargetFromPlayer(cardsToChooseFrom: Node[]) {
@@ -174,7 +188,7 @@ export class ChooseCard extends DataCollector {
       playerId: number;
     } = await this.requireChoosingACard(cardsToChooseFrom);
     debugger
-    const target = new EffectTarget(WrapperProvider.cardManagerWrapper.out.getCardById(cardChosenData.cardChosenId, true));
+    const target = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(WrapperProvider.cardManagerWrapper.out.getCardById(cardChosenData.cardChosenId, true));
     return target;
   }
 
@@ -366,6 +380,14 @@ export class ChooseCard extends DataCollector {
           }
         })
         return mostSoulsPlayers.map(p => p.character!)
+      case CHOOSE_CARD_TYPE.IN_PILE_LOOT_CARDS:
+        return WrapperProvider.pileManagerWrapper.out.lootCardPile.getCards()
+      case CHOOSE_CARD_TYPE.IN_PILE_TREASURE_CARDS:
+        return WrapperProvider.pileManagerWrapper.out.treasureCardPile.getCards()
+      case CHOOSE_CARD_TYPE.IN_PILE_MONSTER_CARDS:
+        return WrapperProvider.pileManagerWrapper.out.monsterCardPile.getCards()
+      case CHOOSE_CARD_TYPE.MOM_MOMS_HEART:
+        return WrapperProvider.cardManagerWrapper.out.GetAllCards().filter(c => c.name == "Mom!" || c.name == "Mom's Heart!")
       default:
         return []
     }
@@ -435,8 +457,8 @@ export class ChooseCard extends DataCollector {
   }
 
   applyFilterToCards(cards: Node[], filterComponetnt: ChooseCardTypeAndFilter) {
-    log(filterComponetnt.getFilterString())
-    log(cards.map(c => c.name))
+    console.log(filterComponetnt.getFilterString())
+    console.log(cards.map(c => c.name))
     const fn1 = new Function("card", filterComponetnt.getFilterString())
     return cards.filter(fn1 as (x: any) => boolean)
     //cardsToChooseFrom = cardsToChooseFrom.filter()
@@ -453,8 +475,8 @@ export class ChooseCard extends DataCollector {
     const cardChosenTrans = (cardChosen.getComponent(UITransform)!);
     const arrowEndPoint = cavnasTrans.convertToNodeSpaceAR(cardChosenTrans.convertToWorldSpaceAR(math.v3(cardChosen.position.x - cardChosenTrans.width / 2, cardChosen.position.x)))
     const graphics = arrowGfx.getComponent(Graphics)!
-    log(`origin x:${arrowOrigin.x} y:${arrowOrigin.y}`)
-    log(`end x:${arrowEndPoint.x} y:${arrowEndPoint.y}`)
+    console.log(`origin x:${arrowOrigin.x} y:${arrowOrigin.y}`)
+    console.log(`end x:${arrowEndPoint.x} y:${arrowEndPoint.y}`)
     //  graphics.lineWidth = 60
     graphics.moveTo(arrowOrigin.x, arrowOrigin.y)
     graphics.lineTo(arrowEndPoint.x, arrowEndPoint.y)

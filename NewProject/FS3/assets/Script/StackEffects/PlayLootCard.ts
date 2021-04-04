@@ -122,7 +122,7 @@ export class PlayLootCardStackEffect extends StackEffectConcrete {
         let selectedEffect: Effect | null = null;
         const cardEffect = this.lootToPlay.getComponent(CardEffect)!
         this.lootPlayer._lootCardsPlayedThisTurn.push(this.lootToPlay)
-        log(`this loot card has locking stack effect ${this.hasLockingStackEffect}`)
+        console.log(`this loot card has locking stack effect ${this.hasLockingStackEffect}`)
         const multiEffectCollector = cardEffect.getMultiEffectCollector();
         if (this.effectToDo == null) {
             //if this effect has locking stack effect (first only "roll:" for a dice roll) and it has not yet resolved

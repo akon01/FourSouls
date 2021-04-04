@@ -15,6 +15,7 @@ import { EffectTarget } from '../../Managers/EffectTarget';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { EffectRunner } from '../../Managers/EffectRunner';
+import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 
 @ccclass('LookAtPlayerHand')
 export class LookAtPlayerHand extends Effect {
@@ -94,7 +95,7 @@ export class LookAtPlayerHand extends Effect {
     // const chosenCard = cardTarget.effectTargetCard
     const data = new ActiveEffectData()
     data.addTarget(cardTarget)
-    data.addTarget(new EffectTarget(originalPlayer.character!))
+    data.addTarget(WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(originalPlayer.character!))
     await EffectRunner.runEffect(steal, [], data)
     //  await steal.doEffect([], data)
 

@@ -192,7 +192,7 @@ export class CardEffect extends Component {
         }
       }
       if (preCondition != null) {
-        //log(`testing ${this.node.name} effect ${activeEffect.name} precondition ${preCondition.name}`)
+        //console.log(`testing ${this.node.name} effect ${activeEffect.name} precondition ${preCondition.name}`)
         if (preCondition.testCondition()) {
 
           return true;
@@ -262,7 +262,7 @@ export class CardEffect extends Component {
 
     //   return true;
     // }
-    log(`no effect passes pre-conditions on ${this.node.name}`)
+    console.log(`no effect passes pre-conditions on ${this.node.name}`)
     return false;
   }
 
@@ -273,14 +273,15 @@ export class CardEffect extends Component {
   async doEffectByNumAndType(
     numOfEffect: number,
     type: ITEM_TYPE,
-    effectData: any) {
-    let serverEffectStack = null;
+    effectData: EffectData) {
+    let serverEffectStack: StackEffectInterface[] | EffectData | null = null;
     const chosenEffect: Effect | null = this.getEffectByNumAndType(numOfEffect, type)
-    if (!chosenEffect) return
+    if (!chosenEffect) throw new Error("No Chosen Effect To Do!!");
+
     try {
       let doEffect = true
       if (chosenEffect.optionalAfterDataCollection) {
-        log(chosenEffect)
+        console.log(chosenEffect)
         doEffect = await WrapperProvider.playerManagerWrapper.out.getPlayerById(this.cardPlayerId)!.giveYesNoChoice(chosenEffect.optionalFlavorText)
       }
       if (doEffect) {
@@ -300,7 +301,7 @@ export class CardEffect extends Component {
       WrapperProvider.loggerWrapper.out.error(error)
       WrapperProvider.loggerWrapper.out.error(`effect ${chosenEffect.effectName} failed to execute`, effectData)
     }
-    return serverEffectStack
+    return serverEffectStack!
   }
 
 
@@ -371,7 +372,7 @@ export class CardEffect extends Component {
       const dataCollectors = effect.getDataCollectors();
       for (let o = 0; o < dataCollectors.length; o++) {
         const dataCollector = dataCollectors[o];
-        log(`collecting data for ${effect.name} with ${dataCollector.name}`)
+        console.log(`collecting data for ${effect.name} with ${dataCollector.name}`)
         try {
           data = await dataCollector.collectData(oldData)
 
@@ -379,25 +380,25 @@ export class CardEffect extends Component {
           WrapperProvider.announcementLableWrapper.out.showAnnouncement(error.error, 3, true)
           WrapperProvider.loggerWrapper.out.error(error)
         }
-        log(`data collected from ${dataCollector.collectorName}: `, data)
+        console.log(`data collected from ${dataCollector.collectorName}: `, data)
 
         if (endData == null) {
-          log(`first data collected in ${effect.effectName} which have ${effect.dataCollectors.length} collectors`)
+          console.log(`first data collected in ${effect.effectName} which have ${effect.dataCollectors.length} collectors`)
           if (dataCollector instanceof ChainCollector) {
             endData = WrapperProvider.dataInerpreterWrapper.out.makeEffectData(data, this.node, oldData.cardPlayerId, isActive, true)
           } else {
             endData = WrapperProvider.dataInerpreterWrapper.out.makeEffectData(data, this.node, oldData.cardPlayerId, isActive, false)
           }
         } else {
-          log(`Not first collector , end data is `)
-          log(endData)
+          console.log(`Not first collector , end data is `)
+          console.log(endData)
           endData.addTarget(data)
-          log(endData)
+          console.log(endData)
         }
       }
     } else if (!effect.noDataCollector) {
       // throw new Error(`tring to collect data for ${effect.effectName} but it has no data collector`)
-      error(`tring to collect data for ${effect.effectName} but it has no data collector`)
+      console.error(`tring to collect data for ${effect.effectName} but it has no data collector`)
     }
 
     // if (endData instanceof ActiveEffectData) data = WrapperProvider.dataInerpreterWrapper.out.convertToServerData(endData)
@@ -408,7 +409,7 @@ export class CardEffect extends Component {
       WrapperProvider.loggerWrapper.out.error(error)
     }
     //  data = await effect.dataCollector.collectData(oldData);
-    log(data)
+    console.log(data)
     return data;
   }
 
@@ -501,7 +502,7 @@ export class CardEffect extends Component {
     if (collectEffectData) {
       if (cardEffect.dataCollectors.length > 0) {
         const data = await this.collectEffectData(cardEffect, cardPlayedData);
-        //    log(data)
+        //    console.log(data)
         this.effectData = data
       } else {
         if (cardEffect.dataCollectors.length > 0) {
@@ -539,7 +540,7 @@ export class CardEffect extends Component {
     currentServerEffect: ServerEffect,
     allStackEffects: StackEffectInterface[]
   ) {
-    log(
+    console.log(
       "doing effect: " +
       currentServerEffect.effectName +
       " of card: " +
@@ -549,7 +550,7 @@ export class CardEffect extends Component {
     await this.doEffectAnimation()
 
     //interpret data --- not for chainEffect effectData
-    let effectData
+    let effectData: EffectData | null = null
     if (currentServerEffect.cardEffectData != null) {
       if (!(currentServerEffect.cardEffectData instanceof EffectData)) {
         effectData = WrapperProvider.dataInerpreterWrapper.out.convertToEffectData(currentServerEffect.cardEffectData)
@@ -561,19 +562,19 @@ export class CardEffect extends Component {
       //if effect is chainEffects
     }
     this.cardPlayerId = currentServerEffect.cardPlayerId;
-    let newStack;
+    let newStackOrPassiveData: StackEffectInterface[] | EffectData | null = null;
 
     // if (currentServerEffect.effctType == ITEM_TYPE.ACTIVE) {
-    newStack = await this.doEffectByNumAndType(
+    newStackOrPassiveData = await this.doEffectByNumAndType(
       currentServerEffect.cardEffectNum,
       currentServerEffect.effctType,
-      effectData
+      effectData!
     );
 
     //TODO - TEST!!!! NEW!
     this.effectData = null
 
-    return newStack
+    return newStackOrPassiveData
 
   }
 

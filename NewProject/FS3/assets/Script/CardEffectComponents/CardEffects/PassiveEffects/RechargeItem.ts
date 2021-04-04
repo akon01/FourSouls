@@ -24,7 +24,7 @@ export class RechargeItemPassive extends Effect {
     if (!data) { debugger; throw new Error("No Data!"); }
     targetItem = data.getTarget(TARGETTYPE.ITEM) as Node;
     if (targetItem == null) {
-      log(`no item to recharge`)
+      console.log(`no item to recharge`)
     } else {
       let cardPlayer = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetItem)!;
       await cardPlayer.rechargeItem(targetItem, true);

@@ -47,7 +47,7 @@ export class PassiveManager extends Component {
       updatePassiveMethodData(newData: PassiveMeta, isAfterActivation: boolean, sendToServer: boolean) {
             let index = newData.index;
             if (index == null) {
-                  // error(`passiveMeta has no index, give him one`)
+                  // console.error(`passiveMeta has no index, give him one`)
                   isAfterActivation == true ? index = ++this.afterActivationIndex : index = ++this.beforeActivationIndex
                   newData.index = index
             }
@@ -131,12 +131,12 @@ export class PassiveManager extends Component {
                                     }
                               }
                               if (sendToServer) {
-                                    log(`regstered ${itemToRegister.name} to passive manager`)
+                                    console.log(`regstered ${itemToRegister.name} to passive manager`)
                                     const cardId = itemToRegister.getComponent(Card)!._cardId
                                     WrapperProvider.serverClientWrapper.out.send(Signal.REGISTER_PASSIVE_ITEM, { cardId: cardId })
                               }
                         } else {
-                              log(`card already registered`)
+                              console.log(`card already registered`)
                         }
 
                   }
@@ -165,6 +165,23 @@ export class PassiveManager extends Component {
                   }
             } else {
                   return
+            }
+      }
+
+      removeOneTurnPassiveEffect(effect: Effect, sendToServer: boolean) {
+            if (effect.passiveType == PASSIVE_TYPE.AFTER) {
+
+                  this.oneTurnAfterEffects = this.oneTurnAfterEffects.filter(e => e != effect);
+
+            } else {
+
+                  this.oneTurnBeforeEffects = this.oneTurnBeforeEffects.filter(e => e != effect);
+            }
+
+            if (sendToServer) {
+                  const card = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(effect.node).getComponent(Card)!
+                  const effectIndex = card.node.getComponent(CardEffect)!.getEffectIndexAndType(effect)
+                  WrapperProvider.serverClientWrapper.out.send(Signal.REMOVE_ONE_TURN_PASSIVE_EFFECT, { cardId: card._cardId, effectIndex: effectIndex })
             }
       }
 
@@ -223,7 +240,7 @@ export class PassiveManager extends Component {
       }
 
       async testPassivesCondtions(passivesToCheck: Effect[], passiveMeta: PassiveMeta) {
-            error(`test passive Conditions for Event: ${passiveMeta.passiveEvent}`)
+            console.error(`test passive Conditions for Event: ${passiveMeta.passiveEvent}`)
             const allPassiveEffects = passivesToCheck;
             const allPassivesToActivate: Effect[] = []
             for (let i = 0; i < allPassiveEffects.length; i++) {
@@ -232,7 +249,7 @@ export class PassiveManager extends Component {
 
                   let isTrue = true;
                   if (passiveEffect.conditions.length == 0) {
-                        error(`passive effect ${passiveEffect.effectName} on ${WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(passiveEffect.node).name} has no conditions`)
+                        console.error(`passive effect ${passiveEffect.effectName} on ${WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(passiveEffect.node).name} has no conditions`)
                         isTrue = false;
                   }
                   const conditions = passiveEffect.getConditions();
@@ -292,7 +309,7 @@ export class PassiveManager extends Component {
 
             // if (!WrapperProvider.playerManagerWrapper.out.mePlayer.getComponent(Player)!._hasPriority) return { continue: true, args: passiveMeta.args };
 
-            log(passiveMeta)
+            console.log(passiveMeta)
             const originalStackEffect = WrapperProvider.stackWrapper.out._currentStack.find(effect => effect.entityId == passiveMeta.originStackId)
             WrapperProvider.passiveManagerWrapper.out.inPassivePhase = true;
             let allPassiveEffects = WrapperProvider.passiveManagerWrapper.out.allBeforeEffects;
@@ -315,12 +332,12 @@ export class PassiveManager extends Component {
                         } else {
                               methodData.continue = !newPassiveMeta.preventMethod
                               methodData.args = newPassiveMeta.args;
-                              log(methodData)
+                              console.log(methodData)
                         }
                   } else {
                         methodData.continue = !newPassiveMeta.preventMethod
                         methodData.args = newPassiveMeta.args;
-                        log(methodData)
+                        console.log(methodData)
                   }
             } else {
                   methodData.continue = true
@@ -410,12 +427,12 @@ export class PassiveManager extends Component {
             allPassiveEffects = allPassiveEffects.concat(WrapperProvider.passiveManagerWrapper.out.oneTurnAfterEffects)
             let passivesToActivate: Effect[] = [];
             try {
-                  log(allPassiveEffects)
+                  console.log(allPassiveEffects)
                   passivesToActivate = await this.testPassivesCondtions(allPassiveEffects, meta)
             } catch (error) {
                   WrapperProvider.loggerWrapper.out.error(error)
             }
-            log(passivesToActivate)
+            console.log(passivesToActivate)
             for (let i = 0; i < passivesToActivate.length; i++) {
                   const passiveEffect = passivesToActivate[i];
                   const cardActivated: Node = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(passiveEffect.node);
@@ -427,18 +444,18 @@ export class PassiveManager extends Component {
                   } else { hasLockingEffect = false; }
                   let activatePassiveEffect: ActivatePassiveEffect;
                   let player: Player | null
-                  log(cardActivated)
+                  console.log(cardActivated)
                   if (cardActivated.getComponent(Monster) == null && cardActivated.getComponent(Card)!.type != CARD_TYPE.BONUS_SOULS) {
                         player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(cardActivated);
                   } else {
-                        log(meta.methodScope)
+                        console.log(meta.methodScope)
                         if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
 
                         player = meta.methodScope.getComponent(Player);
-                        log(`is scope`)
+                        console.log(`is scope`)
                         if (!player) {
                               player = WrapperProvider.turnsManagerWrapper.out.getCurrentTurn()!.getTurnPlayer();
-                              log(`is turn player`)
+                              console.log(`is turn player`)
                         }
                   }
                   if (!player) { debugger; throw new Error("No Player Found"); }

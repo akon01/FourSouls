@@ -11,6 +11,7 @@ import { CHOOSE_CARD_TYPE } from "./../../Constants";
 const { ccclass, property } = _decorator;
 
 interface EffectInterface {
+  node: Node
   effectName: string;
   chooseType: CHOOSE_CARD_TYPE | null;
   dataCollectors: DataCollector[]
@@ -20,7 +21,7 @@ interface EffectInterface {
   // costIdFinal: number;
   conditions: ConditionInterface[]
   // conditionsIdsFinal: number[];
-  _effectCard: Node | null;
+  // _effectCard: Node | null;
   preCondition: PreCondition | null
   // preConditionIdFinal: number;
   hasSubAction: boolean;

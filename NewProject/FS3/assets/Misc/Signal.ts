@@ -68,8 +68,8 @@
  * @param ids the array of chain numbers
  */
 
-import { _decorator } from 'cc';
 export const Signal = {
+  MOUSE_CURSOR_MOVE: "$MOUSE_CURSOR_MOVE",
   PLAYER_DISCONNECTED: "$PLAYER_DISCONNECTED",
   SEND_CARD_DATA: "$SEND_CARD_DATA",
   ACTION_MASSAGE_ADD: "$ACTION_MASSAGE_ADD",
@@ -96,6 +96,7 @@ export const Signal = {
   REGISTER_PASSIVE_ITEM: "$REGISTER_PASSIVE_ITEM",
   REMOVE_FROM_PASSIVE_MANAGER: "$REMOVE_FROM_PASSIVE_MANAGER",
   REGISTER_ONE_TURN_PASSIVE_EFFECT: "$REGISTER_ONE_TURN_PASSIVE_EFFECT",
+  REMOVE_ONE_TURN_PASSIVE_EFFECT: "$REMOVE_ONE_TURN_PASSIVE_EFFECT",
   MONSTER_GET_DAMAGED: "$MONSTER_GET_DAMAGED",
   UPDATE_PASSIVE_DATA: "$UPDATE_PASSIVE_DATA",
   CLEAR_PASSIVE_DATA: "$CLEAR_PASSIVE_DATA",
@@ -104,9 +105,12 @@ export const Signal = {
   MONSTER_GAIN_ROLL_BONUS: "$MONSTER_GAIN_ROLL_BONUS",
   MOVE_CARD: "$MOVE_CARD",
   MOVE_CARD_END: "$MOVE_CARD_END",
+  CARD_CHANGE_COUNTER: "$CARD_CHANGE_COUNTER",
   SOUL_CARD_MOVE_END: "$SOUL_CARD_MOVE_END",
   CARD_CHANGE_NUM_OF_SOULS: "$CARD_CHANGE_NUM_OF_SOULS",
   CARD_SET_OWNER: "$CARD_SET_OWNER",
+  CHOOSE_BUTTON_DATA_COLLECTOR: "$CHOOSE_BUTTON_DATA_COLLECTOR",
+  CHOOSE_BUTTON_DATA_COLLECTOR_RESPONSE: "$CHOOSE_BUTTON_DATA_COLLECTOR_RESPONSE",
   USE_ITEM: "$USE_ITEM",
   RECHARGE_ITEM: "$RECHARGE_ITEM",
   ITEM_SET_LAST_OWNER: "$ITEM_SET_LAST_OWNER",
@@ -223,32 +227,32 @@ export const Signal = {
 //  * Server events.
 //  * @author wheatup
 //  */
-// 
+//
 // export {
-// 
+//
 //   PLAYER_DISCONNECTED: "$PLAYER_DISCONNECTED",
 //   SEND_CARD_DATA: "$SEND_CARD_DATA",
-// 
+//
 //   ACTION_MASSAGE_ADD: "$ACTION_MASSAGE_ADD",
 //   ACTION_MASSAGE_REMOVE: "$ACTION_MASSAGE_REMOVE",
 //   LOG: "$LOG",
 //   LOG_ERROR: "$LOG_ERROR",
-// 
+//
 //   END_GAME: "$END_GAME",
 //   GAME_HAS_STARTED: "$GAME_HAS_STARTED",
-// 
+//
 //   SHOW_ANNOUNCEMENT: "$SHOW_ANNOUNCEMENT",
 //   HIDE_ANNOUNCEMENT: "$HIDE_ANNOUNCEMENT",
 //   HIDE_TIMER: "$HIDE_TIMER",
 //   SHOW_TIMER: "$SHOW_TIMER",
-// 
+//
 //   CHOOSE_FOR_EDEN: "$CHOOSE_FOR_EDEN",
 //   EDEN_CHOSEN: "$EDEN_CHOSEN",
-// 
+//
 //   CARD_ADD_TRINKET: "$CARD_ADD_TRINKET",
-// 
+//
 //   SET_MAX_ITEMS_STORE: "$SET_MAX_ITEMS_STORE",
-// 
+//
 //   //PARTICLE EFFECTS
 //   ACTIVATE_PARTICLE_EFFECT: "$ACTIVATE_PARTICLE_EFFECT",
 //   DISABLE_PARTICLE_EFFECT: "$DISABLE_PARTICLE_EFFECT",
@@ -256,11 +260,11 @@ export const Signal = {
 //   HIDE_REACTIONS: "$HIDE_REACTIONS",
 //   REACTION_TOGGLED: "$REACTION_TOGGLED",
 //   //
-// 
+//
 //   //deck signals
 //   DECK_ARRAGMENT: "$DECK_ARRAGMENT",
 //   //
-// 
+//
 //   //board signals
 //   UPDATE_PASSIVES_OVER: "$UPDATE_PASSIVES_OVER",
 //   REGISTER_PASSIVE_ITEM: "$REGISTER_PASSIVE_ITEM",
@@ -286,7 +290,7 @@ export const Signal = {
 //   END_BATTLE: "$CANCEL_ATTACK",
 //   END_TURN: "$END_TURN",
 //   NEW_MONSTER_PLACE: "$NEW_MONSTER_PLACE",
-// 
+//
 //   REMOVE_ITEM_FROM_SHOP: "$REMOVE_ITEM_FROM_SHOP",
 //   ADD_STORE_CARD: "$ADD_STORE_CARD",
 //   DRAW_CARD: "$DRAW_CARD",
@@ -299,7 +303,7 @@ export const Signal = {
 //   SHOW_DICE_ROLL: "$SHOW_DICE_ROLL",
 //   SHOW_EFFECT_CHOSEN: "$SHOW_EFFECT_CHOSEN",
 //   //
-// 
+//
 //   //Player signals
 //   PLAYER_DIED: "$PLAYER_DIED",
 //   PLAYER_PROP_UPDATE: "$PLAYER_PROP_UPDATE",
@@ -326,12 +330,12 @@ export const Signal = {
 //   MAKE_CHOOSE_FROM: "$MAKE_CHOOSE_FROM",
 //   FINISH_MAKE_CHOOSE_FROM: "$FINISH_MAKE_CHOOSE_FROM",
 //   //
-// 
+//
 //   //Monster Signals
 //   MONSTER_ADD_DMG_PREVENTION: "$MONSTER_ADD_DMG_PREVENTION",
 //   MONSTER_HEAL: "$MONSTER_HEAL",
 //   //
-// 
+//
 //   //Stack Signals
 //   DO_STACK_EFFECT: "$DO_STACK_EFFECT",
 //   REPLACE_STACK: "$REPLACE_STACK",
@@ -350,9 +354,9 @@ export const Signal = {
 //   STACK_EFFECT_LABLE_CHANGE: "$STACK_EFFECT_LABLE_CHANGE",
 //   UPDATE_STACK_EFFECT: "$UPDATE_STACK_EFFECT",
 //   //
-// 
+//
 //   SET_CONCURENT_EFFECT_DATA: "$SET_CONCURENT_EFFECT_DATA",
-// 
+//
 //   UPDATE_ACTIONS: "$UPDATE_ACTIONS",
 //   FINISH_LOAD: "$FINISH_LOAD",
 //   REMOVE_MONSTER: "$REMOVE_MONSTER",
@@ -389,21 +393,21 @@ export const Signal = {
 //    * @params the uuid of current player
 //    */
 //   UUID: "$UUID",
-// 
+//
 //   /**
 //    * @server
 //    * @summary When someone joined the room
 //    * @param uuid the uuid of the player whom joined
 //    */
 //   JOIN: "$JOIN",
-// 
+//
 //   /**
 //    * @server
 //    * @summary When someone left the room
 //    * @param uuid the uuid of the player whom left
 //    */
 //   LEAVE: "$LEAVE",
-// 
+//
 //   /**
 //    * @server
 //    * @summary When the match starts
@@ -416,7 +420,7 @@ export const Signal = {
 //    * @param level the level requested
 //    */
 //   MATCH: "$MATCH",
-// 
+//
 //   /**
 //    * @server
 //    * @summary Game ended.
@@ -424,7 +428,7 @@ export const Signal = {
 //    * @param score player scores
 //    */
 //   RESULT: "$RESULT",
-// 
+//
 //   /**
 //    * @server
 //    * @summary When player got a word correctly
@@ -435,7 +439,7 @@ export const Signal = {
 //    * @param score how much score player got
 //    */
 //   CORRECT: "$CORRECT",
-// 
+//
 //   /**
 //    * @server
 //    * @summary When player got a word wrong
@@ -444,7 +448,7 @@ export const Signal = {
 //    * @param ids the ids of the hexagons
 //    */
 //   WRONG: "$WRONG",
-// 
+//
 //   /**
 //    * @client
 //    * @summray validate a word

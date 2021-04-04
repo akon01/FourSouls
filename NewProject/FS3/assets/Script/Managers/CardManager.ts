@@ -154,9 +154,9 @@ export class CardManager extends Component {
       async init() {
             this.effectCounter = instantiate(this.effectCounterPrefab!)
             this.bonusDeck!.active = false
-            log(`start prefab Load`)
+            console.log(`start prefab Load`)
             const loaded = await this.preLoadPrefabs();
-            log(`end prefab Load`)
+            console.log(`end prefab Load`)
             // this.CharItemCardPool = new NodePool();
             // this.extraSoulsCardPool = new NodePool();
             // this.lootCardPool = new NodePool();
@@ -169,7 +169,9 @@ export class CardManager extends Component {
             const monsterDeckComp: Deck = this.monsterDeck!.getComponent(Deck)!;
             const bonusSouls: Deck = this.bonusDeck!.getComponent(Deck)!
 
-            const decks: Deck[] = [lootDeckComp, treasureDeckComp, monsterDeckComp, bonusSouls];
+            const decks: Deck[] = [lootDeckComp, treasureDeckComp, monsterDeckComp];
+
+            decks.forEach(d => d.setMouseHover())
 
             // for (let i = 0; i < decks.length; i++) {
             //   const deck = decks[i];
@@ -211,8 +213,8 @@ export class CardManager extends Component {
             ) => {
 
                   if (err) {
-                        log(err)
-                        log(rsc)
+                        console.log(err)
+                        console.log(rsc)
                   }
                   for (let i = 0; i < rsc.length; i++) {
                         const prefab = rsc[i];
@@ -224,8 +226,8 @@ export class CardManager extends Component {
                   ) => {
 
                         if (err) {
-                              log(err)
-                              log(rsc)
+                              console.log(err)
+                              console.log(rsc)
                         }
                         for (let i = 0; i < rsc.length; i++) {
                               const prefab = rsc[i];
@@ -249,8 +251,8 @@ export class CardManager extends Component {
                               (err, rsc) => {
 
                                     if (err) {
-                                          log(err)
-                                          log(rsc)
+                                          console.log(err)
+                                          console.log(rsc)
                                     }
                                     for (let i = 0; i < rsc.length; i++) {
                                           const sprite: SpriteFrame = rsc[i];
@@ -271,7 +273,7 @@ export class CardManager extends Component {
                                     resources.loadDir<Prefab>("Prefabs/LootCards", Prefab, (err, rsc) => {
 
                                           if (err) {
-                                                log(err)
+                                                console.log(err)
                                           }
                                           const lootDeck = lootDeckComp;
                                           lootDeck.cardsPrefab.push(...rsc)
@@ -279,7 +281,7 @@ export class CardManager extends Component {
                                           const cards = lootDeck.getCards()
                                           cards.forEach(card => {
                                                 if (card.getComponent(Card)!.type != CARD_TYPE.LOOT) {
-                                                      error(`card ${card.name} is in loot deck, should not be here!`)
+                                                      console.error(`card ${card.name} is in loot deck, should not be here!`)
                                                 }
                                           });
 
@@ -290,14 +292,14 @@ export class CardManager extends Component {
                                           resources.loadDir<Prefab>("Prefabs/TreasureCards", Prefab, (err, rsc) => {
 
                                                 if (err) {
-                                                      log(err)
-                                                      log(rsc)
+                                                      console.log(err)
+                                                      console.log(rsc)
                                                 }
                                                 treasureDeckComp.cardsPrefab.push(...rsc)
                                                 this.makeDeckCards(treasureDeckComp)
                                                 treasureDeckComp.getCards().forEach(card => {
                                                       if (card.getComponent(Card)!.type != CARD_TYPE.TREASURE) {
-                                                            error(`card ${card.name} is in treausre deck, should not be here!`)
+                                                            console.error(`card ${card.name} is in treausre deck, should not be here!`)
                                                       }
                                                 })
                                                 treasureDeckComp.cardsPrefab.forEach(prefab => {
@@ -307,14 +309,14 @@ export class CardManager extends Component {
                                                 resources.loadDir<Prefab>("Prefabs/Complete Monster Cards", Prefab, (err, rsc) => {
 
                                                       if (err) {
-                                                            log(err)
-                                                            log(rsc)
+                                                            console.log(err)
+                                                            console.log(rsc)
                                                       }
                                                       monsterDeckComp.cardsPrefab.push(...rsc)
                                                       this.makeDeckCards(monsterDeckComp)
                                                       monsterDeckComp.getCards().forEach(card => {
                                                             if (card.getComponent(Card)!.type != CARD_TYPE.MONSTER) {
-                                                                  error(`card ${card.name} is in monster deck, should not be here!`)
+                                                                  console.error(`card ${card.name} is in monster deck, should not be here!`)
                                                             }
                                                       })
                                                       monsterDeckComp.cardsPrefab.forEach(prefab => {
@@ -333,7 +335,7 @@ export class CardManager extends Component {
                                                             bonusDeck.cardsPrefab.forEach(prefab => {
                                                                   assetManager.releaseAsset(prefab);
                                                             })
-                                                            log(`end bonus`)
+                                                            console.log(`end bonus`)
                                                             whevent.emit(GAME_EVENTS.CARD_MANAGER_LOAD_PREFAB)
                                                       })
                                                       // this.prefabLoaded = true;
@@ -420,7 +422,7 @@ export class CardManager extends Component {
                         return card.node;
                   }
             }
-            error(`no card found`)
+            console.error(`no card found`)
             return null;
       }
 
@@ -500,7 +502,10 @@ export class CardManager extends Component {
                         }
                   }
             }
+            deck.node.getComponent(Card)!.backSprite = deck.node.getComponent(Sprite)?.spriteFrame!
+            deck.node.getComponent(Card)!.frontSprite = deck.node.getComponent(Sprite)?.spriteFrame!
             deck.node.getComponent(Card)!.setSprites()
+
             deck.cardsPrefab = [];
       }
 
@@ -669,14 +674,14 @@ export class CardManager extends Component {
             // try {
             //   WrapperProvider.cardPreviewManagerWrapper.out.updatePreviewsEvents()
             // } catch (error) {
-            //   error(error)
+            //   console.error(error)
             //   WrapperProvider.loggerWrapper.out.error(error)
             // }
       }
 
       disableCardActions(card: Node) {
             // if (card == this.treasureDeck.getComponent(Deck)!.topBlankCard) {
-            //   log(`disable top of shop card actions`)
+            //   console.log(`disable top of shop card actions`)
             // }
             card.off(Node.EventType.TOUCH_START);
             if (card.getComponent(Deck) == null) {
@@ -709,7 +714,7 @@ export class CardManager extends Component {
                   // comp._requiredFor|null = null;
                   this.makeCardPreviewable(card);
             }
-            //  log(`disable card action ${card.name}`)
+            //  console.log(`disable card action ${card.name}`)
             //animationManagerWrapper._am.endAnimation(card)
       }
 
@@ -917,10 +922,10 @@ export class CardManager extends Component {
       }
 
       removeMoveAnimation(moveIndex: number) {
-            error(`b4 active indexes ${this.activeMoveAnimations.map(s => s.index).toString()}`)
+            console.error(`b4 active indexes ${this.activeMoveAnimations.map(s => s.index).toString()}`)
             this.activeMoveAnimations = this.activeMoveAnimations.filter((moveAnim) => moveAnim.index != moveIndex
             )
-            error(`after active indexes ${this.activeMoveAnimations.map(s => s.index).toString()}`)
+            console.error(`after active indexes ${this.activeMoveAnimations.map(s => s.index).toString()}`)
             whevent.emit(GAME_EVENTS.CARD_MANAGER_MOVE_ANIM_END, moveIndex)
       }
 

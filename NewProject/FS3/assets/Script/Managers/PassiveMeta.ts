@@ -34,20 +34,10 @@ export class PassiveMeta {
         if (this.args) {
             for (let i = 0; i < this.args.length; i++) {
                 let arg = this.args[i];
-                if (arg instanceof Component) {
-                    const card = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(arg.node);
-                    if (card != null && card != undefined) {
-                        arg = card;
-                    }
-                }
-                if (arg instanceof Node) {
-                    if (arg.getComponent(Card)) {
-                        serverPassiveMeta.args.push({ type: ARGS_TYPES.CARD, number: arg.getComponent(Card)!._cardId });
-                    } else if (arg.getComponent(Player)) {
-                        serverPassiveMeta.args.push({ type: ARGS_TYPES.PLAYER, number: arg.getComponent(Player)!.character!.getComponent(Card)!._cardId });
-                    }
+                if (Array.isArray(arg)) {
+                    this.handleMultiArg(arg, serverPassiveMeta)
                 } else {
-                    serverPassiveMeta.args.push({ type: ARGS_TYPES.NUMBER, number: arg });
+                    this.handleSingleArg(arg, serverPassiveMeta);
                 }
             }
         }
@@ -65,4 +55,46 @@ export class PassiveMeta {
         return serverPassiveMeta;
     }
 
+
+    private handleSingleArg(arg: any, serverPassiveMeta: ServerPassiveMeta) {
+        if (arg instanceof Component) {
+            const card = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(arg.node);
+            if (card != null && card != undefined) {
+                arg = card;
+            }
+        }
+        if (arg instanceof Node) {
+            if (arg.getComponent(Card)) {
+                serverPassiveMeta.args.push({ type: ARGS_TYPES.CARD, number: arg.getComponent(Card)!._cardId });
+            } else if (arg.getComponent(Player)) {
+                serverPassiveMeta.args.push({ type: ARGS_TYPES.PLAYER, number: arg.getComponent(Player)!.character!.getComponent(Card)!._cardId });
+            }
+        } else {
+            serverPassiveMeta.args.push({ type: ARGS_TYPES.NUMBER, number: arg });
+        }
+        return arg;
+    }
+
+
+    private handleMultiArg(arg: any[], serverPassiveMeta: ServerPassiveMeta) {
+        const testArg = arg[0]
+        if (testArg instanceof Component) {
+            arg = arg.map((a: Component) => {
+                const card = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(a.node);
+                if (card != null && card != undefined) {
+                    return card;
+                }
+            })
+        }
+        if (testArg instanceof Node) {
+            if (testArg.getComponent(Card)) {
+                serverPassiveMeta.args.push({ type: ARGS_TYPES.CARD, number: arg.map(a => a.getComponent(Card)!._cardId) });
+            } else if (testArg.getComponent(Player)) {
+                serverPassiveMeta.args.push({ type: ARGS_TYPES.PLAYER, number: arg.map(a => a.getComponent(Player)!.character!.getComponent(Card)!._cardId) });
+            }
+        } else {
+            serverPassiveMeta.args.push({ type: ARGS_TYPES.NUMBER, number: arg });
+        }
+        return arg;
+    }
 }

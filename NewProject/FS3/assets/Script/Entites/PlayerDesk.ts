@@ -81,7 +81,7 @@ export class PlayerDesk extends Component {
                   case ITEM_TYPE.ACTIVE_AND_PAID:
                   case ITEM_TYPE.ALL:
                   case ITEM_TYPE.PASSIVE_AND_PAID:
-                        log(`active item`)
+                        console.log(`active item`)
                         lane = deskComp.activeItemLayout!
                         // addCardToCardLayout(
                         //   card.node,
@@ -90,7 +90,7 @@ export class PlayerDesk extends Component {
                         // );
                         break;
                   case ITEM_TYPE.PASSIVE:
-                        log(`passive item`)
+                        console.log(`passive item`)
                         lane = deskComp.passiveItemLayout!
                         // addCardToCardLayout(
                         //   card.node,

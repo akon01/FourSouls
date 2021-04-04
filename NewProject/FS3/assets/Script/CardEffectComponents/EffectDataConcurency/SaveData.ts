@@ -1,3 +1,4 @@
+import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 import { _decorator } from 'cc';
 import { Signal } from "../../../Misc/Signal";
 import { ServerClient } from "../../../ServerClient/ServerClient";
@@ -24,10 +25,10 @@ export class SaveData extends EffectDataConcurencyBase {
         if (this.isAddative) {
             const targets = newEffectData.getAllTargets()
             targets.nodes.forEach(nodeTarget => {
-                cardEffect.concurentEffectData!.addTarget(new EffectTarget(nodeTarget))
+                cardEffect.concurentEffectData!.addTarget(WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(nodeTarget))
             });
             targets.stackEffects.forEach(stackTargets => {
-                cardEffect.concurentEffectData!.addTarget(new EffectTarget(stackTargets))
+                cardEffect.concurentEffectData!.addTarget(WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(stackTargets))
             })
         } else {
             cardEffect.concurentEffectData = newEffectData

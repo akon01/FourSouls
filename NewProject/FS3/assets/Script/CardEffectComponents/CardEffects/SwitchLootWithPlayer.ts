@@ -51,7 +51,7 @@ export class SwitchLootWithPlayer extends Effect {
       // let chosenData = await chooseCard.requireChoosingACard(playerToGiveToHand)
 
       const cardToGive = (targetCard as EffectTarget).effectTargetCard
-      log(`card to give is ${cardToGive.name}`)
+      console.log(`card to give is ${cardToGive.name}`)
 
       // p1 choose which loot to get.
       chooseCard.otherPlayer = playerToTakeFrom
@@ -60,7 +60,7 @@ export class SwitchLootWithPlayer extends Effect {
       targetCard = await chooseCard.collectData({ cardPlayerId: playerToGiveTo.playerId })
       // chosenData = await chooseCard.requireChoosingACard(playerToTakeFromHand)
       const cardToTake = (targetCard as EffectTarget).effectTargetCard
-      log(`card to take is ${cardToTake.name}`)
+      console.log(`card to take is ${cardToTake.name}`)
 
       await playerToGiveTo.loseLoot(cardToGive, true)
 

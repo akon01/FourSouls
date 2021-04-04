@@ -25,7 +25,7 @@ export class PutACardToDeck extends Effect {
     stack: StackEffectInterface[],
     data?: ActiveEffectData,
   ) {
-    log(data);
+    console.log(data);
     if (!data) { debugger; throw new Error("No Data"); }
     const cardTargets = data.getTargets(TARGETTYPE.CARD);
     if (cardTargets == null || cardTargets.length == 0) {
@@ -36,8 +36,8 @@ export class PutACardToDeck extends Effect {
         for (let i = 0; i < cardTargets.length; i++) {
           const target = cardTargets[i] as Node;
           const test = await this.putInDeck(target);
-          log(test);
-          log(`finished putting ${(target).name} in deck`);
+          console.log(test);
+          console.log(`finished putting ${(target).name} in deck`);
         }
       } else {
         await this.putInDeck(cardTargets[0] as Node);
@@ -48,12 +48,17 @@ export class PutACardToDeck extends Effect {
     } else { return stack; }
   }
   async putInDeck(card: Node) {
-    log(`put in deck of ${card.name}`);
+    console.log(`put in deck of ${card.name}`);
     const cardComp = card.getComponent(Card)!;
     const deck = WrapperProvider.cardManagerWrapper.out.getDeckByType(cardComp.type).getComponent(Deck)!;
 
     if (deck.hasCard(card)) {
       deck.removeCard(card);
+    }
+
+    const pile = WrapperProvider.pileManagerWrapper.out.getPileByCard(card)
+    if (pile) {
+      WrapperProvider.pileManagerWrapper.out.removeFromPile(card, true)
     }
 
     if (this.putOnBottomOfDeck) {
@@ -70,12 +75,12 @@ export class PutACardToDeck extends Effect {
         break;
       case CARD_TYPE.MONSTER:
         if (WrapperProvider.monsterFieldWrapper.out.getActiveMonsters().indexOf(card) >= 0) {
-          log(`b4 put `);
+          console.log(`b4 put `);
           const cardId = cardComp._cardId;
           const monsterCardHolder = WrapperProvider.monsterFieldWrapper.out.getMonsterPlaceByActiveMonsterId(cardId)!;
-          log(`b4 remove monster of monster holder`);
+          console.log(`b4 remove monster of monster holder`);
           await monsterCardHolder.removeMonster(card, true);
-          log(`after remove monster of monster holder`);
+          console.log(`after remove monster of monster holder`);
         }
       default:
         break;

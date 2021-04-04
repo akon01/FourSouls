@@ -9,7 +9,7 @@ export class Test2 extends Component {
     // dummy = '';
 
     resetInEditor() {
-        log("resetInEditor")
+        console.log("resetInEditor")
         console.log("reset");
 
         this.node.addComponent(Dice)

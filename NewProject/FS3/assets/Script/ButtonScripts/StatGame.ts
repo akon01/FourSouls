@@ -15,7 +15,7 @@ export class StatGame extends Component {
                 const serverLable = find("RenderRoot2D/Canvas/ServerIP")!.getComponent(EditBox)!
                 sys.localStorage.setItem(`serverIp`, serverLable.string)
                 WrapperProvider.serverClientWrapper.out.send(Signal.START_GAME)
-            } else log('no connection')
+            } else console.log('no connection')
     }
 
 

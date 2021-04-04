@@ -62,7 +62,7 @@ export class Dice extends Component {
 
             this.doRoll();
             await this.waitForDiceRoll()
-            log(`wait for roll over, roled ${this.currentRolledNumber}`)
+            console.log(`wait for roll over, roled ${this.currentRolledNumber}`)
             switch (this.rollType) {
                   case ROLL_TYPE.ATTACK:
                         if ((this.currentRolledNumber + player.attackRollBonus) <= 6) {
@@ -235,7 +235,7 @@ export class Dice extends Component {
                   try {
                         this.node.addChild(sprites)
                   } catch (errorf) {
-                        error(`error Adding Sprites To Dice, ` + errorf)
+                        console.error(`error Adding Sprites To Dice, ` + errorf)
                   }
                   this.node.getComponent(Sprite)!.destroy()
             }

@@ -16,8 +16,15 @@ import { Effect } from "./Effect";
 export class ModifyDiceRoll extends Effect {
   chooseType = CHOOSE_CARD_TYPE.MY_HAND;
   effectName = "ModifyDiceRoll";
-  @property(CCInteger)
+  @property({
+    type: CCInteger, visible: function (this: ModifyDiceRoll) {
+      return !this.isRollBonusFromDataCollector
+    }
+  })
   rollBonus: number = 1
+
+  @property
+  isRollBonusFromDataCollector: boolean = false
   /**
    *
    * @param data {lootPlayedId:number,playerId:number}
@@ -27,7 +34,7 @@ export class ModifyDiceRoll extends Effect {
     data?: ActiveEffectData | PassiveEffectData
   ) {
     if (!data) { debugger; throw new Error("No Data"); }
-    log(data.effectTargets)
+    console.log(data.effectTargets)
     const diceRollStackEffect = data.getTarget(TARGETTYPE.STACK_EFFECT)
     if (diceRollStackEffect == null) {
       throw new Error(`No Dice Roll stack effect found`)
@@ -35,8 +42,13 @@ export class ModifyDiceRoll extends Effect {
       if (!(diceRollStackEffect instanceof Node)) {
         if (diceRollStackEffect instanceof RollDiceStackEffect || diceRollStackEffect instanceof AttackRoll) {
           const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCardId(diceRollStackEffect.creatorCardId)!
-          player.dice!.setRoll(diceRollStackEffect.numberRolled + this.rollBonus)
-          diceRollStackEffect.numberRolled = diceRollStackEffect.numberRolled + this.rollBonus;
+
+          let rollBonus = this.rollBonus
+          if (this.isRollBonusFromDataCollector) {
+            rollBonus = data.getTarget(TARGETTYPE.NUMBER) as number
+          }
+          player.dice!.setRoll(diceRollStackEffect.numberRolled + rollBonus)
+          diceRollStackEffect.numberRolled = diceRollStackEffect.numberRolled + rollBonus;
         }
 
       }

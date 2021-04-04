@@ -19,7 +19,7 @@ export class DestroyItem extends Cost {
 
         }
         let thisEffect = this.getThisEffect()
-        let thisCard = thisEffect._effectCard!
+        let thisCard = thisEffect.getEffectCard()!
         let cardComp = thisCard.getComponent(Card)!
         let player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(thisCard)!
         // let chooseCard = new ChooseCard();

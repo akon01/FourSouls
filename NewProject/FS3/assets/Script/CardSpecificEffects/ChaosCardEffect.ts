@@ -28,43 +28,42 @@ export class ChaosCardEffect extends Effect {
     stack: StackEffectInterface[],
     data: PassiveEffectData | ActiveEffectData
   ) {
-    let target = data.getTarget(TARGETTYPE.CARD)
+    let target = data.getTarget(TARGETTYPE.CARD) as Node
     if (!target) {
       throw new Error(`no target found`)
     } else {
-      if (WrapperProvider.playerManagerWrapper.out.isAOwnedSoul(target as Node)) {
+      if (WrapperProvider.playerManagerWrapper.out.isAOwnedSoul(target)) {
         // Card Should Be Soul Card
-        await WrapperProvider.playerManagerWrapper.out.getPlayerByCard(target as Node)!.loseSoul(target as Node, true)
-        await WrapperProvider.pileManagerWrapper.out.addCardToPile((target as Node).getComponent(Card)!.type, target as Node, true)
+        await WrapperProvider.playerManagerWrapper.out.getPlayerByCard(target)!.loseSoul(target, true)
+        await WrapperProvider.pileManagerWrapper.out.addCardToPile((target).getComponent(Card)!.type, target, true)
         if (data instanceof PassiveEffectData) {
           return data
         }
         return stack
       }
-      if ((target as Node).getComponent(Monster)) {
-        await this.killMonster(target as Node)
-        //  await WrapperProvider.pileManagerWrapper.out.addCardToPile((target as Node).getComponent(Card).type, target as Node, true)
+      if ((target).getComponent(Monster)) {
+        await this.killMonster(target)
+        //  await WrapperProvider.pileManagerWrapper.out.addCardToPile((target).getComponent(Card).type, target, true)
         if (data instanceof PassiveEffectData) {
           return data
         }
         return stack
       }
-      if ((target as Node).getComponent(Item)) {
-        const cardOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(target as Node)!;
-        if (!WrapperProvider.cardManagerWrapper.out.getCardOwner(target as Node)) {
-          await WrapperProvider.storeWrapper.out.removeFromStore(target as Node, true)
-          await WrapperProvider.pileManagerWrapper.out.addCardToPile((target as Node).getComponent(Card)!.type, target as Node, true)
-        } else if (!((target as Node) == cardOwner.character || (target as Node) == cardOwner.characterItem)) {
-          await cardOwner.loseItem(target as Node, true)
-          await WrapperProvider.pileManagerWrapper.out.addCardToPile((target as Node).getComponent(Card)!.type, target as Node, true)
+      if ((target).getComponent(Item)) {
+        const cardOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(target)!;
+        if (!WrapperProvider.cardManagerWrapper.out.getCardOwner(target)) {
+          await WrapperProvider.storeWrapper.out.removeFromStore(target, true)
+          await WrapperProvider.pileManagerWrapper.out.addCardToPile((target).getComponent(Card)!.type, target, true)
+        } else if (!((target) == cardOwner.character || (target) == cardOwner.characterItem)) {
+          await target.getComponent(Item)!.destroyItem(true)
           if (data instanceof PassiveEffectData) {
             return data
           }
           return stack
         }
       }
-      if (WrapperProvider.playerManagerWrapper.out.getPlayerByCard(target as Node)) {
-        await WrapperProvider.playerManagerWrapper.out.getPlayerByCard(target as Node)!.killPlayer(true, WrapperProvider.cardManagerWrapper.out.getCardOwner(this.node.parent!)!)
+      if (WrapperProvider.playerManagerWrapper.out.getPlayerByCard(target)) {
+        await WrapperProvider.playerManagerWrapper.out.getPlayerByCard(target)!.killPlayer(true, WrapperProvider.cardManagerWrapper.out.getCardOwner(this.node.parent!)!)
         if (data instanceof PassiveEffectData) {
           return data
         }

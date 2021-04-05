@@ -62,8 +62,11 @@ export class Item extends Component {
   }
 
   async destroyItem(sendToServer: boolean) {
+    //Eternal Items Cannot Be Destroyed
+    if (this.eternal) {
+      return
+    }
     let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.ITEM_DESTROY, [this], null, this.node)
-
     if (sendToServer) {
       const newPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(passiveMeta)
       if (!newPassiveMeta.continue) {

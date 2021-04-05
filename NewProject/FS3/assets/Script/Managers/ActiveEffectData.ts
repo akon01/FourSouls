@@ -30,9 +30,12 @@ export class ActiveEffectData extends EffectData {
         }
         if (targetType == TARGETTYPE.NUMBER) {
             return targets.map(t => t.effectTargetNumber)
+        } else if (targetType == TARGETTYPE.EFFECT) {
+            return targets.map(t => t.effectTargetEffect)
         }
         else if (targetType != TARGETTYPE.STACK_EFFECT) {
             return targets.map(target => target.effectTargetCard);
+
         } else { return targets.map(target => target.effectTargetStackEffectId); }
     }
     getTarget(targetType: TARGETTYPE) {
@@ -45,6 +48,8 @@ export class ActiveEffectData extends EffectData {
         }
         else if (targetType == TARGETTYPE.NUMBER) {
             return this.effectTargets[this.effectTargets.length - 1].effectTargetNumber
+        } else if (targetType == TARGETTYPE.EFFECT) {
+            return this.effectTargets[this.effectTargets.length - 1].effectTargetEffect
         }
         else if (targetType == TARGETTYPE.CARD) {
             return this.effectTargets[this.effectTargets.length - 1].effectTargetCard

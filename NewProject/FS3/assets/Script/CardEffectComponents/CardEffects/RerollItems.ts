@@ -12,6 +12,7 @@ import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
 import { Effect } from "./Effect";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { Item } from '../../Entites/CardTypes/Item';
 
 @ccclass('RerollItems')
 export class RerollItems extends Effect {
@@ -36,7 +37,7 @@ export class RerollItems extends Effect {
         const cardChosen = cardsChosen[i];
         if (cardChosen instanceof Node) {
           player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(cardChosen)!;
-          await player.destroyItem(cardChosen, true);
+          await cardChosen.getComponent(Item)!.destroyItem(true);
           await player.addItem(treasureDeck, true, true);
         }
       }

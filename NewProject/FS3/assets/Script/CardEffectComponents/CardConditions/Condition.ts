@@ -16,6 +16,9 @@ const { ccclass, property } = _decorator;
 export class Condition extends Component implements ConditionInterface {
   newCompCondition: Condition | null = null
 
+
+  @property
+  isConditionActive: boolean = true
   @property({ type: CCInteger, step: 1 })
   ConditionId: number = -1;
   isAddPassiveEffect: boolean = false;;
@@ -24,20 +27,6 @@ export class Condition extends Component implements ConditionInterface {
   conditionData: ActiveEffectData | PassiveEffectData = new ActiveEffectData;
   @property(Component)
   dataCollector: DataCollector | null = null
-  // @property(CCInteger)
-  // dataCollectorIdFinal: number = -1
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   getDataCollector() {

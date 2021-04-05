@@ -330,7 +330,7 @@ export class ChooseAPlayerToChooseCards extends DataCollector {
     let flippedCards: Node[] = []
     cards.forEach(card => {
       WrapperProvider.cardManagerWrapper.out.disableCardActions(card);
-      if (card.getComponent(Card)!._isFlipped) {
+      if (card.getComponent(Card)!._isShowingBack) {
         card.getComponent(Card)!.flipCard(false)
         flippedCards.push(card)
       }

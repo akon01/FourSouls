@@ -1,12 +1,10 @@
-import { log, _decorator } from 'cc';
-import { Stack } from "../../Entites/Stack";
+import { _decorator } from 'cc';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PassiveManager } from "../../Managers/PassiveManager";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { Effect } from "./Effect";
-const { ccclass, property } = _decorator;
+const { ccclass } = _decorator;
 
 
 @ccclass('AddPassiveEffect')

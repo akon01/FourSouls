@@ -1,4 +1,4 @@
-import { Component, error, Label, log, Node, Prefab, Sprite, UITransform, Widget, _decorator } from 'cc';
+import { Component, Label, Node, Prefab, Sprite, UITransform, Widget, _decorator } from 'cc';
 import { Signal } from "../../../Misc/Signal";
 import { whevent } from "../../../ServerClient/whevent";
 import { ChooseCard } from "../../CardEffectComponents/DataCollector/ChooseCard";
@@ -33,10 +33,10 @@ const { ccclass, property } = _decorator;
 export class Player extends Component {
 
       @property
-      playerId: number = 0;
+      playerId = 0;
 
       @property
-      playerServerId: number = 0;
+      playerServerId = 0;
 
       @property(Node)
       handNode: Node | null = null;
@@ -186,7 +186,7 @@ export class Player extends Component {
       soulsLayout: Node | null = null;
 
 
-      souls: number = 0;
+      souls = 0;
 
 
       private soulCards: Set<number> = new Set()
@@ -217,10 +217,10 @@ export class Player extends Component {
       }
 
       @property
-      _extraSoulsNeededToWin: number = 0;
+      _extraSoulsNeededToWin = 0;
 
       @property
-      _putCharLeft: boolean = false;
+      _putCharLeft = false;
 
       private deskCards: Set<number> = new Set()
 
@@ -251,10 +251,10 @@ export class Player extends Component {
 
 
       @property
-      lootCardPlays: number = 0;
+      lootCardPlays = 0;
 
       @property
-      turnDrawPlays: number = 1;
+      turnDrawPlays = 1;
 
       changeTurnDrawPlays(quantityToChange: number, sendToServer: boolean) {
             this.turnDrawPlays += quantityToChange
@@ -264,73 +264,73 @@ export class Player extends Component {
       }
 
       @property
-      buyPlays: number = 0;
+      buyPlays = 0;
 
       @property
-      attackPlays: number = 0;
+      attackPlays = 0;
 
       @property
-      _attackDeckPlays: number = 0;
+      _attackDeckPlays = 0;
 
       @property
-      _mustAttackPlays: number = 0;
+      _mustAttackPlays = 0;
 
       @property
       _mustAttackMonsters: Monster[] = []
 
       @property
-      _mustDeckAttackPlays: number = 0;
+      _mustDeckAttackPlays = 0;
 
       @property
-      coins: number = 0;
+      coins = 0;
 
       @property
-      _Hp: number = 0;
+      _Hp = 0;
 
       @property
-      _lastHp: number = 0;
+      _lastHp = 0;
 
       @property
-      _hpBonus: number = 0
+      _hpBonus = 0
 
       @property
-      _tempHpBonus: number = 0
+      _tempHpBonus = 0
 
       @property
-      damage: number = 0;
+      damage = 0;
 
       @property
-      baseDamage: number = 0;
+      baseDamage = 0;
 
       @property
-      tempBaseDamage: number = 0;
+      tempBaseDamage = 0;
 
 
-      currentDamage: number = 0
-
-      @property
-      nonAttackRollBonus: number = 0;
+      currentDamage = 0
 
       @property
-      tempNonAttackRollBonus: number = 0;
+      nonAttackRollBonus = 0;
 
       @property
-      attackRollBonus: number = 0;
+      tempNonAttackRollBonus = 0;
 
       @property
-      tempAttackRollBonus: number = 0;
+      attackRollBonus = 0;
 
       @property
-      firstAttackRollBonus: number = 0;
+      tempAttackRollBonus = 0;
 
       @property
-      nextAttackRollBonus: number = 0
+      firstAttackRollBonus = 0;
 
       @property
-      tempNextAttackRollBonus: number = 0
+      nextAttackRollBonus = 0
 
       @property
-      tempFirstAttackRollBonus: number = 0;
+      tempNextAttackRollBonus = 0
+
+      @property
+      tempFirstAttackRollBonus = 0;
 
       @property
       reactCardNode: Node[] = [];
@@ -348,7 +348,7 @@ export class Player extends Component {
       _lootCardsPlayedThisTurn: Node[] = []
 
       @property
-      cardActivated: boolean = false;
+      cardActivated = false;
 
       @property
       activatedCard: Node | null = null;
@@ -357,10 +357,10 @@ export class Player extends Component {
       timeToRespondTimeOut = null;
 
       @property
-      _hasPriority: boolean = false;
+      _hasPriority = false;
 
       @property
-      _askingPlayerId: number = 0;
+      _askingPlayerId = 0;
 
       set hasPlayerSelectedYesNo(bool: boolean) {
             whevent.emit(GAME_EVENTS.PLAYER_SELECTED_YES_NO, bool)
@@ -376,42 +376,42 @@ export class Player extends Component {
       _dmgPrevention: number[] = [];
 
       @property
-      _isFirstAttackRollOfTurn: boolean = true;
+      _isFirstAttackRollOfTurn = true;
 
       @property
-      _isFirstTimeGettingMoney: boolean = true;
+      _isFirstTimeGettingMoney = true;
 
       @property
       _thisTurnKiller: Node | null = null;
 
       @property
-      setDiceAdmin: number = 0;
+      setDiceAdmin = 0;
 
       @property
-      _isDead: boolean = false;
+      _isDead = false;
 
       @property
-      _endTurnFlag: boolean = false;
+      _endTurnFlag = false;
 
       @property
-      lastRoll: number = 0
+      lastRoll = 0
 
       @property
-      lastAttackRoll: number = 0
+      lastAttackRoll = 0
 
       @property
-      storeCardCostReduction: number = 0
+      storeCardCostReduction = 0
 
 
-      skipTurn: boolean = false;
+      skipTurn = false;
 
 
-      isFirstHitInTurn: boolean = true
+      isFirstHitInTurn = true
 
       @property
-      _numOfItemsToRecharge: number = -1;
+      _numOfItemsToRecharge = -1;
 
-      otherPlayersCantRespondOnTurn: boolean = false
+      otherPlayersCantRespondOnTurn = false
 
 
 
@@ -466,7 +466,7 @@ export class Player extends Component {
             }
       }
 
-      async drawCards(deck: Node, sendToServer: boolean, alreadyDrawnCards?: Node[], numOfCards: number = 1) {
+      async drawCards(deck: Node, sendToServer: boolean, alreadyDrawnCards?: Node[], numOfCards = 1) {
             let drawnCards: Node[] = []
             const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_DRAW_FROM_LOOT, [deck, alreadyDrawnCards], null, this.node)
             if (sendToServer) {
@@ -498,7 +498,7 @@ export class Player extends Component {
                         srvData: { playerId: this.playerId, deckType: CARD_TYPE.LOOT, cardId: card.getComponent(Card)!._cardId },
                   };
                   WrapperProvider.serverClientWrapper.out.send(serverData.signal, serverData.srvData)
-                  if (card.getComponent(Card)!._isFlipped) {
+                  if (card.getComponent(Card)!._isShowingBack) {
                         card.getComponent(Card)!.flipCard(sendToServer)
                   }
                   await this.gainLoot(card, true)
@@ -635,7 +635,7 @@ export class Player extends Component {
       }
 
       calculateFinalRoll(rolledNumber: number, rollType: ROLL_TYPE) {
-            let endRollNumber: number = 0;
+            let endRollNumber = 0;
             switch (rollType) {
                   case ROLL_TYPE.ATTACK:
                         endRollNumber += rolledNumber + this.attackRollBonus + this.tempAttackRollBonus + this.nextAttackRollBonus + this.tempNextAttackRollBonus
@@ -659,10 +659,18 @@ export class Player extends Component {
             return endRollNumber;
       }
 
-      async rollDice(rollType: ROLL_TYPE, numberRolled?: number) {
+
+      async rollDice(rollType: ROLL_TYPE, doNotCheckPassive?: boolean) {
             const playerDice = this.dice!;
-            let newNumberRolled: number
-            if (numberRolled == null) {
+            let numberRolled: number | null = null
+            if (!(doNotCheckPassive !== undefined && doNotCheckPassive === false)) {
+                  const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.DICE_ABOUT_TO_BE_ROLLED, [numberRolled, this, rollType], null, this.node)
+                  const afterPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(passiveMeta);
+                  if (afterPassiveMeta.args && afterPassiveMeta.args[0]) {
+                        numberRolled = afterPassiveMeta.args[0]
+                  }
+            }
+            if (numberRolled == null || numberRolled == undefined) {
                   WrapperProvider.serverClientWrapper.out.send(Signal.ROLL_DICE, { playerId: this.playerId });
                   numberRolled = await playerDice.rollDice(rollType);
                   WrapperProvider.serverClientWrapper.out.send(Signal.ROLL_DICE_ENDED, {
@@ -671,8 +679,7 @@ export class Player extends Component {
                   });
 
             }
-            newNumberRolled = numberRolled;
-            return newNumberRolled
+            return numberRolled
       }
 
       async rollAttackDice(sendToServer: boolean) {
@@ -718,7 +725,7 @@ export class Player extends Component {
             // loot.getComponent(Card)!._ownedBy = this;
             this.addHandCards([loot])
             const mePlayerId = WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!.playerId;
-            if (loot.getComponent(Card)!._isFlipped) {
+            if (loot.getComponent(Card)!._isShowingBack) {
                   if (this.playerId == mePlayerId) {
                         loot.getComponent(Card)!.flipCard(sendToServer)
                   }
@@ -846,7 +853,7 @@ export class Player extends Component {
                   await WrapperProvider.stackWrapper.out.addToStack(playLoot, sendToServer)
 
             } else {
-                  if (lootCard.getComponent(Card)!._isFlipped) {
+                  if (lootCard.getComponent(Card)!._isShowingBack) {
                         lootCard.getComponent(Card)!.flipCard(sendToServer);
                   }
             }
@@ -880,7 +887,8 @@ export class Player extends Component {
 
       async removeCurse(curseCard: Node, sendToServer: boolean) {
             if (sendToServer) {
-                  await this.destroyItem(curseCard, sendToServer)
+                  await curseCard.getComponent(Item)?.destroyItem(sendToServer)
+
             }
       }
 
@@ -947,22 +955,6 @@ export class Player extends Component {
             this.getActiveItems().forEach(item => item.getComponent(Item)!.useItem(true))
             return { chosenLoot, moneyLost }
       }
-
-      async destroyItem(itemToDestroy: Node, sendToServer: boolean) {
-            let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_LOSE_ITEM, [itemToDestroy], null, this.node)
-
-            await this.loseItem(itemToDestroy, sendToServer)
-            const cardComp = itemToDestroy.getComponent(Card)!;
-            cardComp.isGoingToBeDestroyed = true;
-            if (cardComp.type == CARD_TYPE.LOOT) {
-                  await WrapperProvider.pileManagerWrapper.out.addCardToPile(CARD_TYPE.LOOT, itemToDestroy, sendToServer);
-            } else if (cardComp.type == CARD_TYPE.CURSE || cardComp.type == CARD_TYPE.MONSTER) {
-                  await WrapperProvider.pileManagerWrapper.out.addCardToPile(CARD_TYPE.MONSTER, itemToDestroy, sendToServer);
-            } else {
-                  await WrapperProvider.pileManagerWrapper.out.addCardToPile(CARD_TYPE.TREASURE, itemToDestroy, sendToServer);
-            }
-      }
-
       itemsLostThisTurn: Node[] = []
 
       async loseItem(itemToLose: Node, sendToServer: boolean) {
@@ -998,6 +990,16 @@ export class Player extends Component {
             return (this._numOfItemsToRecharge == -1) ? this.activeItems.size : this._numOfItemsToRecharge
       }
 
+
+      private rechargeCharacterAtStartOfTurn = true
+
+      setRechargeCharacterAtStartOfTurn(bool: boolean, sendToServer: boolean) {
+            this.rechargeCharacterAtStartOfTurn = bool
+            if (sendToServer) {
+                  WrapperProvider.serverClientWrapper.out.send(Signal.PLAYER_SET_RECHARGE_CHAR_AT_START_OF_TURN, { playerId: this.playerId, bool })
+            }
+      }
+
       async startTurn(numOfCardToDraw: number, numberOfItemsToCharge: number, sendToServer: boolean) {
 
             if (WrapperProvider.stackWrapper.out._currentStack.length > 0) {
@@ -1014,9 +1016,17 @@ export class Player extends Component {
                         return
                   }
 
-                  const activeItems = this.getActiveItems();
+                  const activeItems = this.getActiveItems().filter(c => {
+                        if (!this.rechargeCharacterAtStartOfTurn) {
+                              if (c.getComponent(Character)) {
+                                    return false
+                              }
+                              return true
+                        }
+                        return true
+                  });
                   // recharge items
-                  if (numberOfItemsToCharge == activeItems.length) {
+                  if (numberOfItemsToCharge >= activeItems.length) {
                         for (const item of activeItems) {
                               if (item.getComponent(Item)!.needsRecharge) {
                                     await this.rechargeItem(item, sendToServer)
@@ -1032,6 +1042,11 @@ export class Player extends Component {
                                     await this.rechargeItem(item.node, sendToServer)
                               }
                         }
+                  }
+
+                  //recharge character card
+                  if (this.rechargeCharacterAtStartOfTurn) {
+                        await this.rechargeItem(this.character!, sendToServer)
                   }
 
                   // add passive check for "Start of turn" Effects.
@@ -1063,7 +1078,7 @@ export class Player extends Component {
        * @param sendToServer
        */
 
-      isEndTurnRunning: boolean = false;
+      isEndTurnRunning = false;
 
       async endTurn(sendToServer: boolean) {
 
@@ -1373,7 +1388,7 @@ export class Player extends Component {
                         whevent.emit(GAME_EVENTS.GAME_OVER, this.playerId)
                   } else if (monster && monster.monsterPlace != null) {
                         await monster.monsterPlace.removeMonster(cardWithSoul, sendToServer);
-                  };
+                  }
                   passiveMeta.result = await WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(passiveMeta)
             }
       }
@@ -1557,7 +1572,7 @@ export class Player extends Component {
       }
 
       @property
-      _inGetResponse: boolean = false;
+      _inGetResponse = false;
 
       @property
       _responseTimeout: number | null = null;
@@ -1697,7 +1712,7 @@ export class Player extends Component {
       }
 
       @property
-      me: boolean = false;
+      me = false;
 
       async addItemByType(characterItem: Node, sendToServer: boolean) {
             switch (characterItem.getComponent(Item)!.type) {
@@ -1747,6 +1762,7 @@ export class Player extends Component {
             this.soulCards = new Set();
       }
 
+      // eslint-disable-next-line 
       start() { }
 
       // update (dt) {}

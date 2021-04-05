@@ -102,7 +102,7 @@ export class Card extends Component {
       backSprite: SpriteFrame | null = null;
 
       @property
-      _isFlipped: boolean = false;
+      _isShowingBack: boolean = false;
 
       _ownedBy: Player | null = null;
 
@@ -136,8 +136,8 @@ export class Card extends Component {
       }
 
       flipCard(sendToServer: boolean) {
-            this._isFlipped = !this._isFlipped;
-            if (this._isFlipped) {
+            this._isShowingBack = !this._isShowingBack;
+            if (this._isShowingBack) {
                   this.cardSprite!.spriteFrame = this.backSprite;
             } else {
                   this.cardSprite!.spriteFrame = this.frontSprite;

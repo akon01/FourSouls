@@ -322,6 +322,8 @@ export default class Server {
     whevent.on(signal.MAKE_CHOOSE_FROM, this.onSendToSpecificPlayer, this);
     whevent.on(signal.FINISH_MAKE_CHOOSE_FROM, this.onSendToSpecificPlayer, this);
     whevent.on(signal.CHANGE_TURN_DRAW_PLAYS, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.PLAYER_SET_RECHARGE_CHAR_AT_START_OF_TURN, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.PLAYER_SET_HAND_SHOW_CARD_BACK, this.onBroadcastExceptOrigin, this)
     //
 
     //monster events

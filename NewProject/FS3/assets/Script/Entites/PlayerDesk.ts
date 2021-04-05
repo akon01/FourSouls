@@ -42,11 +42,6 @@ export class PlayerDesk extends Component {
       hand: CardLayout | null = null;
 
 
-
-
-
-
-
       checkLayoutOverflow(layout: Node, card: Node, removeCard: boolean) {
 
             const layoutLength = layout.getComponent(UITransform)!.width;

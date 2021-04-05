@@ -112,6 +112,8 @@ export class ServerClient extends Component {
             whevent.on(Signal.PLAYER_ADD_DMG_PREVENTION, this.onPlayerActionFromServer, this);
             whevent.on(Signal.PLAYER_DIED, this.onPlayerActionFromServer, this);
             whevent.on(Signal.CHANGE_TURN_DRAW_PLAYS, this.onPlayerActionFromServer, this);
+            whevent.on(Signal.PLAYER_SET_RECHARGE_CHAR_AT_START_OF_TURN, this.onPlayerActionFromServer, this);
+            whevent.on(Signal.PLAYER_SET_HAND_SHOW_CARD_BACK, this.onPlayerActionFromServer, this)
 
             //monster events
             whevent.on(Signal.MONSTER_GAIN_DMG, this.onPlayerActionFromServer, this);

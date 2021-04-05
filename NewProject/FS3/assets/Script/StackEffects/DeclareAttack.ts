@@ -69,6 +69,9 @@ export class DeclareAttack extends StackEffectConcrete {
         const afterPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(passiveMeta)
         if (!afterPassiveMeta.continue) { return }
         passiveMeta.args = afterPassiveMeta.args;
+        if (afterPassiveMeta.args) {
+            this.cardBeingAttacked = afterPassiveMeta.args[0]
+        }
         let usedPlayerTurnAttack = false
         //use player turn attack
         if (this.attackingPlayer.attackPlays > 0) {

@@ -15,6 +15,12 @@ export class PlayerDeclareAttack extends Condition {
   event = PASSIVE_EVENTS.PLAYER_DECLARE_ATTACK
   @property
   isPlayerFromData: boolean = true
+  @property({
+    visible: function (this: PlayerDeclareAttack) {
+      return this.isPlayerFromData
+    }
+  })
+  isNotThePlayerFromData: boolean = false
   @property
   isOnSpecificMonster: boolean = false
   @property({
@@ -41,12 +47,15 @@ export class PlayerDeclareAttack extends Condition {
       } else {
         if (selectedPlayerCard instanceof Node) {
           let selectedPlayer = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(selectedPlayerCard)!
-          if (
-            player.playerId != selectedPlayer.playerId
-          ) {
-            answer = false
+          if (this.isNotThePlayerFromData) {
+            if (player.playerId == selectedPlayer.playerId) {
+              answer = false
+            }
+          } else {
+            if (player.playerId != selectedPlayer.playerId) {
+              answer = false
+            }
           }
-
         }
       }
     }

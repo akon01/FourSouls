@@ -2,6 +2,7 @@ import { Enum, log, Node, _decorator } from 'cc';
 import { ITEM_TYPE } from "../../Constants";
 import { EffectsAndNumbers } from "../../EffectsAndNumbers";
 import { CardEffect } from "../../Entites/CardEffect";
+import { Item } from '../../Entites/CardTypes/Item';
 import { Card } from "../../Entites/GameEntities/Card";
 import { PileManager } from "../../Managers/PileManager";
 import { PlayerManager } from "../../Managers/PlayerManager";
@@ -29,8 +30,8 @@ export class MultiEffectDestroyThisThenRoll extends IMultiEffectRollAndCollect {
   }): Promise<null> {
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
     const thisOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(thisCard)!
-    await thisOwner.loseItem(thisCard, true)
-    await WrapperProvider.pileManagerWrapper.out.addCardToPile(thisCard.getComponent(Card)!.type, thisCard, true)
+    await thisCard.getComponent(Item)!.destroyItem(true)
+    //  await WrapperProvider.pileManagerWrapper.out.addCardToPile(thisCard.getComponent(Card)!.type, thisCard, true)
     return null
   }
   getEffectByNumberRolled(numberRolled: number, cardPlayed: Node) {

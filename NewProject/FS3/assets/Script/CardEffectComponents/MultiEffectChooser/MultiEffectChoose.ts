@@ -6,17 +6,11 @@ import { DataCollector } from "../DataCollector/DataCollector";
 import { CardPreview } from "../../Entites/CardPreview";
 import { CardEffect } from "../../Entites/CardEffect";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { IMultiEffectChoose } from './IMultiEffectChoose';
 
 @ccclass('MultiEffectChoose')
-export class MultiEffectChoose extends DataCollector {
+export class MultiEffectChoose extends IMultiEffectChoose {
   collectorName = "MultiEffectChoose";
-
-  @property({ visible: function (this: MultiEffectChoose) { return !this.isOnlyPaid } })
-  isOnlyActives: boolean = false
-
-
-  @property({ visible: function (this: MultiEffectChoose) { return !this.isOnlyActives } })
-  isOnlyPaid: boolean = false
 
 
   /**

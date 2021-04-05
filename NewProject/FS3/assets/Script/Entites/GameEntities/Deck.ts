@@ -93,7 +93,7 @@ export class Deck extends Component {
                   const newCardId = this._cards.pop()!;
                   const newCard = WrapperProvider.cardManagerWrapper.out.getCardById(newCardId)!
                   const newCardComp = newCard.getComponent(Card)!;
-                  if (!newCardComp._isFlipped) { newCardComp.flipCard(false) }
+                  if (!newCardComp._isShowingBack) { newCardComp.flipCard(false) }
                   if (newCard.parent == null) {
                         newCard.parent = WrapperProvider.cardManagerWrapper.out.onTableCardsHolder
                         newCard.setPosition(this.node.getPosition())
@@ -128,7 +128,7 @@ export class Deck extends Component {
                   const cardComp = cardToDraw.getComponent(Card)!;
                   const newCard = WrapperProvider.cardManagerWrapper.out.getCardById(this._cards.splice(this._cards.indexOf(cardComp._cardId), 1)[0]);
                   const newCardComp = newCard.getComponent(Card)!
-                  if (!newCardComp._isFlipped) { newCardComp.flipCard(false) }
+                  if (!newCardComp._isShowingBack) { newCardComp.flipCard(false) }
                   if (newCard.parent == null) {
                         newCard.parent = WrapperProvider.cardManagerWrapper.out.onTableCardsHolder
                         newCard.setPosition(this.node.getPosition())

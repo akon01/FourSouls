@@ -405,7 +405,7 @@ export class ChooseCard extends DataCollector {
     cards.forEach(card => {
       WrapperProvider.cardManagerWrapper.out.disableCardActions(card);
       const cardComp = card.getComponent(Card)!;
-      if (cardComp._isFlipped) {
+      if (cardComp._isShowingBack) {
         cardComp.flipCard(false)
         flippedCards.push(card)
       }

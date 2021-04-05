@@ -104,7 +104,7 @@ export class CardPreview extends Component {
                 this.cardSprite.spriteFrame = cardComp.getComponent(Card)!.frontSprite;
             }
         } else {
-            if (cardComp._isFlipped) {
+            if (cardComp._isShowingBack) {
                 this.cardSprite.spriteFrame = cardComp.backSprite!
             } else {
                 this.cardSprite.spriteFrame = cardComp.frontSprite!

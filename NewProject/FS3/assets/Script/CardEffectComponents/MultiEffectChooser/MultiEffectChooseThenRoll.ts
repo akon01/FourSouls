@@ -1,19 +1,15 @@
-import { _decorator, Node, Enum, log } from 'cc';
-const { ccclass, property } = _decorator;
-
+import { Enum, Node, _decorator } from 'cc';
 import { ITEM_TYPE } from "../../Constants";
 import { EffectsAndNumbers } from "../../EffectsAndNumbers";
 import { CardEffect } from "../../Entites/CardEffect";
-import { DecisionMarker } from "../../Entites/DecisionMarker";
-import { Card } from "../../Entites/GameEntities/Card";
-import { Player } from '../../Entites/GameEntities/Player';
 import { EffectTarget } from "../../Managers/EffectTarget";
-import { PlayerManager } from '../../Managers/PlayerManager';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { Effect } from "../CardEffects/Effect";
 import { ChooseCardTypeAndFilter } from "../ChooseCardTypeAndFilter";
 import { ChooseCard } from "../DataCollector/ChooseCard";
 import { IMultiEffectRollAndCollect } from "./IMultiEffectRollAndCollect";
+const { ccclass, property } = _decorator;
+
 
 @ccclass('MultiEffectChooseThenRoll')
 export class MultiEffectChooseThenRoll extends IMultiEffectRollAndCollect {

@@ -136,7 +136,7 @@ export class MonsterCardHolder extends Component {
       async addToMonsters(monsterCard: Node, sendToServer: boolean) {
 
             const monsterCardComp = monsterCard.getComponent(Card)!;
-            if (monsterCardComp._isFlipped) {
+            if (monsterCardComp._isShowingBack) {
                   monsterCardComp.flipCard(sendToServer);
             }
             for (const monster of this.monsters) {

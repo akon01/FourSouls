@@ -15,25 +15,6 @@ import { IEffectTarget } from './IEffectTarget';
 
 export class EffectTarget implements IEffectTarget {
 
-    // constructor(targetCard: Node | StackEffectPreview | StackEffectInterface | number) {
-    //     if (targetCard instanceof Node) {
-    //         this.effectTargetCard = targetCard;
-    //         this.targetType = this.getTargetCardType(this.effectTargetCard)!
-    //     }
-    //     if (targetCard instanceof StackEffectPreview) {
-    //         this.effectTargetStackEffectId = targetCard.stackEffect!;
-    //         this.targetType = TARGETTYPE.STACK_EFFECT
-    //     }
-    //     if (targetCard instanceof StackEffectConcrete) {
-    //         this.effectTargetStackEffectId = targetCard;
-    //         this.targetType = TARGETTYPE.STACK_EFFECT
-    //     }
-    //     if (typeof (targetCard) == "number") {
-    //         this.effectTargetNumber = targetCard
-    //         this.targetType = TARGETTYPE.NUMBER
-    //     }
-
-    // }
 
     effectTargetStackEffectId!: StackEffectInterface;
     effectTargetCard!: Node;

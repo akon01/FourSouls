@@ -804,7 +804,7 @@ export class CardManager extends Component {
                         const handCards = player.getHandCards();
                         for (const handCard of handCards) {
                               const cardComp = handCard.getComponent(Card)!;
-                              if (cardComp._isFlipped) {
+                              if (cardComp._isShowingBack) {
                                     cardComp.flipCard(false);
                               }
                         }
@@ -878,7 +878,7 @@ export class CardManager extends Component {
                   //       serverClientWrapper._sc.send(serverData.signal, serverData.srvData)
                   // }, this)))
                   await this.waitForMoveAnimationEnd(animationIndex)
-                  if (flipIfFlipped && card.getComponent(Card)!._isFlipped) {
+                  if (flipIfFlipped && card.getComponent(Card)!._isShowingBack) {
                         await card.getComponent(Card)!.flipCard(false)
                   }
                   return true
@@ -899,7 +899,7 @@ export class CardManager extends Component {
                   //       this.removeMoveAnimation(animationIndex)
                   // }, this)))
                   await this.waitForMoveAnimationEnd(animationIndex)
-                  if (flipIfFlipped && card.getComponent(Card)!._isFlipped) {
+                  if (flipIfFlipped && card.getComponent(Card)!._isShowingBack) {
                         await card.getComponent(Card)!.flipCard(false)
                   }
                   return true
@@ -981,7 +981,7 @@ export class CardManager extends Component {
             }
             for (const tableCard of this.getOnTableCards()) {
                   const cardComp = tableCard.getComponent(Card)!;
-                  if (cardComp._isFlipped) {
+                  if (cardComp._isShowingBack) {
                         cardComp.flipCard(false);
                   }
             }

@@ -7,6 +7,7 @@ import { Cost } from "../CardEffectComponents/Costs/Cost";
 import { ChainCollector } from "../CardEffectComponents/DataCollector/ChainCollector";
 import { DataCollector } from "../CardEffectComponents/DataCollector/DataCollector";
 import { EffectDataConcurencyBase } from "../CardEffectComponents/EffectDataConcurency/EffectDataConcurencyBase";
+import { IMultiEffectChoose } from '../CardEffectComponents/MultiEffectChooser/IMultiEffectChoose';
 import { PreCondition } from "../CardEffectComponents/PreConditions/PreCondition";
 import { EFFECT_ANIMATION_TIME, GAME_EVENTS, ITEM_TYPE, PARTICLE_TYPES } from "../Constants";
 import { ActiveEffectData } from '../Managers/ActiveEffectData';

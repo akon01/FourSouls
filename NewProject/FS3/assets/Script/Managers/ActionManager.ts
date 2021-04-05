@@ -36,29 +36,6 @@ export class ActionManager extends Component {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   currentPlayer: Node | null = null;
   allPlayers: Node[] = [];
   currentTurn: Turn | null = null;
@@ -125,7 +102,7 @@ export class ActionManager extends Component {
     const player: Player = playerNode.getComponent(Player)!;
     const currentPlayerHand: Node = player.hand!.node
     const currentPlayerHandComp: CardLayout = currentPlayerHand.getComponent(CardLayout)!;
-    const allFlippedCards = WrapperProvider.cardManagerWrapper.out.GetAllCards().filter(card => (!card.getComponent(Card)!._isFlipped))!;
+    const allFlippedCards = WrapperProvider.cardManagerWrapper.out.GetAllCards().filter(card => (!card.getComponent(Card)!._isShowingBack))!;
 
     if (!WrapperProvider.turnsManagerWrapper.out.currentTurn) { debugger; throw new Error("No Current Turn") }
     if (!WrapperProvider.buttonManagerWrapper.out.nextTurnButton) { debugger; throw new Error("No Next Turn Button"); }
@@ -321,7 +298,7 @@ export class ActionManager extends Component {
 
     // if (!WrapperProvider.actionManagerWrapper.out.inReactionPhase) {
     const allFlippedCards = new Set([
-      ...WrapperProvider.cardManagerWrapper.out.GetAllCards().filter(card => !card.getComponent(Card)!._isFlipped),
+      ...WrapperProvider.cardManagerWrapper.out.GetAllCards().filter(card => !card.getComponent(Card)!._isShowingBack),
       WrapperProvider.cardManagerWrapper.out.treasureDeck,
       WrapperProvider.cardManagerWrapper.out.monsterDeck,
       ...playerComp.hand!.layoutCards,
@@ -346,7 +323,7 @@ export class ActionManager extends Component {
     if (otherPlayersHandCards.length != 0) {
       for (let i = 0; i < otherPlayersHandCards.length; i++) {
         const card = otherPlayersHandCards[i].getComponent(Card)!;
-        if (!card._isFlipped) { card.flipCard(false) }
+        if (!card._isShowingBack) { card.flipCard(false) }
         this.disableCardActionsAndMake(card.node)
       }
     }
@@ -772,6 +749,14 @@ export class ActionManager extends Component {
         if (!player) { debugger; throw new Error(`No Player Found With Id ${data.playerId}`); }
         player._curses.push(card)
         break;
+      case Signal.PLAYER_SET_RECHARGE_CHAR_AT_START_OF_TURN:
+        player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.playerId)
+        player?.setRechargeCharacterAtStartOfTurn(data.bool, false)
+        break
+      case Signal.PLAYER_SET_HAND_SHOW_CARD_BACK:
+        player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.playerId)
+        player?.hand?.setShowCardsBack(data.isShow, false)
+        break
       // PassiveManager actions.
       case Signal.REMOVE_FROM_PASSIVE_MANAGER:
         try {

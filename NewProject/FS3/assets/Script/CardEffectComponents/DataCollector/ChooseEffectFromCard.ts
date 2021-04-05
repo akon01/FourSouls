@@ -4,6 +4,7 @@ import { CardEffect } from '../../Entites/CardEffect';
 import { Card } from '../../Entites/GameEntities/Card';
 import { EffectTarget } from '../../Managers/EffectTarget';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { IMultiEffectChoose } from '../MultiEffectChooser/IMultiEffectChoose';
 import { MultiEffectChoose } from '../MultiEffectChooser/MultiEffectChoose';
 import { DataCollector } from "./DataCollector";
 const { ccclass, property } = _decorator;
@@ -41,16 +42,30 @@ export class ChooseEffectFromCard extends DataCollector {
 
         const cardEffectComp = cardToChooseFrom.getComponent(CardEffect)!;
         if (cardEffectComp.hasMultipleEffects) {
+            let origActivePaid = { active: false, paid: false }
+            const cardOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(this.getEffectCard())
+            const multiEffectChoose = cardEffectComp.multiEffectCollector
+            if (!multiEffectChoose) throw new Error(`No MultiEffect Choose Set on ${cardToChooseFrom.name}`);
 
+            if (multiEffectChoose instanceof IMultiEffectChoose) {
+                origActivePaid = { active: multiEffectChoose.isOnlyActives, paid: multiEffectChoose.isOnlyPaid }
+                if (this.isOnlyActives) {
+                    multiEffectChoose.isOnlyActives = true
+                    multiEffectChoose.isOnlyPaid = false
+                } else if (this.isOnlyPaid) {
+                    multiEffectChoose.isOnlyPaid = true
+                    multiEffectChoose.isOnlyActives = false
+                }
+            }
+            const chosenEffect = await multiEffectChoose.collectData({ cardPlayed: cardToChooseFrom.node, cardPlayerId: cardOwner!.playerId })
+            const target = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(chosenEffect)
+            if (multiEffectChoose instanceof IMultiEffectChoose) {
+                multiEffectChoose.isOnlyActives = origActivePaid.active
+                multiEffectChoose.isOnlyPaid = origActivePaid.paid
+            }
+        } else {
+            ///Card Should only have 1 effect.
+            return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(cardEffectComp.getAllEffects()[0])
         }
-        const cardOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(this.getEffectCard())
-        const multiEffectChoose = new MultiEffectChoose()
-        if (this.isOnlyActives) {
-            multiEffectChoose.isOnlyActives = true
-        } else if (this.isOnlyPaid) {
-            multiEffectChoose.isOnlyPaid = true
-        }
-        const chosenEffect = await multiEffectChoose.collectData({ cardPlayed: cardToChooseFrom.node, cardPlayerId: cardOwner!.playerId })
-        return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(chosenEffect)
     }
 }

@@ -468,14 +468,14 @@ export class DecisionMarker extends Component {
         this.graphicsComp.moveTo(points.originPoint.x, points.originPoint.y)
         this.graphicsComp.lineTo(points.endPoint!.x, points.endPoint!.y)
         this.graphicsComp.stroke()
-        if (flipEndCard && endCard.getComponent(Card)!._isFlipped) {
+        if (flipEndCard && endCard.getComponent(Card)!._isShowingBack) {
             endCard.getComponent(Card)!.flipCard(false)
         }
         if (sendToServer) {
             WrapperProvider.serverClientWrapper.out.send(Signal.SHOW_DECISION, { startCardId: startCard.getComponent(Card)!._cardId, endCardId: endCard.getComponent(Card)!._cardId, flipEndCard: flipEndCard })
         }
         this._decisionTimeout = setTimeout(() => {
-            if (flipEndCard && !endCard.getComponent(Card)!._isFlipped) {
+            if (flipEndCard && !endCard.getComponent(Card)!._isShowingBack) {
                 endCard.getComponent(Card)!.flipCard(false)
             }
             this._decisionTimeout = null

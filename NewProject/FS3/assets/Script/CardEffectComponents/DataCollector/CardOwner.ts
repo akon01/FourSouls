@@ -1,14 +1,9 @@
-import { _decorator, Node } from 'cc';
+import { Node, _decorator } from 'cc';
+import { COLLECTORTYPE } from "../../Constants";
+import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { DataCollector } from "./DataCollector";
 const { ccclass, property } = _decorator;
 
-import { COLLECTORTYPE } from "../../Constants";
-import { PlayerManager } from "../../Managers/PlayerManager";
-import { DataCollector } from "./DataCollector";
-import { EffectTarget } from "../../Managers/EffectTarget";
-import { CardManager } from "../../Managers/CardManager";
-import { Card } from "../../Entites/GameEntities/Card";
-import { WrapperProvider } from '../../Managers/WrapperProvider';
-import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 
 @ccclass('CardOwner')
 export class CardOwner extends DataCollector {

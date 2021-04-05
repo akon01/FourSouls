@@ -1,6 +1,7 @@
 
 import { _decorator, Component, Node } from 'cc';
 import { Signal } from '../../Misc/Signal';
+import { Condition } from '../CardEffectComponents/CardConditions/Condition';
 import { Effect } from '../CardEffectComponents/CardEffects/Effect';
 import { CardEffect } from '../Entites/CardEffect';
 import { Card } from '../Entites/GameEntities/Card';
@@ -31,6 +32,11 @@ export class EffectRunner {
             passiveManager.removeOneTurnPassiveEffect(chosenEffect, true)
         }
         return serverEffectStack
+    }
+
+    static async testCondition(condition: Condition, conditionData: any) {
+        if (!condition.isConditionActive) return false
+        return await condition.testCondition(conditionData)
     }
 }
 

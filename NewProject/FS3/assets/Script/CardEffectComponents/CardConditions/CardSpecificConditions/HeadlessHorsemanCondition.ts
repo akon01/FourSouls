@@ -1,5 +1,6 @@
-import { _decorator } from 'cc';
+import { EffectAsset, _decorator } from 'cc';
 import { PASSIVE_EVENTS } from "../../../Constants";
+import { EffectRunner } from '../../../Managers/EffectRunner';
 import { PassiveMeta } from "../../../Managers/PassiveMeta";
 import { Condition } from "../Condition";
 const { ccclass, property } = _decorator;
@@ -20,6 +21,6 @@ export class HeadlessHorsemanCondition extends Condition {
     if (!this._isFirstTime) {
       return false;
     }
-    return await this.monsterDeathCondition.testCondition(meta);
+    return EffectRunner.testCondition(this.monsterDeathCondition, meta);
   }
 }

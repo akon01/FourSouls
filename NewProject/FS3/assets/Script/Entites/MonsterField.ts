@@ -60,7 +60,7 @@ export class MonsterField extends Component {
             sendToServer: boolean
       ) {
             const monsterCardComp = monsterCard.getComponent(Card)!;
-            if (monsterCardComp._isFlipped) {
+            if (monsterCardComp._isShowingBack) {
                   monsterCardComp.flipCard(sendToServer);
             }
             const monsterHolder = WrapperProvider.monsterFieldWrapper.out.getMonsterPlaceById(monsterPlaceId);

@@ -1,4 +1,5 @@
 import { _decorator } from 'cc';
+import { Item } from '../../Entites/CardTypes/Item';
 import { Card } from "../../Entites/GameEntities/Card";
 import { EffectTarget } from "../../Managers/EffectTarget";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
@@ -29,10 +30,10 @@ export class DestroyItem extends Cost {
         let chosen = await this.itemToDestroyChooseCard.collectData({ cardPlayerId: player.playerId })
         if (Array.isArray(chosen)) {
             chosen.forEach(async (chosenItem: EffectTarget) => {
-                await player.destroyItem(chosenItem.effectTargetCard, true)
+                await chosenItem.effectTargetCard.getComponent(Item)!.destroyItem(true)
             });
         } else {
-            await player.destroyItem(chosen.effectTargetCard, true)
+            await chosen.effectTargetCard.getComponent(Item)!.destroyItem(true)
         }
     }
 

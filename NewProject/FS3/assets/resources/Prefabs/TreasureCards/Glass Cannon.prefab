@@ -1,0 +1,618 @@
+[
+  {
+    "__type__": "cc.Prefab",
+    "_name": "",
+    "_objFlags": 0,
+    "_native": "",
+    "data": {
+      "__id__": 1
+    },
+    "optimizationPolicy": 0,
+    "asyncLoadAssets": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "Glass Cannon",
+    "_objFlags": 0,
+    "_parent": null,
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 2
+      },
+      {
+        "__id__": 4
+      },
+      {
+        "__id__": 6
+      },
+      {
+        "__id__": 8
+      },
+      {
+        "__id__": 30
+      },
+      {
+        "__id__": 32
+      },
+      {
+        "__id__": 26
+      },
+      {
+        "__id__": 10
+      },
+      {
+        "__id__": 13
+      },
+      {
+        "__id__": 16
+      },
+      {
+        "__id__": 18
+      },
+      {
+        "__id__": 21
+      },
+      {
+        "__id__": 23
+      }
+    ],
+    "_prefab": {
+      "__id__": 34
+    },
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_layer": 1,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 3
+    },
+    "_visFlags": 0,
+    "_customMaterial": {
+      "__uuid__": "fda095cb-831d-4601-ad94-846013963de8"
+    },
+    "_srcBlendFactor": 2,
+    "_dstBlendFactor": 4,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_spriteFrame": {
+      "__uuid__": "8b201869-514d-4918-9787-025ea95e6fb7@f9941"
+    },
+    "_type": 0,
+    "_fillType": 0,
+    "_sizeMode": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_useGrayscale": false,
+    "_atlas": null,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "3fMeqO001KZYH32TOfZryw"
+  },
+  {
+    "__type__": "469baVqArxNIJpM2pHjkHeJ",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 5
+    },
+    "cardName": "Glass Cannon",
+    "doNotMake": false,
+    "makeMultiCards": false,
+    "numOfCopies": 2,
+    "copiesSprites": [],
+    "_cardId": 0,
+    "_isInHand": false,
+    "_isOnDesk": false,
+    "_originalParent": null,
+    "_originalWidth": null,
+    "topDeckof": null,
+    "souls": 0,
+    "type": 5,
+    "_isAttackable": false,
+    "_isBuyable": false,
+    "_isPlayable": false,
+    "_isActivateable": false,
+    "_isReactable": false,
+    "_isRequired": false,
+    "_isShowingBack": false,
+    "hasCounter": false,
+    "_effectCounterLable": null,
+    "_counters": 0,
+    "_hasEventsBeenModified": false,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "9ebMbV52hBbb8JyMANRE5x"
+  },
+  {
+    "__type__": "b5e97fLQIJGGq1XOyBEfLay",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 7
+    },
+    "type": 1,
+    "needsRecharge": false,
+    "eternal": false,
+    "isGuppyItem": false,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "1ctA6VSdBAf6dMXFb1D0yF"
+  },
+  {
+    "__type__": "bd535UKRTNDu7iLPx8/+FlC",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 9
+    },
+    "hasDestroySelfEffect": false,
+    "activeEffectsIdsFinal": [],
+    "activeEffects": [
+      {
+        "__id__": 10
+      },
+      {
+        "__id__": 13
+      },
+      {
+        "__id__": 18
+      },
+      {
+        "__id__": 23
+      }
+    ],
+    "passiveEffectsIdsFinal": [],
+    "passiveEffects": [],
+    "toAddPassiveEffectsIdsFinal": [],
+    "toAddPassiveEffects": [],
+    "paidEffectsIdsFinal": [],
+    "paidEffects": [],
+    "hasMultipleEffects": true,
+    "multiEffectCollectorIdFinal": 0,
+    "multiEffectCollector": {
+      "__id__": 26
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "2flNWtXMdJUrISKa0JA72Y"
+  },
+  {
+    "__type__": "92ff1l7kshKYJ3BgPS1fB2K",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 11
+    },
+    "effectPosition": {
+      "__id__": 12
+    },
+    "EffectId": -1,
+    "isSilent": false,
+    "costIdFinal": -1,
+    "cost": null,
+    "preConditionIdFinal": -1,
+    "preCondition": null,
+    "conditionsIdsFinal": [],
+    "conditions": [],
+    "passiveType": 1,
+    "passiveEffectToAddIdFinal": -1,
+    "passiveEffectToAdd": null,
+    "isOneTimeUse": false,
+    "dataCollectorsIdsFinal": [],
+    "dataCollectors": [],
+    "_effectCard": null,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
+    "optionalFlavorText": "",
+    "isContinuousEffect": false,
+    "markAsRunningOrNotRunning": false,
+    "effectsToChainIdsFinal": [],
+    "effectsToChain": [
+      {
+        "__id__": 13
+      },
+      {
+        "__id__": 18
+      }
+    ],
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "e0hVfBe9hF+rNTiqh6grwe"
+  },
+  {
+    "__type__": "EffectPosition",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0
+  },
+  {
+    "__type__": "b8c60qg7KhLMpFldt81BeGB",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 14
+    },
+    "effectPosition": {
+      "__id__": 15
+    },
+    "EffectId": -1,
+    "isSilent": false,
+    "costIdFinal": -1,
+    "cost": null,
+    "preConditionIdFinal": -1,
+    "preCondition": null,
+    "conditionsIdsFinal": [],
+    "conditions": [],
+    "passiveType": 1,
+    "passiveEffectToAddIdFinal": -1,
+    "passiveEffectToAdd": null,
+    "isOneTimeUse": false,
+    "dataCollectorsIdsFinal": [],
+    "dataCollectors": [
+      {
+        "__id__": 16
+      }
+    ],
+    "_effectCard": null,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
+    "optionalFlavorText": "",
+    "isContinuousEffect": false,
+    "markAsRunningOrNotRunning": false,
+    "numberOfItemsToDestroy": 1,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "56LnrDg/RCmYKWqoYq3omN"
+  },
+  {
+    "__type__": "EffectPosition",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0
+  },
+  {
+    "__type__": "0175bFUYExPf5FCIvNA1zX2",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 17
+    },
+    "DataCollectorId": -1,
+    "cost": null,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "a3eC+4s9dL9L6J5BsG+z1e"
+  },
+  {
+    "__type__": "a96d7Yye0ZFo6njiCE50Wn8",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 19
+    },
+    "effectPosition": {
+      "__id__": 20
+    },
+    "EffectId": -1,
+    "isSilent": false,
+    "costIdFinal": -1,
+    "cost": null,
+    "preConditionIdFinal": -1,
+    "preCondition": null,
+    "conditionsIdsFinal": [],
+    "conditions": [],
+    "passiveType": 1,
+    "passiveEffectToAddIdFinal": -1,
+    "passiveEffectToAdd": null,
+    "isOneTimeUse": false,
+    "dataCollectorsIdsFinal": [],
+    "dataCollectors": [
+      {
+        "__id__": 21
+      }
+    ],
+    "_effectCard": null,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
+    "optionalFlavorText": "",
+    "isContinuousEffect": false,
+    "markAsRunningOrNotRunning": false,
+    "numOfLoot": 2,
+    "multiTarget": false,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "504NG3FuVHnaq+7z2SRXqo"
+  },
+  {
+    "__type__": "EffectPosition",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0
+  },
+  {
+    "__type__": "7dab8c90ZJG8Zh8owOKS3GI",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 22
+    },
+    "DataCollectorId": -1,
+    "cost": null,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "2fqi4likNGGLeggwS1NhnL"
+  },
+  {
+    "__type__": "14ed6MlA1pOLYkroRqoh1T+",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 24
+    },
+    "effectPosition": {
+      "__id__": 25
+    },
+    "EffectId": -1,
+    "isSilent": false,
+    "costIdFinal": -1,
+    "cost": null,
+    "preConditionIdFinal": -1,
+    "preCondition": null,
+    "conditionsIdsFinal": [],
+    "conditions": [],
+    "passiveType": 1,
+    "passiveEffectToAddIdFinal": -1,
+    "passiveEffectToAdd": null,
+    "isOneTimeUse": false,
+    "dataCollectorsIdsFinal": [],
+    "dataCollectors": [
+      {
+        "__id__": 16
+      }
+    ],
+    "_effectCard": null,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
+    "optionalFlavorText": "",
+    "isContinuousEffect": false,
+    "markAsRunningOrNotRunning": false,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "c9EXACMgpK84T6JkWWquO7"
+  },
+  {
+    "__type__": "EffectPosition",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0
+  },
+  {
+    "__type__": "3cd1b6JxEtGub95xl8Uazlk",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 27
+    },
+    "DataCollectorId": -1,
+    "cost": null,
+    "effectsType": 1,
+    "effectsAndNumbers": [
+      {
+        "__id__": 28
+      },
+      {
+        "__id__": 29
+      }
+    ],
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "ae6mVLhNxOXacGXWMMuVcO"
+  },
+  {
+    "__type__": "EffectsAndNumbers",
+    "numbers": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "effect": {
+      "__id__": 10
+    },
+    "effectIdFinal": -1
+  },
+  {
+    "__type__": "EffectsAndNumbers",
+    "numbers": [
+      6
+    ],
+    "effect": {
+      "__id__": 23
+    },
+    "effectIdFinal": -1
+  },
+  {
+    "__type__": "cc.UIOpacity",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 31
+    },
+    "_opacity": 255,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "50XtMqUDtBNJpgNkq21TB1"
+  },
+  {
+    "__type__": "cc.UITransform",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 33
+    },
+    "_priority": 0,
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 100,
+      "height": 140
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "d5W+5G+KNEZ7eD5uEtcVtT"
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__id__": 0
+    },
+    "fileId": "c53TbrvqlCC5o5zam6wSzF"
+  }
+]

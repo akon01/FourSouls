@@ -258,7 +258,7 @@ export class PlayerManager extends Component {
       itemCard = await this.waitForEdenChoose();
       //   itemCard = WrapperProvider.cardManagerWrapper.out.treasureDeck.getComponent(Deck)!._cards.getCards().find(card => card.name == `Smelter`)
       WrapperProvider.cardManagerWrapper.out.treasureDeck!.getComponent(Deck)!.drawSpecificCard(itemCard, true);
-      if (itemCard.getComponent(Card)!._isFlipped) { itemCard.getComponent(Card)!.flipCard(true); }
+      if (itemCard.getComponent(Card)!._isShowingBack) { itemCard.getComponent(Card)!.flipCard(true); }
       itemCard.getComponent(Item)!.eternal = true;
     } else {
       itemCard = fullCharCard.item;

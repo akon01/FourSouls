@@ -58,7 +58,7 @@ export class Store extends Component {
                         newTreasure = WrapperProvider.cardManagerWrapper.out.treasureDeck!.getComponent(Deck)!.drawCard(sendToServer);
                   }
                   const treasureCardComp = newTreasure.getComponent(Card)!;
-                  if (treasureCardComp._isFlipped) {
+                  if (treasureCardComp._isShowingBack) {
                         treasureCardComp.flipCard(sendToServer);
                   }
                   WrapperProvider.cardManagerWrapper.out.allCards.push(newTreasure);

@@ -1,5 +1,6 @@
 import { CCInteger, log, Node, _decorator } from 'cc';
 import { TARGETTYPE } from "../../Constants";
+import { Item } from '../../Entites/CardTypes/Item';
 import { Player } from "../../Entites/GameEntities/Player";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
@@ -26,9 +27,9 @@ export class DestroyItemEffect extends Effect {
     } else {
       let player: Player
       for (let i = 0; i < targetItems.length; i++) {
-        const item = targetItems[i];
-        player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(item as Node)!
-        await player.destroyItem(item as Node, true)
+        const item = targetItems[i] as Node;
+        player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(item)!
+        await item.getComponent(Item)!.destroyItem(true)
         if (i + 1 == this.numberOfItemsToDestroy) break;
       }
     }

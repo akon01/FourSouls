@@ -4,6 +4,7 @@ const { ccclass, property } = _decorator;
 import { Card } from "./GameEntities/Card";
 import { ActionManager } from "../Managers/ActionManager";
 import { WrapperProvider } from '../Managers/WrapperProvider';
+import { Signal } from '../../Misc/Signal';
 const Type = Enum({
       /**
        * !#en None Layout
@@ -98,11 +99,40 @@ export class CardLayout extends Component {
       @property(CCInteger)
       localSign = 1;
 
+      private showCardsBack: boolean = false
+
+      handleCardSprite(card: Card) {
+            if (this.showCardsBack) {
+                  const cardComp = card.getComponent(Card)!
+                  if (cardComp._isShowingBack) {
+                        cardComp.flipCard(false)
+                  }
+            } else {
+                  const cardComp = card.getComponent(Card)!
+                  if (!cardComp._isShowingBack) {
+                        cardComp.flipCard(false)
+                  }
+            }
+      }
+
+      setShowCardsBack(isShow: boolean, sendToServer: boolean) {
+            this.showCardsBack = isShow
+            if (sendToServer) {
+                  WrapperProvider.serverClientWrapper.out.send(Signal.PLAYER_SET_HAND_SHOW_CARD_BACK, { playerId: this.playerId, isShow })
+            }
+            this.layoutCards.forEach(c => {
+                  const cardComp = c.getComponent(Card)!
+                  this.handleCardSprite(cardComp)
+            })
+
+      }
+
       addCardToLayout(newCard: Node) {
-            const newCardComp = newCard.getComponent(Card);
+            const newCardComp = newCard.getComponent(Card)!;
             // newCardComp.currentCardLayout = this;
 
             this.layoutCards.push(newCard);
+            this.handleCardSprite(newCardComp)
 
             this.node.emit("HandCardAdded", newCard);
             //  WrapperProvider.actionManagerWrapper.out.updateActions();

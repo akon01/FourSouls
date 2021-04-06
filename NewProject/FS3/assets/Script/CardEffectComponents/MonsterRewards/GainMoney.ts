@@ -10,11 +10,11 @@ import { REWARD_TYPES } from "../../Constants";
 @ccclass('GainMoney')
 export class GainMoney extends MonsterReward {
       @property({ override: true })
-      hasRoll: boolean = false
-      rollNumber: number = 0;
+      hasRoll = false
+      rollNumber = 0;
       type: REWARD_TYPES = REWARD_TYPES.money
       @property
-      numOfMoneyToAdd: number = 0;
+      numOfMoneyToAdd = 0;
       setRewardQuantity(number: number) {
             this.numOfMoneyToAdd = number
       }

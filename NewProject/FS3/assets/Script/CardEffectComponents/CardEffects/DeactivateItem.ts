@@ -14,7 +14,7 @@ import { WrapperProvider } from '../../Managers/WrapperProvider';
 export class DeactivateItem extends Effect {
       effectName = "DeactivateItem";
       @property
-      isMulti: boolean = false;
+      isMulti = false;
       chooseType: CHOOSE_CARD_TYPE = CHOOSE_CARD_TYPE.ALL_PLAYERS_ITEMS;
       /**
        *

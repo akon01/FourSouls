@@ -97,10 +97,11 @@ export class SIGNAL_GROUPS {
 }
 
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export const ObjectEntries = (obj: Object) => {
-  var ownProps = Object.keys(obj),
-    i = ownProps.length,
-    resArray = new Array(i); // preallocate the Array
+  const ownProps = Object.keys(obj)
+  let i = ownProps.length
+  const resArray = new Array(i); // preallocate the Array
   while (i--)
     //@ts-ignore
     resArray[i] = [ownProps[i], obj[ownProps[i]]];
@@ -265,17 +266,21 @@ export enum CHOOSE_CARD_TYPE {
   OTHER_PLAYERS_NON_ETERNAL_ITEMS = 25,
   MOST_SOULS_PLAYERS = 26,
   MY_SOUL_CARDS = 27,
-  IN_PILE_MONSTER_CARDS,
-  IN_PILE_LOOT_CARDS,
-  IN_PILE_TREASURE_CARDS,
-  MOM_MOMS_HEART,
+  IN_PILE_MONSTER_CARDS = 28,
+  IN_PILE_LOOT_CARDS = 29,
+  IN_PILE_TREASURE_CARDS = 30,
+  MOM_MOMS_HEART = 31,
+  OTHER_PLAYERS_SOUL_CARDS = 32
 }
 export enum PLAYER_FILTERS {
   HAS_LOOT,
   IS_NOT_DEAD,
   HAS_MONEY,
   IS_NOT_ME,
-  HAS_NON_ETERNAL_ITEMS
+  HAS_NON_ETERNAL_ITEMS,
+  HAVE_EGG_COUNTERS,
+  DONT_HAVE_EGG_COUNTER
+
 }
 export enum SIGNS {
   EQUAL,
@@ -303,7 +308,11 @@ export enum CARD_POOLS {
   IN_DECK_GUPPY_ITEMS = 15,
   PLAYER_TO_YOUR_RIGHT = 16,
   PLAYER_TO_YOUR_LEFT = 17,
-  RANDOM_OTHER_PLAYER_LOOT_NOT_BEING_PLAYED = 18
+  RANDOM_OTHER_PLAYER_LOOT_NOT_BEING_PLAYED = 18,
+  PLAYERS_WITH_EGG_COUNTERS = 19,
+  PLAYERS_WITHOUT_EGG_COUNTERS = 20,
+  MONSTERS_WITH_EGG_COUNTERS = 21,
+  MONSTERS_WITHOUT_EGG_COUNTERS = 22
 }
 export enum BUTTON_STATE {
   ENABLED,
@@ -402,6 +411,8 @@ export enum PASSIVE_EVENTS {
   ITEM_DESTROY = "ITEM_DESTROY",
   PLAYER_CHOOSE_ITEM_TO_DESTROY_FOR_PANELTIES = "PLAYER_CHOOSE_ITEM_TO_DESTROY_FOR_PANELTIES",
   DICE_ABOUT_TO_BE_ROLLED = "DICE_ABOUT_TO_BE_ROLLED",
+  EGG_COUNTER_REMOVED = "EGG_COUNTER_REMOVED",
+  EGG_COUNTER_ADDED = "EGG_COUNTER_ADDED",
 }
 export enum COLORS {
   GREEN = "35%, 75%, 10%",
@@ -434,5 +445,5 @@ export const PARTICLE_SYS_MAX = 40
 export const EFFECT_ANIMATION_TIME = 2;
 export const ANNOUNCEMENT_TIME = 2;
 export const DECISION_SHOW_TIME = 3;
-export let ServerIp = "localhost:7456/"
+export const ServerIp = "localhost:7456/"
 

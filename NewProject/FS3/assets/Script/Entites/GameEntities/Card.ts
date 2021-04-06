@@ -1,6 +1,7 @@
 import { Animation, CCInteger, Component, Enum, instantiate, Label, Mask, Node, Sprite, SpriteFrame, SystemEventType, UITransform, Widget, _decorator } from 'cc';
 import { Signal } from "../../../Misc/Signal";
 import { DataCollector } from "../../CardEffectComponents/DataCollector/DataCollector";
+import { ICanHaveEggCounters } from '../../CardEffectComponents/IEggCounterable';
 import { CARD_HEIGHT, CARD_TYPE, CARD_WIDTH, PASSIVE_EVENTS } from "../../Constants";
 import { PassiveMeta } from "../../Managers/PassiveMeta";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
@@ -11,19 +12,19 @@ const { ccclass, property } = _decorator;
 
 
 @ccclass('Card')
-export class Card extends Component {
+export class Card extends Component implements ICanHaveEggCounters {
       @property
-      cardName: string = "";
+      cardName = "";
 
       @property
-      doNotMake: boolean = false;
+      doNotMake = false;
 
       cardMask: Mask | null = null;
 
       cardSprite: Sprite | null = null
 
       @property
-      makeMultiCards: boolean = false;
+      makeMultiCards = false;
 
       //@ts-ignore
       @property({
@@ -31,7 +32,7 @@ export class Card extends Component {
                   if (this.makeMultiCards) { return true }
             }, type: CCInteger, min: 2
       })
-      numOfCopies: number = 2;
+      numOfCopies = 2;
 
       //@ts-ignore
       @property({
@@ -42,13 +43,13 @@ export class Card extends Component {
       copiesSprites: SpriteFrame[] = []
 
       @property
-      _cardId: number = 0;
+      _cardId = 0;
 
       @property
-      _isInHand: boolean = false;
+      _isInHand = false;
 
       @property
-      _isOnDesk: boolean = false;
+      _isOnDesk = false;
 
       @property
       _originalParent: Node | null = null;
@@ -60,9 +61,9 @@ export class Card extends Component {
       topDeckof: Node | null = null;
 
       @property
-      souls: number = 0;
+      souls = 0;
 
-      _cardHolderId: number = -1;
+      _cardHolderId = -1;
 
       @property({
             type: Enum(CARD_TYPE)
@@ -70,28 +71,28 @@ export class Card extends Component {
       type: CARD_TYPE = CARD_TYPE.CHAR;
 
 
-      isGoingToBePlayed: boolean = false;
+      isGoingToBePlayed = false;
 
 
-      isGoingToBeDestroyed: boolean = false;
-
-      @property
-      _isAttackable: boolean = false;
+      isGoingToBeDestroyed = false;
 
       @property
-      _isBuyable: boolean = false;
+      _isAttackable = false;
 
       @property
-      _isPlayable: boolean = false;
+      _isBuyable = false;
 
       @property
-      _isActivateable: boolean = false;
+      _isPlayable = false;
 
       @property
-      _isReactable: boolean = false;
+      _isActivateable = false;
 
       @property
-      _isRequired: boolean = false;
+      _isReactable = false;
+
+      @property
+      _isRequired = false;
 
       _requiredFor: DataCollector | null = null;
 
@@ -102,7 +103,7 @@ export class Card extends Component {
       backSprite: SpriteFrame | null = null;
 
       @property
-      _isShowingBack: boolean = false;
+      _isShowingBack = false;
 
       _ownedBy: Player | null = null;
 
@@ -114,16 +115,18 @@ export class Card extends Component {
       }
 
       @property
-      hasCounter: boolean = false;
+      hasCounter = false;
 
       @property
       _effectCounterLable: Label | null = null;
 
       @property
-      _counters: number = 0;
+      _counters = 0;
 
       @property
-      _hasEventsBeenModified: boolean = false;
+      _hasEventsBeenModified = false;
+
+      eggCounters = 0
 
       private hoverSpriteType: HoverSpriteType = HoverSpriteType.default
 

@@ -20,7 +20,7 @@ export function getCurrentPlayer(players: Node[], turn: Turn) {
 export class Turn {
   PlayerId: number;
   turnId!: number
-  battlePhase: boolean = false;
+  battlePhase = false;
 
 
 
@@ -34,7 +34,7 @@ export class Turn {
     //TODO: Restore To 1 After checking
     player.attackPlays += 1
     //add turn loot card play
-    player.lootCardPlays += 1
+    player.changeLootCardPlayes(1, false)
     //add turn buy play
     player.buyPlays += 1;
 
@@ -56,9 +56,9 @@ export class Turn {
       //remove turn attack play
       player.attackPlays -= 1
     }
-    if (player.lootCardPlays > 0) {
+    if (player.getLootCardPlays() > 0) {
       //remove turn loot card play
-      player.lootCardPlays -= 1
+      player.changeLootCardPlayes(1, false)
     }
     if (player.buyPlays > 0) {
       //remove turn buy play

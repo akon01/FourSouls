@@ -1,4 +1,4 @@
-import { find, Graphics, log, math, Node, UITransform, _decorator } from 'cc';
+import { find, Graphics, math, Node, UITransform, _decorator } from 'cc';
 import { whevent } from "../../../ServerClient/whevent";
 import { Item } from "../../Entites/CardTypes/Item";
 import { Monster } from "../../Entites/CardTypes/Monster";
@@ -6,7 +6,6 @@ import { Card } from "../../Entites/GameEntities/Card";
 import { Deck } from "../../Entites/GameEntities/Deck";
 import { Player } from "../../Entites/GameEntities/Player";
 import { EffectTarget } from "../../Managers/EffectTarget";
-import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { ActivateItem } from "../../StackEffects/ActivateItem";
 import { ChooseCardTypeAndFilter } from "../ChooseCardTypeAndFilter";
@@ -30,13 +29,13 @@ export class ChooseCard extends DataCollector {
 
 
   @property
-  multiType: boolean = false;
+  multiType = false;
 
 
   otherPlayer: Player | null = null
 
   @property
-  isChooseFromPreviewManager: boolean = false
+  isChooseFromPreviewManager = false
 
   //@ts-ignore
   @property({
@@ -55,7 +54,7 @@ export class ChooseCard extends DataCollector {
   chooseTypes: ChooseCardTypeAndFilter[] = []
 
   @property
-  filterFromPassiveMeta: boolean = false;
+  filterFromPassiveMeta = false;
 
   @property({
     visible: function (this: ChooseCard) {
@@ -67,13 +66,13 @@ export class ChooseCard extends DataCollector {
 
 
   @property
-  flavorText: string = ""
+  flavorText = ""
 
   @property
-  otherPlayersFlavorText: string = ''
+  otherPlayersFlavorText = ''
 
   @property
-  isMultiCardChoice: boolean = false;
+  isMultiCardChoice = false;
 
   //@ts-ignore
   @property({
@@ -81,13 +80,13 @@ export class ChooseCard extends DataCollector {
       if (this.isMultiCardChoice) return true
     }
   })
-  numOfCardsToChoose: number = 1
+  numOfCardsToChoose = 1
 
   @property({ visible: function (this: ChooseCard) { return this.isMultiCardChoice } })
-  isChooseUpTo: boolean = false;
+  isChooseUpTo = false;
 
   @property
-  isGetCardsToChooseFromFromAnotherCollector: boolean = false
+  isGetCardsToChooseFromFromAnotherCollector = false
 
   @property({ type: DataCollector, visible: function (this: ChooseCard) { return this.isGetCardsToChooseFromFromAnotherCollector } })
   dataCollectorToGetCardsFrom: DataCollector | null = null
@@ -360,6 +359,13 @@ export class ChooseCard extends DataCollector {
         WrapperProvider.playerManagerWrapper.out.players.forEach(player => {
           const playerComp = player.getComponent(Player)!;
           if (playerComp.me) { return }
+          cardsToReturn = cardsToReturn.concat(playerComp.soulsLayout!.children)
+        })
+        return cardsToReturn;
+      case CHOOSE_CARD_TYPE.OTHER_PLAYERS_SOUL_CARDS:
+        WrapperProvider.playerManagerWrapper.out.players.forEach(player => {
+          const playerComp = player.getComponent(Player)!;
+          if (playerComp.me) { return }
           cardsToReturn = cardsToReturn.concat((playerComp.getDeskCards().filter(card => {
             if (!card.getComponent(Item)!.eternal) { return true; }
           }).filter(c => !(playerComp._curses.indexOf(c) >= 0))))
@@ -368,8 +374,7 @@ export class ChooseCard extends DataCollector {
       case CHOOSE_CARD_TYPE.STORE_CARDS:
         return WrapperProvider.storeWrapper.out.getStoreCards();
       case CHOOSE_CARD_TYPE.IN_TREASURE_DECK_GUPPY_ITEMS:
-        var x = WrapperProvider.cardManagerWrapper.out.treasureDeck!.getComponent(Deck)!.getCards().filter(e => e.getComponent(Item)!.isGuppyItem)
-        return x
+        return WrapperProvider.cardManagerWrapper.out.treasureDeck!.getComponent(Deck)!.getCards().filter(e => e.getComponent(Item)!.isGuppyItem)
       case CHOOSE_CARD_TYPE.MOST_SOULS_PLAYERS:
         players = WrapperProvider.playerManagerWrapper.out.players.map(p => p.getComponent(Player)!)
         let mostSoulsPlayers: Player[] = []
@@ -401,7 +406,7 @@ export class ChooseCard extends DataCollector {
       if (card != null && card != undefined) { cards.add(card) }
     }
     // const id = this.node.uuid
-    let flippedCards: Node[] = []
+    const flippedCards: Node[] = []
     cards.forEach(card => {
       WrapperProvider.cardManagerWrapper.out.disableCardActions(card);
       const cardComp = card.getComponent(Card)!;
@@ -446,7 +451,7 @@ export class ChooseCard extends DataCollector {
     } else {
       WrapperProvider.announcementLableWrapper.out.sendToServerShowAnnouncment(this.otherPlayersFlavorText)
     }
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       whevent.onOnce(GAME_EVENTS.CHOOSE_CARD_CARD_CHOSEN, (data: any) => {
         WrapperProvider.announcementLableWrapper.out.hideAnnouncement(true)
         if (data) {

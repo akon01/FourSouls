@@ -19,16 +19,23 @@ export class AddMoney extends Effect {
                   return !this.isAllMoneyTargetHas && !this.isGetNumOfCoinsFromDataCollector
             }
       })
-      numOfCoins: number = 0;
+      numOfCoins = 0;
 
       @property
-      isAllMoneyTargetHas: boolean = false
+      isAllMoneyTargetHas = false
 
       @property
-      multiTarget: boolean = false;
+      isGetNumOfCoinsFromDataCollector = false
 
       @property
-      isGetNumOfCoinsFromDataCollector: boolean = false
+      isMultipliedBy = false
+
+      @property({
+            visible: function (this: AddMoney) {
+                  return this.isMultipliedBy
+            }
+      })
+      multiplyBy = 1
 
       /**
        *
@@ -38,40 +45,35 @@ export class AddMoney extends Effect {
 
             let numOfCoins = this.numOfCoins
             if (this.isGetNumOfCoinsFromDataCollector) {
-                  numOfCoins = data?.getTarget(TARGETTYPE.NUMBER)! as number
+                  if (!data) throw new Error("No Data Collected When Needed");
+
+                  numOfCoins = data.getTarget(TARGETTYPE.NUMBER)! as number
             }
             if (this.hasLockingResolve) {
                   numOfCoins = this.lockingResolve
             }
             if (!data) { debugger; throw new Error("No Data!"); }
-            if (this.multiTarget) {
-                  let targets = data.getTargets(TARGETTYPE.PLAYER)
-                  if (targets.length == 0) {
-                        throw new Error(`no targets`)
-                  }
-                  for (let i = 0; i < targets.length; i++) {
-                        const target = targets[i] as Node;
-                        const targetPlayer = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(target as Node)!;
-                        if (this.isAllMoneyTargetHas) {
-                              numOfCoins = targetPlayer.coins
-                        }
-                        await targetPlayer.changeMoney(numOfCoins, true)
-                  }
-            } else {
-                  let targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER)
-                  if (targetPlayerCard == null) {
-                        console.log(`target player is null`)
-                  } else {
-                        let player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard as Node)!
-                        if (this.isAllMoneyTargetHas) {
-                              numOfCoins = player.coins
-                        }
-                        await player.changeMoney(numOfCoins, true);
-                  }
 
+            const targets = data.getTargets(TARGETTYPE.PLAYER)
+            if (targets.length == 0) {
+                  throw new Error(`no targets`)
             }
+            for (let i = 0; i < targets.length; i++) {
+                  const target = targets[i] as Node;
+                  await this.addMoneyToPlayer(target, numOfCoins);
+            }
+
 
             if (data instanceof PassiveEffectData) return data
             return WrapperProvider.stackWrapper.out._currentStack
+      }
+
+      private async addMoneyToPlayer(target: Node, numOfCoins: number) {
+            const targetPlayer = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(target as Node)!;
+            if (this.isAllMoneyTargetHas) {
+                  numOfCoins = targetPlayer.coins;
+            }
+            numOfCoins = this.isMultipliedBy ? numOfCoins * this.multiplyBy : numOfCoins
+            await targetPlayer.changeMoney(this.getQuantityInRegardsToBlankCard(targetPlayer.node, numOfCoins), true);
       }
 }

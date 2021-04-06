@@ -10,10 +10,10 @@ import { MonsterReward } from "./MonsterReward";
 @ccclass('RollGainLoot')
 export class RollGainLoot extends MonsterReward {
       @property({ override: true })
-      hasRoll: boolean = true
-      rollNumber: number = 0;
+      hasRoll = true
+      rollNumber = 0;
       @property
-      numOfLootToAdd: number = 0;
+      numOfLootToAdd = 0;
       type: REWARD_TYPES = REWARD_TYPES.rollLoot
       setRewardQuantity(number: number) {
             this.numOfLootToAdd = number

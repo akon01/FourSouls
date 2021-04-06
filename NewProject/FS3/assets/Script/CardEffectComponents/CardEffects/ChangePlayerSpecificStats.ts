@@ -17,15 +17,15 @@ import { WrapperProvider } from '../../Managers/WrapperProvider';
 export class ChangePlayerSpecificStats extends Effect {
   effectName = "ChangePlayerSpecificStats";
   @property
-  multiTarget: boolean = false;
+  multiTarget = false;
   @property
-  gainStartTurnDraw: boolean = false;
+  gainStartTurnDraw = false;
   @property({
     visible: function (this: ChangePlayerSpecificStats) {
       return this.gainStartTurnDraw
     }
   })
-  StartTurnDrawToGain: number = 0;
+  StartTurnDrawToGain = 0;
 
 
   isReveseable = true
@@ -91,23 +91,23 @@ export class ChangePlayerSpecificStats extends Effect {
     if (player == null) player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(target)
     if (player != null) {
       if (this.gainStartTurnDraw) {
-        await player.changeTurnDrawPlays(this.StartTurnDrawToGain, true)
+        await player.changeTurnDrawPlays(this.getQuantityInRegardsToBlankCard(player.node, this.StartTurnDrawToGain), true)
       }
 
     }
     this.activatedTarget = target
   }
   async reverseEffect() {
-    let target = this.activatedTarget;
+    const target = this.activatedTarget;
 
     if (target != null) {
 
       // case target is a player
       if (target instanceof Player) {
-        let player: Player | null = target.getComponent(Player);
+        const player: Player | null = target.getComponent(Player);
         if (player) {
           if (this.gainStartTurnDraw) {
-            await player.changeTurnDrawPlays(this.StartTurnDrawToGain, true)
+            await player.changeTurnDrawPlays(this.getQuantityInRegardsToBlankCard(player.node, this.StartTurnDrawToGain), true)
           }
 
         }

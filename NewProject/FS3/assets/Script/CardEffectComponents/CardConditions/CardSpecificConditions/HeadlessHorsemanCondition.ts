@@ -1,4 +1,4 @@
-import { EffectAsset, _decorator } from 'cc';
+import { _decorator } from 'cc';
 import { PASSIVE_EVENTS } from "../../../Constants";
 import { EffectRunner } from '../../../Managers/EffectRunner';
 import { PassiveMeta } from "../../../Managers/PassiveMeta";

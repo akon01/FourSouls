@@ -1,6 +1,8 @@
 import { CCInteger, Component, Enum, Node, _decorator } from 'cc';
-import { CHOOSE_CARD_TYPE, ITEM_TYPE, PASSIVE_TYPE } from "../../Constants";
+import { CARD_TYPE, CHOOSE_CARD_TYPE, ITEM_TYPE, PASSIVE_TYPE } from "../../Constants";
 import { EffectPosition } from "../../EffectPosition";
+import { Card } from '../../Entites/GameEntities/Card';
+import { Player } from '../../Entites/GameEntities/Player';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { EffectData } from '../../Managers/EffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
@@ -29,22 +31,22 @@ export class Effect extends Component implements EffectInterface {
 
       noDataCollector = false;
 
-      hasBeenHandled: boolean = false
+      hasBeenHandled = false
 
       @property({ type: EffectPosition })
       effectPosition: EffectPosition = new EffectPosition()
 
       @property
-      EffectId: number = -1
+      EffectId = -1
 
       @property
-      isSilent: boolean = false;
+      isSilent = false;
 
       effectData: ActiveEffectData | PassiveEffectData | null = null;
 
 
       @property({ type: CCInteger, multiline: true })
-      costIdFinal: number = -1
+      costIdFinal = -1
 
       @property({ type: Component, multiline: true })
       cost: Cost | null = null
@@ -59,7 +61,7 @@ export class Effect extends Component implements EffectInterface {
 
 
       @property({ type: CCInteger, multiline: true })
-      preConditionIdFinal: number = -1;
+      preConditionIdFinal = -1;
 
 
       @property({ type: Component, multiline: true })
@@ -74,7 +76,7 @@ export class Effect extends Component implements EffectInterface {
             // return null
       }
 
-      hasSubAction: boolean = false;
+      hasSubAction = false;
 
       @property({ type: [CCInteger], multiline: true })
       conditionsIdsFinal: number[] = []
@@ -93,13 +95,13 @@ export class Effect extends Component implements EffectInterface {
 
 
       @property({ type: CCInteger, multiline: true })
-      passiveEffectToAddIdFinal: number = -1
+      passiveEffectToAddIdFinal = -1
 
       @property(Component)
       passiveEffectToAdd: Effect | null = null
 
       @property({ tooltip: "Only If This Effect Is A 'Passive Effect To Add'" })
-      isOneTimeUse: boolean = false
+      isOneTimeUse = false
 
       getPassiveEffectToAdd() {
             return this.passiveEffectToAdd
@@ -109,7 +111,7 @@ export class Effect extends Component implements EffectInterface {
             // return null
       }
 
-      effectName: string = "";
+      effectName = "";
 
       chooseType: CHOOSE_CARD_TYPE | null = null;
 
@@ -138,21 +140,21 @@ export class Effect extends Component implements EffectInterface {
       }
 
       @property
-      optionalAfterDataCollection: boolean = false;
+      optionalAfterDataCollection = false;
 
       @property
-      optionalBeforeDataCollection: boolean = false;
+      optionalBeforeDataCollection = false;
 
       @property
-      hasPlayerChoiceToActivateInChainEffects: boolean = false;
+      hasPlayerChoiceToActivateInChainEffects = false;
 
       @property
-      hasLockingResolve: boolean = false;
+      hasLockingResolve = false;
 
       lockingResolve = 0;
 
       @property
-      hasDataConcurency: boolean = false;
+      hasDataConcurency = false;
 
       // @property({ type: CCInteger, multiline: true })
       // dataConcurencyComponentIdFinal: number = -1
@@ -171,7 +173,7 @@ export class Effect extends Component implements EffectInterface {
 
 
       @property
-      optionalFlavorText: string = ''
+      optionalFlavorText = ''
 
 
       @property
@@ -182,7 +184,7 @@ export class Effect extends Component implements EffectInterface {
                   return this.isContinuousEffect
             }
       })
-      markAsRunningOrNotRunning: boolean = false
+      markAsRunningOrNotRunning = false
 
       effectRunning = false
 
@@ -206,9 +208,9 @@ export class Effect extends Component implements EffectInterface {
        */
       async doEffect(Stack: StackEffectInterface[], data?: any): Promise<StackEffectInterface[] | EffectData> { return new PassiveEffectData() }
 
-      reverseEffect() {
+      // reverseEffect() {
 
-      }
+      // }
 
       runDataConcurency(effectData: ActiveEffectData | PassiveEffectData, numOfEffect: number, type: ITEM_TYPE, sendToServer: boolean) {
             this.getDataConcurencyComponent()!.runDataConcurency(effectData, numOfEffect, type, sendToServer)
@@ -218,6 +220,24 @@ export class Effect extends Component implements EffectInterface {
             console.log(`on load effect`);
 
             this._effectCard = this.node;
+      }
+
+      isThisCardALootCard() {
+            if (!this._effectCard) {
+                  throw new Error("No Effect Card Set!");
+            }
+            return this._effectCard.getComponent(Card)?.type == CARD_TYPE.LOOT
+      }
+
+      getQuantityInRegardsToBlankCard(target: Node, originalQuantity: number) {
+            const player = target.getComponent(Player)
+            if (!player) {
+                  return originalQuantity
+            }
+            if (!this.isThisCardALootCard()) {
+                  return originalQuantity
+            }
+            return player.hasBlankCardEffectActive ? originalQuantity * 2 : originalQuantity
       }
 
       // static async runEffect(chosenEffect: Effect, stack: StackEffectInterface[], data?: any) {

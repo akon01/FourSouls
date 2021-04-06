@@ -49,7 +49,7 @@ export class MainScript extends Component {
     @property(Node)
     monsterField: Node | null = null;
     @property
-    gameHasStarted: boolean = false;
+    gameHasStarted = false;
 
 
 
@@ -251,7 +251,7 @@ export class MainScript extends Component {
             // let over = await WrapperProvider.actionManagerWrapper.out.updateActions();
 
             WrapperProvider.serverClientWrapper.out.send(Signal.UPDATE_ACTIONS)
-            var number = WrapperProvider.mainScriptWrapper.out.countNodes(find("RenderRoot2D/Canvas")!, 0, new Set<Node>())
+            let number = WrapperProvider.mainScriptWrapper.out.countNodes(find("RenderRoot2D/Canvas")!, 0, new Set<Node>())
             const allCards = WrapperProvider.cardManagerWrapper.out.GetAllCards()
             allCards.forEach(card => {
                 number = WrapperProvider.mainScriptWrapper.out.countNodes(card, number, new Set<Node>())

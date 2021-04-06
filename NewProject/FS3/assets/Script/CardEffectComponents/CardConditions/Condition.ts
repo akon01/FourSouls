@@ -18,10 +18,10 @@ export class Condition extends Component implements ConditionInterface {
 
 
   @property
-  isConditionActive: boolean = true
+  isConditionActive = true
   @property({ type: CCInteger, step: 1 })
-  ConditionId: number = -1;
-  isAddPassiveEffect: boolean = false;;
+  ConditionId = -1;
+  isAddPassiveEffect = false;
   events: Array<PASSIVE_EVENTS> = [];
   event: PASSIVE_EVENTS | null = null;
   conditionData: ActiveEffectData | PassiveEffectData = new ActiveEffectData;
@@ -36,7 +36,7 @@ export class Condition extends Component implements ConditionInterface {
     return this.dataCollector
 
   }
-  needsDataCollector: boolean = true
+  needsDataCollector = true
   setConditionId() {
     if (this.node && this.ConditionId == -1) {
       const comps = this.node.getComponents(Condition);

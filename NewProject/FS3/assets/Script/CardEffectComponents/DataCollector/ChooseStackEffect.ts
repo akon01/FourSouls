@@ -1,18 +1,14 @@
-import { _decorator, Enum, log, Node } from 'cc';
+import { _decorator, Enum, Node } from 'cc';
 const { ccclass, property } = _decorator;
 
 import { Player } from "../../Entites/GameEntities/Player";
-import { Stack } from "../../Entites/Stack";
 import { EffectTarget } from "../../Managers/EffectTarget";
-import { PlayerManager } from "../../Managers/PlayerManager";
-import { StackEffectVisManager } from "../../Managers/StackEffectVisManager";
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { StackEffectPreview } from "../../StackEffects/StackEffectVisualRepresentation/StackEffectPreview";
 import { GAME_EVENTS, STACK_EFFECT_TYPE } from "./../../Constants";
 import { DataCollector } from "./DataCollector";
 import { whevent } from "../../../ServerClient/whevent";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
-import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 
 @ccclass('ChooseStackEffect')
 export class ChooseStackEffect extends DataCollector {
@@ -43,7 +39,7 @@ export class ChooseStackEffect extends DataCollector {
     const stackEffectsToChooseFrom = []
     for (let i = 0; i < this.chooseTypes.length; i++) {
       const chooseType = this.chooseTypes[i];
-      stackEffectsToChooseFrom.push(...this.getStackEffectsToChoose(chooseType, player));
+      stackEffectsToChooseFrom.push(...this.getStackEffectsToChoose(chooseType));
     }
     if (stackEffectsToChooseFrom.length == 0) {
       throw new Error("No Stack Effects To Choose From!")
@@ -61,10 +57,7 @@ export class ChooseStackEffect extends DataCollector {
 
   }
 
-  getStackEffectsToChoose(chooseType: STACK_EFFECT_TYPE, mePlayer?: Player, player?: Player) {
-    const stackEffectsToReturn: StackEffectInterface[] = [];
-    let players
-
+  getStackEffectsToChoose(chooseType: STACK_EFFECT_TYPE) {
     return WrapperProvider.stackWrapper.out._currentStack.filter(effect => {
       if (effect.stackEffectType == chooseType) {
         return true
@@ -99,7 +92,7 @@ export class ChooseStackEffect extends DataCollector {
   }
 
   async waitForEffectToBeChosen(): Promise<Node> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       whevent.onOnce(GAME_EVENTS.CHOOSE_STACK_EFFECT_CHOSEN, (data: any) => {
         if (data) {
           resolve(this.cardChosen!);

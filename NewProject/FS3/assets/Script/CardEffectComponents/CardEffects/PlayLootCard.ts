@@ -1,18 +1,16 @@
-import { _decorator, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
+import { Node, _decorator } from 'cc';
 import { CardEffect } from "../../Entites/CardEffect";
 import { Card } from "../../Entites/GameEntities/Card";
-import { Stack } from "../../Entites/Stack";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PlayerManager } from "../../Managers/PlayerManager";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { PlayLootCardStackEffect } from "../../StackEffects/PlayLootCard";
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { MultiEffectChoose } from "../MultiEffectChooser/MultiEffectChoose";
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
 import { Effect } from "./Effect";
+const { ccclass, property } = _decorator;
+
 
 @ccclass('PlayLootCard')
 export class PlayLootCard extends Effect {

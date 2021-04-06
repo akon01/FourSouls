@@ -43,22 +43,22 @@ export class Deck extends Component {
       }
 
       @property
-      suffleInTheStart: boolean = false;
+      suffleInTheStart = false;
 
       @property([Prefab])
       cardsPrefab: Prefab[] = [];
 
       @property
-      _cardId: number = 0;
+      _cardId = 0;
 
       @property
-      _isRequired: boolean = false;
+      _isRequired = false;
 
       @property
       _requiredFor: DataCollector | null = null;
 
       @property
-      _hasEventsBeenModified: boolean = false;
+      _hasEventsBeenModified = false;
 
       _isDrawFromPileInsted = false
 
@@ -71,7 +71,7 @@ export class Deck extends Component {
                   WrapperProvider.cardManagerWrapper.out.inDecksCardsIds.push(cardComp._cardId);
             }
             const index = (this._cards.length != 0) ? this._cards.length - 1 : 0
-            var newOffset = offset != 0 ? offset - 1 : offset
+            const newOffset = offset != 0 ? offset - 1 : offset
             this._cards.splice(index - newOffset, 0, cardComp._cardId);
             // WrapperProvider.cardManagerWrapper.out.monsterCardPool.put(card);
             card.setParent(null)
@@ -85,7 +85,7 @@ export class Deck extends Component {
       }
       drawCard(sendToServer: boolean): Node {
             if (this._isDrawFromPileInsted) {
-                  const pileTop = this.pile?.getTopCard()!
+                  const pileTop = this.pile!.getTopCard()!
                   this.pile?.removeFromPile(pileTop);
                   return pileTop
             }
@@ -158,7 +158,7 @@ export class Deck extends Component {
             } else {
                   WrapperProvider.cardManagerWrapper.out.inDecksCardsIds.push(cardComp._cardId);
             }
-            var newOffset = offset != 0 ? offset - 1 : offset
+            const newOffset = offset != 0 ? offset - 1 : offset
             this._cards.splice(0 + newOffset, 0, cardComp._cardId);
             card.setParent(null)
             const serverData = {

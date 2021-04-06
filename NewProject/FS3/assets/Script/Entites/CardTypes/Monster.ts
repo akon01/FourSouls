@@ -1,5 +1,6 @@
 import { Component, error, log, Node, _decorator } from 'cc';
 import { Signal } from "../../../Misc/Signal";
+import { AddEggCounters, IEggCounterable, RemoveEggCounters } from '../../CardEffectComponents/IEggCounterable';
 import { MonsterRewardDescription } from "../../CardEffectComponents/MonsterRewards/MonsterRewardDescription";
 import { ANNOUNCEMENT_TIME, PARTICLE_TYPES, PASSIVE_EVENTS } from "../../Constants";
 import { PassiveMeta } from "../../Managers/PassiveMeta";
@@ -11,7 +12,34 @@ const { ccclass, property, type } = _decorator;
 
 
 @ccclass('Monster')
-export class Monster extends Component {
+export class Monster extends Component implements IEggCounterable {
+
+  private eggCounters = 0
+
+  getEggCounters(): number {
+    return this.eggCounters
+  }
+
+  async addEggCounters(numToChange: number, sendToServer: boolean): Promise<void> {
+
+    let cardId: number | undefined = undefined
+    let scope: Node | undefined = undefined
+    if (sendToServer) {
+      cardId = this.getComponent(Card)?._cardId
+      scope = this.node
+    }
+    await AddEggCounters(numToChange, this.getComponent(Card)!, sendToServer, cardId, scope)
+  }
+
+  async removeEggCounters(numToChange: number, sendToServer: boolean): Promise<void> {
+    let cardId: number | undefined = undefined
+    let scope: Node | undefined = undefined
+    if (sendToServer) {
+      cardId = this.getComponent(Card)?._cardId
+      scope = this.node
+    }
+    await RemoveEggCounters(numToChange, this.getEggCounters(), this.getComponent(Card)!, sendToServer, cardId, scope)
+  }
 
   monsterPlace: MonsterCardHolder | null = null;
 
@@ -21,7 +49,7 @@ export class Monster extends Component {
       if (!this.isNonMonster) { return true }
     }
   })
-  HP: number = 0;
+  HP = 0;
 
   //@ts-ignore
   @property({
@@ -29,7 +57,7 @@ export class Monster extends Component {
       if (!this.isNonMonster) { return true }
     }
   })
-  currentHp: number = 0;
+  currentHp = 0;
 
   //@ts-ignore
   @property({
@@ -37,10 +65,10 @@ export class Monster extends Component {
       if (!this.isNonMonster) { return true }
     }
   })
-  rollValue: number = 0;
+  rollValue = 0;
 
   @property
-  _rollBonus: number = 0;
+  _rollBonus = 0;
 
   //@ts-ignore
   @property({
@@ -48,28 +76,28 @@ export class Monster extends Component {
       if (!this.isNonMonster) { return true }
     }
   })
-  DMG: number = 0;
+  DMG = 0;
 
   @property
-  _bonusDamage: number = 0;
+  _bonusDamage = 0;
 
   @property
-  _isAttacked: boolean = false;
+  _isAttacked = false;
 
   @property
-  hasEffect: boolean = false;
+  hasEffect = false;
 
   @property
-  isNonMonster: boolean = false;
+  isNonMonster = false;
 
   @property
-  isBoss: boolean = false;
+  isBoss = false;
 
   @property
-  isMegaBoss: boolean = false;
+  isMegaBoss = false;
 
   @property
-  isMonsterWhoCantBeAttacked: boolean = false
+  isMonsterWhoCantBeAttacked = false
 
   @property
   _dmgPrevention: number[] = [];
@@ -79,15 +107,6 @@ export class Monster extends Component {
 
   @property({ type: MonsterRewardDescription })
   monsterRewardDescription: MonsterRewardDescription = new MonsterRewardDescription
-
-
-
-
-
-
-
-
-
 
 
 
@@ -111,13 +130,13 @@ export class Monster extends Component {
       if (this.isNonMonster) { return true }
     }
   })
-  isCurse: boolean = false
+  isCurse = false
 
   @property
-  _isDead: boolean = false;
+  _isDead = false;
 
   @property
-  _lastHitRoll: number = 0
+  _lastHitRoll = 0
 
   /**
    *
@@ -307,8 +326,6 @@ export class Monster extends Component {
     // if (WrapperProvider.stackWrapper.out._currentStack.length > 0) {
     //   await WrapperProvider.stackWrapper.outwaitForStackEmptied()
     // }
-    const monsterComp = this
-    const monsterPlace = monsterComp.monsterPlace;
     const turnPlayer = WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer()!
     // if (WrapperProvider.playerManagerWrapper.out.mePlayer == turnPlayer.node) {
     const monsterDeath = new MonsterDeath(turnPlayer.character!.getComponent(Card)!._cardId, this.node, killerCard, numberRolled)

@@ -6,6 +6,7 @@ import { IEffectTarget } from "./IEffectTarget";
 import { EffectTargetFactory } from './EffectTargetFactory';
 import { IEffectData } from './IEffectData.1';
 import { WrapperProvider } from './WrapperProvider';
+import { Effect } from '../CardEffectComponents/CardEffects/Effect';
 
 // interface IEffectTarget {
 //     targetType: any,
@@ -41,10 +42,15 @@ export class EffectData implements IEffectData {
 
 
     getAllTargets() {
-        const targets: { nodes: Node[], stackEffects: StackEffectInterface[] } = { nodes: [], stackEffects: [] }
+        const targets: { nodes: Node[], stackEffects: StackEffectInterface[], effects: Effect[], numbers: number[] } = { nodes: [], stackEffects: [], effects: [], numbers: [] }
         for (const target of this.effectTargets) {
             if (target.targetType == TARGETTYPE.STACK_EFFECT) {
                 targets.stackEffects.push(target.effectTargetStackEffectId)
+            } else if (target.targetType == TARGETTYPE.EFFECT) {
+                targets.effects.push(target.effectTargetEffect)
+            } else if (target.targetType == TARGETTYPE.NUMBER) {
+
+                targets.numbers.push(target.effectTargetNumber)
             } else {
                 targets.nodes.push(target.effectTargetCard)
             }

@@ -7,8 +7,8 @@ import signal from "../enums/signal";
 import Server from "../server";
 import { Logger } from "../utils/Logger";
 import Utils from "../utils/utils";
-import ServerPlayer from "./player";
-import { Card } from "./Card";
+import ServerPlayer from "./ServerPlayer";
+import { ServerCard } from "./ServerCard";
 import DataParser from "./dataParser";
 
 const MIID = 0;
@@ -27,15 +27,15 @@ export default class Match {
     }
   }
 
-  cards: Card[] = []
+  cards: ServerCard[] = []
   parser: DataParser = null;
-  loadedPlayers: number = 0;
-  level: number = 0;
-  firstPlayerId: number = 0;
+  loadedPlayers = 0;
+  level = 0;
+  firstPlayerId = 0;
   players: ServerPlayer[] = [];
-  time: number = 120;
+  time = 120;
   letters: string = null;
-  running: boolean = false;
+  running = false;
 
   score = {};
 

@@ -29,7 +29,7 @@ export class PlayLootCardStackEffect extends StackEffectConcrete {
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.PLAY_LOOT_CARD;
     _lable!: string;
 
-    isToBeFizzled: boolean = false;
+    isToBeFizzled = false;
 
     creationTurnId!: number
 
@@ -48,7 +48,7 @@ export class PlayLootCardStackEffect extends StackEffectConcrete {
         return false
     }
 
-    nonOriginal: boolean = false;
+    nonOriginal = false;
 
     lootPlayer: Player;
     lootToPlay: Node;

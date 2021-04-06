@@ -1,16 +1,12 @@
-import { _decorator, Enum, CCInteger } from 'cc';
-const { ccclass, property } = _decorator;
-
+import { CCInteger, Enum, _decorator } from 'cc';
 import { Player } from "../../Entites/GameEntities/Player";
-import { Store } from "../../Entites/GameEntities/Store";
-import { MonsterField } from "../../Entites/MonsterField";
-import { Stack } from "../../Entites/Stack";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { TurnsManager } from "../../Managers/TurnsManager";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { Effect } from "./Effect";
+const { ccclass, property } = _decorator;
+
 
 @ccclass('ExpandField')
 export class ExpandField extends Effect {
@@ -18,7 +14,7 @@ export class ExpandField extends Effect {
   @property({ type: Enum({ Monster: 1, Shop: 2 }) })
   fieldType = 1
   @property(CCInteger)
-  howMuchToAdd: number = 1;
+  howMuchToAdd = 1;
   noDataCollector = true
   /**
    *

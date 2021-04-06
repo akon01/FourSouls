@@ -12,7 +12,7 @@ const { ccclass, property } = _decorator;
 @ccclass('EntityTakeDamage')
 export class EntityTakeDamage extends Condition {
   @property
-  isSpecificToEntityTakesDamage: boolean = false;
+  isSpecificToEntityTakesDamage = false;
   //@ts-ignore
   @property({
     type: Node, visible: function (this: EntityTakeDamage) {
@@ -21,14 +21,14 @@ export class EntityTakeDamage extends Condition {
   })
   entityWhoTookDamage: Node | null = null;
   @property
-  isSpesificRoll: boolean = false;
+  isSpesificRoll = false;
   //@ts-ignore
   @property({
     visible: function (this: EntityTakeDamage) {
       return this.isSpesificRoll
     }
   })
-  specificRoll: number = 1
+  specificRoll = 1
   event = null
   events = [PASSIVE_EVENTS.MONSTER_GET_HIT, PASSIVE_EVENTS.PLAYER_GET_HIT]
   async testCondition(meta: PassiveMeta) {

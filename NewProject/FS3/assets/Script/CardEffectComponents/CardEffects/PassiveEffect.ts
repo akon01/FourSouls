@@ -15,8 +15,8 @@ export class PassiveEffect extends Effect {
       async doEffect(stack: StackEffectInterface[], data: PassiveEffectData) {
             return data;
       }
-      reverseEffect() {
+      // reverseEffect() {
 
-      }
+      // }
 
 }

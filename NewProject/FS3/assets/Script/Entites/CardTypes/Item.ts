@@ -15,9 +15,9 @@ export class Item extends Component {
   })
   type: ITEM_TYPE = ITEM_TYPE.ACTIVE;
   @property
-  needsRecharge: boolean = false;
+  needsRecharge = false;
   @property
-  eternal: boolean = false;
+  eternal = false;
 
   _lastOwnedBy: Player | null = null
 
@@ -30,7 +30,7 @@ export class Item extends Component {
   }
 
   @property
-  isGuppyItem: boolean = false;
+  isGuppyItem = false;
 
 
   rechargeItem(sendToServer: boolean) {
@@ -38,7 +38,7 @@ export class Item extends Component {
       return
     }
     if (sendToServer) {
-      let id = this.getComponent(Card)!._cardId
+      const id = this.getComponent(Card)!._cardId
       if (WrapperProvider.serverClientWrapper.out)
         WrapperProvider.serverClientWrapper.out.send(Signal.RECHARGE_ITEM, { cardId: id })
     }
@@ -66,7 +66,7 @@ export class Item extends Component {
     if (this.eternal) {
       return
     }
-    let passiveMeta = new PassiveMeta(PASSIVE_EVENTS.ITEM_DESTROY, [this], null, this.node)
+    const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.ITEM_DESTROY, [this], null, this.node)
     if (sendToServer) {
       const newPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(passiveMeta)
       if (!newPassiveMeta.continue) {

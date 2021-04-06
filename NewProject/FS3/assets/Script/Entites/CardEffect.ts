@@ -27,7 +27,7 @@ const { ccclass, property } = _decorator;
 export class CardEffect extends Component {
 
   @property
-  hasDestroySelfEffect: boolean = false;
+  hasDestroySelfEffect = false;
 
 
   getCondition<T extends Condition>(id: number) {
@@ -93,9 +93,9 @@ export class CardEffect extends Component {
   }
 
   @property
-  hasMultipleEffects: boolean = false;
+  hasMultipleEffects = false;
 
-  isHandlingMultiEffectCollector: boolean = false
+  isHandlingMultiEffectCollector = false
 
   getMultiEffectCollector() {
     return this.multiEffectCollector
@@ -127,7 +127,7 @@ export class CardEffect extends Component {
       if (this.hasMultipleEffects) { return true }
     }
   })
-  multiEffectCollectorIdFinal: number = -1
+  multiEffectCollectorIdFinal = -1
 
   @property({
     type: DataCollector, visible: function (this: CardEffect) {
@@ -142,10 +142,10 @@ export class CardEffect extends Component {
   concurentEffectData: ActiveEffectData | PassiveEffectData | null = null
 
 
-  data: {} = {};
+  data: any = {};
 
 
-  cardPlayerId: number = 0;
+  cardPlayerId = 0;
 
   serverEffectStack: ServerEffect[] = [];
 
@@ -344,6 +344,7 @@ export class CardEffect extends Component {
             return effect
           }
         }
+        break
       default:
         WrapperProvider.loggerWrapper.out.error("effect type is not one of the registered ITEM_TYPE enum")
         return null

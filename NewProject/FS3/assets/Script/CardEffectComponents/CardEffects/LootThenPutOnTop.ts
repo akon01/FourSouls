@@ -25,11 +25,11 @@ export class LootThenPutOnTop extends Effect {
   chooseType = CHOOSE_CARD_TYPE.MY_HAND;
   effectName = "LootThenPutOnTop";
   @property
-  numToGet: number = 1;
+  numToGet = 1;
   @property
-  numToPut: number = 1;
+  numToPut = 1;
   @property
-  isDiscardInstesdOfTop: boolean = false;
+  isDiscardInstesdOfTop = false;
   /**
    *
    * @param data {lootPlayedId:number,playerId:number}

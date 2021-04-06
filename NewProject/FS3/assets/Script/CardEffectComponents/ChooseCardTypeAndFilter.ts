@@ -12,7 +12,7 @@ export class ChooseCardTypeAndFilter {
     chooseType: CHOOSE_CARD_TYPE = 0
 
     @property(CCBoolean)
-    applyFilter: boolean = false;
+    applyFilter = false;
 
     //@ts-ignore
     @property({
@@ -20,14 +20,14 @@ export class ChooseCardTypeAndFilter {
             if (this.applyFilter) { return true }
         }
     })
-    componentName: string = '';
+    componentName = '';
     //@ts-ignore
     @property({
         visible: function (this: ChooseCardTypeAndFilter) {
             if (this.applyFilter) { return true }
         }
     })
-    isMultiFilter: boolean = false;
+    isMultiFilter = false;
 
     //@ts-ignore
     @property({
@@ -73,7 +73,7 @@ export class ChooseCardTypeAndFilter {
 
 
     applyFilterToCards(cards: Node[]) {
-        let fn1 = new Function("card", this.getFilterString())
+        const fn1 = new Function("card", this.getFilterString())
         return cards.filter(fn1 as (x: any) => boolean)
         //cardsToChooseFrom = cardsToChooseFrom.filter()
 

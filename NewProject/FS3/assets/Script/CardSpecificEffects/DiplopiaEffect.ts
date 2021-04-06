@@ -11,6 +11,8 @@ const { ccclass } = _decorator;
 export class DiplopiaEffect extends Effect {
   effectName = "DiplopiaEffect";
 
+  copiedCard: Card | null = null
+
   /**
    *
    * @param data {target:PlayerId}
@@ -29,6 +31,7 @@ export class DiplopiaEffect extends Effect {
     const thisCard = this.getEffectCard();
     const thisCardComp = thisCard.getComponent(Card)!;
     copyCardComp._cardId = thisCardComp._cardId
+    this.copiedCard = copyCardComp
     // copyCardComp._isInHand = thisCardComp._isInHand
     // copyCardComp._isOnDesk = thisCardComp._isOnDesk
     // copyCardComp.souls = thisCardComp.souls

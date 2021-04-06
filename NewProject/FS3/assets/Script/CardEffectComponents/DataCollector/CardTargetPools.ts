@@ -3,6 +3,7 @@ const { ccclass, property } = _decorator;
 
 import { CARD_POOLS, COLLECTORTYPE } from "../../Constants";
 import { Item } from "../../Entites/CardTypes/Item";
+import { Monster } from '../../Entites/CardTypes/Monster';
 import { Card } from "../../Entites/GameEntities/Card";
 import { Deck } from "../../Entites/GameEntities/Deck";
 import { Player } from "../../Entites/GameEntities/Player";
@@ -57,7 +58,8 @@ export class CardTargetPools extends DataCollector {
     GetByPool(data: any): EffectTarget[] | EffectTarget | Node[] {
         let players: Node[] = []
         let playerComps: Player[] = []
-        let myId: number = 0
+        let monsters: Monster[] = []
+        let myId = 0
         const treasureDeck = WrapperProvider.cardManagerWrapper.out.treasureDeck.getComponent(Deck)!;
         const monsterDeck = WrapperProvider.cardManagerWrapper.out.monsterDeck.getComponent(Deck)!
         const lootDeck = WrapperProvider.cardManagerWrapper.out.lootDeck.getComponent(Deck)!
@@ -136,6 +138,18 @@ export class CardTargetPools extends DataCollector {
                 })
                 const rand = Math.floor(Math.random() * handCards.length)
                 return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(handCards[rand])
+            case CARD_POOLS.PLAYERS_WITH_EGG_COUNTERS:
+                playerComps = WrapperProvider.playerManagerWrapper.out.players.map(p => p.getComponent(Player)!).filter(p => p.getEggCounters() > 0)
+                return playerComps.map(p => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(p.node))
+            case CARD_POOLS.PLAYERS_WITHOUT_EGG_COUNTERS:
+                playerComps = WrapperProvider.playerManagerWrapper.out.players.map(p => p.getComponent(Player)!).filter(p => p.getEggCounters() == 0)
+                return playerComps.map(p => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(p.node))
+            case CARD_POOLS.MONSTERS_WITH_EGG_COUNTERS:
+                monsters = WrapperProvider.monsterFieldWrapper.out.getActiveMonsters().map(p => p.getComponent(Monster)!).filter(p => p.getEggCounters() > 0)
+                return playerComps.map(p => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(p.node))
+            case CARD_POOLS.MONSTERS_WITHOUT_EGG_COUNTERS:
+                monsters = WrapperProvider.monsterFieldWrapper.out.getActiveMonsters().map(p => p.getComponent(Monster)!).filter(p => p.getEggCounters() == 0)
+                return playerComps.map(p => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(p.node))
             default:
                 throw new Error("No Card Pool Handle Set");
 

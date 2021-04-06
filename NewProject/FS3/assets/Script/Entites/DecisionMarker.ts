@@ -201,25 +201,17 @@ export class DecisionMarker extends Component {
     }
 
     getOriginAndEndPointByPreviewAndEndCard(preview: Node, endCard: Node) {
-        let cardMiddleRightPoint: Vec3
-        let cardMiddleLeftPoint: Vec3
-        let cardTopMiddlePoint: Vec3
-        let cardBottomMiddlePoint: Vec3
-        let cardTopRightPoint: Vec3
-        let cardTopLeftPoint: Vec3
-
-
         //     const canvasTrans = (this.canvas!.getComponent(UITransform)!);
         const canvasTrans = find('RenderRoot2D')!.getComponent(UITransform)!
         const endCardParentTrans = (endCard.parent!.getComponent(UITransform)!);
         const endCardTras = endCard.getComponent(UITransform)!
         // if (endCard.parent != null && endCard.parent != WrapperProvider.cardManagerWrapper.out.onTableCardsHolder) {
-        cardTopLeftPoint = canvasTrans.convertToNodeSpaceAR(endCardParentTrans.convertToWorldSpaceAR(v3(endCard.position.x - endCardTras.width / 2, endCard.position.y + endCardTras.height / 2)))
-        cardTopRightPoint = canvasTrans.convertToNodeSpaceAR(endCardParentTrans.convertToWorldSpaceAR(v3(endCard.position.x + endCardTras.width / 2, endCard.position.y + endCardTras.height / 2)))
-        cardMiddleLeftPoint = canvasTrans.convertToNodeSpaceAR(endCardParentTrans.convertToWorldSpaceAR(v3(endCard.position.x - endCardTras.width / 2, 0)))
-        cardMiddleRightPoint = canvasTrans.convertToNodeSpaceAR(endCardParentTrans.convertToWorldSpaceAR(v3(endCard.position.x + endCardTras.width / 2, 0)))
-        cardBottomMiddlePoint = canvasTrans.convertToNodeSpaceAR(endCardParentTrans.convertToWorldSpaceAR(v3(endCard.position.x, endCard.position.y - endCardTras.height / 2)))
-        cardTopMiddlePoint = canvasTrans.convertToNodeSpaceAR(endCardParentTrans.convertToWorldSpaceAR(v3(endCard.position.x, endCard.position.y + endCardTras.height / 2)))
+        const cardTopLeftPoint = canvasTrans.convertToNodeSpaceAR(endCardParentTrans.convertToWorldSpaceAR(v3(endCard.position.x - endCardTras.width / 2, endCard.position.y + endCardTras.height / 2)))
+        const cardTopRightPoint = canvasTrans.convertToNodeSpaceAR(endCardParentTrans.convertToWorldSpaceAR(v3(endCard.position.x + endCardTras.width / 2, endCard.position.y + endCardTras.height / 2)))
+        const cardMiddleLeftPoint = canvasTrans.convertToNodeSpaceAR(endCardParentTrans.convertToWorldSpaceAR(v3(endCard.position.x - endCardTras.width / 2, 0)))
+        const cardMiddleRightPoint = canvasTrans.convertToNodeSpaceAR(endCardParentTrans.convertToWorldSpaceAR(v3(endCard.position.x + endCardTras.width / 2, 0)))
+        const cardBottomMiddlePoint = canvasTrans.convertToNodeSpaceAR(endCardParentTrans.convertToWorldSpaceAR(v3(endCard.position.x, endCard.position.y - endCardTras.height / 2)))
+        const cardTopMiddlePoint = canvasTrans.convertToNodeSpaceAR(endCardParentTrans.convertToWorldSpaceAR(v3(endCard.position.x, endCard.position.y + endCardTras.height / 2)))
         // } else {
         //     cardTopLeftPoint = canvasTrans.convertToNodeSpaceAR(v3(endCard.position.x - endCardTras.width / 2, endCard.position.y + endCardTras.height / 2))
         //     cardTopMiddlePoint = canvasTrans.convertToNodeSpaceAR(v3(endCard.position.x, endCard.position.y + endCardTras.height / 2))

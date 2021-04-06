@@ -7,12 +7,13 @@ import { PassiveMeta } from "../../Managers/PassiveMeta";
 import { Condition } from "./Condition";
 import { Card } from "../../Entites/GameEntities/Card";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { CheckEggCounterConditionProp } from './ConditionsProperties/CheckEggCounterConditionProp';
 
 @ccclass('MonsterIsKilled')
 export class MonsterIsKilled extends Condition {
   event = PASSIVE_EVENTS.MONSTER_IS_KILLED
   @property
-  isSpecificMonster: boolean = false;
+  isSpecificMonster = false;
   // @ts-ignore
   @property({
     type: Node,
@@ -23,7 +24,7 @@ export class MonsterIsKilled extends Condition {
   specificMonsterCard: Node | null = null
 
   @property
-  isSpecificNotMonster: boolean = false;
+  isSpecificNotMonster = false;
   // @ts-ignore
   @property({
     type: Node,
@@ -33,7 +34,7 @@ export class MonsterIsKilled extends Condition {
   })
   specificNotMonsterCard: Node | null = null
   @property
-  isSpecificRoll: boolean = false;
+  isSpecificRoll = false;
   // @ts-ignore
   @property({
     type: [CCInteger],
@@ -42,6 +43,10 @@ export class MonsterIsKilled extends Condition {
     }
   })
   specificRolls: number[] = []
+
+  @property(CheckEggCounterConditionProp)
+  checkEggCoutner: CheckEggCounterConditionProp = new CheckEggCounterConditionProp()
+
   async testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
     const monster: Monster = meta.methodScope.getComponent(Monster)!;
@@ -73,6 +78,9 @@ export class MonsterIsKilled extends Condition {
       if (!isTrue) {
         answer = false
       }
+    }
+    if (this.checkEggCoutner.checkIfMonsterHasEggCoutners) {
+      answer = this.checkEggCoutner.checkEntity(monster, answer)
     }
     return answer
   }

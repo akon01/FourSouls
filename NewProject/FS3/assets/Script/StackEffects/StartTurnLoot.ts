@@ -22,7 +22,7 @@ export class StartTurnLoot extends StackEffectConcrete {
     _lable!: string;
 
 
-    isToBeFizzled: boolean = false;
+    isToBeFizzled = false;
 
     creationTurnId!: number;
 
@@ -34,7 +34,7 @@ export class StartTurnLoot extends StackEffectConcrete {
         return false;
     }
 
-    nonOriginal: boolean = false;
+    nonOriginal = false;
 
     turnPlayer: Player;
 

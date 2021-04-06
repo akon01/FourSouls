@@ -20,7 +20,7 @@ export class DestroyCurse extends Effect {
    */
   async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
     if (!data) { debugger; throw new Error("No Data!"); }
-    let targetCurses = data.getTargets(TARGETTYPE.CARD)
+    const targetCurses = data.getTargets(TARGETTYPE.CARD)
     if (targetCurses.length == 0) {
       console.log(`no targets`)
     } else {

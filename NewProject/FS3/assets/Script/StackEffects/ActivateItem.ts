@@ -33,7 +33,7 @@ export class ActivateItem extends StackEffectConcrete {
     LockingResolve: any;
     _lable!: string;
 
-    isToBeFizzled: boolean = false;
+    isToBeFizzled = false;
 
     creationTurnId!: number;
 
@@ -52,12 +52,12 @@ export class ActivateItem extends StackEffectConcrete {
         return false
     }
 
-    nonOriginal: boolean = false;
+    nonOriginal = false;
 
     itemPlayer: Player;
     itemToActivate: Node;
     effectToDo: Effect | null = null;
-    hasDataBeenCollectedYet: boolean = false;
+    hasDataBeenCollectedYet = false;
 
     constructor(creatorCardId: number, hasLockingStackEffect: boolean, itemToActivate: Node, itemPlayerCard: Node, hasDataBeenCollectedYet: boolean, entityId?: number, lable?: string) {
         super(creatorCardId, entityId)
@@ -139,7 +139,6 @@ export class ActivateItem extends StackEffectConcrete {
         const multiEffectCollector = cardEffect.getMultiEffectCollector();
         //if this effect has locking stack effect (first only "roll:" for a dice roll) and it has not yet resolved
         if (this.hasLockingStackEffect && this.hasLockingStackEffectResolved == false) {
-            let lockingStackEffect: StackEffectInterface
 
             //if card has multiple effects that needs a lock, lock here
             if (multiEffectCollector) {
@@ -147,7 +146,7 @@ export class ActivateItem extends StackEffectConcrete {
                     await multiEffectCollector.collectData({ cardPlayed: this.itemToActivate, cardPlayerId: this.itemPlayer.playerId })
                 }
             }
-            lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
+            const lockingStackEffect = new RollDiceStackEffect(this.creatorCardId, this)
             await WrapperProvider.stackWrapper.out.addToStack(lockingStackEffect, true)
 
         }

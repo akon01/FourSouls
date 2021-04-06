@@ -3,6 +3,7 @@ import { COLLECTORTYPE } from "../../Constants";
 import { CardEffect } from "../../Entites/CardEffect";
 import { EffectTarget } from "../../Managers/EffectTarget";
 import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
+import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { FilterConcrete } from "../ChooseCardFilters/FilterConcrete";
 import { DataCollector } from "./DataCollector";
 const { ccclass, property } = _decorator;
@@ -20,9 +21,9 @@ export class FilterOtherDataCollector extends DataCollector {
     // getThisDataCollector = () => this.node.getComponent(CardEffect)!.getDataCollector(this.dataCollectorIdFinal)
     getThisDataCollector = () => this.dataCollector
     @property
-    componentName: string = '';
+    componentName = '';
     @property
-    isMultiFilter: boolean = false;
+    isMultiFilter = false;
     @property({
         type: FilterConcrete, visible: function (this: FilterOtherDataCollector) {
             return !this.isMultiFilter
@@ -69,7 +70,7 @@ export class FilterOtherDataCollector extends DataCollector {
 
     }
     applyFilterToCards(cards: Node[]) {
-        let fn1 = new Function("card", this.getFilterString())
+        const fn1 = new Function("card", this.getFilterString())
         return cards.filter(fn1 as (x: any) => boolean)
         //cardsToChooseFrom = cardsToChooseFrom.filter()
 

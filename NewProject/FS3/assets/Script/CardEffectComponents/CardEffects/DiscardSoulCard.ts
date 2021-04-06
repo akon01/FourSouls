@@ -1,16 +1,13 @@
-import { _decorator, CCInteger, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
+import { Node, _decorator } from 'cc';
 import { CARD_TYPE, TARGETTYPE } from "../../Constants";
 import { Card } from "../../Entites/GameEntities/Card";
-import { Stack } from "../../Entites/Stack";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PileManager } from "../../Managers/PileManager";
-import { PlayerManager } from "../../Managers/PlayerManager";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { Effect } from "./Effect";
+const { ccclass, property } = _decorator;
+
 
 @ccclass('DiscardSoulCard')
 export class DiscardSoulCard extends Effect {

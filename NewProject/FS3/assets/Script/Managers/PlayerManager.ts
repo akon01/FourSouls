@@ -53,7 +53,7 @@ export class PlayerManager extends Component {
 
 
 
-  isLoaded: boolean = false;
+  isLoaded = false;
 
 
 
@@ -122,6 +122,7 @@ export class PlayerManager extends Component {
             break;
           case "Dice":
             WrapperProvider.playerManagerWrapper.out.dicePrefab = prefab;
+            break
           case "PlayerDesk":
             WrapperProvider.playerManagerWrapper.out.playerDeskPrefab = prefab;
             break;
@@ -483,6 +484,7 @@ export class PlayerManager extends Component {
 
       if (player.character == card) { return player; }
       if (player.characterItem == card) { return player; }
+      if (player.node == card) { return player; }
 
       const handCards = player.getHandCards();
       for (let j = 0; j < handCards.length; j++) {

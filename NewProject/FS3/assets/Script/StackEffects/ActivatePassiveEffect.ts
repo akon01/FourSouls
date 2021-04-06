@@ -38,7 +38,7 @@ export class ActivatePassiveEffect extends StackEffectConcrete {
     LockingResolve: any;
     _lable!: string;
 
-    isToBeFizzled: boolean = false;
+    isToBeFizzled = false;
 
     creationTurnId!: number;
 
@@ -57,15 +57,15 @@ export class ActivatePassiveEffect extends StackEffectConcrete {
         return false
     }
 
-    nonOriginal: boolean = false;
+    nonOriginal = false;
     cardActivatorId: number
     cardWithEffect: Node;
     effectToDo: Effect;
     effectPassiveMeta: PassiveMeta | null = null;
-    hasDataBeenCollectedYet: boolean = false;
+    hasDataBeenCollectedYet = false;
     effectCollectedData: ServerEffectData | null = null;
     index: number | undefined = undefined;
-    isAfterActivation: boolean = false
+    isAfterActivation = false
 
     constructor(creatorCardId: number, hasLockingStackEffect: boolean, cardActivatorId: number, cardWithEffect: Node, effectToDo: Effect, hasDataBeenCollectedYet: boolean, isAfterActivation: boolean, index?: number, entityId?: number, lable?: string) {
         super(creatorCardId, entityId)
@@ -110,7 +110,7 @@ export class ActivatePassiveEffect extends StackEffectConcrete {
         } else {
             cardOwner = this.cardWithEffect
         }
-        let id: number = this.cardActivatorId;
+        const id: number = this.cardActivatorId;
         // if (player) {
         //     id = cardOwner.getComponent(Player).playerId
         // } else {

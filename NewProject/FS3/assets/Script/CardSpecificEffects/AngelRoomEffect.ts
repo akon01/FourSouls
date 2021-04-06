@@ -14,7 +14,7 @@ import { StackEffectInterface } from "../StackEffects/StackEffectInterface";
 export class AngelRoomEffect extends Effect {
   effectName = "AngelRoomEffect";
   @property(CCInteger)
-  numOfCoins: number = 0;
+  numOfCoins = 0;
   /**
    *
    * @param data {target:PlayerId}

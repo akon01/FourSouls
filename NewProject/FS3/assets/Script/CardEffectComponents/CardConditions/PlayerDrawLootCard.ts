@@ -13,13 +13,13 @@ export class PlayerDrawLootCard extends Condition {
   event = PASSIVE_EVENTS.PLAYER_DRAW_FROM_LOOT
 
   @property
-  isOwnerOnly: boolean = false
+  isOwnerOnly = false
 
   async testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node);
-    let cardOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(thisCard)!;
+    const cardOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(thisCard)!;
     let answer = true
     if (!(player instanceof Player)) {
       answer = false;

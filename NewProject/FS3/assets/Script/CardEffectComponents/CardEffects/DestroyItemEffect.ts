@@ -14,14 +14,14 @@ const { ccclass, property } = _decorator;
 export class DestroyItemEffect extends Effect {
   effectName = "DestroyItem";
   @property(CCInteger)
-  numberOfItemsToDestroy: number = 1
+  numberOfItemsToDestroy = 1
   /**
    *
    * @param data {target:PlayerId}
    */
   async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
     if (!data) { debugger; throw new Error("No Data!"); }
-    let targetItems = data.getTargets(TARGETTYPE.ITEM)
+    const targetItems = data.getTargets(TARGETTYPE.ITEM)
     if (targetItems.length == 0) {
       console.log(`no targets`)
     } else {

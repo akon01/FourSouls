@@ -1,18 +1,14 @@
-import { _decorator, Node, log } from 'cc';
-const { ccclass, property } = _decorator;
-
+import { Node, _decorator } from 'cc';
 import { Character } from "../../Entites/CardTypes/Character";
 import { Monster } from "../../Entites/CardTypes/Monster";
-import { Stack } from "../../Entites/Stack";
-import { CardManager } from "../../Managers/CardManager";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PlayerManager } from "../../Managers/PlayerManager";
+import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { TARGETTYPE } from "./../../Constants";
 import { Effect } from "./Effect";
-import { Card } from "../../Entites/GameEntities/Card";
-import { WrapperProvider } from '../../Managers/WrapperProvider';
+const { ccclass, property } = _decorator;
+
 
 @ccclass('DealDamage')
 export class DealDamage extends Effect {
@@ -22,11 +18,11 @@ export class DealDamage extends Effect {
       return !this.isGetDamageToDealFromDataCollector
     }
   })
-  damageToDeal: number = 0;
+  damageToDeal = 0;
   @property
-  isGetDamageToDealFromDataCollector: boolean = false
+  isGetDamageToDealFromDataCollector = false
   @property
-  multipleTargets: boolean = false;
+  multipleTargets = false;
   /**
    *
    * @param data {target:PlayerId}
@@ -38,7 +34,7 @@ export class DealDamage extends Effect {
     const damageToDeal = (this.isGetDamageToDealFromDataCollector) ? (data as PassiveEffectData).methodArgs[0] : this.damageToDeal
     if (!data) { debugger; throw new Error("No Data!"); }
     if (this.multipleTargets) {
-      let targets = data.getTargets(TARGETTYPE.PLAYER) ?? []
+      const targets = data.getTargets(TARGETTYPE.PLAYER) ?? []
       const monsterTargets = data.getTargets(TARGETTYPE.MONSTER)
       if (monsterTargets.length > 0) {
         //@ts-ignore
@@ -80,13 +76,13 @@ export class DealDamage extends Effect {
     if (entityComp == null) {
       entityComp = targetEntity.getComponent(Monster)
       if (entityComp instanceof Monster) {
-        await entityComp.takeDamaged(this.damageToDeal, true, damageDealer)
+        await entityComp.takeDamaged(this.getQuantityInRegardsToBlankCard(entityComp.node, damageToDeal), true, damageDealer)
       }
     } else {
       // Entity is Player
       if (entityComp instanceof Character) {
 
-        await WrapperProvider.playerManagerWrapper.out.getPlayerByCard(entityComp.node)!.takeDamage(this.damageToDeal, true, damageDealer)
+        await WrapperProvider.playerManagerWrapper.out.getPlayerByCard(entityComp.node)!.takeDamage(this.getQuantityInRegardsToBlankCard(entityComp.node, damageToDeal), true, damageDealer)
       }
     }
   }

@@ -14,26 +14,23 @@ import { Effect } from "./Effect";
 export class AddAttackOpportunity extends Effect {
   effectName = "AddAttackOpportunity";
   @property(CCInteger)
-  numOfTimes: number = 0;
+  numOfTimes = 0;
   @property
-  isOnlyMonsterDeck: boolean = false;
+  isOnlyMonsterDeck = false;
   @property
-  makeMust: boolean = false;
+  makeMust = false;
   @property({
     visible: function (this: AddAttackOpportunity) {
       return this.makeMust
     }
   })
-  makeSpecificMonsterMust: boolean = false;
+  makeSpecificMonsterMust = false;
   @property({
     visible: function (this: AddAttackOpportunity) {
       return this.makeSpecificMonsterMust
     }
   })
   specificMonsterToMake: Monster | null = null
-
-
-
   /**
    *
    * @param data {target:PlayerId}
@@ -47,10 +44,10 @@ export class AddAttackOpportunity extends Effect {
     } else {
       const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard as Node)!
       if (!this.isOnlyMonsterDeck) {
-        player.attackPlays += this.numOfTimes
+        player.attackPlays += this.getQuantityInRegardsToBlankCard(player.node, this.numOfTimes)
         // if the player must attack a monster
         if (this.makeMust) {
-          player._mustAttackPlays += this.numOfTimes
+          player._mustAttackPlays += this.getQuantityInRegardsToBlankCard(player.node, this.numOfTimes)
           if (this.makeSpecificMonsterMust) {
             if (!this.specificMonsterToMake) { debugger; throw new Error("No Specific MOnster Set"); }
 
@@ -59,9 +56,9 @@ export class AddAttackOpportunity extends Effect {
         }
       } else {
         // if the player must attack the monster deck
-        player._attackDeckPlays += this.numOfTimes;
+        player._attackDeckPlays += this.getQuantityInRegardsToBlankCard(player.node, this.numOfTimes)
         if (this.makeMust) {
-          player._mustDeckAttackPlays += this.numOfTimes
+          player._mustDeckAttackPlays += this.getQuantityInRegardsToBlankCard(player.node, this.numOfTimes)
         }
       }
     }

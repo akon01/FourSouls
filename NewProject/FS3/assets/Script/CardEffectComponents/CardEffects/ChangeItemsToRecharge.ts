@@ -1,22 +1,20 @@
-import { _decorator, CCInteger, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
+import { CCInteger, Node, _decorator } from 'cc';
 import { TARGETTYPE } from "../../Constants";
 import { Player } from "../../Entites/GameEntities/Player";
-import { Stack } from "../../Entites/Stack";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PlayerManager } from "../../Managers/PlayerManager";
-import { TurnsManager } from "../../Managers/TurnsManager";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { Effect } from "./Effect";
+const { ccclass, property } = _decorator;
+
 
 @ccclass('ChangeItemsToRecharge')
 export class ChangeItemsToRecharge extends Effect {
   effectName = "ChangeItemsToRechage";
   @property(CCInteger)
-  numOfItems: number = 0;
+  numOfItems = 0;
+
   /**
    *
    * @param data {target:PlayerId}
@@ -29,7 +27,7 @@ export class ChangeItemsToRecharge extends Effect {
       throw new Error(`target player is null`)
     } else {
       const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard as Node)!
-      player._numOfItemsToRecharge = this.numOfItems
+      player.setNumOfItemsToRecharge(this.getQuantityInRegardsToBlankCard(player.node, this.numOfItems), true)
     }
 
     if (data instanceof PassiveEffectData) { return data }

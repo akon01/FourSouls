@@ -2,6 +2,7 @@ import { Component, Label, Node, Prefab, Sprite, UITransform, Widget, _decorator
 import { Signal } from "../../../Misc/Signal";
 import { whevent } from "../../../ServerClient/whevent";
 import { ChooseCard } from "../../CardEffectComponents/DataCollector/ChooseCard";
+import { IEggCounterable, AddEggCounters, RemoveEggCounters } from '../../CardEffectComponents/IEggCounterable';
 import { MultiEffectChoose } from "../../CardEffectComponents/MultiEffectChooser/MultiEffectChoose";
 import { RollDice } from "../../CardEffectComponents/RollDice";
 import { ANNOUNCEMENT_TIME, BUTTON_STATE, CARD_TYPE, CHOOSE_CARD_TYPE, GAME_EVENTS, ITEM_TYPE, PARTICLE_TYPES, PASSIVE_EVENTS, ROLL_TYPE, SOULS_NEEDED_TO_WIN, TIME_TO_REACT_ON_ACTION } from "../../Constants";
@@ -26,11 +27,39 @@ import { Card } from "./Card";
 import { Deck } from "./Deck";
 import { Dice } from "./Dice";
 import { Mouse } from './Mouse';
+
 const { ccclass, property } = _decorator;
 
 
 @ccclass('Player')
-export class Player extends Component {
+export class Player extends Component implements IEggCounterable {
+
+
+      getEggCounters(): number {
+            return this.character!.getComponent(Card)!.eggCounters
+      }
+
+
+      async addEggCounters(numToChange: number, sendToServer: boolean): Promise<void> {
+            let cardId: number | undefined = undefined
+            let scope: Node | undefined = undefined
+            if (sendToServer) {
+                  cardId = this.character?.getComponent(Card)?._cardId
+                  scope = this.node
+            }
+            await AddEggCounters(numToChange, this.character!.getComponent(Card)!, sendToServer, cardId, scope)
+      }
+
+      async removeEggCounters(numToChange: number, sendToServer: boolean): Promise<void> {
+            let cardId: number | undefined = undefined
+            let scope: Node | undefined = undefined
+            if (sendToServer) {
+                  cardId = this.character?.getComponent(Card)?._cardId
+                  scope = this.node
+            }
+            await RemoveEggCounters(numToChange, this.getEggCounters(), this.character!.getComponent(Card)!, sendToServer, cardId, scope)
+      }
+
 
       @property
       playerId = 0;
@@ -217,7 +246,23 @@ export class Player extends Component {
       }
 
       @property
-      _extraSoulsNeededToWin = 0;
+      private _extraSoulsNeededToWin = 0;
+
+      getExtraSoulsNeededToWin() {
+            return this._extraSoulsNeededToWin
+      }
+
+      changeExtraSoulsNeededToWin(diff: number, sendToServer: boolean) {
+            this._extraSoulsNeededToWin += diff
+            if (sendToServer) {
+                  WrapperProvider.serverClientWrapper.out.send(Signal.PLAYER_CHANGE_EXTRA_SOULS_NEEDED_TO_WIN, { playerId: this.playerId, diff })
+            }
+      }
+
+      setExtraSoulsNeededToWin(quantity: number, sendToServer: boolean) {
+            const diff = quantity - this._extraSoulsNeededToWin
+            this.changeExtraSoulsNeededToWin(diff, sendToServer)
+      }
 
       @property
       _putCharLeft = false;
@@ -249,9 +294,23 @@ export class Player extends Component {
             });
       }
 
+      private lootCardPlays = 0;
 
-      @property
-      lootCardPlays = 0;
+      getLootCardPlays() {
+            return this.lootCardPlays
+      }
+
+      changeLootCardPlayes(diff: number, sendToServer: boolean) {
+            this.lootCardPlays += diff
+            if (sendToServer) {
+                  WrapperProvider.serverClientWrapper.out.send(Signal.PLAYER_CHANGE_LOOT_CARD_PLAYS, { playerId: this.playerId, diff })
+            }
+      }
+
+      setLootCardPlays(quantity: number, sendToServer: boolean) {
+            const diff = quantity - this.lootCardPlays
+            this.changeLootCardPlayes(diff, sendToServer)
+      }
 
       @property
       turnDrawPlays = 1;
@@ -409,9 +468,27 @@ export class Player extends Component {
       isFirstHitInTurn = true
 
       @property
-      _numOfItemsToRecharge = -1;
+      private _numOfItemsToRecharge = -1;
+
+      getNumOfItemsToRecharge() {
+            return this._numOfItemsToRecharge
+      }
+
+      changeNumOfItemsToRecharge(diff: number, sendToServer: boolean) {
+            this._numOfItemsToRecharge += diff
+            if (sendToServer) {
+                  WrapperProvider.serverClientWrapper.out.send(Signal.PLAYER_CHANGE_NUM_OF_ITEMS_TO_RECHARGE, { playerId: this.playerId, diff })
+            }
+      }
+
+      setNumOfItemsToRecharge(quantity: number, sendToServer: boolean) {
+            const diff = quantity - this._numOfItemsToRecharge
+            this.changeNumOfItemsToRecharge(diff, sendToServer)
+      }
 
       otherPlayersCantRespondOnTurn = false
+
+      hasBlankCardEffectActive = false
 
 
 
@@ -468,12 +545,13 @@ export class Player extends Component {
 
       async drawCards(deck: Node, sendToServer: boolean, alreadyDrawnCards?: Node[], numOfCards = 1) {
             let drawnCards: Node[] = []
-            const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_DRAW_FROM_LOOT, [deck, alreadyDrawnCards], null, this.node)
+            const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_DRAW_FROM_LOOT, [deck, alreadyDrawnCards, numOfCards], null, this.node)
             if (sendToServer) {
                   const afterPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(passiveMeta)
                   if (!afterPassiveMeta.args) { debugger; throw new Error("No After Args"); }
                   deck = afterPassiveMeta.args[0]
                   alreadyDrawnCards = afterPassiveMeta.args[1];
+                  numOfCards = afterPassiveMeta.args[2]
             }
             if (alreadyDrawnCards && alreadyDrawnCards.length > 0) {
                   drawnCards = alreadyDrawnCards

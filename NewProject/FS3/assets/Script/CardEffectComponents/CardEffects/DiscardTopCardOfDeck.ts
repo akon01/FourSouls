@@ -14,7 +14,7 @@ export class DiscardTopCardOfDeck extends Effect {
   chooseType = CHOOSE_CARD_TYPE.DECKS;
   effectName = "DiscardTopCardOfDeck";
   @property
-  multiType: boolean = false
+  multiType = false
   @property({
     type: [Enum(CARD_TYPE)], visible: function (this: DiscardTopCardOfDeck) {
       return this.multiType
@@ -40,9 +40,9 @@ export class DiscardTopCardOfDeck extends Effect {
 
     if (data == null) {
       if (this.multiType) {
-        let decks = new Array<Deck>()
-        for (const { } of this.deckTypes) {
-          switch (this.deckType) {
+        const decks = new Array<Deck>()
+        for (const type of this.deckTypes) {
+          switch (type) {
             case CARD_TYPE.LOOT:
               decks.push(WrapperProvider.cardManagerWrapper.out.lootDeck.getComponent(Deck)!)
               break;
@@ -51,6 +51,7 @@ export class DiscardTopCardOfDeck extends Effect {
               break;
             case CARD_TYPE.TREASURE:
               decks.push(WrapperProvider.cardManagerWrapper.out.treasureDeck.getComponent(Deck)!)
+              break
             default:
               break;
           }
@@ -69,6 +70,7 @@ export class DiscardTopCardOfDeck extends Effect {
             break;
           case CARD_TYPE.TREASURE:
             await WrapperProvider.cardManagerWrapper.out.treasureDeck.getComponent(Deck)!.discardTopCard()
+            break
           default:
             break;
         }

@@ -43,7 +43,7 @@ export class AdminConsole extends Component {
 
     noPrintSignal: string[] = []
 
-    isTestModeSet: boolean = false
+    isTestModeSet = false
 
 
 
@@ -56,27 +56,27 @@ export class AdminConsole extends Component {
         switch (command) {
             case ADMIN_COMMANDS.NEXT_ITEM:
                 const newItem = WrapperProvider.cardManagerWrapper.out.treasureDeck.getComponent(Deck)!.drawCard(true)
-                mePlayer.addItem(newItem, true, true)
+                await mePlayer.addItem(newItem, true, true)
                 break
             case ADMIN_COMMANDS.NEXT_LOOT:
-                let newLoot = WrapperProvider.cardManagerWrapper.out.lootDeck.getComponent(Deck)!.drawCard(true)
-                mePlayer.drawCards(WrapperProvider.cardManagerWrapper.out.lootDeck, true, [newLoot])
+                const newLoot = WrapperProvider.cardManagerWrapper.out.lootDeck.getComponent(Deck)!.drawCard(true)
+                await mePlayer.drawCards(WrapperProvider.cardManagerWrapper.out.lootDeck, true, [newLoot])
                 break
             case ADMIN_COMMANDS.NEXT_MONSTER:
                 const newMonster = WrapperProvider.cardManagerWrapper.out.monsterDeck.getComponent(Deck)!.drawCard(true)
                 await WrapperProvider.monsterFieldWrapper.out.addMonsterToExsistingPlace(WrapperProvider.monsterFieldWrapper.out.getMonsterCardHoldersIds()[mePlayer.getMonsterCardHolderId()], newMonster, true)
-                mePlayer.drawCards(WrapperProvider.cardManagerWrapper.out.lootDeck, true, [newMonster])
+                await mePlayer.drawCards(WrapperProvider.cardManagerWrapper.out.lootDeck, true, [newMonster])
                 break
             case ADMIN_COMMANDS.SET_TEST_MODE:
                 if (!this.isTestModeSet) {
                     mePlayer.attackPlays += 999;
                     mePlayer.buyPlays += 999;
-                    mePlayer.lootCardPlays += 999;
+                    mePlayer.changeLootCardPlayes(999, false);
                     console.log(`test mode set`)
                 } else {
                     mePlayer.attackPlays = 1;
                     mePlayer.buyPlays = 1;
-                    mePlayer.lootCardPlays = 1;
+                    mePlayer.setLootCardPlays(1, false);
                     console.log(`test mode unset`)
                 }
                 break
@@ -167,7 +167,7 @@ export class AdminConsole extends Component {
                     await item.getComponent(Item)!.rechargeItem(true)
                 }
                 // tslint:disable-next-line: no-floating-promises
-                WrapperProvider.actionManagerWrapper.out.updateActions()
+                await WrapperProvider.actionManagerWrapper.out.updateActions()
                 break;
             case ADMIN_COMMANDS.STACKTRACE:
                 console.error(`stack trace`)
@@ -200,6 +200,7 @@ export class AdminConsole extends Component {
                         WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!.characterItem!.setParent(null)
                         await WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!.setCharacter(charAndItem.char, charAndItem.item, true)
                         WrapperProvider.serverClientWrapper.out.send(Signal.ASSIGN_CHAR_TO_PLAYER, { playerId: WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!.playerId, charCardId: charAndItem.char.getComponent(Card)!._cardId, itemCardId: charAndItem.item.getComponent(Card)!._cardId });
+                        break;
                     case "test2":
                         for (let i = 0; i < 10; i++) {
                             await mePlayer.drawCards(WrapperProvider.cardManagerWrapper.out.lootDeck, true)
@@ -242,7 +243,7 @@ export class AdminConsole extends Component {
                         deck.addToDeckOnTop(card, 0, true)
                         break;
                     case `raise`:
-                        let toSendSignal: number = 0;
+                        let toSendSignal = 0;
                         let data = null
                         switch (flag) {
                             case `Choose Card`:
@@ -313,8 +314,9 @@ export class AdminConsole extends Component {
                     case "error":
                         const e = new Error('test message')
                         WrapperProvider.loggerWrapper.out.error(e)
-                    //  WrapperProvider.loggerWrapper.out.error(JSON.stringify(e.stack))
-                    //  WrapperProvider.loggerWrapper.out.error({ test: true })
+                        //  WrapperProvider.loggerWrapper.out.error(JSON.stringify(e.stack))
+                        //  WrapperProvider.loggerWrapper.out.error({ test: true })
+                        break
                     default:
                         break;
                 }
@@ -322,7 +324,6 @@ export class AdminConsole extends Component {
             default:
                 this.consoleEditBox!.placeholder = "Unknown command, try help"
                 break;
-                WrapperProvider.actionManagerWrapper.out.updateActions()
         }
     }
 
@@ -335,7 +336,7 @@ export class AdminConsole extends Component {
         for (const card of cardsWithEffects) {
             cardSet.add(card)
         }
-        let finalString: string = ""
+        let finalString = ""
         cardSet.forEach((card) => {
             let cardString = `${card.name}:\n`
             const effectComp = card.getComponent(CardEffect)!;
@@ -388,7 +389,7 @@ export class AdminConsole extends Component {
 
     async autoCompleteCardName(text?: string) {
 
-        var auto = new CardAutoComplete();
+        const auto = new CardAutoComplete();
         debugger
         let currentText
         if (text) {

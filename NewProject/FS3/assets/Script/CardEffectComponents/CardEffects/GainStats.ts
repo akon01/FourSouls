@@ -14,92 +14,178 @@ const { ccclass, property } = _decorator;
 export class GainStats extends Effect {
   effectName = "GainStats";
   @property
-  multiTarget: boolean = false;
+  multiTarget = false;
+
   @property
-  gainHp: boolean = false;
+  gainHp = false;
+
+  @property({
+    visible: function (this: GainStats) {
+      return this.gainHp && !this.isHpToGainFromDataCollector
+    }
+  })
+  hpToGain = 0;
+
   @property({
     visible: function (this: GainStats) {
       return this.gainHp
     }
   })
-  hpToGain: number = 0;
+  isHpToGainFromDataCollector = false;
+
+
+  @property({
+    visible: function (this: GainStats) {
+      return this.isHpToGainFromDataCollector
+    }
+  })
+  hpDataIndex = 0
+
   @property({
     visible: function (this: GainStats) {
       return this.gainHp
     }
   })
-  hpTemp: boolean = false;
+  hpTemp = false;
+
   @property
-  gainDMG: boolean = false;
+  gainDMG = false;
+
   @property({
     visible: function (this: GainStats) {
-      return this.gainDMG
+      return this.gainDMG && !this.isDMGToGainFromDataCollector
     }
     , type: CCInteger
   })
-  DMGToGain: number = 0;
+  DMGToGain = 0;
+
   @property({
     visible: function (this: GainStats) {
       return this.gainDMG
     }
   })
-  dmgTemp: boolean = false;
+  isDMGToGainFromDataCollector = false;
+
+
+  @property({
+    visible: function (this: GainStats) {
+      return this.isDMGToGainFromDataCollector
+    }
+  })
+  DMGdataIndex = 0
+
+  @property({
+    visible: function (this: GainStats) {
+      return this.gainDMG
+    }
+  })
+  dmgTemp = false;
+
   @property
-  gainRollBonus: boolean = false;
+  gainRollBonus = false;
+
   @property({
     tooltip: "non-attack bonus for players,roll needed to hit on monster", visible: function (this: GainStats) {
-      return this.gainRollBonus
+      return this.gainRollBonus && !this.isRollBonusToGainFromDataCollector
     }
     , type: CCInteger
   })
-  rollBonusToGain: number = 0;
+  rollBonusToGain = 0;
+
   @property({
     visible: function (this: GainStats) {
       return this.gainRollBonus
     }
   })
-  rollBonusTemp: boolean = false;
+  isRollBonusToGainFromDataCollector = false;
+
+
+  @property({
+    visible: function (this: GainStats) {
+      return this.isRollBonusToGainFromDataCollector
+    }
+  })
+  rollBonusDataIndex = 0
+
+  @property({
+    visible: function (this: GainStats) {
+      return this.gainRollBonus
+    }
+  })
+  rollBonusTemp = false;
+
   @property
-  gainAttackRollBonus: boolean = false;
+  gainAttackRollBonus = false;
+
   @property({
     visible: function (this: GainStats) {
       return this.gainAttackRollBonus
     }
   })
-  isOnlyNextAttack: boolean = false
+  isOnlyNextAttack = false
 
   @property({
     visible: function (this: GainStats) {
-      return this.gainAttackRollBonus
+      return this.gainAttackRollBonus && !this.isAttackRollBonusToGainFromDataCollector
     }
     , type: CCInteger
   })
-  attackRollBonusToGain: number = 0;
+  attackRollBonusToGain = 0;
 
   @property({
     visible: function (this: GainStats) {
       return this.gainAttackRollBonus
     }
   })
-  attackRollBonusTemp: boolean = false;
+  isAttackRollBonusToGainFromDataCollector = false;
+
+
+  @property({
+    visible: function (this: GainStats) {
+      return this.isAttackRollBonusToGainFromDataCollector
+    }
+  })
+  attackRollBonusDataIndex = 0
+
+  @property({
+    visible: function (this: GainStats) {
+      return this.gainAttackRollBonus
+    }
+  })
+  attackRollBonusTemp = false;
 
   @property
-  gainFirstAttackRollBonus: boolean = false;
+  gainFirstAttackRollBonus = false;
+
+  @property({
+    visible: function (this: GainStats) {
+      return this.gainFirstAttackRollBonus && !this.isFirstAttackRollBonusToGainFromDataCollector
+    }
+    , type: CCInteger
+  })
+  firstAttackRollBonusToGain = 0;
 
   @property({
     visible: function (this: GainStats) {
       return this.gainFirstAttackRollBonus
     }
-    , type: CCInteger
   })
-  firstAttackRollBonusToGain: number = 0;
+  isFirstAttackRollBonusToGainFromDataCollector = false;
+
+
+  @property({
+    visible: function (this: GainStats) {
+      return this.isAttackRollBonusToGainFromDataCollector
+    }
+  })
+  firstAttackRollBonusDataIndex = 0
 
   @property({
     visible: function (this: GainStats) {
       return this.gainFirstAttackRollBonus
     }
   })
-  firstAttackRollBonusToGainTemp: boolean = false;
+  firstAttackRollBonusToGainTemp = false;
 
 
   isReveseable = true
@@ -125,7 +211,7 @@ export class GainStats extends Effect {
         targets = data.getTargets(TARGETTYPE.MONSTER) as Node[]
       }
       for (const target of targets) {
-        await this.addStat(target)
+        await this.addStat(target, data)
       }
     } else {
       if (data instanceof ActiveEffectData) {
@@ -152,101 +238,132 @@ export class GainStats extends Effect {
         throw new Error(`no target to gain stats`)
       } else {
         console.log(target)
-        await this.addStat(target)
+        await this.addStat(target, data)
       }
     }
 
     if (data instanceof PassiveEffectData) return data
     return WrapperProvider.stackWrapper.out._currentStack
   }
-  async addStat(target: Node) {
+
+  getHPToGain(data: ActiveEffectData | PassiveEffectData) {
+    const numbersData = data.getTargets(TARGETTYPE.NUMBER) as number[]
+    return this.isHpToGainFromDataCollector ? numbersData[this.hpDataIndex] : this.hpToGain
+  }
+
+
+  getDMGToGain(data: ActiveEffectData | PassiveEffectData) {
+    const numbersData = data.getTargets(TARGETTYPE.NUMBER) as number[]
+    return this.isDMGToGainFromDataCollector ? numbersData[this.DMGdataIndex] : this.DMGToGain
+  }
+
+  getRollBonus(data: ActiveEffectData | PassiveEffectData) {
+    const numbersData = data.getTargets(TARGETTYPE.NUMBER) as number[]
+    return this.isRollBonusToGainFromDataCollector ? numbersData[this.rollBonusDataIndex] : this.rollBonusToGain
+  }
+
+  getAttackRollBonus(data: ActiveEffectData | PassiveEffectData) {
+    const numbersData = data.getTargets(TARGETTYPE.NUMBER) as number[]
+    return this.isAttackRollBonusToGainFromDataCollector ? numbersData[this.attackRollBonusDataIndex] : this.attackRollBonusToGain
+  }
+
+  getFirstAttackRollBonus(data: ActiveEffectData | PassiveEffectData) {
+    const numbersData = data.getTargets(TARGETTYPE.NUMBER) as number[]
+    return this.isFirstAttackRollBonusToGainFromDataCollector ? numbersData[this.firstAttackRollBonusDataIndex] : this.firstAttackRollBonusToGain
+  }
+
+
+
+  async addStat(target: Node, data: ActiveEffectData | PassiveEffectData) {
     //case target is a player
     let player: Player | null = target.getComponent(Player)
+    const numbersData = data.getTargets(TARGETTYPE.NUMBER) as number[]
     if (player == null) player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(target)
     if (player != null) {
       if (this.gainHp) {
-        await player.gainHeartContainer(this.hpToGain, this.hpTemp, true)
+
+        await player.gainHeartContainer(this.getHPToGain(data), this.hpTemp, true)
       }
       if (this.gainDMG) {
-        await player.gainDMG(this.DMGToGain, this.dmgTemp, true)
+        await player.gainDMG(this.getDMGToGain(data), this.dmgTemp, true)
       }
       if (this.gainRollBonus) {
-        await player.gainRollBonus(this.rollBonusToGain, this.rollBonusTemp, true)
+        await player.gainRollBonus(this.getRollBonus(data), this.rollBonusTemp, true)
       }
       if (this.gainAttackRollBonus) {
         if (this.isOnlyNextAttack) {
-          await player.gainAttackRollBonus(this.attackRollBonusToGain, this.attackRollBonusTemp, true, true)
+          await player.gainAttackRollBonus(this.getAttackRollBonus(data), this.attackRollBonusTemp, true, true)
         } else {
-          await player.gainAttackRollBonus(this.attackRollBonusToGain, this.attackRollBonusTemp, false, true)
+          await player.gainAttackRollBonus(this.getAttackRollBonus(data), this.attackRollBonusTemp, false, true)
         }
       }
       if (this.gainFirstAttackRollBonus) {
-        await player.gainFirstAttackRollBonus(this.firstAttackRollBonusToGain, this.firstAttackRollBonusToGainTemp, true)
+        await player.gainFirstAttackRollBonus(this.getFirstAttackRollBonus(data), this.firstAttackRollBonusToGainTemp, true)
       }
     } else {
       //  target = WrapperProvider.cardManagerWrapper.out.getCardById(data.target, true)
-      let monster: Monster | null = target.getComponent(Monster)
+      const monster: Monster | null = target.getComponent(Monster)
       if (!monster) { debugger; throw new Error("No Player Nor Monster"); }
 
       if (this.gainHp) {
-        await monster.gainHp(this.hpToGain, true)
+        await monster.gainHp(this.getHPToGain(data), true)
       }
       if (this.gainDMG) {
-        await monster.gainDMG(this.DMGToGain, true)
+        await monster.gainDMG(this.getDMGToGain(data), true)
       }
       if (this.gainRollBonus) {
-        await monster.gainRollBonus(this.rollBonusToGain, true)
+        await monster.gainRollBonus(this.getRollBonus(data), true)
       }
     }
     this.activatedTarget = target
   }
-  async reverseEffect() {
-    let target = this.activatedTarget;
+  async reverseEffect(data: ActiveEffectData | PassiveEffectData) {
+    const target = this.activatedTarget;
 
     if (target != null) {
 
       // case target is a player
       if (target instanceof Player) {
-        let player: Player | null = target.getComponent(Player);
+        const player: Player | null = target.getComponent(Player);
         if (player) {
           if (this.gainHp) {
-            await player.gainHeartContainer(-this.hpToGain, this.hpTemp, true)
+            await player.gainHeartContainer(-this.getHPToGain(data), this.hpTemp, true)
           }
           if (this.gainDMG) {
-            await player.gainDMG(-this.DMGToGain, this.dmgTemp, true)
+            await player.gainDMG(-this.getDMGToGain(data), this.dmgTemp, true)
           }
           if (this.gainRollBonus) {
-            await player.gainRollBonus(-this.rollBonusToGain, this.rollBonusTemp, true)
+            await player.gainRollBonus(-this.getRollBonus(data), this.rollBonusTemp, true)
           }
           if (this.gainAttackRollBonus) {
             if (this.isOnlyNextAttack) {
-              await player.gainAttackRollBonus(-this.attackRollBonusToGain, this.attackRollBonusTemp, true, true)
+              await player.gainAttackRollBonus(-this.getAttackRollBonus(data), this.attackRollBonusTemp, true, true)
             } else {
-              await player.gainAttackRollBonus(-this.attackRollBonusToGain, this.attackRollBonusTemp, false, true)
+              await player.gainAttackRollBonus(-this.getAttackRollBonus(data), this.attackRollBonusTemp, false, true)
             }
           }
           if (this.gainFirstAttackRollBonus) {
-            await player.gainFirstAttackRollBonus(-this.firstAttackRollBonusToGain, this.firstAttackRollBonusToGainTemp, true)
+            await player.gainFirstAttackRollBonus(-this.getFirstAttackRollBonus(data), this.firstAttackRollBonusToGainTemp, true)
           }
         }
       } else {
         // target is a monster
-        let monster: Monster | null = target.getComponent(Monster)
+        const monster: Monster | null = target.getComponent(Monster)
         if (!monster) { debugger; throw new Error("Not Player Nor Monster"); }
 
         if (this.gainHp) {
 
-          await monster.gainHp(-this.hpToGain, true)
+          await monster.gainHp(-this.getHPToGain(data), true)
 
         }
         if (this.gainDMG) {
 
-          await monster.gainDMG(-this.DMGToGain, true)
+          await monster.gainDMG(-this.getDMGToGain(data), true)
 
         }
         if (this.gainRollBonus) {
 
-          await monster.gainRollBonus(-this.rollBonusToGain, true)
+          await monster.gainRollBonus(-this.getRollBonus(data), true)
 
         }
         this.activatedTarget = target

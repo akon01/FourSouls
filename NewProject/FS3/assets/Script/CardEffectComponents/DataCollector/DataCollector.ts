@@ -14,10 +14,10 @@ export class DataCollector extends Component implements DataCollectorInterface {
       hasBeenHandled = false
 
       @property
-      DataCollectorId: number = -1
+      DataCollectorId = -1
 
-      isCardChosen: boolean = false
-      isEffectChosen: boolean = false
+      isCardChosen = false
+      isEffectChosen = false
 
       setDataCollectorId() {
             if (this.node && this.DataCollectorId == -1) {
@@ -36,7 +36,7 @@ export class DataCollector extends Component implements DataCollectorInterface {
 
       cardChosen: Node | null = null;
       collectorName = "CardPlayer";
-      hasSubAction: boolean = false;
+      hasSubAction = false;
 
 
       // @property({ type: CCInteger })
@@ -62,4 +62,6 @@ export class DataCollector extends Component implements DataCollectorInterface {
       onLoad() {
             this._effectCard = this.node
       }
+
+
 }

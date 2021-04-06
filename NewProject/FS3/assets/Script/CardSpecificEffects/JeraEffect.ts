@@ -27,13 +27,13 @@ export class JeraEffect extends Effect {
     stack: StackEffectInterface[],
     data: ActiveEffectData | PassiveEffectData
   ) {
-    let targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER);
+    const targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER);
     if (targetPlayerCard == null) {
       console.log(`no target player`)
     } else {
       if (targetPlayerCard instanceof Node) {
-        let player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard)!
-        let numOfCardsToDraw = player.getHandCards().length
+        const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard)!
+        const numOfCardsToDraw = player.getHandCards().length
         for (let i = 0; i < numOfCardsToDraw; i++) {
           await player.drawCards(WrapperProvider.cardManagerWrapper.out.lootDeck, true)
         }

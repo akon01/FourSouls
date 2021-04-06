@@ -23,11 +23,11 @@ export class TinyHandCollector extends DataCollector {
      * @returns {target:cc.node of the player who played the card}
      */
     collectData(data: any) {
-        let player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.cardPlayerId)!;
+        const player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.cardPlayerId)!;
         const numToDiscard = player.getHandCards().length - 2
         if (!this.chooseCard) { debugger; throw new Error("No Choose CardSet"); }
         if (!this.discardLoot) { debugger; throw new Error("No Discard Set"); }
         this.chooseCard.numOfCardsToChoose = numToDiscard;
-        this.discardLoot.numOfLoot = numToDiscard;
+        //this.discardLoot.numOfLoot = numToDiscard;
     }
 }

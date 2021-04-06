@@ -15,8 +15,6 @@ import { WrapperProvider } from '../../Managers/WrapperProvider';
 @ccclass('DiscardLoot')
 export class DiscardLoot extends Effect {
   effectName = "DiscardLoot";
-  @property(CCInteger)
-  numOfLoot: number = 0;
   /**
    *
    * @param data {target:PlayerId}

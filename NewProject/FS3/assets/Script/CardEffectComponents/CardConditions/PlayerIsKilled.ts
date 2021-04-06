@@ -4,6 +4,7 @@ import { Player } from "../../Entites/GameEntities/Player";
 import { PassiveMeta } from "../../Managers/PassiveMeta";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { Condition } from "./Condition";
+import { CheckEggCounterConditionProp } from './ConditionsProperties/CheckEggCounterConditionProp';
 const { ccclass, property } = _decorator;
 
 
@@ -11,7 +12,7 @@ const { ccclass, property } = _decorator;
 export class PlayerIsKilledCondition extends Condition {
   event = PASSIVE_EVENTS.PLAYER_IS_KILLED
   @property
-  isSpecificPlayer: boolean = false;
+  isSpecificPlayer = false;
   @property({
     type: Node,
     visible: function (this: PlayerIsKilledCondition) {
@@ -21,10 +22,14 @@ export class PlayerIsKilledCondition extends Condition {
   specificPlayer: Node | null = null
 
   @property({ visible: function (this: PlayerIsKilledCondition) { return !this.isOnlyCardOwner } })
-  isNotCardOwner: boolean = false;
+  isNotCardOwner = false;
 
   @property({ visible: function (this: PlayerIsKilledCondition) { return !this.isNotCardOwner } })
-  isOnlyCardOwner: boolean = false;
+  isOnlyCardOwner = false;
+
+
+  @property(CheckEggCounterConditionProp)
+  checkEggCoutner: CheckEggCounterConditionProp = new CheckEggCounterConditionProp()
 
   async testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
@@ -51,6 +56,9 @@ export class PlayerIsKilledCondition extends Condition {
       if (player.character != cardOwner) {
         answer = false;
       }
+    }
+    if (this.checkEggCoutner.checkIfMonsterHasEggCoutners) {
+      answer = this.checkEggCoutner.checkEntity(player, answer)
     }
     return answer
   }

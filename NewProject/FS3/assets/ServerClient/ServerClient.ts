@@ -17,13 +17,13 @@ const { ccclass, property } = _decorator;
 export class ServerClient extends Component {
 
       players: Player[] = [];
-      numOfPlayers: number = -1;
+      numOfPlayers = -1;
 
 
 
 
       ws: WebSocket | null = null;
-      pid: number = 0;
+      pid = 0;
       reactionCounter = 0;
 
 
@@ -114,6 +114,9 @@ export class ServerClient extends Component {
             whevent.on(Signal.CHANGE_TURN_DRAW_PLAYS, this.onPlayerActionFromServer, this);
             whevent.on(Signal.PLAYER_SET_RECHARGE_CHAR_AT_START_OF_TURN, this.onPlayerActionFromServer, this);
             whevent.on(Signal.PLAYER_SET_HAND_SHOW_CARD_BACK, this.onPlayerActionFromServer, this)
+            whevent.on(Signal.PLAYER_CHANGE_LOOT_CARD_PLAYS, this.onPlayerActionFromServer, this)
+            whevent.on(Signal.PLAYER_CHANGE_NUM_OF_ITEMS_TO_RECHARGE, this.onPlayerActionFromServer, this)
+            whevent.on(Signal.PLAYER_CHANGE_EXTRA_SOULS_NEEDED_TO_WIN, this.onPlayerActionFromServer, this)
 
             //monster events
             whevent.on(Signal.MONSTER_GAIN_DMG, this.onPlayerActionFromServer, this);
@@ -190,6 +193,9 @@ export class ServerClient extends Component {
             whevent.on(Signal.CARD_CHANGE_NUM_OF_SOULS, this.onPlayerActionFromServer, this);
             whevent.on(Signal.CARD_SET_OWNER, this.onPlayerActionFromServer, this);
             whevent.on(Signal.ITEM_SET_LAST_OWNER, this.onPlayerActionFromServer, this);
+            whevent.on(Signal.ADD_EGG_COUNTER, this.onPlayerActionFromServer, this);
+            whevent.on(Signal.REMOVE_EGG_COUNTER, this.onPlayerActionFromServer, this);
+
 
 
             //Card Effect
@@ -223,7 +229,7 @@ export class ServerClient extends Component {
             //tslint:disable-next-line: no-floating-promises
             //@ts-ignore
             if (WrapperProvider.actionManagerWrapper)
-                  WrapperProvider.actionManagerWrapper.out.getActionFromServer(data.signal as unknown as string, data.data);
+                  void WrapperProvider.actionManagerWrapper.out.getActionFromServer(data.signal as unknown as string, data.data);
       }
 
       onMoveToTable(data: { playerID: number, numOfPlayers: number }) {
@@ -240,7 +246,7 @@ export class ServerClient extends Component {
             console.log("on finish load")
             // tslint:disable-next-line: no-floating-promises
             const mainScript = WrapperProvider.mainScriptWrapper.out;
-            mainScript.makeFirstUpdateActions(data.id)
+            void mainScript.makeFirstUpdateActions(data.id)
       }
 
       async onUpdateActions() {
@@ -359,7 +365,7 @@ export class ServerClient extends Component {
             find(`Match Players`, WrapperProvider.CanvasNode)!.getComponent(Label)!.string = string
       }
 
-      onStartGame({ }) {
+      onStartGame() {
             game.addPersistRootNode(this.node);
 
             WrapperProvider.serverClientWrapper.out!.send(Signal.MOVE_TO_TABLE);

@@ -4,7 +4,7 @@ import { whevent } from "../../ServerClient/whevent";
 import { AddTrinketOrCurse } from "../CardEffectComponents/CardEffects/AddTrinketOrCurse";
 import { Effect } from '../CardEffectComponents/CardEffects/Effect';
 import { ChooseCard } from "../CardEffectComponents/DataCollector/ChooseCard";
-import { BUTTON_STATE, GAME_EVENTS, ROLL_TYPE } from "../Constants";
+import { BUTTON_STATE, CARD_TYPE, GAME_EVENTS, ROLL_TYPE } from "../Constants";
 import { ActionMessage } from "../Entites/ActionMessage";
 import { CardEffect } from "../Entites/CardEffect";
 import { CardLayout } from "../Entites/CardLayout";
@@ -46,12 +46,12 @@ export class ActionManager extends Component {
   ButtonManager: Node | null = null;
   pileManager: Node | null = null;
   serverEffectStack: ServerEffect[] = [];
-  noMoreActionsBool: boolean = false;
-  inReactionPhase: boolean = false;
+  noMoreActionsBool = false;
+  inReactionPhase = false;
 
 
   // test only!!
-  reactionChainNum: number = 0;
+  reactionChainNum = 0;
 
 
   lootPlayedInAction(cardId: any) {
@@ -109,7 +109,7 @@ export class ActionManager extends Component {
 
     console.log(`attack plays: ${player.attackPlays}`)
     console.log(`buy plays: ${player.buyPlays}`)
-    console.log(`loot plays ${player.lootCardPlays}`)
+    console.log(`loot plays ${player.getLootCardPlays()}`)
     console.log("in Battle Phase:" + WrapperProvider.turnsManagerWrapper.out.currentTurn.battlePhase)
 
 
@@ -255,7 +255,7 @@ export class ActionManager extends Component {
 
   private async DecideForPlayable(currentPlayerHandComp: CardLayout) {
     const turnPlayer = WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer()!;
-    if (turnPlayer.lootCardPlays > 0) {
+    if (turnPlayer.getLootCardPlays() > 0) {
       WrapperProvider.cardManagerWrapper.out.setOriginalSprites(currentPlayerHandComp.layoutCards);
       for (let i = 0; i < currentPlayerHandComp.layoutCards.length; i++) {
         const card = currentPlayerHandComp.layoutCards[i];
@@ -337,7 +337,7 @@ export class ActionManager extends Component {
     //  }
   }
 
-  checkingForDeadEntities: boolean = false;
+  checkingForDeadEntities = false;
 
   waitForCheckingDeadEntities() {
     return new Promise((resolve) => {
@@ -394,7 +394,7 @@ export class ActionManager extends Component {
   }
   cardEffectToDo: { playedCard: Node, playerId: number, passiveIndex?: number } | null = null;
 
-  waitForAllEffectsOn: boolean = false;
+  waitForAllEffectsOn = false;
 
   inRollAction = false;
 
@@ -475,6 +475,7 @@ export class ActionManager extends Component {
             break;
           case `Desk`:
             place = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.placeID)!.desk!.node
+            break
           case `soulsLayout`:
             place = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.placeID)!.desk!.soulsLayout!
             break
@@ -494,6 +495,26 @@ export class ActionManager extends Component {
         card = WrapperProvider.cardManagerWrapper.out.getCardById(data.cardId)
         await card.getComponent(Card)?.putCounter(data.numOfCounters, false)
         break
+      case Signal.ADD_EGG_COUNTER:
+        card = WrapperProvider.cardManagerWrapper.out.getCardById(data.cardId)
+        const cardToAddEggCounterComp = card.getComponent(Card)!
+        if (cardToAddEggCounterComp.type === CARD_TYPE.CHAR) {
+          player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(card)
+          await player?.addEggCounters(data.numToChange, false)
+        } else {
+          await card.getComponent(Monster)!.addEggCounters(data.numToChange, false)
+        }
+        break;
+      case Signal.REMOVE_EGG_COUNTER:
+        card = WrapperProvider.cardManagerWrapper.out.getCardById(data.cardId)
+        const cardToRemoveEggCounterComp = card.getComponent(Card)!
+        if (cardToRemoveEggCounterComp.type === CARD_TYPE.CHAR) {
+          player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(card)
+          await player?.removeEggCounters(data.numToChange, false)
+        } else {
+          await card.getComponent(Monster)!.removeEggCounters(data.numToChange, false)
+        }
+        break;
       case Signal.CARD_CHANGE_NUM_OF_SOULS:
         card = WrapperProvider.cardManagerWrapper.out.getCardById(data.cardId)
         card.getComponent(Card)?.changeNumOfSouls(data.diff, false)
@@ -516,6 +537,7 @@ export class ActionManager extends Component {
         player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.playerId)
         if (!player) throw new Error(`No Player Found With Id:${data.playerId}`);
         card.getComponent(Item)?.setLastOwner(player, false)
+        break
       case Signal.MOVE_CARD_END:
         WrapperProvider.cardManagerWrapper.out.receiveMoveCardEnd(data.moveIndex)
         break;
@@ -676,6 +698,10 @@ export class ActionManager extends Component {
         if (!player) { debugger; throw new Error(`No Player Found With Id ${data.playerId}`); }
         await player.loseLoot(card, false)
         break;
+      case Signal.PLAYER_CHANGE_LOOT_CARD_PLAYS:
+        player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.playerId)
+        player?.changeLootCardPlayes(data.diff, false)
+        break
       case Signal.CHANGE_MONEY:
         player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.playerId)
         if (!player) { debugger; throw new Error(`No Player Found With Id ${data.playerId}`); }
@@ -757,6 +783,14 @@ export class ActionManager extends Component {
         player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.playerId)
         player?.hand?.setShowCardsBack(data.isShow, false)
         break
+      case Signal.PLAYER_CHANGE_NUM_OF_ITEMS_TO_RECHARGE:
+        player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.playerId)
+        player?.changeNumOfItemsToRecharge(data.diff, false)
+        break
+      case Signal.PLAYER_CHANGE_EXTRA_SOULS_NEEDED_TO_WIN:
+        player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.playerId)
+        player?.changeExtraSoulsNeededToWin(data.diff, false)
+        break
       // PassiveManager actions.
       case Signal.REMOVE_FROM_PASSIVE_MANAGER:
         try {
@@ -815,7 +849,7 @@ export class ActionManager extends Component {
         for (const btn of btns) {
           WrapperProvider.dataCollectorButtonsManager.out.addButton(btn.btnName, btn.btnText)
         }
-        const answer = await WrapperProvider.dataCollectorButtonsManager.out.givePlayerChoice(WrapperProvider.playerManagerWrapper.out.mePlayer?.getComponent(Player)!, false)
+        const answer = await WrapperProvider.dataCollectorButtonsManager.out.givePlayerChoice(WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!, false)
         WrapperProvider.serverClientWrapper.out.send(Signal.CHOOSE_BUTTON_DATA_COLLECTOR_RESPONSE, { answer, playerId: data.originPlayerId })
         break;
       case Signal.CHOOSE_BUTTON_DATA_COLLECTOR_RESPONSE:
@@ -904,7 +938,7 @@ export class ActionManager extends Component {
         break;
       case Signal.MOUSE_CURSOR_MOVE:
         player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.playerId)
-        const mouseToMove = player?.mouse!
+        const mouseToMove = player!.mouse!
         mouseToMove.tweenThisPos(data.pos.x, data.pos.y)
         break
       // Stack Signals:

@@ -4,14 +4,14 @@
  */
 //@ts-nocheck
 import WebSocket, { Server as WebSocketServer } from "ws";
-import ServerPlayer from "./entities/player";
+import ServerPlayer from "./entities/ServerPlayer";
 
 import * as fs from "fs";
 import * as whevent from "whevent";
 import Match from "./entities/match";
 import signal from "./enums/signal";
 import { Logger } from "./utils/Logger";
-import { Card } from "./entities/Card";
+import { ServerCard } from "./entities/ServerCard";
 import DataParser from "./entities/dataParser";
 
 declare const Buffer;
@@ -48,7 +48,7 @@ export default class Server {
   }
 
   async test(dirName: string) {
-    const fs = require("fs")
+    //const fs = require("fs")
     // const readline = require('readline');
     // const readinterface = readline.createInterface({
     //   input: fs.createReadStream('/MainGame.fire'),
@@ -97,7 +97,7 @@ export default class Server {
   }
 
   private doIt(data: { lines: string, fileName: string, dirName }) {
-    const fs = require("fs")
+    // const fs = require("fs")
 
     const regexp = new RegExp('"width": (\\d+.+\\d+|\\d+)', "g")
     const regexp2 = new RegExp('"height": (\\d+.+\\d+|\\d+)', "g")
@@ -324,6 +324,9 @@ export default class Server {
     whevent.on(signal.CHANGE_TURN_DRAW_PLAYS, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.PLAYER_SET_RECHARGE_CHAR_AT_START_OF_TURN, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.PLAYER_SET_HAND_SHOW_CARD_BACK, this.onBroadcastExceptOrigin, this)
+    whevent.on(signal.PLAYER_CHANGE_LOOT_CARD_PLAYS, this.onBroadcastExceptOrigin, this)
+    whevent.on(signal.PLAYER_CHANGE_NUM_OF_ITEMS_TO_RECHARGE, this.onBroadcastExceptOrigin, this)
+    whevent.on(signal.PLAYER_CHANGE_EXTRA_SOULS_NEEDED_TO_WIN, this.onBroadcastExceptOrigin, this)
     //
 
     //monster events
@@ -365,6 +368,8 @@ export default class Server {
     whevent.on(signal.CARD_CHANGE_NUM_OF_SOULS, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.CARD_SET_OWNER, this.onBroadcastExceptOrigin, this);
     whevent.on(signal.ITEM_SET_LAST_OWNER, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.ADD_EGG_COUNTER, this.onBroadcastExceptOrigin, this);
+    whevent.on(signal.REMOVE_EGG_COUNTER, this.onBroadcastExceptOrigin, this);
 
 
     //Announcement Lable
@@ -387,7 +392,7 @@ export default class Server {
   getCardData({ player, data }) {
     if (player?.match?.cards.length == 0) {
       const allCards = JSON.parse(data.data.allCards)
-      allCards.forEach(card => player.match.cards.push(new Card(card.cardId, card.cardName)))
+      allCards.forEach(card => player.match.cards.push(new ServerCard(card.cardId, card.cardName)))
       player.match.cards = allCards;
     }
   }
@@ -537,7 +542,7 @@ export default class Server {
     }
   }
 
-  send(player: ServerPlayer, signal: string, message: object) {
+  send(player: ServerPlayer, signal: string, message: Object) {
     player.send(signal, message);
   }
 }

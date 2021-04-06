@@ -15,7 +15,9 @@ import { WrapperProvider } from '../../Managers/WrapperProvider';
 export class AddBuyOpportunity extends Effect {
   effectName = "AddBuyOpportunity";
   @property(CCInteger)
-  numOfTimes: number = 0;
+  numOfTimes = 0;
+
+
   /**
    *
    * @param data {target:PlayerId}
@@ -27,7 +29,7 @@ export class AddBuyOpportunity extends Effect {
       throw new Error(`target player is null`)
     } else {
       const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard as Node)!
-      player.buyPlays += this.numOfTimes
+      player.buyPlays += this.getQuantityInRegardsToBlankCard(player.node, this.numOfTimes)
       if (data instanceof PassiveEffectData) { return data }
       return stack
     }

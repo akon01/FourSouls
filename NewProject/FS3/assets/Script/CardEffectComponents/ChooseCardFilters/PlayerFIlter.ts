@@ -1,5 +1,6 @@
 import { CCInteger, Enum, _decorator } from 'cc';
 import { PLAYER_FILTERS } from '../../Constants';
+import { Character } from '../../Entites/CardTypes/Character';
 import { IFilter } from "./FilterInterface";
 const { ccclass, property } = _decorator;
 
@@ -11,14 +12,14 @@ export class PlayerFilter implements IFilter {
     filter: PLAYER_FILTERS = PLAYER_FILTERS.HAS_LOOT;
     @property({
         type: CCInteger, visible: function (this: PlayerFilter) {
-            return this.filter == PLAYER_FILTERS.HAS_LOOT || this.filter == PLAYER_FILTERS.HAS_MONEY
+            return this.filter == PLAYER_FILTERS.HAS_LOOT || this.filter == PLAYER_FILTERS.HAS_MONEY || this.filter == PLAYER_FILTERS.HAVE_EGG_COUNTERS
         }
     })
-    quantity: number = 0
+    quantity = 0
     getStatement() {
-        // const comp: Character = new Character()
+        const comp: Character = new Character()
         // if (comp.player.me == false) {
-        //     comp.player.getActiveItems().concat(comp.player.getPaidItems(),comp.player.getPassiveItems()).filter(card=>!card.getComponent("Item").eternal)
+        //     comp.player?.getEggCounters() >= ${ this.quantity }
         // }
         switch (this.filter) {
             case PLAYER_FILTERS.IS_NOT_DEAD:
@@ -31,6 +32,10 @@ export class PlayerFilter implements IFilter {
                 return `comp.player.me == false`
             case PLAYER_FILTERS.HAS_NON_ETERNAL_ITEMS:
                 return `comp.player.getActiveItems().concat(comp.player.getPaidItems(),comp.player.getPassiveItems()).filter(card=>!card.getComponent("Item").eternal)`
+            case PLAYER_FILTERS.HAVE_EGG_COUNTERS:
+                return `comp.player.getEggCounters() >= ${this.quantity}`
+            case PLAYER_FILTERS.DONT_HAVE_EGG_COUNTER:
+                return `comp.player.getEggCounters() == 0`
             default:
                 throw new Error("No Filter Found!");
 

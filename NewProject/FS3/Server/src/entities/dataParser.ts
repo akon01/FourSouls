@@ -1,7 +1,7 @@
 //@ts-nocheck
 import Match from "./match";
-import { Card } from "./Card";
-import ServerPlayer from "./player";
+import { ServerCard } from "./ServerCard";
+import ServerPlayer from "./ServerPlayer";
 
 export default class DataParser {
 
@@ -12,13 +12,13 @@ export default class DataParser {
     }
 
     parseData(data: any) {
-        if (data == undefined || data == null) { return data };
-        let originData = Object.create(data)
-        let parsedData = [];
-        let card: Card
+        if (data == undefined || data == null) { return data }
+        const originData = Object.create(data)
+        const parsedData = [];
+        let card: ServerCard
         let player: ServerPlayer
-        let cardsArrangement: Card[] = []
-        let keys = Object.keys(data)
+        const cardsArrangement: ServerCard[] = []
+        const keys = Object.keys(data)
         // tslint:disable-next-line: forin
         for (const key in data) {
             const lowerKey = key.toLowerCase()

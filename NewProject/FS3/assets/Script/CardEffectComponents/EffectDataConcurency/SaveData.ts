@@ -17,7 +17,7 @@ const { ccclass, property } = _decorator;
 @ccclass('SaveData')
 export class SaveData extends EffectDataConcurencyBase {
     @property
-    isAddative: boolean = false
+    isAddative = false
     runDataConcurency(newEffectData: ActiveEffectData | PassiveEffectData, numOfEffect: number, type: ITEM_TYPE, sendToServer: boolean) {
         //  const dataInterpreter = new DataInterpreter()
         const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node);
@@ -29,6 +29,12 @@ export class SaveData extends EffectDataConcurencyBase {
             });
             targets.stackEffects.forEach(stackTargets => {
                 cardEffect.concurentEffectData!.addTarget(WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(stackTargets))
+            })
+            targets.effects.forEach(effects => {
+                cardEffect.concurentEffectData?.addTarget(WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(effects))
+            })
+            targets.numbers.forEach(numbers => {
+                cardEffect.concurentEffectData?.addTarget(WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(numbers))
             })
         } else {
             cardEffect.concurentEffectData = newEffectData

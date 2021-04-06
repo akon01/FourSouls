@@ -1,8 +1,9 @@
-import { Component, Event, Layout, Node, _decorator } from 'cc';
+import { Component, Event, Layout, Node, v3, _decorator } from 'cc';
 import { Signal } from "../../../Misc/Signal";
 import { CARD_TYPE } from "../../Constants";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { RefillEmptySlot } from "../../StackEffects/RefillEmptySlot";
+import { Item } from '../CardTypes/Item';
 import { Card } from "./Card";
 import { Deck } from "./Deck";
 const { ccclass, property } = _decorator;
@@ -10,23 +11,15 @@ const { ccclass, property } = _decorator;
 
 @ccclass('Store')
 export class Store extends Component {
-      maxNumOfItems: number = 2;
+      maxNumOfItems = 2;
 
       storeCards: Set<number> = new Set()
 
       thisTurnStoreCards: Node[] = []
 
-      storeCardsCost: number = 10;
+      storeCardsCost = 10;
 
-      topCardCost: number = 10;
-
-
-
-
-
-
-
-
+      topCardCost = 10;
 
 
       getStoreCards() {
@@ -65,6 +58,9 @@ export class Store extends Component {
                   WrapperProvider.cardManagerWrapper.out.addOnTableCards([newTreasure]);
                   WrapperProvider.storeWrapper.out.storeCards.add(treasureCardComp._cardId);
                   WrapperProvider.storeWrapper.out.thisTurnStoreCards.push(newTreasure)
+                  if (newTreasure.getComponent(Item)?.needsRecharge) {
+                        newTreasure.setRotationFromEuler(v3(0, 90, 0))
+                  }
                   newTreasure.setPosition(0, 0)
                   newTreasure.setParent(this.node)
                   //this.node.addChild(newTreasure);

@@ -15,7 +15,7 @@ const { ccclass } = _decorator;
 export class TurnsManager extends Component {
       turns: Turn[] = [];
 
-      turnId: number = 0;
+      turnId = 0;
 
       currentTurn: Turn | null = null;
 
@@ -116,6 +116,7 @@ export class TurnsManager extends Component {
                         player._mustAttackMonsters = []
                         player._mustDeckAttackPlays = 0
                         player._attackDeckPlays = 0
+                        player.hasBlankCardEffectActive = false
                         //player.damage = player.calculateDamage()
                         // player.broadcastUpdateProperites({ _tempHpBonus: player._tempHpBonus, tempAttackRollBonus: player.tempAttackRollBonus})
                         await player.heal(player.character!.getComponent(Character)!.hp + player._hpBonus, false, true)

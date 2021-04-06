@@ -13,23 +13,23 @@ const { ccclass, property } = _decorator;
 
 @ccclass('Stack')
 export class Stack extends Component {
-    stackEffectsIds: number = 0;
+    stackEffectsIds = 0;
 
     _currentStack: StackEffectInterface[] = []
 
     _currentStackEffectsResolving: number[] = [];
 
-    isInResolvePhase: boolean = false;
+    isInResolvePhase = false;
 
-    hasOtherPlayerRespondedYet: boolean = false;
+    hasOtherPlayerRespondedYet = false;
 
-    hasOtherPlayerRespond: boolean = false;
+    hasOtherPlayerRespond = false;
 
-    hasStackEffectResolvedAtAnotherPlayer: boolean = false;
+    hasStackEffectResolvedAtAnotherPlayer = false;
 
     newStack: StackEffectInterface[] | null = null;
 
-    delaydShowStackEffect: number = -1;
+    delaydShowStackEffect = -1;
 
     getNextStackEffectId() {
         WrapperProvider.serverClientWrapper.out.send(Signal.NEXT_STACK_ID)
@@ -113,7 +113,7 @@ export class Stack extends Component {
         const stackEffect = this._currentStack[this._currentStack.length - 1]
         console.log(`Stack State: Do Stack Effect From Top`, stackEffect)
         //console.error(`do ${stackEffect.constructor.name} ${stackEffect.entityId} from top`)
-        let amId: number = -1
+        let amId = -1
         if (sendToServer) {
             amId = WrapperProvider.actionLableWrapper.out.publishMassage(`Resolve ${stackEffect.name} ${stackEffect.entityId} `, 0)
         }
@@ -351,7 +351,7 @@ export class Stack extends Component {
     }
 
 
-    hasAnyoneResponded: boolean = false;
+    hasAnyoneResponded = false;
 
     async removeAfterResolve(stackEffectToRemove: StackEffectInterface, sendToServer: boolean) {
         console.log(`Stack State: Remove After Resolve`, stackEffectToRemove)

@@ -15,9 +15,9 @@ import { WrapperProvider } from '../../Managers/WrapperProvider';
 export class GainLoot extends Effect {
   effectName = "GainLoot";
   @property(CCInteger)
-  numOfLoot: number = 0;
+  numOfLoot = 0;
   @property
-  multiTarget: boolean = false;
+  multiTarget = false;
   /**
    *
    * @param data {target:PlayerId}
@@ -25,7 +25,7 @@ export class GainLoot extends Effect {
   async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
     if (!data) { debugger; throw new Error("No Data!"); }
     if (this.multiTarget) {
-      let targets = data.getTargets(TARGETTYPE.PLAYER)
+      const targets = data.getTargets(TARGETTYPE.PLAYER)
       if (targets.length == 0) {
         console.log(`no targets`)
         if (data instanceof PassiveEffectData) return data
@@ -39,14 +39,14 @@ export class GainLoot extends Effect {
       }
 
     } else {
-      let targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER);
+      const targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER);
       if (targetPlayerCard == null) {
         console.log(`no target player`)
         if (data instanceof PassiveEffectData) return data
         return stack
       } else {
         if (targetPlayerCard instanceof Node) {
-          let player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard)!
+          const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard)!
           for (let i = 0; i < this.numOfLoot; i++) {
             await player.drawCards(WrapperProvider.cardManagerWrapper.out.lootDeck, true)
           }

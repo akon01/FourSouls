@@ -15,7 +15,7 @@ export class StackEffectExsist extends PreCondition {
   })
   typeToExsist: STACK_EFFECT_TYPE = 1
   @property
-  multiType: boolean = false;
+  multiType = false;
   @property({
     type: [Enum(STACK_EFFECT_TYPE)], visible: function (this: StackEffectExsist) {
       return this.multiType

@@ -52,7 +52,7 @@ export class AddTrinketOrCurse extends Effect {
   })
   itemEffectsToAdd: Effect[] = [];
   @property
-  addMuiliEffect: boolean = false;
+  addMuiliEffect = false;
   // @property({
   //   type: CCInteger, visible: function (this: AddTrinketOrCurse) {
   //     return this.addMuiliEffect
@@ -67,7 +67,7 @@ export class AddTrinketOrCurse extends Effect {
   multiEffectCollector: DataCollector | null = null
 
   @property
-  isCurse: boolean = false
+  isCurse = false
   /**
    *
    * @param data {target:PlayerId}

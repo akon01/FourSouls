@@ -9,13 +9,13 @@ declare const Buffer;
 
 export default class ServerPlayer {
   static players: ServerPlayer[] = [];
-  static UUID: number = 0;
+  static UUID = 0;
 
   static getPlayer(ws: WebSocket) {
     //@ts-ignore
 
     if (ServerPlayer.getPlayerByWs(ws) == null) {
-      let player = new ServerPlayer(ws, ++ServerPlayer.UUID);
+      const player = new ServerPlayer(ws, ++ServerPlayer.UUID);
       ServerPlayer.players.push(player);
       return player;
     } else {
@@ -43,7 +43,7 @@ export default class ServerPlayer {
   }
 
   send(signal: string, data: any) {
-    let pack = { signal, data };
+    const pack = { signal, data };
     try {
       this.ws.send(Buffer.from(JSON.stringify(pack)).toString("base64"));
     } catch (ex) {

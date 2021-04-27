@@ -8,12 +8,12 @@ export class MonsterRewardDescription {
     @property({ type: Enum(REWARD_TYPES) })
     rewardType: REWARD_TYPES = REWARD_TYPES.loot
     @property(CCBoolean)
-    hasRoll: boolean = false;
+    hasRoll = false;
     @property(CCInteger)
-    rollNumber: number = 0
+    rollNumber = 0
     @property(CCInteger)
-    quantity: number = 0;
+    quantity = 0;
     @property(CCBoolean)
-    doubleReward: boolean = false
+    doubleReward = false
 }
 

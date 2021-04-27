@@ -33,7 +33,7 @@ export class EffectDataConcurencyBase extends Component implements IEffectDataCo
             this.ConcurencyId = comps.findIndex(ed => ed == this);
         }
     }
-    ConcurencyId: number = -1;
+    ConcurencyId = -1;
     runDataConcurency(newEffectData: ActiveEffectData | PassiveEffectData, numOfEffect: number, type: ITEM_TYPE, sendToServer: boolean): any { }
 }
 

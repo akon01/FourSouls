@@ -11,7 +11,7 @@ export class Pile extends Component {
     cards: number[] = []
 
     @property
-    topId: number = -1;
+    topId = -1;
 
     @property
     pileSprite: Sprite | null = null;

@@ -21,17 +21,17 @@ export class GainTreasure extends Effect {
                   return !this.isSpecificTreasure
             }
       })
-      numOfTreasure: number = 0;
+      numOfTreasure = 0;
 
       @property
-      isSpecificTreasure: boolean = false
+      isSpecificTreasure = false
 
       @property({
             visible: function (this: GainTreasure) {
                   return this.isSpecificTreasure
             }
       })
-      isSpecificFromDataCollector: boolean = false
+      isSpecificFromDataCollector = false
 
       @property({
             visible: function (this: GainTreasure) {
@@ -56,14 +56,15 @@ export class GainTreasure extends Effect {
                   const treasureDeck = WrapperProvider.cardManagerWrapper.out.treasureDeck
                   if (this.isSpecificTreasure) {
                         if (this.isSpecificFromDataCollector) {
-                              player.addItem(data.getTarget(TARGETTYPE.ITEM) as Node, true, true)
+                           await   player.addItem(data.getTarget(TARGETTYPE.ITEM) as Node, true, true)
                         } else {
                               if (!this.specificTreasure) { debugger; throw new Error("No Specific Treasure Set"); }
 
-                              player.addItem(this.specificTreasure, true, true)
+                             await player.addItem(this.specificTreasure, true, true)
                         }
                   } else {
-                        for (let i = 0; i < this.numOfTreasure; i++) {
+                        const numOfTreasure = this.getQuantityInRegardsToBlankCard(player.node,this.numOfTreasure)
+                        for (let i = 0; i < numOfTreasure; i++) {
                               await player.addItem(treasureDeck, true, true)
                         }
                   }

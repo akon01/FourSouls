@@ -3,12 +3,13 @@ const { ccclass } = _decorator;
 
 import { Signal } from "../../Misc/Signal";
 
-import { CARD_TYPE } from "../Constants";
+import { CARD_TYPE, PASSIVE_EVENTS } from "../Constants";
 import { Monster } from "../Entites/CardTypes/Monster";
 import { Card } from "../Entites/GameEntities/Card";
 import { Pile } from "../Entites/Pile";
 import { Deck } from "../Entites/GameEntities/Deck";
 import { WrapperProvider } from './WrapperProvider';
+import { PassiveMeta } from './PassiveMeta';
 
 @ccclass('PileManager')
 export class PileManager extends Component {
@@ -23,7 +24,7 @@ export class PileManager extends Component {
       monsterCardPile!: Pile;
 
       treasureCardPile!: Pile;
-      isOver: boolean = false;
+      isOver = false;
 
       lootPlayPile!: Pile;
 
@@ -87,18 +88,34 @@ export class PileManager extends Component {
             return null
       }
 
-      removeFromPile(card: Node, sendToServer: boolean) {
+      async removeFromPile(card: Node, sendToServer: boolean) {
             const pile = this.getPileByCard(card)
             if (!pile) { debugger; throw new Error(`Card '${card.name}' Is Not In Any Pile, Cannot Remove!`); }
 
+
+            const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.CARD_REMOVED_FROM_PILE, [], null, card)
+            if (sendToServer) {
+                  const afterPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(passiveMeta)
+                  if (!afterPassiveMeta.continue) {
+                        return
+                  }
+            }
             pile.removeFromPile(card)
             if (sendToServer) {
                   WrapperProvider.serverClientWrapper.out.send(Signal.REMOVE_FROM_PILE, { cardId: card.getComponent(Card)!._cardId });
+                  await WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(passiveMeta)
             }
       }
 
       async addCardToPile(type: CARD_TYPE, card: Node, sendToServer: boolean) {
             const cardComp = card.getComponent(Card)!;
+            const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.CARD_ADDED_TO_PILE, [], null, card)
+            if (sendToServer) {
+                  const afterPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(passiveMeta)
+                  if (!afterPassiveMeta.continue) {
+                        return
+                  }
+            }
             switch (type) {
                   case CARD_TYPE.LOOT:
                         WrapperProvider.cardManagerWrapper.out.addOnTableCards([card]);
@@ -147,6 +164,7 @@ export class PileManager extends Component {
                   const srvData = { type: type, cardId: card.getComponent(Card)!._cardId };
                   WrapperProvider.serverClientWrapper.out.send(Signal.MOVE_CARD_TO_PILE, srvData);
             }
+            await WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(passiveMeta)
       }
       // LIFE-CYCLE CALLBACKS:
 

@@ -71,18 +71,11 @@ export class ChooseCard extends DataCollector {
   @property
   otherPlayersFlavorText = ''
 
-  @property
-  isMultiCardChoice = false;
-
   //@ts-ignore
-  @property({
-    visible: function (this: ChooseCard) {
-      if (this.isMultiCardChoice) return true
-    }
-  })
+  @property
   numOfCardsToChoose = 1
 
-  @property({ visible: function (this: ChooseCard) { return this.isMultiCardChoice } })
+  @property
   isChooseUpTo = false;
 
   @property
@@ -112,27 +105,18 @@ export class ChooseCard extends DataCollector {
       }
       return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(cardsToChooseFrom[0])
     }
-
-    if (this.isMultiCardChoice) {
-      let chosenCards: EffectTarget[] = []
-      if (this.isChooseFromPreviewManager) {
-        chosenCards = (await WrapperProvider.cardPreviewManagerWrapper.out.selectFromCards(cardsToChooseFrom, this.numOfCardsToChoose, this.isChooseUpTo)).map(e => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(e))
-      } else {
-        for (let i = 0; i < this.numOfCardsToChoose; i++) {
-          cardsToChooseFrom = cardsToChooseFrom.filter(card => !(chosenCards.map(target => target.effectTargetCard).indexOf(card) >= 0))
-
-          chosenCards.push(await this.getCardTargetFromPlayer(cardsToChooseFrom))
-        }
-      }
-      return chosenCards
+    let chosenCards: EffectTarget[] = []
+    const numOfCardsToChoose = this.getQuantityInRegardsToBlankCard(player.node, this.numOfCardsToChoose)
+    if (this.isChooseFromPreviewManager) {
+      chosenCards = (await WrapperProvider.cardPreviewManagerWrapper.out.selectFromCards(cardsToChooseFrom, numOfCardsToChoose, this.isChooseUpTo)).map(e => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(e))
     } else {
-      if (this.isChooseFromPreviewManager) {
-        return (await WrapperProvider.cardPreviewManagerWrapper.out.selectFromCards(cardsToChooseFrom, 1)).map(e => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(e))
-      } else {
-        return await this.getCardTargetFromPlayer(cardsToChooseFrom);
+      for (let i = 0; i < numOfCardsToChoose; i++) {
+        cardsToChooseFrom = cardsToChooseFrom.filter(card => !(chosenCards.map(target => target.effectTargetCard).indexOf(card) >= 0))
+
+        chosenCards.push(await this.getCardTargetFromPlayer(cardsToChooseFrom))
       }
     }
-
+    return chosenCards
   }
 
   private filterCardsToChooseFrom(cardsToChooseFrom: Node[]) {
@@ -261,7 +245,7 @@ export class ChooseCard extends DataCollector {
         return monsterPlaces;
       case CHOOSE_CARD_TYPE.NON_ATTACKED_ACTIVE_MONSTERS:
         return WrapperProvider.monsterFieldWrapper.out.getActiveMonsters().filter(monster => {
-          if (WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonsterNode != monster || WrapperProvider.stackWrapper.out._currentStack.findIndex(se => {
+          if (WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntityNode != monster || WrapperProvider.stackWrapper.out._currentStack.findIndex(se => {
             if (se instanceof ActivateItem &&
               se.itemToActivate.getComponent(Monster) != null &&
               se.itemToActivate == monster) {

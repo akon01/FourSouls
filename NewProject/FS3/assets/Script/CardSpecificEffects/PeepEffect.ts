@@ -1,20 +1,13 @@
 import { _decorator } from 'cc';
-const { ccclass, property } = _decorator;
-
 import { Effect } from "../CardEffectComponents/CardEffects/Effect";
-import { DataCollector } from "../CardEffectComponents/DataCollector/DataCollector";
 import { Monster } from "../Entites/CardTypes/Monster";
 import { Deck } from "../Entites/GameEntities/Deck";
-import { Player } from "../Entites/GameEntities/Player";
-import { MonsterField } from "../Entites/MonsterField";
-import { Stack } from "../Entites/Stack";
-import { CardManager } from "../Managers/CardManager";
-import { PassiveEffectData } from '../Managers/PassiveEffectData';
 import { ActiveEffectData } from '../Managers/ActiveEffectData';
-import { PlayerManager } from "../Managers/PlayerManager";
-import { TurnsManager } from "../Managers/TurnsManager";
-import { StackEffectInterface } from "../StackEffects/StackEffectInterface";
+import { PassiveEffectData } from '../Managers/PassiveEffectData';
 import { WrapperProvider } from '../Managers/WrapperProvider';
+import { StackEffectInterface } from "../StackEffects/StackEffectInterface";
+const { ccclass, property } = _decorator;
+
 
 @ccclass('PeepEffect')
 export class PeepEffect extends Effect {

@@ -25,7 +25,7 @@ export class PlayerDeath extends StackEffectConcrete {
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.PLAYER_DEATH;
     _lable!: string;
 
-    isToBeFizzled: boolean = false;
+    isToBeFizzled = false;
 
     creationTurnId!: number;
 
@@ -37,7 +37,7 @@ export class PlayerDeath extends StackEffectConcrete {
         return false
     }
 
-    nonOriginal: boolean = false;
+    nonOriginal = false;
 
     playerToDie: Player;
     killer: Node
@@ -78,8 +78,17 @@ export class PlayerDeath extends StackEffectConcrete {
             const curse = this.playerToDie._curses[i];
             await this.playerToDie.removeCurse(curse, true)
         }
-        if (WrapperProvider.battleManagerWrapper.out.inBattle && this.playerToDie == WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer()!) {
+        const wasPlayerAttackedInBattle = this.playerToDie == WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity;
+        if (WrapperProvider.battleManagerWrapper.out.inBattle && this.playerToDie == WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer()! || wasPlayerAttackedInBattle) {
             await WrapperProvider.battleManagerWrapper.out.cancelAttack(true)
+            if (wasPlayerAttackedInBattle) {
+                const playerKilledInBattlePassiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_KILLED_IN_BATTLE, [killer], null, this.playerToDie.node)
+                const afterPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(playerKilledInBattlePassiveMeta)
+                if (!afterPassiveMeta.continue) {
+                    return
+                }
+                await WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(playerKilledInBattlePassiveMeta)
+            }
         }
         const playerPenalty = new PlayerDeathPenalties(this.playerToDie.character!.getComponent(Card)!._cardId, this.playerToDie.character!)
         //make silent

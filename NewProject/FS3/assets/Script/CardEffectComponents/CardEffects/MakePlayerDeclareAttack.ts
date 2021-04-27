@@ -1,23 +1,20 @@
-import { _decorator, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
+import { Node, _decorator } from 'cc';
 import { TARGETTYPE } from "../../Constants";
 import { Monster } from "../../Entites/CardTypes/Monster";
 import { Player } from "../../Entites/GameEntities/Player";
-import { Stack } from "../../Entites/Stack";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PlayerManager } from "../../Managers/PlayerManager";
-import { TurnsManager } from "../../Managers/TurnsManager";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { Effect } from "./Effect";
+const { ccclass, property } = _decorator;
+
 
 @ccclass('MakePlayerDeclareAttack')
 export class MakePlayerDeclareAttack extends Effect {
   effectName = "AddAttackOpportunity";
   @property
-  makeSpecificMonsterMust: boolean = false;
+  makeSpecificMonsterMust = false;
   @property({
     visible: function (this: MakePlayerDeclareAttack) {
       return (this.makeSpecificMonsterMust)

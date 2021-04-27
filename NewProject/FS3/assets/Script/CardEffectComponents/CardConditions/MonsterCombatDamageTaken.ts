@@ -10,7 +10,7 @@ import { WrapperProvider } from '../../Managers/WrapperProvider';
 @ccclass('MonsterCombatDamageTaken')
 export class MonsterCombatDamageTaken extends Condition {
   @property
-  isSpecificToEntityTakesDamage: boolean = false;
+  isSpecificToEntityTakesDamage = false;
   // @ts-ignore
   @property({
     type: Node, visible: function (this: MonsterCombatDamageTaken) {
@@ -26,9 +26,9 @@ export class MonsterCombatDamageTaken extends Condition {
       if (this.isOnSpecificRoll) { return true }
     }
   })
-  rollNumber: number = 1
+  rollNumber = 1
   @property
-  isOwnerOnly: boolean = false;
+  isOwnerOnly = false;
   event = PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_GIVEN
 
 

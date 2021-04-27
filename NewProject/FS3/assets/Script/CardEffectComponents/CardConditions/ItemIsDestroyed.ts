@@ -12,7 +12,7 @@ export class ItemIsDestroyed extends Condition {
   event = PASSIVE_EVENTS.ITEM_DESTROY
 
   @property
-  isSpecificItem: boolean = false
+  isSpecificItem= false
 
   @property({
     visible: function (this: ItemIsDestroyed) {
@@ -24,7 +24,7 @@ export class ItemIsDestroyed extends Condition {
   async testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
     if (!meta.args) { debugger; throw new Error("No Args"); }
-    let item = meta.methodScope.getComponent(Item)!;
+    const item = meta.methodScope.getComponent(Item)!;
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
     let answer = true;
     if (!(item instanceof Item)) {

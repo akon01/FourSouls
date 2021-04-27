@@ -16,10 +16,10 @@ export class LookAtTopDeck extends Effect {
   chooseType = CHOOSE_CARD_TYPE.DECKS;
   effectName = "LookAtTopDeck";
   @property(CCInteger)
-  numOfCards: number = 0;
+  numOfCards = 0;
 
   @property
-  isRevealToAllPlayers: boolean = false
+  isRevealToAllPlayers = false
 
   /**
    *
@@ -31,7 +31,7 @@ export class LookAtTopDeck extends Effect {
     data?: ActiveEffectData | PassiveEffectData
   ) {
     if (!data) { debugger; throw new Error("No Data"); }
-    let deckNode = data.getTarget(TARGETTYPE.DECK)
+    const deckNode = data.getTarget(TARGETTYPE.DECK)
     let deck: Deck | null = null
     if (deckNode instanceof Node) {
       deck = deckNode.getComponent(Deck)!;
@@ -39,7 +39,7 @@ export class LookAtTopDeck extends Effect {
     if (deck == null) {
       console.log(`no deck`)
     } else {
-      let cardsToSee: Node[] = [];
+      const cardsToSee: Node[] = [];
       for (let i = 1; i <= this.numOfCards; i++) {
         if (deck.getCardsLength() > i) {
           cardsToSee.push(deck.getCards()[deck.getCardsLength() - i])// []);

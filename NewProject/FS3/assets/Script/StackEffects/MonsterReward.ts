@@ -27,7 +27,7 @@ export class MonsterRewardStackEffect extends StackEffectConcrete {
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.MONSTER_REWARD;
     _lable!: string;
 
-    isToBeFizzled: boolean = false;
+    isToBeFizzled = false;
 
     creationTurnId!: number;
 
@@ -40,7 +40,7 @@ export class MonsterRewardStackEffect extends StackEffectConcrete {
     }
 
     numberRolled: number | undefined
-    nonOriginal: boolean = false;
+    nonOriginal = false;
     monsterWithReward: Monster
     monsterReward: MonsterReward;
     playerToReward: Player

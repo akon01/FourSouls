@@ -1,6 +1,7 @@
 import { CCInteger, Component, Enum, Node, _decorator } from 'cc';
 import { CARD_TYPE, CHOOSE_CARD_TYPE, ITEM_TYPE, PASSIVE_TYPE } from "../../Constants";
 import { EffectPosition } from "../../EffectPosition";
+import { Character } from '../../Entites/CardTypes/Character';
 import { Card } from '../../Entites/GameEntities/Card';
 import { Player } from '../../Entites/GameEntities/Player';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
@@ -230,8 +231,10 @@ export class Effect extends Component implements EffectInterface {
       }
 
       getQuantityInRegardsToBlankCard(target: Node, originalQuantity: number) {
-            const player = target.getComponent(Player)
+            let player:Player|null = target.getComponent(Player)
             if (!player) {
+                  player = target.getComponent(Character)?.player ?? null
+                  if(!player)
                   return originalQuantity
             }
             if (!this.isThisCardALootCard()) {

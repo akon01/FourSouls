@@ -1,12 +1,9 @@
 import { _decorator } from 'cc';
-const { ccclass, property } = _decorator;
-
 import { COLLECTORTYPE } from "../../Constants";
-import { BattleManager } from "../../Managers/BattleManager";
-import { EffectTarget } from "../../Managers/EffectTarget";
-import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { DataCollector } from "./DataCollector";
+const { ccclass, property } = _decorator;
+
 
 @ccclass('AttackedMonster')
 export class AttackedMonster extends DataCollector {
@@ -18,10 +15,10 @@ export class AttackedMonster extends DataCollector {
      * @returns {target:cc.node of the player who played the card}
      */
     collectData(data: any) {
-        let monster = WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonsterNode
+        const monster = WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntityNode
         if (!monster) { debugger; throw new Error("No Monster Being Attacked!"); }
 
-        let effectTarget = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(monster)
+        const effectTarget = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(monster)
         return effectTarget
     }
 }

@@ -7,12 +7,28 @@ import { PassiveMeta } from "../../Managers/PassiveMeta";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { MonsterDeath } from "../../StackEffects/MonsterDeath";
 import { Card } from "../GameEntities/Card";
+import { IAttackableEntity } from '../IAttackableEntity';
 import { MonsterCardHolder } from "../MonsterCardHolder";
 const { ccclass, property, type } = _decorator;
 
 
 @ccclass('Monster')
-export class Monster extends Component implements IEggCounterable {
+export class Monster extends Component implements IEggCounterable, IAttackableEntity {
+  getCanBeAttacked(): boolean {
+    return !this.isMonsterWhoCantBeAttacked
+  }
+  async takeDamage(damage: number, sendToServer: boolean, damageDealer: Node, numberRolled?: number): Promise<any> {
+    return await this.takeDamaged(damage, sendToServer, damageDealer, numberRolled)
+  }
+  getCurrentHp(): number {
+    return this.currentHp
+  }
+  getRollValue(): number {
+    return this.rollValue
+  }
+  getRollBonus(): number {
+    return this._rollBonus
+  }
 
   private eggCounters = 0
 
@@ -137,6 +153,9 @@ export class Monster extends Component implements IEggCounterable {
 
   @property
   _lastHitRoll = 0
+
+  @property
+  doNotRemovePassiveEffectsWhenRemovingFromMonsterCardHolder = false
 
   /**
    *

@@ -1,16 +1,14 @@
-import { _decorator, Node, CCInteger, log } from 'cc';
+import { Node, _decorator } from 'cc';
 import { whevent } from '../../../ServerClient/whevent';
-const { ccclass, property } = _decorator;
-
 import { GAME_EVENTS } from "../../Constants";
-import { CardEffect } from '../../Entites/CardEffect';
 import { Character } from "../../Entites/CardTypes/Character";
 import { Card } from "../../Entites/GameEntities/Card";
 import { Deck } from "../../Entites/GameEntities/Deck";
 import { EffectTarget } from '../../Managers/EffectTarget';
-import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { DataCollector } from './DataCollector';
+const { ccclass, property } = _decorator;
+
 @ccclass('ChooseFromTargetCard')
 export class ChooseFromTargetCard extends DataCollector {
   cardChosen: Node | null = null;
@@ -24,31 +22,27 @@ export class ChooseFromTargetCard extends DataCollector {
   }
 
   @property
-  isItems: boolean = false;
+  isItems = false;
 
   @property
-  isLootCards: boolean = false;
+  isLootCards = false;
 
   @property
-  isRandom: boolean = false;
+  isRandom = false;
 
   @property({
     visible: function (this: ChooseFromTargetCard) {
       return !this.isRandom
     }
   })
-  flavorText: string = ''
+  flavorText = ''
+
+  @property({ tooltip: "set to 0 for as many as you would like to choose"  })
+  numberOfCardsToChoose = 1;
 
   @property
-  isMultiCardChoice: boolean = false;
+  chooseFromCardPreviewManager=false
 
-  @property({
-    visible: function (this: ChooseFromTargetCard) {
-      return this.isMultiCardChoice
-    }
-    , tooltip: "set to 0 for as many as you would like to choose"
-  })
-  numberOfCardsToChoose: number = -1;
 
 
 
@@ -105,14 +99,19 @@ export class ChooseFromTargetCard extends DataCollector {
     }
     if (!this.isRandom) {
       WrapperProvider.cardPreviewManagerWrapper.out.setFalvorText(this.flavorText)
-      if (this.isMultiCardChoice) {
-        const cardsChosenNodes = await WrapperProvider.cardPreviewManagerWrapper.out.selectFromCards(cardsToChooseFrom, this.numberOfCardsToChoose)
+      const mePlayer = WrapperProvider.playerManagerWrapper.out.mePlayer!
+      const numOfCardsToChoose = this.getQuantityInRegardsToBlankCard(mePlayer,this.numberOfCardsToChoose)
+      if(this.chooseFromCardPreviewManager){
+        const cardsChosenNodes = await WrapperProvider.cardPreviewManagerWrapper.out.selectFromCards(cardsToChooseFrom, numOfCardsToChoose) 
         const cardsChosenTargets = cardsChosenNodes.map(card => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(card))
         return cardsChosenTargets
       } else {
-        const cardChosenId = await this.requireChoosingACard(cardsToChooseFrom);
-        target = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(WrapperProvider.cardManagerWrapper.out.getCardById(cardChosenId, true))
-        console.log(`chosen ${target.effectTargetCard.name}`)
+        const chosen:EffectTarget[] = []
+        for (let index = 0; index < numOfCardsToChoose; index++) {
+          cardsToChooseFrom = cardsToChooseFrom.filter(c=>!chosen.map(cho=>cho.effectTargetCard).includes(c))      
+          chosen.push(await this.getTargetByChoosing(cardsToChooseFrom))
+        }
+        return chosen 
       }
     } else {
       const randIndex = Math.floor(Math.random() * cardsToChooseFrom.length)
@@ -124,6 +123,10 @@ export class ChooseFromTargetCard extends DataCollector {
 
     }
     return target;
+  }
+ async getTargetByChoosing(cardsToChooseFrom: Node[]) {
+    const cardChosenId = await this.requireChoosingACard(cardsToChooseFrom);
+    return WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(WrapperProvider.cardManagerWrapper.out.getCardById(cardChosenId, true))
   }
 
   async requireChoosingACard(

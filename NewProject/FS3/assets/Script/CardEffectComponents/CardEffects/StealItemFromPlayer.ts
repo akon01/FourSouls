@@ -1,18 +1,13 @@
-import { _decorator, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
-import { CardManager } from "../../Managers/CardManager";
+import { Node, _decorator } from 'cc';
+import { Player } from "../../Entites/GameEntities/Player";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PlayerManager } from "../../Managers/PlayerManager";
-import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
-import { ChooseCard } from "../DataCollector/ChooseCard";
-import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
-import { Effect } from "./Effect";
-import { Player } from "../../Entites/GameEntities/Player";
-import { Stack } from "../../Entites/Stack";
-import { ChooseCardTypeAndFilter } from "../ChooseCardTypeAndFilter";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
+import { TARGETTYPE } from "./../../Constants";
+import { Effect } from "./Effect";
+const { ccclass, property } = _decorator;
+
 
 @ccclass('StealItemFromPlayer')
 export class StealItemFromPlayer extends Effect {

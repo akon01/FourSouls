@@ -14,7 +14,7 @@ import { WrapperProvider } from '../../Managers/WrapperProvider';
 export class MonsterIsMadeAttackable extends Condition {
   event = PASSIVE_EVENTS.MONSTER_MADE_ATTACKABLE
   @property
-  isSpecificMonster: boolean = false;
+  isSpecificMonster = false;
   //@ts-ignore
   @property({
     type: Node,
@@ -24,7 +24,7 @@ export class MonsterIsMadeAttackable extends Condition {
   })
   specificMonsterCard: Node | null = null
   @property
-  isSpecificNotMonster: boolean = false;
+  isSpecificNotMonster = false;
   //@ts-ignore
   @property({
     type: Node,
@@ -34,7 +34,7 @@ export class MonsterIsMadeAttackable extends Condition {
   })
   specificNotMonsterCard: Node | null = null
   @property
-  isTurnPlayerNotOnBattle: boolean = false
+  isTurnPlayerNotOnBattle = false
   async testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
     const monster: Monster = meta.methodScope.getComponent(Monster)!;

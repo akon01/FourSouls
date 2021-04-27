@@ -10,15 +10,15 @@ const { ccclass, property } = _decorator;
 export class PlayerHasCoins extends Condition {
   event = PASSIVE_EVENTS.PLAYER_CHANGE_MONEY
   @property
-  numOfMoneyNeeded: number = 1
+  numOfMoneyNeeded = 1
   @property
-  isOneTimeOnly: boolean = false
+  isOneTimeOnly = false
 
   @property
-  orMoreThanNeeded: boolean = true
+  orMoreThanNeeded = true
 
   @property
-  isNotEqualToNumber: boolean = false
+  isNotEqualToNumber = false
 
   isFirstTime = true
   needsDataCollector = false;

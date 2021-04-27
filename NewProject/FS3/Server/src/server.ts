@@ -327,6 +327,7 @@ export default class Server {
     whevent.on(signal.PLAYER_CHANGE_LOOT_CARD_PLAYS, this.onBroadcastExceptOrigin, this)
     whevent.on(signal.PLAYER_CHANGE_NUM_OF_ITEMS_TO_RECHARGE, this.onBroadcastExceptOrigin, this)
     whevent.on(signal.PLAYER_CHANGE_EXTRA_SOULS_NEEDED_TO_WIN, this.onBroadcastExceptOrigin, this)
+    whevent.on(signal.CHANGE_PLAYER_ATTACKABLE, this.onBroadcastExceptOrigin, this)
     //
 
     //monster events

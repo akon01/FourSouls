@@ -43,11 +43,12 @@ export class AddAttackOpportunity extends Effect {
       throw new Error(`target player is null`)
     } else {
       const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard as Node)!
+      const numOfTimes= this.getQuantityInRegardsToBlankCard(player.node,this.numOfTimes)
       if (!this.isOnlyMonsterDeck) {
-        player.attackPlays += this.getQuantityInRegardsToBlankCard(player.node, this.numOfTimes)
+        player.attackPlays += numOfTimes
         // if the player must attack a monster
         if (this.makeMust) {
-          player._mustAttackPlays += this.getQuantityInRegardsToBlankCard(player.node, this.numOfTimes)
+          player._mustAttackPlays += numOfTimes
           if (this.makeSpecificMonsterMust) {
             if (!this.specificMonsterToMake) { debugger; throw new Error("No Specific MOnster Set"); }
 
@@ -56,9 +57,9 @@ export class AddAttackOpportunity extends Effect {
         }
       } else {
         // if the player must attack the monster deck
-        player._attackDeckPlays += this.getQuantityInRegardsToBlankCard(player.node, this.numOfTimes)
+        player._attackDeckPlays += numOfTimes
         if (this.makeMust) {
-          player._mustDeckAttackPlays += this.getQuantityInRegardsToBlankCard(player.node, this.numOfTimes)
+          player._mustDeckAttackPlays += numOfTimes
         }
       }
     }

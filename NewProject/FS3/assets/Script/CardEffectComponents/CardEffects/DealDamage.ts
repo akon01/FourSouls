@@ -31,7 +31,15 @@ export class DealDamage extends Effect {
     stack: StackEffectInterface[],
     data?: ActiveEffectData | PassiveEffectData
   ) {
-    const damageToDeal = (this.isGetDamageToDealFromDataCollector) ? (data as PassiveEffectData).methodArgs[0] : this.damageToDeal
+    let damageToDeal = this.damageToDeal
+    if (this.isGetDamageToDealFromDataCollector) {
+      if (data instanceof PassiveEffectData) {
+        damageToDeal = data.methodArgs[0]
+      } else {
+        damageToDeal = data?.getTarget(TARGETTYPE.NUMBER) as number
+      }
+    }
+    //  const damageToDeal = (this.isGetDamageToDealFromDataCollector) ? (data as PassiveEffectData).methodArgs[0] : this.damageToDeal
     if (!data) { debugger; throw new Error("No Data!"); }
     if (this.multipleTargets) {
       const targets = data.getTargets(TARGETTYPE.PLAYER) ?? []

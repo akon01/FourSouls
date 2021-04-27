@@ -9,7 +9,7 @@ const { ccclass, property } = _decorator;
 export class Cost extends Component implements CostInterface {
 
     @property
-    CostId: number = -1
+    CostId = -1
 
     getThisEffect() {
         return this.node.getComponent(CardEffect)!.getAllEffects().find(effect => effect.cost !== null && effect.cost.CostId == this.CostId)!;

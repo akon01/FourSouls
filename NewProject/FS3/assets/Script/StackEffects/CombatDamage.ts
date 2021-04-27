@@ -2,6 +2,7 @@ import { error, Node } from 'cc';
 import { PASSIVE_EVENTS, STACK_EFFECT_TYPE } from "../Constants";
 import { Monster } from "../Entites/CardTypes/Monster";
 import { Player } from "../Entites/GameEntities/Player";
+import { IAttackableEntity } from '../Entites/IAttackableEntity';
 import { PassiveMeta } from "../Managers/PassiveMeta";
 import { WrapperProvider } from '../Managers/WrapperProvider';
 import { ServerCombatDamage } from "./ServerSideStackEffects/ServerCombatDamage";
@@ -23,7 +24,7 @@ export class CombatDamage extends StackEffectConcrete {
     LockingResolve: any;
     _lable!: string;
 
-    isToBeFizzled: boolean = false;
+    isToBeFizzled = false;
 
     creationTurnId!: number;
 
@@ -44,7 +45,7 @@ export class CombatDamage extends StackEffectConcrete {
             monster = this.entityToDoDamageCard.getComponent(Monster);
         }
         if (player || monster) {
-            if (player && (player._isDead || player._Hp == 0) || monster && (monster.currentHp == 0 || monster._isDead || monster != WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonster)) {
+            if (player && (player._isDead || player._Hp == 0) || monster && (monster.currentHp == 0 || monster._isDead || monster != WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity)) {
                 this.isToBeFizzled = true;
                 return true;
             }
@@ -52,7 +53,7 @@ export class CombatDamage extends StackEffectConcrete {
         return false;
     }
 
-    nonOriginal: boolean = false;
+    nonOriginal = false;
 
     entityToTakeDamageCard: Node;
     entityToDoDamageCard: Node;
@@ -67,19 +68,27 @@ export class CombatDamage extends StackEffectConcrete {
         super(creatorCardId, entityId)
         this.entityToTakeDamageCard = entityToTakeDamageCard;
         if (this.entityToTakeDamageCard.getComponent(Monster) != null) {
-            this.isPlayerDoDamage = true;
-            this.isMonsterDoDamage = false;
+            //    this.isPlayerDoDamage = true;
+            //  this.isMonsterDoDamage = false;
+            this.isMonsterTakeDamage = true
+            this.isPlayerTakeDamage = false
         } else {
-            this.isPlayerDoDamage = false;
-            this.isMonsterDoDamage = true;
+            this.isPlayerTakeDamage = true
+            this.isMonsterTakeDamage = false
+            //  this.isPlayerDoDamage = false;
+            //            this.isMonsterDoDamage = true;
         }
         this.entityToDoDamageCard = entityToDoDamageCard;
         if (this.entityToDoDamageCard.getComponent(Monster) != null) {
-            this.isPlayerTakeDamage = true;
-            this.isMonsterTakeDamage = false;
+            // this.isPlayerTakeDamage = true;
+            // this.isMonsterTakeDamage = false;
+            this.isMonsterDoDamage = true
+            this.isPlayerDoDamage = false
         } else {
-            this.isPlayerDoDamage = false;
-            this.isMonsterTakeDamage = true;
+            this.isMonsterDoDamage = false
+            this.isPlayerDoDamage = true
+            //  this.isPlayerDoDamage = false;
+            //    this.isMonsterTakeDamage = true;
         }
         if (this.isPlayerDoDamage) {
             this.name = `Player CombatDamage To A Monster`
@@ -105,12 +114,18 @@ export class CombatDamage extends StackEffectConcrete {
         console.error(`combat dmg resolve`)
         let player: Player | null = null;
         let damage: number;
+        const damageDealer: IAttackableEntity | null = this.entityToDoDamageCard.getComponent(Monster) ?? WrapperProvider.playerManagerWrapper.out.getPlayerByCard(this.entityToDoDamageCard)?.getComponent(Player) ?? null
+        if (!damageDealer) {
+            throw new Error("Cant Resolve Combat Damage, No damageDealer Entity Found");
+
+        }
         // if (player._isFirstAttackRollOfTurn) { player._isFirstAttackRollOfTurn = false; }
         if (this.isPlayerTakeDamage) {
+            ///TODO: now players can be attacked also, make sure this is ok!! (IAttackableEntity)
             player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(this.entityToTakeDamageCard);
             if (!player) { debugger; throw new Error("No Player Found!"); }
 
-            damage = this.entityToDoDamageCard.getComponent(Monster)!.calculateDamage();
+            damage = damageDealer.calculateDamage();
             this.setLable(`${this.entityToDoDamageCard.name} Is Going To Hurt ${this.entityToTakeDamageCard.name} For ${damage} DMG `, true);
             const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_TAKEN, [damage, this.numberRolled, this.entityToDoDamageCard], null, player.node, this.entityId);
             const afterPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(passiveMeta);
@@ -132,11 +147,11 @@ export class CombatDamage extends StackEffectConcrete {
 
         } else {
 
-            player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(this.entityToDoDamageCard);
-            if (!player) { debugger; throw new Error("No Player Found!"); }
-            damage = player.calculateDamage()
+            //   player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(this.entityToDoDamageCard);
+            // if (!player) { debugger; throw new Error("No Player Found!"); }
+            damage = damageDealer.calculateDamage()
 
-            const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_GIVEN, [damage, this.numberRolled, this.entityToDoDamageCard, this.entityToTakeDamageCard], null, player.node, this.entityId);
+            const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_GIVEN, [damage, this.numberRolled, this.entityToDoDamageCard, this.entityToTakeDamageCard], null, damageDealer.node, this.entityId);
             const afterPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(passiveMeta);
             if (!afterPassiveMeta.continue) { return; }
             passiveMeta.args = afterPassiveMeta.args;
@@ -156,7 +171,7 @@ export class CombatDamage extends StackEffectConcrete {
             const thisResult = await WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(passiveMeta);
 
         }
-        if (player._isFirstAttackRollOfTurn) { player._isFirstAttackRollOfTurn = false; }
+
     }
 
     convertToServerStackEffect() {

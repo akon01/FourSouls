@@ -17,7 +17,7 @@ export class PutNewMonster extends Effect {
   chooseType = CHOOSE_CARD_TYPE.DECKS;
   effectName = "PutNewMonster";
   @property
-  discardOldMonster: boolean = false;
+  discardOldMonster = false;
   /**
    *
    * @param data {target:PlayerId}

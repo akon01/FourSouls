@@ -1,0 +1,644 @@
+[
+  {
+    "__type__": "cc.Prefab",
+    "_name": "",
+    "_objFlags": 0,
+    "_native": "",
+    "data": {
+      "__id__": 1
+    },
+    "optimizationPolicy": 0,
+    "asyncLoadAssets": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "Proglottid",
+    "_objFlags": 0,
+    "_parent": null,
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 2
+      },
+      {
+        "__id__": 4
+      },
+      {
+        "__id__": 6
+      },
+      {
+        "__id__": 8
+      },
+      {
+        "__id__": 30
+      },
+      {
+        "__id__": 32
+      },
+      {
+        "__id__": 10
+      },
+      {
+        "__id__": 34
+      },
+      {
+        "__id__": 13
+      },
+      {
+        "__id__": 16
+      },
+      {
+        "__id__": 18
+      },
+      {
+        "__id__": 21
+      },
+      {
+        "__id__": 26
+      },
+      {
+        "__id__": 28
+      },
+      {
+        "__id__": 24
+      }
+    ],
+    "_prefab": {
+      "__id__": 39
+    },
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": -178,
+      "y": 0,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_layer": 1,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 3
+    },
+    "_visFlags": 0,
+    "_customMaterial": {
+      "__uuid__": "fda095cb-831d-4601-ad94-846013963de8"
+    },
+    "_srcBlendFactor": 2,
+    "_dstBlendFactor": 4,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_spriteFrame": {
+      "__uuid__": "00d4760b-e038-4329-9183-e8dfb3037f6b@f9941"
+    },
+    "_type": 0,
+    "_fillType": 0,
+    "_sizeMode": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_useGrayscale": false,
+    "_atlas": null,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "4cAH6q3b9G4axuNzKvxdKE"
+  },
+  {
+    "__type__": "469baVqArxNIJpM2pHjkHeJ",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 5
+    },
+    "cardName": "Proglottid",
+    "doNotMake": false,
+    "makeMultiCards": false,
+    "numOfCopies": 2,
+    "copiesSprites": [],
+    "_cardId": 0,
+    "_isInHand": false,
+    "_isOnDesk": false,
+    "_originalParent": null,
+    "_originalWidth": null,
+    "topDeckof": null,
+    "souls": 0,
+    "type": 4,
+    "_isAttackable": false,
+    "_isBuyable": false,
+    "_isPlayable": false,
+    "_isActivateable": false,
+    "_isReactable": false,
+    "_isRequired": false,
+    "_isShowingBack": false,
+    "hasCounter": false,
+    "_effectCounterLable": null,
+    "_counters": 0,
+    "_hasEventsBeenModified": false,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "baoiDXc49PjZHfa+RethwN"
+  },
+  {
+    "__type__": "b5e97fLQIJGGq1XOyBEfLay",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 7
+    },
+    "type": 2,
+    "needsRecharge": false,
+    "eternal": true,
+    "isGuppyItem": false,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "9emYyWJBFCVKnpqcGspMjs"
+  },
+  {
+    "__type__": "bd535UKRTNDu7iLPx8/+FlC",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 9
+    },
+    "hasDestroySelfEffect": false,
+    "activeEffectsIdsFinal": [],
+    "activeEffects": [
+      {
+        "__id__": 10
+      }
+    ],
+    "passiveEffectsIdsFinal": [],
+    "passiveEffects": [
+      {
+        "__id__": 13
+      }
+    ],
+    "toAddPassiveEffectsIdsFinal": [],
+    "toAddPassiveEffects": [],
+    "paidEffectsIdsFinal": [],
+    "paidEffects": [],
+    "hasMultipleEffects": false,
+    "multiEffectCollectorIdFinal": 1,
+    "multiEffectCollector": null,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "b7V9WugIZImarZZg1tke7g"
+  },
+  {
+    "__type__": "93f0axpn41BMZR5gCcvASAT",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 11
+    },
+    "effectPosition": {
+      "__id__": 12
+    },
+    "EffectId": -1,
+    "isSilent": false,
+    "costIdFinal": -1,
+    "cost": null,
+    "preConditionIdFinal": -1,
+    "preCondition": null,
+    "conditionsIdsFinal": [],
+    "conditions": [],
+    "passiveType": 1,
+    "passiveEffectToAddIdFinal": -1,
+    "passiveEffectToAdd": null,
+    "isOneTimeUse": false,
+    "dataCollectorsIdsFinal": [],
+    "dataCollectors": [],
+    "_effectCard": null,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
+    "optionalFlavorText": "",
+    "isContinuousEffect": false,
+    "markAsRunningOrNotRunning": false,
+    "numOfCounters": 1,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "03QJhci+FIqI0kR7bXzWyN"
+  },
+  {
+    "__type__": "EffectPosition",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0
+  },
+  {
+    "__type__": "a96d7Yye0ZFo6njiCE50Wn8",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 14
+    },
+    "effectPosition": {
+      "__id__": 15
+    },
+    "EffectId": -1,
+    "isSilent": false,
+    "costIdFinal": -1,
+    "cost": null,
+    "preConditionIdFinal": -1,
+    "preCondition": null,
+    "conditionsIdsFinal": [],
+    "conditions": [
+      {
+        "__id__": 16
+      }
+    ],
+    "passiveType": 2,
+    "passiveEffectToAddIdFinal": -1,
+    "passiveEffectToAdd": null,
+    "isOneTimeUse": false,
+    "dataCollectorsIdsFinal": [],
+    "dataCollectors": [
+      {
+        "__id__": 24
+      }
+    ],
+    "_effectCard": null,
+    "optionalAfterDataCollection": false,
+    "optionalBeforeDataCollection": false,
+    "hasPlayerChoiceToActivateInChainEffects": false,
+    "hasLockingResolve": false,
+    "hasDataConcurency": false,
+    "dataConcurencyComponent": null,
+    "optionalFlavorText": "",
+    "isContinuousEffect": false,
+    "markAsRunningOrNotRunning": false,
+    "isNumOfLootFromDataCollector": true,
+    "numOfLootDataCollector": {
+      "__id__": 26
+    },
+    "numOfLoot": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "d5b8T8V/JNuYyCZO5N6Af4"
+  },
+  {
+    "__type__": "EffectPosition",
+    "x": 0,
+    "y": 0,
+    "width": 0,
+    "height": 0
+  },
+  {
+    "__type__": "5b9b2UI/fNNyJC+V4arrRCr",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 17
+    },
+    "isConditionActive": true,
+    "ConditionId": -1,
+    "dataCollector": null,
+    "conditions": [
+      {
+        "__id__": 18
+      },
+      {
+        "__id__": 21
+      }
+    ],
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "18kZxeIGZEgpOC64JOi6ck"
+  },
+  {
+    "__type__": "2fde68uUtFHEZlrcik970No",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 19
+    },
+    "isConditionActive": true,
+    "ConditionId": -1,
+    "dataCollector": null,
+    "isSpecificPlayer": false,
+    "specificPlayer": null,
+    "isNotCardOwner": false,
+    "isOnlyCardOwner": false,
+    "checkEggCoutner": {
+      "__id__": 20
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "65jcOMVd5NWpOKBMO1HzhV"
+  },
+  {
+    "__type__": "CheckEggCounterConditionProp",
+    "checkIfMonsterHasEggCoutners": true,
+    "isCheckEqualOnly": false,
+    "countersToCheck": 1
+  },
+  {
+    "__type__": "c1f5bXYnEdHcpfhcPszpH5M",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 22
+    },
+    "isConditionActive": true,
+    "ConditionId": -1,
+    "dataCollector": null,
+    "isSpecificMonster": false,
+    "specificMonsterCard": null,
+    "isSpecificNotMonster": false,
+    "specificNotMonsterCard": null,
+    "isSpecificRoll": false,
+    "specificRolls": [],
+    "checkEggCoutner": {
+      "__id__": 23
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "aelgGTpMhDz6pP30RCCwds"
+  },
+  {
+    "__type__": "CheckEggCounterConditionProp",
+    "checkIfMonsterHasEggCoutners": true,
+    "isCheckEqualOnly": false,
+    "countersToCheck": 1
+  },
+  {
+    "__type__": "22913nx12JFp5jamWHfq9bu",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 25
+    },
+    "DataCollectorId": -1,
+    "cost": null,
+    "targetPool": 20,
+    "exceptCard": null,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "d817YIUk1IiJKphn1Qy3SS"
+  },
+  {
+    "__type__": "4b331bYyNdIVaEHpGbYGRDR",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 27
+    },
+    "DataCollectorId": -1,
+    "cost": null,
+    "specificEntity": null,
+    "isSpecificEntity": false,
+    "dataCollectorToGetEntityFrom": {
+      "__id__": 28
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "deGqEe3JBI+6j9eaY5bHjJ"
+  },
+  {
+    "__type__": "2915eYGDHFEG4jeisqEZ6q6",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 29
+    },
+    "DataCollectorId": -1,
+    "cost": null,
+    "passiveComponent": 1,
+    "argsIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "78IOlhy3JA+rTEX4JKNIGO"
+  },
+  {
+    "__type__": "cc.UIOpacity",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 31
+    },
+    "_opacity": 255,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "35hjn0zWVD3rdv9CS+nzL4"
+  },
+  {
+    "__type__": "cc.UITransform",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 33
+    },
+    "_priority": 0,
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 100,
+      "height": 140
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "38FumDJjVJra0wEwZ58HNz"
+  },
+  {
+    "__type__": "b4dd13gjjJIk556pQaiqi12",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 35
+    },
+    "DataCollectorId": -1,
+    "cost": null,
+    "multiType": true,
+    "isChooseFromPreviewManager": false,
+    "chooseType": {
+      "__id__": 36
+    },
+    "chooseTypes": [
+      {
+        "__id__": 37
+      },
+      {
+        "__id__": 38
+      }
+    ],
+    "filterFromPassiveMeta": false,
+    "targetCollectorFromPassiveMeta": null,
+    "flavorText": "Chosoe A Player Or Monster To Put An Egg Counter On",
+    "otherPlayersFlavorText": "",
+    "numOfCardsToChoose": 1,
+    "isChooseUpTo": false,
+    "isGetCardsToChooseFromFromAnotherCollector": false,
+    "dataCollectorToGetCardsFrom": null,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "26nDb0UKBApYeTHNW900ij"
+  },
+  {
+    "__type__": "ChooseCardTypeAndFilter",
+    "chooseType": 0,
+    "applyFilter": false,
+    "componentName": "",
+    "isMultiFilter": false,
+    "filterStatement": null,
+    "filterStatements": []
+  },
+  {
+    "__type__": "ChooseCardTypeAndFilter",
+    "chooseType": 1,
+    "applyFilter": false,
+    "componentName": "",
+    "isMultiFilter": false,
+    "filterStatement": null,
+    "filterStatements": []
+  },
+  {
+    "__type__": "ChooseCardTypeAndFilter",
+    "chooseType": 4,
+    "applyFilter": false,
+    "componentName": "",
+    "isMultiFilter": false,
+    "filterStatement": null,
+    "filterStatements": []
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__id__": 0
+    },
+    "fileId": "4eKj7cuztL4Kl8HIqFcKy/"
+  }
+]

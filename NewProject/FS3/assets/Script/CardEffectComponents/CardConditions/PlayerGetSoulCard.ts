@@ -12,7 +12,7 @@ const { ccclass, property } = _decorator;
 export class PlayerGetSoulCard extends Condition {
   event = PASSIVE_EVENTS.PLAYER_GET_SOUL_CARD
   @property
-  isOnSpecificMonster: boolean = false;
+  isOnSpecificMonster = false;
 
   @property({
     type: Node, visible: function (this: PlayerGetSoulCard) {

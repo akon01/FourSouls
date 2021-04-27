@@ -13,10 +13,10 @@ export class PlayerChooseItemToDestroyForPenalties extends Condition {
   events = [PASSIVE_EVENTS.PLAYER_CHOOSE_ITEM_TO_DESTROY_FOR_PANELTIES]
 
   @property({ visible: function (this: PlayerChooseItemToDestroyForPenalties) { return !this.isNotOwnerOnly } })
-  isOwnerOnly: boolean = false
+  isOwnerOnly = false
 
   @property({ visible: function (this: PlayerChooseItemToDestroyForPenalties) { return !this.isOwnerOnly } })
-  isNotOwnerOnly: boolean = false
+  isNotOwnerOnly = false
 
   async testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Scope!"); }

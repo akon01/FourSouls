@@ -9,10 +9,10 @@ export class ServerAttackRoll extends BaseServerStackEffect {
 
     entityId: number;
     creatorCardId: number;
-    isLockingStackEffect: boolean = false;
+    isLockingStackEffect = false;
     stackEffectToLock: ServerStackEffectInterface | undefined;
-    hasLockingStackEffect: boolean = false;
-    hasLockingStackEffectResolved: boolean = false;
+    hasLockingStackEffect = false;
+    hasLockingStackEffectResolved = false;
     lockingStackEffect: ServerStackEffectInterface | undefined;
     LockingResolve: any;
     stackEffectType: STACK_EFFECT_TYPE;
@@ -28,14 +28,14 @@ export class ServerAttackRoll extends BaseServerStackEffect {
         this.numberRolled = stackEffect.numberRolled
         this.rollingPlayerCardId = stackEffect.rollingPlayer.character!.getComponent(Card)!._cardId
         this.stackEffectType = stackEffect.stackEffectType;
-        this.attackedMonsterCardId = stackEffect.attackedMonster.node.getComponent(Card)!._cardId
+        this.attackedMonsterCardId = stackEffect.attackedEntity.node.getComponent(Card)!._cardId
         this.lable = stackEffect._lable
     }
 
 
 
     convertToStackEffect() {
-        let rollDice = new AttackRoll(this.creatorCardId, WrapperProvider.playerManagerWrapper.out.getPlayerByCardId(this.rollingPlayerCardId)!.node, WrapperProvider.cardManagerWrapper.out.getCardById(this.attackedMonsterCardId), this.entityId, this.lable)
+        const rollDice = new AttackRoll(this.creatorCardId, WrapperProvider.playerManagerWrapper.out.getPlayerByCardId(this.rollingPlayerCardId)!.node, WrapperProvider.cardManagerWrapper.out.getCardById(this.attackedMonsterCardId), this.entityId, this.lable)
         rollDice.numberRolled = this.numberRolled;
         return rollDice;
     }

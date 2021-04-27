@@ -14,6 +14,7 @@ import { Card } from "../Entites/GameEntities/Card";
 import { Deck } from "../Entites/GameEntities/Deck";
 import { Dice } from "../Entites/GameEntities/Dice";
 import { Player } from "../Entites/GameEntities/Player";
+import { IAttackableEntity } from '../Entites/IAttackableEntity';
 import { MonsterCardHolder } from "../Entites/MonsterCardHolder";
 import { Turn } from "../Modules/TurnsModule";
 import { AttackRoll } from "../StackEffects/AttackRoll";
@@ -161,10 +162,10 @@ export class ActionManager extends Component {
         });
         //Disable Next Turn Button if the monster is not dead
         WrapperProvider.buttonManagerWrapper.out.enableButton(WrapperProvider.buttonManagerWrapper.out.nextTurnButton!, BUTTON_STATE.DISABLED)
-        if (!WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonster) { debugger; throw new Error("No Currently Attacked Monster"); }
+        if (!WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity) { debugger; throw new Error("No Currently Attacked Monster"); }
 
         // enable activating items
-        if (WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonster.currentHp > 0) {
+        if (WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity.getCurrentHp() > 0) {
           await this.decideForActivateable(playerNode)
           // enable playing loot if you havnet already
           await this.DecideForPlayable(currentPlayerHandComp)
@@ -224,7 +225,7 @@ export class ActionManager extends Component {
 
   private async decideForAttackable(monsterDeck: Deck) {
 
-    const monsters = [...WrapperProvider.monsterFieldWrapper.out.getActiveMonsters(), monsterDeck.node]
+    const monsters = [...WrapperProvider.monsterFieldWrapper.out.getActiveMonsters(), monsterDeck.node, ...WrapperProvider.playerManagerWrapper.out.players]
     const turnPlayer = WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer()!;
     if (turnPlayer._mustAttackMonsters.length > 0) {
       turnPlayer._mustAttackMonsters.forEach(async monster => {
@@ -237,8 +238,8 @@ export class ActionManager extends Component {
         console.log(`i=${i}`);
 
         const activeMonster = monsters[i];
-        const monsterComp = activeMonster.getComponent(Monster)!;
-        if ((monsterComp != null && !monsterComp.isMonsterWhoCantBeAttacked) || monsterComp == null) {
+        const monsterComp: IAttackableEntity | null = activeMonster.getComponent(Monster) ?? activeMonster.getComponent(Player);
+        if ((monsterComp != null && !monsterComp.getCanBeAttacked()) || monsterComp == null) {
           await this.updateCardAction(activeMonster, CARD_ACTIONS.ATTACKABLE);
         }
       }
@@ -549,6 +550,14 @@ export class ActionManager extends Component {
       case Signal.END_TURN:
         await WrapperProvider.turnsManagerWrapper.out.endTurn(false)
         break;
+      case Signal.ADD_TURN:
+        WrapperProvider.turnsManagerWrapper.out.addOneTimeTurn(data.playerId, false)
+        break
+      case Signal.REMOVE_TURN:
+        const turns = WrapperProvider.turnsManagerWrapper.out.getTurns()
+        const turnToRemove = turns[data.turnIndex]
+        WrapperProvider.turnsManagerWrapper.out.removeTurn(turnToRemove, false)
+        break
       case Signal.MOVE_CARD_TO_PILE:
         card = WrapperProvider.cardManagerWrapper.out.getCardById(data.cardId, true);
         await WrapperProvider.pileManagerWrapper.out.addCardToPile(data.type, card, false);
@@ -790,6 +799,10 @@ export class ActionManager extends Component {
       case Signal.PLAYER_CHANGE_EXTRA_SOULS_NEEDED_TO_WIN:
         player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.playerId)
         player?.changeExtraSoulsNeededToWin(data.diff, false)
+        break
+      case Signal.CHANGE_PLAYER_ATTACKABLE:
+        player = WrapperProvider.playerManagerWrapper.out.getPlayerById(data.playerId)
+        player?.setCanBeAttacked(data.can, false, data.rollValue)
         break
       // PassiveManager actions.
       case Signal.REMOVE_FROM_PASSIVE_MANAGER:

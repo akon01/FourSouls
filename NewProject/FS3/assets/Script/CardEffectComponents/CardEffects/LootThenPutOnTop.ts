@@ -59,7 +59,6 @@ export class LootThenPutOnTop extends Effect {
         cardChoose.chooseType.filterStatement.cardFilter = new CardFilter()
         cardChoose.chooseType.filterStatement.cardFilter.filter = 0;
         if (this.numToPut > 1) {
-          cardChoose.isMultiCardChoice = true
           cardChoose.numOfCardsToChoose = this.numToPut
         }
         cardChoose.flavorText = "Choose Loot To Put On Top"

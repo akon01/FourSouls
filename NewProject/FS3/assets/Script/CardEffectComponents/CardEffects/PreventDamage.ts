@@ -16,9 +16,9 @@ import { WrapperProvider } from '../../Managers/WrapperProvider';
 export class PreventDamage extends Effect {
   effectName = "PreventDamage";
   @property(CCInteger)
-  damageToPrevent: number = 0;
+  damageToPrevent = 0;
   @property
-  multipleTargets: boolean = false;
+  multipleTargets = false;
   /**
    *
    * @param data {target:PlayerId}
@@ -45,12 +45,13 @@ export class PreventDamage extends Effect {
     if (entityComp == null) {
       entityComp = targetEntity.getComponent(Monster)
       if (entityComp instanceof Monster) {
-        await entityComp.addDamagePrevention(this.damageToPrevent, true)
+        await entityComp.addDamagePrevention(this.getQuantityInRegardsToBlankCard(entityComp.node ,this.damageToPrevent), true)
       }
     } else {
       // Entity is Player
       if (entityComp instanceof Character) {
-        await WrapperProvider.playerManagerWrapper.out.getPlayerByCard(entityComp.node)!.addDamagePrevention(this.damageToPrevent, true)
+        const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(entityComp.node)!;
+        await player.addDamagePrevention(this.getQuantityInRegardsToBlankCard(player.node, this.damageToPrevent), true)
       }
     }
   }

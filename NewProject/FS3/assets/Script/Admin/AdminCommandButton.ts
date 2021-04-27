@@ -21,7 +21,7 @@ export class AdminCommandButton extends Component {
     input: CCommandInput | null = null
 
     @property
-    text: string = "hello";
+    text = "hello";
 
     @property
     _inputNode: Node | null = null

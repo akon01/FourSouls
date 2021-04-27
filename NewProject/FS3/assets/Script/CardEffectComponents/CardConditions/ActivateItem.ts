@@ -15,9 +15,9 @@ import { WrapperProvider } from '../../Managers/WrapperProvider';
 export class ActivateItem extends Condition {
   event = PASSIVE_EVENTS.PLAYER_ACTIVATE_ITEM
   @property
-  isOwnerOnly: boolean = true;
+  isOwnerOnly = true;
   @property
-  isAttackingPlayerOnly: boolean = false;
+  isAttackingPlayerOnly = false;
   needsDataCollector = false;
   playerManagerWrapper: any;
   battleManagerWrapper: any;

@@ -25,7 +25,7 @@ export class ActionMessage {
         this._text = text
     }
 
-    isRemoved: boolean = false
+    isRemoved = false
 
 
 }

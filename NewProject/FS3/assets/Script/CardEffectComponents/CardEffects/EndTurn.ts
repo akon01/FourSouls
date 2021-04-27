@@ -1,26 +1,20 @@
 import { _decorator } from 'cc';
-const { ccclass, property } = _decorator;
-
 import { TARGETTYPE } from "../../Constants";
-import { Player } from "../../Entites/GameEntities/Player";
-import { CardManager } from "../../Managers/CardManager";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PlayerManager } from "../../Managers/PlayerManager";
+import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { Effect } from "./Effect";
-import { BattleManager } from "../../Managers/BattleManager";
-import { Stack } from "../../Entites/Stack";
-import { TurnsManager } from "../../Managers/TurnsManager";
-import { WrapperProvider } from '../../Managers/WrapperProvider';
+const { ccclass, property } = _decorator;
+
 
 @ccclass('EndTurn')
 export class EndTurn extends Effect {
   effectName = "EndTurn";
   @property
-  isCancelAllStackEffects: boolean = false;
+  isCancelAllStackEffects = false;
   @property
-  isCancelAttack: boolean = false
+  isCancelAttack = false
   /**
    *
    * @param data {target:PlayerId}

@@ -5,7 +5,7 @@ export class CardSet {
 
     constructor() {
         this.cardSet = new Set();
-        this.cardArray = new Array()
+        this.cardArray = []
     }
 
     private pointer = 0
@@ -14,7 +14,7 @@ export class CardSet {
 
     private cardArray: Node[] = []
 
-    length: number = 0
+    length = 0
 
     fill(card: Node, startIndex: number, endIndex: number) {
         if (this.cardSet.has(card.getComponent(Card)!._cardId)) {
@@ -38,7 +38,7 @@ export class CardSet {
 
     clear() {
         this.cardSet = new Set()
-        this.cardArray = new Array()
+        this.cardArray = []
         this.length = 0
     }
 
@@ -82,7 +82,7 @@ export class CardSet {
         }
         for (let i = 0; i < deleteCount; i++) {
             arrayMaxIndex = (this.cardArray.length == 0) ? 0 : this.cardArray.length - 1
-            var isLonger = (arrayMaxIndex < cardIndex + i)
+            let isLonger = (arrayMaxIndex < cardIndex + i)
             if (isLonger) {
                 break
             }

@@ -12,7 +12,7 @@ export class PreCondition extends Component implements PreConditionInterface {
   }
 
   @property({ type: CCInteger, step: 1 })
-  PreConditionId: number = -1
+  PreConditionId = -1
 
   // @property({ type: CCInteger, multiline: true })
   // dataCollectorIdFinal: number = -1;

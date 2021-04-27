@@ -1,23 +1,15 @@
-import { _decorator, Enum, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
+import { Enum, Node, _decorator } from 'cc';
 import { CARD_POOLS, COLLECTORTYPE } from "../../Constants";
 import { Item } from "../../Entites/CardTypes/Item";
 import { Monster } from '../../Entites/CardTypes/Monster';
 import { Card } from "../../Entites/GameEntities/Card";
 import { Deck } from "../../Entites/GameEntities/Deck";
 import { Player } from "../../Entites/GameEntities/Player";
-import { Store } from "../../Entites/GameEntities/Store";
-import { MonsterField } from "../../Entites/MonsterField";
-import { BattleManager } from "../../Managers/BattleManager";
-import { CardManager } from "../../Managers/CardManager";
 import { EffectTarget } from "../../Managers/EffectTarget";
-import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
-import { PileManager } from "../../Managers/PileManager";
-import { PlayerManager } from "../../Managers/PlayerManager";
-import { TurnsManager } from "../../Managers/TurnsManager";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { DataCollector } from "./DataCollector";
+const { ccclass, property } = _decorator;
+
 
 @ccclass('CardTargetPools')
 export class CardTargetPools extends DataCollector {
@@ -68,7 +60,7 @@ export class CardTargetPools extends DataCollector {
             case CARD_POOLS.ACTIVE_MONSTERS:
                 return WrapperProvider.monsterFieldWrapper.out.getActiveMonsters().map(monster => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(monster))
             case CARD_POOLS.ACTIVE_MONSTERS_NOT_ATTACKED:
-                return WrapperProvider.monsterFieldWrapper.out.getActiveMonsters().map(monster => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(monster)).filter(monster => monster.effectTargetCard != WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonsterNode)
+                return WrapperProvider.monsterFieldWrapper.out.getActiveMonsters().map(monster => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(monster)).filter(monster => monster.effectTargetCard != WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntityNode)
             case CARD_POOLS.YOUR_HAND:
                 return mePlayer.getHandCards().map(card => WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(card))
             case CARD_POOLS.YOUR_ACTIVES:

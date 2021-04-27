@@ -16,11 +16,11 @@ import { WrapperProvider } from '../../Managers/WrapperProvider';
 export class NewActiveMonster extends Condition {
     event = PASSIVE_EVENTS.NEW_ACTIVE_MONSTER
     @property
-    isOwnerTurnOnly: boolean = true;
+    isOwnerTurnOnly = true;
     @property
-    isOnlyForAttackableMonsters: boolean = false;
+    isOnlyForAttackableMonsters = false;
     @property
-    isSpecificNewMonster: boolean = true;
+    isSpecificNewMonster = true;
 
     @property({
         visible: function (this: NewActiveMonster) {
@@ -30,7 +30,7 @@ export class NewActiveMonster extends Condition {
     specificNewMonster: Monster | null = null
 
     @property
-    isSpecificNotNewMonster: boolean = false;
+    isSpecificNotNewMonster = false;
 
     @property({
         visible: function (this: NewActiveMonster) {
@@ -40,7 +40,7 @@ export class NewActiveMonster extends Condition {
     specificNotNewMonster: Monster | null = null
 
     @property
-    notInConcurentData: boolean = false;
+    notInConcurentData = false;
 
     async testCondition(meta: PassiveMeta) {
 

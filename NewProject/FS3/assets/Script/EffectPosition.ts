@@ -4,13 +4,13 @@ const { ccclass, property } = _decorator;
 @ccclass('EffectPosition')
 export class EffectPosition {
     @property(CCInteger)
-    x: number = 0
+    x = 0
     @property(CCInteger)
-    y: number = 0
+    y = 0
     @property(CCInteger)
-    width: number = 0
+    width = 0
     @property(CCInteger)
-    height: number = 0
+    height = 0
     // LIFE-CYCLE CALLBACKS:
     // onLoad () {}
     // update (dt) {}

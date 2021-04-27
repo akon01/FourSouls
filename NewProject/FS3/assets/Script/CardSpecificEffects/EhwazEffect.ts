@@ -1,21 +1,13 @@
-import { log, _decorator } from 'cc';
+import { _decorator } from 'cc';
+import { Effect } from "../CardEffectComponents/CardEffects/Effect";
+import { MonsterCardHolder } from "../Entites/MonsterCardHolder";
+import { ActiveEffectData } from '../Managers/ActiveEffectData';
+import { PassiveEffectData } from '../Managers/PassiveEffectData';
+import { WrapperProvider } from '../Managers/WrapperProvider';
+import { StackEffectInterface } from "../StackEffects/StackEffectInterface";
 const { ccclass, property } = _decorator;
 
-import { Effect } from "../CardEffectComponents/CardEffects/Effect";
-import { PassiveEffect } from "../CardEffectComponents/CardEffects/PassiveEffect";
-import { DataCollector } from "../CardEffectComponents/DataCollector/DataCollector";
-import { CARD_TYPE, TARGETTYPE } from "../Constants";
-import { Deck } from "../Entites/GameEntities/Deck";
-import { MonsterCardHolder } from "../Entites/MonsterCardHolder";
-import { MonsterField } from "../Entites/MonsterField";
-import { PassiveEffectData } from '../Managers/PassiveEffectData';
-import { ActiveEffectData } from '../Managers/ActiveEffectData';
-import { BattleManager } from "../Managers/BattleManager";
-import { CardManager } from "../Managers/CardManager";
 
-import { PileManager } from "../Managers/PileManager";
-import { StackEffectInterface } from "../StackEffects/StackEffectInterface";
-import { WrapperProvider } from '../Managers/WrapperProvider';
 
 @ccclass('EhwazEffect')
 export class EhwazEffect extends Effect {
@@ -31,7 +23,7 @@ export class EhwazEffect extends Effect {
     const monsterPlaces = WrapperProvider.monsterFieldWrapper.out.monsterCardHolders;
     for (let i = 0; i < monsterPlaces.length; i++) {
       const monsterHolder = monsterPlaces[i];
-      if (WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonsterNode != monsterHolder.activeMonster) {
+      if (WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntityNode != monsterHolder.activeMonster) {
         console.log(`move ${monsterHolder.activeMonster!.name} to discard pile`)
 
         const monster = monsterHolder.getComponent(MonsterCardHolder)!.activeMonster;

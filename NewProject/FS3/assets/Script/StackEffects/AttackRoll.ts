@@ -2,6 +2,7 @@ import { log, Node } from 'cc';
 import { PASSIVE_EVENTS, ROLL_TYPE, STACK_EFFECT_TYPE } from "../Constants";
 import { Monster } from "../Entites/CardTypes/Monster";
 import { Player } from "../Entites/GameEntities/Player";
+import { IAttackableEntity } from '../Entites/IAttackableEntity';
 import { PassiveMeta } from "../Managers/PassiveMeta";
 import { WrapperProvider } from '../Managers/WrapperProvider';
 import { CombatDamage } from "./CombatDamage";
@@ -27,7 +28,7 @@ export class AttackRoll extends StackEffectConcrete {
     LockingResolve: any;
     _lable!: string;
 
-    isToBeFizzled: boolean = false;
+    isToBeFizzled = false;
 
     creationTurnId!: number;
 
@@ -37,29 +38,29 @@ export class AttackRoll extends StackEffectConcrete {
             this.isToBeFizzled = true
             return true
         }
-        if (this.rollingPlayer._isDead || this.rollingPlayer._Hp == 0 || this.attackedMonster._isDead || this.attackedMonster.currentHp == 0 || WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonster != this.attackedMonster) {
+        if (this.rollingPlayer._isDead || this.rollingPlayer._Hp == 0 || this.attackedEntity._isDead || this.attackedEntity.getCurrentHp() == 0 || WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity != this.attackedEntity) {
             this.isToBeFizzled = true
             return true
         }
         return false
     }
 
-    nonOriginal: boolean = false;
+    nonOriginal = false;
     rollingPlayer: Player
     numberRolled!: number;
-    attackedMonster: Monster
+    attackedEntity: IAttackableEntity
 
     constructor(creatorCardId: number, rollingPlayer: Node, attackedMonsterCard: Node, entityId?: number, lable?: string) {
         super(creatorCardId, entityId)
 
         this.rollingPlayer = rollingPlayer.getComponent(Player)!
-        this.attackedMonster = attackedMonsterCard.getComponent(Monster)!
+        this.attackedEntity = (attackedMonsterCard.getComponent(Monster) ?? attackedMonsterCard.getComponent(Player))!
         const dice = this.rollingPlayer.dice!
         this.visualRepesentation = new AttackRollVis(this.rollingPlayer, dice.diceSprite!.spriteFrame!, "create AttackRoll");
         if (lable) {
             this.setLable(lable, false)
         } else {
-            this.setLable(`Player ${this.rollingPlayer.playerId} is rolling against ${this.attackedMonster.name}`, false)
+            this.setLable(`Player ${this.rollingPlayer.playerId} is rolling against ${this.attackedEntity.node.name}`, false)
         }
     }
 
@@ -70,11 +71,11 @@ export class AttackRoll extends StackEffectConcrete {
         const numberRolled = await player.rollDice(attackType)
         console.log(`in AttackRoll stack effect rolled ${numberRolled}`)
         this.numberRolled = numberRolled
-        WrapperProvider.stackEffectVisManagerWrapper.out.updatePreviewByStackId(this.entityId, "player rolled " + numberRolled + " vs " + this.attackedMonster.name)
+        WrapperProvider.stackEffectVisManagerWrapper.out.updatePreviewByStackId(this.entityId, "player rolled " + numberRolled + " vs " + this.attackedEntity.node.name)
         this.visualRepesentation.extraSprite = player.dice!.diceSprite!.spriteFrame!
         this.visualRepesentation.hasBeenUpdated = true
         await WrapperProvider.decisionMarkerWrapper.out.showDiceRoll(this, true)
-        this.setLable(`Player ${this.rollingPlayer.playerId} rolled ${numberRolled} vs ${this.attackedMonster.name}`, true)
+        this.setLable(`Player ${this.rollingPlayer.playerId} rolled ${numberRolled} vs ${this.attackedEntity.node.name}`, true)
 
         const turnPlayer = WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer()!
         turnPlayer.givePriority(true)
@@ -84,7 +85,7 @@ export class AttackRoll extends StackEffectConcrete {
     async resolve() {
         let attackType: ROLL_TYPE;
         this.rollingPlayer._isFirstAttackRollOfTurn == true ? attackType = ROLL_TYPE.FIRST_ATTACK : attackType = ROLL_TYPE.ATTACK;
-        let monsterEvasion = this.attackedMonster.rollValue + this.attackedMonster._rollBonus;
+        let monsterEvasion = this.attackedEntity.getRollValue() + this.attackedEntity.getRollBonus();
         //let playerRollValue = this.numberRolled + this.rollingPlayer.attackRollBonus;
         let playerRollValue = this.rollingPlayer.calculateFinalRoll(this.numberRolled, attackType)
         console.log(`Added ${this.rollingPlayer.attackRollBonus} to original roll`)
@@ -105,15 +106,15 @@ export class AttackRoll extends StackEffectConcrete {
         //add the check if its the first AttackRoll, and first roll of the turn. and add the bonus.
         //if()
         //player hit monster.
-        this.setLable(`Player ${this.rollingPlayer.playerId} Rolled ${playerRollValue} Against ${this.attackedMonster.name}'s ${monsterEvasion} Evasion`, true)
+        this.setLable(`Player ${this.rollingPlayer.playerId} Rolled ${playerRollValue} Against ${this.attackedEntity.node.name}'s ${monsterEvasion} Evasion`, true)
         if (playerRollValue >= monsterEvasion) {
             this.setLable(`Player ${this.rollingPlayer.playerId} Roll Hit`, true)
-            const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_LAND_ATTACK, [playerRollValue, this.attackedMonster], null, this.rollingPlayer.node, this.entityId)
+            const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_LAND_ATTACK, [playerRollValue, this.attackedEntity], null, this.rollingPlayer.node, this.entityId)
             const afterPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(passiveMeta)
             passiveMeta.args = afterPassiveMeta.args;
 
             if (afterPassiveMeta.continue) {
-                const monsterCombatDamage = new CombatDamage(this.creatorCardId, this.attackedMonster.node, this.rollingPlayer!.character!, playerRollValue)
+                const monsterCombatDamage = new CombatDamage(this.creatorCardId, this.attackedEntity.node, this.rollingPlayer!.character!, playerRollValue)
                 monsterCombatDamage.numberRolled = playerRollValue
                 this.rollingPlayer.lastRoll = playerRollValue
                 await WrapperProvider.stackWrapper.out.addToStackBelow(monsterCombatDamage, this, true)
@@ -122,12 +123,12 @@ export class AttackRoll extends StackEffectConcrete {
         } else {
             this.setLable(`Player ${this.rollingPlayer.playerId} Roll Miss`, true)
             //Passive Check: Player Miss an Attack
-            const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_MISS_ATTACK, [playerRollValue, this.attackedMonster], null, this.rollingPlayer.node, this.entityId)
+            const passiveMeta = new PassiveMeta(PASSIVE_EVENTS.PLAYER_MISS_ATTACK, [playerRollValue, this.attackedEntity], null, this.rollingPlayer.node, this.entityId)
             const afterPassiveMeta = await WrapperProvider.passiveManagerWrapper.out.checkB4Passives(passiveMeta)
             passiveMeta.args = afterPassiveMeta.args;
 
             if (afterPassiveMeta.continue) {
-                const playerCombatDamage = new CombatDamage(this.creatorCardId, this.rollingPlayer.character!, this.attackedMonster.node, playerRollValue)
+                const playerCombatDamage = new CombatDamage(this.creatorCardId, this.rollingPlayer.character!, this.attackedEntity.node, playerRollValue)
                 playerCombatDamage.numberRolled = playerRollValue
                 this.rollingPlayer.lastRoll = playerRollValue
                 await WrapperProvider.stackWrapper.out.addToStackBelow(playerCombatDamage, this, true)
@@ -137,8 +138,7 @@ export class AttackRoll extends StackEffectConcrete {
         //maybe make silent
         await WrapperProvider.stackWrapper.out.fizzleStackEffect(this, true, true)
         await WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(passiveMeta)
-        this.rollingPlayer.lastAttackRoll = playerRollValue
-
+        this.rollingPlayer.handleDiceRollProperties(true, playerRollValue)
     }
 
     convertToServerStackEffect() {
@@ -149,7 +149,7 @@ export class AttackRoll extends StackEffectConcrete {
     toString() {
         let endString = `id:${this.entityId}\ntype: AttackRoll\nCreator Card: ${WrapperProvider.cardManagerWrapper.out.getCardById(this.creatorCardId).name}\n`
         if (this.LockingResolve) { endString = endString + `Lock Result: ${this.LockingResolve}\n` }
-        if (this.attackedMonster) { endString = endString + `Attacked Monster:${this.attackedMonster.name}\n` }
+        if (this.attackedEntity) { endString = endString + `Attacked Monster:${this.attackedEntity.node.name}\n` }
         if (this.numberRolled) { endString = endString + `Number Rolled:${this.numberRolled}\n` }
         if (this.rollingPlayer) { endString = endString + `Rolling Player:${this.rollingPlayer.name}\n` }
         if (this.stackEffectToLock) { endString = endString + `Stack Effect To Lock:${this.stackEffectToLock}\n` }

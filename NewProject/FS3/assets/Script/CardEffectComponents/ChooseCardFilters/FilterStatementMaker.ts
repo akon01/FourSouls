@@ -10,11 +10,11 @@ enum LOGIC_GATES {
 @ccclass('FilterStatementMaker')
 export class FilterStatementMaker implements IFilter {
     @property(CCString)
-    testedValue: string = '';
+    testedValue = '';
     @property({ type: Enum(SIGNS) })
     sign: SIGNS = SIGNS.EQUAL;
     @property(CCString)
-    expectedValue: string = '';
+    expectedValue = '';
     @property({ type: Enum(LOGIC_GATES) })
     logicGate: LOGIC_GATES = 2;
     getStatement() {
@@ -41,8 +41,6 @@ export class FilterStatementMaker implements IFilter {
                 return `>=`
             case SIGNS.GREATER_THAN:
                 return `>`
-            case SIGNS.NOT_EQUAL:
-                return `!=`
             case SIGNS.SMALLER_EQUAL_THAN:
                 return `<=`
             case SIGNS.SMALLER_THAN:

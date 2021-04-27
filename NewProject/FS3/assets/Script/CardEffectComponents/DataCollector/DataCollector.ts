@@ -1,4 +1,7 @@
 import { Component, Node, _decorator } from 'cc';
+import { CARD_TYPE } from '../../Constants';
+import { Card } from '../../Entites/GameEntities/Card';
+import { Player } from '../../Entites/GameEntities/Player';
 import { Cost } from "../Costs/Cost";
 import { DataCollectorInterface } from "./DataCollectorInterface";
 const { ccclass, property } = _decorator;
@@ -61,6 +64,24 @@ export class DataCollector extends Component implements DataCollectorInterface {
 
       onLoad() {
             this._effectCard = this.node
+      }
+
+      isThisCardALootCard() {
+            if (!this._effectCard) {
+                  throw new Error("No Effect Card Set!");
+            }
+            return this._effectCard.getComponent(Card)?.type == CARD_TYPE.LOOT
+      }
+      
+      getQuantityInRegardsToBlankCard(target: Node, originalQuantity: number) {
+            const player = target.getComponent(Player)
+            if (!player) {
+                  return originalQuantity
+            }
+            if (!this.isThisCardALootCard()) {
+                  return originalQuantity
+            }
+            return player.hasBlankCardEffectActive ? originalQuantity * 2 : originalQuantity
       }
 
 

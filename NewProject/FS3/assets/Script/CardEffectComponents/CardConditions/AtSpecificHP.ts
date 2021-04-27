@@ -12,12 +12,12 @@ const { ccclass, property } = _decorator;
 export class AtSpecificHP extends Condition {
   events = [PASSIVE_EVENTS.PLAYER_GET_HIT, PASSIVE_EVENTS.MONSTER_GET_HIT]
   @property
-  specificHp: number = 0;
+  specificHp = 0;
   @property
-  isOrBelowHp: boolean = false;
-  isActive: boolean = false;
+  isOrBelowHp = false;
+  isActive = false;
   @property
-  isOwnerOnly: boolean = true
+  isOwnerOnly = true
 
 
   async testCondition(meta: PassiveMeta) {
@@ -35,7 +35,7 @@ export class AtSpecificHP extends Condition {
     }
 
     let subjectComp: Monster | Player | null = null;
-    let currnetHpValue: number = -1
+    let currnetHpValue = -1
     if (meta.passiveEvent == PASSIVE_EVENTS.MONSTER_GET_HIT) {
       subjectComp = subject.getComponent(Monster)!
       currnetHpValue = subjectComp.currentHp

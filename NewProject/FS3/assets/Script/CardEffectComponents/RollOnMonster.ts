@@ -22,15 +22,15 @@ export class RollOnMonster extends Effect {
     stack: StackEffectInterface[],
     data?: ActiveEffectData | PassiveEffectData
   ) {
-    let numberRolled = (data as ActiveEffectData).numberRolled;
-    let turnPlayer = WrapperProvider.playerManagerWrapper.out.getPlayerById(WrapperProvider.turnsManagerWrapper.out.currentTurn!.PlayerId)!
-    let playerHitMonster = await WrapperProvider.battleManagerWrapper.out.rollOnMonster(numberRolled, true);
+    const numberRolled = (data as ActiveEffectData).numberRolled;
+    const turnPlayer = WrapperProvider.playerManagerWrapper.out.getPlayerById(WrapperProvider.turnsManagerWrapper.out.currentTurn!.PlayerId)!
+    const playerHitMonster = await WrapperProvider.battleManagerWrapper.out.rollOnMonster(numberRolled, true);
     if (playerHitMonster == true) {
-      let damage = turnPlayer.calculateDamage();
-      await WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonster!.takeDamaged(damage, true, turnPlayer.character!);
+      const damage = turnPlayer.calculateDamage();
+      await WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity!.takeDamage(damage, true, turnPlayer.character!);
     } else {
-      let damage = WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonster!.calculateDamage();
-      let o = await turnPlayer.takeDamage(damage, true, WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonster!.node);
+      const damage = WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity!.calculateDamage();
+      const o = await turnPlayer.takeDamage(damage, true, WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity!.node);
     }
     if (data instanceof PassiveEffectData) return data
     return WrapperProvider.stackWrapper.out._currentStack

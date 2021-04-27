@@ -86,7 +86,7 @@ export class AddTrinketOrCurse extends Effect {
         thisCard.getComponent(Card)!.type = CARD_TYPE.TREASURE;
         WrapperProvider.serverClientWrapper.out.send(Signal.CARD_ADD_TRINKET, { cardId: thisCard.getComponent(Card)!._cardId, playerId: player.playerId, addMuiliEffect: this.addMuiliEffect })
         if (!this.isCurse) {
-          WrapperProvider.pileManagerWrapper.out.removeFromPile(thisCard, true)
+          await WrapperProvider.pileManagerWrapper.out.removeFromPile(thisCard, true)
         }
         await player.addItem(thisCard, true, true);
         if (this.isCurse) {

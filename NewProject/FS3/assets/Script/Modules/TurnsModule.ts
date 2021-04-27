@@ -50,7 +50,7 @@ export class Turn {
 
   }
 
-  endTurn() {
+  endTurn(sendToServer:boolean) {
     const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerById(this.PlayerId)!
     if (player.attackPlays > 0) {
       //remove turn attack play
@@ -80,5 +80,13 @@ export class Turn {
     } else {
       WrapperProvider.serverClientWrapper.out.send(Signal.START_TURN, { playerId: player.playerId })
     }
+  }
+}
+
+
+export class OneTimeTurn extends Turn {
+  endTurn(sendToServer:boolean){
+    super.endTurn(sendToServer)
+    WrapperProvider.turnsManagerWrapper.out.removeTurn(this,sendToServer)
   }
 }

@@ -24,7 +24,7 @@ export class RefillEmptySlot extends StackEffectConcrete {
     _lable!: string;
 
 
-    isToBeFizzled: boolean = false;
+    isToBeFizzled = false;
 
     creationTurnId!: number;
 
@@ -52,8 +52,8 @@ export class RefillEmptySlot extends StackEffectConcrete {
         return false
     }
 
-    nonOriginal: boolean = false;
-    hasResolved: boolean = false;
+    nonOriginal = false;
+    hasResolved = false;
     slotToFill: Node | null
     slotType: CARD_TYPE
 

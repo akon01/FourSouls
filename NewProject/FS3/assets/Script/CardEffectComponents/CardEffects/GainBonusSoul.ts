@@ -18,13 +18,13 @@ export class GainBonusSoul extends Effect {
   @property(Node)
   soulCardToGain: Node | null = null;
   @property
-  addSoulToCard: boolean = false;
+  addSoulToCard = false;
   @property({
     visible: function (this: GainBonusSoul) {
       return this.addSoulToCard
     }
   })
-  numOfSoulsToAdd: number = 1
+  numOfSoulsToAdd = 1
   /**
    *
    * @param data {target:PlayerId}
@@ -36,8 +36,9 @@ export class GainBonusSoul extends Effect {
       throw new Error(`no target player`)
     } else {
       if (targetPlayerCard instanceof Node) {
+        if (!this.soulCardToGain) { debugger; throw new Error("No Soul Card To Gain"); }
         if (this.addSoulToCard) {
-          WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node).getComponent(Card)!.souls += this.numOfSoulsToAdd
+          this.soulCardToGain.getComponent(Card)!.souls += this.numOfSoulsToAdd
         }
         // this.soulCardToGain.parent = find('Canvas')
         // this.soulCardToGain.x = 0;
@@ -45,7 +46,6 @@ export class GainBonusSoul extends Effect {
         // cc.log(`after put soul card on table`)
         // cc.log(this.soulCardToGain)
         const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard)!
-        if (!this.soulCardToGain) { debugger; throw new Error("No Soul Card To Gain"); }
 
         await player.receiveSoulCard(this.soulCardToGain, true)
       }

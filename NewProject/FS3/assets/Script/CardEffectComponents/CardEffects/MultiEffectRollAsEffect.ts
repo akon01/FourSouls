@@ -20,13 +20,13 @@ export class MultiEffectRollAsEffect extends Effect {
       getEffectByNumberRolled(numberRolled: number, cardPlayed: Node) {
 
             console.log(`get by number rolled ${numberRolled}`)
-            let cardEffectComp = cardPlayed.getComponent(CardEffect)!;
+            const cardEffectComp = cardPlayed.getComponent(CardEffect)!;
             let effects: Effect[] = [];
             effects = effects.concat(cardEffectComp.getActiveEffects(), cardEffectComp.getPaidEffects(), cardEffectComp.getPassiveEffects())
             let chosenEffect: Effect | null = null;
             for (let i = 0; i < this.effectsAndNumbers.length; i++) {
                   const eAn = this.effectsAndNumbers[i];
-                  let index = eAn.numbers.find((number) => { if (number == numberRolled) return true })
+                  const index = eAn.numbers.find((number) => { if (number == numberRolled) return true })
                   if (index != null) {
                         chosenEffect = eAn.effect
 

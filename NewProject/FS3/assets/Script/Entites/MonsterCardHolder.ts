@@ -167,9 +167,10 @@ export class MonsterCardHolder extends Component {
       async removeMonster(monster: Node, sendToServer: boolean) {
             this.monsters.splice(this.monsters.indexOf(monster));
             if (WrapperProvider.monsterFieldWrapper.out.getActiveMonsters().indexOf(monster) >= 0) {
+                  const monsterComp = monster.getComponent(Monster)!;
                   WrapperProvider.monsterFieldWrapper.out.removeFromActiveMonsters(monster)
-                  monster.getComponent(Monster)!.monsterPlace = null;
-                  if (!monster.getComponent(Monster)!.isCurse) {
+                  monsterComp.monsterPlace = null;
+                  if (!monsterComp.isCurse || !monsterComp.doNotRemovePassiveEffectsWhenRemovingFromMonsterCardHolder) {
                         WrapperProvider.passiveManagerWrapper.out.removePassiveItemEffects(monster, sendToServer)
                   }
             }

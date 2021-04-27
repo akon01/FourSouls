@@ -23,7 +23,7 @@ export class MonsterDeath extends StackEffectConcrete {
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.MONSTER_DEATH;
     _lable!: string;
 
-    isToBeFizzled: boolean = false;
+    isToBeFizzled = false;
 
     creationTurnId!: number;
 
@@ -35,7 +35,7 @@ export class MonsterDeath extends StackEffectConcrete {
         return false;
     }
 
-    nonOriginal: boolean = false;
+    nonOriginal = false;
 
     numberRolled: number | undefined
     monsterToDie: Monster;
@@ -61,7 +61,7 @@ export class MonsterDeath extends StackEffectConcrete {
     }
 
     async resolve() {
-        if (WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonster != null && this.monsterToDie.node == WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonster.node) {
+        if (WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity != null && this.monsterToDie.node == WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity.node) {
             await WrapperProvider.battleManagerWrapper.out.cancelAttack(true)
         }
         this.monsterToDie._thisTurnKiller = this.killer

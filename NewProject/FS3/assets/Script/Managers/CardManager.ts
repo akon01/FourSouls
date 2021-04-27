@@ -25,7 +25,7 @@ const { ccclass, property } = _decorator;
 @ccclass('CardManager')
 export class CardManager extends Component {
 
-      cardsId: number = 0;
+      cardsId = 0;
 
       private onTableCards: Set<number> = new Set()
 
@@ -188,7 +188,7 @@ export class CardManager extends Component {
 
       sendCardInfoToServer() {
             const allCards = this.GetAllCards()
-            const cardMap: { cardId: number, cardName: String }[] = []
+            const cardMap: { cardId: number, cardName: string }[] = []
             allCards.forEach(card => {
                   cardMap.push({ cardId: card.getComponent(Card)!._cardId, cardName: card.getComponent(Card)!.cardName })
             })
@@ -374,7 +374,7 @@ export class CardManager extends Component {
             throw new Error(`No deck found with type ${deckType}`)
       }
 
-      isCheckingForEmptyFields: boolean = false;
+      isCheckingForEmptyFields = false;
 
 
 
@@ -415,7 +415,7 @@ export class CardManager extends Component {
 
       getCardByName(name: string) {
             const allCards = this.GetAllCards()
-            const regEx: RegExp = new RegExp(name, "i")
+            const regEx = new RegExp(name, "i")
             for (let i = 0; i < allCards.length; i++) {
                   const card: Card = allCards[i].getComponent(Card)!;
                   if (card.cardName.search(regEx) != -1) {
@@ -502,8 +502,8 @@ export class CardManager extends Component {
                         }
                   }
             }
-            deck.node.getComponent(Card)!.backSprite = deck.node.getComponent(Sprite)?.spriteFrame!
-            deck.node.getComponent(Card)!.frontSprite = deck.node.getComponent(Sprite)?.spriteFrame!
+            deck.node.getComponent(Card)!.backSprite = deck.node.getComponent(Sprite)!.spriteFrame!
+            deck.node.getComponent(Card)!.frontSprite = deck.node.getComponent(Sprite)!.spriteFrame!
             deck.node.getComponent(Card)!.setSprites()
 
             deck.cardsPrefab = [];
@@ -813,7 +813,7 @@ export class CardManager extends Component {
       }
 
       activeMoveAnimations: Array<{ index: number, endBools: boolean[] }> = []
-      moveAnimationIndex: number = 0;
+      moveAnimationIndex = 0;
 
       async moveCardTo(card: Node, placeToMove: Node, sendToServer: boolean, flipIfFlipped: boolean, moveIndex?: number, firstPos?: any, playerId?: number) {
             const canvas = WrapperProvider.CanvasNode
@@ -831,11 +831,11 @@ export class CardManager extends Component {
                   }
             }
 
-            const canvasTrans = canvas?.getComponent(UITransform)!
+            const canvasTrans = canvas!.getComponent(UITransform)!
 
-            const cardParentTrans = (card.parent?.getComponent(UITransform)!);
+            const cardParentTrans = (card.parent!.getComponent(UITransform)!);
             const originalPos = canvasTrans.convertToNodeSpaceAR(cardParentTrans.convertToWorldSpaceAR(card.getPosition()));
-            const placeToMoveTrans = (placeToMove.parent?.getComponent(UITransform)!);
+            const placeToMoveTrans = (placeToMove.parent!.getComponent(UITransform)!);
             const movePos = canvasTrans.convertToNodeSpaceAR(placeToMoveTrans.convertToWorldSpaceAR(placeToMove.getPosition()))
             // const moveAction = moveTo(TIME_TO_DRAW, movePos);
             let animationIndex: number

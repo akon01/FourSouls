@@ -1,27 +1,26 @@
 import { _decorator } from 'cc';
-const { ccclass, property } = _decorator;
-
+import { TARGETTYPE } from '../../../Constants';
+import { PassiveEffectData } from "../../../Managers/PassiveEffectData";
 import { StackEffectInterface } from "../../../StackEffects/StackEffectInterface";
 import { Effect } from "../Effect";
-import { DataCollector } from "../../DataCollector/DataCollector";
-import { PassiveEffectData } from "../../../Managers/PassiveEffectData";
-import { TARGETTYPE } from '../../../Constants';
+const { ccclass, property } = _decorator;
+
 
 @ccclass('PreventDamagePassive')
 export class PreventDamagePassive extends Effect {
   effectName = "PreventDamagePassive";
   @property({ visible: function (this: PreventDamagePassive) { return !this.isGetDamageFromDataCollector } })
-  isPreventAllDamage: boolean = false;
+  isPreventAllDamage = false;
 
   @property({
     visible: function (this: PreventDamagePassive) {
       return !this.isPreventAllDamage && !this.isGetDamageFromDataCollector
     }
   })
-  damageToPrevent: number = 1;
+  damageToPrevent = 1;
 
   @property({ visible: function (this: PreventDamagePassive) { return !this.isPreventAllDamage } })
-  isGetDamageFromDataCollector: boolean = false
+  isGetDamageFromDataCollector = false
   /**
    *
    * @param data {target:PlayerId}

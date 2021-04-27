@@ -17,7 +17,7 @@ export class MarkDeckAsDrawFromPileInsted extends Effect {
 
 
       @property
-      markAsTrue: boolean = true
+      markAsTrue = true
 
       /**
        *

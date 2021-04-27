@@ -17,7 +17,7 @@ import { MonsterCardHolder } from "./MonsterCardHolder";
 @ccclass('MonsterField')
 export class MonsterField extends Component {
       @property(CCInteger)
-      maxNumOfMonsters: number = 2;
+      maxNumOfMonsters = 2;
 
       @property(Prefab)
       MonsterCardHolderPrefab: Prefab | null = null;
@@ -34,7 +34,7 @@ export class MonsterField extends Component {
       layout: Layout | null = null;
 
       @property
-      widgetPadding: number = 0;
+      widgetPadding = 0;
 
 
 

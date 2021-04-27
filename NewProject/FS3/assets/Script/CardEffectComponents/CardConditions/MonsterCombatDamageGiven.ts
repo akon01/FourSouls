@@ -11,7 +11,7 @@ import { Card } from "../../Entites/GameEntities/Card";
 @ccclass('MonsterCombatDamageGiven')
 export class MonsterCombatDamageGiven extends Condition {
   @property
-  isSpecificToEntityDealsDamage: boolean = false;
+  isSpecificToEntityDealsDamage = false;
   // @ts-ignore
   @property({
     type: Node, visible: function (this: MonsterCombatDamageGiven) {

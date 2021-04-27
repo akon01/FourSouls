@@ -7,6 +7,7 @@ import { CARD_TYPE, STACK_EFFECT_TYPE } from "../Constants";
 import { CardEffect } from "../Entites/CardEffect";
 import { Item } from "../Entites/CardTypes/Item";
 import { Card } from "../Entites/GameEntities/Card";
+import { Deck } from '../Entites/GameEntities/Deck';
 import { Player } from "../Entites/GameEntities/Player";
 import { WrapperProvider } from '../Managers/WrapperProvider';
 import { RollDiceStackEffect } from "./RollDIce";
@@ -175,10 +176,16 @@ export class PlayLootCardStackEffect extends StackEffectConcrete {
         //put new stack insted of old one (check maybe only add and removed the changed StackEffects)
 
         //if the loot card is not a trinket (triknets have Item component)
+        this.lootToPlay.getComponent(Card)!.isGoingToBePlayed = false
         if (this.lootToPlay.getComponent(Item) == null) {
-            this.lootToPlay.getComponent(Card)!.isGoingToBePlayed = false
+
             await WrapperProvider.pileManagerWrapper.out.removeFromPile(this.lootToPlay, true)
-            await WrapperProvider.pileManagerWrapper.out.addCardToPile(CARD_TYPE.LOOT, this.lootToPlay, true)
+            ///TODO: for now only the sun has uniqe 'After Play Discard', can and should be a component to decide this behaviour  
+            if (this.lootToPlay.name == "The Sun") {
+                WrapperProvider.cardManagerWrapper.out.lootDeck.getComponent(Deck)?.addToDeckOnBottom(this.lootToPlay, 0, true)
+            } else {
+                await WrapperProvider.pileManagerWrapper.out.addCardToPile(CARD_TYPE.LOOT, this.lootToPlay, true)
+            }
             //    await WrapperProvider.cardManagerWrapper.out.moveCardTo(this.lootToPlay, WrapperProvider.pileManagerWrapper.out.lootCardPile.node, true)
 
         }
@@ -207,7 +214,7 @@ export class PlayLootCardStackEffect extends StackEffectConcrete {
     async fizzleThis() {
         super.fizzleThis()
         this.lootToPlay.getComponent(Card)!.isGoingToBePlayed = false
-        WrapperProvider.pileManagerWrapper.out.removeFromPile(this.lootToPlay, true)
+        await WrapperProvider.pileManagerWrapper.out.removeFromPile(this.lootToPlay, true)
         await WrapperProvider.pileManagerWrapper.out.addCardToPile(CARD_TYPE.LOOT, this.lootToPlay, true)
     }
 

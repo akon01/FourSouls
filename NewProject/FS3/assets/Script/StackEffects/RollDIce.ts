@@ -22,7 +22,7 @@ export class RollDiceStackEffect extends StackEffectConcrete {
     _lable!: string;
 
 
-    isToBeFizzled: boolean = false;
+    isToBeFizzled = false;
 
     creationTurnId!: number
 
@@ -46,7 +46,7 @@ export class RollDiceStackEffect extends StackEffectConcrete {
         return false
     }
 
-    nonOriginal: boolean = false;
+    nonOriginal = false;
 
     numberRolled!: number
 
@@ -111,7 +111,7 @@ export class RollDiceStackEffect extends StackEffectConcrete {
             console.log(WrapperProvider.stackWrapper.out._currentStack)
         }
         await WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(passiveMeta)
-        player.lastRoll = playerRollValue
+        player.handleDiceRollProperties(false, playerRollValue)
     }
 
     convertToServerStackEffect() {

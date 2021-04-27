@@ -36,7 +36,7 @@ export class ChainCollector extends DataCollector {
     if (!chainEffects) { debugger; throw new Error("No Chain Effects Set!"); }
     //const dataInterpreter = new DataInterpreter()
     const effects = chainEffects.getEffectsToChain()
-    let effectsData: ActiveEffectData | PassiveEffectData | null = null;
+    const effectsData: ActiveEffectData | PassiveEffectData | null = null;
     for (let i = 0; i < effects.length; i++) {
       const effect = effects[i]
       //  let effectData = this.effectsData[i]

@@ -10,11 +10,11 @@ export class Character extends Component {
 
   charItemCard: Node | null = null;
   @property
-  activated: boolean = false;
+  activated = false;
   @property
-  hp: number = 0;
+  hp = 0;
   @property
-  damage: number = 0;
+  damage = 0;
 
   player: Player | null = null
   // LIFE-CYCLE CALLBACKS:

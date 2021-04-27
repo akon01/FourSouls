@@ -11,7 +11,7 @@ const { ccclass, property } = _decorator;
 export class PlayerRollSameNumberInARow extends Condition {
   event = PASSIVE_EVENTS.PLAYER_ROLL_DICE
   @property
-  isOnlyAttackingPlayer: boolean = false;
+  isOnlyAttackingPlayer = false;
 
 
   async testCondition(meta: PassiveMeta) {
@@ -28,7 +28,7 @@ export class PlayerRollSameNumberInARow extends Condition {
       player instanceof Player
     ) {
       if (this.isOnlyAttackingPlayer) {
-        if ((WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonsterNode != null && player == WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer() && player.lastAttackRoll == numberRolledNow)) {
+        if ((WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntityNode != null && player == WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer() && player.lastAttackRoll == numberRolledNow)) {
           answer = true;
         }
       } else if (player.lastRoll == numberRolledNow) {

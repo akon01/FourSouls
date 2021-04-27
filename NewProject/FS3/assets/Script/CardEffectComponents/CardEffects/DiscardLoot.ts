@@ -1,16 +1,14 @@
-import { _decorator, CCInteger, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
-import { TARGETTYPE, CARD_TYPE } from "../../Constants";
+import { Node, _decorator } from 'cc';
+import { CARD_TYPE, TARGETTYPE } from "../../Constants";
+import { Card } from "../../Entites/GameEntities/Card";
 import { Player } from "../../Entites/GameEntities/Player";
-import { Stack } from "../../Entites/Stack";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PlayerManager } from "../../Managers/PlayerManager";
+import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { Effect } from "./Effect";
-import { Card } from "../../Entites/GameEntities/Card";
-import { WrapperProvider } from '../../Managers/WrapperProvider';
+const { ccclass, property } = _decorator;
+
 
 @ccclass('DiscardLoot')
 export class DiscardLoot extends Effect {

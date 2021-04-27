@@ -4,9 +4,9 @@ const { ccclass, property } = _decorator;
 @ccclass('IdAndNameComponent')
 export class IdAndNameComponent {
     @property(CCString)
-    name: string = "";
+    name = "";
     @property({ type: CCInteger, step: 1 })
-    id: number = -1
+    id = -1
     // getNew(id: number, name: string) {
     //     const newIdAndName = new IdAndName()
     //     newIdAndName.id = id

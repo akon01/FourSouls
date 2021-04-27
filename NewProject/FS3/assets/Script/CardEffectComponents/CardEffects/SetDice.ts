@@ -17,10 +17,10 @@ export class SetDice extends Effect {
   chooseType = CHOOSE_CARD_TYPE.MY_HAND;
   effectName = "SetDice";
   @property({ type: CCInteger, visible: function (this: SetDice) { return !this.isRollFromDataCollector } })
-  rollValueToPut: number = 1
+  rollValueToPut = 1
 
   @property
-  isRollFromDataCollector: boolean = false
+  isRollFromDataCollector = false
   /**
    *
    * @param data {lootPlayedId:number,playerId:number}

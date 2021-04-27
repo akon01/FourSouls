@@ -55,22 +55,22 @@ const ResizeMode = Enum({
 @ccclass('CardLayout')
 export class CardLayout extends Component {
       @property
-      isResized: boolean = false;
+      isResized = false;
 
       @property
-      spacingX: number = 0;
+      spacingX = 0;
 
       @property
-      paddingLeft: number = 0;
+      paddingLeft = 0;
 
       @property
-      paddingRight: number = 0;
+      paddingRight = 0;
 
       @property
       _layoutDirty = true;
 
       @property
-      type: number = 1;
+      type = 1;
 
       @property
       resizeMode: number = ResizeMode.NONE;
@@ -79,10 +79,10 @@ export class CardLayout extends Component {
       layoutCards: Node[] = [];
 
       @property
-      playerId: number = 0;
+      playerId = 0;
 
       @property
-      handId: number = 0;
+      handId = 0;
 
       @property
       handPosition: Vec2 | null = null;
@@ -91,15 +91,15 @@ export class CardLayout extends Component {
       boundingBoxWithoutChildren: Rect | null = null;
 
       @property
-      originalChildWidth: number = 0;
+      originalChildWidth = 0;
 
       @property
-      overflow: boolean = false;
+      overflow = false;
 
       @property(CCInteger)
       localSign = 1;
 
-      private showCardsBack: boolean = false
+      private showCardsBack = false
 
       handleCardSprite(card: Card) {
             if (this.showCardsBack) {
@@ -193,21 +193,21 @@ export class CardLayout extends Component {
       }
 
       _doLayoutHorizontally(baseWidth: number, applyChildren: boolean) {
-            const afterChangeChildWidth: number = 0;
+            const afterChangeChildWidth = 0;
 
-            const canvas = WrapperProvider.CanvasNode
+            const canvas = WrapperProvider.CanvasNode!
             const thisTrans = (this.node.getComponent(UITransform)!);
             const layoutAnchor = thisTrans.anchorPoint;
 
             const children = this.layoutCards;
 
-            const canvasTrans = (canvas?.getComponent(UITransform)!);
-            let nodeX = canvasTrans.convertToNodeSpaceAR(thisTrans.convertToWorldSpaceAR(v3(this.node.position.x, 0))).x;
+            const canvasTrans = (canvas.getComponent(UITransform)!);
+            const nodeX = canvasTrans.convertToNodeSpaceAR(thisTrans.convertToWorldSpaceAR(v3(this.node.position.x, 0))).x;
             const sign = this.localSign;
             const nodeWorldSpace = thisTrans.convertToWorldSpaceAR(v3(0, this.node.position.y))
             const canvasNodeSpace = canvasTrans.convertToNodeSpaceAR(this.node.getPosition())
             const canvasNodeAndNodeWorld = canvasTrans.convertToNodeSpaceAR(thisTrans.convertToNodeSpaceAR(this.node.getPosition()))
-            let layoutY: number = canvasTrans.convertToNodeSpaceAR(this.node.parent!.getComponent(UITransform)!.convertToWorldSpaceAR(v3(0, this.node.position.y))).y;
+            const layoutY: number = canvasTrans.convertToNodeSpaceAR(this.node.parent!.getComponent(UITransform)!.convertToWorldSpaceAR(v3(0, this.node.position.y))).y;
             const paddingX = this.paddingLeft;
 
             let cardHeight;
@@ -243,7 +243,7 @@ export class CardLayout extends Component {
 
             let childrenWidth = 0;
 
-            let overflow: Boolean = false;
+            let overflow = false;
             for (let k = 0; k < children.length; k++) {
                   childrenWidth += this.originalChildWidth + this.spacingX;
 
@@ -269,7 +269,7 @@ export class CardLayout extends Component {
 
                   const anchorX = childTrans.anchorX;
                   const childBoundingBoxWidth = childTrans.width * child.scale.x;
-                  let multi = sign == 1 ? 1 : 2
+                  // let multi = sign == 1 ? 1 : 2
                   nextX = nextX + sign * anchorX * childBoundingBoxWidth + sign * this.spacingX;
                   const rightBoundaryOfChild = sign * (1 - anchorX) * childBoundingBoxWidth;
 

@@ -25,7 +25,7 @@ export class DeclareAttack extends StackEffectConcrete {
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.DECLARE_ATTACK;
     _lable!: string;
 
-    isToBeFizzled: boolean = false;
+    isToBeFizzled = false;
 
     creationTurnId!: number;
 
@@ -41,7 +41,7 @@ export class DeclareAttack extends StackEffectConcrete {
         return false
     }
 
-    nonOriginal: boolean = false;
+    nonOriginal = false;
     attackingPlayer: Player
     cardBeingAttacked: Node
 
@@ -101,15 +101,16 @@ export class DeclareAttack extends StackEffectConcrete {
             await WrapperProvider.monsterFieldWrapper.out.givePlayerChoiceToCoverPlace(newMonster.getComponent(Monster)!, this.attackingPlayer)
             this.cardBeingAttacked = newMonster;
         }
-        const monsterComp = this.cardBeingAttacked.getComponent(Monster)!;
+        const monsterComp = this.cardBeingAttacked.getComponent(Monster);
         //if the drawn card is a non-monster play its effect
-        if (monsterComp.isNonMonster) {
+        if (monsterComp && monsterComp.isNonMonster) {
             //  await this.attackingPlayer.activateCard(this.cardBeingAttacked, true)
             //if the drawn card is a monster, declare attack
-        } else if (monsterComp.isMonsterWhoCantBeAttacked) {
+        } else if (monsterComp && monsterComp.isMonsterWhoCantBeAttacked) {
+            console.log(`is Monster Who Cant Be attacked!`)
             debugger
         } else {
-            if (this.attackingPlayer._mustAttackMonsters.indexOf(monsterComp) >= 0) {
+            if (monsterComp && this.attackingPlayer._mustAttackMonsters.indexOf(monsterComp) >= 0) {
                 this.attackingPlayer._mustAttackMonsters.splice(this.attackingPlayer._mustAttackMonsters.indexOf(monsterComp))
             }
             await WrapperProvider.battleManagerWrapper.out.declareAttackOnMonster(this.cardBeingAttacked, true);

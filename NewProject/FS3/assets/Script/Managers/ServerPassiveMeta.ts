@@ -14,9 +14,9 @@ export class ServerPassiveMeta {
     passiveEvent: PASSIVE_EVENTS | null = null;
     args: ArgsType<number | number[]>[] = [];
     result: any = null;
-    preventMethod: boolean = false;
+    preventMethod = false;
     methodScopeId: number | null = null;
-    scopeIsPlayer: boolean = false;
+    scopeIsPlayer = false;
     index: number | null = null;
     originStackId!: number;
     cardManagerWrapper: any;
@@ -55,7 +55,8 @@ export class ServerPassiveMeta {
                 args.push(WrapperProvider.playerManagerWrapper.out.getPlayerByCard(WrapperProvider.cardManagerWrapper.out.getCardById(arg.number as number, true)));
                 break;
             case ARGS_TYPES.NUMBER:
-                args.push(arg.number);
+                args.push(arg.number)
+                break;
             default:
                 break;
         }
@@ -71,6 +72,7 @@ export class ServerPassiveMeta {
                 break;
             case ARGS_TYPES.NUMBER:
                 args.push(arg.number);
+                break
             default:
                 break;
         }

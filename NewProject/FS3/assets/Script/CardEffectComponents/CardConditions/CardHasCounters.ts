@@ -17,7 +17,7 @@ export class CardHasCounters extends Condition {
   isExsactCounterNumber = false
 
   @property
-  thisCardOnly: boolean = false;
+  thisCardOnly = false;
 
   needsDataCollector = false;
   async testCondition(meta: PassiveMeta) {

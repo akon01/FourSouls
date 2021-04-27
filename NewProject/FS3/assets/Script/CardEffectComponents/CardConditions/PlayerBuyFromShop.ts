@@ -11,9 +11,9 @@ const { ccclass, property } = _decorator;
 export class PlayerBuyFromShop extends Condition {
   event = PASSIVE_EVENTS.PLAYER_BUY_ITEM
   @property
-  isSpecificPlayerOnly: boolean = true;
+  isSpecificPlayerOnly = true;
   @property
-  needsDataCollector: boolean = true;
+  needsDataCollector = true;
 
 
   async testCondition(meta: PassiveMeta) {

@@ -31,7 +31,7 @@ export class CardPreviewManager extends Component {
 
     selectQueue: Node[] = [];
 
-    isOpen: boolean = false;
+    isOpen = false;
 
     groups: Map<string, Color> = new Map()
 

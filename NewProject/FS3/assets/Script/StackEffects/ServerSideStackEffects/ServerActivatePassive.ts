@@ -11,7 +11,7 @@ import { BaseServerStackEffect, ServerStackEffectInterface } from "./ServerStack
 export class ServerActivatePassive extends BaseServerStackEffect {
     entityId: number;
     creatorCardId: number;
-    isLockingStackEffect: boolean = false;
+    isLockingStackEffect = false;
     stackEffectToLock: ServerStackEffectInterface | undefined;
     hasLockingStackEffect: boolean;
     hasLockingStackEffectResolved: boolean;

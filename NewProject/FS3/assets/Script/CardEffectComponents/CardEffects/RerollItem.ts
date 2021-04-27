@@ -1,17 +1,13 @@
-import { _decorator, Node, log } from 'cc';
-const { ccclass, property } = _decorator;
-
-import { Deck } from "../../Entites/GameEntities/Deck";
-import { Stack } from "../../Entites/Stack";
-import { CardManager } from "../../Managers/CardManager";
+import { Node, _decorator } from 'cc';
+import { Item } from '../../Entites/CardTypes/Item';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PlayerManager } from "../../Managers/PlayerManager";
+import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
 import { Effect } from "./Effect";
-import { WrapperProvider } from '../../Managers/WrapperProvider';
-import { Item } from '../../Entites/CardTypes/Item';
+const { ccclass, property } = _decorator;
+
 
 @ccclass('RerollItem')
 export class RerollItem extends Effect {

@@ -3,9 +3,13 @@ import { Signal } from "../../Misc/Signal";
 import { MonsterReward } from "../CardEffectComponents/MonsterRewards/MonsterReward";
 import { PARTICLE_TYPES, REWARD_TYPES, STACK_EFFECT_TYPE } from "../Constants";
 import { Monster } from "../Entites/CardTypes/Monster";
+import { Player } from '../Entites/GameEntities/Player';
+import { IAttackableEntity } from '../Entites/IAttackableEntity';
 import { WrapperProvider } from './WrapperProvider';
 
 const { ccclass, property } = _decorator;
+
+
 
 
 @ccclass('BattleManager')
@@ -13,18 +17,16 @@ export class BattleManager extends Component {
 
 
 
-      currentlyAttackedMonsterNode: Node | null = null;
+      currentlyAttackedEntityNode: Node | null = null;
 
-      currentlyAttackedMonster: Monster | null = null;
+      currentlyAttackedEntity: IAttackableEntity | null = null;
 
-      firstAttack: boolean = true;
+      firstAttack = true;
 
-      inBattle: boolean = false;
+      inBattle = false;
 
       @property({ type: [MonsterReward] })
       availableReward: MonsterReward[] = []
-
-
 
 
 
@@ -37,8 +39,8 @@ export class BattleManager extends Component {
 
       async declareAttackOnMonster(monsterCard: Node, sendToServer: boolean) {
             //
-            WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonsterNode = monsterCard;
-            WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonster = monsterCard.getComponent(Monster);
+            WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntityNode = monsterCard;
+            WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity = monsterCard.getComponent(Monster) ?? WrapperProvider.playerManagerWrapper.out.getPlayerByCard(monsterCard);
             monsterCard.getComponent(Monster)!._isAttacked = true
             // ;
             WrapperProvider.turnsManagerWrapper.out.currentTurn!.battlePhase = true;
@@ -52,10 +54,10 @@ export class BattleManager extends Component {
 
       endBattle(sendToServer: boolean) {
             if (!this.inBattle) return;
-            const monsterCard = WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonsterNode
+            const monsterCard = WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntityNode
             monsterCard!.getComponent(Monster)!._isAttacked = false
-            WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonster = null;
-            WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonsterNode = null;
+            WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity = null;
+            WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntityNode = null;
             WrapperProvider.turnsManagerWrapper.out.currentTurn!.battlePhase = false;
             if (sendToServer) {
                   if (monsterCard) {
@@ -86,7 +88,7 @@ export class BattleManager extends Component {
        */
       ////@printMethodStarted(COLORS.RED)
       async rollOnMonster(rollValue: number, sendToServer?: boolean) {
-            const monsterRollValue = this.currentlyAttackedMonster!.rollValue + this.currentlyAttackedMonster!._rollBonus;
+            const monsterRollValue = this.currentlyAttackedEntity!.getRollValue() + this.currentlyAttackedEntity!.getRollBonus();
             // let turnPlayer = WrapperProvider.playerManagerWrapper.out.getPlayerById(
             //   turnsManagerWrapper._tm.currentTurn.PlayerId
             // )

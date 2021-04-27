@@ -16,8 +16,8 @@ export class PlayerAddThisItem extends Condition {
   async testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
     if (!meta.args) { debugger; throw new Error("No Args"); }
-    let player: Player = meta.methodScope.getComponent(Player)!;
-    let thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node);
+    const player: Player = meta.methodScope.getComponent(Player)!;
+    const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node);
     if (
       player instanceof Player &&
       // meta.passiveEvent == PASSIVE_EVENTS.PLAYER_ADD_ITEM &&

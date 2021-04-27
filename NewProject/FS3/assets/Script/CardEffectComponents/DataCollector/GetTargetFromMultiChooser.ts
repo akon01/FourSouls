@@ -1,12 +1,9 @@
-import { _decorator, CCInteger } from 'cc';
+import { _decorator } from 'cc';
+import { COLLECTORTYPE } from "../../Constants";
+import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { DataCollector } from "./DataCollector";
 const { ccclass, property } = _decorator;
 
-import { COLLECTORTYPE } from "../../Constants";
-import { CardEffect } from "../../Entites/CardEffect";
-import { EffectTarget } from "../../Managers/EffectTarget";
-import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
-import { IdAndNameComponent as IdAndName } from "../IdAndNameComponent";
-import { DataCollector } from "./DataCollector";
 
 @ccclass('GetTargetFromMultiChooser')
 export class GetTargetFromMultiChooser extends DataCollector {
@@ -26,7 +23,7 @@ export class GetTargetFromMultiChooser extends DataCollector {
   collectData(data: any) {
     const dataCollector = this.multiChooserToGetTargetsFrom;
     if (!dataCollector) { debugger; throw new Error("No Multi Effect Chooser Collector To Get Targets From"); }
-    let effectData = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(dataCollector!.cardChosen!)
+    const effectData = WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(dataCollector!.cardChosen!)
     return effectData;
   }
 }

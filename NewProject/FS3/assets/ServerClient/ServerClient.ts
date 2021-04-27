@@ -117,6 +117,7 @@ export class ServerClient extends Component {
             whevent.on(Signal.PLAYER_CHANGE_LOOT_CARD_PLAYS, this.onPlayerActionFromServer, this)
             whevent.on(Signal.PLAYER_CHANGE_NUM_OF_ITEMS_TO_RECHARGE, this.onPlayerActionFromServer, this)
             whevent.on(Signal.PLAYER_CHANGE_EXTRA_SOULS_NEEDED_TO_WIN, this.onPlayerActionFromServer, this)
+            whevent.on(Signal.CHANGE_PLAYER_ATTACKABLE, this.onPlayerActionFromServer, this)
 
             //monster events
             whevent.on(Signal.MONSTER_GAIN_DMG, this.onPlayerActionFromServer, this);

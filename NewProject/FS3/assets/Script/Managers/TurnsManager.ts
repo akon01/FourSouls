@@ -5,7 +5,7 @@ import { Character } from "../Entites/CardTypes/Character";
 import { Monster } from "../Entites/CardTypes/Monster";
 import { Card } from "../Entites/GameEntities/Card";
 import { Player } from "../Entites/GameEntities/Player";
-import { Turn } from "../Modules/TurnsModule";
+import { OneTimeTurn, Turn } from "../Modules/TurnsModule";
 import { WrapperProvider } from './WrapperProvider';
 const { ccclass } = _decorator;
 
@@ -40,6 +40,23 @@ export class TurnsManager extends Component {
             }
       }
 
+      addOneTimeTurn(playerId: number, sendToServer: boolean) {
+            const currentTurn = this.getCurrentTurn()!
+            const indexOfCurrent = this.turns.indexOf(currentTurn);
+            this.turns.fill(new OneTimeTurn(playerId), indexOfCurrent)
+            if (sendToServer) {
+                  WrapperProvider.serverClientWrapper.out.send(Signal.ADD_TURN, { playerId })
+            }
+      }
+
+      removeTurn(turn: Turn, sendToServer: boolean) {
+            const turnIndex = this.turns.indexOf(turn);
+            this.turns = this.turns.filter(t => t !== turn)
+            if (sendToServer) {
+                  WrapperProvider.serverClientWrapper.out.send(Signal.REMOVE_TURN, { turnIndex })
+            }
+      }
+
       getCurrentTurn() {
             return WrapperProvider.turnsManagerWrapper.out.currentTurn;
       }
@@ -71,7 +88,8 @@ export class TurnsManager extends Component {
 
             await this.endTurn(true);
 
-            await this.setCurrentTurn(WrapperProvider.turnsManagerWrapper.out.getNextTurn(WrapperProvider.turnsManagerWrapper.out.currentTurn!, this.turns)!, true);
+            const nextTurn = this.getNextTurn(WrapperProvider.turnsManagerWrapper.out.currentTurn!, this.turns)!;
+            await this.setCurrentTurn(nextTurn, true);
 
 
       }
@@ -90,36 +108,15 @@ export class TurnsManager extends Component {
       }
 
       async endTurn(sendToServer: boolean) {
-            WrapperProvider.turnsManagerWrapper.out.currentTurn!.endTurn()
+            WrapperProvider.turnsManagerWrapper.out.currentTurn!.endTurn(sendToServer)
             if (
                   this.getNextTurn(WrapperProvider.turnsManagerWrapper.out.currentTurn!, WrapperProvider.turnsManagerWrapper.out.turns)!.PlayerId != 0
             ) {
                   WrapperProvider.storeWrapper.out.thisTurnStoreCards = []
                   for (const player of WrapperProvider.playerManagerWrapper.out.players.map(player => player.getComponent(Player))) {
                         if (!player) continue
-                        player._tempHpBonus = 0
-                        player.tempAttackRollBonus = 0
-                        player.tempNonAttackRollBonus = 0
-                        player.tempFirstAttackRollBonus = 0
-                        player.tempNextAttackRollBonus = 0
-                        player.tempBaseDamage = 0
-                        player.lastAttackRoll = 0
-                        player.lastRoll = 0
-                        player._lootCardsPlayedThisTurn = [];
-                        player.itemsLostThisTurn = []
-                        player._thisTurnKiller = null
-                        player._isFirstTimeGettingMoney = true;
-                        player._isFirstAttackRollOfTurn = true
-                        player._isDead = false;
-                        player.isFirstHitInTurn = true
-                        player._mustAttackPlays = 0;
-                        player._mustAttackMonsters = []
-                        player._mustDeckAttackPlays = 0
-                        player._attackDeckPlays = 0
-                        player.hasBlankCardEffectActive = false
-                        //player.damage = player.calculateDamage()
-                        // player.broadcastUpdateProperites({ _tempHpBonus: player._tempHpBonus, tempAttackRollBonus: player.tempAttackRollBonus})
-                        await player.heal(player.character!.getComponent(Character)!.hp + player._hpBonus, false, true)
+                        await player.handleResetOneTurnProperties()
+
                   }
                   const activeMonsters = WrapperProvider.monsterFieldWrapper.out.getActiveMonsters();
                   const activeMonstersComps = activeMonsters.map(monster => monster.getComponent(Monster));

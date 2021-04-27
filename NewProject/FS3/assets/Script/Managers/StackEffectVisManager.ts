@@ -145,7 +145,7 @@ export class StackEffectVisManager extends Component {
     @property([SpriteFrame])
     stackIcons: SpriteFrame[] = []
 
-    isOpen: boolean = false;
+    isOpen = false;
 
 
 

@@ -10,10 +10,10 @@ export class ServerDeclareAttack extends BaseServerStackEffect {
 
     entityId: number;
     creatorCardId: number;
-    isLockingStackEffect: boolean = false;
+    isLockingStackEffect = false;
     stackEffectToLock: ServerStackEffectInterface | undefined;
-    hasLockingStackEffect: boolean = false;
-    hasLockingStackEffectResolved: boolean = false;
+    hasLockingStackEffect = false;
+    hasLockingStackEffectResolved = false;
     lockingStackEffect: ServerStackEffectInterface | undefined;
     LockingResolve: any;
     lable: string
@@ -35,7 +35,7 @@ export class ServerDeclareAttack extends BaseServerStackEffect {
 
 
     convertToStackEffect() {
-        let declareAttack = new DeclareAttack(this.creatorCardId, WrapperProvider.playerManagerWrapper.out.getPlayerByCardId(this.attackingPlayerCardId)!.getComponent(Player)!, WrapperProvider.cardManagerWrapper.out.getCardById(this.idOfCardBeingAttacked), this.entityId, this.lable)
+        const declareAttack = new DeclareAttack(this.creatorCardId, WrapperProvider.playerManagerWrapper.out.getPlayerByCardId(this.attackingPlayerCardId)!.getComponent(Player)!, WrapperProvider.cardManagerWrapper.out.getCardById(this.idOfCardBeingAttacked), this.entityId, this.lable)
         return declareAttack;
     }
 

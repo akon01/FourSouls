@@ -166,7 +166,7 @@ export class DecisionMarker extends Component {
                 card = diceRollStack.stackEffectToLock.monsterWithReward.node
             }
         } else if (diceRollStack instanceof AttackRoll) {
-            card = diceRollStack.attackedMonster.node
+            card = diceRollStack.attackedEntity.node
         }
         console.log(this.stackEffectPreview)
         console.log(diceRollStack)
@@ -390,7 +390,7 @@ export class DecisionMarker extends Component {
                 endCard = (stackEffect as ActivatePassiveEffect).cardWithEffect
                 break;
             case STACK_EFFECT_TYPE.ATTACK_ROLL:
-                endCard = (stackEffect as AttackRoll).attackedMonster.node
+                endCard = (stackEffect as AttackRoll).attackedEntity.node
                 break;
             case STACK_EFFECT_TYPE.COMBAT_DAMAGE:
                 endCard = (stackEffect as CombatDamage).entityToTakeDamageCard

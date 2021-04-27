@@ -12,5 +12,5 @@ export class EffectsAndNumbers {
     @property(Effect)
     effect: Effect | null = null
     @property(CCInteger)
-    effectIdFinal: number = -1
+    effectIdFinal = -1
 }

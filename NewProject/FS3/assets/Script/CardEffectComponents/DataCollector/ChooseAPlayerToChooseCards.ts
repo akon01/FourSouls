@@ -28,7 +28,7 @@ export class ChooseAPlayerToChooseCards extends DataCollector {
     whevent.emit(GAME_EVENTS.CHOOSE_CARD_CARD_CHOSEN, boolean)
   }
   @property
-  multiType: boolean = false;
+  multiType = false;
 
   otherPlayer: Player | null = null
   @property({
@@ -44,7 +44,7 @@ export class ChooseAPlayerToChooseCards extends DataCollector {
   })
   chooseTypes: ChooseCardTypeAndFilter[] = []
   @property
-  filterFromPassiveMeta: boolean = false;
+  filterFromPassiveMeta = false;
   @property({
     visible: function (this: ChooseAPlayerToChooseCards) {
       return this.filterFromPassiveMeta
@@ -53,17 +53,11 @@ export class ChooseAPlayerToChooseCards extends DataCollector {
   })
   targetCollectorFromPassiveMeta: GetTargetFromPassiveMeta | null = null
   @property
-  flavorText: string = ""
+  flavorText = ""
   @property
-  otherPlayersFlavorText: string = ''
+  otherPlayersFlavorText = ''
   @property
-  isMultiCardChoice: boolean = false;
-  @property({
-    visible: function (this: ChooseAPlayerToChooseCards) {
-      return this.isMultiCardChoice
-    }
-  })
-  numOfCardsToChoose: number = 1
+  numOfCardsToChoose = 1
   // @property(CCInteger)
   // playerChooseCardIdFinal: number = -1
 
@@ -71,7 +65,7 @@ export class ChooseAPlayerToChooseCards extends DataCollector {
   playerChooseCard: DataCollector | null = null
 
   @property
-  returnSelectedPlayerAlso: boolean = false
+  returnSelectedPlayerAlso = false
 
   // getPlayerChooseCard = () => this.node.getComponent(CardEffect)!.getDataCollector(this.playerChooseCardIdFinal)
   getPlayerChooseCard = () => this.playerChooseCard
@@ -88,7 +82,22 @@ export class ChooseAPlayerToChooseCards extends DataCollector {
     if (!playerChooseCard) { debugger; throw new Error("No Player Choose Card Set!!"); }
 
     const playerToChooseCardsTargets: EffectTarget[] = await playerChooseCard.collectData(data) as EffectTarget[]
-    const playerToChooseCards = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(playerToChooseCardsTargets[0].effectTargetCard)!
+    const retVal: EffectTarget | EffectTarget[] = []
+    for (const playerToChooseCardsTarget of playerToChooseCardsTargets) {
+      const ret = await this.handlePlayerChooseCard(playerToChooseCardsTarget, player)
+      if (Array.isArray(ret)) {
+
+        retVal.push(...ret)
+      } else {
+        retVal.push(ret)
+      }
+    }
+    return retVal
+
+  }
+
+  async handlePlayerChooseCard(playerToChooseTarget: EffectTarget, player: Player) {
+    const playerToChooseCards = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(playerToChooseTarget.effectTargetCard)!
     let retVal: EffectTarget | EffectTarget[] = []
     let cardsToChooseFrom: Node[] = []
     if (this.multiType) {
@@ -131,13 +140,14 @@ export class ChooseAPlayerToChooseCards extends DataCollector {
       return retVal
     }
 
-    retVal = await this.getCardTargetFromPlayer(cardsToChooseFrom, playerToChooseCards, this.numOfCardsToChoose)
+    const numOfCardsToChoose = this.getQuantityInRegardsToBlankCard(playerToChooseCards.node, this.numOfCardsToChoose)
+    retVal = await this.getCardTargetFromPlayer(cardsToChooseFrom, playerToChooseCards, this.getQuantityInRegardsToBlankCard(playerToChooseCards.node, numOfCardsToChoose))
     if (this.returnSelectedPlayerAlso) {
       retVal.push(WrapperProvider.effectTargetFactoryWrapper.out.getNewEffectTarget(playerToChooseCards.character!))
     }
     return retVal
-
   }
+
   async getCardTargetFromPlayer(cardsToChooseFrom: Node[], targetPlayer: Player, numOfCardsToChoose: number) {
     WrapperProvider.serverClientWrapper.out.send(Signal.MAKE_CHOOSE_FROM, {
       cards: cardsToChooseFrom.map(c => c.getComponent(Card)!._cardId), playerId: targetPlayer.playerId,
@@ -217,7 +227,7 @@ export class ChooseAPlayerToChooseCards extends DataCollector {
         return monsterPlaces;
       case CHOOSE_CARD_TYPE.NON_ATTACKED_ACTIVE_MONSTERS:
         return WrapperProvider.monsterFieldWrapper.out.getActiveMonsters().filter(monster => {
-          if (WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonsterNode != monster || WrapperProvider.stackWrapper.out._currentStack.findIndex(se => {
+          if (WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntityNode != monster || WrapperProvider.stackWrapper.out._currentStack.findIndex(se => {
             if (se instanceof ActivateItem &&
               se.itemToActivate.getComponent(Monster) != null &&
               se.itemToActivate == monster) {
@@ -327,7 +337,7 @@ export class ChooseAPlayerToChooseCards extends DataCollector {
       if (card != null && card != undefined) { cards.add(card) }
     }
     // const id = this.node.uuid
-    let flippedCards: Node[] = []
+    const flippedCards: Node[] = []
     cards.forEach(card => {
       WrapperProvider.cardManagerWrapper.out.disableCardActions(card);
       if (card.getComponent(Card)!._isShowingBack) {

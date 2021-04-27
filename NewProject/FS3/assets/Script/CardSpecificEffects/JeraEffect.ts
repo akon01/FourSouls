@@ -33,7 +33,7 @@ export class JeraEffect extends Effect {
     } else {
       if (targetPlayerCard instanceof Node) {
         const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard)!
-        const numOfCardsToDraw = player.getHandCards().length
+        const numOfCardsToDraw = this.getQuantityInRegardsToBlankCard(player.node,player.getHandCards().length)
         for (let i = 0; i < numOfCardsToDraw; i++) {
           await player.drawCards(WrapperProvider.cardManagerWrapper.out.lootDeck, true)
         }

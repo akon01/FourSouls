@@ -2,9 +2,8 @@ import { Component, Label, Node, Prefab, Sprite, UITransform, Widget, _decorator
 import { Signal } from "../../../Misc/Signal";
 import { whevent } from "../../../ServerClient/whevent";
 import { ChooseCard } from "../../CardEffectComponents/DataCollector/ChooseCard";
-import { IEggCounterable, AddEggCounters, RemoveEggCounters } from '../../CardEffectComponents/IEggCounterable';
+import { AddEggCounters, IEggCounterable, RemoveEggCounters } from '../../CardEffectComponents/IEggCounterable';
 import { MultiEffectChoose } from "../../CardEffectComponents/MultiEffectChooser/MultiEffectChoose";
-import { RollDice } from "../../CardEffectComponents/RollDice";
 import { ANNOUNCEMENT_TIME, BUTTON_STATE, CARD_TYPE, CHOOSE_CARD_TYPE, GAME_EVENTS, ITEM_TYPE, PARTICLE_TYPES, PASSIVE_EVENTS, ROLL_TYPE, SOULS_NEEDED_TO_WIN, TIME_TO_REACT_ON_ACTION } from "../../Constants";
 import { ANIM_COLORS } from "../../Managers/AnimationManager";
 import { PassiveMeta } from "../../Managers/PassiveMeta";
@@ -21,6 +20,7 @@ import { CardLayout } from "../CardLayout";
 import { Character } from "../CardTypes/Character";
 import { Item } from "../CardTypes/Item";
 import { Monster } from "../CardTypes/Monster";
+import { IAttackableEntity } from '../IAttackableEntity';
 import { PlayerDesk } from "../PlayerDesk";
 import { ReactionToggle } from "../ReactionToggle";
 import { Card } from "./Card";
@@ -32,8 +32,33 @@ const { ccclass, property } = _decorator;
 
 
 @ccclass('Player')
-export class Player extends Component implements IEggCounterable {
+export class Player extends Component implements IEggCounterable, IAttackableEntity {
+      getCanBeAttacked(): boolean {
+            return this._canBeAttacked
+      }
+      _isAttacked = false;
+      getCurrentHp(): number {
+            return this._Hp
+      }
+      getRollValue(): number {
+            return this._rollValue
+      }
+      getRollBonus(): number {
+            return this._rollBonus
+      }
 
+      private _rollValue = 1
+      _rollBonus = 0
+      private _canBeAttacked = false
+
+      setCanBeAttacked(can: boolean, sendToServer: boolean, rollValue?: number) {
+            this._canBeAttacked = can
+            this._rollValue = rollValue ? rollValue : 1
+            if (sendToServer) {
+                  WrapperProvider.serverClientWrapper.out.send(Signal.CHANGE_PLAYER_ATTACKABLE, { playerId: this.playerId, can, rollValue: rollValue })
+
+            }
+      }
 
       getEggCounters(): number {
             return this.character!.getComponent(Card)!.eggCounters
@@ -438,6 +463,9 @@ export class Player extends Component implements IEggCounterable {
       _isFirstAttackRollOfTurn = true;
 
       @property
+      _isFirstRollOfTurn = true
+
+      @property
       _isFirstTimeGettingMoney = true;
 
       @property
@@ -737,6 +765,15 @@ export class Player extends Component implements IEggCounterable {
             return endRollNumber;
       }
 
+      handleDiceRollProperties(isAttack: boolean, rollValue: number) {
+            this.lastRoll = rollValue
+            this._isFirstRollOfTurn = this._isFirstRollOfTurn ? false : this._isFirstRollOfTurn
+            if (isAttack) {
+                  this.lastAttackRoll = rollValue
+                  if (this._isFirstAttackRollOfTurn) { this._isFirstAttackRollOfTurn = false; }
+            }
+      }
+
 
       async rollDice(rollType: ROLL_TYPE, doNotCheckPassive?: boolean) {
             const playerDice = this.dice!;
@@ -761,12 +798,37 @@ export class Player extends Component implements IEggCounterable {
       }
 
       async rollAttackDice(sendToServer: boolean) {
-            this.dice!.getComponentInChildren(RollDice)!.rollType = ROLL_TYPE.ATTACK;
+            //   this.dice!.getComponentInChildren(RollDice)!.rollType = ROLL_TYPE.ATTACK;
             if (sendToServer) {
                   const attackRoll = new AttackRoll(this.character!.getComponent(Card)!._cardId, this.node, WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonster!.node)
                   await WrapperProvider.stackWrapper.out.addToStack(attackRoll, true)
             }
 
+      }
+
+      async handleResetOneTurnProperties() {
+            this._tempHpBonus = 0
+            this.tempAttackRollBonus = 0
+            this.tempNonAttackRollBonus = 0
+            this.tempFirstAttackRollBonus = 0
+            this.tempNextAttackRollBonus = 0
+            this.tempBaseDamage = 0
+            this.lastAttackRoll = 0
+            this.lastRoll = 0
+            this._lootCardsPlayedThisTurn = [];
+            this.itemsLostThisTurn = []
+            this._thisTurnKiller = null
+            this._isFirstTimeGettingMoney = true;
+            this._isFirstAttackRollOfTurn = true
+            this._isFirstRollOfTurn = true;
+            this._isDead = false;
+            this.isFirstHitInTurn = true
+            this._mustAttackPlays = 0;
+            this._mustAttackMonsters = []
+            this._mustDeckAttackPlays = 0
+            this._attackDeckPlays = 0
+            this.hasBlankCardEffectActive = false
+            await this.heal(this.character!.getComponent(Character)!.hp + this._hpBonus, false, true)
       }
 
       async loseLoot(loot: Node, sendToServer: boolean) {

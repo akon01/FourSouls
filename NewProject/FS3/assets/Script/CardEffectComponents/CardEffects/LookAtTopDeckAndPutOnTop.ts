@@ -16,22 +16,22 @@ export class LookAtTopDeckAndPutOnTop extends Effect {
   chooseType = CHOOSE_CARD_TYPE.DECKS;
   effectName = "LookAtTopDeckAndPutOnTop";
   @property(CCInteger)
-  numOfCardsToSee: number = 0;
+  numOfCardsToSee = 0;
   @property(CCInteger)
-  numOfCardsToPut: number = 0;
+  numOfCardsToPut = 0;
   @property
-  isReorder: boolean = false;
+  isReorder = false;
   @property
-  isReorderOptional: boolean = false;
+  isReorderOptional = false;
   @property({
     override: true, visible: function (this: LookAtTopDeckAndPutOnTop) {
       return this.isReorderOptional
 
     }
   })
-  optionalFlavorText: string = ''
+  optionalFlavorText = ''
   @property
-  putOnBottomOfDeck: boolean = false;
+  putOnBottomOfDeck = false;
   @property({ type: Enum(CARD_TYPE) })
   deckType: CARD_TYPE = CARD_TYPE.CHAR;
   /**
@@ -54,6 +54,7 @@ export class LookAtTopDeckAndPutOnTop extends Effect {
           break;
         case CARD_TYPE.TREASURE:
           deck = WrapperProvider.cardManagerWrapper.out.treasureDeck.getComponent(Deck)
+          break
         default:
           break;
       }
@@ -65,7 +66,10 @@ export class LookAtTopDeckAndPutOnTop extends Effect {
     if (!deck) { debugger; throw new Error("No Deck Found!"); }
 
     const deckCards = deck.getCards();
-    for (let i = 0; i < this.numOfCardsToSee; i++) {
+    const playerComp = WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!;
+    const numOfCardsToSee = this.getQuantityInRegardsToBlankCard(playerComp.node,this.numOfCardsToSee)
+    const numOfCardsToPut= this.getQuantityInRegardsToBlankCard(playerComp.node,this.numOfCardsToPut)
+    for (let i = 0; i < numOfCardsToSee; i++) {
       if (deck.getCardsLength() > i) {
         cardsToSee.push(deckCards[deck.getCardsLength() - 1 - i])
       }
@@ -73,18 +77,19 @@ export class LookAtTopDeckAndPutOnTop extends Effect {
     let text = "Order Cards To Put On"
     this.putOnBottomOfDeck == true ? text = text + ` Bottom` : text = text + ` Top`
     await WrapperProvider.cardPreviewManagerWrapper.out.getPreviews(cardsToSee, true)
-    await WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!.giveNextClick("Click Next To Continue")
+    await playerComp!.giveNextClick("Click Next To Continue")
     //await WrapperProvider.cardPreviewManagerWrapper.out.removeFromCurrentPreviews(cardsToSee)
     let selectedQueue: Node[] = []
     if (this.isReorderOptional) {
-      const choice = await WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!.giveYesNoChoice(`Do You Want To Reorder the Cards?`)
+
+      const choice = await playerComp!.giveYesNoChoice(`Do You Want To Reorder the Cards?`)
       if (choice) {
-        selectedQueue = await WrapperProvider.cardPreviewManagerWrapper.out.selectFromCards(cardsToSee, this.numOfCardsToPut)
+        selectedQueue = await WrapperProvider.cardPreviewManagerWrapper.out.selectFromCards(cardsToSee, numOfCardsToPut)
       }
-    } else if (this.numOfCardsToPut == 1) {
-      selectedQueue = await WrapperProvider.cardPreviewManagerWrapper.out.selectFromCards(cardsToSee, this.numOfCardsToPut)
+    } else if (numOfCardsToPut == 1) {
+      selectedQueue = await WrapperProvider.cardPreviewManagerWrapper.out.selectFromCards(cardsToSee, numOfCardsToPut)
     } else if (this.isReorder) {
-      selectedQueue = await WrapperProvider.cardPreviewManagerWrapper.out.selectFromCards(cardsToSee, this.numOfCardsToPut)
+      selectedQueue = await WrapperProvider.cardPreviewManagerWrapper.out.selectFromCards(cardsToSee, numOfCardsToPut)
     } else {
       selectedQueue = cardsToSee
     }

@@ -14,7 +14,7 @@ export class NumberInput extends CCommandInput {
     label: Label = new Label;
 
     @property
-    _currentNumber: number = 0
+    _currentNumber = 0
 
     add() {
         this._currentNumber++

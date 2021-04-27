@@ -14,7 +14,7 @@ const { ccclass, property } = _decorator;
 @ccclass('Dice')
 export class Dice extends Component {
       @property
-      _currentRolledNumber: number = -1;
+      _currentRolledNumber = -1;
 
 
       set currentRolledNumber(number: number) {
@@ -27,24 +27,24 @@ export class Dice extends Component {
       get currentRolledNumber() { return this._currentRolledNumber }
 
       @property
-      lastRolledNumber: number = -1;
+      lastRolledNumber = -1;
 
       @property([SpriteFrame])
       diceSprites: SpriteFrame[] = [];
 
       @property
-      loadedSprites: boolean = false;
+      loadedSprites = false;
 
       @property
-      availableRolls: number = 0;
+      availableRolls = 0;
 
       rollType: ROLL_TYPE | null = null;
 
       @property
-      rollOver: boolean = false;
+      rollOver = false;
 
       @property
-      diceId: number = 0;
+      diceId = 0;
 
       player: Player | null = null;
 

@@ -13,16 +13,16 @@ export class MonsterEndDeath extends StackEffectConcrete {
     name = `MonsterDeath`
     entityId!: number;
     creatorCardId!: number;
-    isLockingStackEffect: boolean = false;
+    isLockingStackEffect = false;
     stackEffectToLock!: StackEffectInterface;
-    hasLockingStackEffect: boolean = false;
-    hasLockingStackEffectResolved: boolean = false;
+    hasLockingStackEffect = false;
+    hasLockingStackEffectResolved = false;
     lockingStackEffect!: StackEffectInterface;
     LockingResolve: any;
     stackEffectType: STACK_EFFECT_TYPE = STACK_EFFECT_TYPE.MONSTER_END_DEATH;
     _lable!: string;
 
-    isToBeFizzled: boolean = false;
+    isToBeFizzled = false;
 
     creationTurnId!: number
 
@@ -34,7 +34,7 @@ export class MonsterEndDeath extends StackEffectConcrete {
         return false
     }
 
-    nonOriginal: boolean = false;
+    nonOriginal = false;
 
     monsterWhoDied: Monster;
 

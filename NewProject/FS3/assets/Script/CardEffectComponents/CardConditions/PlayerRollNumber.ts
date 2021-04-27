@@ -13,7 +13,7 @@ export class PlayerRollNumber extends Condition {
   event = PASSIVE_EVENTS.PLAYER_ROLL_DICE
   needsDataCollector = false
   @property
-  isMultiNumber: boolean = false
+  isMultiNumber = false
   @property({
     type: [CCInteger],
     visible: function (this: PlayerRollNumber) {
@@ -26,15 +26,15 @@ export class PlayerRollNumber extends Condition {
       return !this.isMultiNumber
     }
   })
-  numberRoll: number = 1;
+  numberRoll = 1;
   @property
-  isOnlyAttackingPlayer: boolean = false;
+  isOnlyAttackingPlayer = false;
   @property({
     visible: function (this: PlayerRollNumber) {
       return this.isOnlyAttackingPlayer
     }
   })
-  isSpecificMonsterAttacked: boolean = false;
+  isSpecificMonsterAttacked = false;
   @property({
     visible: function (this: PlayerRollNumber) {
       return this.isOnlyAttackingPlayer && this.isSpecificMonsterAttacked
@@ -43,7 +43,7 @@ export class PlayerRollNumber extends Condition {
   specificMonsterAttacked: Monster | null = null;
 
   @property
-  isOwnerOnly: boolean = false;
+  isOwnerOnly = false;
 
 
   // @property({ type: DataCollector, tooltip: 'Only Put If Not In "Add Passive Effect" Active effect' })
@@ -74,11 +74,11 @@ export class PlayerRollNumber extends Condition {
       }
     }
     if (this.isOnlyAttackingPlayer) {
-      if (!(WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonsterNode != null && player == WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer())) {
+      if (!(WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntityNode != null && player == WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer())) {
         answer = false;
       } else {
         if (this.isSpecificMonsterAttacked) {
-          if (this.specificMonsterAttacked != WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonster) {
+          if (this.specificMonsterAttacked?.node != WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity?.node) {
             answer = false;
           }
         }

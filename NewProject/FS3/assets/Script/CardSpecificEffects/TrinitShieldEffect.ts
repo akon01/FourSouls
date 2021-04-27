@@ -11,7 +11,7 @@ export class TrinityShieldEffect extends Effect {
   effectName = "TrinityShieldEffect";
 
   @property
-  boolSetting: boolean = true
+  boolSetting = true
   /**
    *
    * @param data {target:PlayerId}

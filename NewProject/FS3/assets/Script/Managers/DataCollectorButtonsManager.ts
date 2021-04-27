@@ -15,7 +15,7 @@ type Btn = {
 @ccclass('DataCollectorButtonsManager')
 export class DataCollectorButtonsManager extends Component {
 
-    private isOpen: boolean = false
+    private isOpen = false
 
     @property(Layout)
     private layout: Layout | null = null

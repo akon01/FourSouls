@@ -5,10 +5,10 @@ const { ccclass, property } = _decorator;
 @ccclass("IMultiEffectChoose")
 export class IMultiEffectChoose extends DataCollector {
     @property({ visible: function (this: IMultiEffectChoose) { return !this.isOnlyPaid } })
-    isOnlyActives: boolean = false
+    isOnlyActives = false
 
 
     @property({ visible: function (this: IMultiEffectChoose) { return !this.isOnlyActives } })
-    isOnlyPaid: boolean = false
+    isOnlyPaid = false
 
 }

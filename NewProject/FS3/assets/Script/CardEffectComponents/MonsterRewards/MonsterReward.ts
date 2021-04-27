@@ -6,11 +6,11 @@ import { REWARD_TYPES } from "../../Constants";
 @ccclass('MonsterReward')
 export class MonsterReward extends Component {
   @property({ override: true })
-  hasRoll: boolean = false
+  hasRoll = false
   type: REWARD_TYPES = REWARD_TYPES.loot
-  rollNumber: number = 0;
-  doubleReward: boolean = false;
-  attachedToCardId: number = 0
+  rollNumber = 0;
+  doubleReward = false;
+  attachedToCardId = 0
   setRewardQuantity(a: any) {
 
   }

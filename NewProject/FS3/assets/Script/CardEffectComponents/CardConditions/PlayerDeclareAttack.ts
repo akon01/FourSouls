@@ -14,15 +14,15 @@ const { ccclass, property } = _decorator;
 export class PlayerDeclareAttack extends Condition {
   event = PASSIVE_EVENTS.PLAYER_DECLARE_ATTACK
   @property
-  isPlayerFromData: boolean = true
+  isPlayerFromData = true
   @property({
     visible: function (this: PlayerDeclareAttack) {
       return this.isPlayerFromData
     }
   })
-  isNotThePlayerFromData: boolean = false
+  isNotThePlayerFromData = false
   @property
-  isOnSpecificMonster: boolean = false
+  isOnSpecificMonster = false
   @property({
     visible: function (this: PlayerDeclareAttack) {
       return this.isOnSpecificMonster
@@ -35,18 +35,18 @@ export class PlayerDeclareAttack extends Condition {
   async testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
     if (!meta.args) { debugger; throw new Error("No Args"); }
-    let player: Player = meta.methodScope.getComponent(Player)!;
+    const player = meta.methodScope.getComponent(Player)!;
     const attackedMonster = meta.args[0] as Node
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
     // let playerName = WrapperProvider.playerManagerWrapper.out.getPlayerByCardId(this.conditionData.cardChosenId).name;
-    let selectedPlayerCard = this.conditionData.getTarget(TARGETTYPE.PLAYER)
-    var answer = true
+    const selectedPlayerCard = this.conditionData.getTarget(TARGETTYPE.PLAYER)
+    let answer = true
     if (this.isPlayerFromData) {
       if (selectedPlayerCard == null) {
         throw new Error("no selected Player when needed")
       } else {
         if (selectedPlayerCard instanceof Node) {
-          let selectedPlayer = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(selectedPlayerCard)!
+          const selectedPlayer = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(selectedPlayerCard)!
           if (this.isNotThePlayerFromData) {
             if (player.playerId == selectedPlayer.playerId) {
               answer = false
@@ -63,7 +63,7 @@ export class PlayerDeclareAttack extends Condition {
       answer = false
     }
     if (this.isOnSpecificMonster) {
-      if (this.specificMonster = attackedMonster.getComponent(Monster)) {
+      if (this.specificMonster == attackedMonster.getComponent(Monster)) {
         answer = false
       }
     }

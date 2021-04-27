@@ -10,7 +10,7 @@ const { ccclass, property } = _decorator;
 @ccclass('PassiveEffectData')
 export class PassiveEffectData extends EffectData {
     methodArgs: any[] = [];
-    terminateOriginal: boolean = false;
+    terminateOriginal = false;
 
     getTargets(targetType: TARGETTYPE) {
         const targets: IEffectTarget[] = []
@@ -32,10 +32,7 @@ export class PassiveEffectData extends EffectData {
         } else if (targetType != TARGETTYPE.STACK_EFFECT) {
             return targets.map(target => target.effectTargetCard);
         }
-        else
-            if (targetType != TARGETTYPE.STACK_EFFECT) {
-                return targets.map(target => target.effectTargetCard);
-            } else { return targets.map(target => target.effectTargetStackEffectId); }
+        else { return targets.map(target => target.effectTargetStackEffectId); }
     }
     getTarget(targetType: TARGETTYPE) {
         if (targetType == TARGETTYPE.STACK_EFFECT) {

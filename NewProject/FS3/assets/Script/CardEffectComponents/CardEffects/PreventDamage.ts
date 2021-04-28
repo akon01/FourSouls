@@ -1,16 +1,15 @@
-import { _decorator, CCInteger, log, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
+import { CCInteger, Node, _decorator } from 'cc';
 import { Character } from "../../Entites/CardTypes/Character";
 import { Monster } from "../../Entites/CardTypes/Monster";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PlayerManager } from "../../Managers/PlayerManager";
+import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { TARGETTYPE } from "./../../Constants";
 import { Effect } from "./Effect";
-import { Stack } from "../../Entites/Stack";
-import { WrapperProvider } from '../../Managers/WrapperProvider';
+const { ccclass, property } = _decorator;
+
 
 @ccclass('PreventDamage')
 export class PreventDamage extends Effect {
@@ -31,7 +30,7 @@ export class PreventDamage extends Effect {
     let targetEntity = data.getTarget(TARGETTYPE.PLAYER)
     if (targetEntity == null) targetEntity = data.getTarget(TARGETTYPE.MONSTER);
     if (targetEntity == null) {
-      throw new Error(`target is null`)
+      throw new CardEffectTargetError(`No Target Entity To Prevent Damage To found`, true, data, stack)
     }
     console.log(`give ${(targetEntity as Node).name} protecttion`)
     await this.giveDmgProtection(targetEntity as Node)
@@ -45,7 +44,7 @@ export class PreventDamage extends Effect {
     if (entityComp == null) {
       entityComp = targetEntity.getComponent(Monster)
       if (entityComp instanceof Monster) {
-        await entityComp.addDamagePrevention(this.getQuantityInRegardsToBlankCard(entityComp.node ,this.damageToPrevent), true)
+        await entityComp.addDamagePrevention(this.getQuantityInRegardsToBlankCard(entityComp.node, this.damageToPrevent), true)
       }
     } else {
       // Entity is Player

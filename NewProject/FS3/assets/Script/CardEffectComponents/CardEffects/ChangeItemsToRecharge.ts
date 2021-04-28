@@ -1,5 +1,6 @@
 import { CCInteger, Node, _decorator } from 'cc';
 import { TARGETTYPE } from "../../Constants";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Player } from "../../Entites/GameEntities/Player";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
@@ -24,7 +25,7 @@ export class ChangeItemsToRecharge extends Effect {
     if (!data) { debugger; throw new Error("No Data!"); }
     const targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER)
     if (targetPlayerCard == null) {
-      throw new Error(`target player is null`)
+      throw new CardEffectTargetError(`target player is null`, true, data, stack)
     } else {
       const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard as Node)!
       player.setNumOfItemsToRecharge(this.getQuantityInRegardsToBlankCard(player.node, this.numOfItems), true)

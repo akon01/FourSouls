@@ -1,5 +1,6 @@
 import { Node, _decorator } from 'cc';
 import { Item } from '../../Entites/CardTypes/Item';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Player } from "../../Entites/GameEntities/Player";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
@@ -27,7 +28,7 @@ export class RerollItems extends Effect {
     let player: Player;
     const treasureDeck = WrapperProvider.cardManagerWrapper.out.treasureDeck;
     if (cardsChosen.length == 0) {
-      console.log(`no items to reroll`)
+      throw new CardEffectTargetError(`No Items To Reroll Targets found`, true, data, stack)
     } else {
       for (let i = 0; i < cardsChosen.length; i++) {
         const cardChosen = cardsChosen[i];

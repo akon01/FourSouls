@@ -1,5 +1,6 @@
 import { Node, _decorator } from 'cc';
 import { CARD_TYPE, TARGETTYPE } from "../../Constants";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Card } from "../../Entites/GameEntities/Card";
 import { Player } from "../../Entites/GameEntities/Player";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
@@ -21,7 +22,7 @@ export class DiscardLoot extends Effect {
     if (!data) { debugger; throw new Error("No Data!"); }
     const targetLoots = data.getTargets(TARGETTYPE.CARD)
     if (targetLoots.length == 0) {
-      throw new Error(`no targets`)
+      throw new CardEffectTargetError(`target loots to dicards are null`, true, data, stack)
     } else {
       let player: Player
       for (let i = 0; i < targetLoots.length; i++) {

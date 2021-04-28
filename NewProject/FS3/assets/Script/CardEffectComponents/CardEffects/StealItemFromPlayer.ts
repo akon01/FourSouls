@@ -1,4 +1,5 @@
 import { Node, _decorator } from 'cc';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Player } from "../../Entites/GameEntities/Player";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
@@ -21,16 +22,17 @@ export class StealItemFromPlayer extends Effect {
     data?: ActiveEffectData | PassiveEffectData
   ) {
     if (!data) { debugger; throw new Error("No Data"); }
-    const playerToGiveTo: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard((data.getTarget(TARGETTYPE.PLAYER) as Node))!
-    if (playerToGiveTo == null) {
-      throw new Error(`player is null`)
-    } else {
-      const cardToTake = data.getTarget(TARGETTYPE.ITEM) as Node;
-      // p1 choose which loot to get.
-      const playerToTakeFrom = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(cardToTake)!
-      await playerToTakeFrom.loseItem(cardToTake, true)
-      await playerToGiveTo.addItem(cardToTake, true, true)
+    const playerToGiveToTarget = data.getTarget(TARGETTYPE.PLAYER) as Node | null;
+    if (!playerToGiveToTarget) {
+      throw new CardEffectTargetError(`No Player To Give To Target found`, true, data, stack)
     }
+    const playerToGiveTo: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard((playerToGiveToTarget))!
+    const cardToTake = data.getTarget(TARGETTYPE.ITEM) as Node;
+    // p1 choose which loot to get.
+    const playerToTakeFrom = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(cardToTake)!
+    await playerToTakeFrom.loseItem(cardToTake, true)
+    await playerToGiveTo.addItem(cardToTake, true, true)
+
     if (data instanceof PassiveEffectData) { return data }
     return WrapperProvider.stackWrapper.out._currentStack
   }

@@ -2,6 +2,7 @@ import { CCInteger, Node, _decorator } from 'cc';
 import { Signal } from "../../../Misc/Signal";
 import { CARD_TYPE, TARGETTYPE } from "../../Constants";
 import { CardEffect } from "../../Entites/CardEffect";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Card } from "../../Entites/GameEntities/Card";
 import { Player } from "../../Entites/GameEntities/Player";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
@@ -77,23 +78,24 @@ export class AddTrinketOrCurse extends Effect {
     const targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER)
 
     if (targetPlayerCard == null) {
-      throw new Error(`target player is null`)
-    } else {
-      if (targetPlayerCard instanceof Node) {
-        const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard)!;
-        this.removeAddTrinketEffect()
-        const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
-        thisCard.getComponent(Card)!.type = CARD_TYPE.TREASURE;
-        WrapperProvider.serverClientWrapper.out.send(Signal.CARD_ADD_TRINKET, { cardId: thisCard.getComponent(Card)!._cardId, playerId: player.playerId, addMuiliEffect: this.addMuiliEffect })
-        if (!this.isCurse) {
-          await WrapperProvider.pileManagerWrapper.out.removeFromPile(thisCard, true)
-        }
-        await player.addItem(thisCard, true, true);
-        if (this.isCurse) {
-          player.addCurse(thisCard, true)
-        }
+      throw new CardEffectTargetError(`target player is null`, true, data, stack)
+    }
+
+    if (targetPlayerCard instanceof Node) {
+      const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard)!;
+      this.removeAddTrinketEffect()
+      const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
+      thisCard.getComponent(Card)!.type = CARD_TYPE.TREASURE;
+      WrapperProvider.serverClientWrapper.out.send(Signal.CARD_ADD_TRINKET, { cardId: thisCard.getComponent(Card)!._cardId, playerId: player.playerId, addMuiliEffect: this.addMuiliEffect })
+      if (!this.isCurse) {
+        await WrapperProvider.pileManagerWrapper.out.removeFromPile(thisCard, true)
+      }
+      await player.addItem(thisCard, true, true);
+      if (this.isCurse) {
+        player.addCurse(thisCard, true)
       }
     }
+
     if (data instanceof PassiveEffectData) { return data }
     return WrapperProvider.stackWrapper.out._currentStack
   }

@@ -2,6 +2,7 @@ import { _decorator, log, Node } from 'cc';
 const { ccclass, property } = _decorator;
 
 import { CARD_TYPE, TARGETTYPE, CHOOSE_CARD_TYPE } from "../../Constants";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Card } from "../../Entites/GameEntities/Card";
 import { Deck } from "../../Entites/GameEntities/Deck";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
@@ -14,9 +15,9 @@ export class PutACardToDeck extends Effect {
   chooseType = CHOOSE_CARD_TYPE.DECKS;
   effectName = "PutACardToDeck";
   @property
-  numOfCardsOffset: number = 0;
+  numOfCardsOffset = 0;
   @property
-  putOnBottomOfDeck: boolean = false;
+  putOnBottomOfDeck = false;
   /**
    *
    * @param data {target:PlayerId}
@@ -29,7 +30,7 @@ export class PutACardToDeck extends Effect {
     if (!data) { debugger; throw new Error("No Data"); }
     const cardTargets = data.getTargets(TARGETTYPE.CARD);
     if (cardTargets == null || cardTargets.length == 0) {
-      throw new Error(`no target in ${this.name}`);
+      throw new CardEffectTargetError(`No Target Cards found`, true, data, stack)
     } else {
       if (cardTargets.length > 1) {
 
@@ -58,7 +59,7 @@ export class PutACardToDeck extends Effect {
 
     const pile = WrapperProvider.pileManagerWrapper.out.getPileByCard(card)
     if (pile) {
-      WrapperProvider.pileManagerWrapper.out.removeFromPile(card, true)
+      await WrapperProvider.pileManagerWrapper.out.removeFromPile(card, true)
     }
 
     if (this.putOnBottomOfDeck) {
@@ -82,6 +83,7 @@ export class PutACardToDeck extends Effect {
           await monsterCardHolder.removeMonster(card, true);
           console.log(`after remove monster of monster holder`);
         }
+        break
       default:
         break;
     }

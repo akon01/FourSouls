@@ -8,6 +8,7 @@ import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 
 import { Effect } from "./Effect";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 
 @ccclass('PutTopCardOfDeckOnBottom')
 export class PutTopCardOfDeckOnBottom extends Effect {
@@ -36,12 +37,17 @@ export class PutTopCardOfDeckOnBottom extends Effect {
           break;
         case CARD_TYPE.TREASURE:
           deck = WrapperProvider.cardManagerWrapper.out.treasureDeck.getComponent(Deck)
+          break;
         default:
           break;
       }
     } else {
 
-      deck = (data.getTarget(TARGETTYPE.DECK) as Node).getComponent(Deck)
+      const deckTarget = data.getTarget(TARGETTYPE.DECK) as Node | null;
+      if (!deckTarget) {
+        throw new CardEffectTargetError(`No Deck Target found`, true, data, stack)
+      }
+      deck = (deckTarget).getComponent(Deck)
     }
     if (!deck) { debugger; throw new Error("No Deck Found"); }
 

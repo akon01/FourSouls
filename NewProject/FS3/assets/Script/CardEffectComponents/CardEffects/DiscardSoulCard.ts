@@ -1,5 +1,6 @@
 import { Node, _decorator } from 'cc';
 import { CARD_TYPE, TARGETTYPE } from "../../Constants";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Card } from "../../Entites/GameEntities/Card";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
@@ -22,7 +23,7 @@ export class DiscardSoulCard extends Effect {
     if (!data) { debugger; throw new Error("No Data!"); }
     const targetCards = data.getTargets(TARGETTYPE.CARD)
     if (targetCards.length == 0) {
-      throw new Error(`no targets`)
+      throw new CardEffectTargetError(`target soul cards to dicard are null`, true, data, stack)
     } else {
       for (let i = 0; i < targetCards.length; i++) {
         const cardToDiscard = targetCards[i] as Node;

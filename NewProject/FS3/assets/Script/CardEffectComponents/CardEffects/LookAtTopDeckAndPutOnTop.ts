@@ -1,15 +1,16 @@
-import { _decorator, CCInteger, Enum, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
-import { CARD_TYPE, TARGETTYPE, CHOOSE_CARD_TYPE } from "../../Constants";
+import { CCInteger, Enum, Node, _decorator } from 'cc';
+import { CARD_TYPE, CHOOSE_CARD_TYPE, TARGETTYPE } from "../../Constants";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Deck } from "../../Entites/GameEntities/Deck";
-
-import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
-
-import { Effect } from "./Effect";
 import { Player } from "../../Entites/GameEntities/Player";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
+import { Effect } from "./Effect";
+const { ccclass, property } = _decorator;
+
+
+
 
 @ccclass('LookAtTopDeckAndPutOnTop')
 export class LookAtTopDeckAndPutOnTop extends Effect {
@@ -60,15 +61,19 @@ export class LookAtTopDeckAndPutOnTop extends Effect {
       }
     } else {
       if (!data) { debugger; throw new Error("No Data"); }
-      deck = (data.getTarget(TARGETTYPE.DECK) as Node).getComponent(Deck)
+      const deckTarget = data.getTarget(TARGETTYPE.DECK) as Node | null;
+      if (!deckTarget) {
+        throw new CardEffectTargetError(`No Deck Target Found`, true, data, stack)
+      }
+      deck = deckTarget.getComponent(Deck)
     }
     const cardsToSee: Node[] = [];
     if (!deck) { debugger; throw new Error("No Deck Found!"); }
 
     const deckCards = deck.getCards();
     const playerComp = WrapperProvider.playerManagerWrapper.out.mePlayer!.getComponent(Player)!;
-    const numOfCardsToSee = this.getQuantityInRegardsToBlankCard(playerComp.node,this.numOfCardsToSee)
-    const numOfCardsToPut= this.getQuantityInRegardsToBlankCard(playerComp.node,this.numOfCardsToPut)
+    const numOfCardsToSee = this.getQuantityInRegardsToBlankCard(playerComp.node, this.numOfCardsToSee)
+    const numOfCardsToPut = this.getQuantityInRegardsToBlankCard(playerComp.node, this.numOfCardsToPut)
     for (let i = 0; i < numOfCardsToSee; i++) {
       if (deck.getCardsLength() > i) {
         cardsToSee.push(deckCards[deck.getCardsLength() - 1 - i])

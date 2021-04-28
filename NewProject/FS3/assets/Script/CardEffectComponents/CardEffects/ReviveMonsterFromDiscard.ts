@@ -1,6 +1,7 @@
 import { Node, _decorator } from 'cc';
 import { TARGETTYPE } from "../../Constants";
 import { Monster } from "../../Entites/CardTypes/Monster";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
@@ -26,7 +27,7 @@ export class ReviveMonsterFromDiscard extends Effect {
     if (!data) { debugger; throw new Error("No Data"); }
     const cardTarget = data.getTarget(TARGETTYPE.MONSTER) as Node
     if (cardTarget == null) {
-      throw new Error(`no target in ${this.name}`)
+      throw new CardEffectTargetError(`No Monster To Revive Target found`, true, data, stack)
     } else {
       const player = WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer()!
       await WrapperProvider.pileManagerWrapper.out.removeFromPile(cardTarget, true)

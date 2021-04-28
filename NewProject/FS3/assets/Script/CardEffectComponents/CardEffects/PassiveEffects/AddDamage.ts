@@ -13,10 +13,10 @@ export class AddDamage extends PassiveEffect {
                   return !this.isDoubleIncomingDamage
             }
       })
-      damageToAdd: number = 0;
+      damageToAdd = 0;
 
       @property
-      isDoubleIncomingDamage: boolean = false;
+      isDoubleIncomingDamage = false;
 
       /**
        *
@@ -24,8 +24,8 @@ export class AddDamage extends PassiveEffect {
        */
       async doEffect(stack: StackEffectInterface[], data?: PassiveEffectData) {
             if (!data) { debugger; throw new Error("Data Is Undef"); }
-            let terminateOriginal = data.terminateOriginal;
-            let args = data.methodArgs;
+            const terminateOriginal = data.terminateOriginal;
+            const args = data.methodArgs;
             // should be money count
             if (!this.isDoubleIncomingDamage) {
                   args[0] = args[0] + this.damageToAdd

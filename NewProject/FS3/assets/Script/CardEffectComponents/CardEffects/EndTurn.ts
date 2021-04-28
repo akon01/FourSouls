@@ -1,5 +1,6 @@
 import { _decorator } from 'cc';
 import { TARGETTYPE } from "../../Constants";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
@@ -23,6 +24,9 @@ export class EndTurn extends Effect {
 
     if (!data) { debugger; throw new Error("No Data!"); }
     const player = data.getTarget(TARGETTYPE.PLAYER)
+    if (!player) {
+      throw new CardEffectTargetError(`No Target Player Found`, true, data, stack)
+    }
     if (player && WrapperProvider.turnsManagerWrapper.out.getCurrentTurn()!.getTurnPlayer()!.character! != player) {
       if (data instanceof PassiveEffectData) { return data }
       return stack

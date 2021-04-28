@@ -1,5 +1,6 @@
 import { log, Node, _decorator } from 'cc';
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "../../Constants";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Card } from '../../Entites/GameEntities/Card';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
@@ -37,7 +38,11 @@ export class RollDiceAndSaveForLater extends Effect implements IHasSavedRoll {
   ) {
     console.log(data)
     if (!data) { debugger; throw new Error("No Data"); }
-    const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard((data.getTarget(TARGETTYPE.PLAYER) as Node))
+    const playerTarget = data.getTarget(TARGETTYPE.PLAYER) as Node | null;
+    if (!playerTarget) {
+      throw new CardEffectTargetError(`No Player Target found`, true, data, stack)
+    }
+    const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard((playerTarget))
     if (!player) {
       throw new Error("No Player To Roll Dice!");
     }

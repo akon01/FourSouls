@@ -1,5 +1,6 @@
 import { Node, _decorator } from 'cc';
 import { CardEffect } from "../../Entites/CardEffect";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Card } from "../../Entites/GameEntities/Card";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
@@ -27,6 +28,9 @@ export class PlayLootCard extends Effect {
     let hasLockingEffect;
     if (!data) { debugger; throw new Error("No Data"); }
     const card = data.getTarget(TARGETTYPE.CARD)
+    if (!card) {
+      throw new CardEffectTargetError(`No Loot Card To Play found`, true, data, stack)
+    }
     const collector = (card as Node).getComponent(CardEffect)!.getMultiEffectCollector();
     if (collector != null && !(collector instanceof MultiEffectChoose)) {
       hasLockingEffect = true;

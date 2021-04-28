@@ -1,4 +1,5 @@
 import { Node, _decorator } from 'cc';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Card } from '../../Entites/GameEntities/Card';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
@@ -15,14 +16,14 @@ export class GetSoulCard extends Effect {
 
 
   @property
-  alsoAddSoulsToCard: boolean = false
+  alsoAddSoulsToCard = false
 
   @property({
     visible: function (this: GetSoulCard) {
       return this.alsoAddSoulsToCard
     }
   })
-  numOfSoulsToAddToCard: number = 1;
+  numOfSoulsToAddToCard = 1;
 
   /**
    *
@@ -35,7 +36,13 @@ export class GetSoulCard extends Effect {
     if (!data) { debugger; throw new Error("No Data"); }
 
     const playerCard = data.getTarget(TARGETTYPE.PLAYER)
-    const cardToTake = data.getTarget(TARGETTYPE.CARD) as Node
+    if (!playerCard) {
+      throw new CardEffectTargetError(`No Player Target Found`, true, data, stack)
+    }
+    const cardToTake = data.getTarget(TARGETTYPE.CARD) as Node | null
+    if (!cardToTake) {
+      throw new CardEffectTargetError(`No Soul Card Target Found`, true, data, stack)
+    }
     const playerToGiveTo = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(playerCard as Node)
     if (playerToGiveTo == null) {
       throw new Error(`player to give to is null`)

@@ -1,8 +1,8 @@
-import { log, Node, _decorator } from 'cc';
+import { Node, _decorator } from 'cc';
 import { Signal } from '../../../Misc/Signal';
 import { TARGETTYPE } from "../../Constants";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Deck } from '../../Entites/GameEntities/Deck';
-import { Player } from "../../Entites/GameEntities/Player";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
@@ -26,7 +26,10 @@ export class MarkDeckAsDrawFromPileInsted extends Effect {
       async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
 
             if (!data) throw new Error("No Data Collected");
-            const deckToMark = data.getTarget(TARGETTYPE.DECK) as Node
+            const deckToMark = data.getTarget(TARGETTYPE.DECK) as Node | null
+            if (!deckToMark) {
+                  throw new CardEffectTargetError(`No Deck To Mark As Draw From Pile Found`, true, data, stack)
+            }
             const deckComp = deckToMark.getComponent(Deck)!;
             deckComp._isDrawFromPileInsted = true
 

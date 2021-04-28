@@ -1,10 +1,7 @@
-import { Component, log, Node, _decorator } from 'cc';
-import { CHOOSE_CARD_TYPE, TARGETTYPE } from "../../Constants";
-import { Card } from '../../Entites/GameEntities/Card';
+import { Component, _decorator } from 'cc';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
-import { RollDiceStackEffect } from "../../StackEffects/RollDIce";
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { Effect } from "./Effect";
 const { ccclass, property } = _decorator;

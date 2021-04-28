@@ -59,6 +59,10 @@ export class ActionManager extends Component {
   }
 
   async updateCardAction(card: Node, action: CARD_ACTIONS) {
+    const playerComp = card.getComponent(Player);
+    if (playerComp) {
+      card = playerComp.character!
+    }
     WrapperProvider.cardManagerWrapper.out.disableCardActions(card);
     try {
       switch (action) {

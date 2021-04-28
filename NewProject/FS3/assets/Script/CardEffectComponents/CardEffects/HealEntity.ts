@@ -1,6 +1,7 @@
 import { CCInteger, log, Node, _decorator } from 'cc';
 import { Character } from "../../Entites/CardTypes/Character";
 import { Monster } from "../../Entites/CardTypes/Monster";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
@@ -14,13 +15,13 @@ const { ccclass, property } = _decorator;
 export class HealEntity extends Effect {
   effectName = "HealEntity";
   @property({ type: CCInteger, visible: function (this: HealEntity) { return !this.isHealToFullHp } })
-  hpToHeal: number = 1
+  hpToHeal = 1
 
   @property
-  isHealToFullHp: boolean = false
+  isHealToFullHp = false
 
   @property
-  isMultiTarget: boolean = false;
+  isMultiTarget = false;
   /**
    *
    * @param data {target:PlayerId}
@@ -32,10 +33,9 @@ export class HealEntity extends Effect {
     if (!data) { debugger; throw new Error("No Data"); }
     if (this.isMultiTarget) {
       let targetEntities = data.getTargets(TARGETTYPE.PLAYER)
-      if (targetEntities == null) { targetEntities = data.getTargets(TARGETTYPE.MONSTER) }
-
-      if (targetEntities == null) {
-        console.log('no target entities to kill')
+      if (targetEntities.length == 0) { targetEntities = data.getTargets(TARGETTYPE.MONSTER) }
+      if (targetEntities.length == 0) {
+        throw new CardEffectTargetError(`No Target Entites To Kill Found`, true, data, stack)
       } else {
         for (const entity of targetEntities) {
           this.healEntity(entity as Node)
@@ -46,7 +46,7 @@ export class HealEntity extends Effect {
       if (targetEntity == null) { targetEntity = data.getTarget(TARGETTYPE.MONSTER) }
 
       if (targetEntity == null) {
-        console.log('no target entity to kill')
+        throw new CardEffectTargetError(`No Target Entity To Kill Found`, true, data, stack)
       } else {
         this.healEntity(targetEntity as Node)
       }
@@ -55,9 +55,8 @@ export class HealEntity extends Effect {
     return WrapperProvider.stackWrapper.out._currentStack
   }
   healEntity(entity: Node) {
-    let entityComp;
     let hpToHeal = this.hpToHeal;
-    entityComp = entity.getComponent(Character);
+    const entityComp = entity.getComponent(Character);
     if (entityComp == null) {
       const monsterComp = entity.getComponent(Monster)!;
       if (this.isHealToFullHp) {

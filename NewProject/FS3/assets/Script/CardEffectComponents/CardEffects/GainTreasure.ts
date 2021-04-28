@@ -1,17 +1,14 @@
-import { _decorator, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
+import { Node, _decorator } from 'cc';
 import { TARGETTYPE } from "../../Constants";
-import { Deck } from "../../Entites/GameEntities/Deck";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Player } from "../../Entites/GameEntities/Player";
-import { Stack } from "../../Entites/Stack";
-import { CardManager } from "../../Managers/CardManager";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PlayerManager } from "../../Managers/PlayerManager";
+import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { Effect } from "./Effect";
-import { WrapperProvider } from '../../Managers/WrapperProvider';
+const { ccclass, property } = _decorator;
+
 
 @ccclass('GainTreasure')
 export class GainTreasure extends Effect {
@@ -50,20 +47,24 @@ export class GainTreasure extends Effect {
 
             const targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER);
             if (targetPlayerCard == null) {
-                  throw new Error(`no player`)
+                  throw new CardEffectTargetError(`No Target Player Found`, true, data, stack)
             } else {
                   const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard as Node)!
                   const treasureDeck = WrapperProvider.cardManagerWrapper.out.treasureDeck
                   if (this.isSpecificTreasure) {
                         if (this.isSpecificFromDataCollector) {
-                           await   player.addItem(data.getTarget(TARGETTYPE.ITEM) as Node, true, true)
+                              const treasureToAddTarget = data.getTarget(TARGETTYPE.ITEM) as Node | null;
+                              if (!treasureToAddTarget) {
+                                    throw new CardEffectTargetError(`No Treasure To Add Found`, false, data, stack)
+                              }
+                              await player.addItem(treasureToAddTarget, true, true)
                         } else {
                               if (!this.specificTreasure) { debugger; throw new Error("No Specific Treasure Set"); }
 
-                             await player.addItem(this.specificTreasure, true, true)
+                              await player.addItem(this.specificTreasure, true, true)
                         }
                   } else {
-                        const numOfTreasure = this.getQuantityInRegardsToBlankCard(player.node,this.numOfTreasure)
+                        const numOfTreasure = this.getQuantityInRegardsToBlankCard(player.node, this.numOfTreasure)
                         for (let i = 0; i < numOfTreasure; i++) {
                               await player.addItem(treasureDeck, true, true)
                         }

@@ -1,15 +1,11 @@
 import { _decorator } from 'cc';
-const { ccclass, property } = _decorator;
-
-import { TARGETTYPE } from "../../Constants";
-import { Player } from "../../Entites/GameEntities/Player";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PlayerManager } from "../../Managers/PlayerManager";
+import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { Effect } from "./Effect";
-import { Stack } from "../../Entites/Stack";
-import { WrapperProvider } from '../../Managers/WrapperProvider';
+const { ccclass, property } = _decorator;
+
 
 @ccclass('DoNothing')
 export class DoNothing extends Effect {

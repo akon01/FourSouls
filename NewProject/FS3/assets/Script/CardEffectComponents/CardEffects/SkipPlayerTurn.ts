@@ -1,25 +1,24 @@
-import { _decorator, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
-import { TARGETTYPE, CHOOSE_CARD_TYPE } from "../../Constants";
+import { Node, _decorator } from 'cc';
+import { CHOOSE_CARD_TYPE, TARGETTYPE } from "../../Constants";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Player } from "../../Entites/GameEntities/Player";
-import { Stack } from "../../Entites/Stack";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PlayerManager } from "../../Managers/PlayerManager";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
-
 import { Effect } from "./Effect";
+const { ccclass, property } = _decorator;
+
+
 
 @ccclass('SkipPlayerTurn')
 export class SkipPlayerTurn extends Effect {
   chooseType = CHOOSE_CARD_TYPE.ALL_PLAYERS;
   effectName = "SkipPlayerTurn";
   @property
-  multiTarget: boolean = false;
+  multiTarget = false;
   @property({ override: true })
-  optionalFlavorText: string = ''
+  optionalFlavorText = ''
   /**
    *
    * @param data {target:PlayerId}
@@ -34,7 +33,7 @@ export class SkipPlayerTurn extends Effect {
     if (this.multiTarget) {
       const playersCards = data.getTargets(TARGETTYPE.PLAYER)
       if (!(playersCards != null && playersCards.length > 0)) {
-        throw new Error(`no targets`)
+        throw new CardEffectTargetError(`No Player Targets found`, true, data, stack)
       } else {
         const players = (playersCards as Node[]).map(card => WrapperProvider.playerManagerWrapper.out.getPlayerByCard(card)!)
         for (let i = 0; i < players.length; i++) {

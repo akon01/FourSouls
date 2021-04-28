@@ -3,6 +3,7 @@ const { ccclass, property } = _decorator;
 
 import { TARGETTYPE } from "../../Constants";
 import { Monster } from "../../Entites/CardTypes/Monster";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Player } from "../../Entites/GameEntities/Player";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
@@ -40,10 +41,10 @@ export class AddAttackOpportunity extends Effect {
     if (!data) { debugger; throw new Error("No Data!"); }
     const targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER)
     if (targetPlayerCard == null) {
-      throw new Error(`target player is null`)
+      throw new CardEffectTargetError(`target player is null`, true, data, stack)
     } else {
       const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard as Node)!
-      const numOfTimes= this.getQuantityInRegardsToBlankCard(player.node,this.numOfTimes)
+      const numOfTimes = this.getQuantityInRegardsToBlankCard(player.node, this.numOfTimes)
       if (!this.isOnlyMonsterDeck) {
         player.attackPlays += numOfTimes
         // if the player must attack a monster

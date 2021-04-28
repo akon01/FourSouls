@@ -231,11 +231,11 @@ export class Effect extends Component implements EffectInterface {
       }
 
       getQuantityInRegardsToBlankCard(target: Node, originalQuantity: number) {
-            let player:Player|null = target.getComponent(Player)
+            let player: Player | null = target.getComponent(Player)
             if (!player) {
                   player = target.getComponent(Character)?.player ?? null
-                  if(!player)
-                  return originalQuantity
+                  if (!player)
+                        return originalQuantity
             }
             if (!this.isThisCardALootCard()) {
                   return originalQuantity
@@ -243,26 +243,5 @@ export class Effect extends Component implements EffectInterface {
             return player.hasBlankCardEffectActive ? originalQuantity * 2 : originalQuantity
       }
 
-      // static async runEffect(chosenEffect: Effect, stack: StackEffectInterface[], data?: any) {
-      //       const serverEffectStack = await chosenEffect.doEffect(stack, data);
-      //       const effectCard = chosenEffect._effectCard!;
-      //       const cardEffectComp = effectCard.getComponent(CardEffect)!
-      //       const effectDetails = cardEffectComp.getEffectIndexAndType(chosenEffect);
-      //       if (chosenEffect.hasDataConcurency) {
-      //             chosenEffect.runDataConcurency(data, effectDetails.index, effectDetails.type, true)
-      //       }
-      //       if (chosenEffect.isContinuousEffect) {
-      //             if (chosenEffect.markAsRunningOrNotRunning) {
-      //                   chosenEffect.effectRunning = true;
-      //             } else {
-      //                   chosenEffect.effectRunning = false;
-      //             }
-      //             WrapperProvider.serverClientWrapper.out.send(Signal.MARK_EFFECT_AS_RUNNING, { cardId: effectCard.getComponent(Card)?._cardId, effectIndex: effectDetails.index, effectType: effectDetails.type, markBool: chosenEffect.markAsRunningOrNotRunning })
-      //       }
-      //       return serverEffectStack
-      // }
 
-      // // toString() {
-      // //   return `${this.hasSubAction},${this.passiveType},${this.passiveEffectToAdd.toString()},${this.effectName}.${this.chooseType}`
-      // // }
 }

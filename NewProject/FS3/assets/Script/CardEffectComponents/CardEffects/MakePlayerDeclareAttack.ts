@@ -1,6 +1,7 @@
 import { Node, _decorator } from 'cc';
 import { TARGETTYPE } from "../../Constants";
 import { Monster } from "../../Entites/CardTypes/Monster";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Player } from "../../Entites/GameEntities/Player";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
@@ -30,7 +31,7 @@ export class MakePlayerDeclareAttack extends Effect {
     if (!data) { debugger; throw new Error("No Data"); }
     const targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER)
     if (targetPlayerCard == null) {
-      throw new Error(`target player is null`)
+      throw new CardEffectTargetError(`No Target Player Found`, true, data, stack)
     } else {
       const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard as Node)!
       if (this.makeSpecificMonsterMust) {
@@ -38,7 +39,11 @@ export class MakePlayerDeclareAttack extends Effect {
 
         await player.declareAttack(this.specificMonsterToDeclareAttackOn.node, true)
       } else {
-        await player.declareAttack(data.getTarget(TARGETTYPE.MONSTER) as Node, true)
+        const monsterTarget = data.getTarget(TARGETTYPE.MONSTER) as Node | null;
+        if (!monsterTarget) {
+          throw new CardEffectTargetError(`No Monster To Declare Attack On Found`, true, data, stack)
+        }
+        await player.declareAttack(monsterTarget, true)
       }
     }
 

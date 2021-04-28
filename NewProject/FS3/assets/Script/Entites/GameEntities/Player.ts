@@ -800,7 +800,7 @@ export class Player extends Component implements IEggCounterable, IAttackableEnt
       async rollAttackDice(sendToServer: boolean) {
             //   this.dice!.getComponentInChildren(RollDice)!.rollType = ROLL_TYPE.ATTACK;
             if (sendToServer) {
-                  const attackRoll = new AttackRoll(this.character!.getComponent(Card)!._cardId, this.node, WrapperProvider.battleManagerWrapper.out.currentlyAttackedMonster!.node)
+                  const attackRoll = new AttackRoll(this.character!.getComponent(Card)!._cardId, this.node, WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity!.node)
                   await WrapperProvider.stackWrapper.out.addToStack(attackRoll, true)
             }
 

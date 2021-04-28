@@ -1,16 +1,15 @@
-import { _decorator, CCInteger, log, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
-import { Stack } from "../../Entites/Stack";
+import { CCInteger, Node, _decorator } from 'cc';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PlayerManager } from "../../Managers/PlayerManager";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { AttackRoll } from "../../StackEffects/AttackRoll";
 import { RollDiceStackEffect } from "../../StackEffects/RollDIce";
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
 import { Effect } from "./Effect";
+const { ccclass, property } = _decorator;
+
 
 @ccclass('SetDice')
 export class SetDice extends Effect {
@@ -34,14 +33,18 @@ export class SetDice extends Effect {
     console.log(data.effectTargets)
     const diceRollStackEffect = data.getTarget(TARGETTYPE.STACK_EFFECT)
     if (diceRollStackEffect == null) {
-      throw new Error(`No Dice Roll stack effect found`)
+      throw new CardEffectTargetError(`No Dice Roll Stack Effect found`, true, data, stack)
     } else {
       if (!(diceRollStackEffect instanceof Node)) {
         if (diceRollStackEffect instanceof RollDiceStackEffect || diceRollStackEffect instanceof AttackRoll) {
           const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCardId(diceRollStackEffect.creatorCardId)!
           let rollValueToPut = this.rollValueToPut
           if (this.isRollFromDataCollector) {
-            rollValueToPut = data.getTarget(TARGETTYPE.NUMBER) as number
+            const diceRollTarget = data.getTarget(TARGETTYPE.NUMBER) as number | null;
+            if (!diceRollTarget) {
+              throw new CardEffectTargetError(`No Dice Roll Number found`, true, data, stack)
+            }
+            rollValueToPut = diceRollTarget
           }
           player.dice!.setRoll(rollValueToPut)
           diceRollStackEffect.numberRolled = rollValueToPut;

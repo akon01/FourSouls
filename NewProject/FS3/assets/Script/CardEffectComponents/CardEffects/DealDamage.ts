@@ -1,6 +1,7 @@
 import { Node, _decorator } from 'cc';
 import { Character } from "../../Entites/CardTypes/Character";
 import { Monster } from "../../Entites/CardTypes/Monster";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
@@ -50,7 +51,7 @@ export class DealDamage extends Effect {
       }
       //    if (targets.length == 0) { targets = data.getTargets(TARGETTYPE.MONSTER) }
       if (targets.length == 0) {
-        throw new Error(`no targets`)
+        throw new CardEffectTargetError(`target entities are null`, true, data, stack)
       }
 
       for (let i = 0; i < targets.length; i++) {

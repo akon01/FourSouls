@@ -10,7 +10,7 @@ export class ServerActivateItem extends BaseServerStackEffect {
 
     entityId: number;
     creatorCardId: number;
-    isLockingStackEffect: boolean = false;
+    isLockingStackEffect = false;
     stackEffectToLock: ServerStackEffectInterface | undefined;
     hasLockingStackEffect: boolean;
     hasLockingStackEffectResolved: boolean;
@@ -35,7 +35,7 @@ export class ServerActivateItem extends BaseServerStackEffect {
         this.itemToPlayCardId = stackEffect.itemToActivate.getComponent(Card)!._cardId;
         this.itemPlayerId = stackEffect.itemPlayer.playerId
         if (stackEffect.effectToDo != null) {
-            let effectData = stackEffect.itemToActivate.getComponent(CardEffect)!.getEffectIndexAndType(stackEffect.effectToDo)
+            const effectData = stackEffect.itemToActivate.getComponent(CardEffect)!.getEffectIndexAndType(stackEffect.effectToDo)
             this.effectToDoData = effectData;
         }
         this.hasDataBeenCollectedYet = stackEffect.hasDataBeenCollectedYet;
@@ -45,9 +45,9 @@ export class ServerActivateItem extends BaseServerStackEffect {
 
 
     convertToStackEffect() {
-        let itemToActivate = WrapperProvider.cardManagerWrapper.out.getCardById(this.itemToPlayCardId, true)
+        const itemToActivate = WrapperProvider.cardManagerWrapper.out.getCardById(this.itemToPlayCardId, true)
         const playerCharacterCard = WrapperProvider.playerManagerWrapper.out.getPlayerById(this.itemPlayerId)!.character!;
-        let activateItem = new ActivateItem(this.creatorCardId, this.hasLockingStackEffect, itemToActivate, playerCharacterCard, this.hasDataBeenCollectedYet, this.entityId, this.lable)
+        const activateItem = new ActivateItem(this.creatorCardId, this.hasLockingStackEffect, itemToActivate, playerCharacterCard, this.hasDataBeenCollectedYet, this.entityId, this.lable)
         activateItem.LockingResolve = this.LockingResolve;
         if (this.effectToDoData != null) {
             activateItem.effectToDo = itemToActivate.getComponent(CardEffect)!.getEffectByNumAndType(this.effectToDoData.index, this.effectToDoData.type)
@@ -57,7 +57,7 @@ export class ServerActivateItem extends BaseServerStackEffect {
     }
 
     toString() {
-        let itemToActivate = WrapperProvider.cardManagerWrapper.out.getCardById(this.itemToPlayCardId, true)
+        const itemToActivate = WrapperProvider.cardManagerWrapper.out.getCardById(this.itemToPlayCardId, true)
         let endString = `id:${this.entityId}\ntype: ActivateItem\nCreator Card: ${WrapperProvider.cardManagerWrapper.out.getCardById(this.creatorCardId).name}\n`
         if (this.LockingResolve) endString = endString + `Lock Result: ${this.LockingResolve}\n`
         if (this.effectToDoData) endString = endString + `Effect To Do:${itemToActivate.getComponent(CardEffect)!.getEffectByNumAndType(this.effectToDoData.index, this.effectToDoData.type)!.name}\n`

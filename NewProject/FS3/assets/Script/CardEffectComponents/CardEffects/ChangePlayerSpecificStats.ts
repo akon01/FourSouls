@@ -1,17 +1,14 @@
-import { _decorator, CCInteger, Node, log } from 'cc';
-const { ccclass, property } = _decorator;
-
+import { Node, _decorator } from 'cc';
 import { TARGETTYPE } from "../../Constants";
-import { Monster } from "../../Entites/CardTypes/Monster";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Player } from "../../Entites/GameEntities/Player";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PlayerManager } from "../../Managers/PlayerManager";
+import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { Effect } from "./Effect";
-import { PassiveEffect } from "./PassiveEffect";
-import { Stack } from "../../Entites/Stack";
-import { WrapperProvider } from '../../Managers/WrapperProvider';
+const { ccclass, property } = _decorator;
+
 
 @ccclass('ChangePlayerSpecificStats')
 export class ChangePlayerSpecificStats extends Effect {
@@ -50,6 +47,9 @@ export class ChangePlayerSpecificStats extends Effect {
       } else {
         targets = data.getTargets(TARGETTYPE.MONSTER) as Node[]
       }
+      if (targets.length == 0) {
+        throw new CardEffectTargetError(`target players are null`, true, data, stack)
+      }
       for (const target of targets) {
         await this.addStat(target)
       }
@@ -75,7 +75,7 @@ export class ChangePlayerSpecificStats extends Effect {
       }
 
       if (target == null) {
-        throw `no target to gain stats`
+        throw new CardEffectTargetError(`target player is null`, true, data, stack)
       } else {
         console.log(target)
         await this.addStat(target)

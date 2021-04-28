@@ -11,6 +11,7 @@ import { Effect } from "./Effect";
 import { Card } from "../../Entites/GameEntities/Card";
 import { CardManager } from "../../Managers/CardManager";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 
 @ccclass('GainBonusSoul')
 export class GainBonusSoul extends Effect {
@@ -33,7 +34,7 @@ export class GainBonusSoul extends Effect {
     if (!data) { debugger; throw new Error("No Data!"); }
     const targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER);
     if (targetPlayerCard == null) {
-      throw new Error(`no target player`)
+      throw new CardEffectTargetError(`No Target Player Found`, true, data, stack)
     } else {
       if (targetPlayerCard instanceof Node) {
         if (!this.soulCardToGain) { debugger; throw new Error("No Soul Card To Gain"); }

@@ -10,6 +10,7 @@ import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { Effect } from "./Effect";
 import { Stack } from "../../Entites/Stack";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 
 @ccclass('AddMoney')
 export class AddMoney extends Effect {
@@ -43,11 +44,15 @@ export class AddMoney extends Effect {
        */
       async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
 
-            let numOfCoins = this.numOfCoins
+            let numOfCoins: number | null = this.numOfCoins
             if (this.isGetNumOfCoinsFromDataCollector) {
                   if (!data) throw new Error("No Data Collected When Needed");
 
-                  numOfCoins = data.getTarget(TARGETTYPE.NUMBER)! as number
+                  numOfCoins = data.getTarget(TARGETTYPE.NUMBER)! as number | null
+                  if (!numOfCoins) {
+                        throw new CardEffectTargetError(`No Number Of Coins Found In Data`, false, data, stack)
+                  }
+
             }
             if (this.hasLockingResolve) {
                   numOfCoins = this.lockingResolve
@@ -56,7 +61,7 @@ export class AddMoney extends Effect {
 
             const targets = data.getTargets(TARGETTYPE.PLAYER)
             if (targets.length == 0) {
-                  throw new Error(`no targets`)
+                  throw new CardEffectTargetError(`target players are null`, true, data, stack)
             }
             for (let i = 0; i < targets.length; i++) {
                   const target = targets[i] as Node;

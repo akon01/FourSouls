@@ -1,5 +1,6 @@
 import { Node, _decorator } from 'cc';
 import { Item } from '../../Entites/CardTypes/Item';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
@@ -24,7 +25,7 @@ export class RerollItem extends Effect {
     if (!data) { debugger; throw new Error("No Data"); }
     const cardChosen = data.getTarget(TARGETTYPE.ITEM)
     if (cardChosen == null) {
-      console.log(`no item to reroll`)
+      throw new CardEffectTargetError(`No Item To Reroll found`, true, data, stack)
     } else {
       if (cardChosen instanceof Node) {
         const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(cardChosen)!

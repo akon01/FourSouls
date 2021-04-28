@@ -1,15 +1,13 @@
-import { _decorator, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
-import { Stack } from "../../Entites/Stack";
-import { CardManager } from "../../Managers/CardManager";
+import { Node, _decorator } from 'cc';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PlayerManager } from "../../Managers/PlayerManager";
+import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { TARGETTYPE } from "./../../Constants";
 import { Effect } from "./Effect";
-import { WrapperProvider } from '../../Managers/WrapperProvider';
+const { ccclass, property } = _decorator;
+
 
 @ccclass('TakeSoulCardFromPlayer')
 export class TakeSoulCardFromPlayer extends Effect {
@@ -24,6 +22,9 @@ export class TakeSoulCardFromPlayer extends Effect {
   ) {
     if (!data) { debugger; throw new Error("No Data"); }
     const targets = data.getTargets(TARGETTYPE.CARD)
+    if (targets.length == 0) {
+      throw new CardEffectTargetError(`No Card Targets found`, true, data, stack)
+    }
     const playerCard = targets[1]
     const cardToTake = targets[0]
     const playerToGiveTo = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(playerCard as Node)

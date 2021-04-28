@@ -7,6 +7,7 @@ import { RollDiceStackEffect } from "../../StackEffects/RollDIce";
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { CHOOSE_CARD_TYPE, ROLL_TYPE, TARGETTYPE } from "../../Constants";
 import { Effect } from "./Effect";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 const { ccclass, property } = _decorator;
 
 
@@ -24,21 +25,21 @@ export class RerollDice extends Effect {
   ) {
     console.log(data)
     if (!data) { debugger; throw new Error("No Data"); }
-    let diceRollStackEffect = data.getTarget(TARGETTYPE.STACK_EFFECT)
+    const diceRollStackEffect = data.getTarget(TARGETTYPE.STACK_EFFECT)
     if (diceRollStackEffect == null) {
-      console.log(`no dice stack effect to reroll`)
+      throw new CardEffectTargetError(`No Dice Roll Stack Effect found`, true, data, stack)
     } else {
       if (!(diceRollStackEffect instanceof Node)) {
         if (diceRollStackEffect instanceof RollDiceStackEffect) {
-          let playerCard = WrapperProvider.cardManagerWrapper.out.getCardById(diceRollStackEffect.creatorCardId, true);
-          let player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(playerCard)!;
-          let newNumberRolled = await player.rollDice(ROLL_TYPE.EFFECT)
+          const playerCard = WrapperProvider.cardManagerWrapper.out.getCardById(diceRollStackEffect.creatorCardId, true);
+          const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(playerCard)!;
+          const newNumberRolled = await player.rollDice(ROLL_TYPE.EFFECT)
           diceRollStackEffect.numberRolled = newNumberRolled;
         } else
           if (diceRollStackEffect instanceof AttackRoll) {
-            let playerCard = WrapperProvider.cardManagerWrapper.out.getCardById(diceRollStackEffect.creatorCardId, true);
-            let player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(playerCard)!;
-            let newNumberRolled = await player.rollDice(ROLL_TYPE.ATTACK)
+            const playerCard = WrapperProvider.cardManagerWrapper.out.getCardById(diceRollStackEffect.creatorCardId, true);
+            const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(playerCard)!;
+            const newNumberRolled = await player.rollDice(ROLL_TYPE.ATTACK)
             diceRollStackEffect.numberRolled = newNumberRolled;
           }
       }

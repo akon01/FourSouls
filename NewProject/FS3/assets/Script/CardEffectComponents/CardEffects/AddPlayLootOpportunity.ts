@@ -1,5 +1,6 @@
 import { CCInteger, Node, _decorator } from 'cc';
 import { TARGETTYPE } from "../../Constants";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Player } from "../../Entites/GameEntities/Player";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
@@ -23,7 +24,7 @@ export class AddPlayLootOpportunity extends Effect {
     if (!data) { debugger; throw new Error("No Data!"); }
     const playerCard = data.getTarget(TARGETTYPE.PLAYER) as Node
     if (!playerCard) {
-      throw new Error(`no Player to all loot plays to`)
+      throw new CardEffectTargetError(`no Player to add loot plays to`, true, data, stack)
     }
     const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(playerCard)!
     player.changeLootCardPlayes(this.getQuantityInRegardsToBlankCard(player.node, this.numOfTimes), true);

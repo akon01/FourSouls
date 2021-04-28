@@ -9,6 +9,7 @@ import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { Effect } from "./Effect";
 import { Stack } from "../../Entites/Stack";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 
 @ccclass('DeactivateItem')
 export class DeactivateItem extends Effect {
@@ -25,7 +26,7 @@ export class DeactivateItem extends Effect {
             if (this.isMulti) {
                   const targetItems = data.getAllTargets()
                   if (targetItems.nodes.length == 0) {
-                        throw new Error(`No Targets Found`)
+                        throw new CardEffectTargetError(`target items are null`, true, data, stack)
                   }
                   for (let i = 0; i < targetItems.nodes.length; i++) {
                         const target = targetItems.nodes[i];
@@ -37,7 +38,7 @@ export class DeactivateItem extends Effect {
                   if (targetItem == null) {
                         targetItem = data.getTarget(TARGETTYPE.PLAYER) as Node
                         if (targetItem == null) {
-                              throw new Error(`no item to recharge`)
+                              throw new CardEffectTargetError(`target item is null`, true, data, stack)
                         }
                   }
                   await this.deactivateItem(targetItem);

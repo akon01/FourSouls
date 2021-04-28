@@ -1,23 +1,22 @@
 import { _decorator } from 'cc';
+import { TARGETTYPE } from '../../../Constants';
+import { PassiveEffectData } from "../../../Managers/PassiveEffectData";
+import { StackEffectInterface } from "../../../StackEffects/StackEffectInterface";
+import { PassiveEffect } from "../PassiveEffect";
 const { ccclass, property } = _decorator;
 
-import { PassiveEffect } from "../PassiveEffect";
-import { StackEffectInterface } from "../../../StackEffects/StackEffectInterface";
-import { PassiveEffectData } from "../../../Managers/PassiveEffectData";
-import { DataCollector } from '../../DataCollector/DataCollector';
-import { TARGETTYPE } from '../../../Constants';
 
 @ccclass('AddToArgs')
 export class AddToArgs extends PassiveEffect {
       effectName = "AddToArgs";
       @property
-      argsIndex: number = 0;
+      argsIndex = 0;
 
       @property({ visible: function (this: AddToArgs) { return !this.isHowMuchFromDataCollector } })
-      howMuchToAdd: number = 0
+      howMuchToAdd = 0
 
       @property
-      isHowMuchFromDataCollector: boolean = false;
+      isHowMuchFromDataCollector = false;
 
 
 

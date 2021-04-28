@@ -1,6 +1,7 @@
 import { CCInteger, Node, _decorator } from 'cc';
 import { TARGETTYPE } from "../../Constants";
 import { Monster } from '../../Entites/CardTypes/Monster';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Player } from '../../Entites/GameEntities/Player';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
@@ -27,6 +28,9 @@ export class AddEggCounter extends Effect {
     if (!data) { debugger; throw new Error("No Data!"); }
 
     const targets = data.getTargets(TARGETTYPE.CARD) as Node[]
+    if (targets.length == 0) {
+      throw new CardEffectTargetError(`target cards are null`, true, data, stack)
+    }
     for (const target of targets) {
       const monsterComp = target.getComponent(Monster);
       if (monsterComp) {

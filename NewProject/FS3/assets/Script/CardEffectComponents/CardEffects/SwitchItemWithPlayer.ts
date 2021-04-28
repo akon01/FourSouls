@@ -14,14 +14,15 @@ import { Player } from "../../Entites/GameEntities/Player";
 import { Stack } from "../../Entites/Stack";
 import { ChooseCardTypeAndFilter } from "../ChooseCardTypeAndFilter";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 
 @ccclass('SwitchItemWithPlayer')
 export class SwitchItemWithPlayer extends Effect {
   effectName = "SwitchItemWithPlayer";
   @property
-  isCardToGiveFromDataCollector: boolean = false
+  isCardToGiveFromDataCollector = false
   @property
-  isSpecificPlayerToSwitchWith: boolean = false
+  isSpecificPlayerToSwitchWith = false
   /**
    *
    * @param data {lootPlayedId:number,playerId:number}
@@ -32,6 +33,9 @@ export class SwitchItemWithPlayer extends Effect {
   ) {
     if (!data) { debugger; throw new Error("No Data"); }
     const playersCards = data.getTargets(TARGETTYPE.PLAYER)
+    if (playersCards.length == 0) {
+      throw new CardEffectTargetError(`No Players Targets found`, true, data, stack)
+    }
     const players = []
     for (let i = 0; i < playersCards.length; i++) {
       const playerCard = playersCards[i];

@@ -11,6 +11,7 @@ import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 
 import { Effect } from "./Effect";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 
 @ccclass('PutNewMonster')
 export class PutNewMonster extends Effect {
@@ -31,7 +32,7 @@ export class PutNewMonster extends Effect {
     if (!data) { debugger; throw new Error("No Data"); }
     const cardTarget = data.getTarget(TARGETTYPE.MONSTER)
     if (cardTarget == null) {
-      throw new Error(`no target in ${this.name}`)
+      throw new CardEffectTargetError(`No Target Monster found`, true, data, stack)
     } else {
       const holderId = (cardTarget as Node).getComponent(Monster)!.monsterPlace!.getComponent(MonsterCardHolder)!.id!
       const newMonster = await WrapperProvider.cardManagerWrapper.out.monsterDeck.getComponent(Deck)!.drawCard(true)

@@ -1,5 +1,6 @@
 import { CCInteger, Enum, Node, _decorator } from 'cc';
 import { TARGETTYPE } from "../../Constants";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Player } from "../../Entites/GameEntities/Player";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
@@ -34,7 +35,7 @@ export class ChangePlayerAttackable extends Effect {
         if (!data) { debugger; throw new Error("No Data"); }
         const targetPlayerCards = data.getTargets(TARGETTYPE.PLAYER) as Node[]
         if (targetPlayerCards.length == 0) {
-            throw new Error(`No Target Players!`)
+            throw new CardEffectTargetError(`target players are null`, true, data, stack)
         }
         for (const player of targetPlayerCards) {
             this.handlePlayer(player);

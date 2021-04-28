@@ -1,5 +1,6 @@
 import { Enum, Node, _decorator } from 'cc';
 import { CARD_TYPE, CHOOSE_CARD_TYPE, TARGETTYPE } from "../../Constants";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Deck } from "../../Entites/GameEntities/Deck";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
@@ -79,6 +80,9 @@ export class DiscardTopCardOfDeck extends Effect {
     } else {
 
       const decks = (data.getTargets(TARGETTYPE.DECK) as Node[]).map(target => target.getComponent(Deck)!)
+      if (decks.length == 0) {
+        throw new CardEffectTargetError(`target decks are null`, true, data, stack)
+      }
       for (const deck of decks) {
         await deck.discardTopCard()
       }

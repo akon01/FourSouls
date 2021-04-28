@@ -1,8 +1,7 @@
 import { CCInteger, Node, _decorator } from 'cc';
-import { Stack } from "../../Entites/Stack";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PlayerManager } from "../../Managers/PlayerManager";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
@@ -15,7 +14,7 @@ export class StealMoney extends Effect {
   chooseType = CHOOSE_CARD_TYPE.ALL_PLAYERS;
   effectName = "stealMoney";
   @property(CCInteger)
-  numOfCoins: number = 0;
+  numOfCoins = 0;
   /**
    *
    * @param data {target:PlayerId}
@@ -25,10 +24,13 @@ export class StealMoney extends Effect {
     data?: ActiveEffectData | PassiveEffectData
   ) {
     if (!data) { debugger; throw new Error("No Data"); }
-    let stealer = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(data.effectCardPlayer!)!
-    let playerCard = data.getTarget(TARGETTYPE.PLAYER)
+    const stealer = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(data.effectCardPlayer!)!
+    const playerCard = data.getTarget(TARGETTYPE.PLAYER)
+    if (!playerCard) {
+      throw new CardEffectTargetError(`No Player Card Target found`, true, data, stack)
+    }
     if (playerCard instanceof Node) {
-      let targetPlayer = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(playerCard)!
+      const targetPlayer = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(playerCard)!
       if (targetPlayer == null) {
         throw new Error(`no target player available`)
       } else {

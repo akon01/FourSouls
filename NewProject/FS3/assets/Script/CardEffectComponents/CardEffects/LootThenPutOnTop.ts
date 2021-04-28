@@ -1,16 +1,11 @@
-import { _decorator, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
+import { Node, _decorator } from 'cc';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Deck } from "../../Entites/GameEntities/Deck";
 import { Player } from "../../Entites/GameEntities/Player";
-import { Stack } from "../../Entites/Stack";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
-import { PassiveEffectData } from '../../Managers/PassiveEffectData';
 import { EffectTarget } from '../../Managers/EffectTarget';
-import { CardManager } from "../../Managers/CardManager";
-
-import { PileManager } from "../../Managers/PileManager";
-import { PlayerManager } from "../../Managers/PlayerManager";
+import { PassiveEffectData } from '../../Managers/PassiveEffectData';
+import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { CardFilter } from "../ChooseCardFilters/CardFilter";
 import { FilterConcrete } from "../ChooseCardFilters/FilterConcrete";
@@ -18,7 +13,9 @@ import { ChooseCardTypeAndFilter } from "../ChooseCardTypeAndFilter";
 import { ChooseCard } from "../DataCollector/ChooseCard";
 import { CARD_TYPE, CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
 import { Effect } from "./Effect";
-import { WrapperProvider } from '../../Managers/WrapperProvider';
+const { ccclass, property } = _decorator;
+
+
 
 @ccclass('LootThenPutOnTop')
 export class LootThenPutOnTop extends Effect {
@@ -40,6 +37,9 @@ export class LootThenPutOnTop extends Effect {
   ) {
     if (!data) { debugger; throw new Error("No Data"); }
     const playerCard = data.getTarget(TARGETTYPE.PLAYER)
+    if (!playerCard) {
+      throw new CardEffectTargetError(`No Player Card Target Found`, true, data, stack)
+    }
     if (playerCard instanceof Node) {
       const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(playerCard)
       if (player == null) {

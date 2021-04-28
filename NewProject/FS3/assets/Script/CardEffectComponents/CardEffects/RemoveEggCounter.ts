@@ -1,6 +1,7 @@
 import { CCInteger, Node, _decorator } from 'cc';
 import { TARGETTYPE } from "../../Constants";
 import { Monster } from '../../Entites/CardTypes/Monster';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
@@ -30,6 +31,9 @@ export class RemoveEggCounter extends Effect {
 
     const targets = data.getTargets(TARGETTYPE.CARD) as Node[]
     let numOfCountersToRemove = this.numOfCounters
+    if (targets.length == 0) {
+      throw new CardEffectTargetError(`No Target Entities To Remove Egg Coutners From found`, true, data, stack)
+    }
     for (const target of targets) {
       const monsterComp = target.getComponent(Monster);
       if (monsterComp) {

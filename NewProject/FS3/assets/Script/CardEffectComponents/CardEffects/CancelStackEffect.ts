@@ -1,4 +1,5 @@
 import { _decorator, Node } from 'cc';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 const { ccclass, property } = _decorator;
 
 import { Stack } from "../../Entites/Stack";
@@ -18,9 +19,9 @@ export class CancelStackEffect extends Effect {
    */
   async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
     if (!data) { debugger; throw new Error("No Data!"); }
-    let targetStackEffectToCancel = data.getTarget(TARGETTYPE.STACK_EFFECT)
+    const targetStackEffectToCancel = data.getTarget(TARGETTYPE.STACK_EFFECT)
     if (targetStackEffectToCancel == null) {
-      throw new Error(`no target stack effect`)
+      throw new CardEffectTargetError(`target stack effect is null`, true, data, stack)
     } else {
       if (!(targetStackEffectToCancel instanceof Node)) {
         await WrapperProvider.stackWrapper.out.fizzleStackEffect(targetStackEffectToCancel as StackEffectInterface, true, true)

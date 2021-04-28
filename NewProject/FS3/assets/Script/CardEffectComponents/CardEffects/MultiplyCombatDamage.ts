@@ -11,7 +11,7 @@ const { ccclass, property } = _decorator;
 export class MultiplyCombatDamage extends Effect {
   effectName = "MultiplyCombatDamage";
   @property(CCInteger)
-  multiplier: number = 0;
+  multiplier = 0;
   /**
    *
    * @param data {target:PlayerId}

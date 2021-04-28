@@ -1,12 +1,10 @@
-import { CCInteger, Node, _decorator } from 'cc';
-import { Stack } from "../../Entites/Stack";
+import { _decorator } from 'cc';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PlayerManager } from "../../Managers/PlayerManager";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { Condition } from '../CardConditions/Condition';
-import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
+import { CHOOSE_CARD_TYPE } from "./../../Constants";
 import { Effect } from "./Effect";
 const { ccclass, property } = _decorator;
 

@@ -1,15 +1,14 @@
-import { _decorator, CCInteger, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
+import { CCInteger, Node, _decorator } from 'cc';
+import { TARGETTYPE } from "../../Constants";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
+import { Player } from "../../Entites/GameEntities/Player";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { TurnsManager } from "../../Managers/TurnsManager";
+import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { Effect } from "./Effect";
-import { TARGETTYPE } from "../../Constants";
-import { Player } from "../../Entites/GameEntities/Player";
-import { PlayerManager } from "../../Managers/PlayerManager";
-import { WrapperProvider } from '../../Managers/WrapperProvider';
+const { ccclass, property } = _decorator;
+
 
 @ccclass('AddBuyOpportunity')
 export class AddBuyOpportunity extends Effect {
@@ -26,7 +25,7 @@ export class AddBuyOpportunity extends Effect {
     if (!data) { debugger; throw new Error("No Data!"); }
     const targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER)
     if (targetPlayerCard == null) {
-      throw new Error(`target player is null`)
+      throw new CardEffectTargetError(`target player is null`, true, data, stack)
     } else {
       const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard as Node)!
       player.buyPlays += this.getQuantityInRegardsToBlankCard(player.node, this.numOfTimes)

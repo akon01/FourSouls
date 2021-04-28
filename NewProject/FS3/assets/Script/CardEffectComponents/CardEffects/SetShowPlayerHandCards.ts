@@ -1,4 +1,5 @@
 import { Node, _decorator } from 'cc';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Player } from '../../Entites/GameEntities/Player';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
@@ -18,7 +19,7 @@ export class SetShowPlayerHandCards extends Effect {
   setToShow = false
 
   @property
-  isOnlyForActivatingPlayer: boolean = true
+  isOnlyForActivatingPlayer = true
   /**
    *
    * @param data {target:PlayerId}
@@ -28,7 +29,10 @@ export class SetShowPlayerHandCards extends Effect {
     data?: ActiveEffectData | PassiveEffectData
   ) {
     if (!data) { debugger; throw new Error("No Data"); }
-    let playerCards = data.getTargets(TARGETTYPE.PLAYER) as Node[]
+    const playerCards = data.getTargets(TARGETTYPE.PLAYER) as Node[]
+    if (playerCards.length == 0) {
+      throw new CardEffectTargetError(`No Player Targets found`, true, data, stack)
+    }
     for (const playerCard of playerCards) {
       this.setPlayerBool(WrapperProvider.playerManagerWrapper.out.getPlayerByCard(playerCard))
     }

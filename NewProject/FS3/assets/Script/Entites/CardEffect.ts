@@ -287,14 +287,6 @@ export class CardEffect extends Component {
       }
       if (doEffect) {
         serverEffectStack = await EffectRunner.runEffect(chosenEffect, WrapperProvider.stackWrapper.out._currentStack, effectData)
-        // serverEffectStack = await chosenEffect.doEffect(
-        //   WrapperProvider.stackWrapper.out._currentStack,
-        //   effectData
-        // );
-
-        // if (chosenEffect.hasDataConcurency) {
-        //   chosenEffect.runDataConcurency(effectData, numOfEffect, type, true)
-        // }
       } else {
         return effectData
       }

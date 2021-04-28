@@ -1,15 +1,14 @@
-import { log, _decorator, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
+import { Node, _decorator } from 'cc';
 import { TARGETTYPE } from "../../Constants";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Player } from "../../Entites/GameEntities/Player";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PlayerManager } from "../../Managers/PlayerManager";
+import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { Effect } from "./Effect";
-import { Stack } from "../../Entites/Stack";
-import { WrapperProvider } from '../../Managers/WrapperProvider';
+const { ccclass, property } = _decorator;
+
 
 @ccclass('DestroyCurse')
 export class DestroyCurse extends Effect {
@@ -22,7 +21,7 @@ export class DestroyCurse extends Effect {
     if (!data) { debugger; throw new Error("No Data!"); }
     const targetCurses = data.getTargets(TARGETTYPE.CARD)
     if (targetCurses.length == 0) {
-      console.log(`no targets`)
+      throw new CardEffectTargetError(`target curses are null`, true, data, stack)
     } else {
       let player: Player
       for (let i = 0; i < targetCurses.length; i++) {

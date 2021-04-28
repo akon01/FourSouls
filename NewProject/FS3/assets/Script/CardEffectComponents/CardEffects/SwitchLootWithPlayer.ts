@@ -1,18 +1,16 @@
-import { _decorator, Node, log } from 'cc';
-const { ccclass, property } = _decorator;
-
-import { CardManager } from "../../Managers/CardManager";
+import { Node, _decorator } from 'cc';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
-import { PassiveEffectData } from '../../Managers/PassiveEffectData';
 import { EffectTarget } from '../../Managers/EffectTarget';
-import { PlayerManager } from "../../Managers/PlayerManager";
+import { PassiveEffectData } from '../../Managers/PassiveEffectData';
+import { WrapperProvider } from '../../Managers/WrapperProvider';
 import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
+import { ChooseCardTypeAndFilter } from "../ChooseCardTypeAndFilter";
 import { ChooseCard } from "../DataCollector/ChooseCard";
 import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
 import { Effect } from "./Effect";
-import { Stack } from "../../Entites/Stack";
-import { ChooseCardTypeAndFilter } from "../ChooseCardTypeAndFilter";
-import { WrapperProvider } from '../../Managers/WrapperProvider';
+const { ccclass, property } = _decorator;
+
 
 @ccclass('SwitchLootWithPlayer')
 export class SwitchLootWithPlayer extends Effect {
@@ -27,6 +25,9 @@ export class SwitchLootWithPlayer extends Effect {
   ) {
     if (!data) { debugger; throw new Error("No Data"); }
     const playersCards = data.getTargets(TARGETTYPE.PLAYER)
+    if (playersCards.length == 0) {
+      throw new CardEffectTargetError(`No Player Cards Targets found`, true, data, stack)
+    }
     const players = []
     for (let i = 0; i < playersCards.length; i++) {
       const playerCard = playersCards[i];

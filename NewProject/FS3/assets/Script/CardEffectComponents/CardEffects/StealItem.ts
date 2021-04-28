@@ -11,6 +11,7 @@ import { Effect } from "./Effect";
 import { Store } from "../../Entites/GameEntities/Store";
 import { Stack } from "../../Entites/Stack";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 
 @ccclass('StealItem')
 export class StealItem extends Effect {
@@ -28,6 +29,9 @@ export class StealItem extends Effect {
     if (!data) { debugger; throw new Error("No Data"); }
     const stealer = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(data.effectCardPlayer!)!
     const itemToSteal = data.getTarget(TARGETTYPE.ITEM)
+    if (!itemToSteal) {
+      throw new CardEffectTargetError(`No Item To Steal Target found`, true, data, stack)
+    }
     if (itemToSteal instanceof Node) {
       if (itemToSteal == null) {
         console.log(`no target player available`)

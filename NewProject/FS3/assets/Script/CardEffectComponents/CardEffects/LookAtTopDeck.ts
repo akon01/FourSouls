@@ -10,6 +10,7 @@ import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
 import { Effect } from "./Effect";
 import { Player } from "../../Entites/GameEntities/Player";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 
 @ccclass('LookAtTopDeck')
 export class LookAtTopDeck extends Effect {
@@ -33,11 +34,14 @@ export class LookAtTopDeck extends Effect {
     if (!data) { debugger; throw new Error("No Data"); }
     const deckNode = data.getTarget(TARGETTYPE.DECK)
     let deck: Deck | null = null
+    if (!deckNode) {
+      throw new CardEffectTargetError(`No Deck To Look At Top Of Found`, true, data, stack)
+    }
     if (deckNode instanceof Node) {
       deck = deckNode.getComponent(Deck)!;
     }
     if (deck == null) {
-      console.log(`no deck`)
+      throw new CardEffectTargetError(`No Deck Component Found`, false, data, stack)
     } else {
       const cardsToSee: Node[] = [];
       for (let i = 1; i <= this.numOfCards; i++) {

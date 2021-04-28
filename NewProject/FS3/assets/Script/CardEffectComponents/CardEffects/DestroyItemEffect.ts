@@ -1,6 +1,7 @@
 import { CCInteger, log, Node, _decorator } from 'cc';
 import { TARGETTYPE } from "../../Constants";
 import { Item } from '../../Entites/CardTypes/Item';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Player } from "../../Entites/GameEntities/Player";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
@@ -23,7 +24,7 @@ export class DestroyItemEffect extends Effect {
     if (!data) { debugger; throw new Error("No Data!"); }
     const targetItems = data.getTargets(TARGETTYPE.ITEM)
     if (targetItems.length == 0) {
-      console.log(`no targets`)
+      throw new CardEffectTargetError(`target items are null`, true, data, stack)
     } else {
       let player: Player
       for (let i = 0; i < targetItems.length; i++) {

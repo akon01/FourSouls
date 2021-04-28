@@ -1,16 +1,13 @@
-import { _decorator, log, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
-import { CardManager } from "../../Managers/CardManager";
+import { Node, _decorator } from 'cc';
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
-import { PlayerManager } from "../../Managers/PlayerManager";
-import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
-import { ServerEffect } from "./../../Entites/ServerCardEffect";
-import { Effect } from "./Effect";
-import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
-import { Stack } from "../../Entites/Stack";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
+import { CHOOSE_CARD_TYPE, TARGETTYPE } from "./../../Constants";
+import { Effect } from "./Effect";
+const { ccclass, property } = _decorator;
+
 
 @ccclass('DiscardAndDrawLoot')
 export class DiscardAndDrawLoot extends Effect {
@@ -27,7 +24,8 @@ export class DiscardAndDrawLoot extends Effect {
     if (!data) { debugger; throw new Error("No Data!"); }
     const cardChosen = data.getTargets(TARGETTYPE.CARD)
     console.log(cardChosen)
-    if (cardChosen == null) {
+    if (cardChosen.length == 0) {
+      throw new CardEffectTargetError(`target cards to discard are null`, true, data, stack)
       //console.log(`target card is null`)
     } else {
       if (cardChosen instanceof Node) {

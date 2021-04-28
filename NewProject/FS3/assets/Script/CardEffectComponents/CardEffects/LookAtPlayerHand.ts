@@ -1,32 +1,31 @@
-import { _decorator, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
-import { TARGETTYPE, CHOOSE_CARD_TYPE } from "../../Constants";
-import { Player } from "../../Entites/GameEntities/Player";
-import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
-
-import { Effect } from "./Effect";
-import { TakeLootFromPlayer } from "./TakeLootFromPlayer";
-import { ChooseCard } from "../DataCollector/ChooseCard";
+import { Node, _decorator } from 'cc';
+import { CHOOSE_CARD_TYPE, TARGETTYPE } from "../../Constants";
+import { CardEffectTargetError } from '../../Entites/Errors/CardEffectTargetError';
 import { Card } from "../../Entites/GameEntities/Card";
-import { ChooseCardTypeAndFilter } from "../ChooseCardTypeAndFilter";
+import { Player } from "../../Entites/GameEntities/Player";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
-import { EffectTarget } from '../../Managers/EffectTarget';
+import { EffectRunner } from '../../Managers/EffectRunner';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
 import { WrapperProvider } from '../../Managers/WrapperProvider';
-import { EffectRunner } from '../../Managers/EffectRunner';
-import { EffectTargetFactory } from '../../Managers/EffectTargetFactory';
+import { StackEffectInterface } from "../../StackEffects/StackEffectInterface";
+import { ChooseCardTypeAndFilter } from "../ChooseCardTypeAndFilter";
+import { ChooseCard } from "../DataCollector/ChooseCard";
+import { Effect } from "./Effect";
+import { TakeLootFromPlayer } from "./TakeLootFromPlayer";
+const { ccclass, property } = _decorator;
+
+
 
 @ccclass('LookAtPlayerHand')
 export class LookAtPlayerHand extends Effect {
   chooseType = CHOOSE_CARD_TYPE.ALL_PLAYERS;
   effectName = "LookAtPlayerHand";
   @property
-  multiTarget: boolean = false;
+  multiTarget = false;
   @property
-  isAlsoMayStealAChosenCard: boolean = false
+  isAlsoMayStealAChosenCard = false
   @property({ override: true })
-  optionalFlavorText: string = ''
+  optionalFlavorText = ''
   /**
    *
    * @param data {target:PlayerId}
@@ -41,7 +40,7 @@ export class LookAtPlayerHand extends Effect {
     if (this.multiTarget) {
       const playersCards = data.getTargets(TARGETTYPE.PLAYER)
       if (!(playersCards != null && playersCards.length > 0)) {
-        throw new Error(`no targets`)
+        throw new CardEffectTargetError(`No Target Players Found`, true, data, stack)
       } else {
         const players = (playersCards as Node[]).map(card => WrapperProvider.playerManagerWrapper.out.getPlayerByCard(card)!)
         for (let i = 0; i < players.length; i++) {
@@ -63,7 +62,7 @@ export class LookAtPlayerHand extends Effect {
       if (playerCard instanceof Node) {
         const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(playerCard)!
         if (player == null) {
-          throw new Error("No Target Found")
+          throw new CardEffectTargetError(`No Target Player Found`, true, data, stack)
         } else {
           const playerHandCards = player.getHandCards();
           const cardsToSee: Node[] = playerHandCards
@@ -87,7 +86,7 @@ export class LookAtPlayerHand extends Effect {
     chooseCard.chooseType.chooseType = CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND
     chooseCard.flavorText = "Choose A Card To Steal"
 
-    let cardTarget = await chooseCard.collectData({ cardPlayerId: originalPlayer.playerId })
+    const cardTarget = await chooseCard.collectData({ cardPlayerId: originalPlayer.playerId })
 
 
     // const cards = await chooseCard.getCardsToChoose(CHOOSE_CARD_TYPE.SPECIPIC_PLAYER_HAND, originalPlayer, player)

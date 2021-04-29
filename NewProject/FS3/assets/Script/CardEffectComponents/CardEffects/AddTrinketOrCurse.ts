@@ -120,6 +120,7 @@ export class AddTrinketOrCurse extends Effect {
       }
       thisCardEffect.passiveEffects.push(this.itemEffectToAdd)
     }
+    debugger
     //   this.enabled=false
 
   }

@@ -230,6 +230,7 @@ export class ActionManager extends Component {
   private async decideForAttackable(monsterDeck: Deck) {
 
     const monsters = [...WrapperProvider.monsterFieldWrapper.out.getActiveMonsters(), monsterDeck.node, ...WrapperProvider.playerManagerWrapper.out.players]
+
     const turnPlayer = WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer()!;
     if (turnPlayer._mustAttackMonsters.length > 0) {
       turnPlayer._mustAttackMonsters.forEach(async monster => {
@@ -243,7 +244,7 @@ export class ActionManager extends Component {
 
         const activeMonster = monsters[i];
         const monsterComp: IAttackableEntity | null = activeMonster.getComponent(Monster) ?? activeMonster.getComponent(Player);
-        if ((monsterComp != null && !monsterComp.getCanBeAttacked()) || monsterComp == null) {
+        if ((monsterComp != null && monsterComp.getCanBeAttacked()) || monsterComp == null) {
           await this.updateCardAction(activeMonster, CARD_ACTIONS.ATTACKABLE);
         }
       }

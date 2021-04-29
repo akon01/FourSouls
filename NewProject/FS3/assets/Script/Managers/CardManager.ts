@@ -680,9 +680,13 @@ export class CardManager extends Component {
       }
 
       disableCardActions(card: Node) {
+            const playerComp = card.getComponent(Player);
             // if (card == this.treasureDeck.getComponent(Deck)!.topBlankCard) {
             //   console.log(`disable top of shop card actions`)
             // }
+            if (playerComp) {
+                  card = playerComp.character!
+            }
             card.off(Node.EventType.TOUCH_START);
             if (card.getComponent(Deck) == null) {
                   const cardComp = card.getComponent(Card)!;

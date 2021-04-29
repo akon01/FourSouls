@@ -215,7 +215,6 @@ export class Deck extends Component {
       }
 
       setMouseHover() {
-            debugger
             const meMouse = WrapperProvider.playerManagerWrapper.out.mePlayer?.getComponent(Player)?.mouse
 
             if (meMouse)

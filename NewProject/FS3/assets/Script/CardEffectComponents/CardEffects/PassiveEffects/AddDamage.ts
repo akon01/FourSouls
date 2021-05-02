@@ -32,6 +32,7 @@ export class AddDamage extends PassiveEffect {
             } else {
                   args[0] = args[0] * 2
             }
+            console.log("ssd")
             return data
       }
 }

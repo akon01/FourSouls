@@ -17,17 +17,22 @@ export class EffectRunner {
             const serverEffectStack = await chosenEffect.doEffect(stack, data);
             const effectCard = chosenEffect.getEffectCard()!;
             const cardEffectComp = effectCard.getComponent(CardEffect)!
-            const effectDetails = cardEffectComp.getEffectIndexAndType(chosenEffect);
-            if (chosenEffect.hasDataConcurency) {
-                chosenEffect.runDataConcurency(data, effectDetails.index, effectDetails.type, true)
-            }
-            if (chosenEffect.isContinuousEffect) {
-                if (chosenEffect.markAsRunningOrNotRunning) {
-                    chosenEffect.effectRunning = true;
-                } else {
-                    chosenEffect.effectRunning = false;
+            try {
+                const effectDetails = cardEffectComp.getEffectIndexAndType(chosenEffect);
+                if (chosenEffect.hasDataConcurency) {
+                    chosenEffect.runDataConcurency(data, effectDetails.index, effectDetails.type, true)
                 }
-                WrapperProvider.serverClientWrapper.out.send(Signal.MARK_EFFECT_AS_RUNNING, { cardId: effectCard.getComponent(Card)?._cardId, effectIndex: effectDetails.index, effectType: effectDetails.type, markBool: chosenEffect.markAsRunningOrNotRunning })
+                if (chosenEffect.isContinuousEffect) {
+                    if (chosenEffect.markAsRunningOrNotRunning) {
+                        chosenEffect.effectRunning = true;
+                    } else {
+                        chosenEffect.effectRunning = false;
+                    }
+                    WrapperProvider.serverClientWrapper.out.send(Signal.MARK_EFFECT_AS_RUNNING, { cardId: effectCard.getComponent(Card)?._cardId, effectIndex: effectDetails.index, effectType: effectDetails.type, markBool: chosenEffect.markAsRunningOrNotRunning })
+                }
+            } catch (error) {
+                console.error(error)
+                console.error("After Running Effect, Cant Find Effect By Index and Type, currnetly happens in trinkets always")
             }
             const passiveManager = WrapperProvider.passiveManagerWrapper.out
             if (chosenEffect.isOneTimeUse && [...passiveManager.oneTurnAfterEffects, passiveManager.oneTurnBeforeEffects].includes(chosenEffect)) {
@@ -42,6 +47,7 @@ export class EffectRunner {
                 console.error(`original InGameStack:`, error.inGameStack)
             } else {
                 debugger
+                console.error(error)
                 console.error(`i dont think i need to Be Here now!`)
             }
         }

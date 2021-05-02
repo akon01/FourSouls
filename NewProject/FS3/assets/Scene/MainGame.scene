@@ -30,7 +30,7 @@
     "_prefab": null,
     "autoReleaseAssets": true,
     "_globals": {
-      "__id__": 1807
+      "__id__": 1809
     },
     "_id": "2d2f792f-a40c-49bb-a189-ed176a246e49"
   },
@@ -143,18 +143,21 @@
       },
       {
         "__id__": 1802
+      },
+      {
+        "__id__": 1804
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 1804
-      },
-      {
-        "__id__": 1805
-      },
-      {
         "__id__": 1806
+      },
+      {
+        "__id__": 1807
+      },
+      {
+        "__id__": 1808
       }
     ],
     "_prefab": null,
@@ -791,7 +794,7 @@
     "_priority": 0,
     "_fov": 56,
     "_fovAxis": 0,
-    "_orthoHeight": 630.1969365426696,
+    "_orthoHeight": 540,
     "_near": 1,
     "_far": 1000,
     "_color": {
@@ -54813,6 +54816,60 @@
     "_id": "7fg1RjDppI6oQekbI3nkYw"
   },
   {
+    "__type__": "cc.Node",
+    "_name": "EffectTargetFactory",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 4
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 1805
+      }
+    ],
+    "_prefab": null,
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_layer": 1073741824,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": "a22Z38Z59AlZh7wg/zFE/F"
+  },
+  {
+    "__type__": "ea0c3ow0KtGu6LjzinB6843",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1804
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "_id": "cfgvbX/fFM/6QJu9PDXiJV"
+  },
+  {
     "__type__": "57e49/EzvBIjbnfrTnd+ljt",
     "_name": "",
     "_objFlags": 0,
@@ -54898,16 +54955,16 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 1808
-    },
-    "shadows": {
-      "__id__": 1809
-    },
-    "_skybox": {
       "__id__": 1810
     },
-    "fog": {
+    "shadows": {
       "__id__": 1811
+    },
+    "_skybox": {
+      "__id__": 1812
+    },
+    "fog": {
+      "__id__": 1813
     }
   },
   {

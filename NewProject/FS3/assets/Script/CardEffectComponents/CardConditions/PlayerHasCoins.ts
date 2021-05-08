@@ -22,8 +22,8 @@ export class PlayerHasCoins extends Condition {
 
   isFirstTime = true
   needsDataCollector = false;
-  async testCondition(meta: PassiveMeta) {
-    if (this.isOneTimeOnly && !this.isFirstTime) return false;
+  testCondition(meta: PassiveMeta) {
+    if (this.isOneTimeOnly && !this.isFirstTime) return Promise.resolve(false);
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
     let answer = true
@@ -45,6 +45,6 @@ export class PlayerHasCoins extends Condition {
         }
       }
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

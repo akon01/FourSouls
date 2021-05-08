@@ -11,12 +11,12 @@ import { Condition } from './Condition';
 export class CardOwnerEndTurnWithAmountOfResource extends Condition {
   event = PASSIVE_EVENTS.PLAYER_END_TURN
   @property
-  amount: number = 0
+  amount = 0
   @property({ type: Enum(PLAYER_RESOURCES) })
   resource: PLAYER_RESOURCES = PLAYER_RESOURCES.MONEY;
   needsDataCollector = false;
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
@@ -29,22 +29,22 @@ export class CardOwnerEndTurnWithAmountOfResource extends Condition {
       switch (this.resource) {
         case PLAYER_RESOURCES.LOOT:
           if (cardOwner.getHandCards().length == this.amount) {
-            return true
+            return Promise.resolve(true);
           } else {
-            return false
+            return Promise.resolve(false);
           }
         case PLAYER_RESOURCES.MONEY:
           if (cardOwner.coins == this.amount) {
-            return true
+            return Promise.resolve(true);
           } else {
-            return false
+            return Promise.resolve(false);
           }
         default:
-          return false
+          return Promise.resolve(false);
           break;
       }
     } else {
-      return false
+      return Promise.resolve(false);
     }
   }
 }

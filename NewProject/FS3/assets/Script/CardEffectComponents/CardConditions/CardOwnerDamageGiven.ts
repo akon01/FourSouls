@@ -21,17 +21,17 @@ export class CardOwnerDamageGiven extends Condition {
       if (this.isOnlyPlayers == false) { return true }
     }
   })
-  isOnlyMonsters: boolean = false;
+  isOnlyMonsters = false;
   //@ts-ignore
   @property({
     visible: function (this: CardOwnerDamageGiven) {
       if (this.isOnlyMonsters == false) { return true }
     }
   })
-  isOnlyPlayers: boolean = false;
+  isOnlyPlayers = false;
   needsDataCollector = false;
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     let eventsToCheck = [];
     if (this.isOnlyMonsters) {
       eventsToCheck.push(PASSIVE_EVENTS.MONSTER_GET_HIT)
@@ -48,16 +48,16 @@ export class CardOwnerDamageGiven extends Condition {
     if (!meta.args) { debugger; throw new Error("No Args"); }
     const damageDealer = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(meta.args[1])
     if (!damageDealer) {
-      return false;
+      return Promise.resolve(false);
     }
     if (
       damageDealer instanceof Player &&
       cardOwner.playerId && damageDealer.playerId &&
       eventsToCheck.indexOf(meta.passiveEvent!) >= 0
     ) {
-      return true;
+      return Promise.resolve(true);
     } else {
-      return false;
+      return Promise.resolve(false);
     }
   }
 }

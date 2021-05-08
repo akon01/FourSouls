@@ -35,7 +35,7 @@ export class MonsterIsMadeAttackable extends Condition {
   specificNotMonsterCard: Node | null = null
   @property
   isTurnPlayerNotOnBattle = false
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
     const monster: Monster = meta.methodScope.getComponent(Monster)!;
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node);
@@ -62,6 +62,6 @@ export class MonsterIsMadeAttackable extends Condition {
         answer = false;
       }
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

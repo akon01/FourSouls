@@ -20,7 +20,7 @@ export class AddPlayLootOpportunity extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
+  doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
     if (!data) { debugger; throw new Error("No Data!"); }
     const playerCard = data.getTarget(TARGETTYPE.PLAYER) as Node
     if (!playerCard) {
@@ -34,7 +34,7 @@ export class AddPlayLootOpportunity extends Effect {
 
     //  }
 
-    if (data instanceof PassiveEffectData) { return data }
-    return WrapperProvider.stackWrapper.out._currentStack
+    if (data instanceof PassiveEffectData) { return Promise.resolve(data) }
+    return Promise.resolve(WrapperProvider.stackWrapper.out._currentStack)
   }
 }

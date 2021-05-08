@@ -21,7 +21,7 @@ export class CardIsRemovedFromPile extends Condition {
   })
   specificCardToGetRemoved: Node | null = null
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
     if (!meta.args) { debugger; throw new Error("No Args"); }
     const cardAdded = meta.methodScope
@@ -32,6 +32,6 @@ export class CardIsRemovedFromPile extends Condition {
         answer = false
       }
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

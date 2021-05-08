@@ -31,7 +31,7 @@ export class PlayerRollDiceCondition extends Condition {
   @property
   checkIsFirstRollOfTurn = false
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
     if (!meta.args) { debugger; throw new Error("No Args"); }
     let answer = true
@@ -61,6 +61,6 @@ export class PlayerRollDiceCondition extends Condition {
         answer = false
       }
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

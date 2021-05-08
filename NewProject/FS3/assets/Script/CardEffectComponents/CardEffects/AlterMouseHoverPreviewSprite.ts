@@ -22,7 +22,7 @@ export class AlterMouseHoverPreviewSprite extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(
+  doEffect(
     stack: StackEffectInterface[],
     data?: ActiveEffectData | PassiveEffectData
   ) {
@@ -37,8 +37,8 @@ export class AlterMouseHoverPreviewSprite extends Effect {
 
 
 
-    if (data instanceof PassiveEffectData) { return data }
-    return WrapperProvider.stackWrapper.out._currentStack
+    if (data instanceof PassiveEffectData) { return Promise.resolve(data) }
+    return Promise.resolve(WrapperProvider.stackWrapper.out._currentStack)
   }
 
 }

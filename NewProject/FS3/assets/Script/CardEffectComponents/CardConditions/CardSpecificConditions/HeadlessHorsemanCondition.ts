@@ -14,12 +14,12 @@ export class HeadlessHorsemanCondition extends Condition {
   monsterDeathCondition: Condition | null = null
   // @property(CCInteger)
   // monsterDeathConditionIdFinal: number = -1
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!this.monsterDeathCondition) {
       throw new Error("No Monster Death Condition Set!")
     }
     if (!this._isFirstTime) {
-      return false;
+      return Promise.resolve(false);
     }
     return EffectRunner.testCondition(this.monsterDeathCondition, meta);
   }

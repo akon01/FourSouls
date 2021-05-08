@@ -13,9 +13,9 @@ export class CardOwnerGainCoins extends Condition {
   needsDataCollector = false;
 
   @property
-  isOnlyNotCardOwner: boolean = false
+  isOnlyNotCardOwner = false
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
     if (!meta.args) { debugger; throw new Error("No Args"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
@@ -37,6 +37,6 @@ export class CardOwnerGainCoins extends Condition {
     if (!(meta.args[0] > 0)) {
       answer = false
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

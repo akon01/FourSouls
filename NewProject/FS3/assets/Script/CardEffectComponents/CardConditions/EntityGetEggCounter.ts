@@ -42,7 +42,7 @@ export class EntityGetEggCounter extends Condition {
 
   event = PASSIVE_EVENTS.EGG_COUNTER_ADDED
   //  events = [PASSIVE_EVENTS.MONSTER_GET_HIT, PASSIVE_EVENTS.PLAYER_GET_HIT]
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     let scope: Player | Monster | null = null;
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
     scope = meta.methodScope.getComponent(Player)!;
@@ -98,6 +98,6 @@ export class EntityGetEggCounter extends Condition {
       const attackableComp = target!.getComponent(Monster) ?? target!.getComponent(Player)
       answer = this.checkIsEntityAttackableConditionProp.CheckEntity(attackableComp!, answer)
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

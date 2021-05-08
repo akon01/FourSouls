@@ -31,7 +31,7 @@ export class ChangePlayerAttackable extends Effect {
      *
      * @param data {target:PlayerId}
      */
-    async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
+    doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
         if (!data) { debugger; throw new Error("No Data"); }
         const targetPlayerCards = data.getTargets(TARGETTYPE.PLAYER) as Node[]
         if (targetPlayerCards.length == 0) {
@@ -41,8 +41,8 @@ export class ChangePlayerAttackable extends Effect {
             this.handlePlayer(player);
         }
 
-        if (data instanceof PassiveEffectData) { return data }
-        return WrapperProvider.stackWrapper.out._currentStack
+        if (data instanceof PassiveEffectData) { return Promise.resolve(data) }
+        return Promise.resolve(WrapperProvider.stackWrapper.out._currentStack)
     }
 
     private handlePlayer(player: Node) {

@@ -1,19 +1,17 @@
 import { _decorator } from 'cc';
-const { ccclass, property } = _decorator;
-
-import { PASSIVE_EVENTS, ROLL_TYPE } from "../../Constants";
+import { PASSIVE_EVENTS } from "../../Constants";
 import { Player } from "../../Entites/GameEntities/Player";
 import { PassiveMeta } from "../../Managers/PassiveMeta";
-import { PlayerManager } from "../../Managers/PlayerManager";
-import { Condition } from "./Condition";
-import { Card } from "../../Entites/GameEntities/Card";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { Condition } from "./Condition";
+const { ccclass, property } = _decorator;
+
 
 @ccclass('CardOwnerTakeFirstDamageThisTurn')
 export class CardOwnerTakeFirstDamageThisTurn extends Condition {
   event = PASSIVE_EVENTS.PLAYER_GET_HIT
   needsDataCollector = false;
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
 
     const player: Player = meta.methodScope.getComponent(Player)!;
@@ -24,9 +22,9 @@ export class CardOwnerTakeFirstDamageThisTurn extends Condition {
       player.name == cardOwner.name &&
       player.isFirstHitInTurn
     ) {
-      return true;
+      return Promise.resolve(true);
     } else {
-      return false;
+      return Promise.resolve(false);
     }
   }
 }

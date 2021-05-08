@@ -21,7 +21,7 @@ export class DeactivateItem extends Effect {
        *
        * @param data {target:PlayerId}
        */
-      async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
+      doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
             if (!data) { debugger; throw new Error("No Data!"); }
             if (this.isMulti) {
                   const targetItems = data.getAllTargets()
@@ -30,7 +30,7 @@ export class DeactivateItem extends Effect {
                   }
                   for (let i = 0; i < targetItems.nodes.length; i++) {
                         const target = targetItems.nodes[i];
-                        await this.deactivateItem(target)
+                        this.deactivateItem(target)
                   }
             } else {
                   let targetItem: Node
@@ -41,16 +41,16 @@ export class DeactivateItem extends Effect {
                               throw new CardEffectTargetError(`target item is null`, true, data, stack)
                         }
                   }
-                  await this.deactivateItem(targetItem);
+                  this.deactivateItem(targetItem);
             }
 
 
 
-            if (data instanceof PassiveEffectData) { return data }
-            return WrapperProvider.stackWrapper.out._currentStack
+            if (data instanceof PassiveEffectData) { return Promise.resolve(data) }
+            return Promise.resolve(WrapperProvider.stackWrapper.out._currentStack)
       }
-      private async deactivateItem(targetItem: any) {
+      private deactivateItem(targetItem: any) {
             const cardPlayer = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetItem)!;
-            await cardPlayer.deactivateItem(targetItem, true);
+            cardPlayer.deactivateItem(targetItem, true);
       }
 }

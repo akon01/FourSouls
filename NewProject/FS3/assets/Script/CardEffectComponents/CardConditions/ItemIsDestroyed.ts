@@ -12,7 +12,7 @@ export class ItemIsDestroyed extends Condition {
   event = PASSIVE_EVENTS.ITEM_DESTROY
 
   @property
-  isSpecificItem= false
+  isSpecificItem = false
 
   @property({
     visible: function (this: ItemIsDestroyed) {
@@ -21,7 +21,7 @@ export class ItemIsDestroyed extends Condition {
   })
   specificItemToBeDestroyed: Item | null = null
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
     if (!meta.args) { debugger; throw new Error("No Args"); }
     const item = meta.methodScope.getComponent(Item)!;
@@ -35,6 +35,6 @@ export class ItemIsDestroyed extends Condition {
         answer = false
       }
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

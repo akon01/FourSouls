@@ -10,10 +10,10 @@ import { Condition } from './Condition';
 export class CardOwnerEndTurn extends Condition {
   event = PASSIVE_EVENTS.PLAYER_END_TURN
   @property
-  isCardOwnerOnly: boolean = true;
+  isCardOwnerOnly = true;
   needsDataCollector = false;
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     console.error(`test card owner end turn`)
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
@@ -33,6 +33,6 @@ export class CardOwnerEndTurn extends Condition {
       }
 
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

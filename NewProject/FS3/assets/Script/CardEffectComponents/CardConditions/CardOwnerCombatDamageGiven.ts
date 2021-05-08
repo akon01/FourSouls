@@ -12,13 +12,14 @@ export class CardOwnerCombatDamageGiven extends Condition {
   event = PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_GIVEN
   needsDataCollector = false;
   @property
-  isOnlyFirst: boolean = false
+  isOnlyFirst = false
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
     const cardOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(thisCard)!;
+    let answer = false
     if (
       player instanceof Player &&
       player.name == cardOwner.name
@@ -26,13 +27,13 @@ export class CardOwnerCombatDamageGiven extends Condition {
     ) {
       if (this.isOnlyFirst) {
         if (cardOwner.isFirstHitInTurn) {
-          return true
+          answer = true
         }
-        return false
+        return Promise.resolve(answer);
       }
-      return true;
+      return Promise.resolve(true);
     } else {
-      return false;
+      return Promise.resolve(false);
     }
   }
 }

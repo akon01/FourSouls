@@ -16,7 +16,7 @@ export class PlayerBuyFromShop extends Condition {
   needsDataCollector = true;
 
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
     // let playerName = WrapperProvider.playerManagerWrapper.out.getPlayerByCardId(this.conditionData.cardChosenId).name;
@@ -32,20 +32,20 @@ export class PlayerBuyFromShop extends Condition {
             player.playerId == selectedPlayer.playerId &&
             new Set(WrapperProvider.storeWrapper.out.getStoreCards().concat(WrapperProvider.storeWrapper.out.thisTurnStoreCards)).has(meta.args[1])
           ) {
-            return true;
+            return Promise.resolve(true);
           } else {
-            return false;
+            return Promise.resolve(false);
           }
         }
       }
     } else {
       if (!meta.args) { debugger; throw new Error("No Args"); }
       if (player instanceof Player && new Set(WrapperProvider.storeWrapper.out.getStoreCards().concat(WrapperProvider.storeWrapper.out.thisTurnStoreCards)).has(meta.args[1])) {
-        return true
+        return Promise.resolve(true);
       } else {
-        return false
+        return Promise.resolve(false);
       }
     }
-    return false
+    return Promise.resolve(false);
   }
 }

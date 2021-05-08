@@ -12,19 +12,19 @@ const { ccclass, property } = _decorator;
 export class PlayerLoseThisItem extends Condition {
   event = PASSIVE_EVENTS.PLAYER_LOSE_ITEM
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
     if (!meta.args) { debugger; throw new Error("No Args"); }
-    let player: Player = meta.methodScope.getComponent(Player)!;
+    const player: Player = meta.methodScope.getComponent(Player)!;
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
     if (
       player instanceof Player &&
       meta.passiveEvent == PASSIVE_EVENTS.PLAYER_ADD_ITEM &&
       thisCard == meta.args[0]
     ) {
-      return true;
+      return Promise.resolve(true);
     } else {
-      return false;
+      return Promise.resolve(false);
     }
 
   }

@@ -10,16 +10,16 @@ const { ccclass, property } = _decorator;
 @ccclass('CardOwnerTakeDamageOnRoll')
 export class CardOwnerTakeDamageOnRoll extends Condition {
   @property
-  rollOf: number = 0
+  rollOf = 0
   event = PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_TAKEN
 
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
     if (!meta.args) { debugger; throw new Error("No Args"); }
-    let player: Player = meta.methodScope.getComponent(Player)!;
-    let thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
-    let cardOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(thisCard)!;
+    const player: Player = meta.methodScope.getComponent(Player)!;
+    const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
+    const cardOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(thisCard)!;
 
     if (
       player instanceof Player &&
@@ -27,9 +27,9 @@ export class CardOwnerTakeDamageOnRoll extends Condition {
       // meta.passiveEvent == PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_TAKEN &&
       meta.args[1] == this.rollOf
     ) {
-      return true;
+      return Promise.resolve(true);
     } else {
-      return false;
+      return Promise.resolve(false);
     }
   }
 }

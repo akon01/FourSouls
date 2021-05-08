@@ -11,7 +11,7 @@ import { WrapperProvider } from '../../Managers/WrapperProvider';
 export class CardOwnerMissAttack extends Condition {
   event = PASSIVE_EVENTS.PLAYER_MISS_ATTACK
   @property
-  isSpecificRoll: boolean = false;
+  isSpecificRoll = false;
   //@ts-ignore
   @property({
     visible: function (this: CardOwnerMissAttack) {
@@ -19,10 +19,10 @@ export class CardOwnerMissAttack extends Condition {
     }
     , type: CCInteger
   })
-  specificNumber: number = 1;
+  specificNumber = 1;
   needsDataCollector = false;
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
     if (!meta.args) { debugger; throw new Error("No Args"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
@@ -36,11 +36,11 @@ export class CardOwnerMissAttack extends Condition {
     ) {
       if (this.isSpecificRoll) {
         if (this.specificNumber == meta.args[0]) {
-          return true
-        } else { return false }
-      } else { return true; }
+          return Promise.resolve(true);
+        } else { return Promise.resolve(false); }
+      } else { return Promise.resolve(true); }
     } else {
-      return false;
+      return Promise.resolve(false);
     }
   }
 }

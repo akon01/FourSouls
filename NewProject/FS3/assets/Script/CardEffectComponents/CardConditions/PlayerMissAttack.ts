@@ -10,7 +10,7 @@ const { ccclass, property } = _decorator;
 export class PlayerMissAttack extends Condition {
   event = PASSIVE_EVENTS.PLAYER_MISS_ATTACK
   @property
-  isOnSpecificRoll: boolean = false
+  isOnSpecificRoll = false
   @property({
     type: [CCInteger], visible: function (this: PlayerMissAttack) {
       return this.isOnSpecificRoll
@@ -18,7 +18,7 @@ export class PlayerMissAttack extends Condition {
   })
   specificRolls: number[] = []
   @property
-  isOnSpecificMonster: boolean = false;
+  isOnSpecificMonster = false;
   @property({
     type: Node, visible: function (this: PlayerMissAttack) {
       return this.isOnSpecificMonster
@@ -26,7 +26,7 @@ export class PlayerMissAttack extends Condition {
   })
   specificMonster: Node | null = null
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
     let answer = true
@@ -52,6 +52,6 @@ export class PlayerMissAttack extends Condition {
         answer = false;
       }
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

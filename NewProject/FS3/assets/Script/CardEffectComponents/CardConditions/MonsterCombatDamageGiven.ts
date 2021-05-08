@@ -20,7 +20,7 @@ export class MonsterCombatDamageGiven extends Condition {
   })
   entityWhoDealtDamage: Node | null = null;
   event = PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_TAKEN
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
     console.log(`test monster combat damage given`)
     const player: Player = meta.methodScope.getComponent(Player)!;
@@ -30,7 +30,7 @@ export class MonsterCombatDamageGiven extends Condition {
       if (!meta.args) { debugger; throw new Error("No Args"); }
       if (this.entityWhoDealtDamage != meta.args[2]) { answer = false; }
     }
-    return answer
+    return Promise.resolve(answer);
 
   }
 }

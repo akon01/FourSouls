@@ -42,7 +42,7 @@ export class NewActiveMonster extends Condition {
     @property
     notInConcurentData = false;
 
-    async testCondition(meta: PassiveMeta) {
+    testCondition(meta: PassiveMeta) {
 
         const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
         if (!meta.args) { debugger; throw new Error("No Args"); }
@@ -81,6 +81,6 @@ export class NewActiveMonster extends Condition {
                 result = false
             }
         }
-        return result;
+        return Promise.resolve(result);
     }
 }

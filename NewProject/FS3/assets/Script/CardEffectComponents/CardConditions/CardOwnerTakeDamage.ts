@@ -11,7 +11,7 @@ import { WrapperProvider } from '../../Managers/WrapperProvider';
 export class CardOwnerTakeDamage extends Condition {
   event = PASSIVE_EVENTS.PLAYER_GET_HIT
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node);
@@ -21,9 +21,9 @@ export class CardOwnerTakeDamage extends Condition {
       player.name == cardOwner.name
       // &&      meta.passiveEvent == PASSIVE_EVENTS.PLAYER_GET_HIT
     ) {
-      return true;
+      return Promise.resolve(true);
     } else {
-      return false;
+      return Promise.resolve(false);
     }
   }
 }

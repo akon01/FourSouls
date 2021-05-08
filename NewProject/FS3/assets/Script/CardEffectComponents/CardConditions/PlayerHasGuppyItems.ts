@@ -11,18 +11,18 @@ const { ccclass, property } = _decorator;
 export class PlayerHasGuppyItems extends Condition {
   event = PASSIVE_EVENTS.PLAYER_ADD_ITEM
   @property
-  numOfItems: number = 2;
-  async testCondition(meta: PassiveMeta) {
+  numOfItems = 2;
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
-    let player: Player = meta.methodScope.getComponent(Player)!;
+    const player: Player = meta.methodScope.getComponent(Player)!;
     if (
       player instanceof Player &&
       player.getDeskCards().filter(item => item.getComponent(Item)!.isGuppyItem).length >= this.numOfItems &&
       this.event == meta.passiveEvent
     ) {
-      return true;
+      return Promise.resolve(true);
     } else {
-      return false;
+      return Promise.resolve(false);
     }
 
   }

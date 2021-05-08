@@ -13,13 +13,13 @@ export class DiplopiaCondition extends Condition {
   diplopiaEffect: DiplopiaEffect | null = null
   // @property(CCInteger)
   // monsterDeathConditionIdFinal: number = -1
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!this.diplopiaEffect) {
       throw new Error("No Diplopia Effect Set!")
     }
     if (this.diplopiaEffect.copiedCard == null) {
-      return false;
+      return Promise.resolve(false);
     }
-    return true
+    return Promise.resolve(true);
   }
 }

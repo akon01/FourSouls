@@ -1,4 +1,4 @@
-import { _decorator,Node } from 'cc';
+import { _decorator, Node } from 'cc';
 import { PASSIVE_EVENTS } from "../../Constants";
 import { Item } from '../../Entites/CardTypes/Item';
 import { PassiveMeta } from "../../Managers/PassiveMeta";
@@ -21,7 +21,7 @@ export class CardIsAddedToPile extends Condition {
   })
   specificCardToGetAdded: Node | null = null
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
     if (!meta.args) { debugger; throw new Error("No Args"); }
     const cardAdded = meta.methodScope
@@ -32,6 +32,6 @@ export class CardIsAddedToPile extends Condition {
         answer = false
       }
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

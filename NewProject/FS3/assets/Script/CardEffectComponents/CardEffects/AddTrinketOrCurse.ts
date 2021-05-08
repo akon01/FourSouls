@@ -73,7 +73,7 @@ export class AddTrinketOrCurse extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
+  doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
     if (!data) { debugger; throw new Error("No Data!"); }
     const targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER)
 
@@ -88,17 +88,35 @@ export class AddTrinketOrCurse extends Effect {
       thisCard.getComponent(Card)!.type = CARD_TYPE.TREASURE;
       WrapperProvider.serverClientWrapper.out.send(Signal.CARD_ADD_TRINKET, { cardId: thisCard.getComponent(Card)!._cardId, playerId: player.playerId, addMuiliEffect: this.addMuiliEffect })
       if (!this.isCurse) {
-        await WrapperProvider.pileManagerWrapper.out.removeFromPile(thisCard, true)
+        return WrapperProvider.pileManagerWrapper.out.removeFromPile(thisCard, true).then(() => {
+          return this.AddItemAndCurse(player, thisCard, data);
+        })
+
       }
-      await player.addItem(thisCard, true, true);
-      if (this.isCurse) {
-        player.addCurse(thisCard, true)
-      }
+      return this.AddItemAndCurse(player, thisCard, data)
+
     }
 
-    if (data instanceof PassiveEffectData) { return data }
-    return WrapperProvider.stackWrapper.out._currentStack
+
+    if (data instanceof PassiveEffectData) { return Promise.resolve(data) }
+    return Promise.resolve(WrapperProvider.stackWrapper.out._currentStack)
   }
+
+
+  AddItemAndCurse = (player: Player, thisCard: Node, data: ActiveEffectData | PassiveEffectData) => {
+    return player.addItem(thisCard, true, true).then(() => {
+      if (this.isCurse) {
+        player.addCurse(thisCard, true);
+      }
+      if (data instanceof PassiveEffectData) { return data }
+      return WrapperProvider.stackWrapper.out._currentStack
+    }, (t) => {
+      debugger
+      if (data instanceof PassiveEffectData) { return data }
+      return WrapperProvider.stackWrapper.out._currentStack
+    });
+  }
+
   removeAddTrinketEffect() {
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)!
     const thisCardEffect = thisCard.getComponent(CardEffect)!

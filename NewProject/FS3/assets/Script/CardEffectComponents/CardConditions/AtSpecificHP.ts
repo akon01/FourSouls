@@ -20,7 +20,7 @@ export class AtSpecificHP extends Condition {
   isOwnerOnly = true
 
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Scope!"); }
 
     const subject = meta.methodScope;
@@ -44,19 +44,20 @@ export class AtSpecificHP extends Condition {
       currnetHpValue = subjectComp._Hp
     }
 
+    let answer = false
     if ((currnetHpValue == this.specificHp || (this.isOrBelowHp && currnetHpValue <= this.specificHp)) && !this.isActive) {
       if (this.isOwnerOnly) {
         if (cardOwner == subjectComp!.node) {
           this.isActive = true;
-          return true
+          answer = true
         }
       } else {
         this.isActive = true;
-        return true
+        answer = true
       }
     }
 
-    return false;
+    return Promise.resolve(answer);
 
   }
 }

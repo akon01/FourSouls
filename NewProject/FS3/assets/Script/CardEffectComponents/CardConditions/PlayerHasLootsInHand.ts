@@ -10,13 +10,13 @@ const { ccclass, property } = _decorator;
 export class PlayerHasLootsInHand extends Condition {
   events = [PASSIVE_EVENTS.PLAYER_LOSE_LOOT, PASSIVE_EVENTS.PLAYER_GAIN_LOOT]
   @property
-  numOfLootsNeeded: number = 1
+  numOfLootsNeeded = 1
 
   @property
-  isNotEqualToNumber: boolean = false
+  isNotEqualToNumber = false
 
   needsDataCollector = false;
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
     let answer = true
@@ -35,6 +35,6 @@ export class PlayerHasLootsInHand extends Condition {
     if (!(this.events.indexOf(meta.passiveEvent!) >= 0)) {
       answer = false
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

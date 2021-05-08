@@ -1,15 +1,11 @@
 import { _decorator } from 'cc';
-const { ccclass, property } = _decorator;
-
 import { PASSIVE_EVENTS } from "../../Constants";
 import { Player } from "../../Entites/GameEntities/Player";
 import { PassiveMeta } from "../../Managers/PassiveMeta";
-import { PlayerManager } from "../../Managers/PlayerManager";
-import { Condition } from "./Condition";
-import { Card } from "../../Entites/GameEntities/Card";
-import { BattleManager } from "../../Managers/BattleManager";
-import { TurnsManager } from "../../Managers/TurnsManager";
 import { WrapperProvider } from '../../Managers/WrapperProvider';
+import { Condition } from "./Condition";
+const { ccclass, property } = _decorator;
+
 
 @ccclass('ActivateItem')
 export class ActivateItem extends Condition {
@@ -22,7 +18,7 @@ export class ActivateItem extends Condition {
   playerManagerWrapper: any;
   battleManagerWrapper: any;
   turnsManagerWrapper: any;
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope!"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
@@ -44,6 +40,6 @@ export class ActivateItem extends Condition {
       }
     }
 
-    return answer
+    return Promise.resolve(answer)
   }
 }

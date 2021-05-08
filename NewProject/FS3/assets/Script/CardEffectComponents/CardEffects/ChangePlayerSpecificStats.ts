@@ -29,14 +29,21 @@ export class ChangePlayerSpecificStats extends Effect {
 
   activatedTarget: Node | null = null;
 
+  currTargets: Node[] = []
+
+  currData: ActiveEffectData | PassiveEffectData | null = null
+  currStack: StackEffectInterface[] = []
+
 
   /**
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
+  doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
     let target;
     if (!data) { debugger; throw new Error("No Data"); }
+    this.currData = data
+    this.currStack = stack
     if (this.multiTarget) {
       let targets: Node[] = []
       targets = data.getTargets(TARGETTYPE.PLAYER) as Node[]
@@ -50,9 +57,8 @@ export class ChangePlayerSpecificStats extends Effect {
       if (targets.length == 0) {
         throw new CardEffectTargetError(`target players are null`, true, data, stack)
       }
-      for (const target of targets) {
-        await this.addStat(target)
-      }
+      const i = 0
+      return this.handleAddStatToTarget(i, targets.length)
     } else {
       if (data instanceof ActiveEffectData) {
         target = data.getTarget(TARGETTYPE.PLAYER) as Node
@@ -78,26 +84,44 @@ export class ChangePlayerSpecificStats extends Effect {
         throw new CardEffectTargetError(`target player is null`, true, data, stack)
       } else {
         console.log(target)
-        await this.addStat(target)
+        this.addStat(target)
+        return this.handleEndOfAddStats()
       }
     }
-
-    if (data instanceof PassiveEffectData) return data
-    return WrapperProvider.stackWrapper.out._currentStack
+    return this.handleEndOfAddStats()
   }
-  async addStat(target: Node) {
+
+  private handleEndOfAddStats(): Promise<PassiveEffectData | StackEffectInterface[]> {
+    if (this.currData instanceof PassiveEffectData) return Promise.resolve(this.currData)
+    return Promise.resolve(WrapperProvider.stackWrapper.out._currentStack)
+  }
+
+  private handleAddStatToTarget(idx: number, length: number): Promise<PassiveEffectData | StackEffectInterface[]> {
+    const target = this.currTargets[idx]
+    this.addStat(target)
+    return this.handleAfterAddStatToTarget(idx, length)
+  }
+
+  private handleAfterAddStatToTarget(idx: number, length: number): Promise<PassiveEffectData | StackEffectInterface[]> {
+    if (idx < length) {
+      return this.handleAddStatToTarget(idx++, length)
+    }
+    return this.handleEndOfAddStats()
+  }
+
+  addStat(target: Node) {
     //case target is a player
     let player: Player | null = target.getComponent(Player)
     if (player == null) player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(target)
     if (player != null) {
       if (this.gainStartTurnDraw) {
-        await player.changeTurnDrawPlays(this.getQuantityInRegardsToBlankCard(player.node, this.StartTurnDrawToGain), true)
+        player.changeTurnDrawPlays(this.getQuantityInRegardsToBlankCard(player.node, this.StartTurnDrawToGain), true)
       }
 
     }
     this.activatedTarget = target
   }
-  async reverseEffect() {
+  reverseEffect() {
     const target = this.activatedTarget;
 
     if (target != null) {
@@ -107,7 +131,7 @@ export class ChangePlayerSpecificStats extends Effect {
         const player: Player | null = target.getComponent(Player);
         if (player) {
           if (this.gainStartTurnDraw) {
-            await player.changeTurnDrawPlays(this.getQuantityInRegardsToBlankCard(player.node, this.StartTurnDrawToGain), true)
+            player.changeTurnDrawPlays(this.getQuantityInRegardsToBlankCard(player.node, this.StartTurnDrawToGain), true)
           }
 
         }

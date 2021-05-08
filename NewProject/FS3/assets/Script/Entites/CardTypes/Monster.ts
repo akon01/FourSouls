@@ -173,6 +173,7 @@ export class Monster extends Component implements IEggCounterable, IAttackableEn
       } else {
         this.currentHp -= damage;
       }
+      return true
     } else {
 
       const oldDamage = damage;
@@ -229,10 +230,11 @@ export class Monster extends Component implements IEggCounterable, IAttackableEn
       //   wasKilled = await battleManagerWrapper._bmcheckIfMonsterIsDead(this.node, sendToServer);
       // }
       if (sendToServer) {
-        const thisResult = await WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(passiveMeta)
+        const thisResult = await WrapperProvider.passiveManagerWrapper.out.testForPassiveAfter(passiveMeta) as Promise<boolean>
         return thisResult;
       }
     }
+    return true
     // passiveMeta.result = wasKilled
   }
 

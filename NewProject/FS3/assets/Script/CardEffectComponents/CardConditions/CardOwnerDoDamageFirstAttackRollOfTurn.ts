@@ -12,7 +12,7 @@ export class CardOwnerDoDamageFirstAttackRollOfTurn extends Condition {
   event = PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_GIVEN
   needsDataCollector = false;
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
@@ -22,9 +22,9 @@ export class CardOwnerDoDamageFirstAttackRollOfTurn extends Condition {
       player.name == cardOwner.name &&
       player._isFirstAttackRollOfTurn
     ) {
-      return true;
+      return Promise.resolve(true);
     } else {
-      return false;
+      return Promise.resolve(false);
     }
   }
 }

@@ -11,19 +11,19 @@ const { ccclass } = _decorator;
 export class CardOwnerPayPenalties extends Condition {
 
   event = PASSIVE_EVENTS.PLAYER_PAY_DEATH_PANELTIES
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
-    let player: Player = meta.methodScope.getComponent(Player)!;
+    const player: Player = meta.methodScope.getComponent(Player)!;
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
-    let cardOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(thisCard)!;
+    const cardOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(thisCard)!;
     if (
       player instanceof Player &&
       player.name == cardOwner.name
       // &&  meta.passiveEvent == PASSIVE_EVENTS.PLAYER_PAY_DEATH_PANELTIES
     ) {
-      return true;
+      return Promise.resolve(true);
     } else {
-      return false;
+      return Promise.resolve(false);
     }
   }
 }

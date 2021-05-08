@@ -15,7 +15,7 @@ export class PlayerDrawLootCard extends Condition {
   @property
   isOwnerOnly = false
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node);
@@ -30,6 +30,6 @@ export class PlayerDrawLootCard extends Condition {
       }
     }
 
-    return answer
+    return Promise.resolve(answer);
   }
 }

@@ -11,12 +11,12 @@ const { ccclass, property } = _decorator;
 export class StartTurn extends Condition {
   event = PASSIVE_EVENTS.PLAYER_START_TURN
   @property
-  isOwnerOnly: boolean = true;
-  async testCondition(meta: PassiveMeta) {
+  isOwnerOnly = true;
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
-    let player: Player = meta.methodScope.getComponent(Player)!;
-    let thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
-    let cardOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(thisCard)!;
+    const player: Player = meta.methodScope.getComponent(Player)!;
+    const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
+    const cardOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(thisCard)!;
     let answer = false;
     if (
       player instanceof Player &&
@@ -30,6 +30,6 @@ export class StartTurn extends Condition {
         answer = true;
       }
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

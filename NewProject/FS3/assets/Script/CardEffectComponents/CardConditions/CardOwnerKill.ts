@@ -14,7 +14,7 @@ export class CardOwnerKill extends Condition {
   events = [PASSIVE_EVENTS.PLAYER_PAY_DEATH_PANELTIES, PASSIVE_EVENTS.MONSTER_IS_KILLED]
   needsDataCollector = false;
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
     const cardOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(thisCard)!;
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
@@ -24,18 +24,18 @@ export class CardOwnerKill extends Condition {
         if (killedPlayer instanceof Player &&
           killedPlayer._thisTurnKiller == cardOwner.character
         ) {
-          return true
-        } else { return false }
+          return Promise.resolve(true);
+        } else { return Promise.resolve(false); }
 
       case PASSIVE_EVENTS.MONSTER_IS_KILLED:
         const killedMonster: Monster = meta.methodScope.getComponent(Monster)!;
         if (killedMonster instanceof Monster &&
           killedMonster._thisTurnKiller == cardOwner.character
         ) {
-          return true
-        } else { return false }
+          return Promise.resolve(true);
+        } else { return Promise.resolve(false); }
       default:
-        return false
+        return Promise.resolve(false);
         break;
     }
   }

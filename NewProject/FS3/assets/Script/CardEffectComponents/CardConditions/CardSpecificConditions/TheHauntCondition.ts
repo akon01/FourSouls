@@ -10,16 +10,16 @@ export class TheHauntCondition extends Condition {
   event = PASSIVE_EVENTS.MONSTER_GET_HIT
   dmgRecived = 0
   lastBonus = 0
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.args) { debugger; throw new Error("No Args!"); }
 
     this.dmgRecived += meta.args[0]
 
     if (this.dmgRecived - this.lastBonus >= 2) {
       this.lastBonus = this.dmgRecived
-      return true
+      return Promise.resolve(true);
     } else {
-      return false
+      return Promise.resolve(false);
     }
   }
 }

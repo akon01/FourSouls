@@ -2,6 +2,7 @@ import { CCInteger, Component, log, _decorator } from 'cc';
 import { CardEffect } from "../../Entites/CardEffect";
 import { Card } from "../../Entites/GameEntities/Card";
 import { ActiveEffectData } from '../../Managers/ActiveEffectData';
+import { EffectData } from '../../Managers/EffectData';
 import { EffectRunner } from '../../Managers/EffectRunner';
 import { EffectTarget } from '../../Managers/EffectTarget';
 import { PassiveEffectData } from '../../Managers/PassiveEffectData';
@@ -61,71 +62,114 @@ export class ChainEffects extends Effect {
     // return this.effectsToChainIdsFinal.map(eid => cardEffect.getEffect(eid))
   }
 
+  cardEffectComp: CardEffect | null = null
+
+  currStack: StackEffectInterface[] = []
+
+  currData: ActiveEffectData | PassiveEffectData | null = null
+
   /**
    *
    * @param data {target:PlayerId}
    */
 
-  async doEffect(
+  doEffect(
     stack: StackEffectInterface[],
-    data?: ActiveEffectData | PassiveEffectData
+    data: ActiveEffectData | PassiveEffectData
   ) {
 
     const effectsData = [];
-    const currentStack = stack
-    const cardEffectComp = this.node.getComponent(CardEffect)!
+    this.currStack = stack
+    this.currData = data
+    this.cardEffectComp = this.node.getComponent(CardEffect)!
     if (!this._chainCollector) { debugger; throw new Error("No Chain Collector In Chain Effects!"); }
     const effectData = this._chainCollector.effectsData
     const effectsToChain = this.getEffectsToChain()
-    for (let i = 0; i < effectsToChain.length; i++) {
-      let afterEffectData = null
-      const effect = effectsToChain[i];
-      // console.log(effect.effectData)
-      if (effect.hasPlayerChoiceToActivateInChainEffects) {
-        console.log(effect)
-        const yesOrNo = await WrapperProvider.playerManagerWrapper.out.getPlayerById(cardEffectComp.cardPlayerId)!.giveYesNoChoice(effect.optionalFlavorText)
-        console.log(yesOrNo)
-        if (yesOrNo) {
-          afterEffectData = await this.doInnerEffect(effect, cardEffectComp, stack, data!);
-
-        }
-      } else {
-        afterEffectData = await this.doInnerEffect(effect, cardEffectComp, stack, data!);
-      }
-      if (afterEffectData instanceof ActiveEffectData) {
-        (data as ActiveEffectData).addTarget(afterEffectData.effectTargets as EffectTarget[]);
-      }
-      // else if (afterEffectData instanceof PassiveEffectData) {
-      //   (data as PassiveEffectData).terminateOriginal = (afterEffectData.terminateOriginal) ? true : (data as PassiveEffectData).terminateOriginal
-      // }
-    }
-    if (this.conditions.length > 0) {
-      return data!;
-    } else { return stack }
+    const i = 1;
+    return this.handleEffectInChain(i, effectsToChain.length)
   }
 
-  private async doInnerEffect(effect: Effect, cardEffectComp: CardEffect, stack: StackEffectInterface[], data: ActiveEffectData | PassiveEffectData) {
-    try {
-      const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(effect.node);
-      let effectData: ActiveEffectData | PassiveEffectData;
-      if (effect.effectData) {
-        effectData = effect.effectData;
+  private handleEffectInChain(idx: number, length: number): Promise<ActiveEffectData | PassiveEffectData | StackEffectInterface[]> {
+    if (this.cardEffectComp && this.currData && this.currStack) {
+      const effect = this.effectsToChain[idx];
+      if (effect.hasPlayerChoiceToActivateInChainEffects) {
+        console.log(effect)
+        return WrapperProvider.playerManagerWrapper.out.getPlayerById(this.cardEffectComp.cardPlayerId)!.giveYesNoChoice(effect.optionalFlavorText).then(yesOrNo => {
+          if (yesOrNo) {
+            return this.doInnerEffect(effect, this.cardEffectComp!, this.currStack, this.currData!)
+              //.then(s=>{})
+              .then(s => {
+                return this.handleAfterEffectInChain(idx, length, s)
+              });
+
+          }
+          return this.handleEndOfChainEffects()
+        })
       } else {
-        effectData = await thisCard.getComponent(CardEffect)!.collectEffectData(effect, { cardId: thisCard.getComponent(Card)!._cardId, cardPlayerId: cardEffectComp.cardPlayerId }, true);
+        return this.doInnerEffect(effect, this.cardEffectComp!, this.currStack, this.currData!).then(afterEffectData => {
+          return this.handleAfterEffectInChain(idx, length, afterEffectData)
+        });
       }
-      if (!effectData) {
-        effectData = data
-      }
+    }
+    return this.handleEndOfChainEffects()
+  }
+
+  private handleAfterEffectInChain(idx: number, length: number, afterEffectData: EffectData | StackEffectInterface[] | null): Promise<ActiveEffectData | PassiveEffectData | StackEffectInterface[]> {
+    if (afterEffectData instanceof ActiveEffectData) {
+      (this.currData as ActiveEffectData).addTarget(afterEffectData.effectTargets as EffectTarget[]);
+    }
+    if (idx < length) {
+      return this.handleEffectInChain(idx++, length)
+    } else {
+      return this.handleEndOfChainEffects()
+    }
+  }
+  private handleEndOfChainEffects(): Promise<ActiveEffectData | PassiveEffectData | StackEffectInterface[]> {
+    if (this.conditions.length > 0) {
+      return Promise.resolve(this.currData!);
+    } else { return Promise.resolve(this.currStack) }
+  }
+
+  private doInnerEffect(effect: Effect, cardEffectComp: CardEffect, stack: StackEffectInterface[], data: ActiveEffectData | PassiveEffectData) {
+
+    const runEffectWithData = (effectData: ActiveEffectData | PassiveEffectData, effect: Effect) => {
       console.log(effectData);
       console.log(`do effect ${effect.effectName} of ${cardEffectComp.node.name} in chain effect`);
-      return await EffectRunner.runEffect(effect, stack, WrapperProvider.dataInerpreterWrapper.out.convertToEffectData(effectData))
-      // await effect.doEffect(
-      //   stack,
-      //   WrapperProvider.dataInerpreterWrapper.out.convertToEffectData(effectData)
-      // );
-    } catch (error) {
-      WrapperProvider.loggerWrapper.out.error(`${effect.effectName} has failed`);
-      WrapperProvider.loggerWrapper.out.error(error, effect.effectData);
+      return EffectRunner.runEffect(effect, stack, WrapperProvider.dataInerpreterWrapper.out.convertToEffectData(effectData))
     }
+
+    const logRunEffectError = (res: any) => {
+      WrapperProvider.loggerWrapper.out.error(`${effect.effectName} has failed`);
+      WrapperProvider.loggerWrapper.out.error(res, effect.effectData);
+    }
+    const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(effect.node);
+    let effectData: ActiveEffectData | PassiveEffectData;
+    if (effect.effectData) {
+      effectData = effect.effectData;
+    } else {
+      return thisCard.getComponent(CardEffect)!.collectEffectData(effect, { cardId: thisCard.getComponent(Card)!._cardId, cardPlayerId: cardEffectComp.cardPlayerId }, true).then(effectData => {
+        return runEffectWithData(effectData, effect).then(afterEffectData => {
+          return afterEffectData!
+        }, res => {
+          logRunEffectError(res)
+          if (this.conditions.length > 0) {
+            return this.currData!;
+          } else { return this.currStack }
+
+        })
+      });
+    }
+    if (!effectData) {
+      effectData = data
+    }
+    return runEffectWithData(effectData, effect).then(afterEffectData => {
+      return afterEffectData!
+    }, res => {
+      logRunEffectError(res)
+      if (this.conditions.length > 0) {
+        return this.currData!;
+      } else { return this.currStack }
+    })
+
   }
 }

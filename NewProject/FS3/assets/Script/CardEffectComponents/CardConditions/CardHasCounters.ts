@@ -20,7 +20,7 @@ export class CardHasCounters extends Condition {
   thisCardOnly = false;
 
   needsDataCollector = false;
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
     const card = meta.methodScope.getComponent(Card)!;
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
@@ -36,6 +36,6 @@ export class CardHasCounters extends Condition {
     if (this.thisCardOnly) {
       if (!(thisCard.name == card.node.name)) { answer = false }
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

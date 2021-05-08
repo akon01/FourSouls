@@ -20,17 +20,23 @@ export class CancelAttack extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
+  doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
 
     console.log(`do effect cancel attack`)
     const player: Player = WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer()!;
     console.log(`player who attacks ${player.name}`)
-    await WrapperProvider.battleManagerWrapper.out.cancelAttack(true);
-    if (this.addAttackOppurtunity) {
-      player.attackPlays += this.howMuchToAdd
-    }
+    return WrapperProvider.battleManagerWrapper.out.cancelAttack(true).then(() => {
+      if (this.addAttackOppurtunity) {
+        player.attackPlays += this.howMuchToAdd
+      }
 
-    if (data instanceof PassiveEffectData) { return data }
-    return WrapperProvider.stackWrapper.out._currentStack
+      if (data instanceof PassiveEffectData) { return data }
+      return WrapperProvider.stackWrapper.out._currentStack
+    }, (v) => {
+      debugger
+      if (data instanceof PassiveEffectData) { return data }
+      return WrapperProvider.stackWrapper.out._currentStack
+    });
+
   }
 }

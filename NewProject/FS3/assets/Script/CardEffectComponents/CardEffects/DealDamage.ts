@@ -24,11 +24,15 @@ export class DealDamage extends Effect {
   isGetDamageToDealFromDataCollector = false
   @property
   multipleTargets = false;
+
+  currTargets: Node[] = []
+  currData: ActiveEffectData | PassiveEffectData | null = null
+  currStack: StackEffectInterface[] = []
   /**
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(
+  doEffect(
     stack: StackEffectInterface[],
     data?: ActiveEffectData | PassiveEffectData
   ) {
@@ -54,13 +58,8 @@ export class DealDamage extends Effect {
         throw new CardEffectTargetError(`target entities are null`, true, data, stack)
       }
 
-      for (let i = 0; i < targets.length; i++) {
-        const target = targets[i];
-
-        await this.hitAnEntity(target as Node, damageToDeal)
-
-      }
-
+      const i = 1
+      return this.handleHitAnEntity(i, targets.length, damageToDeal)
     } else {
       let targetEntity = data.getTarget(TARGETTYPE.PLAYER)
       if (targetEntity == null) { targetEntity = data.getTarget(TARGETTYPE.MONSTER); }
@@ -69,13 +68,32 @@ export class DealDamage extends Effect {
         throw new Error("Target Entity Is Null");
 
       }
-
-      await this.hitAnEntity(targetEntity as Node, damageToDeal)
+      return this.hitAnEntity(targetEntity as Node, damageToDeal).then(_ => {
+        return this.handleEndDealDamage()
+      })
     }
-    if (data instanceof PassiveEffectData) { return data }
-    return WrapperProvider.stackWrapper.out._currentStack
   }
-  async hitAnEntity(targetEntity: Node, damageToDeal: number) {
+  private handleHitAnEntity(idx: number, length: number, damageToDeal: number): Promise<PassiveEffectData | StackEffectInterface[]> {
+    const target = this.currTargets[idx];
+    return this.hitAnEntity(target, damageToDeal).then(_ => {
+      return this.handleAfterHitAnEntity(idx, length, damageToDeal)
+    })
+  }
+
+  private handleAfterHitAnEntity(idx: number, length: number, damageToDeal: number): Promise<PassiveEffectData | StackEffectInterface[]> {
+    if (idx < length) {
+      return this.handleHitAnEntity(idx++, length, damageToDeal)
+    }
+
+    return this.handleEndDealDamage()
+  }
+  private handleEndDealDamage(): Promise<PassiveEffectData | StackEffectInterface[]> {
+    if (this.currData instanceof PassiveEffectData) { return Promise.resolve(this.currData) }
+    return Promise.resolve(WrapperProvider.stackWrapper.out._currentStack)
+  }
+
+
+  hitAnEntity(targetEntity: Node, damageToDeal: number) {
     let entityComp;
 
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
@@ -85,14 +103,15 @@ export class DealDamage extends Effect {
     if (entityComp == null) {
       entityComp = targetEntity.getComponent(Monster)
       if (entityComp instanceof Monster) {
-        await entityComp.takeDamaged(this.getQuantityInRegardsToBlankCard(entityComp.node, damageToDeal), true, damageDealer)
+        return entityComp.takeDamaged(this.getQuantityInRegardsToBlankCard(entityComp.node, damageToDeal), true, damageDealer)
       }
+      throw new Error("Should Not Get Here!")
     } else {
       // Entity is Player
       if (entityComp instanceof Character) {
-
-        await WrapperProvider.playerManagerWrapper.out.getPlayerByCard(entityComp.node)!.takeDamage(this.getQuantityInRegardsToBlankCard(entityComp.node, damageToDeal), true, damageDealer)
+        return WrapperProvider.playerManagerWrapper.out.getPlayerByCard(entityComp.node)!.takeDamage(this.getQuantityInRegardsToBlankCard(entityComp.node, damageToDeal), true, damageDealer)
       }
+      throw new Error("Should Not Get Here!")
     }
   }
 }

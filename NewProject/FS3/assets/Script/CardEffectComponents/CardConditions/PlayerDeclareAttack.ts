@@ -32,7 +32,7 @@ export class PlayerDeclareAttack extends Condition {
 
 
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
     if (!meta.args) { debugger; throw new Error("No Args"); }
     const player = meta.methodScope.getComponent(Player)!;
@@ -67,6 +67,6 @@ export class PlayerDeclareAttack extends Condition {
         answer = false
       }
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

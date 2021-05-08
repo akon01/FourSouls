@@ -16,17 +16,22 @@ export class DestroyItemEffect extends Effect {
   effectName = "DestroyItem";
   @property(CCInteger)
   numberOfItemsToDestroy = 1
+
+  currTargets: Node[] = []
+  currData: ActiveEffectData | PassiveEffectData | null = null
+  currStack: StackEffectInterface[] = []
   /**
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
+  doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
     if (!data) { debugger; throw new Error("No Data!"); }
     const targetItems = data.getTargets(TARGETTYPE.ITEM)
     if (targetItems.length == 0) {
       throw new CardEffectTargetError(`target items are null`, true, data, stack)
     } else {
       let player: Player
+      const i = 0
       for (let i = 0; i < targetItems.length; i++) {
         const item = targetItems[i] as Node;
         player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(item)!
@@ -39,4 +44,13 @@ export class DestroyItemEffect extends Effect {
     if (data instanceof PassiveEffectData) return data
     return WrapperProvider.stackWrapper.out._currentStack
   }
+
+  private handleDestroyItem(idx: number, length: number) {
+    const item = this.currTargets[idx]
+    const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(item)!
+    return item.getComponent(Item)!.destroyItem(true)
+
+  }
+
+  private handleAfterDestroyItem(idx: number, length: number)
 }

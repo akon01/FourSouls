@@ -31,7 +31,7 @@ export class EntityTakeDamage extends Condition {
   specificRoll = 1
   event = null
   events = [PASSIVE_EVENTS.MONSTER_GET_HIT, PASSIVE_EVENTS.PLAYER_GET_HIT]
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     let scope: Player | Monster | null = null;
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
     scope = meta.methodScope.getComponent(Player)!;
@@ -80,6 +80,6 @@ export class EntityTakeDamage extends Condition {
     } else {
       answer = false
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

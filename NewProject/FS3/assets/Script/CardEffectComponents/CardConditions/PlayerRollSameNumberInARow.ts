@@ -14,7 +14,7 @@ export class PlayerRollSameNumberInARow extends Condition {
   isOnlyAttackingPlayer = false;
 
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
 
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
     if (!meta.args) { debugger; throw new Error("No Args"); }
@@ -36,6 +36,6 @@ export class PlayerRollSameNumberInARow extends Condition {
       }
     }
     console.log(`answer is ${answer}`)
-    return answer
+    return Promise.resolve(answer);
   }
 }

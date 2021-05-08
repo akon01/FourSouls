@@ -12,7 +12,7 @@ const { ccclass, property } = _decorator;
 export class PlayerPayPenalties extends Condition {
   event = PASSIVE_EVENTS.PLAYER_PAY_DEATH_PANELTIES
   @property(CCBoolean)
-  isSpecificPlayer: boolean = true
+  isSpecificPlayer = true
   // @property({
   //   type: CCInteger, visible: function (this: PlayerPayPenalties) {
   //     return this.isSpecificPlayer
@@ -25,7 +25,7 @@ export class PlayerPayPenalties extends Condition {
     }, override: true
   })
   dataCollector: DataCollector | null = null
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node);
@@ -48,6 +48,6 @@ export class PlayerPayPenalties extends Condition {
         answer = false
       }
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

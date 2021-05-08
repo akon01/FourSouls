@@ -12,7 +12,7 @@ const { ccclass, property } = _decorator;
 export class PlayerLandAttack extends Condition {
   event = PASSIVE_EVENTS.PLAYER_LAND_ATTACK
   @property
-  isOnSpecificRoll: boolean = false
+  isOnSpecificRoll = false
   @property({
     type: [CCInteger], visible: function (this: PlayerLandAttack) {
       return this.isOnSpecificRoll
@@ -20,7 +20,7 @@ export class PlayerLandAttack extends Condition {
   })
   specificRolls: number[] = []
   @property
-  isOnSpecificMonster: boolean = false;
+  isOnSpecificMonster = false;
   @property({
     type: Node, visible: function (this: PlayerLandAttack) {
       return this.isOnSpecificMonster
@@ -28,7 +28,7 @@ export class PlayerLandAttack extends Condition {
   })
   specificMonster: Node | null = null
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node);
@@ -55,6 +55,6 @@ export class PlayerLandAttack extends Condition {
         answer = false;
       }
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

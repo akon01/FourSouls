@@ -21,7 +21,7 @@ export class AddBuyOpportunity extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
+  doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
     if (!data) { debugger; throw new Error("No Data!"); }
     const targetPlayerCard = data.getTarget(TARGETTYPE.PLAYER)
     if (targetPlayerCard == null) {
@@ -29,8 +29,8 @@ export class AddBuyOpportunity extends Effect {
     } else {
       const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(targetPlayerCard as Node)!
       player.buyPlays += this.getQuantityInRegardsToBlankCard(player.node, this.numOfTimes)
-      if (data instanceof PassiveEffectData) { return data }
-      return stack
+      if (data instanceof PassiveEffectData) { return Promise.resolve(data) }
+      return Promise.resolve(stack)
     }
   }
 }

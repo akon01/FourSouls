@@ -18,7 +18,7 @@ export class PlayerChooseItemToDestroyForPenalties extends Condition {
   @property({ visible: function (this: PlayerChooseItemToDestroyForPenalties) { return !this.isOwnerOnly } })
   isNotOwnerOnly = false
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Scope!"); }
 
     const player = meta.methodScope.getComponent(Player)!;
@@ -42,6 +42,6 @@ export class PlayerChooseItemToDestroyForPenalties extends Condition {
     if (!this.events.includes(meta.passiveEvent!)) {
       answer = false
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

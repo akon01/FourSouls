@@ -11,10 +11,10 @@ import { WrapperProvider } from '../../Managers/WrapperProvider';
 export class CardOwnerPreventDamage extends Condition {
   event = PASSIVE_EVENTS.PLAYER_PREVENT_DAMAGE
   @property
-  isOwnerOnly: boolean = false;
+  isOwnerOnly = false;
   needsDataCollector = false;
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node)
@@ -33,6 +33,6 @@ export class CardOwnerPreventDamage extends Condition {
         }
       }
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

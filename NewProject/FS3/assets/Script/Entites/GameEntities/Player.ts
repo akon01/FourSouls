@@ -1325,7 +1325,7 @@ export class Player extends Component implements IEggCounterable, IAttackableEnt
                   } else {
                         this._Hp -= damage;
                   }
-
+                  return true
                   // this.hpLable.string = `${this._Hp}♥`
             } else {
                   // Prevent Damage
@@ -1382,6 +1382,7 @@ export class Player extends Component implements IEggCounterable, IAttackableEnt
                         }
                   }
             }
+            return true
       }
 
       async gainHeartContainer(hpToGain: number, isTillEndOfTurn: boolean, sendToServer: boolean) {

@@ -14,7 +14,7 @@ export class BlankCondition extends Condition implements ConditionInterface {
   conditionData: any;
   dataCollector: DataCollector | null = null;
   needsDataCollector = true
-  async testCondition(data?: any): Promise<boolean> {
-    return false;
+  testCondition(data?: any): Promise<boolean> {
+    return Promise.resolve(false);
   }
 }

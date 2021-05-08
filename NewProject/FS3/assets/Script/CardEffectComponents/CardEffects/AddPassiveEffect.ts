@@ -14,7 +14,7 @@ export class AddPassiveEffect extends Effect {
    *
    * @param data {target:PlayerId} 
    */
-  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
+  doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
 
     if (!data) { debugger; throw new Error("No Data!"); }
     const passiveToAdd = this.getPassiveEffectToAdd();
@@ -28,10 +28,15 @@ export class AddPassiveEffect extends Effect {
     }
 
     //  this.passiveEffectToAdd.conditions.conditionData = data;
-    await WrapperProvider.passiveManagerWrapper.out.registerOneTurnPassiveEffect(passiveToAdd, true)
-    console.log(`registered one turn passive ${passiveToAdd.name}`)
+    return WrapperProvider.passiveManagerWrapper.out.registerOneTurnPassiveEffect(passiveToAdd, true).then(() => {
+      console.log(`registered one turn passive ${passiveToAdd.name}`)
 
-    if (data instanceof PassiveEffectData) return data
-    return WrapperProvider.stackWrapper.out._currentStack
+      if (data instanceof PassiveEffectData) return data
+      return WrapperProvider.stackWrapper.out._currentStack
+    }, (f) => {
+      debugger
+      if (data instanceof PassiveEffectData) return data
+      return WrapperProvider.stackWrapper.out._currentStack
+    })
   }
 }

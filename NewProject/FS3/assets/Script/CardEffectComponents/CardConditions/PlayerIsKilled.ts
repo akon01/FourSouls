@@ -31,7 +31,7 @@ export class PlayerIsKilledCondition extends Condition {
   @property(CheckEggCounterConditionProp)
   checkEggCoutner: CheckEggCounterConditionProp = new CheckEggCounterConditionProp()
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
 
     const player: Player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(meta.methodScope)!
@@ -60,6 +60,6 @@ export class PlayerIsKilledCondition extends Condition {
     if (this.checkEggCoutner.checkIfMonsterHasEggCoutners) {
       answer = this.checkEggCoutner.checkEntity(player, answer)
     }
-    return answer
+    return Promise.resolve(answer);
   }
 }

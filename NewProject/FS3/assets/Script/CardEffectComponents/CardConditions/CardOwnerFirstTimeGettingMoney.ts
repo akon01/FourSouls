@@ -12,7 +12,7 @@ export class CardOwnerFirstTimeGettingMoney extends Condition {
   event = PASSIVE_EVENTS.PLAYER_CHANGE_MONEY
   needsDataCollector = false;
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No Method Scope"); }
     if (!meta.args) { debugger; throw new Error("No Args"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
@@ -24,9 +24,9 @@ export class CardOwnerFirstTimeGettingMoney extends Condition {
       player._isFirstTimeGettingMoney &&
       meta.args[0] > 0
     ) {
-      return true;
+      return Promise.resolve(true);
     } else {
-      return false;
+      return Promise.resolve(false);
     }
   }
 }

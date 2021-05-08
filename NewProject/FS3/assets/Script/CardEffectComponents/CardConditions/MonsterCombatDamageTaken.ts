@@ -19,7 +19,7 @@ export class MonsterCombatDamageTaken extends Condition {
   })
   entityWhoTookDamage: Node | null = null;
   @property
-  isOnSpecificRoll: boolean = false
+  isOnSpecificRoll = false
   // @ts-ignore
   @property({
     visible: function (this: MonsterCombatDamageTaken) {
@@ -32,7 +32,7 @@ export class MonsterCombatDamageTaken extends Condition {
   event = PASSIVE_EVENTS.PLAYER_COMBAT_DAMAGE_GIVEN
 
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.args) { debugger; throw new Error("No Args"); }
     const monster: Monster = meta.args[3].getComponent(Monster)!;
     const thisCard = WrapperProvider.cardManagerWrapper.out.getCardNodeByChild(this.node);
@@ -55,7 +55,7 @@ export class MonsterCombatDamageTaken extends Condition {
         answer = false
       }
     }
-    return answer
+    return Promise.resolve(answer);
 
   }
 }

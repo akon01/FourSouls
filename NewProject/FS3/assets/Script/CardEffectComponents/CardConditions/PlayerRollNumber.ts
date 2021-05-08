@@ -49,7 +49,7 @@ export class PlayerRollNumber extends Condition {
   // @property({ type: DataCollector, tooltip: 'Only Put If Not In "Add Passive Effect" Active effect' })
   // dataCollector: DataCollector = null
 
-  async testCondition(meta: PassiveMeta) {
+  testCondition(meta: PassiveMeta) {
     if (!meta.methodScope) { debugger; throw new Error("No MethodScope"); }
     if (!meta.args) { debugger; throw new Error("No Args"); }
     const player: Player = meta.methodScope.getComponent(Player)!;
@@ -90,6 +90,6 @@ export class PlayerRollNumber extends Condition {
       }
     }
     console.log(`answer is ${answer}`)
-    return answer
+    return Promise.resolve(answer);
   }
 }

@@ -28,17 +28,20 @@ export class DiscardTopCardOfDeck extends Effect {
     }
   })
   deckType: CARD_TYPE = CARD_TYPE.CHAR;
+  currTargets: Deck[] = [];
 
   /**
    *
    * @param data {target:PlayerId}
    */
   //@printMethodStarted(COLORS.RED)
-  async doEffect(
+  doEffect(
     stack: StackEffectInterface[],
-    data?: ActiveEffectData
+    data: ActiveEffectData
   ) {
 
+    this.currData = data
+    this.currStack = stack
     if (data == null) {
       if (this.multiType) {
         const decks = new Array<Deck>()
@@ -57,41 +60,40 @@ export class DiscardTopCardOfDeck extends Effect {
               break;
           }
         }
-        for (const deck of decks) {
-          await deck.discardTopCard()
-        }
-
+        this.currTargets = decks
+        return this.handleTarget(0, this.currTargets.length)
       } else {
         switch (this.deckType) {
           case CARD_TYPE.LOOT:
-            await WrapperProvider.cardManagerWrapper.out.lootDeck.getComponent(Deck)!.discardTopCard()
-            break;
+            return WrapperProvider.cardManagerWrapper.out.lootDeck.getComponent(Deck)!.discardTopCard().then(_ => {
+              return this.handleReturnValues()
+            })
           case CARD_TYPE.MONSTER:
-            await WrapperProvider.cardManagerWrapper.out.monsterDeck.getComponent(Deck)!.discardTopCard()
-            break;
+            return WrapperProvider.cardManagerWrapper.out.monsterDeck.getComponent(Deck)!.discardTopCard().then(_ => {
+              return this.handleReturnValues()
+            })
           case CARD_TYPE.TREASURE:
-            await WrapperProvider.cardManagerWrapper.out.treasureDeck.getComponent(Deck)!.discardTopCard()
-            break
+            return WrapperProvider.cardManagerWrapper.out.treasureDeck.getComponent(Deck)!.discardTopCard().then(_ => {
+              return this.handleReturnValues()
+            })
           default:
-            break;
+            return this.handleReturnValues()
         }
       }
-
     } else {
-
       const decks = (data.getTargets(TARGETTYPE.DECK) as Node[]).map(target => target.getComponent(Deck)!)
       if (decks.length == 0) {
         throw new CardEffectTargetError(`target decks are null`, true, data, stack)
       }
-      for (const deck of decks) {
-        await deck.discardTopCard()
-      }
+      this.currTargets = decks
+      return this.handleTarget(0, this.currTargets.length)
+    }
+  }
 
-    }
-    if (this.conditions.length > 0) {
-      return data!;
-    } else {
-      return stack
-    }
+  handleTarget(index: number, length: number) {
+    const deck = this.currTargets[index]
+    return deck.discardTopCard().then(_ => {
+      return this.handleAfterTarget(index++, length, this.handleTarget, this)
+    })
   }
 }

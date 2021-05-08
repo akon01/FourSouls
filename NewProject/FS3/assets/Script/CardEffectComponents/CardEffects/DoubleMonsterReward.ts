@@ -17,7 +17,7 @@ export class DoubleMonsterReward extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
+  doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
     if (!data) { debugger; throw new Error("No Data!"); }
     const monsterWithReward = data.getTarget(TARGETTYPE.MONSTER) as Node
     if (!monsterWithReward) {
@@ -27,7 +27,7 @@ export class DoubleMonsterReward extends Effect {
     monsterWithReward.getComponent(Monster)!.getReward().doubleReward = true
 
 
-    if (data instanceof PassiveEffectData) { return data }
-    return WrapperProvider.stackWrapper.out._currentStack
+    if (data instanceof PassiveEffectData) { return Promise.resolve(data) }
+    return Promise.resolve(WrapperProvider.stackWrapper.out._currentStack)
   }
 }

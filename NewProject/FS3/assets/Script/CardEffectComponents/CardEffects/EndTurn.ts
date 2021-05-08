@@ -20,34 +20,44 @@ export class EndTurn extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
+  doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
 
     if (!data) { debugger; throw new Error("No Data!"); }
     const player = data.getTarget(TARGETTYPE.PLAYER)
     if (!player) {
       throw new CardEffectTargetError(`No Target Player Found`, true, data, stack)
     }
+    this.currData = data
+    this.currStack = stack
     if (player && WrapperProvider.turnsManagerWrapper.out.getCurrentTurn()!.getTurnPlayer()!.character! != player) {
-      if (data instanceof PassiveEffectData) { return data }
-      return stack
+      return this.handleReturnValues()
     }
+
 
 
     if (this.isCancelAttack) {
-      await WrapperProvider.battleManagerWrapper.out.cancelAttack(true)
-    }
-
-    if (this.isCancelAllStackEffects) {
-      WrapperProvider.stackWrapper.out._currentStack.forEach(async stackEffect => {
-        await WrapperProvider.stackWrapper.out.fizzleStackEffect(stackEffect, true, true)
+      return WrapperProvider.battleManagerWrapper.out.cancelAttack(true).then(_ => {
+        return this.handleCancelAll()
       })
     }
 
+    return this.handleCancelAll()
+  }
+
+  handleCancelAll() {
+
     WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer()!._endTurnFlag = true
+    if (this.isCancelAllStackEffects) {
 
+      return this.handleTarget(0, WrapperProvider.stackWrapper.out._currentStack.length)
+    }
+    return this.handleReturnValues()
+  }
 
-
-    if (data instanceof PassiveEffectData) { return data }
-    return stack
+  handleTarget(index: number, length: number) {
+    const stackEffect = WrapperProvider.stackWrapper.out._currentStack[index]
+    return WrapperProvider.stackWrapper.out.fizzleStackEffect(stackEffect, true, true).then(_ => {
+      return this.handleAfterTarget(index++, length, this.handleTarget, this)
+    })
   }
 }

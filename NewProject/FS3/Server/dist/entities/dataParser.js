@@ -8,7 +8,6 @@ var DataParser = /** @class */ (function () {
         if (data == undefined || data == null) {
             return data;
         }
-        ;
         var originData = Object.create(data);
         var parsedData = [];
         var card;

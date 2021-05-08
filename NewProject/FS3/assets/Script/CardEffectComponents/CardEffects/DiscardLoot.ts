@@ -14,26 +14,34 @@ const { ccclass, property } = _decorator;
 @ccclass('DiscardLoot')
 export class DiscardLoot extends Effect {
   effectName = "DiscardLoot";
+  currTargets: StackEffectInterface[] | Node[] | number[] | Effect[] = [];
   /**
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
+  doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
     if (!data) { debugger; throw new Error("No Data!"); }
     const targetLoots = data.getTargets(TARGETTYPE.CARD)
     if (targetLoots.length == 0) {
       throw new CardEffectTargetError(`target loots to dicards are null`, true, data, stack)
     } else {
       let player: Player
-      for (let i = 0; i < targetLoots.length; i++) {
-        const lootToDiscard = targetLoots[i];
-        if ((lootToDiscard as Node).getComponent(Card)!.type != CARD_TYPE.LOOT) { continue }
-        player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(lootToDiscard as Node)!
-        await player.discardLoot(lootToDiscard as Node, true)
-      }
+      const index = 0;
+      this.currTargets = targetLoots
+      this.currData = data
+      this.currStack = stack
+      return this.handleTarget(index, targetLoots.length)
     }
+  }
 
-    if (data instanceof PassiveEffectData) { return data }
-    return WrapperProvider.stackWrapper.out._currentStack
+  handleTarget(index: number, length: number) {
+    const lootToDiscard = this.currTargets[index];
+    if ((lootToDiscard as Node).getComponent(Card)!.type != CARD_TYPE.LOOT) {
+      return this.handleAfterTarget(index++, length, this.handleTarget, this)
+    }
+    const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(lootToDiscard as Node)!
+    return player.discardLoot(lootToDiscard as Node, true).then(_ => {
+      return this.handleAfterTarget(index++, length, this.handleTarget, this)
+    })
   }
 }

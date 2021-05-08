@@ -42,12 +42,12 @@ exports.__esModule = true;
  */
 //@ts-nocheck
 var ws_1 = require("ws");
-var player_1 = require("./entities/player");
+var ServerPlayer_1 = require("./entities/ServerPlayer");
 var fs = require("fs");
 var whevent = require("whevent");
 var match_1 = require("./entities/match");
 var signal_1 = require("./enums/signal");
-var Card_1 = require("./entities/Card");
+var ServerCard_1 = require("./entities/ServerCard");
 var Server = /** @class */ (function () {
     function Server() {
         this.wss = null;
@@ -77,9 +77,8 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.test = function (dirName) {
         return __awaiter(this, void 0, void 0, function () {
-            var fs;
             return __generator(this, function (_a) {
-                fs = require("fs");
+                //const fs = require("fs")
                 // const readline = require('readline');
                 // const readinterface = readline.createInterface({
                 //   input: fs.createReadStream('/MainGame.fire'),
@@ -126,7 +125,7 @@ var Server = /** @class */ (function () {
         });
     };
     Server.prototype.doIt = function (data) {
-        var fs = require("fs");
+        // const fs = require("fs")
         var regexp = new RegExp('"width": (\\d+.+\\d+|\\d+)', "g");
         var regexp2 = new RegExp('"height": (\\d+.+\\d+|\\d+)', "g");
         var regexp3 = new RegExp('"array": \\[\\n *\\d*,\\n *([\\s\\S]+?),', "g");
@@ -321,6 +320,12 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].MAKE_CHOOSE_FROM, this.onSendToSpecificPlayer, this);
         whevent.on(signal_1["default"].FINISH_MAKE_CHOOSE_FROM, this.onSendToSpecificPlayer, this);
         whevent.on(signal_1["default"].CHANGE_TURN_DRAW_PLAYS, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].PLAYER_SET_RECHARGE_CHAR_AT_START_OF_TURN, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].PLAYER_SET_HAND_SHOW_CARD_BACK, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].PLAYER_CHANGE_LOOT_CARD_PLAYS, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].PLAYER_CHANGE_NUM_OF_ITEMS_TO_RECHARGE, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].PLAYER_CHANGE_EXTRA_SOULS_NEEDED_TO_WIN, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].CHANGE_PLAYER_ATTACKABLE, this.onBroadcastExceptOrigin, this);
         //
         //monster events
         whevent.on(signal_1["default"].MONSTER_GAIN_DMG, this.onBroadcastExceptOrigin, this);
@@ -353,6 +358,8 @@ var Server = /** @class */ (function () {
         whevent.on(signal_1["default"].CARD_CHANGE_NUM_OF_SOULS, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].CARD_SET_OWNER, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].ITEM_SET_LAST_OWNER, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].ADD_EGG_COUNTER, this.onBroadcastExceptOrigin, this);
+        whevent.on(signal_1["default"].REMOVE_EGG_COUNTER, this.onBroadcastExceptOrigin, this);
         //Announcement Lable
         whevent.on(signal_1["default"].SHOW_ANNOUNCEMENT, this.onBroadcastExceptOrigin, this);
         whevent.on(signal_1["default"].HIDE_ANNOUNCEMENT, this.onBroadcastExceptOrigin, this);
@@ -368,7 +375,7 @@ var Server = /** @class */ (function () {
         var player = _a.player, data = _a.data;
         if (((_b = player === null || player === void 0 ? void 0 : player.match) === null || _b === void 0 ? void 0 : _b.cards.length) == 0) {
             var allCards = JSON.parse(data.data.allCards);
-            allCards.forEach(function (card) { return player.match.cards.push(new Card_1.Card(card.cardId, card.cardName)); });
+            allCards.forEach(function (card) { return player.match.cards.push(new ServerCard_1.ServerCard(card.cardId, card.cardName)); });
             player.match.cards = allCards;
         }
     };
@@ -393,7 +400,7 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.onRequestMatch = function (_a) {
         var player = _a.player, data = _a.data;
-        if (player_1["default"].players.length >= 2) {
+        if (ServerPlayer_1["default"].players.length >= 2) {
             var match = match_1["default"].getMatch();
             match.join(player);
             this.logger.addAPlayerToMatch(player.uuid);
@@ -401,7 +408,7 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.onStartGame = function (_a) {
         var player = _a.player, data = _a.data;
-        if (player_1["default"].players.length >= 2) {
+        if (ServerPlayer_1["default"].players.length >= 2) {
             console.log("Starting match with " + player.match.players.length + " Players");
             player.match.start();
         }
@@ -421,7 +428,7 @@ var Server = /** @class */ (function () {
         console.log("Move to table request from players");
         player.send(signal_1["default"].MOVE_TO_TABLE, {
             playerID: player.uuid,
-            numOfPlayers: player_1["default"].players.length
+            numOfPlayers: ServerPlayer_1["default"].players.length
         });
     };
     //Stack events
@@ -447,7 +454,7 @@ var Server = /** @class */ (function () {
         this.wss = new ws_1.Server({ port: this.config.port }, function () {
             console.log("\x1b[33m%s\x1b[0m", "Websocket server listening on port " + _this.config.port + "...");
             _this.wss.on("connection", function (ws) {
-                var player = player_1["default"].getPlayer(ws);
+                var player = ServerPlayer_1["default"].getPlayer(ws);
                 _this.onConnection(player);
                 ws.on("message", function (message) {
                     _this.onMessage(player, message);

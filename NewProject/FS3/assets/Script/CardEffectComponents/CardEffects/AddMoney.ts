@@ -37,12 +37,15 @@ export class AddMoney extends Effect {
             }
       })
       multiplyBy = 1
+      currTargets: StackEffectInterface[] | Node[] | number[] | Effect[] = [];
+      currData: ActiveEffectData | PassiveEffectData | null = null;
+      currStack: StackEffectInterface[] = [];
 
       /**
        *
        * @param data {target:PlayerId}
        */
-      async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
+      doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
 
             let numOfCoins: number | null = this.numOfCoins
             if (this.isGetNumOfCoinsFromDataCollector) {
@@ -63,22 +66,33 @@ export class AddMoney extends Effect {
             if (targets.length == 0) {
                   throw new CardEffectTargetError(`target players are null`, true, data, stack)
             }
-            for (let i = 0; i < targets.length; i++) {
-                  const target = targets[i] as Node;
-                  await this.addMoneyToPlayer(target, numOfCoins);
-            }
-
-
-            if (data instanceof PassiveEffectData) return data
-            return WrapperProvider.stackWrapper.out._currentStack
+            this.currTargets = targets;
+            this.currData = data;
+            this.currStack = stack;
+            const index = 0
+            return this.addMoneyToPlayer(index, targets.length, numOfCoins)
       }
 
-      private async addMoneyToPlayer(target: Node, numOfCoins: number) {
+
+      private addMoneyToPlayer(index: number, length: number, numOfCoins: number): Promise<PassiveEffectData | StackEffectInterface[]> {
+            const target = this.currTargets[index]
             const targetPlayer = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(target as Node)!;
             if (this.isAllMoneyTargetHas) {
                   numOfCoins = targetPlayer.coins;
             }
             numOfCoins = this.isMultipliedBy ? numOfCoins * this.multiplyBy : numOfCoins
-            await targetPlayer.changeMoney(this.getQuantityInRegardsToBlankCard(targetPlayer.node, numOfCoins), true);
+            return targetPlayer.changeMoney(this.getQuantityInRegardsToBlankCard(targetPlayer.node, numOfCoins), true).then(_ => {
+                  return this.handleAfterAddMoney(index++, length, numOfCoins)
+            });
+      }
+      private handleAfterAddMoney(index: number, length: number, numOfCoins: number): Promise<PassiveEffectData | StackEffectInterface[]> {
+            if (index < length) {
+                  return this.addMoneyToPlayer(index, length, numOfCoins)
+            }
+            return this.handleReturnValue()
+      }
+      private handleReturnValue(): Promise<PassiveEffectData | StackEffectInterface[]> {
+            if (this.currData instanceof PassiveEffectData) return Promise.resolve(this.currData)
+            return Promise.resolve(WrapperProvider.stackWrapper.out._currentStack)
       }
 }

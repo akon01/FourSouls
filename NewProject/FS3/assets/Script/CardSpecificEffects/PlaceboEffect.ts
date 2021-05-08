@@ -31,7 +31,7 @@ export class PlaceboEffect extends Effect {
     const effectData = await cardEffectComp.collectEffectData(cardComponentsRetVals.newEffect, { cardId: this.getEffectCard().getComponent(Card)!._cardId, cardPlayerId: thisOwner.playerId })
     const retVal = await EffectRunner.runEffect(cardComponentsRetVals.newEffect, stack, effectData)
     this.deleteCardEffectComponents(cardComponentsRetVals.newNode)
-    return retVal
+    return retVal!
   }
 
   copyCardEffectComponent(effect: Effect) {

@@ -13,44 +13,55 @@ const { ccclass, property } = _decorator;
 @ccclass('DiscardSoulCard')
 export class DiscardSoulCard extends Effect {
   effectName = "DiscardSoulCard";
+  currTargets: StackEffectInterface[] | Node[] | number[] | Effect[] = [];
 
   /**
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
+  doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
 
     if (!data) { debugger; throw new Error("No Data!"); }
     const targetCards = data.getTargets(TARGETTYPE.CARD)
     if (targetCards.length == 0) {
       throw new CardEffectTargetError(`target soul cards to dicard are null`, true, data, stack)
     } else {
-      for (let i = 0; i < targetCards.length; i++) {
-        const cardToDiscard = targetCards[i] as Node;
-        const playerOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(cardToDiscard)!
-        const cardComp = cardToDiscard.getComponent(Card)!
-        playerOwner.loseSoul(cardToDiscard, true)
-        switch (cardComp.type) {
-          case CARD_TYPE.MONSTER:
-            await WrapperProvider.pileManagerWrapper.out.addCardToPile(CARD_TYPE.MONSTER, cardToDiscard, true)
-            break;
-          case CARD_TYPE.TREASURE:
-            await WrapperProvider.pileManagerWrapper.out.addCardToPile(CARD_TYPE.TREASURE, cardToDiscard, true)
-            break;
-          case CARD_TYPE.LOOT:
-            await WrapperProvider.pileManagerWrapper.out.addCardToPile(CARD_TYPE.LOOT, cardToDiscard, true)
-            break;
-          case CARD_TYPE.BONUS_SOULS:
-            cardToDiscard.destroy()
-            // await WrapperProvider.pileManagerWrapper.out.addCardToPile(CARD_TYPE.MONSTER, cardToDiscard, true)
-            break;
-          default:
-            break;
-        }
-      }
+      this.currTargets = targetCards
+      this.currData = data
+      this.currStack = stack
+      return this.handleTarget(0, this.currTargets.length)
     }
+  }
 
-    if (data instanceof PassiveEffectData) { return data }
-    return WrapperProvider.stackWrapper.out._currentStack
+  handleTarget(index: number, length: number) {
+    const cardToDiscard = this.currTargets[index] as Node;
+    const playerOwner = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(cardToDiscard)!
+    const cardComp = cardToDiscard.getComponent(Card)!
+    playerOwner.loseSoul(cardToDiscard, true)
+    switch (cardComp.type) {
+      case CARD_TYPE.MONSTER:
+        return WrapperProvider.pileManagerWrapper.out.addCardToPile(CARD_TYPE.MONSTER, cardToDiscard, true).then(_ => {
+          return this.handleAfterTarget(index++, length, this.handleTarget, this)
+        })
+        break;
+      case CARD_TYPE.TREASURE:
+        return WrapperProvider.pileManagerWrapper.out.addCardToPile(CARD_TYPE.TREASURE, cardToDiscard, true).then(_ => {
+          return this.handleAfterTarget(index++, length, this.handleTarget, this)
+        })
+        break;
+      case CARD_TYPE.LOOT:
+        return WrapperProvider.pileManagerWrapper.out.addCardToPile(CARD_TYPE.LOOT, cardToDiscard, true).then(_ => {
+          return this.handleAfterTarget(index++, length, this.handleTarget, this)
+        })
+        break;
+      case CARD_TYPE.BONUS_SOULS:
+        cardToDiscard.destroy()
+        return this.handleAfterTarget(index++, length, this.handleTarget, this)
+        // await WrapperProvider.pileManagerWrapper.out.addCardToPile(CARD_TYPE.MONSTER, cardToDiscard, true)
+        break;
+      default:
+        return this.handleAfterTarget(index++, length, this.handleTarget, this)
+        break;
+    }
   }
 }

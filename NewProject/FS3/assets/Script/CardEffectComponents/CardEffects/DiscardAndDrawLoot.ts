@@ -13,13 +13,18 @@ const { ccclass, property } = _decorator;
 export class DiscardAndDrawLoot extends Effect {
   chooseType = CHOOSE_CARD_TYPE.MY_HAND;
   effectName = "DiscardAndDrawLoot";
+
+  currData: ActiveEffectData | PassiveEffectData | null = null;
+  currTargets: StackEffectInterface[] | Node[] | number[] | Effect[] = [];
   /**
    *
    * @param data {lootPlayedId:number,playerId:number}
    */
-  async doEffect(
+
+
+  doEffect(
     stack: StackEffectInterface[],
-    data?: ActiveEffectData | PassiveEffectData
+    data: ActiveEffectData | PassiveEffectData
   ) {
     if (!data) { debugger; throw new Error("No Data!"); }
     const cardChosen = data.getTargets(TARGETTYPE.CARD)
@@ -28,24 +33,33 @@ export class DiscardAndDrawLoot extends Effect {
       throw new CardEffectTargetError(`target cards to discard are null`, true, data, stack)
       //console.log(`target card is null`)
     } else {
-      if (cardChosen instanceof Node) {
-        const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(cardChosen)!
-        // player.playLootCard(cardPlayed, true);
-        await player.discardLoot(cardChosen, true);
-        await player.drawCards(WrapperProvider.cardManagerWrapper.out.lootDeck, true);
-      } else {
-        if (cardChosen instanceof Array) {
-          for (let i = 0; i < cardChosen.length; i++) {
-            const card = cardChosen[i];
-            const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(card as Node)!
-            // player.getComponent(Player).playLootCard(cardPlayed, true);
-            await player.discardLoot(card as Node, true);
-            await player.drawCards(WrapperProvider.cardManagerWrapper.out.lootDeck, true);
-          }
-        }
-      }
+      this.currData = data;
+      this.currTargets = cardChosen
+      const index = 0;
+      return this.handleTarget(index, this.currTargets.length)
     }
-    if (data instanceof PassiveEffectData) { return data }
-    return WrapperProvider.stackWrapper.out._currentStack
+  }
+
+  private handleTarget(index: number, length: number): Promise<PassiveEffectData | StackEffectInterface[]> {
+    const cardChosen = this.currTargets[index] as Node
+    const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(cardChosen)!
+    // player.playLootCard(cardPlayed, true);
+    return player.discardLoot(cardChosen, true).then(_ => {
+      return player.drawCards(WrapperProvider.cardManagerWrapper.out.lootDeck, true).then(_ => {
+        return this.handleAfterTarget(index++, length)
+      });
+    });
+
+
+  }
+  handleAfterTarget(index: number, length: number): Promise<PassiveEffectData | StackEffectInterface[]> {
+    if (index < length) {
+      return this.handleTarget(index, length)
+    }
+    return this.handleReturnValues()
+  }
+  handleReturnValues(): Promise<PassiveEffectData | StackEffectInterface[]> {
+    if (this.currData instanceof PassiveEffectData) { return Promise.resolve(this.currData) }
+    return Promise.resolve(WrapperProvider.stackWrapper.out._currentStack)
   }
 }

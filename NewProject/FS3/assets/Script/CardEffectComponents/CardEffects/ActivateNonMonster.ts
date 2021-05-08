@@ -21,7 +21,7 @@ export class ActivateNonMonster extends Effect {
        *
        * @param data {target:PlayerId}
        */
-      async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
+      doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
 
             const playerTarget = data?.getTarget(TARGETTYPE.PLAYER) as Node | null;
             if (!playerTarget) {
@@ -33,9 +33,10 @@ export class ActivateNonMonster extends Effect {
                   throw new CardEffectTargetError("No Non-Monster To Activate", true, data, stack)
             }
 
-            await playerToActivate.activateCard(nonMonsterToActivate)
+            return playerToActivate.activateCard(nonMonsterToActivate).then(_ => {
+                  if (data instanceof PassiveEffectData) return data
+                  return WrapperProvider.stackWrapper.out._currentStack
+            })
 
-            if (data instanceof PassiveEffectData) return data
-            return WrapperProvider.stackWrapper.out._currentStack
       }
 }

@@ -227,35 +227,76 @@ export class ActionManager extends Component {
     }
   }
 
-  private async decideForAttackable(monsterDeck: Deck) {
+  private decideForAttackable(monsterDeck: Deck): Promise<void> {
 
     const monsters = [...WrapperProvider.monsterFieldWrapper.out.getActiveMonsters(), monsterDeck.node, ...WrapperProvider.playerManagerWrapper.out.players]
     const turnPlayer = WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer()!;
-    if (turnPlayer._mustAttackMonsters.length > 0) {
-      turnPlayer._mustAttackMonsters.forEach(async monster => {
-        await this.updateCardAction(monster.node, CARD_ACTIONS.ATTACKABLE);
-      });
-      return
+    debugger
+    const handleMustAttackMonsters = () => {
+      return handleMakeAttackableEntity(0, turnPlayer._mustAttackMonsters).then(_ => {
+        return
+      }, (res => {
+        debugger
+        return Promise.resolve()
+      }))
     }
-    if (turnPlayer.attackPlays > 0 || turnPlayer._mustAttackPlays > 0) {
-      for (let i = 0; i < monsters.length; i++) {
-        console.log(`i=${i}`);
 
-        const activeMonster = monsters[i];
-        const monsterComp: IAttackableEntity | null = activeMonster.getComponent(Monster) ?? activeMonster.getComponent(Player);
-        if ((monsterComp != null && !monsterComp.getCanBeAttacked()) || monsterComp == null) {
-          await this.updateCardAction(activeMonster, CARD_ACTIONS.ATTACKABLE);
+    const handleMakeAttackableEntity = (index: number, array: IAttackableEntity[], checkToDo?: (attackableEntity: IAttackableEntity | null) => boolean) => {
+      const monster = array[index]
+      let doIt = true
+      if (checkToDo != undefined) {
+        if (!checkToDo(monster)) {
+          doIt = false
         }
       }
+      if (doIt) {
+        return this.updateCardAction(monster.node, CARD_ACTIONS.ATTACKABLE).then(_ => {
+          return handleAfterMake(++index, array)
+        }, (res => {
+          debugger
+          return Promise.resolve()
+        }));
+      } else {
+        return handleAfterMake(++index, array)
+      }
+    }
+
+    const handleAfterMake = (index: number, array: IAttackableEntity[], checkToDo?: any): Promise<void> => {
+      if (index < array.length) {
+        return handleMakeAttackableEntity(index, array, checkToDo)
+      }
+      return Promise.resolve()
+    }
+
+    if (turnPlayer._mustAttackMonsters.length > 0) {
+      return handleMustAttackMonsters()
+    }
+
+    const handleMakeNormalCheck = () => {
+      const entites = monsters.map(card => card.getComponent(Monster) ?? card.getComponent(Player)!);
+      const canAttackCheck = ((monsterComp: IAttackableEntity | null) => {
+        return (monsterComp != null && monsterComp.getCanBeAttacked()) || monsterComp == null;
+      });
+      return handleMakeAttackableEntity(0, entites, canAttackCheck)
+    }
+
+    if (turnPlayer.attackPlays > 0 || turnPlayer._mustAttackPlays > 0) {
+      return handleMakeNormalCheck().then(_ => {
+        if (turnPlayer._mustDeckAttackPlays > 0 || turnPlayer._attackDeckPlays > 0) {
+          return this.updateCardAction(monsterDeck.node, CARD_ACTIONS.ATTACKABLE);
+        }
+      }, (res => {
+        debugger
+        return Promise.resolve()
+      }))
     } else {
       for (let i = 0; i < monsters.length; i++) {
         const activeMonster = monsters[i];
         this.disableCardActionsAndMake(activeMonster);
       }
+      return Promise.resolve()
     }
-    if (turnPlayer._mustDeckAttackPlays > 0 || turnPlayer._attackDeckPlays > 0) {
-      await this.updateCardAction(monsterDeck.node, CARD_ACTIONS.ATTACKABLE);
-    }
+
   }
 
   private async DecideForPlayable(currentPlayerHandComp: CardLayout) {

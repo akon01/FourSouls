@@ -29,15 +29,32 @@ export class ConditionsOrWrapper extends Condition implements ConditionInterface
   conditions: Condition[] = []
 
   events = getEvents(this.conditions)
-  async testCondition(meta: PassiveMeta): Promise<boolean> {
+  testCondition(meta: PassiveMeta): Promise<boolean> {
     let answer = false
-    for (const condition of this.conditions) {
-      answer = await condition.testCondition(meta)
+    const index = 0;
+    return this.handleTestCondition(index, this.conditions.length, meta)
+  }
+
+  private handleTestCondition(index: number, length: number, meta: PassiveMeta): Promise<boolean> {
+    const condition = this.conditions[index]
+    return condition.testCondition(meta).then(answer => {
       if (answer == true) {
         return answer
+      } else {
+        return this.handleAfterTestCondition(index++, length, meta)
       }
-    }
+    }, (res => {
+      debugger
+      throw new Error("S")
+    }))
+  }
 
-    return false;
+  private handleAfterTestCondition(index: number, length: number, meta: PassiveMeta): Promise<boolean> {
+    if (index < length) {
+      return this.handleTestCondition(index, length, meta)
+    }
+    return Promise.resolve(false)
   }
 }
+
+

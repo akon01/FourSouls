@@ -243,5 +243,19 @@ export class Effect extends Component implements EffectInterface {
             return player.hasBlankCardEffectActive ? originalQuantity * 2 : originalQuantity
       }
 
+      currData: ActiveEffectData | PassiveEffectData | null = null;
+      currStack: StackEffectInterface[] = [];
+
+      handleAfterTarget(index: number, length: number, handleTargetFunc: (index: number, length: number) => Promise<PassiveEffectData | StackEffectInterface[]>, origThis: any): Promise<PassiveEffectData | StackEffectInterface[]> {
+            if (index < length) {
+                  return handleTargetFunc.bind(origThis)(index, length)
+            }
+            return this.handleReturnValues()
+      }
+      handleReturnValues(): Promise<PassiveEffectData | StackEffectInterface[]> {
+            if (this.currData instanceof PassiveEffectData) {
+                  return Promise.resolve(this.currData);
+            } else { return Promise.resolve(this.currStack) }
+      }
 
 }

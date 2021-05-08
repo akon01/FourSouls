@@ -18,21 +18,38 @@ export class RollOnMonster extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(
+  doEffect(
     stack: StackEffectInterface[],
-    data?: ActiveEffectData | PassiveEffectData
+    data: ActiveEffectData | PassiveEffectData
   ) {
     const numberRolled = (data as ActiveEffectData).numberRolled;
     const turnPlayer = WrapperProvider.playerManagerWrapper.out.getPlayerById(WrapperProvider.turnsManagerWrapper.out.currentTurn!.PlayerId)!
-    const playerHitMonster = await WrapperProvider.battleManagerWrapper.out.rollOnMonster(numberRolled, true);
-    if (playerHitMonster == true) {
-      const damage = turnPlayer.calculateDamage();
-      await WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity!.takeDamage(damage, true, turnPlayer.character!);
-    } else {
-      const damage = WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity!.calculateDamage();
-      const o = await turnPlayer.takeDamage(damage, true, WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity!.node);
-    }
-    if (data instanceof PassiveEffectData) return data
-    return WrapperProvider.stackWrapper.out._currentStack
+    return WrapperProvider.battleManagerWrapper.out.rollOnMonster(numberRolled, true).then(playerHitMonster => {
+      if (playerHitMonster == true) {
+        const damage = turnPlayer.calculateDamage();
+        return WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity!.takeDamage(damage, true, turnPlayer.character!).then(_ => {
+          if (data instanceof PassiveEffectData) return data
+          return WrapperProvider.stackWrapper.out._currentStack
+        }, (res => {
+          debugger
+          if (data instanceof PassiveEffectData) return data
+          return WrapperProvider.stackWrapper.out._currentStack
+        }));
+      } else {
+        const damage = WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity!.calculateDamage();
+        return turnPlayer.takeDamage(damage, true, WrapperProvider.battleManagerWrapper.out.currentlyAttackedEntity!.node).then(_ => {
+          if (data instanceof PassiveEffectData) return data
+          return WrapperProvider.stackWrapper.out._currentStack
+        }, (res => {
+          debugger
+          if (data instanceof PassiveEffectData) return data
+          return WrapperProvider.stackWrapper.out._currentStack
+        }));
+      }
+    }, (res => {
+      debugger
+      if (data instanceof PassiveEffectData) return data
+      return WrapperProvider.stackWrapper.out._currentStack
+    }));
   }
 }

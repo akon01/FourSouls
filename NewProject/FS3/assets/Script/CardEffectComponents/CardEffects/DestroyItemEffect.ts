@@ -30,27 +30,20 @@ export class DestroyItemEffect extends Effect {
     if (targetItems.length == 0) {
       throw new CardEffectTargetError(`target items are null`, true, data, stack)
     } else {
-      let player: Player
-      const i = 0
-      for (let i = 0; i < targetItems.length; i++) {
-        const item = targetItems[i] as Node;
-        player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(item)!
-        await item.getComponent(Item)!.destroyItem(true)
-        if (i + 1 == this.numberOfItemsToDestroy) break;
-      }
+      this.currTargets = targetItems as Node[]
+      this.currData = data
+      this.currStack = stack
+      return this.handleTarget(0, targetItems.length)
     }
-
-
-    if (data instanceof PassiveEffectData) return data
-    return WrapperProvider.stackWrapper.out._currentStack
   }
-
-  private handleDestroyItem(idx: number, length: number) {
-    const item = this.currTargets[idx]
+  handleTarget(index: number, length: number) {
+    const item = this.currTargets[index]
     const player = WrapperProvider.playerManagerWrapper.out.getPlayerByCard(item)!
-    return item.getComponent(Item)!.destroyItem(true)
-
+    return item.getComponent(Item)!.destroyItem(true).then(_ => {
+      if (index + 1 == this.numberOfItemsToDestroy) {
+        return this.handleReturnValues()
+      }
+      return this.handleAfterTarget(index++, length, this.handleTarget, this)
+    })
   }
-
-  private handleAfterDestroyItem(idx: number, length: number)
 }

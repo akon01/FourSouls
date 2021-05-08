@@ -20,20 +20,24 @@ export class ExpandField extends Effect {
    *
    * @param data {target:PlayerId}
    */
-  async doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
-
+  doEffect(stack: StackEffectInterface[], data?: ActiveEffectData | PassiveEffectData) {
     const player: Player = WrapperProvider.turnsManagerWrapper.out.currentTurn!.getTurnPlayer()!;
+    if (!data) throw new Error("No Data");
+    this.currData = data
+    this.currStack = stack
     if (this.fieldType == 1) {
-      for (let i = 0; i < this.howMuchToAdd; i++) {
-        await WrapperProvider.monsterFieldWrapper.out.addMonsterToNewPlace(true)
-      }
-    } else {
-      await WrapperProvider.storeWrapper.out.addMaxNumOfItems(this.howMuchToAdd + WrapperProvider.storeWrapper.out.maxNumOfItems, true)
-    }
-    // await battleManagerWrapper._bmcancelAttack(true);
-    // if (this.addAttackOppurtunity) turnsManagerWrapper._tm.currentTurn.attackPlays = turnsManagerWrapper._tm.currentTurn.attackPlays + this.howMuchToAdd
+      return this.handleTarget(0, this.howMuchToAdd)
 
-    if (data instanceof PassiveEffectData) { return data }
-    return WrapperProvider.stackWrapper.out._currentStack
+    } else {
+      return WrapperProvider.storeWrapper.out.addMaxNumOfItems(this.howMuchToAdd + WrapperProvider.storeWrapper.out.maxNumOfItems, true).then(_ => {
+        return this.handleReturnValues()
+      })
+    }
+  }
+
+  handleTarget(index: number, length: number) {
+    return WrapperProvider.monsterFieldWrapper.out.addMonsterToNewPlace(true).then(_ => {
+      return this.handleAfterTarget(index++, length, this.handleTarget, this)
+    })
   }
 }
